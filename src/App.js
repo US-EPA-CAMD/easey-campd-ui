@@ -11,9 +11,9 @@ function App() {
     <div>
       <Layout>
         <Switch>
-          <Redirect from="/home" to="/" />
-          <Route path="/" exact component={SelectDataTypePage} />
-          <Route path="*" component={NotFound} />
+          <Redirect from="/campd/home" to="/campd" />
+          <Route path="/campd" exact component={SelectDataTypePage} />
+          <Route path="/campd/*" component={NotFound} />
         </Switch>
       </Layout>
     </div>
