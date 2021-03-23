@@ -1,8 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
-import { Provider } from "react-redux";
-import configureStore from "./store/configureStore.dev";
+// import { Provider } from "react-redux";
+// import configureStore from "./store/configureStore.dev";
 
 //import './index.css';
 import "./uswds_assets/css/styles.css";
@@ -10,15 +10,13 @@ import "./uswds_assets/css/styles.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 
-const store = configureStore();
+//const store = configureStore();
 
 ReactDOM.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </Provider>
+    <BrowserRouter basename="/campd">
+      <App />
+    </BrowserRouter>
   </React.StrictMode>,
   document.getElementById("root")
 );
