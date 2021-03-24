@@ -8,13 +8,14 @@ import { BrowserRouter } from "react-router-dom";
 import "./uswds_assets/css/styles.css";
 //import "./utils/remoteLogging";
 import App from "./App";
+import config from './config';
 import * as serviceWorker from "./serviceWorker";
 
 //const store = configureStore();
 
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter basename="/campd">
+    <BrowserRouter basename={config.app.path}>
       <App />
     </BrowserRouter>
   </React.StrictMode>,
