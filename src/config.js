@@ -1,5 +1,6 @@
 const config = {
   app: {
+    path: process.env.REACT_APP_EASEY_CAMPD_UI_PATH || "/",
     env: process.env.REACT_APP_EASEY_CAMPD_UI_ENV || "local-dev",
     version: process.env.REACT_APP_EASEY_CAMPD_UI_VERSION || "v0.0.0",
     published: process.env.REACT_APP_EASEY_CAMPD_UI_PUBLISHED || "local",
@@ -20,10 +21,10 @@ const config = {
         process.env.REACT_APP_EASEY_EMISSIONS_API ||
         "https://easey-dev.app.cloud.gov/api/emissions-mgmt",
     },
-    monitorPlans: {
+    allowance: {
       uri:
-        process.env.REACT_APP_EASEY_MONITOR_PLAN_API ||
-        "https://easey-dev.app.cloud.gov/api/monitor-plan-mgmt",
+        process.env.REACT_APP_EASEY_ALLOWANCE_API ||
+        "https://easey-dev.app.cloud.gov/api/allowance-mgmt",
     },
   },
 };

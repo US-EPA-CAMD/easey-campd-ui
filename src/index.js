@@ -3,11 +3,12 @@ import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
 import "./uswds_assets/css/styles.css";
 import App from "./App";
+import config from './config';
 import * as serviceWorker from "./serviceWorker";
 
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter basename="/campd">
+    <BrowserRouter basename={config.app.path}>
       <App />
     </BrowserRouter>
   </React.StrictMode>,
