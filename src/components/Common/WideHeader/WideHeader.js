@@ -46,7 +46,7 @@ const WideHeader = () => {
             <Title>
               {" "}
               <Link to="./" rel="home" title="Go to the home page">
-                <img src={require("./title.png")} className="photo" />
+                <img src={require("./EPALogo.png")} className="photo" alt="Official EPA Logo"/>
               </Link>
             </Title>
             <Button className="menuBTN" onClick={onClick} label="Menu">

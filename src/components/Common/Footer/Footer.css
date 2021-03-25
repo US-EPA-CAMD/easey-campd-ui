@@ -10,8 +10,7 @@
 }
 
 .footerBar {
-  background: var(--lightest-gray) 0% 0% no-repeat padding-box;
-  background: #f1f1f1 0% 0% no-repeat padding-box;
+  background-color: #f2f6f8;
   opacity: 1;
   position: relative;
   bottom: 0;
@@ -27,7 +26,7 @@
   width: 420px;
   height: 25px;
   letter-spacing: var(--unnamed-character-spacing-0);
-  color: #212121;
+  color: #0d65ad;
   text-align: left;
   font: normal bold 20px/30px Source Sans Pro, sans-serif;
 }

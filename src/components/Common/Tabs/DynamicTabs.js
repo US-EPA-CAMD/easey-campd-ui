@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import Tabs from "./Tabs";
 import TabPane from "./TabPane";
 import "./DynamicTabs.css";
-import {addFacilityTab, removeFacilityTab} from "../../../store/actions/dynamicFacilityTab";
+//import {addFacilityTab, removeFacilityTab} from "../../../store/actions/dynamicFacilityTab";
 import ResizeObserver from 'resize-observer-polyfill';
 
 export const DynamicTabs = ({

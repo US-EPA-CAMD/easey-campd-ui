@@ -1,0 +1,15 @@
+.menuList {
+  width: 100%;
+  font-size: medium;
+}
+.navBar {
+  padding: 20px 170px 20px 200px;
+}
+
+.title {
+  font-size: 30px;
+}
+
+.menu.active {
+  text-decoration: none;
+}

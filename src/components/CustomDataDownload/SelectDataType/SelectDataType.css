@@ -1,0 +1,14 @@
+.selectDataTypeContent {
+  margin-top: 50px;
+  margin-left: 420px;
+  margin-right: 420px;
+  margin-bottom: 50px;
+  height: 400px;
+}
+
+.vl {
+  border-left: 6px solid grey;
+  float: left;
+  height: 80px;
+  margin-right: 15px;
+}
