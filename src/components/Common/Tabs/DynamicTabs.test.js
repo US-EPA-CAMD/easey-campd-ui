@@ -1,7 +1,7 @@
 import React from "react";
 import {DynamicTabs} from "./DynamicTabs";
 import { render, fireEvent, screen } from "@testing-library/react";
-import {addFacilityTab, removeFacilityTab} from "../../../store/actions/dynamicFacilityTab";
+//import {addFacilityTab, removeFacilityTab} from "../../../store/actions/dynamicFacilityTab";
 
 class Welcome extends React.Component {
   clickHandler = () => {
@@ -31,8 +31,8 @@ class GoodBye extends React.Component {
 describe("testing a reusable Dynamic Tabs component", () => {
   const dynamicTabs =
   <DynamicTabs
-    addFacility={addFacilityTab}
-    removeFacility={removeFacilityTab}
+    addFacility={jest.fn()}
+    removeFacility={jest.fn()}
     tabsProps={[
       {
         title: "Welcome",
