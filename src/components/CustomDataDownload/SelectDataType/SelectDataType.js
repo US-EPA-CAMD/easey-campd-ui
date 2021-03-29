@@ -9,8 +9,8 @@ const SelectDataType = () => {
       <h2>Custom Data Download</h2>
       <p data-testid="description-paragraph">
         <span className="vl"/>
-        This tool allows users to create custom queries of emmisions,
-        allowance, compliance and/orfacility information. By making
+        This tool allows users to create custom queries of emissions,
+        allowance, compliance and/or facility information. By making
         selections, you further refine the query, thereby reducing its size.
       </p>
       <SelectDataTypeInCards cardContents={dataTypes}/>
