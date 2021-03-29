@@ -1,6 +1,7 @@
 import React from "react";
 import {Navbar, Nav, NavDropdown} from "react-bootstrap";
 import "./SubHeader.css";
+import config from "../../../config";
 
 const SubHeader = () => {
   const dataMenuLinks=["/","/campd","/campd/", "/campd/customdatadownload","/campd/datasets","/campd/campdApi"];
@@ -11,11 +12,11 @@ const SubHeader = () => {
   return (
     <>
     <Navbar bg="dark" variant="dark" className="navBar">
-      <Navbar.Brand href="/" className="title font-weight-light">Clean Air Markets Program Data</Navbar.Brand>
+      <Navbar.Brand href={config.app.path} className="title font-weight-light">Clean Air Markets Program Data</Navbar.Brand>
         <Nav className="mr-auto justify-content-end menuList">
           <NavDropdown title="Data" id="collasible-nav-dropdown" 
             className={dataMenuLinks.includes(pathname)? className:""}>
-            <NavDropdown.Item href="/campd/">Custom Data Download</NavDropdown.Item>
+            <NavDropdown.Item href={config.app.path}>Custom Data Download</NavDropdown.Item>
             <NavDropdown.Item href="/campd/datasets">Datasets</NavDropdown.Item>
             <NavDropdown.Item href="/campd/campdApi">CAMPD API</NavDropdown.Item>
           </NavDropdown>

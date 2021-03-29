@@ -11,6 +11,7 @@ const Menu = (props) => {
           <Link
             href={value.link}
             target="_blank"
+            rel="noopener noreferrer"
             key={index + title}
             title={title}
           >
@@ -59,6 +60,7 @@ const Menu = (props) => {
               href={props[index][0].link}
               onClick={(e) => titleClick(e)}
               target="_blank"
+              rel="noopener noreferrer"
               key={"btn" + index}
             >
               {" "}

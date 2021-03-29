@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Button, Header, Title, PrimaryNav } from "@trussworks/react-uswds";
 import "./WideHeader.css";
-import { Link } from "react-router-dom";
 import Menu from "./Menu/Menu";
 import {
   environmentalTopics,
@@ -45,9 +44,9 @@ const WideHeader = () => {
           <div className="usa-navbar">
             <Title>
               {" "}
-              <Link to="./" rel="home" title="Go to the home page">
+              <a href="https://www.epa.gov/" target='_blank' rel="noopener noreferrer" title="Go to the EPA home page">
                 <img src={require("./EPALogo.png")} className="photo" alt="Official EPA Logo"/>
-              </Link>
+              </a>
             </Title>
             <Button className="menuBTN" onClick={onClick} label="Menu">
               Menu
