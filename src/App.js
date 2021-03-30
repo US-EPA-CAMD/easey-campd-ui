@@ -1,11 +1,11 @@
 import React from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 
-import SelectDataType from "./components/CustomDataDownload/SelectDataType/SelectDataType";
-import ManageDataDownload from "./components/CustomDataDownload/ManageDataDownload/ManageDataDownload";
-import NotFound from "./components/Common/NotFound/NotFound";
+import SelectDataType from "./components/SelectDataType/SelectDataType";
+import ManageDataDownload from "./components/ManageDataDownload/ManageDataDownload";
+import NotFound from "./components/NotFound/NotFound";
 
-import Layout from "./components/Common/Layout";
+import Layout from "./components/Layout/Layout";
 
 function App() {
   return (

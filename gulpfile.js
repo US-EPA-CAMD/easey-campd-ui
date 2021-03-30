@@ -13,19 +13,19 @@ const uswds = require("./node_modules/uswds-gulp/config/uswds");
 sass.compiler = require("sass");
 
 // Project Sass source directory
-const PROJECT_SASS_SRC = "./src/uswds_assets/sass";
+const PROJECT_SASS_SRC = "./src/uswds-assets/sass";
 
 // Images destination
-const IMG_DEST = "./src/uswds_assets/img";
+const IMG_DEST = "./src/uswds-assets/img";
 
 // Fonts destination
-const FONTS_DEST = "./src/uswds_assets/fonts";
+const FONTS_DEST = "./src/uswds-assets/fonts";
 
 // Javascript destination
-const JS_DEST = "./src/uswds_assets/js";
+const JS_DEST = "./src/uswds-assets/js";
 
 // Compiled CSS destination
-const CSS_DEST = "./src/uswds_assets/css";
+const CSS_DEST = "./src/uswds-assets/css";
 
 // TASKS
 
