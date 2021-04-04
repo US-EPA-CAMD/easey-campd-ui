@@ -1,20 +1,18 @@
 import React from "react";
 import Footer from "../Footer/Footer";
-import "../style.scss";
 import WideHeader from "../WideHeader/WideHeader";
 import SubHeader from "../SubHeader/SubHeader";
 import "./Layout.scss";
-
 
 const Layout = (props) => {
   const childrenWithProps = React.Children.map(props.children, (child) =>
     React.cloneElement(child)
   );
   return (
-    <div>
+    <div className="react-transition fade-in">
       <div className="topHeader">
         <WideHeader />
-        <SubHeader/>
+        <SubHeader />
       </div>
       <div className="mainContent">{childrenWithProps}</div>
       <div className="bottomFooter">

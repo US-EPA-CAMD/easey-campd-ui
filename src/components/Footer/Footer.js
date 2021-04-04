@@ -1,18 +1,54 @@
 import React from "react";
-import { ReactComponent as Logo } from './images/epaSeal.svg';
+import {
+  Logo,
+  Footer as TWFooter,
+  SocialLinks,
+  Address,
+} from "@trussworks/react-uswds";
+
 import "./Footer.scss";
 import Menu from "../Menu/Menu";
-import config from '../../config'
+import config from "../../config";
 
 const Footer = () => {
   return (
-    <div>
-      <footer className="footerBar">
-          <Logo className="footerLogo"/>
-          <span className="content">United States Environmental Protection Agency</span>
-          <span className="version">{config.app.version} published {config.app.published}</span>
-          <Menu/>
-      </footer>
+    <div className="main-footer">
+      <TWFooter
+        size="large"
+        secondary={
+          <div className="grid-row grid-gap desktop:width-full epa-footer-secondary">
+            <Logo
+              size="medium"
+              image={
+                <img
+                  className="usa-footer__logo-img"
+                  alt="img alt text"
+                  src="./images/epaSeal.svg"
+                />
+              }
+              heading={
+                <h3 className="usa-footer__logo-heading padding-top-3 text-left">
+                  <p className="content margin-0">
+                    United States Environmental Protection Agency
+                  </p>
+                  <p className="text-normal font-alt-xs">
+                    {config.app.version} published {config.app.published}
+                  </p>
+                </h3>
+              }
+            />
+            <div className="usa-footer__contact-links mobile-lg:grid-col-6 padding-top-5">
+              <SocialLinks
+                links={[
+                  <>
+                    <Menu />
+                  </>,
+                ]}
+              />
+            </div>
+          </div>
+        }
+      />
     </div>
   );
 };

@@ -1,36 +1,24 @@
 import React from "react";
-import "../style.scss";
 import { Link } from "react-router-dom";
-import "./Header.scss";
 import config from "../../config";
+
+import { GovBanner } from "@trussworks/react-uswds";
+
+import "./Header.scss";
 
 const Header = () => {
   return (
     <div>
-      <div
-        id="block-pane-official-website-header"
-        className="block block-pane  block-pane-official-website-header sitewide-alert sitewide-alert--official"
-      >
-        <div className="sitewide-alert__content">
-          {" "}
-          <p>An official website of the United States government.</p>
-        </div>
-      </div>
-      <header className="masthead clearfix" role="banner">
-        <img
-          alt=""
-          className="site-logo"
-          src="https://www.epa.gov/sites/all/themes/epa/logo.png"
-        />
+      <GovBanner />
+
+      <header role="banner" className="display-block">
+        <img alt="" src="https://www.epa.gov/sites/all/themes/epa/logo.png" />
         <div className="site-name-and-slogan">
           <h1 className="site-name">
             <Link to="./" rel="home" title="Go to the home page">
               <span>US EPA</span>
             </Link>
           </h1>
-          <div className="site-slogan">
-            United States Environmental Protection Agency
-          </div>
         </div>
         <div id="topbanner">
           <p>

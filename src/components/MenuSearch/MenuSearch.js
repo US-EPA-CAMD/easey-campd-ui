@@ -22,14 +22,18 @@ const MenuSearch = () => {
         <Form
           children={
             <div>
-              <label data-testid="label" className="usa-sr-only" htmlFor="search-field">
+              <label
+                data-testid="label"
+                className="usa-sr-only"
+                htmlFor="search-field"
+              >
                 Search
               </label>
               <input
                 id="search-field"
                 name="input-search"
                 data-testid="input-search"
-                className="usa-input"
+                className="search-field"
                 type="search"
                 value={searchState}
                 placeholder={"Search EPA.gov"}
@@ -39,12 +43,12 @@ const MenuSearch = () => {
               />
             </div>
           }
-        ></Form>
+        />
         <Button
-          className="usa-search--big menuSearchBTN"
+          className="usa-button"
+          primary={true}
           type="submit"
-          id="input-button-search"
-          onClick={onSearch}
+          onClick={(event) => onSearch()}
           data-testid="input-button-search"
         >
           <span className="usa-sr-only">Search</span>
