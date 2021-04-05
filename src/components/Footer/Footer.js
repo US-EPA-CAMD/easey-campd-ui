@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  Logo,
-  Footer as TWFooter,
-  SocialLinks,
-  Address,
-} from "@trussworks/react-uswds";
+import { Logo, Footer as TWFooter, SocialLinks } from "@trussworks/react-uswds";
 
 import "./Footer.scss";
 import Menu from "../Menu/Menu";

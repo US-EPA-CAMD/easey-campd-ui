@@ -51,7 +51,7 @@ const WideHeader = () => {
 
   /****** COMPONENT JSX *****/
   return (
-    <>
+    <div className="uniqueName">
       <GovBanner className="padding-y-2px react-transition swipe-right" />
       <div className={`usa-overlay ${expanded ? "is-visible" : ""}`} />
       <Header basic={true}>
@@ -87,7 +87,7 @@ const WideHeader = () => {
           </PrimaryNav>
         </div>
       </Header>
-    </>
+    </div>
   );
 };
 

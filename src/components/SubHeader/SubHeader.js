@@ -21,11 +21,11 @@ const SubHeader = () => {
       <Navbar bg="dark" variant="dark" className="navBar">
         <Navbar.Brand
           href={config.app.path}
-          className="title font-weight-light react-transition swipe-down"
+          className="title font-weight-light react-transition swipe-up"
         >
           Clean Air Markets Program Data
         </Navbar.Brand>
-        <Nav className="mr-auto clearfix epa-subheader">
+        <Nav className="mr-auto clearfix epa-subheader react-transition swipe-left">
           <NavDropdown
             title="Data"
             id="collasible-nav-dropdown"
