@@ -1,31 +1,32 @@
 .menuBtn {
-  float: right;
-  position: relative;
   width: 36px;
   height: 36px;
-  top: 35px;
-  bottom: 34px;
-  right: 40px;
   border-radius: 60px;
   box-shadow: 0px 0px 2px #1488e7;
-  text-align: center;
   opacity: 1;
-  z-index: 1;
+  z-index: 10;
   color: #1488e7;
   border-color: #1488e7;
+  float: right !important;
 }
 
 #menuContent {
   float: right;
   position: absolute;
-  bottom: 52px;
-  right: 58px;
+  bottom: 5px;
+  right: 50px;
   width: 200px;
   height: 120px;
+  z-index: auto;
+  text-align: left;
   box-shadow: 0px -2px 22px -6px rgba(60, 55, 61, 0.37),
     -10px 10px 22px -6px rgba(60, 55, 61, 0.37);
   background: #f1f1f1 0% 0% no-repeat padding-box;
   padding: 15px;
+  a {
+    color: #0071bc !important;
+    font-size: 0.7em !important;
+  }
 }
 
 .menuOff {
@@ -51,4 +52,8 @@ a:visited {
 
 .menuItem:first-child {
   border-top: 1px solid lightgrey;
+}
+
+.usa-footer {
+  overflow: visible !important;
 }

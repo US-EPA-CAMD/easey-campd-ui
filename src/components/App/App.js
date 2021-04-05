@@ -7,14 +7,20 @@ import NotFound from "../NotFound/NotFound";
 
 import Layout from "../Layout/Layout";
 
+import "./App.scss";
+
 function App() {
   return (
-    <div>
+    <div className="react-transition fade-in">
       <Layout>
         <Switch>
           <Redirect from="/home" to="/" />
           <Route path="/" exact component={SelectDataType} />
-          <Route path="/customdatadownload" exact component={ManageDataDownload} />
+          <Route
+            path="/manage-data-download"
+            exact
+            component={ManageDataDownload}
+          />
           <Route path="/*" component={NotFound} />
         </Switch>
       </Layout>

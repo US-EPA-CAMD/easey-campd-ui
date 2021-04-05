@@ -48,7 +48,7 @@ const Menu = (props) => {
     return (
       <>
         <NavDropDownButton
-          onToggle={(): void => {
+          onToggle={() => {
             menuToggle(index, open[index]);
           }}
           data-testid="NavDropDownButton"
