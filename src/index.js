@@ -1,15 +1,20 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
+import { Provider } from "react-redux";
 import App from "./components/App/App";
 import config from "./config";
 import * as serviceWorker from "./serviceWorker";
+import configureStore from "./store/configureStore.dev";
+const store = configureStore();
 
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter basename={config.app.path}>
-      <App />
-    </BrowserRouter>
+    <Provider store={store}>
+      <BrowserRouter basename={config.app.path}>
+        <App />
+      </BrowserRouter>
+    </Provider>
   </React.StrictMode>,
   document.getElementById("root")
 );

@@ -1,0 +1,3 @@
+export const EMISSIONS = {
+  UPDATE_TIME_PERIOD : "UPDATE_TIME_PERIOD"
+};

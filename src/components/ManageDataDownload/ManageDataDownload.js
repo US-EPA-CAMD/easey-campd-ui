@@ -1,5 +1,6 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
+import TimePeriod from "../emissionsFilter/ByTimePeriod/TimePeriod";
 
 const ManageDataDownload = (props) => {
   const history = useHistory();
@@ -9,9 +10,7 @@ const ManageDataDownload = (props) => {
   }
   return (
     <div className="react-transition fade-in">
-      <p style={{ marginLeft: "30px" }}>
-        Selected data type is: {props.location.state.selectedDataType}
-      </p>
+      <TimePeriod/>
     </div>
   );
 };
