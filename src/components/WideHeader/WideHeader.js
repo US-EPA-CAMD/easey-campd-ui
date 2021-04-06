@@ -52,7 +52,7 @@ const WideHeader = () => {
   /****** COMPONENT JSX *****/
   return (
     <div className="uniqueName">
-      <GovBanner className="padding-y-2px react-transition swipe-right" />
+      <GovBanner className="padding-y-2px react-transition swipe-right bg-base-lighter" />
       <div className={`usa-overlay ${expanded ? "is-visible" : ""}`} />
       <Header basic={true}>
         <div className="bg-secondary-darker text-center text-gold padding-y-2px react-transition swipe-down">
