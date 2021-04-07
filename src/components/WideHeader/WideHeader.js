@@ -1,6 +1,8 @@
 /*** global dependencies (i.e., main driver stuff we need to make things work) ***/
 import React, { useState } from "react";
 
+import config from "../../config";
+
 /*** additional 3rd party components ***/
 import {
   Header,
@@ -56,9 +58,9 @@ const WideHeader = () => {
       <div className={`usa-overlay ${expanded ? "is-visible" : ""}`} />
       <Header basic={true}>
         <div className="bg-secondary-darker text-center text-gold padding-y-2px react-transition swipe-down">
-          EPA local-dev Environment: The content on this page is not production
-          data and this site is being used for <b>development</b> and/or{" "}
-          <b>testing</b> purposes only.
+          EPA {config.app.env} Environment: The content on this page is not
+          production data and this site is being used for <b>development</b>{" "}
+          and/or <b>testing</b> purposes only.
         </div>
         <img
           src={epaLogo}
