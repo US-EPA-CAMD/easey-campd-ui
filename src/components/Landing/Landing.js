@@ -8,8 +8,8 @@ import "./Landing.scss";
 
 const Landing = () => {
   return (
-    <div className="text-center">
-      <div className="padding-top-2">
+    <div className="text-center" data-testid="Landing">
+      <div className="padding-top-2" data->
         This is a placeholder for the landing page. Content is pending...
       </div>
       <div className="padding-bottom-2">

@@ -1,19 +1,21 @@
+// *** GLOBAL FUNCTIONAL IMPORTS
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
 
+// *** GLOBAL LAYOUT IMPORTS
+import { Button, ComboBox } from "@trussworks/react-uswds";
+
+// ***  ICONS / DATA
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faQuestionCircle,
   faSlidersH,
 } from "@fortawesome/free-solid-svg-icons";
 
-import { Button, ComboBox } from "@trussworks/react-uswds";
-
+// *** STYLES (individual component)
 import "./ManageDataDownload.scss";
 
 const ManageDataDownload = (props) => {
-  const history = useHistory();
-
+  // *** HOOKS
   const [dataSubtypeApplied, setDataSubtypeApplied] = useState(false);
   const [selectedDataSubtype, setSelectedDataSubtype] = useState("");
 
@@ -26,11 +28,6 @@ const ManageDataDownload = (props) => {
     { value: 5, label: "Ozone Season Emissions" },
     { value: 6, label: "Facility/Unit Attributes" },
   ];
-
-  if (props.location.state === undefined) {
-    history.push("/");
-    return null;
-  }
 
   const changeDataSubtype = (event) => {
     if (event) {
@@ -48,7 +45,10 @@ const ManageDataDownload = (props) => {
   };
 
   return (
-    <div className="datatype-container bg-base-lighter margin-0">
+    <div
+      className="datatype-container bg-base-lighter margin-0"
+      data-testid="ManageDataDownload"
+    >
       <div className="font-alt-2xl text-bold padding-top-6 padding-bottom-3 padding-left-6">
         Data Type
         <FontAwesomeIcon
@@ -58,10 +58,16 @@ const ManageDataDownload = (props) => {
       </div>
       <div className="subtype-container border-top-1px border-base-light clearfix padding-y-3 padding-x-6">
         <span className="text-bold padding-top-1 font-body-md">
-          {props.location.state.selectedDataType}
+          {props !== undefined &&
+          props.location !== undefined &&
+          props.location.state !== undefined
+            ? props.location.state.selectedDataType
+            : null}
         </span>
         <span className="text-bold padding-top-1 font-alt-md">
-          {selectedDataSubtype !== "" && dataSubtypeApplied === true ? (
+          {selectedDataSubtype !== "" &&
+          selectedDataSubtype !== -1 &&
+          dataSubtypeApplied === true ? (
             <>
               <span>,</span>{" "}
               {
@@ -100,7 +106,7 @@ const ManageDataDownload = (props) => {
       {dataSubtypeApplied === false ? (
         <div className="border-top-1px border-base-light padding-x-6 padding-y-3">
           <Button
-            primary={true}
+            primary="true"
             className="float-right clearfix"
             onClick={() => applyFilters()}
           >
@@ -120,7 +126,7 @@ const ManageDataDownload = (props) => {
           </div>
           <div className="border-top-1px border-base-light clearfix padding-y-3 padding-x-6">
             <p className="padding-y-1">
-              <Button outline={true} className="filter-button">
+              <Button outline="true" className="filter-button">
                 TIME PERIOD (Required)
                 <FontAwesomeIcon
                   icon={faSlidersH}

@@ -1,5 +1,5 @@
 import React from "react";
-import Landing from "./Landing";
+import ManageDataDownload from "./ManageDataDownload";
 import { render } from "@testing-library/react";
 
 // *** set up mocks
@@ -7,9 +7,9 @@ beforeEach(() => {});
 
 // *** garbage clean up (mocks)
 afterEach(() => {});
-describe("Landing", () => {
+describe("ManageDataDownload", () => {
   test("Check that the  component properly renders", () => {
-    const { getByTestId } = render(<Landing />);
-    expect(getByTestId("Landing")).toBeVisible();
+    const { getByTestId } = render(<ManageDataDownload />);
+    expect(getByTestId("ManageDataDownload")).toBeVisible();
   });
 });
