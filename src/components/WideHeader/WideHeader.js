@@ -70,13 +70,14 @@ const WideHeader = () => {
             <NavMenuButton
               onClick={() => onClick()}
               label="Menu"
-              className="display-block usa-button usa-button react-transition swipe-left"
+              className="display-block usa-button usa-button react-transition swipe-left btnMenu"
             />
           </div>
           <PrimaryNav
             items={mainMenu}
             mobileExpanded={expanded}
             onToggleMobileNav={() => onClick()}
+            key="primaryNav"
           >
             <Search
               className="search-field"

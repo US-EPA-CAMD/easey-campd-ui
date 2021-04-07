@@ -1,6 +1,12 @@
-.datatype-container {
-  width: 25vw;
-  height: 100vh !important;
+.side-panel {
+  width: 25vw !important;
+  height: 120vh !important;
+  max-height: 120vh !important;
+  filter: drop-shadow(0.35rem 0.35rem 0.4rem rgba(0, 0, 0, 0.5));
+}
+
+.manage-download-wrapper {
+  display: flex;
 }
 
 .question-icon {
