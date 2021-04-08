@@ -12,7 +12,6 @@ const TablePaginationFilter = ({
 
   const rowChangeHandler = (amount) => {
     setRowFilterAmount(amount);
-    console.log(amount);
   };
   function pageAmounts(pageValue) {
     if (

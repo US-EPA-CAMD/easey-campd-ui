@@ -1,6 +1,8 @@
 /*** global dependencies (i.e., main driver stuff we need to make things work) ***/
 import React, { useState } from "react";
 
+import config from "../../config";
+
 /*** additional 3rd party components ***/
 import {
   Header,
@@ -52,13 +54,13 @@ const WideHeader = () => {
   /****** COMPONENT JSX *****/
   return (
     <div className="uniqueName">
-      <GovBanner className="padding-y-2px react-transition swipe-right" />
+      <GovBanner className="padding-y-2px react-transition swipe-right bg-base-lighter" />
       <div className={`usa-overlay ${expanded ? "is-visible" : ""}`} />
       <Header basic={true}>
         <div className="bg-secondary-darker text-center text-gold padding-y-2px react-transition swipe-down">
-          EPA local-dev Environment: The content on this page is not production
-          data and this site is being used for <b>development</b> and/or{" "}
-          <b>testing</b> purposes only.
+          EPA {config.app.env} Environment: The content on this page is not
+          production data and this site is being used for <b>development</b>{" "}
+          and/or <b>testing</b> purposes only.
         </div>
         <img
           src={epaLogo}
@@ -70,13 +72,14 @@ const WideHeader = () => {
             <NavMenuButton
               onClick={() => onClick()}
               label="Menu"
-              className="display-block usa-button usa-button react-transition swipe-left"
+              className="display-block usa-button usa-button react-transition swipe-left btnMenu"
             />
           </div>
           <PrimaryNav
             items={mainMenu}
             mobileExpanded={expanded}
             onToggleMobileNav={() => onClick()}
+            key="primaryNav"
           >
             <Search
               className="search-field"
