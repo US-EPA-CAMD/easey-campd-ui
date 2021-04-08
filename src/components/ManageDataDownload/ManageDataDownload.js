@@ -14,6 +14,8 @@ import {
 // *** STYLES (individual component)
 import "./ManageDataDownload.scss";
 
+import FlyOutPanel from "./FlyOutPanel";
+
 const ManageDataDownload = (props) => {
   // *** HOOKS
   const [dataSubtypeApplied, setDataSubtypeApplied] = useState(false);
@@ -61,13 +63,18 @@ const ManageDataDownload = (props) => {
     }
   };
 
+  const closeFlyOutHandler = () =>{
+    setSelectedFilter("");
+    setDisplayFilters(false);
+  };
+
   return (
     <div className="manage-download-wrapper">
       <div
         className="side-panel bg-base-lighter margin-0"
         data-testid="ManageDataDownload"
       >
-        <div className="font-alt-2xl text-bold padding-top-6 padding-bottom-3 padding-left-6">
+        <div className="font-alt-xl text-bold padding-top-6 padding-bottom-3 padding-left-6">
           Data Type
           <FontAwesomeIcon
             icon={faQuestionCircle}
@@ -134,7 +141,7 @@ const ManageDataDownload = (props) => {
 
         {dataSubtypeApplied === true ? (
           <>
-            <div className="font-alt-2xl text-bold padding-top-6 padding-bottom-3 padding-left-6">
+            <div className="font-alt-xl text-bold padding-top-6 padding-bottom-3 padding-left-6">
               Filters
               <FontAwesomeIcon
                 icon={faQuestionCircle}
@@ -242,12 +249,7 @@ const ManageDataDownload = (props) => {
           </>
         ) : null}
       </div>
-
-      {displayFilters === true ? (
-        <div className="side-panel bg-base-lightest margin-0">
-          <div className="font-alt-2xl text-bold padding-top-6 padding-bottom-3 padding-left-6" />
-        </div>
-      ) : null}
+      {<FlyOutPanel show={displayFilters} selectedFilter={selectedFilter} closeFlyOutHandler={closeFlyOutHandler}/>}
     </div>
   );
 };

@@ -1,9 +1,11 @@
 name: Feature Branch Workflow
 
 on:
-  push:
-    branches: [ feature/* ]
-
+  pull_request:
+    branches: [ develop ]
+    paths-ignore:
+      - '.github/**'
+    
 jobs:
   Build-Test:
     runs-on: ubuntu-latest
