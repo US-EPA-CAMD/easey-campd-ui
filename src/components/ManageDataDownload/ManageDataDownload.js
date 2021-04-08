@@ -28,8 +28,15 @@ const ManageDataDownload = (props) => {
     { value: 3, label: "Monthly Emissions" },
     { value: 4, label: "Quarterly Emissions" },
     { value: 5, label: "Ozone Season Emissions" },
-    { value: 6, label: "Facility/Unit Attributes" },
+    { value: 6, label: "Annual Emissions" },
+    { value: 7, label: "Facility/Unit Attributes" },
   ];
+
+  const initcap = (str) => {
+    return str.replace(/([^\W_]+[^\s-]*) */g, function (txt) {
+      return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+    });
+  };
 
   const changeDataSubtype = (event) => {
     if (event) {
@@ -72,7 +79,7 @@ const ManageDataDownload = (props) => {
             {props !== undefined &&
             props.location !== undefined &&
             props.location.state !== undefined
-              ? props.location.state.selectedDataType
+              ? initcap(props.location.state.selectedDataType)
               : null}
           </span>
           <span className="text-bold padding-top-1 font-alt-md">
@@ -135,98 +142,102 @@ const ManageDataDownload = (props) => {
               />
             </div>
             <div className="border-top-1px border-base-light clearfix padding-y-3 padding-x-6">
-              <p className="padding-y-1">
-                <Button
-                  outline="true"
-                  onClick={() => handleFilterButtonClick(`time period`)}
-                  className="filter-button"
-                >
-                  TIME PERIOD (Required)
-                  <FontAwesomeIcon
-                    icon={faSlidersH}
-                    className="float-right clearfix"
-                  />
-                </Button>
-              </p>
-              <p className="padding-y-1">
-                <Button
-                  outline="true"
-                  onClick={() => handleFilterButtonClick(`program`)}
-                  className="filter-button"
-                >
-                  PROGRAM (Required)
-                  <FontAwesomeIcon
-                    icon={faSlidersH}
-                    className="float-right clearfix"
-                  />
-                </Button>
-              </p>
-              <p className="padding-y-1">
-                <Button
-                  outline="true"
-                  onClick={() => handleFilterButtonClick(`state territory`)}
-                  className="filter-button"
-                >
-                  STATE TERRITORY (Required)
-                  <FontAwesomeIcon
-                    icon={faSlidersH}
-                    className="float-right clearfix"
-                  />
-                </Button>
-              </p>
-              <p className="padding-y-1">
-                <Button
-                  onClick={() => handleFilterButtonClick(`facility`)}
-                  outline="true"
-                  className="filter-button"
-                >
-                  FACILITY (Required)
-                  <FontAwesomeIcon
-                    icon={faSlidersH}
-                    className="float-right clearfix"
-                  />
-                </Button>
-              </p>
-              <p className="padding-y-1">
-                <Button
-                  onClick={() => handleFilterButtonClick(`unit type`)}
-                  outline="true"
-                  className="filter-button"
-                >
-                  UNIT TYPE (Required)
-                  <FontAwesomeIcon
-                    icon={faSlidersH}
-                    className="float-right clearfix"
-                  />
-                </Button>
-              </p>
-              <p className="padding-y-1">
-                <Button
-                  onClick={() => handleFilterButtonClick(`unit fuel type`)}
-                  outline="true"
-                  className="filter-button"
-                >
-                  UNIT FUEL TYPE (Required)
-                  <FontAwesomeIcon
-                    icon={faSlidersH}
-                    className="float-right clearfix"
-                  />
-                </Button>
-              </p>
-              <p className="padding-y-1">
-                <Button
-                  onClick={() => handleFilterButtonClick(`control technology`)}
-                  outline="true"
-                  className="filter-button"
-                >
-                  CONTROL TECHNOLOGY (Required)
-                  <FontAwesomeIcon
-                    icon={faSlidersH}
-                    T
-                    className="float-right clearfix"
-                  />
-                </Button>
-              </p>
+              <div className="filter-container">
+                <p className="padding-y-1">
+                  <Button
+                    outline="true"
+                    onClick={() => handleFilterButtonClick(`time period`)}
+                    className="filter-button"
+                  >
+                    TIME PERIOD (Required)
+                    <FontAwesomeIcon
+                      icon={faSlidersH}
+                      className="float-right clearfix"
+                    />
+                  </Button>
+                </p>
+                <p className="padding-y-1">
+                  <Button
+                    outline="true"
+                    onClick={() => handleFilterButtonClick(`program`)}
+                    className="filter-button"
+                  >
+                    PROGRAM (Optional)
+                    <FontAwesomeIcon
+                      icon={faSlidersH}
+                      className="float-right clearfix"
+                    />
+                  </Button>
+                </p>
+                <p className="padding-y-1">
+                  <Button
+                    outline="true"
+                    onClick={() => handleFilterButtonClick(`state territory`)}
+                    className="filter-button"
+                  >
+                    STATE TERRITORY (Optional)
+                    <FontAwesomeIcon
+                      icon={faSlidersH}
+                      className="float-right clearfix"
+                    />
+                  </Button>
+                </p>
+                <p className="padding-y-1">
+                  <Button
+                    onClick={() => handleFilterButtonClick(`facility`)}
+                    outline="true"
+                    className="filter-button"
+                  >
+                    FACILITY (Optional)
+                    <FontAwesomeIcon
+                      icon={faSlidersH}
+                      className="float-right clearfix"
+                    />
+                  </Button>
+                </p>
+                <p className="padding-y-1">
+                  <Button
+                    onClick={() => handleFilterButtonClick(`unit type`)}
+                    outline="true"
+                    className="filter-button"
+                  >
+                    UNIT TYPE (Optional)
+                    <FontAwesomeIcon
+                      icon={faSlidersH}
+                      className="float-right clearfix"
+                    />
+                  </Button>
+                </p>
+                <p className="padding-y-1">
+                  <Button
+                    onClick={() => handleFilterButtonClick(`unit fuel type`)}
+                    outline="true"
+                    className="filter-button"
+                  >
+                    UNIT FUEL TYPE (Optional)
+                    <FontAwesomeIcon
+                      icon={faSlidersH}
+                      className="float-right clearfix"
+                    />
+                  </Button>
+                </p>
+                <p className="padding-y-1">
+                  <Button
+                    onClick={() =>
+                      handleFilterButtonClick(`control technology`)
+                    }
+                    outline="true"
+                    className="filter-button"
+                  >
+                    CONTROL TECHNOLOGY (Optional)
+                    <FontAwesomeIcon
+                      icon={faSlidersH}
+                      T
+                      className="float-right clearfix"
+                    />
+                  </Button>
+                </p>
+              </div>
             </div>
           </>
         ) : null}
@@ -234,7 +245,7 @@ const ManageDataDownload = (props) => {
 
       {displayFilters === true ? (
         <div className="side-panel bg-base-lightest margin-0">
-          <div className="font-alt-2xl text-bold padding-top-6 padding-bottom-3 padding-left-6"></div>
+          <div className="font-alt-2xl text-bold padding-top-6 padding-bottom-3 padding-left-6" />
         </div>
       ) : null}
     </div>
