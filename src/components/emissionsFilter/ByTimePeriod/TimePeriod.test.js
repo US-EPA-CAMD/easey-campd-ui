@@ -20,6 +20,7 @@ describe('Emissions TimePeriod Component', () => {
       <TimePeriod
         timePeriod={initTimePeriod}
         updateTimePeriodDispatcher={jest.fn()}
+        closeFlyOutHandler={jest.fn()}
       />
     );
 
@@ -46,6 +47,7 @@ describe('Emissions TimePeriod Component', () => {
       <TimePeriod
         timePeriod={timePeriod}
         updateTimePeriodDispatcher={dispather}
+        closeFlyOutHandler={jest.fn()}
       />
     );
     const checkbox = getByRole('checkbox', {checked:true})

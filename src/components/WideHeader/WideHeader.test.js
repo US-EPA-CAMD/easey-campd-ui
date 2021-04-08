@@ -3,6 +3,7 @@ import "@testing-library/jest-dom/extend-expect";
 import WideHeader from "./WideHeader";
 import { BrowserRouter } from "react-router-dom";
 import * as React from "react";
+
 describe("testing search/filter feature of generic uswds table component", () => {
   const WideHeaderTest = () => {
     return <WideHeader />;
@@ -14,7 +15,7 @@ describe("testing search/filter feature of generic uswds table component", () =>
   );
 
   test("navbar renders a menu button", () => {
-    const menuBTN = container.getElementsByClassName("menuBTN");
-    expect(menuBTN.length).toEqual(1);
+    const btnMenu = container.getElementsByClassName("btnMenu");
+    expect(btnMenu.length).toEqual(1);
   });
 });

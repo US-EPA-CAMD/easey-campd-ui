@@ -46,7 +46,7 @@ const MenuSearch = () => {
         />
         <Button
           className="usa-button"
-          primary={true}
+          primary="true"
           type="submit"
           onClick={(event) => onSearch()}
           data-testid="input-button-search"
