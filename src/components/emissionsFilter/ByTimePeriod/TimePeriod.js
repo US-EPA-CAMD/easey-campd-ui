@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import {updateTimePeriod} from "../../../store/actions/emissionsFilter";
 import TimePeriodRender from "./TimePeriodRender";
+import {validate} from "../../../utils/DateValidation/Validation";
 
 export const TimePeriod = ({timePeriod, updateTimePeriodDispatcher, closeFlyOutHandler}) =>{
   const [formState, setFormState] = useState({
@@ -10,10 +11,48 @@ export const TimePeriod = ({timePeriod, updateTimePeriodDispatcher, closeFlyOutH
     opHrsOnly:timePeriod.opHrsOnly
   });
 
+  const [validations, setValidations] = useState({
+    dateFormat: true,
+    dateRange: true
+  });
+
+  const [applyFilterClicked, setApplyFilterClicked] = useState(false);
+
+  useEffect(()=>{
+    if(validations.dateFormat && validations.dateRange){
+      updateTimePeriodDispatcher(formState);
+      if(applyFilterClicked){
+        closeFlyOutHandler();
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[validations]);
+
+  const validateInput = () => {
+    const updatedValidations = {};
+    const dateFormatValid = validate("dateFormat", formState.startDate, formState.endDate);
+    if(dateFormatValid){
+      updatedValidations["dateFormat"] = true;
+      Object.keys(validations).forEach((validator) => {
+        if(validator!=="dateFormat"){
+          updatedValidations[validator] = validate(validator, formState.startDate, formState.endDate);
+        }
+      });
+    }else{
+      updatedValidations["dateFormat"] = false;
+      updatedValidations["dateRange"] = false;
+    }
+    setValidations({ ...validations, ...updatedValidations });
+  };
+
+  const onInvalidHandler = () =>{
+    validateInput();
+  };
+
   const applyFilterHandler = (evt) =>{
     evt.preventDefault();
-    updateTimePeriodDispatcher(formState);
-    closeFlyOutHandler();
+    validateInput();
+    setApplyFilterClicked(true);
   };
 
   const handleStartDateUpdate = (value) =>{
@@ -26,23 +65,15 @@ export const TimePeriod = ({timePeriod, updateTimePeriodDispatcher, closeFlyOutH
     setFormState({...formState, opHrsOnly:evt.target.checked});
   };
 
-  const isApplyFilterDisabled = () =>{
-    return !(formState.startDate && formState.endDate);
-  };
-
-  const onInvalidHandler = (evt) =>{
-    evt.preventDefault();
-  };
-
   return(<TimePeriodRender
     applyFilterHandler={applyFilterHandler}
     handleStartDateUpdate={handleStartDateUpdate}
     handleEndDateUpdate={handleEndDateUpdate}
     handleOptHrsOnlyUpdate={handleOptHrsOnlyUpdate}
-    isApplyFilterDisabled={isApplyFilterDisabled}
     onInvalidHandler={onInvalidHandler}
     formState={formState}
-    closeFlyOutHandler={closeFlyOutHandler}/>);
+    closeFlyOutHandler={closeFlyOutHandler}
+    validations={validations}/>);
 
 };
 
