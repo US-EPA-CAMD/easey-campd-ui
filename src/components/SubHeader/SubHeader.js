@@ -1,21 +1,22 @@
 import React from "react";
+import {useLocation} from "react-router-dom";
 import { Navbar, Nav, NavDropdown } from "react-bootstrap";
 import "./SubHeader.scss";
 import config from "../../config";
 
 const SubHeader = () => {
+  const location = useLocation();
+  const basepath = config.app.path==="/campd"?"/campd/":config.app.path;
   const dataMenuLinks = [
-    "/",
-    "/campd",
-    "/campd/",
-    "/campd/customdatadownload",
-    "/campd/datasets",
-    "/campd/campdApi",
+    `${basepath}select-data-type`,
+    `${basepath}manage-data-download`,
+    `${basepath}campd/datasets`,
+    `${basepath}campdApi`,
   ];
-  const analysisMenuLinks = ["/campd/analysis"];
-  const visualizationMenuLinks = ["/campd/visualization"];
+  const analysisMenuLinks = [`${basepath}analysis`];
+  const visualizationMenuLinks = [`${basepath}visualization`];
   const className = "menu active";
-  const pathname = window.location.pathname;
+  const pathname = location.pathname;
   return (
     <>
       <Navbar bg="dark" variant="dark" className="navBar">
@@ -31,11 +32,11 @@ const SubHeader = () => {
             id="collasible-nav-dropdown"
             className={dataMenuLinks.includes(pathname) ? className : ""}
           >
-            <NavDropdown.Item href={config.app.path}>
+            <NavDropdown.Item href={dataMenuLinks[0]}>
               Custom Data Download
             </NavDropdown.Item>
-            <NavDropdown.Item href="/campd/datasets">Datasets</NavDropdown.Item>
-            <NavDropdown.Item href="/campd/campdApi">
+            <NavDropdown.Item href={dataMenuLinks[2]}>Datasets</NavDropdown.Item>
+            <NavDropdown.Item href={dataMenuLinks[3]}>
               CAMPD API
             </NavDropdown.Item>
           </NavDropdown>
@@ -44,7 +45,7 @@ const SubHeader = () => {
             id="collasible-nav-dropdown"
             className={analysisMenuLinks.includes(pathname) ? className : ""}
           >
-            <NavDropdown.Item href="/campd/analysis">Analysis</NavDropdown.Item>
+            <NavDropdown.Item href={analysisMenuLinks[0]}>Analysis</NavDropdown.Item>
           </NavDropdown>
           <NavDropdown
             title="Visualization"
@@ -53,7 +54,7 @@ const SubHeader = () => {
               visualizationMenuLinks.includes(pathname) ? className : ""
             }
           >
-            <NavDropdown.Item href="/campd/visualization">
+            <NavDropdown.Item href={visualizationMenuLinks[0]}>
               Visualization
             </NavDropdown.Item>
           </NavDropdown>
