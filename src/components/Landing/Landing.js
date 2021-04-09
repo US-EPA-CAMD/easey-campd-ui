@@ -18,7 +18,10 @@ const Landing = () => {
         </Link>
       </div>
       <div>
-        <img src="images/epa-hq-building.jpg" className="full-width-image" />
+        <img
+          src={`${process.env.PUBLIC_URL}/images/epa-hq-building.jpg`}
+          className="full-width-image"
+        />
       </div>
     </div>
   );

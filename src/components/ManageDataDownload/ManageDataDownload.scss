@@ -2,6 +2,7 @@
   width: 25vw !important;
   height: 80vh !important;
   filter: drop-shadow(0.35rem 0.35rem 0.4rem rgba(0, 0, 0, 0.5));
+  overflow: hidden;
 }
 
 .manage-download-wrapper {
@@ -15,7 +16,7 @@
 }
 
 .filter-button {
-  width: 75% !important;
+  width: 95% !important;
   max-width: 100%;
   text-align: left !important;
   font-size: 1em !important;
@@ -23,6 +24,6 @@
 
 .filter-container {
   max-height: 35vh !important;
-  width: 22vw;
+  width: 21.5vw;
   overflow-y: scroll;
 }
