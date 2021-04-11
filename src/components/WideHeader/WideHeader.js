@@ -26,7 +26,6 @@ import { epaLogo } from "../WideHeaderMenu/svgs";
 
 /*** additional scss to add / override global scss scope classes for this component only ***/
 import "./WideHeader.scss";
-import { Link } from "react-router-dom";
 
 const WideHeader = () => {
   /***** HOOKS *****/
@@ -54,7 +53,7 @@ const WideHeader = () => {
 
   /****** COMPONENT JSX *****/
   return (
-    <div className="uniqueName">
+    <div className="header-container">
       <GovBanner className="padding-y-2px react-transition swipe-right bg-base-lighter" />
       <div className={`usa-overlay ${expanded ? "is-visible" : ""}`} />
       <Header basic={true}>
@@ -63,13 +62,18 @@ const WideHeader = () => {
           production data and this site is being used for <b>development</b>{" "}
           and/or <b>testing</b> purposes only.
         </div>
-        <Link to="./" rel="home" title="Go to the home page">
+        <a
+          href="https://www.epa.gov/"
+          target="_blank"
+          rel="noopener noreferrer"
+          title="Go to the EPA home page"
+        >
           <img
             src={epaLogo}
             className="margin-3 react-transition swipe-right"
             alt="Official EPA Logo"
           />
-        </Link>
+        </a>
         <div className="usa-nav-container">
           <div className="usa-navbar">
             <NavMenuButton

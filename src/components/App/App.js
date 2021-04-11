@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Switch } from "react-router-dom";
+import { Redirect, Route, Switch } from "react-router-dom";
 
 import SelectDataType from "../SelectDataType/SelectDataType";
 import ManageDataDownload from "../ManageDataDownload/ManageDataDownload";
@@ -15,7 +15,9 @@ function App() {
     <div className="react-transition fade-in">
       <Layout>
         <Switch>
-          <Route path="/" exact component={Landing} />
+          <Route path="/" exact>
+            <Redirect to={"/select-data-type"} />
+          </Route>
           <Route path="/select-data-type" exact component={SelectDataType} />
           <Route
             path="/manage-data-download"
