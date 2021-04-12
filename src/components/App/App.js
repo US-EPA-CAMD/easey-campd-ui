@@ -8,7 +8,6 @@ import NotFound from "../NotFound/NotFound";
 import Layout from "../Layout/Layout";
 
 import "./App.scss";
-import Landing from "../Landing/Landing";
 
 function App() {
   return (

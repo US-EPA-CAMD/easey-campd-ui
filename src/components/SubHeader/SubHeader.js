@@ -14,28 +14,37 @@ import { Link } from "react-router-dom";
 const SubHeader = () => {
   const history = useHistory();
 
-  const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [navDropdownOpen, setNavDropdownOpen] = useState([false, false, false]);
+  const [categorySelected, setCategorySelected] = useState([
+    true,
+    false,
+    false,
+  ]);
 
-  const handleToggleNavDropdown = (index) => {
+  const handleToggleNavDropdown = (column) => {
     setNavDropdownOpen((prevNavDropdownOpen) => {
       const newOpenState = Array(prevNavDropdownOpen.length).fill(false);
 
-      newOpenState[index] = !prevNavDropdownOpen[index];
+      newOpenState[column] = !prevNavDropdownOpen[column];
       return newOpenState;
     });
   };
 
-  const toggleMobileNav = () => {
-    setMobileNavOpen((prevOpen) => !prevOpen);
-  };
-
   const handleSubMenuClick = (route, column) => {
     handleToggleNavDropdown(column);
+
+    setCategorySelected((prevCategorySelected) => {
+      const newCategorySelected = Array(prevCategorySelected.length).fill(
+        false
+      );
+      newCategorySelected[column] = true;
+      return newCategorySelected;
+    });
+
     history.push(route);
   };
 
-  const dataMenuLinks = [
+  /* const dataMenuLinks = [
     "/",
     "/campd",
     "/campd/",
@@ -46,7 +55,7 @@ const SubHeader = () => {
   const analysisMenuLinks = ["/campd/analysis"];
   const visualizationMenuLinks = ["/campd/visualization"];
   const className = "menu active";
-  const pathname = window.location.pathname;
+  const pathname = window.location.pathname;*/
 
   return (
     <div className="subheaderWrapper">
@@ -97,6 +106,9 @@ const SubHeader = () => {
                   ]}
                   isOpen={navDropdownOpen[0]}
                 />
+                {categorySelected[0] === true ? (
+                  <div className="menu-underline" />
+                ) : null}
               </>,
               <>
                 <NavDropDownButton

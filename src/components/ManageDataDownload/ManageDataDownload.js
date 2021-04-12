@@ -63,7 +63,7 @@ const ManageDataDownload = (props) => {
     }
   };
 
-  const closeFlyOutHandler = () =>{
+  const closeFlyOutHandler = () => {
     setSelectedFilter("");
     setDisplayFilters(false);
   };
@@ -249,7 +249,13 @@ const ManageDataDownload = (props) => {
           </>
         ) : null}
       </div>
-      {<FlyOutPanel show={displayFilters} selectedFilter={selectedFilter} closeFlyOutHandler={closeFlyOutHandler}/>}
+      {
+        <FlyOutPanel
+          show={displayFilters}
+          selectedFilter={selectedFilter}
+          closeFlyOutHandler={closeFlyOutHandler}
+        />
+      }
     </div>
   );
 };

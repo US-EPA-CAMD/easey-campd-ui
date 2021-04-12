@@ -180,9 +180,6 @@
 }
 
 .subheaderWrapper {
-  .usa-nav__primary button {
-  }
-
   .usa-nav__primary button[aria-expanded="false"]::after {
     display: inline-block;
     margin-left: 0.255em;
@@ -204,12 +201,9 @@
       border-right: 0.3em solid transparent;
       border-bottom: 0;
       border-left: 0.3em solid transparent;
-      text-decoration: underline;
     }
     ::before {
     }
-
-    border-bottom: solid 3px #fff;
 
     background-image: none !important;
     @extend .bg-base-darkest;
@@ -223,4 +217,12 @@
   .usa-nav-container {
     max-width: 100% !important;
   }
+}
+
+.usa-date-picker__calendar {
+  margin-top: 1em !important;
+}
+
+.usa-date-picker__button {
+  margin-left: 1em !important;
 }
