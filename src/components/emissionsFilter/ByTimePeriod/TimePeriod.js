@@ -41,7 +41,8 @@ export const TimePeriod = ({timePeriod, updateTimePeriodDispatcher, closeFlyOutH
     setValidations({ ...validations, ...updatedValidations });
   };
 
-  const onInvalidHandler = () =>{
+  const onInvalidHandler = (evt) =>{
+    evt.preventDefault();
     validateInput();
   };
 
