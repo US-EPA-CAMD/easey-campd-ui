@@ -4,7 +4,7 @@ const setDate = (year, month, date) => {
   return newDate
 }
 
-const isDateFormatValid = (dateString) =>{
+export const isDateFormatValid = (dateString) =>{
   let isValid = true
 
   if (dateString) {
@@ -36,18 +36,6 @@ const isDateFormatValid = (dateString) =>{
   return isValid
 };
 
-const isDateRangeValid = (startDateString, endDateString) =>{
+export const isDateRangeValid = (startDateString, endDateString) =>{
   return new Date(startDateString) <= new Date(endDateString);
-};
-
-export const validate = (type, startDateString, endDateString) => {
-  switch (type) {
-    case 'dateFormat':
-      return (isDateFormatValid(startDateString) && isDateFormatValid(endDateString));
-    case 'dateRange':
-      return isDateRangeValid(startDateString, endDateString);
-    default:
-      console.warn(`No validation item found for: "${type}"`)
-      return false
-  }
 };

@@ -21,7 +21,7 @@ const TimePeriodRender = ({
   };
 
   const isFormValid = () =>{
-    return (validations.dateFormat && validations.dateRange);
+    return (validations.startDateFormat && validations.endDateFormat && validations.dateRange);
   };
 
   const isApplyFilterDisabled = () =>{
@@ -40,11 +40,14 @@ const TimePeriodRender = ({
       <hr/>
       <Alert type="info" validation heading="Requirements" style={{display:isFormValid()?"none":"block"}}>
         <ValidationChecklist id="validate-time-period">
-          <ValidationItem id="dateFormat" isValid={validations.dateFormat}>
-            Enter the time period in the MM/DD/YYYY format
+          <ValidationItem id="startDateFormat" isValid={validations.startDateFormat}>
+            Enter the Start Date in the MM/DD/YYYY format
+          </ValidationItem>
+          <ValidationItem id="endDateFormat" isValid={validations.endDateFormat}>
+            Enter the End Date in the MM/DD/YYYY format
           </ValidationItem>
           <ValidationItem id="dateRange" isValid={validations.dateRange}>
-            Enter a start date that is greater than or equal to the end date
+            Enter an end date that is greater than or equal to the begin date
           </ValidationItem>
         </ValidationChecklist>
       </Alert>
