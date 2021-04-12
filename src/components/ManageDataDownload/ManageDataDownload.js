@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 
 // *** GLOBAL LAYOUT IMPORTS
-import { Button, ComboBox } from "@trussworks/react-uswds";
+import { Button, ComboBox, Dropdown } from "@trussworks/react-uswds";
 
 // ***  ICONS / DATA
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -42,7 +42,7 @@ const ManageDataDownload = (props) => {
 
   const changeDataSubtype = (event) => {
     if (event) {
-      setSelectedDataSubtype(event);
+      setSelectedDataSubtype(event.target.value);
     }
     return true;
   };
@@ -63,7 +63,7 @@ const ManageDataDownload = (props) => {
     }
   };
 
-  const closeFlyOutHandler = () =>{
+  const closeFlyOutHandler = () => {
     setSelectedFilter("");
     setDisplayFilters(false);
   };
@@ -118,10 +118,23 @@ const ManageDataDownload = (props) => {
                 Data Subtype (Required)
               </div>
               <div className="padding-y-1">
-                <ComboBox
+                {/*<ComboBox
                   options={dataTypeOptions}
                   onChange={changeDataSubtype}
-                />
+                />*/}
+                <Dropdown
+                  onChange={changeDataSubtype}
+                  value={selectedDataSubtype}
+                >
+                  <option value="">- Select - </option>
+                  <option value="1">Hourly Emissions</option>
+                  <option value="2">Daily Emissions</option>
+                  <option value="3">Monthly Emissions</option>
+                  <option value="4">Quarterly Emissions</option>
+                  <option value="5">Ozone Season Emissions</option>
+                  <option value="6">Annual Emissions</option>
+                  <option value="7">Facility/Unit Attributes</option>
+                </Dropdown>
               </div>
             </>
           ) : null}
@@ -182,7 +195,7 @@ const ManageDataDownload = (props) => {
                     onClick={() => handleFilterButtonClick(`state territory`)}
                     className="filter-button"
                   >
-                    STATE TERRITORY (Optional)
+                    STATE/TERRITORY (Optional)
                     <FontAwesomeIcon
                       icon={faSlidersH}
                       className="float-right clearfix"
@@ -249,7 +262,13 @@ const ManageDataDownload = (props) => {
           </>
         ) : null}
       </div>
-      {<FlyOutPanel show={displayFilters} selectedFilter={selectedFilter} closeFlyOutHandler={closeFlyOutHandler}/>}
+      {
+        <FlyOutPanel
+          show={displayFilters}
+          selectedFilter={selectedFilter}
+          closeFlyOutHandler={closeFlyOutHandler}
+        />
+      }
     </div>
   );
 };

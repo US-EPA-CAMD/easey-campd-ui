@@ -1,8 +1,9 @@
 .side-panel {
   width: 25vw !important;
-  height: 80vh !important;
+  min-height: 80vh !important;
+  max-height: fit-content !important;
   filter: drop-shadow(0.35rem 0.35rem 0.4rem rgba(0, 0, 0, 0.5));
-  overflow: hidden;
+  overflow: hidden !important;
 }
 
 .manage-download-wrapper {
@@ -16,14 +17,8 @@
 }
 
 .filter-button {
-  width: 95% !important;
-  max-width: 100%;
+  width: 85% !important;
+  max-width: 85% !important;
   text-align: left !important;
   font-size: 1em !important;
-}
-
-.filter-container {
-  max-height: 35vh !important;
-  width: 21.5vw;
-  overflow-y: scroll;
 }

@@ -1,66 +1,164 @@
-import React from "react";
-import {useLocation} from "react-router-dom";
-import { Navbar, Nav, NavDropdown } from "react-bootstrap";
+import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import "./SubHeader.scss";
 import config from "../../config";
+import {
+  Menu,
+  Header,
+  PrimaryNav,
+  NavDropDownButton,
+  Title,
+} from "@trussworks/react-uswds";
+import { Link } from "react-router-dom";
 
 const SubHeader = () => {
-  const location = useLocation();
-  const basepath = config.app.path==="/campd"?"/campd/":config.app.path;
-  const dataMenuLinks = [
-    `${basepath}select-data-type`,
-    `${basepath}manage-data-download`,
-    `${basepath}campd/datasets`,
-    `${basepath}campdApi`,
+  const history = useHistory();
+
+  const [navDropdownOpen, setNavDropdownOpen] = useState([false, false, false]);
+  const [categorySelected, setCategorySelected] = useState([
+    true,
+    false,
+    false,
+  ]);
+
+  const handleToggleNavDropdown = (column) => {
+    setNavDropdownOpen((prevNavDropdownOpen) => {
+      const newOpenState = Array(prevNavDropdownOpen.length).fill(false);
+
+      newOpenState[column] = !prevNavDropdownOpen[column];
+      return newOpenState;
+    });
+  };
+
+  const handleSubMenuClick = (route, column) => {
+    handleToggleNavDropdown(column);
+
+    setCategorySelected((prevCategorySelected) => {
+      const newCategorySelected = Array(prevCategorySelected.length).fill(
+        false
+      );
+      newCategorySelected[column] = true;
+      return newCategorySelected;
+    });
+
+    history.push(route);
+  };
+
+  /* const dataMenuLinks = [
+    "/",
+    "/campd",
+    "/campd/",
+    "/campd/customdatadownload",
+    "/campd/datasets",
+    "/campd/campdApi",
   ];
-  const analysisMenuLinks = [`${basepath}analysis`];
-  const visualizationMenuLinks = [`${basepath}visualization`];
+  const analysisMenuLinks = ["/campd/analysis"];
+  const visualizationMenuLinks = ["/campd/visualization"];
   const className = "menu active";
-  const pathname = location.pathname;
+  const pathname = window.location.pathname;*/
+
   return (
-    <>
-      <Navbar bg="dark" variant="dark" className="navBar">
-        <Navbar.Brand
-          href={config.app.path}
-          className="title font-weight-light react-transition swipe-up"
-        >
-          Clean Air Markets Program Data
-        </Navbar.Brand>
-        <Nav className="mr-auto clearfix epa-subheader react-transition swipe-left">
-          <NavDropdown
-            title="Data"
-            id="collasible-nav-dropdown"
-            className={dataMenuLinks.includes(pathname) ? className : ""}
-          >
-            <NavDropdown.Item href={dataMenuLinks[0]}>
-              Custom Data Download
-            </NavDropdown.Item>
-            <NavDropdown.Item href={dataMenuLinks[2]}>Datasets</NavDropdown.Item>
-            <NavDropdown.Item href={dataMenuLinks[3]}>
-              CAMPD API
-            </NavDropdown.Item>
-          </NavDropdown>
-          <NavDropdown
-            title="Analysis"
-            id="collasible-nav-dropdown"
-            className={analysisMenuLinks.includes(pathname) ? className : ""}
-          >
-            <NavDropdown.Item href={analysisMenuLinks[0]}>Analysis</NavDropdown.Item>
-          </NavDropdown>
-          <NavDropdown
-            title="Visualization"
-            id="collasible-nav-dropdown"
-            className={
-              visualizationMenuLinks.includes(pathname) ? className : ""
-            }
-          >
-            <NavDropdown.Item href={visualizationMenuLinks[0]}>
-              Visualization
-            </NavDropdown.Item>
-          </NavDropdown>
-        </Nav>
-      </Navbar>
-    </>
+    <div className="subheaderWrapper">
+      <Header className="bg-base-darkest padding-y-3">
+        <div className="usa-nav-container">
+          <div className="margin-left-9">
+            <Title className="float-left clearfix margin-left-9">
+              <a
+                href={config.app.path}
+                title="Home"
+                aria-label="Home"
+                className="text-white"
+              >
+                Clean Air Markets Program Data
+              </a>
+            </Title>
+          </div>
+          <PrimaryNav
+            className="float-right clearfix margin-right-9 margin-top-3"
+            items={[
+              <>
+                <NavDropDownButton
+                  className="text-white"
+                  key="testItemOne"
+                  label="Data"
+                  menuId="menuData"
+                  isOpen={navDropdownOpen[0]}
+                  onToggle={() => {
+                    handleToggleNavDropdown(0);
+                  }}
+                />
+                <Menu
+                  id="extended-nav-section-one"
+                  items={[
+                    <Link
+                      onClick={(event) =>
+                        handleSubMenuClick("select-data-type", 0)
+                      }
+                    >
+                      Custom Data Download
+                    </Link>,
+                    <Link /*onClick={(event) => handleSubMenuClick("", 0)}*/>
+                      Datasets
+                    </Link>,
+                    <Link /*onClick={(event) => handleSubMenuClick("", 0)}*/>
+                      CAMPD API
+                    </Link>,
+                  ]}
+                  isOpen={navDropdownOpen[0]}
+                />
+                {categorySelected[0] === true ? (
+                  <div className="menu-underline" />
+                ) : null}
+              </>,
+              <>
+                <NavDropDownButton
+                  className="text-white"
+                  key="testItemTwo"
+                  label="Analysis"
+                  menuId="menuAnalysis"
+                  isOpen={navDropdownOpen[1]}
+                  onToggle={() => {
+                    handleToggleNavDropdown(1);
+                  }}
+                  isCurrent={true}
+                />
+                <Menu
+                  id="extended-nav-section-two"
+                  items={[
+                    <Link /*onClick={(event) => handleSubMenuClick("", 1)}*/>
+                      Analysis
+                    </Link>,
+                  ]}
+                  isOpen={navDropdownOpen[1]}
+                />
+              </>,
+              <>
+                <NavDropDownButton
+                  className="text-white"
+                  key="testItemThree"
+                  label="Visualization"
+                  menuId="menuVisualization"
+                  isOpen={navDropdownOpen[2]}
+                  onToggle={() => {
+                    handleToggleNavDropdown(2);
+                  }}
+                  isCurrent={true}
+                />
+                <Menu
+                  id="extended-nav-section-three"
+                  items={[
+                    <Link /*onClick={(event) => handleSubMenuClick("", 2)}*/>
+                      Visualization
+                    </Link>,
+                  ]}
+                  isOpen={navDropdownOpen[2]}
+                />
+              </>,
+            ]}
+          />
+        </div>
+      </Header>
+    </div>
   );
 };
 

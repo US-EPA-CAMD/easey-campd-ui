@@ -1,6 +1,7 @@
 import React from "react";
-import "./SelectDataType.scss";
 import { SelectDataTypeInCards } from "../SelectableCards/SelectableCards";
+
+import "./SelectDataType.scss";
 
 const SelectDataType = () => {
   const dataTypes = ["EMISSIONS", "ALLOWANCE", "COMPLIANCE"];
