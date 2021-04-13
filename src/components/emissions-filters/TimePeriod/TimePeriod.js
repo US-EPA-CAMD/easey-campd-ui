@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import {updateTimePeriod} from "../../../store/actions/emissionsFilter";
 import TimePeriodRender from "./TimePeriodRender";
-import {validate} from "../../../utils/DateValidation/Validation";
+import {isDateFormatValid, isDateRangeValid} from "../../../utils/DateValidation/Validation";
 
 export const TimePeriod = ({timePeriod, updateTimePeriodDispatcher, closeFlyOutHandler}) =>{
   const [formState, setFormState] = useState({
@@ -12,14 +12,15 @@ export const TimePeriod = ({timePeriod, updateTimePeriodDispatcher, closeFlyOutH
   });
 
   const [validations, setValidations] = useState({
-    dateFormat: true,
+    startDateFormat: true,
+    endDateFormat: true,
     dateRange: true
   });
 
   const [applyFilterClicked, setApplyFilterClicked] = useState(false);
 
   useEffect(()=>{
-    if(validations.dateFormat && validations.dateRange){
+    if(validations.startDateFormat && validations.endDateFormat && validations.dateRange){
       updateTimePeriodDispatcher(formState);
       if(applyFilterClicked){
         closeFlyOutHandler();
@@ -30,22 +31,18 @@ export const TimePeriod = ({timePeriod, updateTimePeriodDispatcher, closeFlyOutH
 
   const validateInput = () => {
     const updatedValidations = {};
-    const dateFormatValid = validate("dateFormat", formState.startDate, formState.endDate);
-    if(dateFormatValid){
-      updatedValidations["dateFormat"] = true;
-      Object.keys(validations).forEach((validator) => {
-        if(validator!=="dateFormat"){
-          updatedValidations[validator] = validate(validator, formState.startDate, formState.endDate);
-        }
-      });
+    updatedValidations["startDateFormat"] = isDateFormatValid(formState.startDate);
+    updatedValidations["endDateFormat"] = isDateFormatValid(formState.endDate);
+    if(updatedValidations["startDateFormat"] && updatedValidations["endDateFormat"]){
+      updatedValidations["dateRange"] = isDateRangeValid(formState.startDate, formState.endDate);
     }else{
-      updatedValidations["dateFormat"] = false;
       updatedValidations["dateRange"] = false;
     }
     setValidations({ ...validations, ...updatedValidations });
   };
 
-  const onInvalidHandler = () =>{
+  const onInvalidHandler = (evt) =>{
+    evt.preventDefault();
     validateInput();
   };
 
