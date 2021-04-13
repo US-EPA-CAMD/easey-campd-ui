@@ -1,5 +1,5 @@
 import React from "react";
-import TimePeriod from "../emissions-filters/TimePeriod/TimePeriod";
+import TimePeriod from "../emissionsFilter/TimePeriod/TimePeriod";
 
 const FlyOutPanel = ({ show, selectedFilter, closeFlyOutHandler }) => {
   const contentRenderer = () => {
