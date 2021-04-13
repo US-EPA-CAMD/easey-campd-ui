@@ -1,13 +1,12 @@
 import React from "react";
-import TimePeriod from "../emissionsFilter/ByTimePeriod/TimePeriod";
+import TimePeriod from "../emissionsFilter/TimePeriod/TimePeriod";
 
-const FlyOutPanel = ({show, selectedFilter, closeFlyOutHandler}) =>{
-
-  const contentRenderer = () =>{
+const FlyOutPanel = ({ show, selectedFilter, closeFlyOutHandler }) => {
+  const contentRenderer = () => {
     switch (selectedFilter) {
-      case 'time period':
-        return <TimePeriod closeFlyOutHandler ={closeFlyOutHandler}/>
-      case 'program':
+      case "time period":
+        return <TimePeriod closeFlyOutHandler={closeFlyOutHandler} />;
+      case "program":
         return;
       default:
         return;
@@ -24,7 +23,7 @@ const FlyOutPanel = ({show, selectedFilter, closeFlyOutHandler}) =>{
         </div>
       ) : null}
     </>
-  )
+  );
 };
 
 export default FlyOutPanel;

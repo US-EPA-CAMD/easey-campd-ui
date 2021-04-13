@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 
 // *** GLOBAL LAYOUT IMPORTS
-import { Button, ComboBox, Dropdown } from "@trussworks/react-uswds";
+import { Button, Dropdown } from "@trussworks/react-uswds";
 
 // ***  ICONS / DATA
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -74,7 +74,7 @@ const ManageDataDownload = (props) => {
         className="side-panel bg-base-lighter margin-0"
         data-testid="ManageDataDownload"
       >
-        <div className="font-alt-xl text-bold padding-top-6 padding-bottom-3 padding-left-6">
+        <div className="font-alt-lg text-bold padding-top-6 padding-bottom-3 padding-left-6 side-panel-header">
           Data Type
           <FontAwesomeIcon
             icon={faQuestionCircle}
@@ -114,7 +114,7 @@ const ManageDataDownload = (props) => {
 
           {dataSubtypeApplied === false ? (
             <>
-              <div className="padding-top-5 font-body-lg">
+              <div className="padding-top-5 font-body-md">
                 Data Subtype (Required)
               </div>
               <div className="padding-y-1">
