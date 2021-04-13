@@ -6,7 +6,7 @@ import "./Landing.scss";
 const Landing = () => {
   return (
     <div className="text-center" data-testid="Landing">
-      <div className="padding-top-2" data->
+      <div className="padding-top-2">
         This is a placeholder for the landing page. Content is pending...
       </div>
       <div className="padding-bottom-2">
@@ -14,7 +14,7 @@ const Landing = () => {
           to="/select-data-type"
           className="text-bold text-secondary-darker"
         >
-          Click here to proceed to Select Data Type screenhaha
+          Click here to proceed to Select Data Type screen
         </Link>
       </div>
       <div>

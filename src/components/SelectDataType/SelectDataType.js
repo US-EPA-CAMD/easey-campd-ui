@@ -7,7 +7,7 @@ const SelectDataType = () => {
   const dataTypes = ["EMISSIONS", "ALLOWANCE", "COMPLIANCE"];
   return (
     <div className="selectDataTypeContent react-transition flip-in-x">
-      <h2>Custom Data Download</h2>
+      <h2 className="text-bold">Custom Data Download</h2>
       <p data-testid="description-paragraph" className="padding-top-2">
         <span className="vl" />
         This tool allows users to create custom queries of emissions, allowance,

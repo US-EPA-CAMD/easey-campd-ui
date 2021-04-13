@@ -180,6 +180,11 @@
 }
 
 .subheaderWrapper {
+  .usa-nav__primary button {
+    font-family: "Source Sans Pro Web", serif !important;
+    font-weight: bold !important;
+  }
+
   .usa-nav__primary button[aria-expanded="false"]::after {
     display: inline-block;
     margin-left: 0.255em;
@@ -216,6 +221,10 @@
 
   .usa-nav-container {
     max-width: 100% !important;
+  }
+
+  .usa-logo {
+    font-size: 23px !important;
   }
 }
 

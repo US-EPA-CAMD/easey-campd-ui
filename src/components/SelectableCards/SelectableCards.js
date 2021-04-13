@@ -3,6 +3,8 @@ import "./SelectableCards.scss";
 import { useHistory } from "react-router-dom";
 
 import { Button } from "@trussworks/react-uswds";
+import { faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const SelectableCard = ({ selected, title, onClick }) => {
   return (
@@ -57,8 +59,12 @@ export const SelectDataTypeInCards = ({ cardContents }) => {
   };
   return (
     <div className="cardsContainer react-transition flip-in-y">
-      <h3 className="react-transition flip-in-x font-alt-lg margin-3">
-        Select a Data Type
+      <h3 className="font-alt-lg margin-3">
+        <b>Select a Data Type </b>
+        <FontAwesomeIcon
+          icon={faQuestionCircle}
+          className="text-gray-30 font-body-sm question-icon position-relative top-neg-1px"
+        />
       </h3>
       <SelectableCardList contents={cardContents} onChange={onListChanged} />
       <Button
