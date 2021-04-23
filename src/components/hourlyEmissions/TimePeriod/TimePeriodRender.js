@@ -2,6 +2,7 @@ import React from "react";
 import { Form, Checkbox, Button, DateRangePicker, ValidationChecklist, ValidationItem, Alert} from '@trussworks/react-uswds';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
+import {formatDateToApi} from "../../../utils/selectors/hourlyEmissions";
 
 const TimePeriodRender = ({
   applyFilterHandler,
@@ -12,13 +13,6 @@ const TimePeriodRender = ({
   onInvalidHandler,
   closeFlyOutHandler,
   validations}) =>{
-
-  const formatDate = (dateString) =>{
-    if(dateString){
-      const dateStringParts = dateString.split('/');
-      return `${dateStringParts[2]}-${dateStringParts[0]}-${dateStringParts[1]}`
-    }
-  };
 
   const isFormValid = () =>{
     return (validations.startDateFormat && validations.endDateFormat && validations.dateRange);
@@ -55,7 +49,7 @@ const TimePeriodRender = ({
         endDateHint="mm/dd/yyyy"
         endDateLabel="End Date (Required)"
         endDatePickerProps={{
-          defaultValue:formatDate(formState.endDate),
+          defaultValue:formatDateToApi(formState.endDate),
           onChange: handleEndDateUpdate,
           onInvalid:onInvalidHandler,
           disabled: undefined,
@@ -65,7 +59,7 @@ const TimePeriodRender = ({
         startDateHint="mm/dd/yyyy"
         startDateLabel="Start Date (Required)"
         startDatePickerProps={{
-          defaultValue:formatDate(formState.startDate),
+          defaultValue:formatDateToApi(formState.startDate),
           onChange: handleStartDateUpdate,
           onInvalid:onInvalidHandler,
           disabled: undefined,

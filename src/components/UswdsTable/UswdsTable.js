@@ -13,7 +13,7 @@ import TablePagination from "../TablePagination/TablePagination";
 import TablePaginationFilter from "../TablePaginationFilter/TablePaginationFilter";
 import TableSearch from "../TableSearch/TableSearch";
 import { EditableCell, setEditable } from "../TableCell/TableCell";
-import "./UswdsTable.scss";
+//import "./UswdsTable.scss";
 
 // if showEntries is not supplied, by default will have show entries of only [100 and all data]
 // first page will default to all data if BOTH pagination and showentries are not supplied
@@ -117,9 +117,10 @@ const UswdsTable = ({
   const variant = bordered ? "usa-table" : "usa-table usa-table--borderless";
 
   return (
-    <div className="container">
+    // <div className="container">
+    <div>
       <div className="tableHead">
-        <h3 className="tableTitle"> {title}</h3>
+        {title && <h3 className="tableTitle"> {title}</h3>}
         <div className="filterAndSearch">
           {paginate ? (
             <span className="filter">

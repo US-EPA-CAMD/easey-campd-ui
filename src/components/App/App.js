@@ -2,6 +2,7 @@ import React from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 
 import SelectDataType from "../SelectDataType/SelectDataType";
+import ManageDataDownloadRoute from "../ManageDataDownload/ManageDataDownloadRoute";
 import ManageDataDownload from "../ManageDataDownload/ManageDataDownload";
 import NotFound from "../NotFound/NotFound";
 
@@ -18,11 +19,7 @@ function App() {
             <Redirect to={"/select-data-type"} />
           </Route>
           <Route path="/select-data-type" exact component={SelectDataType} />
-          <Route
-            path="/manage-data-download"
-            exact
-            component={ManageDataDownload}
-          />
+          <ManageDataDownloadRoute path='/manage-data-download' exact component={ManageDataDownload} />
           <Route path="/*" component={NotFound} />
         </Switch>
       </Layout>

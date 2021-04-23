@@ -1,13 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import {updateTimePeriod} from "../../../store/actions/emissionsFilter";
+import {updateTimePeriod} from "../../../store/actions/customDataDownload/hourlyEmissions/hourlyEmissions";
+import {addAppliedFilter} from "../../../store/actions/customDataDownload/customDataDownload";
 import TimePeriodRender from "./TimePeriodRender";
-import {isDateFormatValid, isDateRangeValid} from "../../../utils/DateValidation/Validation";
+import {isDateFormatValid, isDateRangeValid} from "../../../utils/dateValidation/dateValidation";
+import {isAddedToFilters, formatDateToUi, formatDateToApi} from "../../../utils/selectors/hourlyEmissions";
 
-export const TimePeriod = ({timePeriod, updateTimePeriodDispatcher, closeFlyOutHandler}) =>{
+export const TimePeriod = ({
+  timePeriod,
+  updateTimePeriodDispatcher,
+  addAppliedFilterDispatcher,
+  appliedFilters,
+  closeFlyOutHandler}) =>{
+
   const [formState, setFormState] = useState({
-    startDate:timePeriod.startDate,
-    endDate:timePeriod.endDate,
+    startDate:formatDateToUi(timePeriod.startDate),
+    endDate:formatDateToUi(timePeriod.endDate),
     opHrsOnly:timePeriod.opHrsOnly
   });
 
@@ -19,12 +27,19 @@ export const TimePeriod = ({timePeriod, updateTimePeriodDispatcher, closeFlyOutH
 
   const [applyFilterClicked, setApplyFilterClicked] = useState(false);
 
+  const filterToApply= "timePeriod";
+
   useEffect(()=>{
-    if(validations.startDateFormat && validations.endDateFormat && validations.dateRange){
-      updateTimePeriodDispatcher(formState);
-      if(applyFilterClicked){
-        closeFlyOutHandler();
+    if(validations.startDateFormat && validations.endDateFormat && validations.dateRange && applyFilterClicked){
+      updateTimePeriodDispatcher({
+        startDate: formatDateToApi(formState.startDate),
+        endDate: formatDateToApi(formState.endDate),
+        opHrsOnly: formState.opHrsOnly
+      });
+      if(!isAddedToFilters(filterToApply, appliedFilters)){
+        addAppliedFilterDispatcher(filterToApply);
       }
+      closeFlyOutHandler();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   },[validations]);
@@ -76,13 +91,15 @@ export const TimePeriod = ({timePeriod, updateTimePeriodDispatcher, closeFlyOutH
 
 const mapStateToProps = (state) => {
   return {
-    timePeriod: state.emissionsFilter.timePeriod
+    timePeriod: state.hourlyEmissions.timePeriod,
+    appliedFilters: state.customDataDownload.appliedFilters
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     updateTimePeriodDispatcher: (timePeriod) => dispatch(updateTimePeriod(timePeriod)),
+    addAppliedFilterDispatcher: (filterToApply) => dispatch(addAppliedFilter(filterToApply)),
   };
 };
 

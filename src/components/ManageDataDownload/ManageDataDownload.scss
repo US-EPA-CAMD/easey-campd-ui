@@ -2,8 +2,13 @@
   width: 25vw !important;
   min-height: 80vh !important;
   max-height: fit-content !important;
-  filter: drop-shadow(0.35rem 0.35rem 0.4rem rgba(0, 0, 0, 0.5));
+  //filter: drop-shadow(0.35rem 0.35rem 0.4rem rgba(0, 0, 0, 0.5));
   overflow: hidden !important;
+}
+
+.overlay {
+  position: relative;
+  z-index: 10 !important;
 }
 
 .side-panel-header {
