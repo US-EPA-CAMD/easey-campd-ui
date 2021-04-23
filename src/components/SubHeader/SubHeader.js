@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import "./SubHeader.scss";
 import config from "../../config";
 import {
@@ -9,7 +9,6 @@ import {
   NavDropDownButton,
   Title,
 } from "@trussworks/react-uswds";
-import { Link } from "react-router-dom";
 
 const SubHeader = () => {
   const history = useHistory();
@@ -44,19 +43,6 @@ const SubHeader = () => {
     history.push(route);
   };
 
-  /* const dataMenuLinks = [
-    "/",
-    "/campd",
-    "/campd/",
-    "/campd/customdatadownload",
-    "/campd/datasets",
-    "/campd/campdApi",
-  ];
-  const analysisMenuLinks = ["/campd/analysis"];
-  const visualizationMenuLinks = ["/campd/visualization"];
-  const className = "menu active";
-  const pathname = window.location.pathname;*/
-
   return (
     <div className="subheaderWrapper">
       <Header className="bg-base-darkest padding-y-3">
@@ -90,17 +76,17 @@ const SubHeader = () => {
                 <Menu
                   id="extended-nav-section-one"
                   items={[
-                    <Link
+                    <Link to=""
                       onClick={(event) =>
                         handleSubMenuClick("select-data-type", 0)
                       }
                     >
                       Custom Data Download
                     </Link>,
-                    <Link /*onClick={(event) => handleSubMenuClick("", 0)}*/>
+                    <Link to="" /*onClick={(event) => handleSubMenuClick("", 0)}*/>
                       Datasets
                     </Link>,
-                    <Link /*onClick={(event) => handleSubMenuClick("", 0)}*/>
+                    <Link to="" /*onClick={(event) => handleSubMenuClick("", 0)}*/>
                       CAMPD API
                     </Link>,
                   ]}
@@ -125,7 +111,7 @@ const SubHeader = () => {
                 <Menu
                   id="extended-nav-section-two"
                   items={[
-                    <Link /*onClick={(event) => handleSubMenuClick("", 1)}*/>
+                    <Link to="" /*onClick={(event) => handleSubMenuClick("", 1)}*/>
                       Analysis
                     </Link>,
                   ]}
@@ -147,7 +133,7 @@ const SubHeader = () => {
                 <Menu
                   id="extended-nav-section-three"
                   items={[
-                    <Link /*onClick={(event) => handleSubMenuClick("", 2)}*/>
+                    <Link to="" /*onClick={(event) => handleSubMenuClick("", 2)}*/>
                       Visualization
                     </Link>,
                   ]}

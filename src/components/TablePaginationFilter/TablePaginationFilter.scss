@@ -18,10 +18,11 @@
   align-items: center !important;
   /* float:right; */
 }
-.usa-select {
-  background-image: url("../../../public/images/dropdown_arrow.webp"),
-    linear-gradient(transparent, transparent) !important;
-}
+// .usa-select {
+//   // background-image: url("../../../public/images/dropdown_arrow.webp"),
+//   //background-image: url({`${process.env.PUBLIC_URL}/images/dropdown_arrow.webp`}),
+//     linear-gradient(transparent, transparent) !important;
+// }
 .filterLabel {
   padding: 0px;
   margin: 0px;

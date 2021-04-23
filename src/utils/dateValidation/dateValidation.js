@@ -39,3 +39,4 @@ export const isDateFormatValid = (dateString) =>{
 export const isDateRangeValid = (startDateString, endDateString) =>{
   return new Date(startDateString) <= new Date(endDateString);
 };
+

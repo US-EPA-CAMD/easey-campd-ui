@@ -1,0 +1,53 @@
+.preview-content-wrapper {
+  padding-top: 3vw;
+  padding-left: 1.5vw;
+  padding-right: 2vw;
+}
+
+.preview-content-wrapper div,
+span {
+  display: inline-block;
+}
+
+table {
+  border-top: solid 2px;
+  border-collapse: collapse !important;
+  width: 72vw !important;
+  overflow-x: scroll !important;
+  display: block !important;
+}
+
+thead {
+  background-color: #efefef;
+}
+
+thead tr {
+  height: 40px;
+}
+
+thead,
+tbody {
+  display: block !important;
+  width: -webkit-fit-content;
+}
+
+tbody {
+  height: 45vh !important;
+  overflow-y: scroll !important;
+  overflow-x: hidden !important;
+}
+
+td,
+th {
+  min-width: 20em !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 30em;
+  padding: 0 0 0 0.7rem !important;
+  margin: 0 !important;
+  border-right: solid lightgray 1px !important;
+}
+.table-wrapper {
+  overflow-x: scroll;
+  height: 100%;
+}

@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import "./SelectableCards.scss";
 import { useHistory } from "react-router-dom";
+import { connect } from "react-redux";
+import {updateSelectedDataType} from "../../store/actions/customDataDownload/customDataDownload";
 
 import { Button } from "@trussworks/react-uswds";
 import { faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
@@ -46,16 +48,15 @@ const SelectableCardList = ({ contents, onChange }) => {
   return <>{content}</>;
 };
 
-export const SelectDataTypeInCards = ({ cardContents }) => {
+export const SelectDataTypeInCards = ({updateSelectedDataTypeDispatcher, cardContents }) => {
   const [selected, setSelected] = useState(-1);
   const onListChanged = (selectedItem) => {
     setSelected(selectedItem);
   };
   const history = useHistory();
   const handleRoute = () => {
-    history.push("/manage-data-download", {
-      selectedDataType: cardContents[selected],
-    });
+    updateSelectedDataTypeDispatcher(cardContents[selected]);
+    history.push("/manage-data-download");
   };
   return (
     <div className="cardsContainer react-transition flip-in-y">
@@ -77,3 +78,11 @@ export const SelectDataTypeInCards = ({ cardContents }) => {
     </div>
   );
 };
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    updateSelectedDataTypeDispatcher: (selectedDataType) => dispatch(updateSelectedDataType(selectedDataType)),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(SelectDataTypeInCards);

@@ -1,5 +1,5 @@
 import React from "react";
-import { SelectDataTypeInCards } from "../SelectableCards/SelectableCards";
+import SelectDataTypeInCards from "../SelectableCards/SelectableCards";
 
 import "./SelectDataType.scss";
 

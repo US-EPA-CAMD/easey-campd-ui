@@ -1,5 +1,5 @@
-import * as actions from "./emissionsFilter";
-import * as types from "./actionTypes";
+import * as actions from "./hourlyEmissions";
+import * as types from "../../actionTypes";
 
 describe("Emissions Filter Async Actions", () => {
   it("should create appropriate action when update time period action is dispatched", () => {
@@ -8,7 +8,7 @@ describe("Emissions Filter Async Actions", () => {
       endDate: "04/02/2021",
       opHrsOnly: false
     }
-    const expectedAction = { type: types.EMISSIONS.UPDATE_TIME_PERIOD, timePeriod };
+    const expectedAction = { type: types.HOURLY_EMISSIONS.UPDATE_TIME_PERIOD, selectedTimePeriod: timePeriod };
 
     const actionDispached  = actions.updateTimePeriod(timePeriod);
     expect(actionDispached).toEqual(expectedAction);

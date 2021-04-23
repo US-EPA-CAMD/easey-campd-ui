@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import "./TableBody.scss";
+//import "./TableBody.scss";
 const TableBody = ({
   getTableBodyProps,
   rows,
@@ -19,6 +19,7 @@ const TableBody = ({
   };
   useEffect(() => {
     defaultSelector();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const rowSelection = (row) => {
@@ -60,7 +61,7 @@ const TableBody = ({
               {row.cells.map((cell) => {
                 return (
                   <td
-                    width={cell.column.width}
+                    // width={cell.column.width}
                     {...cell.getCellProps()}
                     className={`${
                       row.isSelected ? "selected hovered" : "hovered"
@@ -88,7 +89,8 @@ const TableBody = ({
                   >
                     {" "}
                     <img
-                      src={require("../../../public/images/openTab.jpg")}
+                      src={`${process.env.PUBLIC_URL}/images/openTab.jpg`} alt=""
+                      // src={require("../../../public/images/openTab.jpg")}
                       className={
                         viewDataColumn.includes(row.cells[1].value)
                           ? "hide"

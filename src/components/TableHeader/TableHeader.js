@@ -6,7 +6,7 @@ const TableHeader = ({ headerGroups, viewDataColumn }) => (
       <tr {...headerGroup.getHeaderGroupProps()}>
         {headerGroup.headers.map((column) => (
           <th
-            width={column.width}
+            // width={column.width}
             {...column.getHeaderProps(column.getSortByToggleProps())}
           >
             {column.render("Header")}
@@ -14,12 +14,12 @@ const TableHeader = ({ headerGroups, viewDataColumn }) => (
             <span>
               {column.isSorted?(
                 column.isSortedDesc?(
-                  <img src="https://www.epa.gov/sites/all/libraries/js/datatables/media/images/sort_asc.png" />
+                  <img src="https://www.epa.gov/sites/all/libraries/js/datatables/media/images/sort_asc.png" alt="" />
                 ):(
-                  <img src="https://www.epa.gov/sites/all/libraries/js/datatables/media/images/sort_desc.png" />
+                  <img src="https://www.epa.gov/sites/all/libraries/js/datatables/media/images/sort_desc.png" alt="" />
                 )
               ):(
-                <img src="https://www.epa.gov/sites/all/libraries/js/datatables/media/images/sort_both.png" />
+                <img src="https://www.epa.gov/sites/all/libraries/js/datatables/media/images/sort_both.png" alt="" />
               )}
             </span>
           </th>
