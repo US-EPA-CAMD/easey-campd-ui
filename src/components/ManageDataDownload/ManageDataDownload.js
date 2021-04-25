@@ -1,7 +1,7 @@
 // *** GLOBAL FUNCTIONAL IMPORTS
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import {updateSelectedDataSubType} from "../../store/actions/customDataDownload/customDataDownload";
+import { updateSelectedDataSubType } from "../../store/actions/customDataDownload/customDataDownload";
 import DataTypeSelectorRender from "./DataTypeSelectorRender/DataTypeSelectorRender";
 import FilterCriteriaRender from "./FilterCriteriaRender/FilterCriteriaRender";
 import FlyOutPanel from "./FlyOutPanel/FlyOutPanel";
@@ -11,8 +11,10 @@ import * as constants from "../../utils/constants/customDataDownload";
 // *** STYLES (individual component)
 import "./ManageDataDownload.scss";
 
-
-const ManageDataDownload = ({selectedDataType, updateSelectedDataSubTypeDispatcher}) => {
+const ManageDataDownload = ({
+  selectedDataType,
+  updateSelectedDataSubTypeDispatcher,
+}) => {
   // *** HOOKS
   const [dataSubtypeApplied, setDataSubtypeApplied] = useState(false);
   const [selectedDataSubtype, setSelectedDataSubtype] = useState("");
@@ -44,10 +46,12 @@ const ManageDataDownload = ({selectedDataType, updateSelectedDataSubTypeDispatch
     }
   };
 
-  const handleApplyButtonClick = () =>{
-    if(selectedDataSubtype!==""){
-      setDataSubtypeApplied(true)
-      updateSelectedDataSubTypeDispatcher(getSelectedDataSubType(constants.DATA_SUBTYPES_MAP[selectedDataType]));
+  const handleApplyButtonClick = () => {
+    if (selectedDataSubtype !== "") {
+      setDataSubtypeApplied(true);
+      updateSelectedDataSubTypeDispatcher(
+        getSelectedDataSubType(constants.DATA_SUBTYPES_MAP[selectedDataType])
+      );
     }
   };
 
@@ -57,16 +61,19 @@ const ManageDataDownload = ({selectedDataType, updateSelectedDataSubTypeDispatch
   };
 
   // *** UTILITY FUNCTION
-  const getSelectedDataSubType = (options) =>{
-    const entry = options.find((list) => list.value === parseFloat(selectedDataSubtype));
-    return entry? entry.label:"";
+  const getSelectedDataSubType = (options) => {
+    const entry = options.find(
+      (list) => list.value === parseFloat(selectedDataSubtype)
+    );
+    return entry ? entry.label : "";
   };
 
   return (
     <div className="manage-download-wrapper">
       <div
-        className="side-panel bg-base-lighter margin-0"
-        data-testid="ManageDataDownload">
+        className="bg-base-lighter margin-0 grid-col-4"
+        data-testid="ManageDataDownload"
+      >
         <DataTypeSelectorRender
           selectedDataType={selectedDataType}
           getSelectedDataSubType={getSelectedDataSubType}
@@ -74,34 +81,38 @@ const ManageDataDownload = ({selectedDataType, updateSelectedDataSubTypeDispatch
           dataSubtypeApplied={dataSubtypeApplied}
           handleChangeButtonClick={handleChangeButtonClick}
           changeDataSubtype={changeDataSubtype}
-          handleApplyButtonClick={handleApplyButtonClick}/>
+          handleApplyButtonClick={handleApplyButtonClick}
+        />
         <FilterCriteriaRender
           dataSubtypeApplied={dataSubtypeApplied}
           selectedDataType={selectedDataType}
           getSelectedDataSubType={getSelectedDataSubType}
-          handleFilterButtonClick={handleFilterButtonClick}/>
+          handleFilterButtonClick={handleFilterButtonClick}
+        />
       </div>
       <FlyOutPanel
         show={displayFilters}
-        selectedDataSubtype={getSelectedDataSubType(constants.DATA_SUBTYPES_MAP[selectedDataType])}
+        selectedDataSubtype={getSelectedDataSubType(
+          constants.DATA_SUBTYPES_MAP[selectedDataType]
+        )}
         selectedFilter={selectedFilter}
         closeFlyOutHandler={closeFlyOutHandler}
       />
-      <ManageDataPreview/>
+      <ManageDataPreview />
     </div>
   );
 };
 
-
 const mapStateToProps = (state) => {
   return {
-    selectedDataType: state.customDataDownload.dataType
+    selectedDataType: state.customDataDownload.dataType,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    updateSelectedDataSubTypeDispatcher: (dataSubType) => dispatch(updateSelectedDataSubType(dataSubType)),
+    updateSelectedDataSubTypeDispatcher: (dataSubType) =>
+      dispatch(updateSelectedDataSubType(dataSubType)),
   };
 };
 

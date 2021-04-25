@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./SelectableCards.scss";
 import { useHistory } from "react-router-dom";
 import { connect } from "react-redux";
-import {updateSelectedDataType} from "../../store/actions/customDataDownload/customDataDownload";
+import { updateSelectedDataType } from "../../store/actions/customDataDownload/customDataDownload";
 
 import { Button } from "@trussworks/react-uswds";
 import { faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
@@ -48,7 +48,10 @@ const SelectableCardList = ({ contents, onChange }) => {
   return <>{content}</>;
 };
 
-export const SelectDataTypeInCards = ({updateSelectedDataTypeDispatcher, cardContents }) => {
+export const SelectDataTypeInCards = ({
+  updateSelectedDataTypeDispatcher,
+  cardContents,
+}) => {
   const [selected, setSelected] = useState(-1);
   const onListChanged = (selectedItem) => {
     setSelected(selectedItem);
@@ -59,7 +62,7 @@ export const SelectDataTypeInCards = ({updateSelectedDataTypeDispatcher, cardCon
     history.push("/manage-data-download");
   };
   return (
-    <div className="cardsContainer react-transition flip-in-y">
+    <div className="cardsContainer">
       <h3 className="font-alt-lg margin-3">
         <b>Select a Data Type </b>
         <FontAwesomeIcon
@@ -81,7 +84,8 @@ export const SelectDataTypeInCards = ({updateSelectedDataTypeDispatcher, cardCon
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    updateSelectedDataTypeDispatcher: (selectedDataType) => dispatch(updateSelectedDataType(selectedDataType)),
+    updateSelectedDataTypeDispatcher: (selectedDataType) =>
+      dispatch(updateSelectedDataType(selectedDataType)),
   };
 };
 

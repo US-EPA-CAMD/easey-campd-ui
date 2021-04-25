@@ -13,7 +13,8 @@ import TablePagination from "../TablePagination/TablePagination";
 import TablePaginationFilter from "../TablePaginationFilter/TablePaginationFilter";
 import TableSearch from "../TableSearch/TableSearch";
 import { EditableCell, setEditable } from "../TableCell/TableCell";
-//import "./UswdsTable.scss";
+
+import "./UswdsTable.scss";
 
 // if showEntries is not supplied, by default will have show entries of only [100 and all data]
 // first page will default to all data if BOTH pagination and showentries are not supplied
@@ -38,6 +39,7 @@ const UswdsTable = ({
     if (disabledColumnFilters.length >= 1) {
       disabledColumnFilters.map((column) => {
         columns[column] = { ...columns[column], disableGlobalFilter: true };
+        return true;
       });
     }
   }
