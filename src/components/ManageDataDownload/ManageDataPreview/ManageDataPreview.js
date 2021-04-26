@@ -84,7 +84,7 @@ const ManageDataPreview = ({
   };
 
   return (
-    <div className="minh-tablet width-full">
+    <div className="minh-tablet width-full manage-data-preview-wrapper">
       <div className="font-alt-2xl text-bold padding-1">
         Custom Data Download
         <Button
