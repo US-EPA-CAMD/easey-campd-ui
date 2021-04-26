@@ -2,8 +2,8 @@ import React from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 
 import SelectDataType from "../SelectDataType/SelectDataType";
-import ManageDataDownloadRoute from "../ManageDataDownload/ManageDataDownloadRoute";
-import ManageDataDownload from "../ManageDataDownload/ManageDataDownload";
+import ManageDataDownloadRoute from "../customDataDownload/ManageDataDownload/ManageDataDownloadRoute";
+import ManageDataDownload from "../customDataDownload/ManageDataDownload/ManageDataDownload";
 import NotFound from "../NotFound/NotFound";
 
 import Layout from "../Layout/Layout";

@@ -4,11 +4,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button} from "@trussworks/react-uswds";
 import {faQuestionCircle, faSlidersH} from "@fortawesome/free-solid-svg-icons";
 
+import "./FilterCriteriaRender.scss";
+
 const FiltersView = ({
   dataSubtypeApplied,
   selectedDataType,
   getSelectedDataSubType,
-  handleFilterButtonClick}) =>{
+  handleFilterButtonClick,
+  appliedFilters}) =>{
 
   return (
     <>
@@ -29,7 +32,7 @@ const FiltersView = ({
                   <Button
                     outline="true"
                     onClick={() => handleFilterButtonClick(el.value)}
-                    className="filter-button"
+                    className={appliedFilters.includes(el.value)? "filter-button applied-filter": "filter-button"}
                   >
                     {el.label}
                     <FontAwesomeIcon
