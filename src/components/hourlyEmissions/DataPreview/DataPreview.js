@@ -2,7 +2,7 @@ import React, { useEffect, useMemo } from "react";
 import { connect } from "react-redux";
 import { loadHourlyEmissions } from "../../../store/actions/customDataDownload/hourlyEmissions/hourlyEmissions";
 import * as hms from "../../../utils/selectors/hourlyEmissions";
-import DataPreviewRender from "../../ManageDataDownload/DataPreviewRender/DataPreviewRender";
+import DataPreviewRender from "../../customDataDownload/DataPreviewRender/DataPreviewRender";
 
 export const DataPreview = ({
   dataPreview,
@@ -67,60 +67,92 @@ export const DataPreview = ({
         accessor: "col9",
       },
       {
-        Header: "Steam Load(1000lb/hr)",
+        Header: "Steam Load (1000 lb/hr)",
         accessor: "col10",
       },
       {
-        Header: "SO2(pounds)",
+        Header: "SO2 Mass (lbs)",
         accessor: "col11",
       },
       {
-        Header: "NOx(pounds)",
+        Header: "SO2 Mass Measure Indicator",
         accessor: "col12",
       },
       {
-        Header: "Avg.NOx Rate(lb/MMBtu)",
+        Header: "SO2 Rate (lbs/mmBtu)",
         accessor: "col13",
       },
       {
-        Header: "CO2(short tons)",
+        Header: "SO2 Rate Measure Indicator",
         accessor: "col14",
       },
       {
-        Header: "Heat Input(MMBtu)",
+        Header: "NOx Mass (lbs)",
         accessor: "col15",
       },
       {
-        Header: "Fuel Type(Primary)",
+        Header: "NOx Mass Measure Indicator",
         accessor: "col16",
       },
       {
-        Header: "Fuel Type(Secondary)",
+        Header: "NOx Rate (lbs/mmBtu)",
         accessor: "col17",
       },
       {
-        Header: "Unit Type",
+        Header: "NOx Rate Measure Indicator",
         accessor: "col18",
       },
       {
-        Header: "SO2 Control(s)",
+        Header: "CO2 Mass (short tons)",
         accessor: "col19",
       },
       {
-        Header: "NOx Control(s)",
+        Header: "CO2 Mass Measure Indicator",
         accessor: "col20",
       },
       {
-        Header: "PM Control(s)",
+        Header: "CO2 Rate (short tons/mmBtu)",
         accessor: "col21",
       },
       {
-        Header: "Hg Control(s)",
+        Header: "CO2 Rate Measure Indicator ",
         accessor: "col22",
       },
       {
-        Header: "Program(s)",
+        Header: "Heat Input (mmBtu)",
         accessor: "col23",
+      },
+      {
+        Header: "Primary Fuel Type",
+        accessor: "col24",
+      },
+      {
+        Header: "Secondary Fuel Type",
+        accessor: "col25",
+      },
+      {
+        Header: "Unit Type",
+        accessor: "col26",
+      },
+      {
+        Header: "SO2 Controls",
+        accessor: "col27",
+      },
+      {
+        Header: "PM Controls",
+        accessor: "col28",
+      },
+      {
+        Header: "NOx Controls",
+        accessor: "col29",
+      },
+      {
+        Header: "Hg Controls",
+        accessor: "col30",
+      },
+      {
+        Header: "Program",
+        accessor: "col31",
       }
     ],
     []

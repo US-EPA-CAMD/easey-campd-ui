@@ -1,18 +1,18 @@
 // *** GLOBAL FUNCTIONAL IMPORTS
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import {updateSelectedDataSubType} from "../../store/actions/customDataDownload/customDataDownload";
-import DataTypeSelectorRender from "./DataTypeSelectorRender/DataTypeSelectorRender";
-import FilterCriteriaRender from "./FilterCriteriaRender/FilterCriteriaRender";
-import FlyOutPanel from "./FlyOutPanel/FlyOutPanel";
-import ManageDataPreview from "./ManageDataPreview/ManageDataPreview";
-import * as constants from "../../utils/constants/customDataDownload";
+import {updateSelectedDataSubType} from "../../../store/actions/customDataDownload/customDataDownload";
+import DataTypeSelectorRender from "../DataTypeSelectorRender/DataTypeSelectorRender";
+import FilterCriteriaRender from "../FilterCriteriaRender/FilterCriteriaRender";
+import FlyOutPanel from "../FlyOutPanel/FlyOutPanel";
+import ManageDataPreview from "../ManageDataPreview/ManageDataPreview";
+import * as constants from "../../../utils/constants/customDataDownload";
 
 // *** STYLES (individual component)
 import "./ManageDataDownload.scss";
 
 
-const ManageDataDownload = ({selectedDataType, updateSelectedDataSubTypeDispatcher}) => {
+const ManageDataDownload = ({selectedDataType, updateSelectedDataSubTypeDispatcher, appliedFilters}) => {
   // *** HOOKS
   const [dataSubtypeApplied, setDataSubtypeApplied] = useState(false);
   const [selectedDataSubtype, setSelectedDataSubtype] = useState("");
@@ -79,7 +79,8 @@ const ManageDataDownload = ({selectedDataType, updateSelectedDataSubTypeDispatch
           dataSubtypeApplied={dataSubtypeApplied}
           selectedDataType={selectedDataType}
           getSelectedDataSubType={getSelectedDataSubType}
-          handleFilterButtonClick={handleFilterButtonClick}/>
+          handleFilterButtonClick={handleFilterButtonClick}
+          appliedFilters={appliedFilters}/>
       </div>
       <FlyOutPanel
         show={displayFilters}
@@ -95,7 +96,8 @@ const ManageDataDownload = ({selectedDataType, updateSelectedDataSubTypeDispatch
 
 const mapStateToProps = (state) => {
   return {
-    selectedDataType: state.customDataDownload.dataType
+    selectedDataType: state.customDataDownload.dataType,
+    appliedFilters: state.customDataDownload.appliedFilters
   };
 };
 

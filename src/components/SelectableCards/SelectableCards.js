@@ -3,8 +3,6 @@ import "./SelectableCards.scss";
 import { useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 import {updateSelectedDataType} from "../../store/actions/customDataDownload/customDataDownload";
-
-import { Button } from "@trussworks/react-uswds";
 import { faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -55,8 +53,10 @@ export const SelectDataTypeInCards = ({updateSelectedDataTypeDispatcher, cardCon
   };
   const history = useHistory();
   const handleRoute = () => {
-    updateSelectedDataTypeDispatcher(cardContents[selected]);
-    history.push("/manage-data-download");
+    setTimeout(()=>{
+      updateSelectedDataTypeDispatcher(cardContents[selected]);
+      history.push("/manage-data-download");
+    }, 1000);
   };
   return (
     <div className="cardsContainer react-transition flip-in-y">
@@ -67,14 +67,8 @@ export const SelectDataTypeInCards = ({updateSelectedDataTypeDispatcher, cardCon
           className="text-gray-30 font-body-sm question-icon position-relative top-neg-1px"
         />
       </h3>
-      <SelectableCardList contents={cardContents} onChange={onListChanged} />
-      <Button
-        className="continueBtn"
-        disabled={selected === -1}
-        onClick={(e) => handleRoute()}
-      >
-        Continue
-      </Button>
+      <SelectableCardList contents={cardContents} onChange={onListChanged}/>
+      {selected !== -1 && handleRoute()}
     </div>
   );
 };
