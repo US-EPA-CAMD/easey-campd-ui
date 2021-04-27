@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useHistory, Link } from "react-router-dom";
-import "./SubHeader.scss";
 import config from "../../config";
 import {
   Menu,
@@ -10,11 +9,14 @@ import {
   Title,
 } from "@trussworks/react-uswds";
 
+import "./SubHeader.scss";
+
 const SubHeader = () => {
   const history = useHistory();
 
   const [navDropdownOpen, setNavDropdownOpen] = useState([false, false, false]);
   const [categorySelected, setCategorySelected] = useState([
+    false,
     true,
     false,
     false,
@@ -45,7 +47,7 @@ const SubHeader = () => {
 
   return (
     <div className="subheaderWrapper">
-      <Header className="bg-base-darkest padding-y-3">
+      <Header className="epa-blue-sky-background padding-y-3">
         <div className="usa-nav-container">
           <div className="margin-left-9">
             <Title className="float-left clearfix margin-left-9">
@@ -55,7 +57,7 @@ const SubHeader = () => {
                 aria-label="Home"
                 className="text-white"
               >
-                Clean Air Markets Program Data
+                CAMPD: Clean Air Markets Program Data
               </a>
             </Title>
           </div>
@@ -66,64 +68,59 @@ const SubHeader = () => {
                 <NavDropDownButton
                   className="text-white"
                   key="testItemOne"
-                  label="Data"
-                  menuId="menuData"
+                  label="Home"
+                  menuId="menuHome"
                   isOpen={navDropdownOpen[0]}
                   onToggle={() => {
                     handleToggleNavDropdown(0);
                   }}
                 />
+              </>,
+              <>
+                <NavDropDownButton
+                  className="text-white"
+                  key="testItemTwo"
+                  label="Data"
+                  menuId="menuData"
+                  isOpen={navDropdownOpen[1]}
+                  onToggle={() => {
+                    handleToggleNavDropdown(1);
+                  }}
+                />
                 <Menu
-                  id="extended-nav-section-one"
+                  id="extended-nav-section-two"
                   items={[
-                    <Link to=""
+                    <Link
+                      to=""
                       onClick={(event) =>
-                        handleSubMenuClick("select-data-type", 0)
+                        handleSubMenuClick("select-data-type", 1)
                       }
                     >
                       Custom Data Download
                     </Link>,
-                    <Link to="" /*onClick={(event) => handleSubMenuClick("", 0)}*/>
+                    <Link
+                      to="" /*onClick={(event) => handleSubMenuClick("", 1)}*/
+                    >
                       Datasets
                     </Link>,
-                    <Link to="" /*onClick={(event) => handleSubMenuClick("", 0)}*/>
+                    <Link
+                      to="" /*onClick={(event) => handleSubMenuClick("", 1)}*/
+                    >
                       CAMPD API
                     </Link>,
                   ]}
-                  isOpen={navDropdownOpen[0]}
+                  isOpen={navDropdownOpen[1]}
                 />
-                {categorySelected[0] === true ? (
+                {categorySelected[1] === true ? (
                   <div className="menu-underline" />
                 ) : null}
               </>,
               <>
                 <NavDropDownButton
                   className="text-white"
-                  key="testItemTwo"
+                  key="testItemThree"
                   label="Analysis"
                   menuId="menuAnalysis"
-                  isOpen={navDropdownOpen[1]}
-                  onToggle={() => {
-                    handleToggleNavDropdown(1);
-                  }}
-                  isCurrent={true}
-                />
-                <Menu
-                  id="extended-nav-section-two"
-                  items={[
-                    <Link to="" /*onClick={(event) => handleSubMenuClick("", 1)}*/>
-                      Analysis
-                    </Link>,
-                  ]}
-                  isOpen={navDropdownOpen[1]}
-                />
-              </>,
-              <>
-                <NavDropDownButton
-                  className="text-white"
-                  key="testItemThree"
-                  label="Visualization"
-                  menuId="menuVisualization"
                   isOpen={navDropdownOpen[2]}
                   onToggle={() => {
                     handleToggleNavDropdown(2);
@@ -133,11 +130,37 @@ const SubHeader = () => {
                 <Menu
                   id="extended-nav-section-three"
                   items={[
-                    <Link to="" /*onClick={(event) => handleSubMenuClick("", 2)}*/>
-                      Visualization
+                    <Link
+                      to="" /*onClick={(event) => handleSubMenuClick("", 2)}*/
+                    >
+                      Analysis
                     </Link>,
                   ]}
                   isOpen={navDropdownOpen[2]}
+                />
+              </>,
+              <>
+                <NavDropDownButton
+                  className="text-white"
+                  key="testItemFour"
+                  label="Visualization"
+                  menuId="menuVisualization"
+                  isOpen={navDropdownOpen[3]}
+                  onToggle={() => {
+                    handleToggleNavDropdown(3);
+                  }}
+                  isCurrent={true}
+                />
+                <Menu
+                  id="extended-nav-section-four"
+                  items={[
+                    <Link
+                      to="" /*onClick={(event) => handleSubMenuClick("", 3)}*/
+                    >
+                      Visualization
+                    </Link>,
+                  ]}
+                  isOpen={navDropdownOpen[3]}
                 />
               </>,
             ]}

@@ -1,9 +1,14 @@
 import React from "react";
 import TimePeriod from "../../hourlyEmissions/TimePeriod/TimePeriod";
 
-const FlyOutPanel = ({ show, selectedDataSubtype, selectedFilter, closeFlyOutHandler }) => {
+const FlyOutPanel = ({
+  show,
+  selectedDataSubtype,
+  selectedFilter,
+  closeFlyOutHandler,
+}) => {
   const hourlyEmissions = {
-    "timePeriod": <TimePeriod closeFlyOutHandler={closeFlyOutHandler} />
+    timePeriod: <TimePeriod closeFlyOutHandler={closeFlyOutHandler} />,
   };
 
   const contentRenderer = () => {
@@ -21,7 +26,7 @@ const FlyOutPanel = ({ show, selectedDataSubtype, selectedFilter, closeFlyOutHan
     <>
       {show === true ? (
         <div className="side-panel bg-base-lightest margin-0 overlay">
-          <div className="padding-top-6 padding-bottom-3 padding-left-6">
+          <div className="padding-top-6 padding-bottom-3 padding-x-9">
             {contentRenderer()}
           </div>
         </div>

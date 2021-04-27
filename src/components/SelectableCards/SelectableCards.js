@@ -11,7 +11,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const SelectableCard = ({ selected, title, onClick }) => {
   return (
     <button
-      className={selected ? "selectablecard selected" : "selectablecard"}
+      className={
+        selected
+          ? "selectablecard selected maxw-card"
+          : "selectablecard maxw-card"
+      }
       onClick={onClick}
       data-testid="selectable-card"
     >
@@ -22,7 +26,11 @@ const SelectableCard = ({ selected, title, onClick }) => {
             : "fa fa-check-circle white-color fa-lg checkMarkOff"
         }
       />
-      <span className={selected ? "datatype selected" : "datatype"}>
+      <span
+        className={
+          selected ? "text-center text-white" : "text-center text-primary"
+        }
+      >
         {title}
       </span>
     </button>
@@ -58,7 +66,7 @@ export const SelectDataTypeInCards = ({
   };
   const history = useHistory();
   const handleRoute = () => {
-    setTimeout(()=>{
+    setTimeout(() => {
       updateSelectedDataTypeDispatcher(cardContents[selected]);
       history.push("/manage-data-download");
     }, 1000);
@@ -69,10 +77,10 @@ export const SelectDataTypeInCards = ({
         <b>Select a Data Type </b>
         <FontAwesomeIcon
           icon={faQuestionCircle}
-          className="text-gray-30 font-body-sm question-icon position-relative top-neg-1px"
+          className="text-primary font-body-sm question-icon position-relative top-neg-1px"
         />
       </h3>
-      <SelectableCardList contents={cardContents} onChange={onListChanged}/>
+      <SelectableCardList contents={cardContents} onChange={onListChanged} />
       {selected !== -1 && handleRoute()}
     </div>
   );

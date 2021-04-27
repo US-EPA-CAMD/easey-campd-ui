@@ -1,12 +1,12 @@
 // *** GLOBAL FUNCTIONAL IMPORTS
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import { updateSelectedDataSubType } from "../../store/actions/customDataDownload/customDataDownload";
-import DataTypeSelectorRender from "./DataTypeSelectorRender/DataTypeSelectorRender";
-import FilterCriteriaRender from "./FilterCriteriaRender/FilterCriteriaRender";
-import FlyOutPanel from "./FlyOutPanel/FlyOutPanel";
-import ManageDataPreview from "./ManageDataPreview/ManageDataPreview";
-import * as constants from "../../utils/constants/customDataDownload";
+import { updateSelectedDataSubType } from "../../../store/actions/customDataDownload/customDataDownload";
+import DataTypeSelectorRender from "../DataTypeSelectorRender/DataTypeSelectorRender";
+import FilterCriteriaRender from "../FilterCriteriaRender/FilterCriteriaRender";
+import FlyOutPanel from "../FlyOutPanel/FlyOutPanel";
+import ManageDataPreview from "../ManageDataPreview/ManageDataPreview";
+import * as constants from "../../../utils/constants/customDataDownload";
 
 // *** STYLES (individual component)
 import "./ManageDataDownload.scss";
@@ -14,6 +14,7 @@ import "./ManageDataDownload.scss";
 const ManageDataDownload = ({
   selectedDataType,
   updateSelectedDataSubTypeDispatcher,
+  appliedFilters,
 }) => {
   // *** HOOKS
   const [dataSubtypeApplied, setDataSubtypeApplied] = useState(false);
@@ -71,7 +72,7 @@ const ManageDataDownload = ({
   return (
     <div className="manage-download-wrapper">
       <div
-        className="bg-base-lighter margin-0 grid-col-4"
+        className="side-panel bg-base-lighter margin-0"
         data-testid="ManageDataDownload"
       >
         <DataTypeSelectorRender
@@ -88,7 +89,8 @@ const ManageDataDownload = ({
           selectedDataType={selectedDataType}
           getSelectedDataSubType={getSelectedDataSubType}
           handleFilterButtonClick={handleFilterButtonClick}
-          appliedFilters={appliedFilters}/>
+          appliedFilters={appliedFilters}
+        />
       </div>
       <FlyOutPanel
         show={displayFilters}
@@ -103,11 +105,10 @@ const ManageDataDownload = ({
   );
 };
 
-
 const mapStateToProps = (state) => {
   return {
     selectedDataType: state.customDataDownload.dataType,
-    appliedFilters: state.customDataDownload.appliedFilters
+    appliedFilters: state.customDataDownload.appliedFilters,
   };
 };
 
