@@ -3,8 +3,6 @@ import "./SelectableCards.scss";
 import { useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 import { updateSelectedDataType } from "../../store/actions/customDataDownload/customDataDownload";
-
-import { Button } from "@trussworks/react-uswds";
 import { faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
