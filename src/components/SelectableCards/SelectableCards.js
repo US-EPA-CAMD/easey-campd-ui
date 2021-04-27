@@ -58,8 +58,10 @@ export const SelectDataTypeInCards = ({
   };
   const history = useHistory();
   const handleRoute = () => {
-    updateSelectedDataTypeDispatcher(cardContents[selected]);
-    history.push("/manage-data-download");
+    setTimeout(()=>{
+      updateSelectedDataTypeDispatcher(cardContents[selected]);
+      history.push("/manage-data-download");
+    }, 1000);
   };
   return (
     <div className="cardsContainer">
@@ -70,14 +72,8 @@ export const SelectDataTypeInCards = ({
           className="text-gray-30 font-body-sm question-icon position-relative top-neg-1px"
         />
       </h3>
-      <SelectableCardList contents={cardContents} onChange={onListChanged} />
-      <Button
-        className="continueBtn"
-        disabled={selected === -1}
-        onClick={(e) => handleRoute()}
-      >
-        Continue
-      </Button>
+      <SelectableCardList contents={cardContents} onChange={onListChanged}/>
+      {selected !== -1 && handleRoute()}
     </div>
   );
 };

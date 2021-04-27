@@ -10,13 +10,13 @@ const EMISSIONS_DATA_SUBTYPES = [
 ];
 
 const HOURLY_EMISSIONS_FILTERS = [
-  {value: 'time period', label: "TIME PERIOD (Required)"},
+  {value: 'timePeriod', label: "TIME PERIOD (Required)"},
   {value: 'program', label: "PROGRAM (Optional)"},
-  {value: 'state territory', label: "STATE/TERRITORY (Optional)"},
+  {value: 'stateTerritory', label: "STATE/TERRITORY (Optional)"},
   {value: 'facility', label: "FACILITY (Optional)"},
-  {value: 'unit type', label: "UNIT TYPE (Optional)"},
-  {value: 'unit fuel type', label: "UNIT FUEL TYPE (Optional)"},
-  {value: 'control technology', label:"CONTROL TECHNOLOGY (Optional)"}
+  {value: 'unitType', label: "UNIT TYPE (Optional)"},
+  {value: 'unitFuelType', label: "UNIT FUEL TYPE (Optional)"},
+  {value: 'controlTechnology', label:"CONTROL TECHNOLOGY (Optional)"}
 ];
 
 export const HOURLY_EMISSIONS_REQUIRED_FILTERS = ["timePeriod"];

@@ -3,7 +3,7 @@ import TimePeriod from "../../hourlyEmissions/TimePeriod/TimePeriod";
 
 const FlyOutPanel = ({ show, selectedDataSubtype, selectedFilter, closeFlyOutHandler }) => {
   const hourlyEmissions = {
-    "time period": <TimePeriod closeFlyOutHandler={closeFlyOutHandler} />
+    "timePeriod": <TimePeriod closeFlyOutHandler={closeFlyOutHandler} />
   };
 
   const contentRenderer = () => {

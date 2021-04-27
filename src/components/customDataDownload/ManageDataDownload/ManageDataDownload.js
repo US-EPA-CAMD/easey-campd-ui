@@ -88,7 +88,7 @@ const ManageDataDownload = ({
           selectedDataType={selectedDataType}
           getSelectedDataSubType={getSelectedDataSubType}
           handleFilterButtonClick={handleFilterButtonClick}
-        />
+          appliedFilters={appliedFilters}/>
       </div>
       <FlyOutPanel
         show={displayFilters}
@@ -103,9 +103,11 @@ const ManageDataDownload = ({
   );
 };
 
+
 const mapStateToProps = (state) => {
   return {
     selectedDataType: state.customDataDownload.dataType,
+    appliedFilters: state.customDataDownload.appliedFilters
   };
 };
 
