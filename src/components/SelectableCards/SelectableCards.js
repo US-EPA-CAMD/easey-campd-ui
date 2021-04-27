@@ -2,14 +2,18 @@ import React, { useState } from "react";
 import "./SelectableCards.scss";
 import { useHistory } from "react-router-dom";
 import { connect } from "react-redux";
-import {updateSelectedDataType} from "../../store/actions/customDataDownload/customDataDownload";
+import { updateSelectedDataType } from "../../store/actions/customDataDownload/customDataDownload";
 import { faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const SelectableCard = ({ selected, title, onClick }) => {
   return (
     <button
-      className={selected ? "selectablecard selected" : "selectablecard"}
+      className={
+        selected
+          ? "selectablecard selected maxw-card"
+          : "selectablecard maxw-card"
+      }
       onClick={onClick}
       data-testid="selectable-card"
     >
@@ -20,7 +24,11 @@ const SelectableCard = ({ selected, title, onClick }) => {
             : "fa fa-check-circle white-color fa-lg checkMarkOff"
         }
       />
-      <span className={selected ? "datatype selected" : "datatype"}>
+      <span
+        className={
+          selected ? "text-center text-white" : "text-center text-primary"
+        }
+      >
         {title}
       </span>
     </button>
@@ -46,28 +54,31 @@ const SelectableCardList = ({ contents, onChange }) => {
   return <>{content}</>;
 };
 
-export const SelectDataTypeInCards = ({updateSelectedDataTypeDispatcher, cardContents }) => {
+export const SelectDataTypeInCards = ({
+  updateSelectedDataTypeDispatcher,
+  cardContents,
+}) => {
   const [selected, setSelected] = useState(-1);
   const onListChanged = (selectedItem) => {
     setSelected(selectedItem);
   };
   const history = useHistory();
   const handleRoute = () => {
-    setTimeout(()=>{
+    setTimeout(() => {
       updateSelectedDataTypeDispatcher(cardContents[selected]);
       history.push("/manage-data-download");
     }, 1000);
   };
   return (
-    <div className="cardsContainer react-transition flip-in-y">
+    <div className="cardsContainer">
       <h3 className="font-alt-lg margin-3">
         <b>Select a Data Type </b>
         <FontAwesomeIcon
           icon={faQuestionCircle}
-          className="text-gray-30 font-body-sm question-icon position-relative top-neg-1px"
+          className="text-primary font-body-sm question-icon position-relative top-neg-1px"
         />
       </h3>
-      <SelectableCardList contents={cardContents} onChange={onListChanged}/>
+      <SelectableCardList contents={cardContents} onChange={onListChanged} />
       {selected !== -1 && handleRoute()}
     </div>
   );
@@ -75,7 +86,8 @@ export const SelectDataTypeInCards = ({updateSelectedDataTypeDispatcher, cardCon
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    updateSelectedDataTypeDispatcher: (selectedDataType) => dispatch(updateSelectedDataType(selectedDataType)),
+    updateSelectedDataTypeDispatcher: (selectedDataType) =>
+      dispatch(updateSelectedDataType(selectedDataType)),
   };
 };
 

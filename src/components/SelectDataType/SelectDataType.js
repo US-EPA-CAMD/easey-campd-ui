@@ -6,7 +6,7 @@ import "./SelectDataType.scss";
 const SelectDataType = () => {
   const dataTypes = ["EMISSIONS", "ALLOWANCE", "COMPLIANCE"];
   return (
-    <div className="selectDataTypeContent react-transition flip-in-x">
+    <div className="selectDataTypeContent maxw-tablet">
       <h2 className="text-bold">Custom Data Download</h2>
       <p data-testid="description-paragraph" className="padding-top-2">
         <span className="vl" />

@@ -11,11 +11,8 @@
   z-index: 1;
   font-size: 36px;
   margin-bottom: 10px;
-}
-
-.datatype {
-  text-align: center;
-  color: black;
+  position: relative;
+  top: -10px;
 }
 
 span.datatype.selected {
@@ -24,33 +21,30 @@ span.datatype.selected {
 
 .selectablecard {
   float: left;
-  display: block;
-  width: 20%;
-  height: 130px;
+  padding: 4rem 1.25rem;
+  height: 150px;
   margin-top: 10px;
   margin-bottom: 25px;
   margin-right: 20px;
   background: white;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-  border: 3px solid black;
-  font-family: "Public Sans", sans-serif !important;
-  font-size: 16px !important;
+  border: 3px solid #005ea2;
+  font-family: "Meriweather", sans-serif !important;
+  font-size: 18px !important;
   font-weight: bold;
 }
 .selectablecard:hover {
-  border: 1px solid grey;
-  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
-  font-family: "Public Sans", sans-serif !important;
-  font-size: 16px !important;
+  background: #005ea24d !important;
+  box-shadow: 0 5px 20px #005ea24d;
+  border: 1px solid #005ea2;
 }
 
 button.selectablecard.selected {
-  border-color: transparent;
-  background-color: black;
+  border-color: #005ea2;
+  background-color: #005ea2;
+  color: #fff;
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-  font-family: "Public Sans", sans-serif !important;
-  font-size: 16px !important;
 }
 
 // button.continueBtn {

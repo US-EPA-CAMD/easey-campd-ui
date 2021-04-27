@@ -1,8 +1,16 @@
 import React from "react";
-import { Form, Checkbox, Button, DateRangePicker, ValidationChecklist, ValidationItem, Alert} from '@trussworks/react-uswds';
+import {
+  Form,
+  Checkbox,
+  Button,
+  DateRangePicker,
+  ValidationChecklist,
+  ValidationItem,
+  Alert,
+} from "@trussworks/react-uswds";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
-import {formatDateToApi} from "../../../utils/selectors/hourlyEmissions";
+import { formatDateToApi } from "../../../utils/selectors/hourlyEmissions";
 
 const TimePeriodRender = ({
   applyFilterHandler,
@@ -12,32 +20,47 @@ const TimePeriodRender = ({
   formState,
   onInvalidHandler,
   closeFlyOutHandler,
-  validations}) =>{
-
-  const isFormValid = () =>{
-    return (validations.startDateFormat && validations.endDateFormat && validations.dateRange);
+  validations,
+}) => {
+  const isFormValid = () => {
+    return (
+      validations.startDateFormat &&
+      validations.endDateFormat &&
+      validations.dateRange
+    );
   };
 
-  const isApplyFilterDisabled = () =>{
+  const isApplyFilterDisabled = () => {
     return !(formState.startDate && formState.endDate);
   };
 
-  return(
+  return (
     <Form onSubmit={applyFilterHandler}>
-      <div className="font-alt-xl text-bold padding-top-2 padding-left-6">
+      <div className="font-alt-xl text-bold padding-top-2">
         Time Period
         <FontAwesomeIcon
-            icon={faQuestionCircle}
-            className="text-gray-30 font-body-md question-icon"
+          icon={faQuestionCircle}
+          className="text-gray-30 font-body-md question-icon"
         />
       </div>
-      <hr/>
-      <Alert type="info" validation heading="Requirements" style={{display:isFormValid()?"none":"block"}}>
+      <hr />
+      <Alert
+        type="info"
+        validation
+        heading="Requirements"
+        style={{ display: isFormValid() ? "none" : "block" }}
+      >
         <ValidationChecklist id="validate-time-period">
-          <ValidationItem id="startDateFormat" isValid={validations.startDateFormat}>
+          <ValidationItem
+            id="startDateFormat"
+            isValid={validations.startDateFormat}
+          >
             Enter the Start Date in the MM/DD/YYYY format
           </ValidationItem>
-          <ValidationItem id="endDateFormat" isValid={validations.endDateFormat}>
+          <ValidationItem
+            id="endDateFormat"
+            isValid={validations.endDateFormat}
+          >
             Enter the End Date in the MM/DD/YYYY format
           </ValidationItem>
           <ValidationItem id="dateRange" isValid={validations.dateRange}>
@@ -49,31 +72,44 @@ const TimePeriodRender = ({
         endDateHint="mm/dd/yyyy"
         endDateLabel="End Date (Required)"
         endDatePickerProps={{
-          defaultValue:formatDateToApi(formState.endDate),
+          defaultValue: formatDateToApi(formState.endDate),
           onChange: handleEndDateUpdate,
-          onInvalid:onInvalidHandler,
+          onInvalid: onInvalidHandler,
           disabled: undefined,
-          id: 'event-date-end',
-          name: 'endDate'
+          id: "event-date-end",
+          name: "endDate",
         }}
         startDateHint="mm/dd/yyyy"
         startDateLabel="Start Date (Required)"
         startDatePickerProps={{
-          defaultValue:formatDateToApi(formState.startDate),
+          defaultValue: formatDateToApi(formState.startDate),
           onChange: handleStartDateUpdate,
-          onInvalid:onInvalidHandler,
+          onInvalid: onInvalidHandler,
           disabled: undefined,
-          id: 'event-date-start',
-          name: 'startDate'
-      }}/>
-      <br/>
-      <Checkbox id="opHrsonly" name="opHrsonly" label="Operating hours only" checked={formState.opHrsOnly} onChange={handleOptHrsOnlyUpdate} /> 
-      <Button type="button" outline onClick={closeFlyOutHandler}>Cancel</Button>
-      <Button type="submit" className="float-right" disabled={isApplyFilterDisabled()}>Apply Filter</Button>
+          id: "event-date-start",
+          name: "startDate",
+        }}
+      />
+      <br />
+      <Checkbox
+        id="opHrsonly"
+        name="opHrsonly"
+        label="Operating hours only"
+        checked={formState.opHrsOnly}
+        onChange={handleOptHrsOnlyUpdate}
+      />
+      <Button type="button" outline onClick={closeFlyOutHandler}>
+        Cancel
+      </Button>
+      <Button
+        type="submit"
+        className="float-right"
+        disabled={isApplyFilterDisabled()}
+      >
+        Apply Filter
+      </Button>
     </Form>
-    );
-
+  );
 };
 
 export default TimePeriodRender;
-

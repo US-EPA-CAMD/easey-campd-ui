@@ -1,25 +1,8 @@
-.data-preview-wrapper {
-  width: 75vw !important;
-  min-height: 80vh !important;
+.manage-data-preview-wrapper {
+  width: 72vw !important;
   max-height: fit-content !important;
   overflow: hidden !important;
   position: absolute;
   margin-left: 25vw;
   z-index: 0;
-}
-
-.cdd-subheader {
-  height: 6.1vw !important;
-  background-color: #f0f0f0;
-  padding-left: 1.5vw;
-  padding-right: 1.5vw;
-}
-
-.preview-button {
-  text-align: left !important;
-  font: normal normal bold 22px "Source Sans Pro" !important;
-  color: #005ea2;
-  border-radius: 4px;
-  width: 186px;
-  height: 55px;
 }

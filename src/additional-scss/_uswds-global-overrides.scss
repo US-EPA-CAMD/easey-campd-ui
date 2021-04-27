@@ -211,12 +211,12 @@
     }
 
     background-image: none !important;
-    @extend .bg-base-darkest;
+    @extend .bg-primary;
   }
 
   .usa-nav__submenu {
-    @extend .bg-base-darkest;
-    top: 3.5em;
+    @extend .bg-primary;
+    top: 3em;
   }
 
   .usa-nav-container {
