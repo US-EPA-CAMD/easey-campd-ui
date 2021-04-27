@@ -89,7 +89,7 @@ const ManageDataPreview = ({
         Custom Data Download
         <Button
           type="button"
-          className="float-right clearfix margin-left-5"
+          className="float-right clearfix margin-left-5 margin-right-9"
           disabled={!requirementsMet}
           onClick={() => setRenderPreviewData(true)}
         >

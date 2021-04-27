@@ -47,7 +47,14 @@ const SubHeader = () => {
 
   return (
     <div className="subheaderWrapper">
-      <Header className="epa-blue-sky-background padding-y-3">
+      <Header
+        className="padding-y-3"
+        style={{
+          backgroundImage: `url(${
+            process.env.PUBLIC_URL + "/images/header-bg.png"
+          })`,
+        }}
+      >
         <div className="usa-nav-container">
           <div className="margin-left-9">
             <Title className="float-left clearfix margin-left-9">
