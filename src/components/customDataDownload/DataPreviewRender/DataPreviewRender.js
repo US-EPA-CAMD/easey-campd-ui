@@ -10,10 +10,10 @@ const DataPreviewRender = ({
   totalCount,
 }) => {
   return (
-    <div className="preview-content-wrapper">
+    <div className="preview-content-wrapper padding-top-7 padding-left-5 padding-right-5">
       <div>
         <div className="font-alt-xl text-bold">Data Preview &nbsp;</div>
-        <span className="font-alt-sm text-normal text-gray-30">
+        <span className="font-alt-sm text-bold">
           {loading === 0 && dataPreview !== null
             ? dataPreview.length > 0
               ? `(Viewing the first ${dataPreview.length} records of ${totalCount})`
