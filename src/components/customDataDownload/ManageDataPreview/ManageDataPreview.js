@@ -102,16 +102,10 @@ const ManageDataPreview = ({
 
   return (
     <div className="minh-tablet width-full manage-data-preview-wrapper">
-      <div className="font-alt-2xl text-bold padding-1 margin-left-2 bg-base-lighter">
-        Custom Data Download
-        <Button
-          type="button"
-          className="float-right clearfix margin-left-5 margin-right-9"
-          disabled={!requirementsMet}
-          onClick={() => setRenderPreviewData(true)}
-        >
-          Preview Data
-        </Button>
+      <div className="display-flex flex-row flex-justify bg-base-lightest padding-left-5 padding-right-7 minh-10 maxh-15">
+        <div className="flex-align-self-center font-alt-2xl text-bold">Custom Data Download</div>
+        <Button type="button" className="flex-align-self-center clearfix width-card height-6 font-sans-md"
+          disabled={!requirementsMet} onClick={()=>setRenderPreviewData(true)}> Preview Data</Button>
       </div>
       {renderPreviewData && mapDataPreview[dataType][dataSubType].component}
     </div>

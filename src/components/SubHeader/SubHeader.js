@@ -62,7 +62,7 @@ const SubHeader = () => {
                 href={config.app.path}
                 title="Home"
                 aria-label="Home"
-                className="text-white"
+                className="text-white font-alt-xl text-normal"
               >
                 CAMPD: Clean Air Markets Program Data
               </a>
@@ -72,22 +72,20 @@ const SubHeader = () => {
             className="float-right clearfix margin-right-9 margin-top-3"
             items={[
               <>
-                <NavDropDownButton
+                <a
+                  href={config.app.path}
+                  title="Home"
+                  aria-label="Home"
                   className="text-white"
-                  key="testItemOne"
-                  label="Home"
-                  menuId="menuHome"
-                  isOpen={navDropdownOpen[0]}
-                  onToggle={() => {
-                    handleToggleNavDropdown(0);
-                  }}
-                />
+                >
+                  HOME
+                </a>
               </>,
               <>
                 <NavDropDownButton
                   className="text-white"
                   key="testItemTwo"
-                  label="Data"
+                  label="DATA"
                   menuId="menuData"
                   isOpen={navDropdownOpen[1]}
                   onToggle={() => {
@@ -126,7 +124,7 @@ const SubHeader = () => {
                 <NavDropDownButton
                   className="text-white"
                   key="testItemThree"
-                  label="Analysis"
+                  label="ANALYSIS"
                   menuId="menuAnalysis"
                   isOpen={navDropdownOpen[2]}
                   onToggle={() => {
@@ -150,7 +148,7 @@ const SubHeader = () => {
                 <NavDropDownButton
                   className="text-white"
                   key="testItemFour"
-                  label="Visualization"
+                  label="VISUALIZATION"
                   menuId="menuVisualization"
                   isOpen={navDropdownOpen[3]}
                   onToggle={() => {

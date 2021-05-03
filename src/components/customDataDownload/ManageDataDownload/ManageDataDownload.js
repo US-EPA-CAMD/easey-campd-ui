@@ -118,11 +118,8 @@ const ManageDataDownload = ({
   };
 
   return (
-    <div className="manage-download-wrapper">
-      <div
-        className="side-panel bg-base-lighter margin-0"
-        data-testid="ManageDataDownload"
-      >
+    <div className="manage-download-wrapper" data-testid="manage-data-download-wrapper">
+      <div className="side-panel bg-base-lighter margin-0">
         <DataTypeSelectorRender
           selectedDataType={selectedDataType}
           getSelectedDataSubType={getSelectedDataSubType}

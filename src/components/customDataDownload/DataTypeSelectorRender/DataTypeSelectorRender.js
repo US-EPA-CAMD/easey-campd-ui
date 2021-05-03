@@ -28,7 +28,7 @@ const DataTypeSelectorView = ({
 
   return (
     <>
-      <div className="font-alt-xl text-bold padding-top-6 padding-bottom-3 padding-left-6 side-panel-header">
+      <div className="font-alt-xl text-bold padding-top-6 padding-bottom-3 padding-left-6">
         Data Type
         <FontAwesomeIcon
           icon={faQuestionCircle}
@@ -37,7 +37,7 @@ const DataTypeSelectorView = ({
       </div>
       <div className="subtype-container border-bottom-1px border-base-light clearfix padding-y-1 padding-x-6">
         <div>
-          <span className="text-bold padding-top-1 font-alt-sm">
+          <span className="text-bold padding-top-1 font-body-md">
             {selectedDataSubtype !== '' &&
             selectedDataSubtype !== '-1' &&
             dataSubtypeApplied === true ? (
@@ -48,7 +48,7 @@ const DataTypeSelectorView = ({
                 )}
                 <Button
                   outline="true"
-                  className="float-right clearfix"
+                  className="float-right"
                   onClick={handleChangeButtonClick}
                 >
                   Change
