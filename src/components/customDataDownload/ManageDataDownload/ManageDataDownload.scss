@@ -1,5 +1,7 @@
 .side-panel {
-  width: 24vw !important;
+  width: 24vw;
+  min-width: 20vh !important;
+  max-width: 24vw !important;
   min-height: 80vh !important;
   max-height: fit-content !important;
   overflow: hidden !important;
@@ -9,11 +11,6 @@
   position: relative;
   z-index: 10 !important;
   filter: drop-shadow(0.35rem 0.35rem 0.4rem rgba(0, 0, 0, 0.5));
-}
-
-.side-panel-header {
-  font-family: "Public Sans Bold", serif !important;
-  font-size: 30px !important;
 }
 
 .manage-download-wrapper {
