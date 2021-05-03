@@ -1,40 +1,32 @@
-const EMISSIONS_DATA_SUBTYPES = [
-  { value:"", label: "- Select -"},
-  { value: 1, label: "Hourly Emissions" },
-  { value: 2, label: "Daily Emissions" },
-  { value: 3, label: "Monthly Emissions" },
-  { value: 4, label: "Quarterly Emissions" },
-  { value: 5, label: "Ozone Season Emissions" },
-  { value: 6, label: "Annual Emissions" },
-  { value: 7, label: "Facility/Unit Attributes" },
-];
+import * as Emissions from './emissions';
+import * as Allowances from './allowances';
+import * as Compliances from './compliances';
 
-const HOURLY_EMISSIONS_FILTERS = [
-  {value: 'timePeriod', label: "TIME PERIOD (Required)"},
-  {value: 'program', label: "PROGRAM (Optional)"},
-  {value: 'stateTerritory', label: "STATE/TERRITORY (Optional)"},
-  {value: 'facility', label: "FACILITY (Optional)"},
-  {value: 'unitType', label: "UNIT TYPE (Optional)"},
-  {value: 'unitFuelType', label: "UNIT FUEL TYPE (Optional)"},
-  {value: 'controlTechnology', label:"CONTROL TECHNOLOGY (Optional)"}
-];
-
-export const HOURLY_EMISSIONS_REQUIRED_FILTERS = ["timePeriod"];
+export const DATA_TYPES = ["EMISSIONS", "ALLOWANCE", "COMPLIANCE"];
 
 export const DATA_SUBTYPES_MAP = {
-  "EMISSIONS": EMISSIONS_DATA_SUBTYPES,
-  "ALLOWANCE": [],
-  "COMPLIANCE": [],
+  EMISSIONS: Emissions.EMISSIONS_DATA_SUBTYPES,
+  ALLOWANCE: Allowances.ALLOWANCES_DATA_SUBTYPES,
+  COMPLIANCE: Compliances.COMPLIANCES_DATA_SUBTYPES,
 };
 
 export const FILTERS_MAP = {
-  "EMISSIONS": {
-    "Hourly Emissions": HOURLY_EMISSIONS_FILTERS,
-    "Daily Emissions": [],
-    "Monthly Emissions": [],
-    "Quarterly Emissions": [],
-    "Ozone Season Emissions": [],
-    "Annual Emissions": [],
-    "Facility/Unit Attributes": []
-  }
+  EMISSIONS: {
+    'Hourly Emissions': Emissions.EMISSIONS_FILTERS,
+    'Daily Emissions': Emissions.EMISSIONS_FILTERS,
+    'Monthly Emissions': Emissions.EMISSIONS_FILTERS,
+    'Quarterly Emissions': Emissions.EMISSIONS_FILTERS,
+    'Ozone Season Emissions': Emissions.EMISSIONS_FILTERS,
+    'Annual Emissions': Emissions.EMISSIONS_FILTERS,
+    'Facility/Unit Attributes': Emissions.FACILITY_UNIT_FILTERS,
+  },
+  ALLOWANCE: {
+    'Account Information': Allowances.ACCOUNT_INFO_FILTERS,
+    'Holdings': Allowances.ALLOWANCE_HOLDINGS_FILTERS,
+    'Transactions': Allowances.ALLOWANCE_TRANSACTIONS_FILTERS,
+  },
+  COMPLIANCE: {
+    'Allowance Based': Compliances.ALLOWANCE_BASED_FILTERS,
+    'Emissions Based': Compliances.EMISSIONS_BASED_FILTERS,
+  },
 };
