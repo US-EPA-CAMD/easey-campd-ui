@@ -9,8 +9,8 @@ const initTimePeriod = {
 }
 
 const timePeriod = {
-  startDate: "03/31/2021",
-  endDate: "04/02/2021",
+  startDate: "2019-01-01",
+  endDate: "2019-01-01",
   opHrsOnly: true
 }
 
@@ -47,6 +47,8 @@ describe('Emissions TimePeriod Component', () => {
       <TimePeriod
         timePeriod={timePeriod}
         updateTimePeriodDispatcher={dispather}
+        addAppliedFilterDispatcher={jest.fn()}
+        appliedFilters={["timePeriod"]}
         closeFlyOutHandler={jest.fn()}
       />
     );
@@ -55,7 +57,7 @@ describe('Emissions TimePeriod Component', () => {
     const applyFilterButton = getByText("Apply Filter").closest('button')
     expect(applyFilterButton).not.toBeDisabled();
     fireEvent.click(applyFilterButton)
-    expect(updatedTimePeriod.startDate).toBe("03/31/2021")
+    expect(updatedTimePeriod.startDate).toBe(timePeriod.startDate)
     expect(updatedTimePeriod.opHrsOnly).toBe(false)
   });
 });
