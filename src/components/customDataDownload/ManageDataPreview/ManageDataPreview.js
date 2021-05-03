@@ -85,7 +85,7 @@ const ManageDataPreview = ({
 
   return (
     <div className="minh-tablet width-full manage-data-preview-wrapper">
-      <div className="display-flex flex-row flex-justify bg-base-lighter padding-left-5 padding-right-5 minh-10 maxh-15">
+      <div className="display-flex flex-row flex-justify bg-base-lightest padding-left-5 padding-right-7 minh-10 maxh-15">
         <div className="flex-align-self-center font-alt-2xl text-bold">Custom Data Download</div>
         <Button type="button" className="flex-align-self-center clearfix width-card height-6 font-sans-md"
           disabled={!requirementsMet} onClick={()=>setRenderPreviewData(true)}> Preview Data</Button>

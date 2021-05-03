@@ -11,8 +11,8 @@ const SelectableCard = ({ selected, title, onClick }) => {
     <button
       className={
         selected
-          ? "selectablecard selected maxw-card"
-          : "selectablecard maxw-card"
+          ? "selectablecard selected width-card height-card"
+          : "selectablecard width-card height-card"
       }
       onClick={onClick}
       data-testid="selectable-card"
