@@ -8,6 +8,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import "./FilterCriteriaRender.scss";
+import { isAddedToFilters } from "../../../utils/selectors/hourlyEmissions";
 
 const FiltersView = ({
   dataSubtypeApplied,
@@ -40,7 +41,7 @@ const FiltersView = ({
                       outline="true"
                       onClick={() => handleFilterButtonClick(el.value)}
                       className={
-                        appliedFilters.includes(el.value)
+                        isAddedToFilters(el.value, appliedFilters)
                           ? "filter-button applied-filter"
                           : "filter-button bg-base-lightest"
                       }

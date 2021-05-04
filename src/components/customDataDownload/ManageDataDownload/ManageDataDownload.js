@@ -100,7 +100,7 @@ const ManageDataDownload = ({
         selectedFilter={selectedFilter}
         closeFlyOutHandler={closeFlyOutHandler}
       />
-      <ManageDataPreview />
+      <ManageDataPreview handleFilterButtonClick={handleFilterButtonClick} />
     </div>
   );
 };

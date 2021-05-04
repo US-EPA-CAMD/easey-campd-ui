@@ -1,17 +1,24 @@
-import React, { useEffect, useState } from "react";
-import { connect } from "react-redux";
-import { Button } from "@trussworks/react-uswds";
-import HourlyEmissionsDataPreview from "../../hourlyEmissions/DataPreview/DataPreview";
-import { resetDataPreview } from "../../../store/actions/customDataDownload/customDataDownload";
-import * as constants from "../../../utils/constants/customDataDownload";
+import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
+import { Button } from '@trussworks/react-uswds';
+import HourlyEmissionsDataPreview from '../../hourlyEmissions/DataPreview/DataPreview';
+import {
+  resetDataPreview,
+  removeAppliedFilter,
+} from '../../../store/actions/customDataDownload/customDataDownload';
+import * as constants from '../../../utils/constants/customDataDownload';
 // *** STYLES (individual component)
-import "./ManageDataPreview.scss";
+import './ManageDataPreview.scss';
+import FilterTags from '../../FilterTags/FilterTags';
+import { isAddedToFilters } from '../../../utils/selectors/hourlyEmissions';
 
 const ManageDataPreview = ({
   dataType,
   dataSubType,
   appliedFilters,
+  handleFilterButtonClick,
   resetDataPreviewDispacher,
+  removeAppliedFiltersDispatcher,
 }) => {
   const [requirementsMet, setRequirementsMet] = useState(false);
   const [renderPreviewData, setRenderPreviewData] = useState(false);
@@ -33,10 +40,8 @@ const ManageDataPreview = ({
   }, [dataType, dataSubType, appliedFilters]);
 
   const contains = (first, second) => {
-    const indexArray = first.map((el) => {
-      return second.indexOf(el);
-    });
-    return indexArray.indexOf(-1) === -1;
+    const search = first.map((el) => isAddedToFilters(el, second));
+    return search.indexOf(false) === -1;
   };
 
   const handleUpdateInAppliedFilters = () => {
@@ -44,9 +49,17 @@ const ManageDataPreview = ({
     setRenderPreviewData(false);
   };
 
+  const onFilterTagRemovedHandler = (filterType) => {
+    removeAppliedFiltersDispatcher(filterType, false);
+  };
+
+  const onFilterTagClearAllHandler = () => {
+    removeAppliedFiltersDispatcher(null, true);
+  };
+
   const mapDataPreview = {
     EMISSIONS: {
-      "Hourly Emissions": {
+      'Hourly Emissions': {
         requiredFilters: constants.HOURLY_EMISSIONS_REQUIRED_FILTERS,
         component: (
           <HourlyEmissionsDataPreview
@@ -54,28 +67,28 @@ const ManageDataPreview = ({
           />
         ),
       },
-      "Daily Emissions": {
-        requiredFilters: ["unknown"],
+      'Daily Emissions': {
+        requiredFilters: ['unknown'],
         component: null,
       },
-      "Monthly Emissions": {
-        requiredFilters: ["unknown"],
+      'Monthly Emissions': {
+        requiredFilters: ['unknown'],
         component: null,
       },
-      "Quarterly Emissions": {
-        requiredFilters: ["unknown"],
+      'Quarterly Emissions': {
+        requiredFilters: ['unknown'],
         component: null,
       },
-      "Ozone Season Emissions": {
-        requiredFilters: ["unknown"],
+      'Ozone Season Emissions': {
+        requiredFilters: ['unknown'],
         component: null,
       },
-      "Annual Emission": {
-        requiredFilters: ["unknown"],
+      'Annual Emission': {
+        requiredFilters: ['unknown'],
         component: null,
       },
-      "Facility/Unit Attributes": {
-        requiredFilters: ["unknown"],
+      'Facility/Unit Attributes': {
+        requiredFilters: ['unknown'],
         component: null,
       },
     },
@@ -95,7 +108,18 @@ const ManageDataPreview = ({
         >
           Preview Data
         </Button>
+        {appliedFilters.length > 0 && (
+          <div className="padding-top-1 font-alt-sm">
+            <FilterTags
+              items={appliedFilters}
+              onClick={(filterType) => handleFilterButtonClick(filterType)}
+              onRemove={(filterType) => onFilterTagRemovedHandler(filterType)}
+              onClearAll={() => onFilterTagClearAllHandler()}
+            />
+          </div>
+        )}
       </div>
+
       {renderPreviewData && mapDataPreview[dataType][dataSubType].component}
     </div>
   );
@@ -112,6 +136,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     resetDataPreviewDispacher: () => dispatch(resetDataPreview()),
+    removeAppliedFiltersDispatcher: (removedFilter, removeAll) =>
+      dispatch(removeAppliedFilter(removedFilter, removeAll)),
   };
 };
 

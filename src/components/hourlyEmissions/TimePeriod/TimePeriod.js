@@ -37,7 +37,7 @@ export const TimePeriod = ({
         opHrsOnly: formState.opHrsOnly
       });
       if(!isAddedToFilters(filterToApply, appliedFilters)){
-        addAppliedFilterDispatcher(filterToApply);
+        addAppliedFilterDispatcher({key: filterToApply, values: [`${formState.startDate} - ${formState.endDate}`]});
       }
       closeFlyOutHandler();
     }

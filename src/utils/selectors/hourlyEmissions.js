@@ -20,7 +20,7 @@ export const formatDateToUi = (dateString) =>{//param=yyyy-mm-dd return=mm/dd/yy
 };
 
 export const isAddedToFilters = (filter, appliedFilters) =>{
-  return appliedFilters.includes(filter);
+  return appliedFilters.filter((el) => el.key === filter).length > 0;
 }
 
 export const getTableRecords = (hourlyEmissions) =>{
