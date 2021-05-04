@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import FlyOutPanel from "./FlyOutPanel";
 import { Provider } from "react-redux";
-import configureStore from "../../store/configureStore.dev";
+import configureStore from "../../../store/configureStore.dev";
 const store = configureStore();
 
 describe('FlyOutPanel Component', () => {
@@ -10,9 +10,10 @@ describe('FlyOutPanel Component', () => {
     const { getByTestId, getAllByTestId, getByRole } = render(
       <Provider store={store}>
         <FlyOutPanel
-        show={true}
-        selectedFilter="time period"
-        closeFlyOutHandler={jest.fn()}/>
+          show={true}
+          selectedDataSubtype="Hourly Emissions"
+          selectedFilter="timePeriod"
+          closeFlyOutHandler={jest.fn()}/>
       </Provider>
     );
 

@@ -1,17 +1,23 @@
-import React from "react";
-import * as constants from "../../../utils/constants/customDataDownload";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button, Dropdown } from "@trussworks/react-uswds";
-import { faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
+import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Button, Dropdown } from '@trussworks/react-uswds';
+import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
+
+import * as constants from '../../../utils/constants/customDataDownload';
 
 const DataTypeSelectorView = ({
   selectedDataType,
   getSelectedDataSubType,
   selectedDataSubtype,
+  dataTypeApplied,
   dataSubtypeApplied,
+  handleDataTypeDropdown,
   handleChangeButtonClick,
   changeDataSubtype,
   handleApplyButtonClick,
+  handleCancelButtonClick,
+  selectionChange,
+  displayCancel,
 }) => {
   const initcap = (str) => {
     return str.replace(/([^\W_]+[^\s-]*) */g, function (txt) {
@@ -21,43 +27,56 @@ const DataTypeSelectorView = ({
 
   return (
     <>
-      <div className="font-alt-xl text-bold padding-top-6 padding-bottom-3 padding-left-6 side-panel-header">
+      <div className="font-alt-xl text-bold padding-top-6 padding-bottom-3 padding-left-6">
         Data Type
         <FontAwesomeIcon
           icon={faQuestionCircle}
           className="text-primary font-body-md question-icon"
         />
-        <div className="font-body-sm text-normal text-gray-30">(Required)</div>
       </div>
       <div className="subtype-container border-bottom-1px border-base-light clearfix padding-y-1 padding-x-6">
         <div>
           <span className="text-bold padding-top-1 font-body-md">
-            {initcap(selectedDataType)}
-          </span>
-          <span className="text-bold padding-top-1 font-alt-sm">
-            {selectedDataSubtype !== "" &&
-            selectedDataSubtype !== "-1" &&
+            {selectedDataSubtype !== '' &&
+            selectedDataSubtype !== '-1' &&
             dataSubtypeApplied === true ? (
               <>
-                <span>,</span>{" "}
+                <span>{initcap(selectedDataType)},</span>{' '}
                 {getSelectedDataSubType(
                   constants.DATA_SUBTYPES_MAP[selectedDataType]
                 )}
+                <Button
+                  outline="true"
+                  className="float-right"
+                  onClick={handleChangeButtonClick}
+                >
+                  Change
+                </Button>
               </>
             ) : null}
           </span>
         </div>
-        <Button
-          outline="true"
-          className="float-right clearfix"
-          onClick={handleChangeButtonClick}
-        >
-          Change
-        </Button>
-
+        {dataTypeApplied === false && (
+          <>
+            <div className="padding-top-1 font-body-md">
+              Data Type (Required)
+            </div>
+            <div className="padding-y-1">
+              <Dropdown
+                onChange={handleDataTypeDropdown}
+                value={selectedDataType}
+              >
+                <option key= "" value="">- Select -</option>
+                {constants.DATA_TYPES.map((el) => (
+                  <option key ={el} value={el}>{initcap(el)}</option>
+                ))}
+              </Dropdown>
+            </div>
+          </>
+        )}
         {dataSubtypeApplied === false && (
           <>
-            <div className="padding-top-5 font-body-md">
+            <div className="padding-top-1 font-body-md">
               Data Subtype (Required)
             </div>
             <div className="padding-y-1">
@@ -80,10 +99,20 @@ const DataTypeSelectorView = ({
           <Button
             primary="true"
             className="float-right clearfix"
+            disabled={!selectionChange}
             onClick={() => handleApplyButtonClick()}
           >
             Apply
           </Button>
+          {displayCancel === true && (
+            <Button
+              outline="true"
+              className="float-left clearfix"
+              onClick={() => handleCancelButtonClick()}
+            >
+              Cancel
+            </Button>
+          )}
         </div>
       )}
     </>

@@ -36,7 +36,7 @@ const FiltersView = ({
                 )
               ].map((el, i) => {
                 return (
-                  <p key={i} className="padding-y-1">
+                  <p key={i} className="padding-y-0">
                     <Button
                       outline="true"
                       onClick={() => handleFilterButtonClick(el.value)}

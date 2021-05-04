@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Button } from '@trussworks/react-uswds';
+
 import HourlyEmissionsDataPreview from '../../hourlyEmissions/DataPreview/DataPreview';
+import FilterTags from '../../FilterTags/FilterTags';
+import { isAddedToFilters } from '../../../utils/selectors/hourlyEmissions';
 import {
   resetDataPreview,
   removeAppliedFilter,
@@ -9,8 +12,7 @@ import {
 import * as constants from '../../../utils/constants/customDataDownload';
 // *** STYLES (individual component)
 import './ManageDataPreview.scss';
-import FilterTags from '../../FilterTags/FilterTags';
-import { isAddedToFilters } from '../../../utils/selectors/hourlyEmissions';
+
 
 const ManageDataPreview = ({
   dataType,
@@ -27,8 +29,9 @@ const ManageDataPreview = ({
     if (
       dataType &&
       dataSubType &&
+      dataSubType !== '' &&
       contains(
-        mapDataPreview[dataType][dataSubType].requiredFilters,
+        mapDataPreview[dataType][dataSubType]?.requiredFilters || null,
         appliedFilters
       )
     ) {
@@ -40,6 +43,9 @@ const ManageDataPreview = ({
   }, [dataType, dataSubType, appliedFilters]);
 
   const contains = (first, second) => {
+    // if (first === null) {
+    //   return false;
+    // }
     const search = first.map((el) => isAddedToFilters(el, second));
     return search.indexOf(false) === -1;
   };
@@ -83,7 +89,7 @@ const ManageDataPreview = ({
         requiredFilters: ['unknown'],
         component: null,
       },
-      'Annual Emission': {
+      'Annual Emissions': {
         requiredFilters: ['unknown'],
         component: null,
       },
@@ -92,20 +98,45 @@ const ManageDataPreview = ({
         component: null,
       },
     },
-    ALLOWANCE: {},
-    COMPLIANCE: {},
+    ALLOWANCE: {
+      'Account Information': {
+        requiredFilters: ['unknown'],
+        component: null,
+      },
+      Holdings: {
+        requiredFilters: ['unknown'],
+        component: null,
+      },
+      Transactions: {
+        requiredFilters: ['unknown'],
+        component: null,
+      },
+    },
+    COMPLIANCE: {
+      'Allowance Based': {
+        requiredFilters: ['unknown'],
+        component: null,
+      },
+      'Emissions Based': {
+        requiredFilters: ['unknown'],
+        component: null,
+      },
+    },
   };
 
   return (
     <div className="minh-tablet width-full manage-data-preview-wrapper">
-      <div className="font-alt-2xl text-bold padding-1 margin-left-2 bg-base-lighter">
-        Custom Data Download
+      <div className="display-flex flex-row flex-justify bg-base-lightest padding-left-5 padding-right-7 minh-10 maxh-15">
+        <div className="flex-align-self-center font-alt-2xl text-bold">
+          Custom Data Download
+        </div>
         <Button
           type="button"
-          className="float-right clearfix margin-left-5 margin-right-9"
+          className="flex-align-self-center clearfix width-card height-6 font-sans-md"
           disabled={!requirementsMet}
           onClick={() => setRenderPreviewData(true)}
         >
+          {' '}
           Preview Data
         </Button>
         {appliedFilters.length > 0 && (
