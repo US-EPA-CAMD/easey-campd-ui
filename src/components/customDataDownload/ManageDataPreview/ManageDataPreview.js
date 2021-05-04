@@ -88,24 +88,42 @@ const ManageDataPreview = ({
         requiredFilters: ['unknown'],
         component: null,
       },
-      'Holdings': {
+      Holdings: {
         requiredFilters: ['unknown'],
         component: null,
       },
-      'Transactions': {
+      Transactions: {
         requiredFilters: ['unknown'],
         component: null,
       },
     },
-    COMPLIANCE: {},
+    COMPLIANCE: {
+      'Allowance Based': {
+        requiredFilters: ['unknown'],
+        component: null,
+      },
+      'Emissions Based': {
+        requiredFilters: ['unknown'],
+        component: null,
+      },
+    },
   };
 
   return (
     <div className="minh-tablet width-full manage-data-preview-wrapper">
       <div className="display-flex flex-row flex-justify bg-base-lightest padding-left-5 padding-right-7 minh-10 maxh-15">
-        <div className="flex-align-self-center font-alt-2xl text-bold">Custom Data Download</div>
-        <Button type="button" className="flex-align-self-center clearfix width-card height-6 font-sans-md"
-          disabled={!requirementsMet} onClick={()=>setRenderPreviewData(true)}> Preview Data</Button>
+        <div className="flex-align-self-center font-alt-2xl text-bold">
+          Custom Data Download
+        </div>
+        <Button
+          type="button"
+          className="flex-align-self-center clearfix width-card height-6 font-sans-md"
+          disabled={!requirementsMet}
+          onClick={() => setRenderPreviewData(true)}
+        >
+          {' '}
+          Preview Data
+        </Button>
       </div>
       {renderPreviewData && mapDataPreview[dataType][dataSubType].component}
     </div>
