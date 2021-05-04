@@ -9,7 +9,7 @@ import {
   resetDataPreview,
   removeAppliedFilter,
 } from '../../../store/actions/customDataDownload/customDataDownload';
-import * as constants from '../../../utils/constants/customDataDownload';
+import * as constants from '../../../utils/constants/emissions';
 // *** STYLES (individual component)
 import './ManageDataPreview.scss';
 
@@ -43,9 +43,9 @@ const ManageDataPreview = ({
   }, [dataType, dataSubType, appliedFilters]);
 
   const contains = (first, second) => {
-    // if (first === null) {
-    //   return false;
-    // }
+    if (first === null) {
+      return false;
+    }
     const search = first.map((el) => isAddedToFilters(el, second));
     return search.indexOf(false) === -1;
   };
@@ -140,7 +140,7 @@ const ManageDataPreview = ({
           Preview Data
         </Button>
         {appliedFilters.length > 0 && (
-          <div className="padding-top-1 font-alt-sm">
+          <div className="font-alt-sm">
             <FilterTags
               items={appliedFilters}
               onClick={(filterType) => handleFilterButtonClick(filterType)}
