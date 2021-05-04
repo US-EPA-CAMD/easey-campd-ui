@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import {
   updateSelectedDataType,
   updateSelectedDataSubType,
+  removeAppliedFilter,
 } from '../../../store/actions/customDataDownload/customDataDownload';
 import DataTypeSelectorRender from '../DataTypeSelectorRender/DataTypeSelectorRender';
 import FilterCriteriaRender from '../FilterCriteriaRender/FilterCriteriaRender';
@@ -19,6 +20,7 @@ const ManageDataDownload = ({
   selectedDataType,
   updateSelectedDataTypeDispatcher,
   updateSelectedDataSubTypeDispatcher,
+  removeAppliedFiltersDispatcher,
   appliedFilters,
 }) => {
   // *** HOOKS
@@ -59,7 +61,6 @@ const ManageDataDownload = ({
   const handleDataTypeDropdown = (event) => {
     if (event.target.value !== '') {
       setSelectedDataSubtype('');
-      setSelectionChange(false);
       updateSelectedDataTypeDispatcher(event.target.value);
     }
   };
@@ -89,6 +90,9 @@ const ManageDataDownload = ({
         dataType: selectedDataType,
         dataSubType: selectedDataSubtype,
       });
+      if (selectionChange) {
+        removeAppliedFiltersDispatcher(null, true);
+      }
       setSelectionChange(false);
       setDisplayCancel(true);
       updateSelectedDataSubTypeDispatcher(
@@ -100,8 +104,8 @@ const ManageDataDownload = ({
   const handleCancelButtonClick = () => {
     setDataTypeApplied(true);
     setDataSubtypeApplied(true);
-    updateSelectedDataTypeDispatcher(appliedDataType.dataType)
-    setSelectedDataSubtype(appliedDataType.dataSubType)
+    updateSelectedDataTypeDispatcher(appliedDataType.dataType);
+    setSelectedDataSubtype(appliedDataType.dataSubType);
   };
 
   const closeFlyOutHandler = () => {
@@ -118,7 +122,10 @@ const ManageDataDownload = ({
   };
 
   return (
-    <div className="manage-download-wrapper" data-testid="manage-data-download-wrapper">
+    <div
+      className="manage-download-wrapper"
+      data-testid="manage-data-download-wrapper"
+    >
       <div className="side-panel bg-base-lighter margin-0">
         <DataTypeSelectorRender
           selectedDataType={selectedDataType}
@@ -168,6 +175,8 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(updateSelectedDataType(dataType)),
     updateSelectedDataSubTypeDispatcher: (dataSubType) =>
       dispatch(updateSelectedDataSubType(dataSubType)),
+    removeAppliedFiltersDispatcher: (removedFilter, removeAll) =>
+      dispatch(removeAppliedFilter(removedFilter, removeAll)),
   };
 };
 

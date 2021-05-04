@@ -5,7 +5,6 @@ import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 
 import * as constants from '../../../utils/constants/customDataDownload';
 
-
 const DataTypeSelectorView = ({
   selectedDataType,
   getSelectedDataSubType,
@@ -107,7 +106,7 @@ const DataTypeSelectorView = ({
           </Button>
           {displayCancel === true && (
             <Button
-              primary="true"
+              outline="true"
               className="float-left clearfix"
               onClick={() => handleCancelButtonClick()}
             >
