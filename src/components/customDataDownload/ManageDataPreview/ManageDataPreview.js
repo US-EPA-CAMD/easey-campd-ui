@@ -13,7 +13,6 @@ import * as constants from '../../../utils/constants/emissions';
 // *** STYLES (individual component)
 import './ManageDataPreview.scss';
 
-
 const ManageDataPreview = ({
   dataType,
   dataSubType,
@@ -136,21 +135,19 @@ const ManageDataPreview = ({
           disabled={!requirementsMet}
           onClick={() => setRenderPreviewData(true)}
         >
-          {' '}
           Preview Data
         </Button>
-        {appliedFilters.length > 0 && (
-          <div className="font-alt-sm">
-            <FilterTags
-              items={appliedFilters}
-              onClick={(filterType) => handleFilterButtonClick(filterType)}
-              onRemove={(filterType) => onFilterTagRemovedHandler(filterType)}
-              onClearAll={() => onFilterTagClearAllHandler()}
-            />
-          </div>
-        )}
       </div>
-
+      {appliedFilters.length > 0 && (
+        <div className="display-flex flex-row flex-justify bg-base-lightest padding-left-5 padding-right-7 padding-bottom-2 font-alt-sm">
+          <FilterTags
+            items={appliedFilters}
+            onClick={(filterType) => handleFilterButtonClick(filterType)}
+            onRemove={(filterType) => onFilterTagRemovedHandler(filterType)}
+            onClearAll={() => onFilterTagClearAllHandler()}
+          />
+        </div>
+      )}
       {renderPreviewData && mapDataPreview[dataType][dataSubType].component}
     </div>
   );
