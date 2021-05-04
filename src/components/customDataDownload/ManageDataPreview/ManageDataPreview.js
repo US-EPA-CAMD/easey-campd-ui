@@ -56,10 +56,12 @@ const ManageDataPreview = ({
 
   const onFilterTagRemovedHandler = (filterType) => {
     removeAppliedFiltersDispatcher(filterType, false);
+    handleUpdateInAppliedFilters()
   };
 
   const onFilterTagClearAllHandler = () => {
     removeAppliedFiltersDispatcher(null, true);
+    handleUpdateInAppliedFilters()
   };
 
   const mapDataPreview = {

@@ -38,6 +38,9 @@ export const TimePeriod = ({
       });
       if(!isAddedToFilters(filterToApply, appliedFilters)){
         addAppliedFilterDispatcher({key: filterToApply, values: [`${formState.startDate} - ${formState.endDate}`]});
+        if (formState.opHrsOnly) {
+          addAppliedFilterDispatcher({key: 'opHoursOnly', values: ['Operating Hours Only']})
+        }
       }
       closeFlyOutHandler();
     }
