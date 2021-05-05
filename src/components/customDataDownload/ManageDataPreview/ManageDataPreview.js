@@ -9,7 +9,10 @@ import {
   resetDataPreview,
   removeAppliedFilter,
 } from '../../../store/actions/customDataDownload/customDataDownload';
-import { resetFilter } from '../../../store/actions/customDataDownload/hourlyEmissions/hourlyEmissions';
+import {
+  resetFilter,
+  updateTimePeriod,
+} from '../../../store/actions/customDataDownload/hourlyEmissions/hourlyEmissions';
 import * as emissionsConstants from '../../../utils/constants/emissions';
 // *** STYLES (individual component)
 import './ManageDataPreview.scss';
@@ -18,10 +21,12 @@ const ManageDataPreview = ({
   dataType,
   dataSubType,
   appliedFilters,
+  timePeriod,
   handleFilterButtonClick,
   resetDataPreviewDispacher,
   resetFiltersDispatcher,
   removeAppliedFiltersDispatcher,
+  updateTimePeriodDispatcher,
 }) => {
   const [requirementsMet, setRequirementsMet] = useState(false);
   const [renderPreviewData, setRenderPreviewData] = useState(false);
@@ -56,16 +61,25 @@ const ManageDataPreview = ({
     setRenderPreviewData(false);
   };
 
-  const onFilterTagRemovedHandler = (filterType) => {
-    resetFiltersDispatcher(filterType, false)
-    removeAppliedFiltersDispatcher(filterType, false);
-    handleUpdateInAppliedFilters()
+  const onFilterTagRemovedHandler = (filterType, label) => {
+    if (filterType === 'timePeriod' && label === 'Operating Hours Only') {
+      updateTimePeriodDispatcher({
+        startDate: timePeriod.startDate,
+        endDate: timePeriod.endDate,
+        opHrsOnly: false,
+      });
+      removeAppliedFiltersDispatcher(filterType, false, true);
+    } else {
+      resetFiltersDispatcher(filterType)
+      removeAppliedFiltersDispatcher(filterType);
+    }
+    handleUpdateInAppliedFilters();
   };
 
   const onFilterTagClearAllHandler = () => {
-    resetFiltersDispatcher(null, true)
+    resetFiltersDispatcher(null, true);
     removeAppliedFiltersDispatcher(null, true);
-    handleUpdateInAppliedFilters()
+    handleUpdateInAppliedFilters();
   };
 
   const mapDataPreview = {
@@ -149,7 +163,9 @@ const ManageDataPreview = ({
           <FilterTags
             items={appliedFilters}
             onClick={(filterType) => handleFilterButtonClick(filterType)}
-            onRemove={(filterType) => onFilterTagRemovedHandler(filterType)}
+            onRemove={(filterType, filterTag) =>
+              onFilterTagRemovedHandler(filterType, filterTag)
+            }
             onClearAll={() => onFilterTagClearAllHandler()}
           />
         </div>
@@ -163,16 +179,19 @@ const mapStateToProps = (state) => {
   return {
     dataSubType: state.customDataDownload.dataSubType,
     appliedFilters: state.customDataDownload.appliedFilters,
+    timePeriod: state.hourlyEmissions.timePeriod,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     resetDataPreviewDispacher: () => dispatch(resetDataPreview()),
-    removeAppliedFiltersDispatcher: (removedFilter, removeAll) =>
-      dispatch(removeAppliedFilter(removedFilter, removeAll)),
+    removeAppliedFiltersDispatcher: (removedFilter, removeAll, opHours) =>
+      dispatch(removeAppliedFilter(removedFilter, removeAll, opHours)),
     resetFiltersDispatcher: (filterToReset, resetAll) =>
       dispatch(resetFilter(filterToReset, resetAll)),
+    updateTimePeriodDispatcher: (timePeriod) =>
+      dispatch(updateTimePeriod(timePeriod)),
   };
 };
 

@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { updateTimePeriod } from '../../../store/actions/customDataDownload/hourlyEmissions/hourlyEmissions';
-import { addAppliedFilter } from '../../../store/actions/customDataDownload/customDataDownload';
+
 import TimePeriodRender from './TimePeriodRender';
+import { updateTimePeriod } from '../../../store/actions/customDataDownload/hourlyEmissions/hourlyEmissions';
+import { addAppliedFilter, removeAppliedFilter } from '../../../store/actions/customDataDownload/customDataDownload';
 import {
   isDateFormatValid,
   isDateRangeValid,
@@ -17,6 +18,7 @@ export const TimePeriod = ({
   timePeriod,
   updateTimePeriodDispatcher,
   addAppliedFilterDispatcher,
+  removeAppliedFiltersDispatcher,
   appliedFilters,
   closeFlyOutHandler,
 }) => {
@@ -48,16 +50,16 @@ export const TimePeriod = ({
         endDate: formatDateToApi(formState.endDate),
         opHrsOnly: formState.opHrsOnly,
       });
-      // TODO: update filterTag state when hit apply
-      if (!isAddedToFilters(filterToApply, appliedFilters)) {
-        addAppliedFilterDispatcher({
-          key: filterToApply,
-          filterTag: 'Time Period',
-          values: [`${formState.startDate} - ${formState.endDate}`],
-        });
-        if (formState.opHrsOnly) {
-          addAppliedFilterDispatcher({key: filterToApply, filterTag: '', values: ['Operating Hours Only']})
-        }
+      if (isAddedToFilters(filterToApply, appliedFilters)) {
+        removeAppliedFiltersDispatcher(filterToApply);
+      }
+      addAppliedFilterDispatcher({
+        key: filterToApply,
+        filterTag: 'Time Period',
+        values: [`${formState.startDate} - ${formState.endDate}`],
+      });
+      if (formState.opHrsOnly) {
+        addAppliedFilterDispatcher({key: filterToApply, filterTag: '', values: ['Operating Hours Only']})
       }
       closeFlyOutHandler();
     }
@@ -132,6 +134,8 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(updateTimePeriod(timePeriod)),
     addAppliedFilterDispatcher: (filterToApply) =>
       dispatch(addAppliedFilter(filterToApply)),
+    removeAppliedFiltersDispatcher: (removedFilter) =>
+      dispatch(removeAppliedFilter(removedFilter)),
   };
 };
 

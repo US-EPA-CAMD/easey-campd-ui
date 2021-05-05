@@ -22,7 +22,7 @@ const FilterTags = (props) => {
             position="bottom"
             tooltip={description}
             onClick={() => props.onClick(item.key)}
-            onRemove={() => props.onRemove(item.key)}
+            onRemove={() => props.onRemove(item.key, label)}
           />
         );
       })}
