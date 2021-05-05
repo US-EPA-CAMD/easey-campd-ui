@@ -48,6 +48,7 @@ const ManageDataDownload = ({
     } else {
       setSelectionChange(true);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedDataType, selectedDataSubtype, appliedDataType]);
 
   // *** EVENT HANDLERS

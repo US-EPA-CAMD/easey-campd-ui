@@ -17,7 +17,6 @@ const FilterTags = (props) => {
         return (
           <PillButton
             key={i}
-            id={item.key}
             index={i}
             label={label}
             position="bottom"

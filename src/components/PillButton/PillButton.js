@@ -1,4 +1,3 @@
-  
 import React from 'react';
 import { Button, Tooltip } from '@trussworks/react-uswds';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

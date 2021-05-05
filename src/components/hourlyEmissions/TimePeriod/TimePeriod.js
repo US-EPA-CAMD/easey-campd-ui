@@ -36,6 +36,7 @@ export const TimePeriod = ({
         endDate: formatDateToApi(formState.endDate),
         opHrsOnly: formState.opHrsOnly
       });
+      // TODO: update filterTag state when hit apply
       if(!isAddedToFilters(filterToApply, appliedFilters)){
         addAppliedFilterDispatcher({key: filterToApply, values: [`${formState.startDate} - ${formState.endDate}`]});
         if (formState.opHrsOnly) {
