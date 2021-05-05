@@ -157,7 +157,6 @@ const ManageDataPreview = ({
 
 const mapStateToProps = (state) => {
   return {
-    dataType: state.customDataDownload.dataType,
     dataSubType: state.customDataDownload.dataSubType,
     appliedFilters: state.customDataDownload.appliedFilters,
   };

@@ -15,12 +15,14 @@ import * as constants from '../../../utils/constants/customDataDownload';
 
 // *** STYLES (individual component)
 import './ManageDataDownload.scss';
+import { resetFilter } from '../../../store/actions/customDataDownload/hourlyEmissions/hourlyEmissions';
 
 const ManageDataDownload = ({
   selectedDataType,
   updateSelectedDataTypeDispatcher,
   updateSelectedDataSubTypeDispatcher,
   removeAppliedFiltersDispatcher,
+  resetFilterDispatcher,
   appliedFilters,
 }) => {
   // *** HOOKS
@@ -93,6 +95,7 @@ const ManageDataDownload = ({
       });
       if (selectionChange) {
         removeAppliedFiltersDispatcher(null, true);
+        resetFilterDispatcher(null, true);
       }
       setSelectionChange(false);
       setDisplayCancel(true);
@@ -158,7 +161,7 @@ const ManageDataDownload = ({
         selectedFilter={selectedFilter}
         closeFlyOutHandler={closeFlyOutHandler}
       />
-      <ManageDataPreview handleFilterButtonClick={handleFilterButtonClick} />
+      <ManageDataPreview dataType={appliedDataType.dataType} handleFilterButtonClick={handleFilterButtonClick} />
     </div>
   );
 };
@@ -178,6 +181,8 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(updateSelectedDataSubType(dataSubType)),
     removeAppliedFiltersDispatcher: (removedFilter, removeAll) =>
       dispatch(removeAppliedFilter(removedFilter, removeAll)),
+    resetFilterDispatcher: (filterToReset, resetAll) => 
+      dispatch(resetFilter(filterToReset, resetAll)),
   };
 };
 
