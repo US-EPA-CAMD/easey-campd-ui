@@ -160,7 +160,7 @@ const ManageDataDownload = ({
         selectedFilter={selectedFilter}
         closeFlyOutHandler={closeFlyOutHandler}
       />
-      <ManageDataPreview />
+      <ManageDataPreview dataType={appliedDataType.dataType} />
     </div>
   );
 };
