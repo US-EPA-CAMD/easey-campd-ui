@@ -15,6 +15,11 @@ const reducer = (state = initialState.customDataDownload, action) => {
         ...state,
         appliedFilters: [...state.appliedFilters, action.appliedFilter]
        };
+    case types.REMOVE_APPLIED_FILTER:
+      return {
+        ...state,
+        appliedFilters: action.removal.removeAll? [] : state.appliedFilters.filter((e) => e !== action.removal.removedFilter)
+      }
     case types.LOAD_HOURLY_EMISSIONS_SUCCESS:
       return Object.assign({}, state, { dataPreview: action.hourlyEmissions.data }, { totalCount: action.hourlyEmissions.totalCount });
     default:

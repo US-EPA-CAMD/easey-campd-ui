@@ -9,6 +9,16 @@ export function updateTimePeriod(selectedTimePeriod) {
   };
 }
 
+export function resetFilter(filterToReset, resetAll = false){
+  return {
+    type: types.HOURLY_EMISSIONS.RESET_FILTER,
+    reset:{
+      filterToReset,
+      resetAll
+    },
+  };
+}
+
 export function loadHourlyEmissionsSuccess(hourlyEmissions, totalCount) {
   return {
     type: types.LOAD_HOURLY_EMISSIONS_SUCCESS,

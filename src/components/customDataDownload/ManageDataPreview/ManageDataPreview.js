@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { connect } from "react-redux";
-import { Button } from "@trussworks/react-uswds";
-import HourlyEmissionsDataPreview from "../../hourlyEmissions/DataPreview/DataPreview";
-import { resetDataPreview } from "../../../store/actions/customDataDownload/customDataDownload";
-import * as constants from "../../../utils/constants/customDataDownload";
+import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
+import { Button } from '@trussworks/react-uswds';
+import HourlyEmissionsDataPreview from '../../hourlyEmissions/DataPreview/DataPreview';
+import { resetDataPreview } from '../../../store/actions/customDataDownload/customDataDownload';
+import * as constants from '../../../utils/constants/emissions';
 // *** STYLES (individual component)
-import "./ManageDataPreview.scss";
+import './ManageDataPreview.scss';
 
 const ManageDataPreview = ({
   dataType,
@@ -20,8 +20,9 @@ const ManageDataPreview = ({
     if (
       dataType &&
       dataSubType &&
+      dataSubType !== '' &&
       contains(
-        mapDataPreview[dataType][dataSubType].requiredFilters,
+        mapDataPreview[dataType][dataSubType]?.requiredFilters || null,
         appliedFilters
       )
     ) {
@@ -33,6 +34,9 @@ const ManageDataPreview = ({
   }, [dataType, dataSubType, appliedFilters]);
 
   const contains = (first, second) => {
+    if (first === null) {
+      return false;
+    }
     const indexArray = first.map((el) => {
       return second.indexOf(el);
     });
@@ -46,7 +50,7 @@ const ManageDataPreview = ({
 
   const mapDataPreview = {
     EMISSIONS: {
-      "Hourly Emissions": {
+      'Hourly Emissions': {
         requiredFilters: constants.HOURLY_EMISSIONS_REQUIRED_FILTERS,
         component: (
           <HourlyEmissionsDataPreview
@@ -54,41 +58,72 @@ const ManageDataPreview = ({
           />
         ),
       },
-      "Daily Emissions": {
-        requiredFilters: ["unknown"],
+      'Daily Emissions': {
+        requiredFilters: ['unknown'],
         component: null,
       },
-      "Monthly Emissions": {
-        requiredFilters: ["unknown"],
+      'Monthly Emissions': {
+        requiredFilters: ['unknown'],
         component: null,
       },
-      "Quarterly Emissions": {
-        requiredFilters: ["unknown"],
+      'Quarterly Emissions': {
+        requiredFilters: ['unknown'],
         component: null,
       },
-      "Ozone Season Emissions": {
-        requiredFilters: ["unknown"],
+      'Ozone Season Emissions': {
+        requiredFilters: ['unknown'],
         component: null,
       },
-      "Annual Emission": {
-        requiredFilters: ["unknown"],
+      'Annual Emissions': {
+        requiredFilters: ['unknown'],
         component: null,
       },
-      "Facility/Unit Attributes": {
-        requiredFilters: ["unknown"],
+      'Facility/Unit Attributes': {
+        requiredFilters: ['unknown'],
         component: null,
       },
     },
-    ALLOWANCE: {},
-    COMPLIANCE: {},
+    ALLOWANCE: {
+      'Account Information': {
+        requiredFilters: ['unknown'],
+        component: null,
+      },
+      Holdings: {
+        requiredFilters: ['unknown'],
+        component: null,
+      },
+      Transactions: {
+        requiredFilters: ['unknown'],
+        component: null,
+      },
+    },
+    COMPLIANCE: {
+      'Allowance Based': {
+        requiredFilters: ['unknown'],
+        component: null,
+      },
+      'Emissions Based': {
+        requiredFilters: ['unknown'],
+        component: null,
+      },
+    },
   };
 
   return (
     <div className="minh-tablet width-full manage-data-preview-wrapper">
       <div className="display-flex flex-row flex-justify bg-base-lightest padding-left-5 padding-right-7 minh-10 maxh-15">
-        <div className="flex-align-self-center font-alt-2xl text-bold">Custom Data Download</div>
-        <Button type="button" className="flex-align-self-center clearfix width-card height-6 font-sans-md"
-          disabled={!requirementsMet} onClick={()=>setRenderPreviewData(true)}> Preview Data</Button>
+        <div className="flex-align-self-center font-alt-2xl text-bold">
+          Custom Data Download
+        </div>
+        <Button
+          type="button"
+          className="flex-align-self-center clearfix width-card height-6 font-sans-md"
+          disabled={!requirementsMet}
+          onClick={() => setRenderPreviewData(true)}
+        >
+          {' '}
+          Preview Data
+        </Button>
       </div>
       {renderPreviewData && mapDataPreview[dataType][dataSubType].component}
     </div>
@@ -97,7 +132,6 @@ const ManageDataPreview = ({
 
 const mapStateToProps = (state) => {
   return {
-    dataType: state.customDataDownload.dataType,
     dataSubType: state.customDataDownload.dataSubType,
     appliedFilters: state.customDataDownload.appliedFilters,
   };
