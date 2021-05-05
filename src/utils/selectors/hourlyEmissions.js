@@ -31,9 +31,9 @@ export const resetFilterHelper = (state, filterToReset, resetAll = false) => {
 
   switch (filterToReset) {
     case 'timePeriod':
-      state.hourlyEmissions.timePeriod =
-        initialState.hourlyEmissions.timePeriod;
-      return state;
+      return Object.assign({}, state, {timePeriod: initialState.hourlyEmissions.timePeriod});
+      case 'program':
+        return Object.assign({}, state, {program: initialState.hourlyEmissions.program});
     default:
       return initialState.hourlyEmissions;
   }

@@ -9,7 +9,8 @@ import {
   resetDataPreview,
   removeAppliedFilter,
 } from '../../../store/actions/customDataDownload/customDataDownload';
-import * as constants from '../../../utils/constants/emissions';
+import { resetFilter } from '../../../store/actions/customDataDownload/hourlyEmissions/hourlyEmissions';
+import * as emissionsConstants from '../../../utils/constants/emissions';
 // *** STYLES (individual component)
 import './ManageDataPreview.scss';
 
@@ -19,6 +20,7 @@ const ManageDataPreview = ({
   appliedFilters,
   handleFilterButtonClick,
   resetDataPreviewDispacher,
+  resetFiltersDispatcher,
   removeAppliedFiltersDispatcher,
 }) => {
   const [requirementsMet, setRequirementsMet] = useState(false);
@@ -55,11 +57,13 @@ const ManageDataPreview = ({
   };
 
   const onFilterTagRemovedHandler = (filterType) => {
+    resetFiltersDispatcher(filterType, false)
     removeAppliedFiltersDispatcher(filterType, false);
     handleUpdateInAppliedFilters()
   };
 
   const onFilterTagClearAllHandler = () => {
+    resetFiltersDispatcher(null, true)
     removeAppliedFiltersDispatcher(null, true);
     handleUpdateInAppliedFilters()
   };
@@ -67,7 +71,7 @@ const ManageDataPreview = ({
   const mapDataPreview = {
     EMISSIONS: {
       'Hourly Emissions': {
-        requiredFilters: constants.HOURLY_EMISSIONS_REQUIRED_FILTERS,
+        requiredFilters: emissionsConstants.HOURLY_EMISSIONS_REQUIRED_FILTERS,
         component: (
           <HourlyEmissionsDataPreview
             handleUpdateInAppliedFilters={handleUpdateInAppliedFilters}
@@ -167,6 +171,8 @@ const mapDispatchToProps = (dispatch) => {
     resetDataPreviewDispacher: () => dispatch(resetDataPreview()),
     removeAppliedFiltersDispatcher: (removedFilter, removeAll) =>
       dispatch(removeAppliedFilter(removedFilter, removeAll)),
+    resetFiltersDispatcher: (filterToReset, resetAll) =>
+      dispatch(resetFilter(filterToReset, resetAll)),
   };
 };
 

@@ -10,9 +10,9 @@ const FilterTags = (props) => {
       {props.items.map((item, i) => {
         const label =
           item.values.length > 1
-            ? `${item.key} (${item.values.length})`
+            ? `${item.filterTag} (${item.values.length})`
             : item.values[0];
-        const description = `${item.key}: ${item.values.join(', ')}`;
+        const description = `${item.filterTag}: ${item.values.join(', ')}`;
 
         return (
           <PillButton
