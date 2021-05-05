@@ -161,7 +161,10 @@ const ManageDataDownload = ({
         selectedFilter={selectedFilter}
         closeFlyOutHandler={closeFlyOutHandler}
       />
-      <ManageDataPreview dataType={appliedDataType.dataType} handleFilterButtonClick={handleFilterButtonClick} />
+      <ManageDataPreview
+        dataType={appliedDataType.dataType}
+        handleFilterButtonClick={handleFilterButtonClick}
+      />
     </div>
   );
 };
@@ -181,7 +184,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(updateSelectedDataSubType(dataSubType)),
     removeAppliedFiltersDispatcher: (removedFilter, removeAll) =>
       dispatch(removeAppliedFilter(removedFilter, removeAll)),
-    resetFilterDispatcher: (filterToReset, resetAll) => 
+    resetFilterDispatcher: (filterToReset, resetAll) =>
       dispatch(resetFilter(filterToReset, resetAll)),
   };
 };
