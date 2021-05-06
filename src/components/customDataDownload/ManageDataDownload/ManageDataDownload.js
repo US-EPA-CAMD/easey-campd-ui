@@ -125,6 +125,20 @@ const ManageDataDownload = ({
     return entry ? entry.label : '';
   };
 
+  const getFilterVariable = (selectedFilter) => {
+    if (selectedDataSubtype) {
+      const filters =
+        constants.FILTERS_MAP[selectedDataType][
+          getSelectedDataSubType(constants.DATA_SUBTYPES_MAP[selectedDataType])
+        ];
+
+      return (
+        filters.filter((el) => el.value === selectedFilter)[0]?.stateVar || ''
+      );
+    }
+    return selectedFilter;
+  };
+
   return (
     <div
       className="manage-download-wrapper"
@@ -155,11 +169,13 @@ const ManageDataDownload = ({
       </div>
       <FlyOutPanel
         show={displayFilters}
+        selectedDataType={selectedDataType}
         selectedDataSubtype={getSelectedDataSubType(
           constants.DATA_SUBTYPES_MAP[selectedDataType]
         )}
-        selectedFilter={selectedFilter}
+        selectedFilter={getFilterVariable(selectedFilter)}
         closeFlyOutHandler={closeFlyOutHandler}
+        getSelectedDataSubType={getSelectedDataSubType}
       />
       <ManageDataPreview
         dataType={appliedDataType.dataType}

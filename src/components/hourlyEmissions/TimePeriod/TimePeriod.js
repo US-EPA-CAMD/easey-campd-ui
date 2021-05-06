@@ -36,7 +36,7 @@ export const TimePeriod = ({
 
   const [applyFilterClicked, setApplyFilterClicked] = useState(false);
 
-  const filterToApply = 'timePeriod';
+  const filterToApply = 'Time Period';
 
   useEffect(() => {
     if (
@@ -55,11 +55,11 @@ export const TimePeriod = ({
       }
       addAppliedFilterDispatcher({
         key: filterToApply,
-        filterTag: 'Time Period',
         values: [`${formState.startDate} - ${formState.endDate}`],
+
       });
       if (formState.opHrsOnly) {
-        addAppliedFilterDispatcher({key: filterToApply, filterTag: '', values: ['Operating Hours Only']})
+        addAppliedFilterDispatcher({key: filterToApply, values: ['Operating Hours Only']})
       }
       closeFlyOutHandler();
     }

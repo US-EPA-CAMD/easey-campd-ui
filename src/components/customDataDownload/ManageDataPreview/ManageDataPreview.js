@@ -62,7 +62,7 @@ const ManageDataPreview = ({
   };
 
   const onFilterTagRemovedHandler = (filterType, label) => {
-    if (filterType === 'timePeriod' && label === 'Operating Hours Only') {
+    if (filterType === 'Time Period' && label === 'Operating Hours Only') {
       updateTimePeriodDispatcher({
         startDate: timePeriod.startDate,
         endDate: timePeriod.endDate,

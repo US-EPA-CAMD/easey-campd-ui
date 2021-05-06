@@ -22,8 +22,8 @@ export const DataPreview = ({
 
   useEffect(() =>{
     if(dataPreview === null){
-      const filterValues = appliedFilters.map(filter=>hourlyEmissions[filter.key]);
-      loadHourlyEmissionsDispacher(filterValues);
+      // const filterValues = appliedFilters.map(filter=>hourlyEmissions[filter.key]);
+      loadHourlyEmissionsDispacher(hourlyEmissions);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]);
