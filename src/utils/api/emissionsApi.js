@@ -11,3 +11,12 @@ export async function getHourlyEmissions(requestParams) {
     .then(handleResponse)
     .catch(handleError);
 }
+
+export async function getEmissionsPrograms() {
+  const url = `${config.services.mdm.uri}/programs`;
+  console.log(url);
+  return axios
+    .get(url)
+    .then(handleResponse)
+    .catch(handleError);
+}

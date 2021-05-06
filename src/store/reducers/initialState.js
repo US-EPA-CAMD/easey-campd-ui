@@ -11,7 +11,8 @@ export default {
       startDate: null,
       endDate: null,
       opHrsOnly: true
-    }
+    },
+    programs: []
   },
   apiCallsInProgress: 0
 };

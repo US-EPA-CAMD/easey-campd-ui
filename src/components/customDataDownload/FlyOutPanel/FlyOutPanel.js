@@ -1,5 +1,6 @@
 import React from "react";
 import TimePeriod from "../../hourlyEmissions/TimePeriod/TimePeriod";
+import Programs from "../../hourlyEmissions/Programs/Programs";
 
 const FlyOutPanel = ({
   show,
@@ -9,6 +10,7 @@ const FlyOutPanel = ({
 }) => {
   const hourlyEmissions = {
     timePeriod: <TimePeriod closeFlyOutHandler={closeFlyOutHandler} />,
+    program: <Programs closeFlyOutHandler={closeFlyOutHandler}/>
   };
 
   const contentRenderer = () => {
@@ -25,8 +27,8 @@ const FlyOutPanel = ({
   return (
     <>
       {show === true ? (
-        <div className="side-panel bg-base-lightest margin-0 overlay">
-          <div className="padding-top-6 padding-bottom-3 padding-x-9">
+        <div className="side-panel bg-base-lightest margin-0 position-relative z-top">
+          <div className="padding-top-6 padding-bottom-3 padding-x-2">
             {contentRenderer()}
           </div>
         </div>

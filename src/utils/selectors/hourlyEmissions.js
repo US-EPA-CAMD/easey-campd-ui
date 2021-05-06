@@ -62,3 +62,33 @@ export const getTableRecords = (hourlyEmissions) =>{
   });
   return records;
 }
+
+export const restructurePrograms = (programs) =>{
+  const data = [
+    {
+      name: 'Annual',
+      description: 'Annual Programs',
+      items: []
+    },
+    {
+      name: 'Ozone',
+      description: 'Ozone Programs',
+      items: []
+    }
+  ];
+  programs.forEach(p=>{
+    const entry = {
+      id: p.programCode,
+      description: p.programDescription,
+      active: !p.retiredIndicator,
+      selected: false
+    };
+    if(p.annualIndicator){
+      data[0].items.push(entry);
+    }else if(p.ozoneIndicator){
+      data[1].items.push(entry);
+    }
+  });
+
+  return data;
+}

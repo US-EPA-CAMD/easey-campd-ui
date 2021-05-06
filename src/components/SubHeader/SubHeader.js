@@ -56,7 +56,7 @@ const SubHeader = () => {
         }}
       >
         <div className="usa-nav-container">
-          <div className="margin-left-9">
+          <div className="margin-left-3">
             <Title className="float-left clearfix margin-left-9">
               <a
                 href={config.app.path}
@@ -69,7 +69,7 @@ const SubHeader = () => {
             </Title>
           </div>
           <PrimaryNav
-            className="float-right clearfix margin-right-9 margin-top-3"
+            className="float-right clearfix margin-right-3 margin-top-3"
             items={[
               <>
                 <a

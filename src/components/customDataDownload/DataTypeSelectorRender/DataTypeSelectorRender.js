@@ -29,7 +29,7 @@ const DataTypeSelectorView = ({
         />
         <div className="font-body-sm text-normal text-gray-30">(Required)</div>
       </div>
-      <div className="subtype-container border-bottom-1px border-base-light clearfix padding-y-1 padding-x-6">
+      <div className="subtype-container border-bottom-1px border-base-light clearfix padding-y-1 padding-x-3">
         <div className="float-left">
           <span className="text-bold padding-top-1 font-body-md">
             {initcap(selectedDataType)}
