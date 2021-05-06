@@ -16,9 +16,13 @@ const reducer = (state = initialState.customDataDownload, action) => {
         appliedFilters: [...state.appliedFilters, action.appliedFilter]
        };
     case types.REMOVE_APPLIED_FILTER:
+      let filter = (action.removal.opHours && !action.removal.removeAll) 
+      ? (el) => el.values[0] !== 'Operating Hours Only'
+      : (el) => el.key !== action.removal.removedFilter
+
       return {
-        ...state,
-        appliedFilters: action.removal.removeAll? [] : state.appliedFilters.filter((e) => e !== action.removal.removedFilter)
+          ...state,
+          appliedFilters: action.removal.removeAll ? [] : state.appliedFilters.filter(filter)
       }
     case types.LOAD_HOURLY_EMISSIONS_SUCCESS:
       return Object.assign({}, state, { dataPreview: action.hourlyEmissions.data }, { totalCount: action.hourlyEmissions.totalCount });

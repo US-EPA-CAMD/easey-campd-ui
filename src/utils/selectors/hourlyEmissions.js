@@ -21,7 +21,7 @@ export const formatDateToUi = (dateString) =>{//param=yyyy-mm-dd return=mm/dd/yy
 };
 
 export const isAddedToFilters = (filter, appliedFilters) =>{
-  return appliedFilters.includes(filter);
+  return appliedFilters.filter((el) => el.key === filter).length > 0;
 }
 
 export const resetFilterHelper = (state, filterToReset, resetAll = false) => {
@@ -30,10 +30,10 @@ export const resetFilterHelper = (state, filterToReset, resetAll = false) => {
   }
 
   switch (filterToReset) {
-    case 'timePeriod':
-      state.hourlyEmissions.timePeriod =
-        initialState.hourlyEmissions.timePeriod;
-      return state;
+    case 'Time Period':
+      return Object.assign({}, state, {timePeriod: initialState.hourlyEmissions.timePeriod});
+    case 'Program':
+      return Object.assign({}, state, {program: initialState.hourlyEmissions.program});
     default:
       return initialState.hourlyEmissions;
   }

@@ -50,6 +50,7 @@ const ManageDataDownload = ({
     } else {
       setSelectionChange(true);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedDataType, selectedDataSubtype, appliedDataType]);
 
   // *** EVENT HANDLERS
@@ -124,6 +125,20 @@ const ManageDataDownload = ({
     return entry ? entry.label : '';
   };
 
+  const getFilterVariable = (selectedFilter) => {
+    if (selectedDataSubtype) {
+      const filters =
+        constants.FILTERS_MAP[selectedDataType][
+          getSelectedDataSubType(constants.DATA_SUBTYPES_MAP[selectedDataType])
+        ];
+
+      return (
+        filters.filter((el) => el.value === selectedFilter)[0]?.stateVar || ''
+      );
+    }
+    return selectedFilter;
+  };
+
   return (
     <div
       className="manage-download-wrapper"
@@ -154,13 +169,18 @@ const ManageDataDownload = ({
       </div>
       <FlyOutPanel
         show={displayFilters}
+        selectedDataType={selectedDataType}
         selectedDataSubtype={getSelectedDataSubType(
           constants.DATA_SUBTYPES_MAP[selectedDataType]
         )}
-        selectedFilter={selectedFilter}
+        selectedFilter={getFilterVariable(selectedFilter)}
         closeFlyOutHandler={closeFlyOutHandler}
+        getSelectedDataSubType={getSelectedDataSubType}
       />
-      <ManageDataPreview dataType={appliedDataType.dataType} />
+      <ManageDataPreview
+        dataType={appliedDataType.dataType}
+        handleFilterButtonClick={handleFilterButtonClick}
+      />
     </div>
   );
 };
@@ -180,7 +200,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(updateSelectedDataSubType(dataSubType)),
     removeAppliedFiltersDispatcher: (removedFilter, removeAll) =>
       dispatch(removeAppliedFilter(removedFilter, removeAll)),
-    resetFilterDispatcher: (filterToReset, resetAll) => 
+    resetFilterDispatcher: (filterToReset, resetAll) =>
       dispatch(resetFilter(filterToReset, resetAll)),
   };
 };
