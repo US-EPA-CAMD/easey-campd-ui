@@ -27,12 +27,13 @@ export function addAppliedFilter(appliedFilter){
   };
 }
 
-// export function removeAppliedFilter(removedFilter, removeAll = false){
-//   return {
-//     type: types.REMOVE_APPLIED_FILTER,
-//     removal:{
-//       removedFilter,
-//       removeAll
-//     },
-//   };
-// }
+export function removeAppliedFilter(removedFilter, removeAll = false, opHours = false){
+  return {
+    type: types.REMOVE_APPLIED_FILTER,
+    removal:{
+      removedFilter,
+      removeAll,
+      opHours,
+    },
+  };
+}

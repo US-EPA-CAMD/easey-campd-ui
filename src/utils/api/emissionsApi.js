@@ -2,8 +2,8 @@ import axios from "axios";
 import { handleResponse, handleError } from "./apiUtils";
 import config from "../../config";
 
-export async function getHourlyEmissions(requestParams) {
-  const url = `${config.services.emissions.uri}/apportioned/hourly?page=1&perPage=100&beginDate=${requestParams[0].startDate}&endDate=${requestParams[0].endDate}&opHoursOnly=${requestParams[0].opHrsOnly}`;
+export async function getHourlyEmissions(hourlyEmissions) {
+  const url = `${config.services.emissions.uri}/apportioned/hourly?page=1&perPage=100&beginDate=${hourlyEmissions.timePeriod.startDate}&endDate=${hourlyEmissions.timePeriod.endDate}&opHoursOnly=${hourlyEmissions.timePeriod.opHrsOnly}`;
   console.log(url);
   return axios
     .get(url)

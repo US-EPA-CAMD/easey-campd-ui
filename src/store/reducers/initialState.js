@@ -1,18 +1,18 @@
 export default {
-  customDataDownload:{
+  customDataDownload: {
     dataType: null,
     dataSubType: null,
-    appliedFilters:[],
+    appliedFilters: [],
     dataPreview: null,
     totalCount: null,
   },
-  hourlyEmissions:{
+  hourlyEmissions: {
     timePeriod: {
       startDate: null,
       endDate: null,
-      opHrsOnly: true
+      opHrsOnly: true,
     },
-    programs: []
+    program: [],
   },
-  apiCallsInProgress: 0
+  apiCallsInProgress: 0,
 };

@@ -1,3 +1,4 @@
+import initialState from "../../store/reducers/initialState";
 
 export const formatDateToApi = (dateString) =>{//param=mm/dd/yyyy return=yyyy-mm-dd
   if(dateString){
@@ -20,8 +21,23 @@ export const formatDateToUi = (dateString) =>{//param=yyyy-mm-dd return=mm/dd/yy
 };
 
 export const isAddedToFilters = (filter, appliedFilters) =>{
-  return appliedFilters.includes(filter);
+  return appliedFilters.filter((el) => el.key === filter).length > 0;
 }
+
+export const resetFilterHelper = (state, filterToReset, resetAll = false) => {
+  if (resetAll) {
+    return initialState.hourlyEmissions;
+  }
+
+  switch (filterToReset) {
+    case 'Time Period':
+      return Object.assign({}, state, {timePeriod: initialState.hourlyEmissions.timePeriod});
+    case 'Program':
+      return Object.assign({}, state, {program: initialState.hourlyEmissions.program});
+    default:
+      return initialState.hourlyEmissions;
+  }
+};
 
 export const getTableRecords = (hourlyEmissions) =>{
   const records = [];
@@ -91,4 +107,16 @@ export const restructurePrograms = (programs) =>{
   });
 
   return data;
-}
+};
+
+export const getSelectedProgramIds = (program) =>{
+  const result = [];
+  program.forEach(p=>{
+    p.items.forEach(i=>{
+      if(i.selected){
+        result.push(i.id);
+      }
+    });
+  });
+  return result;
+};

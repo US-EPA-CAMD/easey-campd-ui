@@ -1,10 +1,10 @@
 import React from "react";
 import SelectDataTypeInCards from "../SelectableCards/SelectableCards";
+import {DATA_TYPES} from '../../utils/constants/customDataDownload'
 
 import "./SelectDataType.scss";
 
 const SelectDataType = () => {
-  const dataTypes = ["EMISSIONS", "ALLOWANCE", "COMPLIANCE"];
   return (
     <div className="selectDataTypeContent maxw-tablet">
       <h2 className="text-bold">Custom Data Download</h2>
@@ -14,7 +14,7 @@ const SelectDataType = () => {
         compliance and/or facility information. By making selections, you
         further refine the query, thereby reducing its size.
       </p>
-      <SelectDataTypeInCards cardContents={dataTypes} />
+      <SelectDataTypeInCards cardContents={DATA_TYPES} />
     </div>
   );
 };

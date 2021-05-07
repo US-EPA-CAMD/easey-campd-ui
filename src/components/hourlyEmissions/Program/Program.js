@@ -2,22 +2,28 @@ import React, { useEffect, useState } from 'react';
 import { connect } from "react-redux";
 import GenericPrograms from '../../GenericPrograms/GenericPrograms';
 import {loadEmissionsPrograms, updateProgramSelection} from "../../../store/actions/customDataDownload/hourlyEmissions/hourlyEmissions";
+import { addAppliedFilter, removeAppliedFilter } from "../../../store/actions/customDataDownload/customDataDownload";
+import {isAddedToFilters, getSelectedProgramIds} from "../../../utils/selectors/hourlyEmissions";
 import {Button} from "@trussworks/react-uswds";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
 
-const Programs = ({
-  storePrograms,
+const Program = ({
+  storeProgram,
   appliedFilters,
   loadEmissionsProgramsDispatcher,
   updateProgramSelectionDispatcher,
+  addAppliedFilterDispatcher,
+  removeAppliedFilterDispatcher,
   loading,
   closeFlyOutHandler}) => {
 
-  const [programs, setPrograms] = useState(JSON.parse(JSON.stringify(storePrograms)));
+  const [program, setPrograms] = useState(JSON.parse(JSON.stringify(storeProgram)));
+
+  const filterToApply = "Program";
 
   const onSelectAllProgramsHandler = (e) =>{
-    const newPrograms = [...programs];
+    const newPrograms = [...program];
     const [groupName, activeString] = e.target.id.split('-');
     const groupIndex = (groupName === 'Annual')? 0:1;
     const active = (activeString==='true');
@@ -30,7 +36,7 @@ const Programs = ({
   };
 
   const onSelectProgramHandler = (e) =>{
-    const newPrograms = [...programs];
+    const newPrograms = [...program];
     const groupIndex = (e.target.name === 'Annual')? 0:1;
     const found = newPrograms[groupIndex].items.findIndex(i=>i.id===e.target.id);
     if(found>-1){
@@ -40,28 +46,32 @@ const Programs = ({
   };
 
   useEffect(()=>{
-    if(storePrograms.length===0){
+    if(storeProgram.length===0){
       loadEmissionsProgramsDispatcher();
     }// eslint-disable-next-line react-hooks/exhaustive-deps
   },[]);
 
   useEffect(()=>{
-    setPrograms(JSON.parse(JSON.stringify(storePrograms)));
-  },[storePrograms]);
+    setPrograms(JSON.parse(JSON.stringify(storeProgram)));
+  },[storeProgram]);
 
   const handleApplyFilter = () =>{
-    updateProgramSelectionDispatcher(programs);
+    updateProgramSelectionDispatcher(program);
+    if(isAddedToFilters(filterToApply, appliedFilters)){
+      removeAppliedFilterDispatcher(filterToApply);
+    }
+    addAppliedFilterDispatcher({key:filterToApply, values:getSelectedProgramIds(program)});
     closeFlyOutHandler();
   };
 
   const isApplyFilterEnabled = () =>{
     let annualSelection, ozonSelection;
-    if(programs.length===0){
+    if(program.length===0){
       annualSelection=false;
       ozonSelection=false;
     }else{
-      annualSelection = programs[0].items.filter(i=>i.selected).length>0?true:false;
-      ozonSelection = programs[1].items.filter(i=>i.selected).length>0?true:false;
+      annualSelection = program[0].items.filter(i=>i.selected).length>0?true:false;
+      ozonSelection = program[1].items.filter(i=>i.selected).length>0?true:false;
     }
     return annualSelection || ozonSelection;
   };
@@ -77,12 +87,12 @@ const Programs = ({
         <hr />
       </div>
       {
-        programs.length > 0 && loading===0 &&
+        program.length > 0 && loading===0 &&
         <>
           <div className="display-block maxh-mobile-lg overflow-y-scroll overflow-x-hidden">
             <GenericPrograms
               showActiveRetired={true}
-              items={programs}
+              items={program}
               showActive={true}
               showRetired={true}
               enableSelectAll={true}
@@ -107,7 +117,7 @@ const Programs = ({
         </>
       }
       {
-        loading>0 && programs.length===0 &&
+        loading>0 && program.length===0 &&
         <span className="font-alt-sm text-bold">Loading...</span>
       }
     </>
@@ -117,7 +127,7 @@ const Programs = ({
 
 const mapStateToProps = (state) => {
   return {
-    storePrograms: state.hourlyEmissions.programs,
+    storeProgram: state.hourlyEmissions.program,
     appliedFilters: state.customDataDownload.appliedFilters,
     loading: state.apiCallsInProgress
   };
@@ -126,8 +136,10 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     loadEmissionsProgramsDispatcher: () => dispatch(loadEmissionsPrograms()),
-    updateProgramSelectionDispatcher: (programs) => dispatch(updateProgramSelection(programs))
+    updateProgramSelectionDispatcher: (program) => dispatch(updateProgramSelection(program)),
+    addAppliedFilterDispatcher: (filterToApply) => dispatch(addAppliedFilter(filterToApply)),
+    removeAppliedFilterDispatcher: (removedFilter) => dispatch(removeAppliedFilter(removedFilter))
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Programs);
+export default connect(mapStateToProps, mapDispatchToProps)(Program);

@@ -10,10 +10,10 @@ export function updateTimePeriod(selectedTimePeriod) {
   };
 }
 
-export function loadEmissionsProgramsSuccess(programs) {
+export function loadEmissionsProgramsSuccess(program) {
   return {
     type: types.LOAD_EMISSIONS_PROGRAMS_SUCCESS,
-    programs: restructurePrograms(programs)
+    program: restructurePrograms(program)
   };
 }
 
@@ -31,10 +31,20 @@ export function loadEmissionsPrograms() {
   };
 }
 
-export function updateProgramSelection(selectedPrograms){
+export function updateProgramSelection(selectedProgram){
   return {
     type: types.HOURLY_EMISSIONS.UPDATE_PROGRAM_SELECTION,
-    selectedPrograms,
+    selectedProgram,
+  }
+}
+
+export function resetFilter(filterToReset, resetAll = false){
+  return {
+    type: types.HOURLY_EMISSIONS.RESET_FILTER,
+    reset:{
+      filterToReset,
+      resetAll
+    },
   };
 }
 
@@ -48,11 +58,11 @@ export function loadHourlyEmissionsSuccess(hourlyEmissions, totalCount) {
   };
 }
 
-export function loadHourlyEmissions(filtersApplied) {
+export function loadHourlyEmissions(hourlyEmissions) {
   return (dispatch) => {
     dispatch(beginApiCall());
     return emissionsApi
-      .getHourlyEmissions(filtersApplied)
+      .getHourlyEmissions(hourlyEmissions)
       .then((res) => {
         dispatch(loadHourlyEmissionsSuccess(res.data, res.headers["x-total-count"]));
       })
