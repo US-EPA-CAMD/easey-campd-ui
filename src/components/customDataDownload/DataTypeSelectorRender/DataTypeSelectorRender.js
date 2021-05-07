@@ -27,15 +27,15 @@ const DataTypeSelectorView = ({
 
   return (
     <>
-      <div className="font-alt-xl text-bold padding-top-6 padding-bottom-3 padding-left-6">
+      <div className="font-alt-xl text-bold padding-top-6 padding-bottom-3 padding-left-2">
         Data Type
         <FontAwesomeIcon
           icon={faQuestionCircle}
           className="text-primary font-body-md question-icon"
         />
       </div>
-      <div className="subtype-container border-bottom-1px border-base-light clearfix padding-y-1 padding-x-6">
-        <div>
+      <div className="border-bottom-1px border-base-light clearfix padding-y-1 padding-x-2">
+        <div className="float-left">
           <span className="text-bold padding-top-1 font-body-md">
             {selectedDataSubtype !== '' &&
             selectedDataSubtype !== '-1' &&

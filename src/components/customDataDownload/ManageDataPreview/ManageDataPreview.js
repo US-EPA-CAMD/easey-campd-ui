@@ -145,7 +145,7 @@ const ManageDataPreview = ({
 
   return (
     <div className="minh-tablet width-full manage-data-preview-wrapper">
-      <div className="display-flex flex-row flex-justify bg-base-lightest padding-left-5 padding-right-7 minh-10 maxh-15">
+      <div className="display-flex flex-row flex-justify bg-base-lightest padding-left-3 padding-right-3 minh-10 maxh-15">
         <div className="flex-align-self-center font-alt-2xl text-bold">
           Custom Data Download
         </div>
@@ -159,7 +159,7 @@ const ManageDataPreview = ({
         </Button>
       </div>
       {appliedFilters.length > 0 && (
-        <div className="display-flex flex-row flex-justify bg-base-lightest padding-left-5 padding-right-7 padding-bottom-2 font-alt-sm">
+        <div className="display-flex flex-row flex-justify bg-base-lightest padding-left-3 padding-right-3 padding-bottom-2 font-alt-sm">
           <FilterTags
             items={appliedFilters}
             onClick={(filterType) => handleFilterButtonClick(filterType)}

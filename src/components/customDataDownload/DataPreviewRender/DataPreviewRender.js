@@ -10,7 +10,7 @@ const DataPreviewRender = ({
   totalCount,
 }) => {
   return (
-    <div className="preview-content-wrapper padding-top-5 padding-left-5 padding-right-7 padding-bottom-2">
+    <div className="preview-content-wrapper padding-top-4 padding-left-3 padding-right-3 padding-bottom-2">
       <div>
         <div className="font-alt-xl text-bold">Data Preview &nbsp;</div>
         <span className="font-alt-sm text-bold">
