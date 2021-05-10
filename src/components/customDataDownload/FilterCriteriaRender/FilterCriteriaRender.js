@@ -15,6 +15,7 @@ const FiltersView = ({
   selectedDataType,
   getSelectedDataSubType,
   handleFilterButtonClick,
+  activeFilter,
   appliedFilters,
 }) => {
   return (
@@ -41,7 +42,7 @@ const FiltersView = ({
                       outline="true"
                       onClick={() => handleFilterButtonClick(el.value)}
                       className={
-                        isAddedToFilters(el.value, appliedFilters)
+                        isAddedToFilters(el.value, appliedFilters) || activeFilter===el.value
                           ? "filter-button applied-filter"
                           : "filter-button bg-base-lightest"
                       }

@@ -16,7 +16,7 @@ const SubHeader = () => {
 
   const [navDropdownOpen, setNavDropdownOpen] = useState([false, false, false]);
   const [categorySelected, setCategorySelected] = useState([
-    false,
+    //false,
     true,
     false,
     false,
@@ -88,9 +88,9 @@ const SubHeader = () => {
                   key="testItemTwo"
                   label="DATA"
                   menuId="menuData"
-                  isOpen={navDropdownOpen[1]}
+                  isOpen={navDropdownOpen[0]}
                   onToggle={() => {
-                    handleToggleNavDropdown(1);
+                    handleToggleNavDropdown(0);
                   }}
                 />
                 <Menu
@@ -99,7 +99,7 @@ const SubHeader = () => {
                     <Link
                       to=""
                       onClick={(event) =>
-                        handleSubMenuClick("select-data-type", 1)
+                        handleSubMenuClick("select-data-type", 0)
                       }
                     >
                       Custom Data Download
@@ -115,9 +115,9 @@ const SubHeader = () => {
                       CAMPD API
                     </Link>,
                   ]}
-                  isOpen={navDropdownOpen[1]}
+                  isOpen={navDropdownOpen[0]}
                 />
-                {categorySelected[1] === true ? (
+                {categorySelected[0] === true ? (
                   <div className="menu-underline" />
                 ) : null}
               </>,
@@ -127,9 +127,9 @@ const SubHeader = () => {
                   key="testItemThree"
                   label="ANALYSIS"
                   menuId="menuAnalysis"
-                  isOpen={navDropdownOpen[2]}
+                  isOpen={navDropdownOpen[1]}
                   onToggle={() => {
-                    handleToggleNavDropdown(2);
+                    handleToggleNavDropdown(1);
                   }}
                   isCurrent={true}
                 />
@@ -142,7 +142,7 @@ const SubHeader = () => {
                       Analysis
                     </Link>,
                   ]}
-                  isOpen={navDropdownOpen[2]}
+                  isOpen={navDropdownOpen[1]}
                 />
               </>,
               <>
@@ -151,9 +151,9 @@ const SubHeader = () => {
                   key="testItemFour"
                   label="VISUALIZATION"
                   menuId="menuVisualization"
-                  isOpen={navDropdownOpen[3]}
+                  isOpen={navDropdownOpen[2]}
                   onToggle={() => {
-                    handleToggleNavDropdown(3);
+                    handleToggleNavDropdown(2);
                   }}
                   isCurrent={true}
                 />
@@ -161,14 +161,14 @@ const SubHeader = () => {
                   id="extended-nav-section-four"
                   items={[
                     <Link
-                      to="" /*onClick={(event) => handleSubMenuClick("", 3)}*/
+                      to="" /*onClick={(event) => handleSubMenuClick("", 2)}*/
                     >
                       Visualization
                     </Link>,
                   ]}
-                  isOpen={navDropdownOpen[3]}
+                  isOpen={navDropdownOpen[2]}
                 />
-              </>,
+              </>
             ]}
           />
         </div>

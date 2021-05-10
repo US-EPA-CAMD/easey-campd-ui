@@ -39,6 +39,7 @@ const ManageDataDownload = ({
   const [displayCancel, setDisplayCancel] = useState(false);
   const [displayFilters, setDisplayFilters] = useState(false);
   const [selectedFilter, setSelectedFilter] = useState('');
+  const [activeFilter, setActiveFilter] = useState(null);
 
   useEffect(() => {
     if (
@@ -79,9 +80,11 @@ const ManageDataDownload = ({
     if (displayFilters === true && selectedFilter === filterType) {
       setSelectedFilter('');
       setDisplayFilters(false);
+      setActiveFilter(null);
     } else {
       setSelectedFilter(filterType);
       setDisplayFilters(true);
+      setActiveFilter(filterType);
     }
   };
 
@@ -115,6 +118,7 @@ const ManageDataDownload = ({
   const closeFlyOutHandler = () => {
     setSelectedFilter('');
     setDisplayFilters(false);
+    setActiveFilter(null);
   };
 
   // *** UTILITY FUNCTION
@@ -165,6 +169,7 @@ const ManageDataDownload = ({
           getSelectedDataSubType={getSelectedDataSubType}
           handleFilterButtonClick={handleFilterButtonClick}
           appliedFilters={appliedFilters}
+          activeFilter={activeFilter}
         />
       </div>
       <FlyOutPanel
