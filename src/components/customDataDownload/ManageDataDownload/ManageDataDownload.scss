@@ -1,10 +1,12 @@
 .side-panel {
-  width: 27vw;
-  min-width: 25vh !important;
-  max-width: 35vw !important;
+  width: 25vw;
+  min-width: 320px !important;
+  max-width: 25vw !important;
   min-height: 80vh !important;
   max-height: fit-content !important;
   overflow: hidden !important;
+  //filter: drop-shadow(0.35rem 0.35rem 0.4rem rgba(0, 0, 0, 0.5));
+  //filter: drop-shadow(5px 0px 9px rgba(0, 0, 0, 0.5));
 }
 
 .manage-download-wrapper {

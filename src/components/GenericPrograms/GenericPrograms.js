@@ -16,8 +16,9 @@ const GenericPrograms = ({
       if(showActive){
         result.push(
           <div key={1}>
-            <div className="margin-0 padding-1 btn-primary">
-              <h4 className="margin-0">Active Programs</h4>
+            <div className="margin-x-2">
+              <div className="font-sans-lg text-semibold">Active Programs</div>
+              <div className="margin-0 height-2px bg-base-light" />
             </div>
             <div>
               <GroupCheckboxGroup
@@ -35,8 +36,9 @@ const GenericPrograms = ({
       if(showRetired){
         result.push(
           <div key={2}>
-            <div className="margin-0 padding-1 btn-primary">
-              <h4 className="margin-0">Retired Programs</h4>
+            <div className="margin-x-2">
+              <div className="font-sans-lg text-semibold">Retired Programs</div>
+              <div className="margin-0 height-2px bg-base-light" />
             </div>
             <div>
               <GroupCheckboxGroup

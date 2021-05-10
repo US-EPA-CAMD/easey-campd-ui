@@ -92,10 +92,16 @@ export const restructurePrograms = (programs) =>{
       items: []
     }
   ];
+  programs.sort((a,b)=>{
+    const textA = a.programCode.toUpperCase();
+    const textB = b.programCode.toUpperCase();
+    return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+  });
   programs.forEach(p=>{
     const entry = {
       id: p.programCode,
       description: p.programDescription,
+      label: p.retiredIndicator? `${p.programDescription} (${p.programCode}) (ended ${p.tradingEndDate.split('-')[0]})`:`${p.programDescription} (${p.programCode})`,
       active: !p.retiredIndicator,
       selected: false
     };

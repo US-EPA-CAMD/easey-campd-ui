@@ -13,7 +13,7 @@ export async function getHourlyEmissions(hourlyEmissions) {
 }
 
 export async function getEmissionsPrograms() {
-  const url = `${config.services.mdm.uri}/programs`;
+  const url = `${config.services.mdm.uri}/programs?exclude=MATS`;
   console.log(url);
   return axios
     .get(url)

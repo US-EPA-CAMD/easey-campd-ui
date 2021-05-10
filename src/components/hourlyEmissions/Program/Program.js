@@ -22,18 +22,18 @@ const Program = ({
 
   const filterToApply = "Program";
 
-  const onSelectAllProgramsHandler = (e) =>{
-    const newPrograms = [...program];
-    const [groupName, activeString] = e.target.id.split('-');
-    const groupIndex = (groupName === 'Annual')? 0:1;
-    const active = (activeString==='true');
-    newPrograms[groupIndex].items.forEach(i=>{
-      if(i.active===active){
-        i.selected = e.target.checked
-      }
-    });
-    setPrograms(newPrograms);
-  };
+  // const onSelectAllProgramsHandler = (e) =>{
+  //   const newPrograms = [...program];
+  //   const [groupName, activeString] = e.target.id.split('-');
+  //   const groupIndex = (groupName === 'Annual')? 0:1;
+  //   const active = (activeString==='true');
+  //   newPrograms[groupIndex].items.forEach(i=>{
+  //     if(i.active===active){
+  //       i.selected = e.target.checked
+  //     }
+  //   });
+  //   setPrograms(newPrograms);
+  // };
 
   const onSelectProgramHandler = (e) =>{
     const newPrograms = [...program];
@@ -78,7 +78,7 @@ const Program = ({
 
   return (
     <>
-      <div className="font-alt-xl text-bold padding-top-2">
+      <div className="panel-header padding-top-2 margin-x-2">
         Program
         <FontAwesomeIcon
           icon={faQuestionCircle}
@@ -95,8 +95,8 @@ const Program = ({
               items={program}
               showActive={true}
               showRetired={true}
-              enableSelectAll={true}
-              onSelectAll={onSelectAllProgramsHandler}
+              enableSelectAll={false}
+              //onSelectAll={onSelectAllProgramsHandler}
               onSelectItem={onSelectProgramHandler}
             />
           </div>

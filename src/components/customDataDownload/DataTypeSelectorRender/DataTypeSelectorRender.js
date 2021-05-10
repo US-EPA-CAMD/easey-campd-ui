@@ -27,7 +27,7 @@ const DataTypeSelectorView = ({
 
   return (
     <>
-      <div className="font-alt-xl text-bold padding-top-6 padding-bottom-3 padding-left-2">
+      <div className="panel-header padding-top-3 padding-bottom-3 padding-left-2">
         Data Type
         <FontAwesomeIcon
           icon={faQuestionCircle}
@@ -35,26 +35,23 @@ const DataTypeSelectorView = ({
         />
       </div>
       <div className="border-bottom-1px border-base-light clearfix padding-y-1 padding-x-2">
-        <div className="float-left">
-          <span className="text-bold padding-top-1 font-body-md">
-            {selectedDataSubtype !== '' &&
-            selectedDataSubtype !== '-1' &&
-            dataSubtypeApplied === true ? (
-              <>
-                <span>{initcap(selectedDataType)},</span>{' '}
-                {getSelectedDataSubType(
-                  constants.DATA_SUBTYPES_MAP[selectedDataType]
-                )}
-                <Button
-                  outline="true"
-                  className="float-right"
-                  onClick={handleChangeButtonClick}
-                >
-                  Change
-                </Button>
-              </>
-            ) : null}
-          </span>
+        <div className="display-flex flex-row flex-justify">
+          {selectedDataSubtype !== '' &&
+          selectedDataSubtype !== '-1' &&
+          dataSubtypeApplied === true && (
+          <>
+            <span className="text-bold padding-top-1 font-sans-xs">
+              {initcap(selectedDataType)},{' '}
+              {getSelectedDataSubType(constants.DATA_SUBTYPES_MAP[selectedDataType])}
+            </span>
+            <Button
+              outline="true"
+              className="margin-right-0"
+              onClick={handleChangeButtonClick}
+            >
+              Change
+            </Button>
+          </>)}
         </div>
         {dataTypeApplied === false && (
           <>

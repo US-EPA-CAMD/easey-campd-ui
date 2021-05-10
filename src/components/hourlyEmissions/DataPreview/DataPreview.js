@@ -10,6 +10,7 @@ export const DataPreview = ({
   loading,
   hourlyEmissions,
   handleUpdateInAppliedFilters,
+  appliedFilters,
   totalCount
 }) => {
   useEffect(() => {
@@ -17,7 +18,7 @@ export const DataPreview = ({
       handleUpdateInAppliedFilters();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [hourlyEmissions]);
+  }, [appliedFilters]);
 
   useEffect(() =>{
     if(dataPreview === null){
@@ -180,7 +181,8 @@ const mapStateToProps = (state) => {
     dataPreview: state.customDataDownload.dataPreview,
     totalCount: state.customDataDownload.totalCount,
     loading: state.apiCallsInProgress,
-    hourlyEmissions : state.hourlyEmissions
+    hourlyEmissions : state.hourlyEmissions,
+    appliedFilters : state.customDataDownload.appliedFilters
   };
 };
 

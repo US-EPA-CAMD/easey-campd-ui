@@ -22,9 +22,9 @@ const CheckboxGroup = (props) => {
 
   return (
     <div className="margin-x-2 margin-top-2 margin-bottom-5">
-      <div className="display-flex flex-row flex-justify">
+      <div className="display-flex flex-row flex-justify padding-bottom-1">
         <div className="flex-align-self-center">
-          <h4>{props.description}</h4>
+          <div className="font-sans-md text-bold">{props.description}</div>
         </div>
         { props.enableSelectAll ?
             <div className="flex-align-self-center clearfix">
@@ -39,7 +39,7 @@ const CheckboxGroup = (props) => {
           : null
         }
       </div>
-      <hr className="margin-0" />
+      {!props.showActiveRetired && <div className="margin-0 height-2px bg-base-light" />}
       {
         props.showActiveRetired ?
           props.items
@@ -49,7 +49,7 @@ const CheckboxGroup = (props) => {
                 <Checkbox
                   id={item.id}
                   name={props.name}
-                  label={item.description}
+                  label={item.label}
                   checked={item.selected}
                   onChange={props.onSelectItem}
                 />
@@ -60,7 +60,7 @@ const CheckboxGroup = (props) => {
               <Checkbox
                 id={item.id}
                 name={props.name}
-                label={item.description}
+                label={item.label}
                 checked={item.selected}
                 onChange={props.onSelectItem}
               />
