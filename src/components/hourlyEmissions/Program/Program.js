@@ -60,21 +60,24 @@ const Program = ({
     if(isAddedToFilters(filterToApply, appliedFilters)){
       removeAppliedFilterDispatcher(filterToApply);
     }
-    addAppliedFilterDispatcher({key:filterToApply, values:getSelectedProgramIds(program)});
+    const selection = getSelectedProgramIds(program);
+    if(selection.length>0){
+      addAppliedFilterDispatcher({key:filterToApply, values:selection});
+    }
     closeFlyOutHandler();
   };
 
-  const isApplyFilterEnabled = () =>{
-    let annualSelection, ozonSelection;
-    if(program.length===0){
-      annualSelection=false;
-      ozonSelection=false;
-    }else{
-      annualSelection = program[0].items.filter(i=>i.selected).length>0?true:false;
-      ozonSelection = program[1].items.filter(i=>i.selected).length>0?true:false;
-    }
-    return annualSelection || ozonSelection;
-  };
+  // const isApplyFilterEnabled = () =>{
+  //   let annualSelection, ozonSelection;
+  //   if(program.length===0){
+  //     annualSelection=false;
+  //     ozonSelection=false;
+  //   }else{
+  //     annualSelection = program[0].items.filter(i=>i.selected).length>0?true:false;
+  //     ozonSelection = program[1].items.filter(i=>i.selected).length>0?true:false;
+  //   }
+  //   return annualSelection || ozonSelection;
+  // };
 
   return (
     <>
@@ -108,7 +111,7 @@ const Program = ({
             <Button
               type="button"
               className="float-right"
-              disabled={!isApplyFilterEnabled()}
+              //disabled={!isApplyFilterEnabled()}
               onClick={handleApplyFilter}
             >
               Apply Filter
