@@ -73,6 +73,7 @@ const SubHeader = () => {
             items={[
               <>
                 <a
+                  id="extended-nav-section-one"
                   href={config.app.path}
                   title="Home"
                   aria-label="Home"

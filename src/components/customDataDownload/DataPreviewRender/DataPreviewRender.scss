@@ -4,12 +4,19 @@
     display: inline-block;
   }
 
+  .table-wrapper {
+    max-width: 70vw !important;
+    height: 58vh !important;
+    overflow-x: scroll !important;
+  }
+
   table {
     border-top: solid 2px;
     border-collapse: collapse !important;
-    max-width: 70vw !important;
-    overflow-x: scroll !important;
+    //max-width: 70vw !important;
+    //overflow-x: scroll !important;
     display: block !important;
+    margin: 0 !important;
   }
 
   thead {
@@ -18,6 +25,8 @@
 
   thead tr {
     height: 40px;
+    position: sticky;
+    z-index: 1;
   }
 
   thead,
@@ -26,11 +35,11 @@
     width: fit-content;
   }
 
-  tbody {
-    height: 45vh !important;
-    overflow-y: scroll !important;
-    overflow-x: hidden !important;
-  }
+  // tbody {
+  //   height: 45vh !important;
+  //   overflow-y: scroll !important;
+  //   overflow-x: hidden !important;
+  // }
 
   td,
   th {

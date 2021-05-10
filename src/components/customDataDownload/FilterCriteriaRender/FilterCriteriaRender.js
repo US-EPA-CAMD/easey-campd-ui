@@ -21,7 +21,7 @@ const FiltersView = ({
     <>
       {dataSubtypeApplied === true && (
         <>
-          <div className="font-alt-xl text-bold padding-top-3 padding-bottom-3 padding-left-2">
+          <div className="panel-header padding-top-3 padding-left-2">
             Filters
             <FontAwesomeIcon
               icon={faQuestionCircle}

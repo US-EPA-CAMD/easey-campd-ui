@@ -12,7 +12,7 @@ const DataPreviewRender = ({
   return (
     <div className="preview-content-wrapper padding-top-4 padding-left-3 padding-right-3 padding-bottom-2">
       <div>
-        <div className="font-alt-xl text-bold">Data Preview &nbsp;</div>
+        <div className="panel-header">Data Preview &nbsp;</div>
         <span className="font-alt-sm text-bold">
           {loading === 0 && dataPreview !== null
             ? dataPreview.length > 0
@@ -22,7 +22,9 @@ const DataPreviewRender = ({
         </span>
       </div>
       {loading === 0 && dataPreview !== null && dataPreview.length > 0 && (
-        <UswdsTable columns={columns} data={data} bordered={false} />
+        <div className="table-wrapper margin-top-2">
+          <UswdsTable columns={columns} data={data} bordered={false} />
+        </div>
       )}
     </div>
   );

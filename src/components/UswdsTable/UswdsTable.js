@@ -121,8 +121,9 @@ const UswdsTable = ({
   return (
     // <div className="container">
     <div>
-      <div className="tableHead">
-        {title && <h3 className="tableTitle"> {title}</h3>}
+      {title && paginate &&
+        <div className="tableHead">
+          <h3 className="tableTitle"> {title}</h3>
         <div className="filterAndSearch">
           {paginate ? (
             <span className="filter">
@@ -149,6 +150,7 @@ const UswdsTable = ({
           )}
         </div>
       </div>
+      }
       <table className={variant} {...getTableProps()}>
         <TableHeader
           headerGroups={headerGroups}
