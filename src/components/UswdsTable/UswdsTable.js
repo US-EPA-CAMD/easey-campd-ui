@@ -121,7 +121,7 @@ const UswdsTable = ({
   return (
     // <div className="container">
     <div>
-      {title && paginate &&
+      {(title || paginate || search) &&
         <div className="tableHead">
           <h3 className="tableTitle"> {title}</h3>
         <div className="filterAndSearch">

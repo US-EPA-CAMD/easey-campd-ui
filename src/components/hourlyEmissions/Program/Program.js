@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from "react-redux";
-import GenericPrograms from '../../GenericPrograms/GenericPrograms';
+import ProgramRenderer from '../../ProgramRenderer/ProgramRenderer';
 import {loadEmissionsPrograms, updateProgramSelection} from "../../../store/actions/customDataDownload/hourlyEmissions/hourlyEmissions";
 import { addAppliedFilter, removeAppliedFilter } from "../../../store/actions/customDataDownload/customDataDownload";
 import {isAddedToFilters, getSelectedProgramIds} from "../../../utils/selectors/hourlyEmissions";
@@ -93,7 +93,7 @@ const Program = ({
         program.length > 0 && loading===0 &&
         <>
           <div className="display-block maxh-mobile-lg overflow-y-scroll overflow-x-hidden">
-            <GenericPrograms
+            <ProgramRenderer
               showActiveRetired={true}
               items={program}
               showActive={true}
@@ -121,7 +121,7 @@ const Program = ({
       }
       {
         loading>0 && program.length===0 &&
-        <span className="font-alt-sm text-bold">Loading...</span>
+        <span className="font-alt-sm text-bold margin-x-2">Loading...</span>
       }
     </>
   );
