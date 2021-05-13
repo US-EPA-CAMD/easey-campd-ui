@@ -126,3 +126,16 @@ export const getSelectedProgramIds = (program) =>{
   });
   return result;
 };
+
+export const constructProgramQuery = (stateProgram) =>{
+  const selectedPrograms = getSelectedProgramIds(stateProgram);
+  let query='';
+  selectedPrograms.forEach((p,i)=>{
+    if(i===selectedPrograms.length-1){
+      query = `${query}${p}`;
+    }else{
+      query = `${query}${p}|`;
+    }
+  });
+  return query.length>0? `&program=${query}`:'';
+}

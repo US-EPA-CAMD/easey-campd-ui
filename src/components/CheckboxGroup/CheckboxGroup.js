@@ -24,7 +24,7 @@ const CheckboxGroup = (props) => {
     <div className="margin-x-2 margin-top-2 margin-bottom-5">
       <div className="display-flex flex-row flex-justify padding-bottom-1">
         <div className="flex-align-self-center">
-          <div className="font-sans-md text-bold">{props.description}</div>
+          <div className="font-sans-md text-bold" data-testid="program-group-name">{props.description}</div>
         </div>
         { props.enableSelectAll ?
             <div className="flex-align-self-center clearfix">
