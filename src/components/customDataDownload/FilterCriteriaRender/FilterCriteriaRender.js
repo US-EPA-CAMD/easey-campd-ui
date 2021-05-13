@@ -44,7 +44,7 @@ const FiltersView = ({
                       className={
                         isAddedToFilters(el.value, appliedFilters) || activeFilter===el.value
                           ? "filter-button applied-filter"
-                          : "filter-button bg-base-lightest"
+                          : "filter-button"
                       }
                     >
                       {el.label}

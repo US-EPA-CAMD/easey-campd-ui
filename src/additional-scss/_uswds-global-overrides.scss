@@ -235,3 +235,7 @@
 .usa-date-picker__button {
   margin-left: 1em !important;
 }
+
+.usa-button--outline, .usa-button--outline:hover {
+  @extend .bg-white;
+}
