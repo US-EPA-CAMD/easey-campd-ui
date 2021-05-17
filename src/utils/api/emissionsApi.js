@@ -1,13 +1,18 @@
 import axios from "axios";
 import { handleResponse, handleError } from "./apiUtils";
+import {constructProgramQuery} from "../selectors/hourlyEmissions";
 import config from "../../config";
 
 export async function getHourlyEmissions(hourlyEmissions) {
-  const url = `${config.services.emissions.uri}/apportioned/hourly?page=1&perPage=100&beginDate=${hourlyEmissions.timePeriod.startDate}&endDate=${hourlyEmissions.timePeriod.endDate}&opHoursOnly=${hourlyEmissions.timePeriod.opHrsOnly}`;
-  console.log(url);
+  const programQuery = constructProgramQuery(hourlyEmissions.program);
+
+  const url = `${config.services.emissions.uri}/apportioned/hourly?page=1&perPage=100
+&beginDate=${hourlyEmissions.timePeriod.startDate}&endDate=${hourlyEmissions.timePeriod.endDate}&opHoursOnly=${hourlyEmissions.timePeriod.opHrsOnly}
+${programQuery}`;
+  console.log(url.replace(/\r?\n|\r/g, ''));
+
   return axios
-    .get(url)
-    //.get(`${config.services.emissions.uri}/apportioned/hourly?page=1&perPage=100&beginDate=2019-01-01&endDate=2019-01-01&opHoursOnly=true`)
+    .get(url.replace(/\r?\n|\r/g, ''))
     .then(handleResponse)
     .catch(handleError);
 }

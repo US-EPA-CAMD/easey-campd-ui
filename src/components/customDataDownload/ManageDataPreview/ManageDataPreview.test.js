@@ -7,16 +7,18 @@ import initialState from "../../../store/reducers/initialState";
 
 initialState.customDataDownload.dataType= "EMISSIONS";
 initialState.customDataDownload.dataSubType= "Hourly Emissions";
-initialState.customDataDownload.appliedFilters = ["timePeriod"];
+initialState.customDataDownload.appliedFilters = [
+  {key:"Time Period", values:["1/1/2019 - 1/1/2019"]}
+];
 initialState.hourlyEmissions.timePeriod = {
-  startDate: "2019-01-01", endDate: "2019-01-01", opHrsOnly:true
+  startDate: "2019-01-01", endDate: "2019-01-01", opHrsOnly:false
 };
 const store = configureStore(initialState);
 
 
 describe("ManageDataPreview", () => {
   test("Check that the  component properly renders", () => {
-    const { getByRole, getByText } = render(<Provider store={store}><ManageDataPreview /></Provider>);
+    const { getByRole, getByText } = render(<Provider store={store}><ManageDataPreview dataType="EMISSIONS" /></Provider>);
     const previewButton = getByRole('button' , { name: "Preview Data" });
     expect(previewButton).toBeDefined();
     fireEvent.click(previewButton);

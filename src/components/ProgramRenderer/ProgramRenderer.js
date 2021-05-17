@@ -1,7 +1,7 @@
 import React from 'react';
 import GroupCheckboxGroup from '../GroupCheckboxGroup/GroupCheckboxGroup';
 
-const GenericPrograms = ({
+const ProgramRenderer = ({
   showActiveRetired,
   showActive,
   showRetired,
@@ -72,4 +72,4 @@ const GenericPrograms = ({
   return (renderer());
 }
 
-export default GenericPrograms;
+export default ProgramRenderer;
