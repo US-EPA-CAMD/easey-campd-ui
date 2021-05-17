@@ -27,6 +27,7 @@ const PillButton = (props) => {
       <Button
         type="button"
         className="padding-1 radius-0 radius-right-lg"
+        data-testid="remove"
         onClick={() => props.onRemove(props.index, props.label)}
       >
         <FontAwesomeIcon icon={faWindowClose} />

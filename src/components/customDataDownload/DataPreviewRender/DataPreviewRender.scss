@@ -1,12 +1,18 @@
 .preview-content-wrapper {
   div,
   span {
-    display: inline-block;
+    display: flex;
   }
 
+  max-width: 73vw !important;
+
   .table-wrapper {
-    max-width: 70vw !important;
-    height: 58vh !important;
+    div,
+    span {
+      display: inline-block;
+    }
+    max-width: inherit !important;
+    height: 48vh !important;
     overflow-x: scroll !important;
   }
 
