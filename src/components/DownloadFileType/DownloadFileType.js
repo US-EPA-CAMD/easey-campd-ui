@@ -15,7 +15,7 @@ const DownloadFileType = (props) => {
           label="CSV"
         />
         <Radio
-          className="padding-x-2"
+          className="padding-left-1 padding-right-3"
           id="json"
           name="'input-radio'"
           label="JSON"

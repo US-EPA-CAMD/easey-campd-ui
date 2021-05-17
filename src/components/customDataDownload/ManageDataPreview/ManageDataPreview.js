@@ -16,7 +16,6 @@ import {
 import * as emissionsConstants from '../../../utils/constants/emissions';
 // *** STYLES (individual component)
 import './ManageDataPreview.scss';
-import DownloadFileType from '../../DownloadFileType/DownloadFileType';
 
 const ManageDataPreview = ({
   dataType,
@@ -171,7 +170,6 @@ const ManageDataPreview = ({
           />
         </div>
       )}
-      {<DownloadFileType></DownloadFileType>}
       {renderPreviewData && mapDataPreview[dataType][dataSubType].component}
     </div>
   );
