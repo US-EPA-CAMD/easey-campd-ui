@@ -1,6 +1,8 @@
-import React from "react";
-import UswdsTable from "../../UswdsTable/UswdsTable";
-import "./DataPreviewRender.scss";
+import React from 'react';
+
+import DownloadFileType from '../../DownloadFileType/DownloadFileType';
+import UswdsTable from '../../UswdsTable/UswdsTable';
+import './DataPreviewRender.scss';
 
 const DataPreviewRender = ({
   columns,
@@ -18,8 +20,13 @@ const DataPreviewRender = ({
             ? dataPreview.length > 0
               ? `(Viewing the first ${dataPreview.length} records of ${totalCount})`
               : `No results match that search criteria. Please change the criteria and try again.`
-            : "Loading..."}
+            : 'Loading...'}
         </span>
+      </div>
+      <div className="float-right padding-x-4">
+        {loading === 0 && dataPreview !== null && dataPreview.length > 0 && (
+          <DownloadFileType />
+        )}
       </div>
       {loading === 0 && dataPreview !== null && dataPreview.length > 0 && (
         <div className="table-wrapper margin-top-2">
