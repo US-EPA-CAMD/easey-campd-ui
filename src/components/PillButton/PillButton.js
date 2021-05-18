@@ -8,7 +8,8 @@ const PillButton = (props) => {
     <div className="display-flex">
       {props.tooltip && props.tooltip.length > 0 ? (
         <Tooltip
-          className="padding-y-2 padding-left-1 padding-right-0 margin-0 radius-0 radius-left-lg"
+          className="padding-y-2 padding-left-1 padding-right-0 margin-0 radius-0 radius-left-lg maxw-card overflow-hidden text-no-wrap"
+          style={{textOverflow: 'ellipsis'}}
           label={props.tooltip}
           position={props.position}
           onClick={() => props.onClick(props.index, props.label)}

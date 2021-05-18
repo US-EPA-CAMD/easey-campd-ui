@@ -34,6 +34,8 @@ export const resetFilterHelper = (state, filterToReset, resetAll = false) => {
       return Object.assign({}, state, {timePeriod: initialState.hourlyEmissions.timePeriod});
     case 'Program':
       return Object.assign({}, state, {program: initialState.hourlyEmissions.program});
+    case 'Unit Type':
+      return Object.assign({}, state, {unitType: initialState.hourlyEmissions.unitType});
     default:
       return initialState.hourlyEmissions;
   }
@@ -79,6 +81,36 @@ export const getTableRecords = (hourlyEmissions) =>{
   return records;
 }
 
+export const getSelectedIds = (filterState) => {
+  const result = [];
+  filterState.forEach((f) => {
+    f.items.forEach((i) => {
+      if (i.selected) {
+        if (filterState === 'program') {
+          result.push(i.id);
+        } else {
+          result.push(i.description);
+        }
+      }
+    });
+  });
+  return result;
+};
+
+export const constructQuery = (filterState, filterName) => {
+  const selectedFilters = getSelectedIds(filterState);
+  let query='';
+  selectedFilters.forEach((p,i)=>{
+    if(i===selectedFilters.length-1){
+      query = `${query}${p}`;
+    }else{
+      query = `${query}${p}|`;
+    }
+  });
+  return query.length>0? `&${filterName}=${query}`:'';
+}
+
+/* ---------PROGRAM----------- */
 export const restructurePrograms = (programs) =>{
   const data = [
     {
@@ -115,27 +147,40 @@ export const restructurePrograms = (programs) =>{
   return data;
 };
 
-export const getSelectedProgramIds = (program) =>{
-  const result = [];
-  program.forEach(p=>{
-    p.items.forEach(i=>{
-      if(i.selected){
-        result.push(i.id);
-      }
-    });
+/* ---------UNIT TYPE----------- */
+export const restructureUnitTypes = (unitTypes) => {
+  const data = [
+    {
+      name: 'Boilers',
+      description: 'Boilers',
+      items: [],
+    },
+    {
+      name: 'Turbines',
+      description: 'Turbines',
+      items: [],
+    },
+  ];
+  unitTypes.sort((a, b) => {
+    const textA = a.unitTypeCode.toUpperCase();
+    const textB = b.unitTypeCode.toUpperCase();
+    return textA < textB ? -1 : textA > textB ? 1 : 0;
   });
-  return result;
-};
-
-export const constructProgramQuery = (stateProgram) =>{
-  const selectedPrograms = getSelectedProgramIds(stateProgram);
-  let query='';
-  selectedPrograms.forEach((p,i)=>{
-    if(i===selectedPrograms.length-1){
-      query = `${query}${p}`;
-    }else{
-      query = `${query}${p}|`;
+  unitTypes.forEach((ut) => {
+    const entry = {
+      id: ut.unitTypeCode,
+      description: ut.unitTypeDescription,
+      label: ut.unitTypeDescription,
+      group: ut.unitTypeGroupCode,
+      groupDescription: ut.unitTypeGroupDescription,
+      selected: false,
+    };
+    if (ut.unitTypeGroupCode === 'B') {
+      data[0].items.push(entry);
+    } else if (ut.unitTypeGroupCode === 'T') {
+      data[1].items.push(entry);
     }
   });
-  return query.length>0? `&program=${query}`:'';
-}
+
+  return data;
+};

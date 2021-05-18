@@ -1,8 +1,9 @@
 import * as types from "../../actionTypes";
 import * as emissionsApi from "../../../../utils/api/emissionsApi";
-import {beginApiCall} from "../../apiStatusActions";
-import {restructurePrograms} from "../../../../utils/selectors/hourlyEmissions";
+import { beginApiCall } from "../../apiStatusActions";
+import { restructurePrograms, restructureUnitTypes } from "../../../../utils/selectors/hourlyEmissions";
 
+/* ---------TIME PERIOD----------- */
 export function updateTimePeriod(selectedTimePeriod) {
   return {
     type: types.HOURLY_EMISSIONS.UPDATE_TIME_PERIOD,
@@ -10,6 +11,7 @@ export function updateTimePeriod(selectedTimePeriod) {
   };
 }
 
+/* ---------PROGRAM----------- */
 export function loadEmissionsProgramsSuccess(program) {
   return {
     type: types.LOAD_EMISSIONS_PROGRAMS_SUCCESS,
@@ -21,7 +23,7 @@ export function loadEmissionsPrograms() {
   return (dispatch) => {
     dispatch(beginApiCall());
     return emissionsApi
-      .getEmissionsPrograms()
+      .getEmissionsPrograms
       .then((res) => {
         dispatch(loadEmissionsProgramsSuccess(res.data));
       })
@@ -38,6 +40,36 @@ export function updateProgramSelection(selectedProgram){
   }
 }
 
+/* ---------UNIT TYPE----------- */
+export function loadEmissionsUnitTypesSuccess(unitType) {
+  return {
+    type: types.LOAD_EMISSIONS_UNIT_TYPES_SUCCESS,
+    unitType: restructureUnitTypes(unitType)
+  };
+}
+
+export function loadEmissionsUnitTypes() {
+  return (dispatch) => {
+    dispatch(beginApiCall());
+    return emissionsApi
+      .getEmissionsUnitTypes
+      .then((res) => {
+        dispatch(loadEmissionsUnitTypesSuccess(res.data));
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+}
+
+export function updateUnitTypeSelection(selectedUnitType){
+  return {
+    type: types.HOURLY_EMISSIONS.UPDATE_UNIT_TYPE_SELECTION,
+    selectedUnitType,
+  }
+}
+
+/* ---------HOURLY EMISSIONS----------- */
 export function resetFilter(filterToReset, resetAll = false){
   return {
     type: types.HOURLY_EMISSIONS.RESET_FILTER,

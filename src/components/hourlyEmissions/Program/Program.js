@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import ProgramRenderer from '../../ProgramRenderer/ProgramRenderer';
 import {loadEmissionsPrograms, updateProgramSelection} from "../../../store/actions/customDataDownload/hourlyEmissions/hourlyEmissions";
 import { addAppliedFilter, removeAppliedFilter } from "../../../store/actions/customDataDownload/customDataDownload";
-import {isAddedToFilters, getSelectedProgramIds} from "../../../utils/selectors/hourlyEmissions";
+import {isAddedToFilters, getSelectedIds} from "../../../utils/selectors/hourlyEmissions";
 import {Button} from "@trussworks/react-uswds";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
@@ -60,7 +60,7 @@ const Program = ({
     if(isAddedToFilters(filterToApply, appliedFilters)){
       removeAppliedFilterDispatcher(filterToApply);
     }
-    const selection = getSelectedProgramIds(program);
+    const selection = getSelectedIds(program);
     if(selection.length>0){
       addAppliedFilterDispatcher({key:filterToApply, values:selection});
     }
