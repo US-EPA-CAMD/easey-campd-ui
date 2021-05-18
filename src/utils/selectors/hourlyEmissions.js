@@ -81,15 +81,15 @@ export const getTableRecords = (hourlyEmissions) =>{
   return records;
 }
 
-export const getSelectedIds = (filterState) => {
+export const getSelectedIds = (filterState, description = false) => {
   const result = [];
   filterState.forEach((f) => {
     f.items.forEach((i) => {
       if (i.selected) {
-        if (filterState === 'program') {
-          result.push(i.id);
-        } else {
+        if (description) {
           result.push(i.description);
+        } else {
+          result.push(i.id);
         }
       }
     });
@@ -98,7 +98,8 @@ export const getSelectedIds = (filterState) => {
 };
 
 export const constructQuery = (filterState, filterName) => {
-  const selectedFilters = getSelectedIds(filterState);
+  const useCode = (filterName === 'program') ? false : true;
+  const selectedFilters = getSelectedIds(filterState, useCode);
   let query='';
   selectedFilters.forEach((p,i)=>{
     if(i===selectedFilters.length-1){

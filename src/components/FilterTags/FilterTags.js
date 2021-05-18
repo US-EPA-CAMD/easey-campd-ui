@@ -8,10 +8,13 @@ const FilterTags = (props) => {
     <div className="display-flex">
       <div className="font-weight-bold margin-1 margin-right-2">Filters:</div>
       {props.items.map((item, i) => {
-        const label =
+        let label =
           item.values.length > 1
             ? `${item.key} (${item.values.length})`
-            : item.values[0];
+            : `${item.key}: ${item.values[0]}`;
+        if (item.key === 'Time Period') {
+          label = `${item.values[0]}`;
+        }
         const description = `${item.key}: ${item.values.join(', ')}`;
 
         return (
