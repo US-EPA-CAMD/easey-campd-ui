@@ -1,28 +1,42 @@
-import initialState from "../../store/reducers/initialState";
+import initialState from '../../store/reducers/initialState';
 
-export const formatDateToApi = (dateString) =>{//param=mm/dd/yyyy return=yyyy-mm-dd
-  if(dateString){
+export const formatDateToApi = (dateString) => {
+  //param=mm/dd/yyyy return=yyyy-mm-dd
+  if (dateString) {
     const dateStringParts = dateString.split('/');
-    const month = dateStringParts[0] < 10 && !dateStringParts[0].startsWith("0")? `0${dateStringParts[0]}`: dateStringParts[0];
-    const day = dateStringParts[1] < 10 && !dateStringParts[1].startsWith("0")? `0${dateStringParts[1]}`: dateStringParts[1];
+    const month =
+      dateStringParts[0] < 10 && !dateStringParts[0].startsWith('0')
+        ? `0${dateStringParts[0]}`
+        : dateStringParts[0];
+    const day =
+      dateStringParts[1] < 10 && !dateStringParts[1].startsWith('0')
+        ? `0${dateStringParts[1]}`
+        : dateStringParts[1];
     return `${dateStringParts[2]}-${month}-${day}`;
   }
   return null;
 };
 
-export const formatDateToUi = (dateString) =>{//param=yyyy-mm-dd return=mm/dd/yyyy
-  if(dateString){
+export const formatDateToUi = (dateString) => {
+  //param=yyyy-mm-dd return=mm/dd/yyyy
+  if (dateString) {
     const dateStringParts = dateString.split('-');
-    const month = dateStringParts[1] < 10 && !dateStringParts[1].startsWith("0")? `0${dateStringParts[1]}`: dateStringParts[1];
-    const day = dateStringParts[2] < 10 && !dateStringParts[2].startsWith("0")? `0${dateStringParts[2]}`: dateStringParts[2];
+    const month =
+      dateStringParts[1] < 10 && !dateStringParts[1].startsWith('0')
+        ? `0${dateStringParts[1]}`
+        : dateStringParts[1];
+    const day =
+      dateStringParts[2] < 10 && !dateStringParts[2].startsWith('0')
+        ? `0${dateStringParts[2]}`
+        : dateStringParts[2];
     return `${month}/${day}/${dateStringParts[0]}`;
   }
   return null;
 };
 
-export const isAddedToFilters = (filter, appliedFilters) =>{
+export const isAddedToFilters = (filter, appliedFilters) => {
   return appliedFilters.filter((el) => el.key === filter).length > 0;
-}
+};
 
 export const resetFilterHelper = (state, filterToReset, resetAll = false) => {
   if (resetAll) {
@@ -31,17 +45,23 @@ export const resetFilterHelper = (state, filterToReset, resetAll = false) => {
 
   switch (filterToReset) {
     case 'Time Period':
-      return Object.assign({}, state, {timePeriod: initialState.hourlyEmissions.timePeriod});
+      return Object.assign({}, state, {
+        timePeriod: initialState.hourlyEmissions.timePeriod,
+      });
     case 'Program':
-      return Object.assign({}, state, {program: initialState.hourlyEmissions.program});
+      return Object.assign({}, state, {
+        program: initialState.hourlyEmissions.program,
+      });
     case 'Unit Type':
-      return Object.assign({}, state, {unitType: initialState.hourlyEmissions.unitType});
+      return Object.assign({}, state, {
+        unitType: initialState.hourlyEmissions.unitType,
+      });
     default:
       return initialState.hourlyEmissions;
   }
 };
 
-export const getTableRecords = (hourlyEmissions) =>{
+export const getTableRecords = (hourlyEmissions) => {
   const records = [];
   hourlyEmissions.forEach((el) => {
     records.push({
@@ -79,7 +99,7 @@ export const getTableRecords = (hourlyEmissions) =>{
     });
   });
   return records;
-}
+};
 
 export const getSelectedIds = (filterState, description = false) => {
   const result = [];
@@ -98,49 +118,53 @@ export const getSelectedIds = (filterState, description = false) => {
 };
 
 export const constructQuery = (filterState, filterName) => {
-  const useCode = (filterName === 'program') ? false : true;
+  const useCode = filterName === 'program' ? false : true;
   const selectedFilters = getSelectedIds(filterState, useCode);
-  let query='';
-  selectedFilters.forEach((p,i)=>{
-    if(i===selectedFilters.length-1){
+  let query = '';
+  selectedFilters.forEach((p, i) => {
+    if (i === selectedFilters.length - 1) {
       query = `${query}${p}`;
-    }else{
+    } else {
       query = `${query}${p}|`;
     }
   });
-  return query.length>0? `&${filterName}=${query}`:'';
-}
+  return query.length > 0 ? `&${filterName}=${query}` : '';
+};
 
 /* ---------PROGRAM----------- */
-export const restructurePrograms = (programs) =>{
+export const restructurePrograms = (programs) => {
   const data = [
     {
       name: 'Annual',
       description: 'Annual Programs',
-      items: []
+      items: [],
     },
     {
       name: 'Ozone',
       description: 'Ozone Programs',
-      items: []
-    }
+      items: [],
+    },
   ];
-  programs.sort((a,b)=>{
+  programs.sort((a, b) => {
     const textA = a.programCode.toUpperCase();
     const textB = b.programCode.toUpperCase();
-    return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+    return textA < textB ? -1 : textA > textB ? 1 : 0;
   });
-  programs.forEach(p=>{
+  programs.forEach((p) => {
     const entry = {
       id: p.programCode,
       description: p.programDescription,
-      label: p.retiredIndicator? `${p.programDescription} (${p.programCode}) (ended ${p.tradingEndDate.split('-')[0]})`:`${p.programDescription} (${p.programCode})`,
+      label: p.retiredIndicator
+        ? `${p.programDescription} (${p.programCode}) (ended ${
+            p.tradingEndDate.split('-')[0]
+          })`
+        : `${p.programDescription} (${p.programCode})`,
       active: !p.retiredIndicator,
-      selected: false
+      selected: false,
     };
-    if(p.annualIndicator){
+    if (p.annualIndicator) {
       data[0].items.push(entry);
-    }else if(p.ozoneIndicator){
+    } else if (p.ozoneIndicator) {
       data[1].items.push(entry);
     }
   });
@@ -165,7 +189,11 @@ export const restructureUnitTypes = (unitTypes) => {
   unitTypes.sort((a, b) => {
     const textA = a.unitTypeCode.toUpperCase();
     const textB = b.unitTypeCode.toUpperCase();
-    return textA < textB ? -1 : textA > textB ? 1 : 0;
+    if (textA < textB) {
+      return -1;
+    } else {
+      return textA > textB ? 1 : 0;
+    }
   });
   unitTypes.forEach((ut) => {
     const entry = {
