@@ -34,7 +34,7 @@ const CheckboxGroup = (props) => {
           </div>
         </div>
         {props.enableSelectAll ? (
-          <div className="flex-align-self-center clearfix">
+          <div className="flex-align-self-center clearfix font-sans-sm text-italic">
             <Checkbox
               id={`${props.name}${showActiveInId}`}
               label="Select All"
