@@ -1,15 +1,16 @@
 import axios from 'axios';
 import { handleResponse, handleError } from './apiUtils';
-import { constructQuery } from '../selectors/hourlyEmissions';
+import { constructQuery, constructFacilityQuery } from '../selectors/hourlyEmissions';
 import config from '../../config';
 
 export async function getHourlyEmissions(hourlyEmissions) {
   const programQuery = constructQuery(hourlyEmissions.program, 'program');
   const unitTypeQuery = constructQuery(hourlyEmissions.unitType, 'unitType');
+  const facilityQuery = constructFacilityQuery(hourlyEmissions.facility, 'orisCode');
 
   const url = `${config.services.emissions.uri}/apportioned/hourly?page=1&perPage=100
 &beginDate=${hourlyEmissions.timePeriod.startDate}&endDate=${hourlyEmissions.timePeriod.endDate}&opHoursOnly=${hourlyEmissions.timePeriod.opHrsOnly}
-${programQuery}${unitTypeQuery}`;
+${programQuery}${unitTypeQuery}${facilityQuery}`;
   console.log(url.replace(/\r?\n|\r/g, ''));
 
   return axios
@@ -26,3 +27,12 @@ export async function getEmissionsMDM(endpoint) {
 
 export const getEmissionsPrograms = getEmissionsMDM('programs?exclude=MATS');
 export const getEmissionsUnitTypes = getEmissionsMDM('unit-types');
+
+export async function getAllFacilities() {
+  const url = `${config.services.facilities.uri}/facilities`;
+  console.log(url);
+  return axios
+    .get(url)
+    .then(handleResponse)
+    .catch(handleError);
+}

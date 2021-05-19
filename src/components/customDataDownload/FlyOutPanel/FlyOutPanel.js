@@ -1,6 +1,7 @@
 import React from "react";
 import TimePeriod from "../../hourlyEmissions/TimePeriod/TimePeriod";
 import Program from "../../hourlyEmissions/Program/Program";
+import Facility from "../../hourlyEmissions/Facility/Facility";
 import UnitType from "../../hourlyEmissions/UnitType/UnitType";
 
 
@@ -13,6 +14,7 @@ const FlyOutPanel = ({
   const hourlyEmissions = {
     timePeriod: <TimePeriod closeFlyOutHandler={closeFlyOutHandler} />,
     program: <Program closeFlyOutHandler={closeFlyOutHandler}/>,
+    facility: <Facility closeFlyOutHandler={closeFlyOutHandler}/>,
     unitType: <UnitType closeFlyOutHandler={closeFlyOutHandler}/>,
   };
 

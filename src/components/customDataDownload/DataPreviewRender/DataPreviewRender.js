@@ -16,7 +16,7 @@ const DataPreviewRender = ({
       <div className="display-flex flex-row flex-justify">
         <div className="flex-align-center">
           <div className="panel-header">Data Preview &nbsp;</div>
-          <span className="font-alt-sm text-bold">
+          <span className="font-alt-sm text-bold padding-top-1">
             {loading === 0 && dataPreview !== null
               ? dataPreview.length > 0
                 ? `(Viewing the first ${dataPreview.length} records of ${totalCount})`
