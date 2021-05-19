@@ -34,6 +34,8 @@ export const resetFilterHelper = (state, filterToReset, resetAll = false) => {
       return Object.assign({}, state, {timePeriod: initialState.hourlyEmissions.timePeriod});
     case 'Program':
       return Object.assign({}, state, {program: initialState.hourlyEmissions.program});
+    case 'Facility':
+      return Object.assign({}, state, {facility: initialState.hourlyEmissions.facility});
     default:
       return initialState.hourlyEmissions;
   }
@@ -138,4 +140,17 @@ export const constructProgramQuery = (stateProgram) =>{
     }
   });
   return query.length>0? `&program=${query}`:'';
+}
+
+export const constructFacilityQuery = (stateFacility) =>{
+  const selectedFacilities = stateFacility.filter(f=> f.selected);
+  let query='';
+  selectedFacilities.forEach((f,i)=>{
+    if(i===selectedFacilities.length-1){
+      query = `${query}${f.id}`;
+    }else{
+      query = `${query}${f.id}|`;
+    }
+  });
+  return query.length>0? `&orisCode=${query}`:'';
 }

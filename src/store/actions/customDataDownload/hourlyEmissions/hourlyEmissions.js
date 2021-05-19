@@ -31,10 +31,10 @@ export function loadEmissionsPrograms() {
   };
 }
 
-export function updateProgramSelection(selectedProgram){
+export function updateProgramSelection(program){
   return {
     type: types.HOURLY_EMISSIONS.UPDATE_PROGRAM_SELECTION,
-    selectedProgram,
+    program,
   }
 }
 
@@ -70,4 +70,32 @@ export function loadHourlyEmissions(hourlyEmissions) {
         console.error(err);
       });
   };
+}
+
+export function loadFacilitiesSuccess(facilities) {
+  return {
+    type: types.LOAD_FACILITIES_SUCCESS,
+    facilities: facilities.map(f=> ({id: f.orisCode, label:`${f.name}(${f.orisCode})`, selected:false}))
+  };
+}
+
+export function loadFacilities() {
+  return (dispatch) => {
+    dispatch(beginApiCall());
+    return emissionsApi
+      .getAllFacilities()
+      .then((res) => {
+        dispatch(loadFacilitiesSuccess(res.data));
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+}
+
+export function updateFacilitySelection(facility){
+  return {
+    type: types.HOURLY_EMISSIONS.UPDATE_FACILITY_SELECTION,
+    facility,
+  }
 }

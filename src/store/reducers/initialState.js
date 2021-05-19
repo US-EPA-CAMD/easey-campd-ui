@@ -13,6 +13,7 @@ export default {
       opHrsOnly: true,
     },
     program: [],
+    facility: []
   },
   apiCallsInProgress: 0,
 };
