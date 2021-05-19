@@ -12,8 +12,12 @@ const reducer = (state = initialState.hourlyEmissions, action) => {
       };
     case types.LOAD_EMISSIONS_PROGRAMS_SUCCESS:
       return Object.assign({}, state, { program: action.program });
+    case types.LOAD_FACILITIES_SUCCESS:
+      return Object.assign({}, state, { facility: action.facilities });
     case types.HOURLY_EMISSIONS.UPDATE_PROGRAM_SELECTION:
-      return Object.assign({}, state, { program: action.selectedProgram });
+      return Object.assign({}, state, { program: action.program });
+    case types.HOURLY_EMISSIONS.UPDATE_FACILITY_SELECTION:
+      return Object.assign({}, state, { facility: action.facility });
     case types.LOAD_EMISSIONS_UNIT_TYPES_SUCCESS:
       return Object.assign({}, state, { unitType: action.unitType });
     case types.HOURLY_EMISSIONS.UPDATE_UNIT_TYPE_SELECTION:

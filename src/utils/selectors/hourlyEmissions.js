@@ -49,9 +49,9 @@ export const resetFilterHelper = (state, filterToReset, resetAll = false) => {
         timePeriod: initialState.hourlyEmissions.timePeriod,
       });
     case 'Program':
-      return Object.assign({}, state, {
-        program: initialState.hourlyEmissions.program,
-      });
+      return Object.assign({}, state, {program: initialState.hourlyEmissions.program});
+    case 'Facility':
+      return Object.assign({}, state, {facility: initialState.hourlyEmissions.facility});
     case 'Unit Type':
       return Object.assign({}, state, {
         unitType: initialState.hourlyEmissions.unitType,
@@ -213,3 +213,16 @@ export const restructureUnitTypes = (unitTypes) => {
 
   return data;
 };
+
+export const constructFacilityQuery = (stateFacility) =>{
+  const selectedFacilities = stateFacility.filter(f=> f.selected);
+  let query='';
+  selectedFacilities.forEach((f,i)=>{
+    if(i===selectedFacilities.length-1){
+      query = `${query}${f.id}`;
+    }else{
+      query = `${query}${f.id}|`;
+    }
+  });
+  return query.length>0? `&orisCode=${query}`:'';
+}

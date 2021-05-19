@@ -5,9 +5,10 @@ import { faWindowClose } from '@fortawesome/free-solid-svg-icons';
 
 const PillButton = (props) => {
   return (
-    <div className="display-flex">
+    <div className="display-inline-flex margin-bottom-05">
       <Button
-        className="padding-y-2 padding-left-1 padding-right-0 margin-0 radius-0 radius-left-lg"
+        type="button"
+        className="padding-1 padding-right-0 margin-0 radius-0 radius-left-lg"
         title={props.tooltip}
         onClick={() => props.onClick(props.index, props.label)}
       >
@@ -15,7 +16,7 @@ const PillButton = (props) => {
       </Button>
       <Button
         type="button"
-        className="padding-1 radius-0 radius-right-lg"
+        className="padding-y-0 padding-left-1 padding-right-1 radius-0 radius-right-lg"
         data-testid="remove"
         onClick={() => props.onRemove(props.index, props.label)}
       >
