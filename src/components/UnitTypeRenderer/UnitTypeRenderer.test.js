@@ -163,7 +163,7 @@ const storeUnitType = restructureUnitTypes(unitType);
 
 describe('Unit Type Renderer Component', () => {
   it('renders form elements without errors for Boilers and Turbines groups', () => {
-    const { getAllByLabelText, getAllByRole, getByText } = render(
+    const { getAllByTestId, getAllByRole, getByText } = render(
       <UnitTypeRenderer
         showActiveRetired={false}
         items={storeUnitType}
@@ -178,7 +178,7 @@ describe('Unit Type Renderer Component', () => {
     const turbinesHeader = getByText('Turbines');
     expect(turbinesHeader).toBeInTheDocument();
 
-    const selectAllCheckBoxes = getAllByLabelText('Select All');
+    const selectAllCheckBoxes = getAllByTestId('select-all');
     expect(selectAllCheckBoxes).toHaveLength(2);
 
     const checkbox = getAllByRole('checkbox');

@@ -41,6 +41,7 @@ const CheckboxGroup = (props) => {
               name={props.name}
               checked={evaluateSelectAll()}
               onChange={props.onSelectAll}
+              data-testid="select-all"
             />
           </div>
         ) : null}
