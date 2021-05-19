@@ -13,7 +13,8 @@ export default {
       opHrsOnly: true,
     },
     program: [],
-    facility: []
+    facility: [],
+    unitType: [],
   },
   apiCallsInProgress: 0,
 };

@@ -20,31 +20,38 @@ const CheckboxGroup = (props) => {
     return result;
   };
 
+  const showActiveInId = props.showActiveRetired ? `-${props.showActive}` : '';
+
   return (
     <div className="margin-x-2 margin-top-2 margin-bottom-5">
       <div className="display-flex flex-row flex-justify padding-bottom-1">
         <div className="flex-align-self-center">
-          <div className="font-sans-md text-bold" data-testid="program-group-name">{props.description}</div>
+          <div
+            className={props.showActiveRetired ? 'font-sans-md text-bold' : 'font-sans-lg text-semibold'}
+            data-testid="program-group-name"
+          >
+            {props.description}
+          </div>
         </div>
-        { props.enableSelectAll ?
-            <div className="flex-align-self-center clearfix">
-              <Checkbox
-                id={`${props.name}-${props.showActive}`}
-                label="Select All"
-                name= {props.name}
-                checked={evaluateSelectAll()}
-                onChange={props.onSelectAll}
-              />
-            </div>
-          : null
-        }
+        {props.enableSelectAll ? (
+          <div className="flex-align-self-center clearfix font-sans-sm text-italic">
+            <Checkbox
+              id={`${props.name}${showActiveInId}`}
+              label="Select All"
+              name={props.name}
+              checked={evaluateSelectAll()}
+              onChange={props.onSelectAll}
+            />
+          </div>
+        ) : null}
       </div>
-      {!props.showActiveRetired && <div className="margin-0 height-2px bg-base-light" />}
-      {
-        props.showActiveRetired ?
-          props.items
-            .filter(item => item.active === props.showActive)
-            .map(item =>
+      {!props.showActiveRetired && (
+        <div className="margin-0 height-2px bg-base-light" />
+      )}
+      {props.showActiveRetired
+        ? props.items
+            .filter((item) => item.active === props.showActive)
+            .map((item) => (
               <div key={item.id} className="font-sans-sm">
                 <Checkbox
                   id={item.id}
@@ -53,9 +60,9 @@ const CheckboxGroup = (props) => {
                   checked={item.selected}
                   onChange={props.onSelectItem}
                 />
-              </div>)
-          :
-          props.items.map(item =>
+              </div>
+            ))
+        : props.items.map((item) => (
             <div key={item.id} className="font-sans-sm">
               <Checkbox
                 id={item.id}
@@ -64,8 +71,8 @@ const CheckboxGroup = (props) => {
                 checked={item.selected}
                 onChange={props.onSelectItem}
               />
-            </div>)
-      }
+            </div>
+          ))}
     </div>
   );
 }
