@@ -35,8 +35,9 @@ const UnitType = ({
 
   const onSelectAllUnitTypesHandler = (e) => {
     const newUnitTypes = [...unitType];
-    const groupName = e.target.id;
-    const groupIndex = groupName === 'Boilers' ? 0 : 1;
+    const groupIndex = newUnitTypes.findIndex(
+      (unitType) => unitType.name === e.target.id
+    );
     newUnitTypes[groupIndex].items.forEach((i) => {
       i.selected = e.target.checked;
     });
@@ -45,7 +46,9 @@ const UnitType = ({
 
   const onSelectUnitTypeHandler = (e) => {
     const newUnitTypes = [...unitType];
-    const groupIndex = e.target.name === 'Boilers' ? 0 : 1;
+    const groupIndex = newUnitTypes.findIndex(
+      (unitType) => unitType.name === e.target.name
+    );
     const found = newUnitTypes[groupIndex].items.findIndex(
       (i) => i.id === e.target.id
     );
