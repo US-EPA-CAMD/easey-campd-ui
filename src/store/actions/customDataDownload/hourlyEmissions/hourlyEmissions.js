@@ -79,7 +79,7 @@ export function updateProgramSelection(program){
 export function loadFacilitiesSuccess(facilities) {
   return {
     type: types.LOAD_FACILITIES_SUCCESS,
-    facilities: facilities.map(f=> ({id: f.orisCode, label:`${f.name}(${f.orisCode})`, selected:false}))
+    facilities: facilities.map(f=> ({id: f.orisCode, label:`${f.name} (${f.orisCode})`, selected:false}))
   };
 }
 
