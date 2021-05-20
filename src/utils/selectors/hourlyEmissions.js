@@ -247,7 +247,7 @@ export const restructureFuelTypes = (fuelTypes) => {
     const entry = {
       id: ft.fuelTypeCode,
       description: ft.fuelTypeDescription,
-      label: ft.fuelTypeDescription,
+      label: `${ft.fuelTypeDescription} (${ft.fuelTypeCode})`,
       group: ft.fuelGroupCode,
       groupDescription: ft.fuelGroupDescription,
       selected: false,
