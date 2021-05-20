@@ -1,5 +1,4 @@
 import initialState from '../../store/reducers/initialState';
-import { getEmissionsUnitTypes } from '../api/emissionsApi';
 
 export const formatDateToApi = (dateString) => {
   //param=mm/dd/yyyy return=yyyy-mm-dd
