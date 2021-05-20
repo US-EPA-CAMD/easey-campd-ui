@@ -6,4 +6,10 @@
   input.search {
     cursor: text;
   }
+  div.item.selected:hover {
+    cursor: default;
+  }
+  div.item.selected {
+    background: #e6e6e6;
+  }
 }

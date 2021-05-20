@@ -2,7 +2,7 @@ import React, {useState, useRef, useEffect} from "react";
 import {Label} from '@trussworks/react-uswds';
 import PillButton from "../PillButton/PillButton";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
+import { faCaretDown, faCheck } from '@fortawesome/free-solid-svg-icons';
 import "./MultiSelectCombobox.scss";
 
 const MultiSelectCombobox = ({
@@ -40,8 +40,18 @@ const MultiSelectCombobox = ({
       itemsCopy.splice(index, 1);
       selectedItemsRef.current = itemsCopy;
       setSelectedItems(itemsCopy);
+      updateListDataOnChange(id, "remove");
       onChangeUpdate(id, "remove");
     }
+  }
+
+  const updateListDataOnChange = (id, update) =>{
+    const _dataCopy = [...data];
+    const index = _dataCopy.findIndex(d=> d.id===id);
+    if(index > -1){
+      update==="add"? _dataCopy[index].selected = true: _dataCopy[index].selected = false;
+    }
+    setData([..._dataCopy]);
   }
 
   const optionClickHandler = (e) =>{
@@ -61,6 +71,7 @@ const MultiSelectCombobox = ({
       ];
       selectedItemsRef.current = _selectedItems;
       setSelectedItems(_selectedItems);
+      updateListDataOnChange(id, "add");
       onChangeUpdate(id, "add");
     }
   }
@@ -101,8 +112,11 @@ const MultiSelectCombobox = ({
           className="list-box bg-white display-block height-mobile width-full overflow-y-scroll overflow-x-hidden border-top">
           {data.length>0? data.map((item,i)=>
             (<div key={i} role="option" aria-selected={item.selected} data-id={item.id} data-label={item.label}
-                className="item padding-y-1 padding-x-2 border-top-0" onClick={optionClickHandler}>
+                className={item.selected?"item selected padding-y-1 padding-x-2 border-top-0 display-flex flex-row flex-justify"
+                  :"item padding-y-1 padding-x-2 border-top-0 display-flex flex-row flex-justify"}
+                onClick={optionClickHandler}>
               <span data-id={item.id} data-label={item.label} className="option-label width-mobile">{item.label}</span>
+              {item.selected? <FontAwesomeIcon icon={faCheck} color="#005ea2"/>: null}
             </div>)
           ):
             (<span className="padding-x-2 padding-top-2">No facilities match your search.</span>)
