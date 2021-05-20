@@ -10,7 +10,8 @@ import {
 } from "@trussworks/react-uswds";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
-import { formatDateToApi } from "../../../utils/selectors/hourlyEmissions";
+
+import { formatDateToApi } from "../../../utils/selectors/general";
 
 const TimePeriodRender = ({
   applyFilterHandler,

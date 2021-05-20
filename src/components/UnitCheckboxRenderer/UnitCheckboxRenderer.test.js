@@ -179,12 +179,13 @@ describe('Unit Type Renderer Component', () => {
     expect(turbinesHeader).toBeInTheDocument();
 
     const selectAllCheckBoxes = getAllByTestId('select-all');
-    expect(selectAllCheckBoxes).toHaveLength(2);
+    expect(selectAllCheckBoxes).toHaveLength(3);
 
     const checkbox = getAllByRole('checkbox');
     expect(checkbox).toHaveLength(
       storeUnitType[0].items.length +
         storeUnitType[1].items.length +
+        storeUnitType[2].items.length +
         selectAllCheckBoxes.length
     );
   });

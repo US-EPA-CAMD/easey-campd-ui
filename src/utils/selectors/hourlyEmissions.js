@@ -1,42 +1,5 @@
 import initialState from '../../store/reducers/initialState';
-
-export const formatDateToApi = (dateString) => {
-  //param=mm/dd/yyyy return=yyyy-mm-dd
-  if (dateString) {
-    const dateStringParts = dateString.split('/');
-    const month =
-      dateStringParts[0] < 10 && !dateStringParts[0].startsWith('0')
-        ? `0${dateStringParts[0]}`
-        : dateStringParts[0];
-    const day =
-      dateStringParts[1] < 10 && !dateStringParts[1].startsWith('0')
-        ? `0${dateStringParts[1]}`
-        : dateStringParts[1];
-    return `${dateStringParts[2]}-${month}-${day}`;
-  }
-  return null;
-};
-
-export const formatDateToUi = (dateString) => {
-  //param=yyyy-mm-dd return=mm/dd/yyyy
-  if (dateString) {
-    const dateStringParts = dateString.split('-');
-    const month =
-      dateStringParts[1] < 10 && !dateStringParts[1].startsWith('0')
-        ? `0${dateStringParts[1]}`
-        : dateStringParts[1];
-    const day =
-      dateStringParts[2] < 10 && !dateStringParts[2].startsWith('0')
-        ? `0${dateStringParts[2]}`
-        : dateStringParts[2];
-    return `${month}/${day}/${dateStringParts[0]}`;
-  }
-  return null;
-};
-
-export const isAddedToFilters = (filter, appliedFilters) => {
-  return appliedFilters.filter((el) => el.key === filter).length > 0;
-};
+import { initcap } from './general';
 
 export const resetFilterHelper = (state, filterToReset, resetAll = false) => {
   if (resetAll) {
@@ -191,19 +154,28 @@ export const constructFacilityQuery = (stateFacility) =>{
 }
 
 /* ---------UNIT TYPE----------- */
+const unitTypeGroups = (unitTypes) => {
+  const unique = [];
+  const map = new Map();
+  unitTypes.forEach( (unitType) => {
+    const desc = unitType.unitTypeGroupDescription;
+    if(!map.has(desc)) {
+      map.set(desc, true);
+      unique.push(desc);
+    }
+  })
+
+  return unique;
+}
+
 export const restructureUnitTypes = (unitTypes) => {
-  const data = [
-    {
-      name: 'Boilers',
-      description: 'Boilers',
-      items: [],
-    },
-    {
-      name: 'Turbines',
-      description: 'Turbines',
-      items: [],
-    },
-  ];
+  const groups = unitTypeGroups(unitTypes);
+  const data = groups.map((group) => group = {
+    name: group,
+    description: group,
+    items: []
+  })
+
   unitTypes.sort((a, b) => {
     const textA = a.unitTypeCode.toUpperCase();
     const textB = b.unitTypeCode.toUpperCase();
@@ -222,40 +194,46 @@ export const restructureUnitTypes = (unitTypes) => {
       groupDescription: ut.unitTypeGroupDescription,
       selected: false,
     };
-    if (ut.unitTypeGroupCode === 'B') {
-      data[0].items.push(entry);
-    } else if (ut.unitTypeGroupCode === 'T') {
-      data[1].items.push(entry);
-    }
+    const index = data.findIndex(group => group.name === entry.groupDescription)
+    data[index].items.push(entry);
   });
 
   return data;
 };
 
 /* ---------FUEL TYPE----------- */
+const fuelTypeGroups = (fuelTypes) => {
+  const unique = [];
+  const map = new Map();
+  fuelTypes.forEach( (fuelType) => {
+    const desc = initcap(fuelType.fuelGroupCode);
+    if(!map.has(desc)) {
+      map.set(desc, true);
+      unique.push(desc);
+    }
+  })
+
+  unique.sort((a, b) => {
+    const textA = a.toUpperCase();
+    const textB = b.toUpperCase();
+    if (textA < textB) {
+      return -1;
+    } else {
+      return textA > textB ? 1 : 0;
+    }
+  })
+
+  return unique;
+}
+
 export const restructureFuelTypes = (fuelTypes) => {
-  const data = [
-    {
-      name: 'Coal',
-      description: 'Coal',
-      items: [],
-    },
-    {
-      name: 'Gas',
-      description: 'Gas',
-      items: [],
-    },
-    {
-      name: 'Oil',
-      description: 'Oil',
-      items: [],
-    },
-    {
-      name: 'Other',
-      description: 'Other',
-      items: [],
-    },
-  ];
+  const groups = fuelTypeGroups(fuelTypes);
+  const data = groups.map((group) => group = {
+    name: group,
+    description: group,
+    items: []
+  })
+
   fuelTypes.sort((a, b) => {
     const textA = a.fuelTypeCode.toUpperCase();
     const textB = b.fuelTypeCode.toUpperCase();
@@ -274,22 +252,10 @@ export const restructureFuelTypes = (fuelTypes) => {
       groupDescription: ft.fuelGroupDescription,
       selected: false,
     };
-    switch (ft.fuelGroupCode) {
-      case 'COAL':
-        data[0].items.push(entry);
-        break;
-      case 'GAS':
-        data[1].items.push(entry);
-        break;
-      case 'OIL':
-        data[2].items.push(entry);
-        break;
-      case 'OTHER':
-        data[3].items.push(entry);
-        break;
-      default: break;
-    }
+    const index = data.findIndex(group => group.name.toUpperCase() === entry.group.toUpperCase())
+    data[index].items.push(entry);
   });
 
   return data;
 };
+
