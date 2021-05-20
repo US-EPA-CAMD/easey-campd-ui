@@ -189,7 +189,7 @@ export const restructureUnitTypes = (unitTypes) => {
     const entry = {
       id: ut.unitTypeCode,
       description: ut.unitTypeDescription,
-      label: ut.unitTypeDescription,
+      label: `${ut.unitTypeDescription} (${ut.unitTypeCode})`,
       group: ut.unitTypeGroupCode,
       groupDescription: ut.unitTypeGroupDescription,
       selected: false,
