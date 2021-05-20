@@ -39,7 +39,7 @@ const Facility = ({
     }
     const selection = stateFacility.filter(e=>e.selected)
     if(selection.length>0){
-      addAppliedFilterDispatcher({key:filterToApply, values:selection.map(e=>e.id)});
+      addAppliedFilterDispatcher({key:filterToApply, values:selection.map(e=>e.label)});
     }
     closeFlyOutHandler();
   };
@@ -68,7 +68,7 @@ const Facility = ({
         <>
           <div className="margin-x-2">
             <MultiSelectCombobox
-              items={facility}
+              items={JSON.parse(JSON.stringify(facility))}
               label="Select or Search Facilities/ORIS Codes"
               entity={filterToApply}
               onChangeUpdate={onChangeUpdate}
