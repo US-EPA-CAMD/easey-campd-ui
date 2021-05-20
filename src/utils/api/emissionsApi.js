@@ -7,7 +7,7 @@ export async function getHourlyEmissions(hourlyEmissions) {
   const programQuery = constructQuery(hourlyEmissions.program, 'program');
   const facilityQuery = constructFacilityQuery(hourlyEmissions.facility, 'orisCode');
   const unitTypeQuery = constructQuery(hourlyEmissions.unitType, 'unitType');
-  const fuelTypeQuery = constructQuery(hourlyEmissions.fuelType, 'fuelType');
+  const fuelTypeQuery = constructQuery(hourlyEmissions.fuelType, 'unitFuelType');
 
   const url = `${config.services.emissions.uri}/apportioned/hourly?page=1&perPage=100
 &beginDate=${hourlyEmissions.timePeriod.startDate}&endDate=${hourlyEmissions.timePeriod.endDate}&opHoursOnly=${hourlyEmissions.timePeriod.opHrsOnly}
