@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import UnitTypeRenderer from '../../UnitTypeRenderer/UnitTypeRenderer';
+import { Button } from '@trussworks/react-uswds';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
+
+import UnitCheckboxRenderer from '../../UnitCheckboxRenderer/UnitCheckboxRenderer';
 import {
   loadEmissionsUnitTypes,
   updateUnitTypeSelection,
@@ -13,9 +17,6 @@ import {
   isAddedToFilters,
   getSelectedIds,
 } from '../../../utils/selectors/hourlyEmissions';
-import { Button } from '@trussworks/react-uswds';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 
 const UnitType = ({
   storeUnitType,
@@ -90,7 +91,7 @@ const UnitType = ({
       {unitType.length > 0 && loading === 0 && (
         <>
           <div className="display-block maxh-mobile-lg overflow-y-scroll overflow-x-hidden">
-            <UnitTypeRenderer
+            <UnitCheckboxRenderer
               items={unitType}
               enableSelectAll={true}
               onSelectAll={onSelectAllUnitTypesHandler}

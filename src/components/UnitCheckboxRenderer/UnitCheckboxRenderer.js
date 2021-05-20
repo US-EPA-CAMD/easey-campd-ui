@@ -1,7 +1,7 @@
 import React from 'react';
 import GroupCheckboxGroup from '../GroupCheckboxGroup/GroupCheckboxGroup';
 
-const UnitTypeRenderer = ({
+const UnitCheckboxRenderer = ({
   items,
   enableSelectAll,
   onSelectAll,
