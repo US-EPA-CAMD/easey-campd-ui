@@ -187,11 +187,11 @@ describe('Hourly Emissions Unit Type', () => {
   afterEach(cleanup);
 
   it('Check that the component properly renders', () => {
-    const { getByText, getAllByLabelText, getAllByRole } = queries;
+    const { getByText, getAllByTestId, getAllByRole } = queries;
     expect(getByText('Boilers')).toBeInTheDocument();
     expect(getByText('Turbines')).toBeInTheDocument();
 
-    const selectAllCheckBoxes = getAllByLabelText('Select All');
+    const selectAllCheckBoxes = getAllByTestId('select-all');
     expect(selectAllCheckBoxes).toHaveLength(2);
 
     const checkbox = getAllByRole('checkbox');

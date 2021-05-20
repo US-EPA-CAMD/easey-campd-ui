@@ -213,7 +213,7 @@ const storeProgam = restructurePrograms(program);
 
 describe('Program renderer Component', () => {
   it('renders form elements without errors for active retired and enable select all flags set to true', () => {
-    const { getAllByLabelText, getAllByTestId, getAllByRole, getByText } = render(
+    const { getAllByTestId, getAllByRole, getByText } = render(
       <ProgramRenderer
         showActiveRetired={true}
         showActive={true}
@@ -233,7 +233,7 @@ describe('Program renderer Component', () => {
     const groupNames = getAllByTestId('program-group-name')
     expect(groupNames).toHaveLength(4)
 
-    const selectAllCheckBoxes = getAllByLabelText('Select All')
+    const selectAllCheckBoxes = getAllByTestId('select-all')
     expect(selectAllCheckBoxes).toHaveLength(4)
 
     const checkbox = getAllByRole('checkbox')
@@ -242,7 +242,7 @@ describe('Program renderer Component', () => {
   });
 
   it('renders form elements without errors for active retired and enable select all falgs set to false', () => {
-    const { getAllByTestId, getAllByRole, queryByText, queryAllByLabelText } = render(
+    const { getAllByTestId, getAllByRole, queryByText } = render(
       <ProgramRenderer
         showActiveRetired={false}
         showActive={false}
@@ -259,8 +259,6 @@ describe('Program renderer Component', () => {
 
     const groupNames = getAllByTestId('program-group-name')
     expect(groupNames).toHaveLength(2)
-
-    expect(queryAllByLabelText('Select All')).toHaveLength(0);
 
     const checkbox = getAllByRole('checkbox')
     expect(checkbox).toHaveLength(storeProgam[0].items.length + storeProgam[1].items.length)
