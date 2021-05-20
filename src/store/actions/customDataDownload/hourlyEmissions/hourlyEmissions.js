@@ -1,7 +1,42 @@
 import * as types from "../../actionTypes";
 import * as emissionsApi from "../../../../utils/api/emissionsApi";
 import { beginApiCall } from "../../apiStatusActions";
-import { restructurePrograms, restructureUnitTypes } from "../../../../utils/selectors/hourlyEmissions";
+import { restructurePrograms, restructureUnitTypes, restructureFuelTypes } from "../../../../utils/selectors/hourlyEmissions";
+
+/* ---------HOURLY EMISSIONS----------- */
+export function loadHourlyEmissionsSuccess(hourlyEmissions, totalCount) {
+  return {
+    type: types.LOAD_HOURLY_EMISSIONS_SUCCESS,
+    hourlyEmissions: {
+      data: hourlyEmissions,
+      totalCount: totalCount
+    }
+  };
+}
+
+export function loadHourlyEmissions(hourlyEmissions) {
+  return (dispatch) => {
+    dispatch(beginApiCall());
+    return emissionsApi
+      .getHourlyEmissions(hourlyEmissions)
+      .then((res) => {
+        dispatch(loadHourlyEmissionsSuccess(res.data, res.headers["x-total-count"]));
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+}
+
+export function resetFilter(filterToReset, resetAll = false){
+  return {
+    type: types.HOURLY_EMISSIONS.RESET_FILTER,
+    reset:{
+      filterToReset,
+      resetAll
+    },
+  };
+}
 
 /* ---------TIME PERIOD----------- */
 export function updateTimePeriod(selectedTimePeriod) {
@@ -40,6 +75,35 @@ export function updateProgramSelection(program){
   }
 }
 
+/* ---------FACILITY----------- */
+export function loadFacilitiesSuccess(facilities) {
+  return {
+    type: types.LOAD_FACILITIES_SUCCESS,
+    facilities: facilities.map(f=> ({id: f.orisCode, label:`${f.name}(${f.orisCode})`, selected:false}))
+  };
+}
+
+export function loadFacilities() {
+  return (dispatch) => {
+    dispatch(beginApiCall());
+    return emissionsApi
+      .getAllFacilities()
+      .then((res) => {
+        dispatch(loadFacilitiesSuccess(res.data));
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+}
+
+export function updateFacilitySelection(facility){
+  return {
+    type: types.HOURLY_EMISSIONS.UPDATE_FACILITY_SELECTION,
+    facility,
+  }
+}
+
 /* ---------UNIT TYPE----------- */
 export function loadEmissionsUnitTypesSuccess(unitType) {
   return {
@@ -69,34 +133,21 @@ export function updateUnitTypeSelection(selectedUnitType){
   }
 }
 
-/* ---------HOURLY EMISSIONS----------- */
-export function resetFilter(filterToReset, resetAll = false){
+/* ---------FUEL TYPE----------- */
+export function loadEmissionsFuelTypesSuccess(fuelType) {
   return {
-    type: types.HOURLY_EMISSIONS.RESET_FILTER,
-    reset:{
-      filterToReset,
-      resetAll
-    },
+    type: types.LOAD_EMISSIONS_FUEL_TYPES_SUCCESS,
+    fuelType: restructureFuelTypes(fuelType)
   };
 }
 
-export function loadHourlyEmissionsSuccess(hourlyEmissions, totalCount) {
-  return {
-    type: types.LOAD_HOURLY_EMISSIONS_SUCCESS,
-    hourlyEmissions: {
-      data: hourlyEmissions,
-      totalCount: totalCount
-    }
-  };
-}
-
-export function loadHourlyEmissions(hourlyEmissions) {
+export function loadEmissionsFuelTypes() {
   return (dispatch) => {
     dispatch(beginApiCall());
     return emissionsApi
-      .getHourlyEmissions(hourlyEmissions)
+      .getEmissionsFuelTypes
       .then((res) => {
-        dispatch(loadHourlyEmissionsSuccess(res.data, res.headers["x-total-count"]));
+        dispatch(loadEmissionsFuelTypesSuccess(res.data));
       })
       .catch((err) => {
         console.error(err);
@@ -104,30 +155,9 @@ export function loadHourlyEmissions(hourlyEmissions) {
   };
 }
 
-export function loadFacilitiesSuccess(facilities) {
+export function updateFuelTypeSelection(selectedFuelType){
   return {
-    type: types.LOAD_FACILITIES_SUCCESS,
-    facilities: facilities.map(f=> ({id: f.orisCode, label:`${f.name}(${f.orisCode})`, selected:false}))
-  };
-}
-
-export function loadFacilities() {
-  return (dispatch) => {
-    dispatch(beginApiCall());
-    return emissionsApi
-      .getAllFacilities()
-      .then((res) => {
-        dispatch(loadFacilitiesSuccess(res.data));
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  };
-}
-
-export function updateFacilitySelection(facility){
-  return {
-    type: types.HOURLY_EMISSIONS.UPDATE_FACILITY_SELECTION,
-    facility,
+    type: types.HOURLY_EMISSIONS.UPDATE_FUEL_TYPE_SELECTION,
+    selectedFuelType,
   }
 }

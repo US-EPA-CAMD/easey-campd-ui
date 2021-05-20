@@ -28,4 +28,4 @@ const UnitCheckboxRenderer = ({
   return renderer();
 };
 
-export default UnitTypeRenderer;
+export default UnitCheckboxRenderer;

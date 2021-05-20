@@ -56,6 +56,10 @@ export const resetFilterHelper = (state, filterToReset, resetAll = false) => {
       return Object.assign({}, state, {
         unitType: initialState.hourlyEmissions.unitType,
       });
+    case 'Fuel Type':
+      return Object.assign({}, state, {
+        fuelType: initialState.hourlyEmissions.fuelType,
+      });
     default:
       return initialState.hourlyEmissions;
   }
@@ -172,6 +176,20 @@ export const restructurePrograms = (programs) => {
   return data;
 };
 
+/* ---------FACILITY----------- */
+export const constructFacilityQuery = (stateFacility) =>{
+  const selectedFacilities = stateFacility.filter(f=> f.selected);
+  let query='';
+  selectedFacilities.forEach((f,i)=>{
+    if(i===selectedFacilities.length-1){
+      query = `${query}${f.id}`;
+    }else{
+      query = `${query}${f.id}|`;
+    }
+  });
+  return query.length>0? `&orisCode=${query}`:'';
+}
+
 /* ---------UNIT TYPE----------- */
 export const restructureUnitTypes = (unitTypes) => {
   const data = [
@@ -214,15 +232,64 @@ export const restructureUnitTypes = (unitTypes) => {
   return data;
 };
 
-export const constructFacilityQuery = (stateFacility) =>{
-  const selectedFacilities = stateFacility.filter(f=> f.selected);
-  let query='';
-  selectedFacilities.forEach((f,i)=>{
-    if(i===selectedFacilities.length-1){
-      query = `${query}${f.id}`;
-    }else{
-      query = `${query}${f.id}|`;
+/* ---------FUEL TYPE----------- */
+export const restructureFuelTypes = (fuelTypes) => {
+  const data = [
+    {
+      name: 'Coal',
+      description: 'Coal',
+      items: [],
+    },
+    {
+      name: 'Gas',
+      description: 'Gas',
+      items: [],
+    },
+    {
+      name: 'Oil',
+      description: 'Oil',
+      items: [],
+    },
+    {
+      name: 'Other',
+      description: 'Other',
+      items: [],
+    },
+  ];
+  fuelTypes.sort((a, b) => {
+    const textA = a.fuelTypeCode.toUpperCase();
+    const textB = b.fuelTypeCode.toUpperCase();
+    if (textA < textB) {
+      return -1;
+    } else {
+      return textA > textB ? 1 : 0;
     }
   });
-  return query.length>0? `&orisCode=${query}`:'';
-}
+  fuelTypes.forEach((ft) => {
+    const entry = {
+      id: ft.fuelTypeCode,
+      description: ft.fuelTypeDescription,
+      label: ft.fuelTypeDescription,
+      group: ft.fuelGroupCode,
+      groupDescription: ft.fuelGroupDescription,
+      selected: false,
+    };
+    switch (ft.fuelGroupCode) {
+      case 'COAL':
+        data[0].items.push(entry);
+        break;
+      case 'GAS':
+        data[1].items.push(entry);
+        break;
+      case 'OIL':
+        data[2].items.push(entry);
+        break;
+      case 'OTHER':
+        data[3].items.push(entry);
+        break;
+      default: break;
+    }
+  });
+
+  return data;
+};
