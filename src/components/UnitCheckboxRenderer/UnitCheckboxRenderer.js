@@ -1,7 +1,7 @@
 import React from 'react';
 import GroupCheckboxGroup from '../GroupCheckboxGroup/GroupCheckboxGroup';
 
-const UnitTypeRenderer = ({
+const UnitCheckboxRenderer = ({
   items,
   enableSelectAll,
   onSelectAll,
@@ -28,4 +28,4 @@ const UnitTypeRenderer = ({
   return renderer();
 };
 
-export default UnitTypeRenderer;
+export default UnitCheckboxRenderer;

@@ -4,7 +4,7 @@ import { Button } from '@trussworks/react-uswds';
 
 import HourlyEmissionsDataPreview from '../../hourlyEmissions/DataPreview/DataPreview';
 import FilterTags from '../../FilterTags/FilterTags';
-import { isAddedToFilters } from '../../../utils/selectors/hourlyEmissions';
+import { isAddedToFilters } from '../../../utils/selectors/general';
 import {
   resetDataPreview,
   removeAppliedFilter,

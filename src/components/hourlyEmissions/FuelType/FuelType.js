@@ -6,8 +6,8 @@ import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 
 import UnitCheckboxRenderer from '../../UnitCheckboxRenderer/UnitCheckboxRenderer';
 import {
-  loadEmissionsUnitTypes,
-  updateUnitTypeSelection,
+  loadEmissionsFuelTypes,
+  updateFuelTypeSelection,
 } from '../../../store/actions/customDataDownload/hourlyEmissions/hourlyEmissions';
 import {
   addAppliedFilter,
@@ -16,63 +16,63 @@ import {
 import { getSelectedIds } from '../../../utils/selectors/hourlyEmissions';
 import { isAddedToFilters } from '../../../utils/selectors/general';
 
-const UnitType = ({
-  storeUnitType,
+const FuelType = ({
+  storeFuelType,
   appliedFilters,
-  loadEmissionsUnitTypesDispatcher,
-  updateUnitTypeSelectionDispatcher,
+  loadEmissionsFuelTypesDispatcher,
+  updateFuelTypeSelectionDispatcher,
   addAppliedFilterDispatcher,
   removeAppliedFilterDispatcher,
   loading,
   closeFlyOutHandler,
 }) => {
-  const [unitType, setUnitTypes] = useState(
-    JSON.parse(JSON.stringify(storeUnitType))
+  const [fuelType, setFuelTypes] = useState(
+    JSON.parse(JSON.stringify(storeFuelType))
   );
 
-  const filterToApply = 'Unit Type';
+  const filterToApply = 'Unit Fuel Type';
 
-  const onSelectAllUnitTypesHandler = (e) => {
-    const newUnitTypes = [...unitType];
-    const groupIndex = newUnitTypes.findIndex(
+  const onSelectAllFuelTypesHandler = (e) => {
+    const newFuelTypes = [...fuelType];
+    const groupIndex = newFuelTypes.findIndex(
       (group) => group.name === e.target.id
     );
-    newUnitTypes[groupIndex].items.forEach((i) => {
+    newFuelTypes[groupIndex].items.forEach((i) => {
       i.selected = e.target.checked;
     });
-    setUnitTypes(newUnitTypes);
+    setFuelTypes(newFuelTypes);
   };
 
-  const onSelectUnitTypeHandler = (e) => {
-    const newUnitTypes = [...unitType];
-    const groupIndex = newUnitTypes.findIndex(
+  const onSelectFuelTypeHandler = (e) => {
+    const newFuelTypes = [...fuelType];
+    const groupIndex = newFuelTypes.findIndex(
       (group) => group.name === e.target.name
     );
-    const found = newUnitTypes[groupIndex].items.findIndex(
+    const found = newFuelTypes[groupIndex].items.findIndex(
       (i) => i.id === e.target.id
     );
     if (found > -1) {
-      newUnitTypes[groupIndex].items[found].selected = e.target.checked;
-      setUnitTypes(newUnitTypes);
+      newFuelTypes[groupIndex].items[found].selected = e.target.checked;
+      setFuelTypes(newFuelTypes);
     }
   };
 
   useEffect(() => {
-    if (storeUnitType.length === 0) {
-      loadEmissionsUnitTypesDispatcher();
+    if (storeFuelType.length === 0) {
+      loadEmissionsFuelTypesDispatcher();
     } // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    setUnitTypes(JSON.parse(JSON.stringify(storeUnitType)));
-  }, [storeUnitType]);
+    setFuelTypes(JSON.parse(JSON.stringify(storeFuelType)));
+  }, [storeFuelType]);
 
   const handleApplyFilter = () => {
-    updateUnitTypeSelectionDispatcher(unitType);
+    updateFuelTypeSelectionDispatcher(fuelType);
     if (isAddedToFilters(filterToApply, appliedFilters)) {
       removeAppliedFilterDispatcher(filterToApply);
     }
-    const selection = getSelectedIds(unitType);
+    const selection = getSelectedIds(fuelType);
     if (selection.length > 0) {
       addAppliedFilterDispatcher({ key: filterToApply, values: selection });
     }
@@ -82,21 +82,21 @@ const UnitType = ({
   return (
     <>
       <div className="panel-header padding-top-2 margin-x-2">
-        Unit Type
+        Unit Fuel Type
         <FontAwesomeIcon
           icon={faQuestionCircle}
           className="text-gray-30 font-body-md question-icon"
         />
         <hr />
       </div>
-      {unitType.length > 0 && loading === 0 && (
+      {fuelType.length > 0 && loading === 0 && (
         <>
           <div className="display-block maxh-mobile-lg overflow-y-scroll overflow-x-hidden">
             <UnitCheckboxRenderer
-              items={unitType}
+              items={fuelType}
               enableSelectAll={true}
-              onSelectAll={onSelectAllUnitTypesHandler}
-              onSelectItem={onSelectUnitTypeHandler}
+              onSelectAll={onSelectAllFuelTypesHandler}
+              onSelectItem={onSelectFuelTypeHandler}
             />
           </div>
           <hr />
@@ -114,7 +114,7 @@ const UnitType = ({
           </div>
         </>
       )}
-      {loading > 0 && unitType.length === 0 && (
+      {loading > 0 && fuelType.length === 0 && (
         <span className="font-alt-sm text-bold margin-x-2">Loading...</span>
       )}
     </>
@@ -123,7 +123,7 @@ const UnitType = ({
 
 const mapStateToProps = (state) => {
   return {
-    storeUnitType: state.hourlyEmissions.unitType,
+    storeFuelType: state.hourlyEmissions.fuelType,
     appliedFilters: state.customDataDownload.appliedFilters,
     loading: state.apiCallsInProgress,
   };
@@ -131,9 +131,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loadEmissionsUnitTypesDispatcher: () => dispatch(loadEmissionsUnitTypes()),
-    updateUnitTypeSelectionDispatcher: (unitType) =>
-      dispatch(updateUnitTypeSelection(unitType)),
+    loadEmissionsFuelTypesDispatcher: () => dispatch(loadEmissionsFuelTypes()),
+    updateFuelTypeSelectionDispatcher: (fuelType) =>
+      dispatch(updateFuelTypeSelection(fuelType)),
     addAppliedFilterDispatcher: (filterToApply) =>
       dispatch(addAppliedFilter(filterToApply)),
     removeAppliedFilterDispatcher: (removedFilter) =>
@@ -141,4 +141,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(UnitType);
+export default connect(mapStateToProps, mapDispatchToProps)(FuelType);

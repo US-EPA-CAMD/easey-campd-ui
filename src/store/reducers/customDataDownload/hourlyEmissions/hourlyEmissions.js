@@ -22,6 +22,10 @@ const reducer = (state = initialState.hourlyEmissions, action) => {
       return Object.assign({}, state, { unitType: action.unitType });
     case types.HOURLY_EMISSIONS.UPDATE_UNIT_TYPE_SELECTION:
       return Object.assign({}, state, { unitType: action.selectedUnitType });
+    case types.LOAD_EMISSIONS_FUEL_TYPES_SUCCESS:
+      return Object.assign({}, state, { fuelType: action.fuelType });
+    case types.HOURLY_EMISSIONS.UPDATE_FUEL_TYPE_SELECTION:
+      return Object.assign({}, state, { fuelType: action.selectedFuelType });
     default:
       return state;
   }

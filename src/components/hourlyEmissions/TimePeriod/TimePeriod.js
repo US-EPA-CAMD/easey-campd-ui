@@ -12,7 +12,7 @@ import {
   isAddedToFilters,
   formatDateToUi,
   formatDateToApi,
-} from '../../../utils/selectors/hourlyEmissions';
+} from '../../../utils/selectors/general';
 
 export const TimePeriod = ({
   timePeriod,

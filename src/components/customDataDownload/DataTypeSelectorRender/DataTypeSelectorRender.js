@@ -4,6 +4,7 @@ import { Button, Dropdown } from '@trussworks/react-uswds';
 import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 
 import * as constants from '../../../utils/constants/customDataDownload';
+import { initcap } from '../../../utils/selectors/general'
 
 const DataTypeSelectorView = ({
   selectedDataType,
@@ -19,12 +20,6 @@ const DataTypeSelectorView = ({
   selectionChange,
   displayCancel,
 }) => {
-  const initcap = (str) => {
-    return str.replace(/([^\W_]+[^\s-]*) */g, function (txt) {
-      return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-    });
-  };
-
   return (
     <>
       <div className="panel-header padding-top-3 padding-bottom-3 padding-left-2">

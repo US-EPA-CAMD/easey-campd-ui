@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import MultiSelectCombobox from '../../MultiSelectCombobox/MultiSelectCombobox';
 import {loadFacilities, updateFacilitySelection} from "../../../store/actions/customDataDownload/hourlyEmissions/hourlyEmissions";
 import { addAppliedFilter, removeAppliedFilter } from "../../../store/actions/customDataDownload/customDataDownload";
-import {isAddedToFilters} from "../../../utils/selectors/hourlyEmissions";
+import {isAddedToFilters} from "../../../utils/selectors/general";
 import {Button} from "@trussworks/react-uswds";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faQuestionCircle } from "@fortawesome/free-solid-svg-icons";

@@ -1,42 +1,5 @@
 import initialState from '../../store/reducers/initialState';
-
-export const formatDateToApi = (dateString) => {
-  //param=mm/dd/yyyy return=yyyy-mm-dd
-  if (dateString) {
-    const dateStringParts = dateString.split('/');
-    const month =
-      dateStringParts[0] < 10 && !dateStringParts[0].startsWith('0')
-        ? `0${dateStringParts[0]}`
-        : dateStringParts[0];
-    const day =
-      dateStringParts[1] < 10 && !dateStringParts[1].startsWith('0')
-        ? `0${dateStringParts[1]}`
-        : dateStringParts[1];
-    return `${dateStringParts[2]}-${month}-${day}`;
-  }
-  return null;
-};
-
-export const formatDateToUi = (dateString) => {
-  //param=yyyy-mm-dd return=mm/dd/yyyy
-  if (dateString) {
-    const dateStringParts = dateString.split('-');
-    const month =
-      dateStringParts[1] < 10 && !dateStringParts[1].startsWith('0')
-        ? `0${dateStringParts[1]}`
-        : dateStringParts[1];
-    const day =
-      dateStringParts[2] < 10 && !dateStringParts[2].startsWith('0')
-        ? `0${dateStringParts[2]}`
-        : dateStringParts[2];
-    return `${month}/${day}/${dateStringParts[0]}`;
-  }
-  return null;
-};
-
-export const isAddedToFilters = (filter, appliedFilters) => {
-  return appliedFilters.filter((el) => el.key === filter).length > 0;
-};
+import { initcap } from './general';
 
 export const resetFilterHelper = (state, filterToReset, resetAll = false) => {
   if (resetAll) {
@@ -55,6 +18,10 @@ export const resetFilterHelper = (state, filterToReset, resetAll = false) => {
     case 'Unit Type':
       return Object.assign({}, state, {
         unitType: initialState.hourlyEmissions.unitType,
+      });
+    case 'Fuel Type':
+      return Object.assign({}, state, {
+        fuelType: initialState.hourlyEmissions.fuelType,
       });
     default:
       return initialState.hourlyEmissions;
@@ -172,6 +139,20 @@ export const restructurePrograms = (programs) => {
   return data;
 };
 
+/* ---------FACILITY----------- */
+export const constructFacilityQuery = (stateFacility) =>{
+  const selectedFacilities = stateFacility.filter(f=> f.selected);
+  let query='';
+  selectedFacilities.forEach((f,i)=>{
+    if(i===selectedFacilities.length-1){
+      query = `${query}${f.id}`;
+    }else{
+      query = `${query}${f.id}|`;
+    }
+  });
+  return query.length>0? `&orisCode=${query}`:'';
+}
+
 /* ---------UNIT TYPE----------- */
 const unitTypeGroups = (unitTypes) => {
   const unique = [];
@@ -220,15 +201,61 @@ export const restructureUnitTypes = (unitTypes) => {
   return data;
 };
 
-export const constructFacilityQuery = (stateFacility) =>{
-  const selectedFacilities = stateFacility.filter(f=> f.selected);
-  let query='';
-  selectedFacilities.forEach((f,i)=>{
-    if(i===selectedFacilities.length-1){
-      query = `${query}${f.id}`;
-    }else{
-      query = `${query}${f.id}|`;
+/* ---------FUEL TYPE----------- */
+const fuelTypeGroups = (fuelTypes) => {
+  const unique = [];
+  const map = new Map();
+  fuelTypes.forEach( (fuelType) => {
+    const desc = initcap(fuelType.fuelGroupCode);
+    if(!map.has(desc)) {
+      map.set(desc, true);
+      unique.push(desc);
+    }
+  })
+
+  unique.sort((a, b) => {
+    const textA = a.toUpperCase();
+    const textB = b.toUpperCase();
+    if (textA < textB) {
+      return -1;
+    } else {
+      return textA > textB ? 1 : 0;
+    }
+  })
+
+  return unique;
+}
+
+export const restructureFuelTypes = (fuelTypes) => {
+  const groups = fuelTypeGroups(fuelTypes);
+  const data = groups.map((group) => group = {
+    name: group,
+    description: group,
+    items: []
+  })
+
+  fuelTypes.sort((a, b) => {
+    const textA = a.fuelTypeCode.toUpperCase();
+    const textB = b.fuelTypeCode.toUpperCase();
+    if (textA < textB) {
+      return -1;
+    } else {
+      return textA > textB ? 1 : 0;
     }
   });
-  return query.length>0? `&orisCode=${query}`:'';
-}
+  fuelTypes.forEach((ft) => {
+    const entry = {
+      id: ft.fuelTypeCode,
+      description: ft.fuelTypeDescription,
+      label: `${ft.fuelTypeDescription} (${ft.fuelTypeCode})`,
+      group: ft.fuelGroupCode,
+      groupDescription: ft.fuelGroupDescription,
+      selected: false,
+    };
+    const index = data.findIndex(group => group.name.toUpperCase() === entry.group.toUpperCase())
+    data[index].items.push(entry);
+  });
+
+  return data;
+};
+

@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import UnitTypeRenderer from './UnitTypeRenderer';
+import UnitCheckboxRenderer from './UnitCheckboxRenderer';
 import { restructureUnitTypes } from '../../utils/selectors/hourlyEmissions';
 
 const unitType = [
@@ -164,7 +164,7 @@ const storeUnitType = restructureUnitTypes(unitType);
 describe('Unit Type Renderer Component', () => {
   it('renders form elements without errors for Boilers and Turbines groups', () => {
     const { getAllByTestId, getAllByRole, getByText } = render(
-      <UnitTypeRenderer
+      <UnitCheckboxRenderer
         showActiveRetired={false}
         items={storeUnitType}
         enableSelectAll={true}

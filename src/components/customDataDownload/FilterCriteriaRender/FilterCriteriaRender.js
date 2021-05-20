@@ -8,7 +8,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import "./FilterCriteriaRender.scss";
-import { isAddedToFilters } from "../../../utils/selectors/hourlyEmissions";
+import { isAddedToFilters } from "../../../utils/selectors/general";
 
 const FiltersView = ({
   dataSubtypeApplied,

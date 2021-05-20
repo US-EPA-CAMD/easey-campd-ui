@@ -15,7 +15,7 @@ export const EMISSIONS_FILTERS = [
   { value: 'State/Territory', stateVar: 'stateTerritory', label: 'STATE/TERRITORY (Optional)' },
   { value: 'Facility', stateVar: 'facility', label: 'FACILITY (Optional)' },
   { value: 'Unit Type', stateVar: 'unitType', label: 'UNIT TYPE (Optional)' },
-  { value: 'Unit Fuel Type', stateVar: 'unitFuelType', label: 'UNIT FUEL TYPE (Optional)' },
+  { value: 'Unit Fuel Type', stateVar: 'fuelType', label: 'UNIT FUEL TYPE (Optional)' },
   { value: 'Control Technology', stateVar: 'controlTechnology', label: 'CONTROL TECHNOLOGY (Optional)' },
 ];
 
