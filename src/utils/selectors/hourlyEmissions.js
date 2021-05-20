@@ -173,19 +173,28 @@ export const restructurePrograms = (programs) => {
 };
 
 /* ---------UNIT TYPE----------- */
+const unitTypeGroups = (unitTypes) => {
+  const unique = [];
+  const map = new Map();
+  unitTypes.forEach( (unitType) => {
+    const desc = unitType.unitTypeGroupDescription;
+    if(!map.has(desc)) {
+      map.set(desc, true);
+      unique.push(desc);
+    }
+  })
+
+  return unique;
+}
+
 export const restructureUnitTypes = (unitTypes) => {
-  const data = [
-    {
-      name: 'Boilers',
-      description: 'Boilers',
-      items: [],
-    },
-    {
-      name: 'Turbines',
-      description: 'Turbines',
-      items: [],
-    },
-  ];
+  const groups = unitTypeGroups(unitTypes);
+  const data = groups.map((group) => group = {
+    name: group,
+    description: group,
+    items: []
+  })
+
   unitTypes.sort((a, b) => {
     const textA = a.unitTypeCode.toUpperCase();
     const textB = b.unitTypeCode.toUpperCase();
@@ -204,11 +213,8 @@ export const restructureUnitTypes = (unitTypes) => {
       groupDescription: ut.unitTypeGroupDescription,
       selected: false,
     };
-    if (ut.unitTypeGroupCode === 'B') {
-      data[0].items.push(entry);
-    } else if (ut.unitTypeGroupCode === 'T') {
-      data[1].items.push(entry);
-    }
+    const index = data.findIndex(group => group.name === entry.groupDescription)
+    data[index].items.push(entry);
   });
 
   return data;
