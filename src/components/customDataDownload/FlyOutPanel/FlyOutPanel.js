@@ -4,6 +4,7 @@ import Program from "../../hourlyEmissions/Program/Program";
 import Facility from "../../hourlyEmissions/Facility/Facility";
 import UnitType from "../../hourlyEmissions/UnitType/UnitType";
 import FuelType from "../../hourlyEmissions/FuelType/FuelType";
+import ControlTechnology from "../../hourlyEmissions/ControlTechnology/ControlTechnology";
 
 const FlyOutPanel = ({
   show,
@@ -17,6 +18,7 @@ const FlyOutPanel = ({
     facility: <Facility closeFlyOutHandler={closeFlyOutHandler}/>,
     unitType: <UnitType closeFlyOutHandler={closeFlyOutHandler}/>,
     fuelType: <FuelType closeFlyOutHandler={closeFlyOutHandler}/>,
+    controlTechnology: <ControlTechnology closeFlyOutHandler={closeFlyOutHandler}/>,
   };
 
   const contentRenderer = () => {

@@ -23,6 +23,10 @@ export const resetFilterHelper = (state, filterToReset, resetAll = false) => {
       return Object.assign({}, state, {
         fuelType: initialState.hourlyEmissions.fuelType,
       });
+    case 'Control Technology':
+      return Object.assign({}, state, {
+        controlTechnology: initialState.hourlyEmissions.controlTechnology,
+      });
     default:
       return initialState.hourlyEmissions;
   }
@@ -86,6 +90,7 @@ export const getSelectedIds = (filterState, description = false) => {
 
 export const constructQuery = (filterState, filterName) => {
   const useCode = filterName === 'program' ? false : true;
+  console.log(filterName + filterState);
   const selectedFilters = getSelectedIds(filterState, useCode);
   let query = '';
   selectedFilters.forEach((p, i) => {
@@ -259,3 +264,71 @@ export const restructureFuelTypes = (fuelTypes) => {
   return data;
 };
 
+/* ---------CONTROL TECHNOLOGY----------- */
+const controlGroups = (controlTechnologies) => {
+  const unique = [];
+  const map = new Map();
+  controlTechnologies.forEach((controlTechnology) => {
+    const name = controlTechnology?.controlEquipParamDescription || 'Other';
+    let code = `(${controlTechnology.controlEquipParamCode})`;
+    if (controlTechnology.controlEquipParamCode === null || controlTechnology.controlEquipParamCode === 'PART') {
+      code = '';
+    }
+
+    if (!map.has(name)) {
+      map.set(name, true);
+      unique.push({
+        name: name,
+        description: `${name} ${code}`,
+      });
+    }
+  });
+
+  unique.sort((a, b) => {
+    const textA = a.name.toUpperCase();
+    const textB = b.name.toUpperCase();
+    if (textA < textB) {
+      return -1;
+    } else {
+      return textA > textB ? 1 : 0;
+    }
+  })
+
+  const otherIndex = unique.findIndex((e) => e.name === 'Other')
+  unique.push(unique.splice(otherIndex, 1)[0]);
+
+  return unique;
+};
+
+export const restructureControlTechnologies = (controlTechnologies) => {
+  const groups = controlGroups(controlTechnologies);
+  const data = groups.map((group) => group = {
+    name: group.name,
+    description: group.description,
+    items: []
+  })
+
+  controlTechnologies.sort((a, b) => {
+    const textA = a.controlCode.toUpperCase();
+    const textB = b.controlCode.toUpperCase();
+    if (textA < textB) {
+      return -1;
+    } else {
+      return textA > textB ? 1 : 0;
+    }
+  });
+  controlTechnologies.forEach((ct) => {
+    const entry = {
+      id: ct.controlCode,
+      description: ct.controlDescription,
+      label: `${ct.controlDescription} (${ct.controlCode})`,
+      group: ct.controlEquipParamCode,
+      groupDescription: ct?.controlEquipParamDescription || 'Other',
+      selected: false,
+    };
+    const index = data.findIndex(group => group.name === entry.groupDescription)
+    data[index].items.push(entry);
+  });
+
+  return data;
+};
