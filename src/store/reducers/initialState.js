@@ -17,6 +17,7 @@ export default {
     unitType: [],
     fuelType: [],
     stateTerritory: [],
+    controlTechnology: [],
   },
   apiCallsInProgress: 0,
 };

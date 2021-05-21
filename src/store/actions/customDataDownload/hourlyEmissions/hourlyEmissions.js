@@ -1,7 +1,12 @@
-import * as types from "../../actionTypes";
-import * as emissionsApi from "../../../../utils/api/emissionsApi";
-import { beginApiCall } from "../../apiStatusActions";
-import { restructurePrograms, restructureUnitTypes, restructureFuelTypes } from "../../../../utils/selectors/hourlyEmissions";
+import * as types from '../../actionTypes';
+import * as emissionsApi from '../../../../utils/api/emissionsApi';
+import { beginApiCall } from '../../apiStatusActions';
+import {
+  restructurePrograms,
+  restructureUnitTypes,
+  restructureFuelTypes,
+  restructureControlTechnologies,
+} from '../../../../utils/selectors/hourlyEmissions';
 
 /* ---------HOURLY EMISSIONS----------- */
 export function loadHourlyEmissionsSuccess(hourlyEmissions, totalCount) {
@@ -9,8 +14,8 @@ export function loadHourlyEmissionsSuccess(hourlyEmissions, totalCount) {
     type: types.LOAD_HOURLY_EMISSIONS_SUCCESS,
     hourlyEmissions: {
       data: hourlyEmissions,
-      totalCount: totalCount
-    }
+      totalCount: totalCount,
+    },
   };
 }
 
@@ -20,7 +25,9 @@ export function loadHourlyEmissions(hourlyEmissions) {
     return emissionsApi
       .getHourlyEmissions(hourlyEmissions)
       .then((res) => {
-        dispatch(loadHourlyEmissionsSuccess(res.data, res.headers["x-total-count"]));
+        dispatch(
+          loadHourlyEmissionsSuccess(res.data, res.headers['x-total-count'])
+        );
       })
       .catch((err) => {
         console.error(err);
@@ -28,12 +35,12 @@ export function loadHourlyEmissions(hourlyEmissions) {
   };
 }
 
-export function resetFilter(filterToReset, resetAll = false){
+export function resetFilter(filterToReset, resetAll = false) {
   return {
     type: types.HOURLY_EMISSIONS.RESET_FILTER,
-    reset:{
+    reset: {
       filterToReset,
-      resetAll
+      resetAll,
     },
   };
 }
@@ -50,15 +57,14 @@ export function updateTimePeriod(selectedTimePeriod) {
 export function loadEmissionsProgramsSuccess(program) {
   return {
     type: types.LOAD_EMISSIONS_PROGRAMS_SUCCESS,
-    program: restructurePrograms(program)
+    program: restructurePrograms(program),
   };
 }
 
 export function loadEmissionsPrograms() {
   return (dispatch) => {
     dispatch(beginApiCall());
-    return emissionsApi
-      .getEmissionsPrograms
+    return emissionsApi.getEmissionsPrograms
       .then((res) => {
         dispatch(loadEmissionsProgramsSuccess(res.data));
       })
@@ -68,11 +74,11 @@ export function loadEmissionsPrograms() {
   };
 }
 
-export function updateProgramSelection(program){
+export function updateProgramSelection(program) {
   return {
     type: types.HOURLY_EMISSIONS.UPDATE_PROGRAM_SELECTION,
     program,
-  }
+  };
 }
 
 /* ---------FACILITY----------- */
@@ -97,26 +103,25 @@ export function loadFacilities() {
   };
 }
 
-export function updateFacilitySelection(facility){
+export function updateFacilitySelection(facility) {
   return {
     type: types.HOURLY_EMISSIONS.UPDATE_FACILITY_SELECTION,
     facility,
-  }
+  };
 }
 
 /* ---------UNIT TYPE----------- */
 export function loadEmissionsUnitTypesSuccess(unitType) {
   return {
     type: types.LOAD_EMISSIONS_UNIT_TYPES_SUCCESS,
-    unitType: restructureUnitTypes(unitType)
+    unitType: restructureUnitTypes(unitType),
   };
 }
 
 export function loadEmissionsUnitTypes() {
   return (dispatch) => {
     dispatch(beginApiCall());
-    return emissionsApi
-      .getEmissionsUnitTypes
+    return emissionsApi.getEmissionsUnitTypes
       .then((res) => {
         dispatch(loadEmissionsUnitTypesSuccess(res.data));
       })
@@ -126,26 +131,25 @@ export function loadEmissionsUnitTypes() {
   };
 }
 
-export function updateUnitTypeSelection(selectedUnitType){
+export function updateUnitTypeSelection(selectedUnitType) {
   return {
     type: types.HOURLY_EMISSIONS.UPDATE_UNIT_TYPE_SELECTION,
     selectedUnitType,
-  }
+  };
 }
 
 /* ---------FUEL TYPE----------- */
 export function loadEmissionsFuelTypesSuccess(fuelType) {
   return {
     type: types.LOAD_EMISSIONS_FUEL_TYPES_SUCCESS,
-    fuelType: restructureFuelTypes(fuelType)
+    fuelType: restructureFuelTypes(fuelType),
   };
 }
 
 export function loadEmissionsFuelTypes() {
   return (dispatch) => {
     dispatch(beginApiCall());
-    return emissionsApi
-      .getEmissionsFuelTypes
+    return emissionsApi.getEmissionsFuelTypes
       .then((res) => {
         dispatch(loadEmissionsFuelTypesSuccess(res.data));
       })
@@ -155,11 +159,39 @@ export function loadEmissionsFuelTypes() {
   };
 }
 
-export function updateFuelTypeSelection(selectedFuelType){
+export function updateFuelTypeSelection(selectedFuelType) {
   return {
     type: types.HOURLY_EMISSIONS.UPDATE_FUEL_TYPE_SELECTION,
     selectedFuelType,
-  }
+  };
+}
+
+/* ---------CONTROL TECHNOLOGY----------- */
+export function loadEmissionsControlTechnologiesSuccess(controlTechnology) {
+  return {
+    type: types.LOAD_EMISSIONS_CONTROL_TECHNOLOGIES_SUCCESS,
+    controlTechnology: restructureControlTechnologies(controlTechnology),
+  };
+}
+
+export function loadEmissionsControlTechnologies() {
+  return (dispatch) => {
+    dispatch(beginApiCall());
+    return emissionsApi.getEmissionsControlTechnologies
+      .then((res) => {
+        dispatch(loadEmissionsControlTechnologiesSuccess(res.data));
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+}
+
+export function updateControlTechnologySelection(selectedControlTechnology) {
+  return {
+    type: types.HOURLY_EMISSIONS.UPDATE_CONTROL_TECHNOLOGY_SELECTION,
+    selectedControlTechnology,
+  };
 }
 
 /* ---------STATES---------- */
