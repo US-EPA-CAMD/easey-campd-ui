@@ -26,6 +26,10 @@ const reducer = (state = initialState.hourlyEmissions, action) => {
       return Object.assign({}, state, { fuelType: action.fuelType });
     case types.HOURLY_EMISSIONS.UPDATE_FUEL_TYPE_SELECTION:
       return Object.assign({}, state, { fuelType: action.selectedFuelType });
+    case types.LOAD_EMISSIONS_STATES_SUCCESS:
+      return Object.assign({}, state, { stateTerritory: action.states });
+    case types.HOURLY_EMISSIONS.UPDATE_STATE_SELECTION:
+      return Object.assign({}, state, { stateTerritory: action.stateSelection });
     case types.LOAD_EMISSIONS_CONTROL_TECHNOLOGIES_SUCCESS:
       return Object.assign({}, state, { controlTechnology: action.controlTechnology });
     case types.HOURLY_EMISSIONS.UPDATE_CONTROL_TECHNOLOGY_SELECTION:

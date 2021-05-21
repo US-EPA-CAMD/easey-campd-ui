@@ -1,18 +1,19 @@
 import axios from 'axios';
 import { handleResponse, handleError } from './apiUtils';
-import { constructQuery, constructFacilityQuery } from '../selectors/hourlyEmissions';
+import { constructQuery, constructFacilityOrStateQuery } from '../selectors/hourlyEmissions';
 import config from '../../config';
 
 export async function getHourlyEmissions(hourlyEmissions) {
   const programQuery = constructQuery(hourlyEmissions.program, 'program');
-  const facilityQuery = constructFacilityQuery(hourlyEmissions.facility, 'orisCode');
+  const facilityQuery = constructFacilityOrStateQuery(hourlyEmissions.facility, "orisCode");
   const unitTypeQuery = constructQuery(hourlyEmissions.unitType, 'unitType');
   const fuelTypeQuery = constructQuery(hourlyEmissions.fuelType, 'unitFuelType');
+  const stateTerritoryQuery = constructFacilityOrStateQuery(hourlyEmissions.stateTerritory, "state");
   const controlTechnologyQuery = constructQuery(hourlyEmissions.controlTechnology, 'controlTechnologies');
 
   const url = `${config.services.emissions.uri}/apportioned/hourly?page=1&perPage=100
 &beginDate=${hourlyEmissions.timePeriod.startDate}&endDate=${hourlyEmissions.timePeriod.endDate}&opHoursOnly=${hourlyEmissions.timePeriod.opHrsOnly}
-${programQuery}${unitTypeQuery}${facilityQuery}${fuelTypeQuery}${controlTechnologyQuery}`;
+${programQuery}${unitTypeQuery}${facilityQuery}${fuelTypeQuery}${stateTerritoryQuery}${controlTechnologyQuery}`;
   console.log(url.replace(/\r?\n|\r/g, ''));
 
   return axios
@@ -30,6 +31,7 @@ export async function getEmissionsMDM(endpoint) {
 export const getEmissionsPrograms = getEmissionsMDM('programs?exclude=MATS');
 export const getEmissionsUnitTypes = getEmissionsMDM('unit-types');
 export const getEmissionsFuelTypes = getEmissionsMDM('fuel-types');
+export const getEmissionsStates = getEmissionsMDM('states');
 export const getEmissionsControlTechnologies = getEmissionsMDM('control-technologies');
 
 export async function getAllFacilities() {

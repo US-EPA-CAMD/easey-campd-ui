@@ -85,11 +85,7 @@ export function updateProgramSelection(program) {
 export function loadFacilitiesSuccess(facilities) {
   return {
     type: types.LOAD_FACILITIES_SUCCESS,
-    facilities: facilities.map((f) => ({
-      id: f.orisCode,
-      label: `${f.name} (${f.orisCode})`,
-      selected: false,
-    })),
+    facilities: facilities.map(f=> ({id: f.orisCode, label:`${f.name} (${f.orisCode})`, selected:false}))
   };
 }
 
@@ -196,4 +192,33 @@ export function updateControlTechnologySelection(selectedControlTechnology) {
     type: types.HOURLY_EMISSIONS.UPDATE_CONTROL_TECHNOLOGY_SELECTION,
     selectedControlTechnology,
   };
+}
+
+/* ---------STATES---------- */
+export function loadStatesSuccess(states) {
+  return {
+    type: types.LOAD_EMISSIONS_STATES_SUCCESS,
+    states: states.map(s=> ({id: s.stateCode, label:s.stateName, selected:false}))
+  };
+}
+
+export function loadStates() {
+  return (dispatch) => {
+    dispatch(beginApiCall());
+    return emissionsApi
+      .getEmissionsStates
+      .then((res) => {
+        dispatch(loadStatesSuccess(res.data));
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+}
+
+export function updateStateSelection(stateSelection){
+  return {
+    type: types.HOURLY_EMISSIONS.UPDATE_STATE_SELECTION,
+    stateSelection,
+  }
 }

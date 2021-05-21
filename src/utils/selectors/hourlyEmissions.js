@@ -15,11 +15,13 @@ export const resetFilterHelper = (state, filterToReset, resetAll = false) => {
       return Object.assign({}, state, {program: initialState.hourlyEmissions.program});
     case 'Facility':
       return Object.assign({}, state, {facility: initialState.hourlyEmissions.facility});
+    case 'State/Territory':
+      return Object.assign({}, state, {stateTerritory: initialState.hourlyEmissions.stateTerritory});
     case 'Unit Type':
       return Object.assign({}, state, {
         unitType: initialState.hourlyEmissions.unitType,
       });
-    case 'Fuel Type':
+    case 'Unit Fuel Type':
       return Object.assign({}, state, {
         fuelType: initialState.hourlyEmissions.fuelType,
       });
@@ -144,17 +146,17 @@ export const restructurePrograms = (programs) => {
 };
 
 /* ---------FACILITY----------- */
-export const constructFacilityQuery = (stateFacility) =>{
-  const selectedFacilities = stateFacility.filter(f=> f.selected);
+export const constructFacilityOrStateQuery = (filterState, queryString) =>{
+  const selection = filterState.filter(f=> f.selected);
   let query='';
-  selectedFacilities.forEach((f,i)=>{
-    if(i===selectedFacilities.length-1){
+  selection.forEach((f,i)=>{
+    if(i===selection.length-1){
       query = `${query}${f.id}`;
     }else{
       query = `${query}${f.id}|`;
     }
   });
-  return query.length>0? `&orisCode=${query}`:'';
+  return query.length > 0 ? `&${queryString}=${query}` : '';
 }
 
 /* ---------UNIT TYPE----------- */
