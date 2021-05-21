@@ -12,7 +12,8 @@ const MultiSelectCombobox = ({
   onChangeUpdate}) =>{
 
   const [ filter, setFilter ] = useState('');
-  const [ data, setData ]= useState(items);
+  const [ _items, _setItems ]= useState(items);
+  const [ data, setData ]= useState(JSON.parse(JSON.stringify(items)));
   const [ showListBox , setShowListBox ] = useState(false);
   const [ selectedItems, setSelectedItems ] = useState([]);
   const selectedItemsRef = useRef(selectedItems);
@@ -22,12 +23,12 @@ const MultiSelectCombobox = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   },[])
 
-  const onSearchHanlder =(e) =>{
-    const value = e.target.value;
+  const onSearchHanlder =(value) =>{
+    //const value = e.target.value;
     const lowercasedFilter = value.toLowerCase();
-    let filteredData = items;
+    let filteredData = _items;
     if(value.length>0){
-      filteredData = items.filter(item => item.label.toLowerCase().includes(lowercasedFilter));
+      filteredData = _items.filter(item => item.label.toLowerCase().includes(lowercasedFilter));
     }
     setFilter(value);
     setData([...filteredData]);
@@ -46,15 +47,19 @@ const MultiSelectCombobox = ({
   }
 
   const updateListDataOnChange = (id, update) =>{
-    const _dataCopy = [...data];
-    const index = _dataCopy.findIndex(d=> d.id===id);
+    const _itemsCopy = [..._items];
+    const index = _itemsCopy.findIndex(d=> d.id===id);
     if(index > -1){
-      update==="add"? _dataCopy[index].selected = true: _dataCopy[index].selected = false;
+      update==="add"? _itemsCopy[index].selected = true: _itemsCopy[index].selected = false;
     }
-    setData([..._dataCopy]);
+    _setItems([..._itemsCopy]);
+    setData([..._itemsCopy]);
   }
 
   const optionClickHandler = (e) =>{
+    if(e.target.getAttribute("data-id") === null){
+      return;
+    }
     const id = e.target.getAttribute("data-id");
     const optionLabel = e.target.getAttribute("data-label");
     if(!selectedItems.find(s=> s.id===id)){
@@ -66,10 +71,12 @@ const MultiSelectCombobox = ({
           index={id}
           label={optionLabel}
           onRemove={onRemoveHanlder}
+          onClick={()=>null}
         />
         }
       ];
       selectedItemsRef.current = _selectedItems;
+      onSearchHanlder('');
       setSelectedItems(_selectedItems);
       updateListDataOnChange(id, "add");
       onChangeUpdate(id, "add");
@@ -105,7 +112,7 @@ const MultiSelectCombobox = ({
           {selectedItems.length>0 && selectedItems.map(i=>i.component)}
         </div>
         <input type="text" className="search position-static bg-white border-0 width-full height-4 padding-x-1" 
-          value={filter} onChange={onSearchHanlder} onFocus={()=>setShowListBox(true)}/>
+          value={filter} onChange={(e)=>onSearchHanlder(e.target.value)} onFocus={()=>setShowListBox(true)}/>
           <FontAwesomeIcon icon={faCaretDown} className="pin-right margin-right-4 padding-top-05" onClick={()=>setShowListBox(true)}/>
         {showListBox &&
           <div aria-multiselectable="true" role="listbox" aria-hidden="true"
@@ -126,8 +133,8 @@ const MultiSelectCombobox = ({
       </div>
       {window.addEventListener('click', function(e){
         const multiSelectComboboxDiv = document.getElementById('multi-select-combobox');
-        if (multiSelectComboboxDiv &&!multiSelectComboboxDiv.contains(e.target)){
-         setShowListBox(false);
+        if (multiSelectComboboxDiv && !multiSelectComboboxDiv.contains(e.target)){
+          setShowListBox(false);
         }
       })}
     </>

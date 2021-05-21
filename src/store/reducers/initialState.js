@@ -16,6 +16,7 @@ export default {
     facility: [],
     unitType: [],
     fuelType: [],
+    stateTerritory: [],
   },
   apiCallsInProgress: 0,
 };

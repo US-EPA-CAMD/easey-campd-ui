@@ -159,7 +159,7 @@ const ManageDataPreview = ({
         </Button>
       </div>
       {appliedFilters.length > 0 && (
-        <div className="display-flex flex-row flex-justify bg-base-lightest padding-left-3 padding-right-3 padding-bottom-2 font-alt-sm">
+        <div className="bg-base-lightest padding-left-3 padding-right-3 padding-bottom-2 font-alt-sm">
           <FilterTags
             items={appliedFilters}
             onClick={(filterType) => handleFilterButtonClick(filterType)}
