@@ -206,7 +206,7 @@ describe('Hourly Emissions Unit Type', () => {
   it('handles checkbox selection appropriately', () => {
     const { getByRole } = queries;
     const afbCheckbox = getByRole('checkbox', {
-      name: 'Arch-fired boiler',
+      name: 'Arch-fired boiler (AF)',
     });
     fireEvent.click(afbCheckbox);
     expect(afbCheckbox.checked).toEqual(true);

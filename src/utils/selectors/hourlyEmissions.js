@@ -90,7 +90,6 @@ export const getSelectedIds = (filterState, description = false) => {
 
 export const constructQuery = (filterState, filterName) => {
   const useCode = filterName === 'program' ? false : true;
-  console.log(filterName + filterState);
   const selectedFilters = getSelectedIds(filterState, useCode);
   let query = '';
   selectedFilters.forEach((p, i) => {
