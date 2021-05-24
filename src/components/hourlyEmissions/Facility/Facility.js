@@ -72,6 +72,7 @@ const Facility = ({
               label="Select or Search Facilities/ORIS Codes"
               entity={filterToApply}
               onChangeUpdate={onChangeUpdate}
+              searchBy="contains"
             />
           </div>
           <hr />

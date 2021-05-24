@@ -9,7 +9,8 @@ const MultiSelectCombobox = ({
   items,
   label,
   entity,
-  onChangeUpdate}) =>{
+  onChangeUpdate,
+  searchBy}) =>{
 
   const [ filter, setFilter ] = useState('');
   const [ _items, _setItems ]= useState(items);
@@ -28,7 +29,11 @@ const MultiSelectCombobox = ({
     const lowercasedFilter = value.toLowerCase();
     let filteredData = _items;
     if(value.length>0){
-      filteredData = _items.filter(item => item.label.toLowerCase().includes(lowercasedFilter));
+      if(searchBy==="contains"){
+        filteredData = _items.filter(item => item.label.toLowerCase().includes(lowercasedFilter));
+      }else if(searchBy==="beginsWith"){
+        filteredData = _items.filter(item => item.label.toLowerCase().startsWith(lowercasedFilter));
+      }
     }
     setFilter(value);
     setData([...filteredData]);
@@ -71,7 +76,7 @@ const MultiSelectCombobox = ({
           index={id}
           label={optionLabel}
           onRemove={onRemoveHanlder}
-          onClick={()=>null}
+          disableButton={true}
         />
         }
       ];
@@ -95,6 +100,7 @@ const MultiSelectCombobox = ({
           index={s.id}
           label={s.label}
           onRemove={onRemoveHanlder}
+          disableButton={true}
         />
       })
     })

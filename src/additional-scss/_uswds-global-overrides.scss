@@ -236,6 +236,11 @@
   margin-left: 1em !important;
 }
 
-.usa-button--outline, .usa-button--outline:hover {
+.usa-button--outline,
+.usa-button--outline:hover {
   @extend .bg-white;
+}
+
+.bg-primary {
+  background-color: #005ea2 !important;
 }
