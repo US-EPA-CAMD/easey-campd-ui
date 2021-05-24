@@ -24,27 +24,26 @@ const CheckboxGroup = (props) => {
 
   return (
     <div className="margin-x-2 margin-top-2 margin-bottom-5">
-      <div className="display-flex flex-row flex-justify padding-bottom-1">
-        <div className="flex-align-self-center">
-          <div
-            className={props.showActiveRetired ? 'font-sans-md text-bold' : 'font-sans-lg text-semibold'}
-            data-testid="program-group-name"
-          >
-            {props.description}
-          </div>
-        </div>
+      <div
+        className={`${
+          props.showActiveRetired
+            ? 'font-sans-md text-bold'
+            : 'font-sans-lg text-semibold'
+        } padding-bottom-1`}
+        data-testid="program-group-name"
+      >
         {props.enableSelectAll ? (
-          <div className="flex-align-self-center clearfix font-sans-sm text-italic">
-            <Checkbox
-              id={`${props.name}${showActiveInId}`}
-              label={`All ${props.description}`}
-              name={props.name}
-              checked={evaluateSelectAll()}
-              onChange={props.onSelectAll}
-              data-testid="select-all"
-            />
-          </div>
-        ) : null}
+          <Checkbox
+            id={`${props.name}${showActiveInId}`}
+            label={props.description}
+            name={props.name}
+            checked={evaluateSelectAll()}
+            onChange={props.onSelectAll}
+            data-testid="select-all"
+          />
+        ) : (
+          props.description
+        )}
       </div>
       {!props.showActiveRetired && (
         <div className="margin-0 height-2px bg-base-light" />
