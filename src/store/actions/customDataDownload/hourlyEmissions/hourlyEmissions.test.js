@@ -372,5 +372,302 @@ describe("Emissions Filter Async Actions", () => {
       expect(store.getActions()).toEqual(expectedActions);
     })
   });
+
+  it("should create BEGIN_API_CALL and LOAD_FACILITIES_SUCCESS when loading facilities data", () => {
+    const facilities = [
+      {
+        "facId": "1",
+        "orisCode": "3",
+        "name": "Barry",
+        "state": "AL",
+        "links": [
+          {
+            "rel": "self",
+            "href": "/api/facility-mgmt/facilities/1"
+          },
+          {
+            "rel": "units",
+            "href": "/api/facility-mgmt/facilities/1/units"
+          },
+          {
+            "rel": "stacks",
+            "href": "/api/facility-mgmt/facilities/1/stacks"
+          },
+          {
+            "rel": "owners",
+            "href": "/api/facility-mgmt/facilities/1/owners"
+          },
+          {
+            "rel": "contacts",
+            "href": "/api/facility-mgmt/facilities/1/contacts"
+          }
+        ]
+      },
+      {
+        "facId": "2",
+        "orisCode": "5",
+        "name": "Chickasaw",
+        "state": "AL",
+        "links": [
+          {
+            "rel": "self",
+            "href": "/api/facility-mgmt/facilities/2"
+          },
+          {
+            "rel": "units",
+            "href": "/api/facility-mgmt/facilities/2/units"
+          },
+          {
+            "rel": "stacks",
+            "href": "/api/facility-mgmt/facilities/2/stacks"
+          },
+          {
+            "rel": "owners",
+            "href": "/api/facility-mgmt/facilities/2/owners"
+          },
+          {
+            "rel": "contacts",
+            "href": "/api/facility-mgmt/facilities/2/contacts"
+          }
+        ]
+      },
+      {
+        "facId": "3",
+        "orisCode": "7",
+        "name": "Gadsden",
+        "state": "AL",
+        "links": [
+          {
+            "rel": "self",
+            "href": "/api/facility-mgmt/facilities/3"
+          },
+          {
+            "rel": "units",
+            "href": "/api/facility-mgmt/facilities/3/units"
+          },
+          {
+            "rel": "stacks",
+            "href": "/api/facility-mgmt/facilities/3/stacks"
+          },
+          {
+            "rel": "owners",
+            "href": "/api/facility-mgmt/facilities/3/owners"
+          },
+          {
+            "rel": "contacts",
+            "href": "/api/facility-mgmt/facilities/3/contacts"
+          }
+        ]
+      },
+      {
+        "facId": "4",
+        "orisCode": "8",
+        "name": "Gorgas",
+        "state": "AL",
+        "links": [
+          {
+            "rel": "self",
+            "href": "/api/facility-mgmt/facilities/4"
+          },
+          {
+            "rel": "units",
+            "href": "/api/facility-mgmt/facilities/4/units"
+          },
+          {
+            "rel": "stacks",
+            "href": "/api/facility-mgmt/facilities/4/stacks"
+          },
+          {
+            "rel": "owners",
+            "href": "/api/facility-mgmt/facilities/4/owners"
+          },
+          {
+            "rel": "contacts",
+            "href": "/api/facility-mgmt/facilities/4/contacts"
+          }
+        ]
+      },
+      {
+        "facId": "5",
+        "orisCode": "10",
+        "name": "Greene County",
+        "state": "AL",
+        "links": [
+          {
+            "rel": "self",
+            "href": "/api/facility-mgmt/facilities/5"
+          },
+          {
+            "rel": "units",
+            "href": "/api/facility-mgmt/facilities/5/units"
+          },
+          {
+            "rel": "stacks",
+            "href": "/api/facility-mgmt/facilities/5/stacks"
+          },
+          {
+            "rel": "owners",
+            "href": "/api/facility-mgmt/facilities/5/owners"
+          },
+          {
+            "rel": "contacts",
+            "href": "/api/facility-mgmt/facilities/5/contacts"
+          }
+        ]
+      },
+      {
+        "facId": "6",
+        "orisCode": "26",
+        "name": "E C Gaston",
+        "state": "AL",
+        "links": [
+          {
+            "rel": "self",
+            "href": "/api/facility-mgmt/facilities/6"
+          },
+          {
+            "rel": "units",
+            "href": "/api/facility-mgmt/facilities/6/units"
+          },
+          {
+            "rel": "stacks",
+            "href": "/api/facility-mgmt/facilities/6/stacks"
+          },
+          {
+            "rel": "owners",
+            "href": "/api/facility-mgmt/facilities/6/owners"
+          },
+          {
+            "rel": "contacts",
+            "href": "/api/facility-mgmt/facilities/6/contacts"
+          }
+        ]
+      },
+      {
+        "facId": "7",
+        "orisCode": "47",
+        "name": "Colbert",
+        "state": "AL",
+        "links": [
+          {
+            "rel": "self",
+            "href": "/api/facility-mgmt/facilities/7"
+          },
+          {
+            "rel": "units",
+            "href": "/api/facility-mgmt/facilities/7/units"
+          },
+          {
+            "rel": "stacks",
+            "href": "/api/facility-mgmt/facilities/7/stacks"
+          },
+          {
+            "rel": "owners",
+            "href": "/api/facility-mgmt/facilities/7/owners"
+          },
+          {
+            "rel": "contacts",
+            "href": "/api/facility-mgmt/facilities/7/contacts"
+          }
+        ]
+      },
+      {
+        "facId": "8",
+        "orisCode": "50",
+        "name": "Widows Creek",
+        "state": "AL",
+        "links": [
+          {
+            "rel": "self",
+            "href": "/api/facility-mgmt/facilities/8"
+          },
+          {
+            "rel": "units",
+            "href": "/api/facility-mgmt/facilities/8/units"
+          },
+          {
+            "rel": "stacks",
+            "href": "/api/facility-mgmt/facilities/8/stacks"
+          },
+          {
+            "rel": "owners",
+            "href": "/api/facility-mgmt/facilities/8/owners"
+          },
+          {
+            "rel": "contacts",
+            "href": "/api/facility-mgmt/facilities/8/contacts"
+          }
+        ]
+      },
+      {
+        "facId": "9",
+        "orisCode": "51",
+        "name": "Dolet Hills Power Station",
+        "state": "LA",
+        "links": [
+          {
+            "rel": "self",
+            "href": "/api/facility-mgmt/facilities/9"
+          },
+          {
+            "rel": "units",
+            "href": "/api/facility-mgmt/facilities/9/units"
+          },
+          {
+            "rel": "stacks",
+            "href": "/api/facility-mgmt/facilities/9/stacks"
+          },
+          {
+            "rel": "owners",
+            "href": "/api/facility-mgmt/facilities/9/owners"
+          },
+          {
+            "rel": "contacts",
+            "href": "/api/facility-mgmt/facilities/9/contacts"
+          }
+        ]
+      },
+      {
+        "facId": "10",
+        "orisCode": "54",
+        "name": "Smith Generating Facility",
+        "state": "KY",
+        "links": [
+          {
+            "rel": "self",
+            "href": "/api/facility-mgmt/facilities/10"
+          },
+          {
+            "rel": "units",
+            "href": "/api/facility-mgmt/facilities/10/units"
+          },
+          {
+            "rel": "stacks",
+            "href": "/api/facility-mgmt/facilities/10/stacks"
+          },
+          {
+            "rel": "owners",
+            "href": "/api/facility-mgmt/facilities/10/owners"
+          },
+          {
+            "rel": "contacts",
+            "href": "/api/facility-mgmt/facilities/10/contacts"
+          }
+        ]
+      }
+    ];
+    mock
+      .onGet(`${config.services.facilities.uri}/facilities`)
+      .reply(200, facilities);
+    const expectedActions = [
+      { type: types.BEGIN_API_CALL },
+      { type: types.LOAD_FACILITIES_SUCCESS, facilities: facilities.map(f=> ({id: f.orisCode, label:`${f.name} (${f.orisCode})`, selected:false}))},
+    ];
+
+    const store = mockStore(initState);
+    return store.dispatch(actions.loadFacilities()).then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+    })
+  });
 });
 
