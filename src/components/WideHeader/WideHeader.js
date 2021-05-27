@@ -22,8 +22,6 @@ import {
   aboutEPATopics,
 } from "../WideHeaderMenu/menuTopics";
 
-import { epaLogo } from "../WideHeaderMenu/svgs";
-
 /*** additional scss to add / override global scss scope classes for this component only ***/
 import "./WideHeader.scss";
 
@@ -69,7 +67,7 @@ const WideHeader = () => {
           title="Go to the EPA home page"
         >
           <img
-            src={epaLogo}
+            src={`${process.env.PUBLIC_URL}/images/EPALogo.svg`}
             className="margin-3 react-transition swipe-right"
             alt="Official EPA Logo"
           />
