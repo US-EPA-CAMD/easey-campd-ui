@@ -301,6 +301,7 @@ describe('MultiSelectCombobox Component', () => {
       label= "Select or Search Facilities/ORIS Codes"
       entity= "Facility"
       onChangeUpdate= {jest.fn()}
+      searchBy="contains"
       />
     );
   });

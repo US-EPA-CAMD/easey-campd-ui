@@ -70,7 +70,7 @@ const StateTerritory = ({
             <MultiSelectCombobox
               items={JSON.parse(JSON.stringify(stateTerritory))}
               label="Select or Search States/Territories"
-              entity={filterToApply}
+              entity={"states/territories"}
               onChangeUpdate={onChangeUpdate}
               searchBy="beginsWith"
             />

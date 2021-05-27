@@ -9,7 +9,8 @@ const MultiSelectCombobox = ({
   items,
   label,
   entity,
-  onChangeUpdate}) =>{
+  onChangeUpdate,
+  searchBy}) =>{
 
   const [ filter, setFilter ] = useState('');
   const [ _items, _setItems ]= useState(items);
@@ -27,7 +28,11 @@ const MultiSelectCombobox = ({
     const lowercasedFilter = value.toLowerCase();
     let filteredData = _items;
     if(value.length>0){
-      filteredData = _items.filter(item => item.label.toLowerCase().includes(lowercasedFilter));
+      if(searchBy==="contains"){
+        filteredData = _items.filter(item => item.label.toLowerCase().includes(lowercasedFilter));
+      }else if(searchBy==="beginsWith"){
+        filteredData = _items.filter(item => item.label.toLowerCase().startsWith(lowercasedFilter));
+      }
     }
     setFilter(value);
     setData([...filteredData]);
@@ -70,7 +75,7 @@ const MultiSelectCombobox = ({
           index={id}
           label={optionLabel}
           onRemove={onRemoveHanlder}
-          onClick={()=>null}
+          disableButton={true}
         />
         }
       ];
@@ -94,6 +99,7 @@ const MultiSelectCombobox = ({
           index={s.id}
           label={s.label}
           onRemove={onRemoveHanlder}
+          disableButton={true}
         />
       })
     })
@@ -106,13 +112,12 @@ const MultiSelectCombobox = ({
       <Label id={`${entity}-label`} htmlFor={`${entity}-searchbox`}>
         {label}
       </Label>
-      <div role="combobox" name={entity} aria-hidden="true" aria-haspopup="listbox" aria-expanded={showListBox} aria-owns="listbox"
+      <div role="combobox" name={entity} aria-hidden="true" aria-haspopup="listbox" aria-expanded={showListBox} aria-owns="listbox" aria-controls="listbox"
           id="multi-select-combobox" className="border-1px bg-white">
         <div className="margin-x-05 margin-top-05 display-block maxh-card overflow-y-scroll">
           {selectedItems.length>0 && selectedItems.map(i=>i.component)}
         </div>
-        <input id={`${entity}-searchbox`} type="text" role="textbox" aria-autocomplete="list" aria-autocomplete="both" 
-          aria-controls="listbox" aria-activedescendant="listbox"
+        <input id={`${entity}-searchbox`} type="text" role="searchbox" aria-autocomplete="list" aria-controls="listbox" aria-activedescendant="listbox"
           className="search position-static bg-white border-0 width-full height-4 padding-x-1" data-testid="input-search"
           value={filter} onChange={(e)=>onSearchHanlder(e.target.value)} onFocus={()=>setShowListBox(true)}/>
           <FontAwesomeIcon icon={faCaretDown} className="pin-right margin-right-4 padding-top-05" onClick={()=>setShowListBox(true)}/>
@@ -128,7 +133,7 @@ const MultiSelectCombobox = ({
               {item.selected? <FontAwesomeIcon icon={faCheck} color="#005ea2"/>: null}
             </li>)
           ):
-            (<span className="padding-x-2 padding-top-2">No facilities match your search.</span>)
+            (<span className="padding-x-2 padding-top-2">No {entity} match your search.</span>)
           }
         </ul>
         }
