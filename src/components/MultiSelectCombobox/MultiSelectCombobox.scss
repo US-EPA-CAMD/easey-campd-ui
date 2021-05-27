@@ -1,15 +1,19 @@
 #multi-select-combobox {
-  div.item:hover {
+  ul.list-box {
+    list-style: none;
+    padding-left: 0;
+  }
+  ​ li.item:hover {
     cursor: pointer;
     background: #e6e6e6;
   }
   input.search {
     cursor: text;
   }
-  div.item.selected:hover {
+  li.item.selected:hover {
     cursor: default;
   }
-  div.item.selected {
+  li.item.selected {
     background: #e6e6e6;
   }
 }

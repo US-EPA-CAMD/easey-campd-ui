@@ -9,8 +9,7 @@ const MultiSelectCombobox = ({
   items,
   label,
   entity,
-  onChangeUpdate,
-  searchBy}) =>{
+  onChangeUpdate}) =>{
 
   const [ filter, setFilter ] = useState('');
   const [ _items, _setItems ]= useState(items);
@@ -25,15 +24,10 @@ const MultiSelectCombobox = ({
   },[])
 
   const onSearchHanlder =(value) =>{
-    //const value = e.target.value;
     const lowercasedFilter = value.toLowerCase();
     let filteredData = _items;
     if(value.length>0){
-      if(searchBy==="contains"){
-        filteredData = _items.filter(item => item.label.toLowerCase().includes(lowercasedFilter));
-      }else if(searchBy==="beginsWith"){
-        filteredData = _items.filter(item => item.label.toLowerCase().startsWith(lowercasedFilter));
-      }
+      filteredData = _items.filter(item => item.label.toLowerCase().includes(lowercasedFilter));
     }
     setFilter(value);
     setData([...filteredData]);
@@ -76,7 +70,7 @@ const MultiSelectCombobox = ({
           index={id}
           label={optionLabel}
           onRemove={onRemoveHanlder}
-          disableButton={true}
+          onClick={()=>null}
         />
         }
       ];
@@ -100,7 +94,6 @@ const MultiSelectCombobox = ({
           index={s.id}
           label={s.label}
           onRemove={onRemoveHanlder}
-          disableButton={true}
         />
       })
     })
@@ -110,31 +103,34 @@ const MultiSelectCombobox = ({
 
   return (
     <>
-      <Label id={`${entity}-label`} htmlFor={entity}>
+      <Label id={`${entity}-label`} htmlFor={`${entity}-searchbox`}>
         {label}
       </Label>
-      <div role="combobox" name={entity} aria-hidden="true" id="multi-select-combobox" className="border-1px bg-white">
+      <div role="combobox" name={entity} aria-hidden="true" aria-haspopup="listbox" aria-expanded={showListBox} aria-owns="listbox"
+          id="multi-select-combobox" className="border-1px bg-white">
         <div className="margin-x-05 margin-top-05 display-block maxh-card overflow-y-scroll">
           {selectedItems.length>0 && selectedItems.map(i=>i.component)}
         </div>
-        <input type="text" className="search position-static bg-white border-0 width-full height-4 padding-x-1" 
+        <input id={`${entity}-searchbox`} type="text" role="textbox" aria-autocomplete="list" aria-autocomplete="both" 
+          aria-controls="listbox" aria-activedescendant="listbox"
+          className="search position-static bg-white border-0 width-full height-4 padding-x-1" data-testid="input-search"
           value={filter} onChange={(e)=>onSearchHanlder(e.target.value)} onFocus={()=>setShowListBox(true)}/>
           <FontAwesomeIcon icon={faCaretDown} className="pin-right margin-right-4 padding-top-05" onClick={()=>setShowListBox(true)}/>
         {showListBox &&
-          <div aria-multiselectable="true" role="listbox" aria-hidden="true"
+          <ul aria-multiselectable="true" role="listbox" aria-labelledby="listbox" id="listbox" data-testid="multi-select-listbox"
           className="list-box bg-white display-block height-mobile width-full overflow-y-scroll overflow-x-hidden border-top">
           {data.length>0? data.map((item,i)=>
-            (<div key={i} role="option" aria-selected={item.selected} data-id={item.id} data-label={item.label}
+            (<li key={i} role="option" aria-selected={item.selected} data-id={item.id} data-label={item.label} data-testid="multi-select-option"
                 className={item.selected?"item selected padding-y-1 padding-x-2 border-top-0 display-flex flex-row flex-justify"
                   :"item padding-y-1 padding-x-2 border-top-0 display-flex flex-row flex-justify"}
                 onClick={optionClickHandler}>
               <span data-id={item.id} data-label={item.label} className="option-label width-mobile">{item.label}</span>
               {item.selected? <FontAwesomeIcon icon={faCheck} color="#005ea2"/>: null}
-            </div>)
+            </li>)
           ):
             (<span className="padding-x-2 padding-top-2">No facilities match your search.</span>)
           }
-        </div>
+        </ul>
         }
       </div>
       {window.addEventListener('click', function(e){
