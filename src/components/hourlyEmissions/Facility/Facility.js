@@ -70,8 +70,9 @@ const Facility = ({
             <MultiSelectCombobox
               items={JSON.parse(JSON.stringify(facility))}
               label="Select or Search Facilities/ORIS Codes"
-              entity={filterToApply}
+              entity={"facilities"}
               onChangeUpdate={onChangeUpdate}
+              searchBy="contains"
             />
           </div>
           <hr />
