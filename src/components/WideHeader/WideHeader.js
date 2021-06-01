@@ -78,6 +78,7 @@ const WideHeader = () => {
               onClick={() => onClick()}
               label="Menu"
               className="display-block usa-button react-transition swipe-left"
+              data-testId="btnMenu"
             />
           </div>
           <PrimaryNav
@@ -87,10 +88,10 @@ const WideHeader = () => {
             key="primaryNav"
           >
             <Search
-              className="search-field"
               placeholder="Search EPA.gov"
               size="small"
               onSubmit={(event) => onSearch(event)}
+              data-testId="search"
             />
           </PrimaryNav>
         </div>
