@@ -1,7 +1,9 @@
+import { Button } from "@trussworks/react-uswds";
 import React, { useState } from "react";
+
 import "./Menu.scss";
 
-const Menu = () => {
+const FooterMenu = () => {
   const [showMenuOptions, setShowMenuOptions] = useState(false);
   const toggleMenu = () => {
     if (!showMenuOptions) {
@@ -12,7 +14,7 @@ const Menu = () => {
   };
   return (
     <>
-      <button
+      <Button
         onClick={toggleMenu}
         title={!showMenuOptions ? "collapsable" : "close"}
         className="menuBtn"
@@ -24,7 +26,7 @@ const Menu = () => {
         ) : (
           <b className="fa fa-bars" />
         )}
-      </button>
+      </Button>
       <div
         id="menuContent"
         aria-labelledby="menuContent"
@@ -64,4 +66,4 @@ const Menu = () => {
   );
 };
 
-export default Menu;
+export default FooterMenu;
