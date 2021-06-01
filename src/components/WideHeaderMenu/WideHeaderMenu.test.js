@@ -1,5 +1,5 @@
 import React from "react";
-import Menu from "./Menu";
+import WideHeaderMenu from "./WideHeaderMenu";
 import "@testing-library/jest-dom/extend-expect";
 import { render, fireEvent } from "@testing-library/react";
 
@@ -20,11 +20,11 @@ React.useState = jest.fn().mockReturnValue([myInitialState, {}]);
 
 describe("testing the creation of a submenu", () => {
   test("one submenu is created ", () => {
-    expect(Menu([environmentalTopics]).length).toEqual(1);
+    expect(WideHeaderMenu([environmentalTopics]).length).toEqual(1);
   });
 
   test("clicking on a dropdown menu", () => {
-    const { getByText } = render(Menu([environmentalTopics]));
+    const { getByText } = render(WideHeaderMenu([environmentalTopics]));
     const searchBox = getByText("Environmental Topics");
     fireEvent.click(searchBox);
     let mpLink = getByText("Air");

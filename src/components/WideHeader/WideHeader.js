@@ -13,7 +13,7 @@ import {
 } from "@trussworks/react-uswds";
 
 /*** additional 'local' (i.e., our app) components ***/
-import Menu from "../WideHeaderMenu/Menu";
+import WideHeaderMenu from "../WideHeaderMenu/WideHeaderMenu";
 
 /*** data objects (for injection into props, etc.) ***/
 import {
@@ -43,7 +43,7 @@ const WideHeader = () => {
     return false;
   };
 
-  const mainMenu = Menu([
+  const mainMenu = WideHeaderMenu([
     environmentalTopics,
     lawsAndRegulationsTopics,
     aboutEPATopics,
@@ -77,7 +77,7 @@ const WideHeader = () => {
             <NavMenuButton
               onClick={() => onClick()}
               label="Menu"
-              className="display-block usa-button usa-button react-transition swipe-left btnMenu"
+              className="display-block usa-button react-transition swipe-left"
             />
           </div>
           <PrimaryNav

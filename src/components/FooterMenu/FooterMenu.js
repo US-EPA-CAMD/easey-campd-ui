@@ -1,10 +1,10 @@
 import { Button, Menu as UswdsMenu, Link } from '@trussworks/react-uswds';
 import React, { useState } from 'react';
 
-import './Menu.scss';
+import './FooterMenu.scss';
 import { collapsableFooterTopics } from '../../utils/constants/menuTopics';
 
-const Menu = () => {
+const FooterMenu = () => {
   const [showMenuOptions, setShowMenuOptions] = useState(false);
   const toggleMenu = () => {
     if (!showMenuOptions) {
@@ -49,7 +49,7 @@ const Menu = () => {
         className={showMenuOptions ? 'menuOn' : 'menuOff'}
       >
         <UswdsMenu
-          className="menuContent float-right position-absolute height-15 z-auto text-left text-semibold font-sans-sm"
+          className="menuContent bg-base-lightest float-right position-absolute height-15 z-auto text-left text-semibold font-sans-sm"
           items={menuCreation}
           isOpen="true"
         />
@@ -58,4 +58,4 @@ const Menu = () => {
   );
 };
 
-export default Menu;
+export default FooterMenu;
