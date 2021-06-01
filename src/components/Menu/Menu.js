@@ -2,7 +2,7 @@ import { Button, Menu as UswdsMenu, Link } from '@trussworks/react-uswds';
 import React, { useState } from 'react';
 
 import './Menu.scss';
-import { collapsableFooterTopics } from './menuTopics';
+import { collapsableFooterTopics } from '../../utils/constants/menuTopics';
 
 const Menu = () => {
   const [showMenuOptions, setShowMenuOptions] = useState(false);
@@ -34,7 +34,7 @@ const Menu = () => {
       <Button
         onClick={toggleMenu}
         title={!showMenuOptions ? 'collapsable' : 'close'}
-        className="menuBtn"
+        className="menuBtn padding-0 margin-0 float-right opacity-100 border-primary"
         aria-haspopup="true"
         aria-labelledby={!showMenuOptions ? 'collapsable' : 'close'}
       >
@@ -48,7 +48,11 @@ const Menu = () => {
         aria-labelledby="menuContent"
         className={showMenuOptions ? 'menuOn' : 'menuOff'}
       >
-        <UswdsMenu className="menuContent" items={menuCreation} isOpen="true" />
+        <UswdsMenu
+          className="menuContent float-right position-absolute height-15 z-auto text-left text-semibold font-sans-sm"
+          items={menuCreation}
+          isOpen="true"
+        />
       </div>
     </>
   );

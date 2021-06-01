@@ -20,7 +20,7 @@ import {
   environmentalTopics,
   lawsAndRegulationsTopics,
   aboutEPATopics,
-} from "../WideHeaderMenu/menuTopics";
+} from "../../utils/constants/menuTopics";
 
 /*** additional scss to add / override global scss scope classes for this component only ***/
 import "./WideHeader.scss";
