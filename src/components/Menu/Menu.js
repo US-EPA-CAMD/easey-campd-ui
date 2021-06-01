@@ -1,9 +1,10 @@
-import { Button } from "@trussworks/react-uswds";
-import React, { useState } from "react";
+import { Button, Menu as UswdsMenu, Link } from '@trussworks/react-uswds';
+import React, { useState } from 'react';
 
-import "./Menu.scss";
+import './Menu.scss';
+import { collapsableFooterTopics } from './menuTopics';
 
-const FooterMenu = () => {
+const Menu = () => {
   const [showMenuOptions, setShowMenuOptions] = useState(false);
   const toggleMenu = () => {
     if (!showMenuOptions) {
@@ -12,14 +13,30 @@ const FooterMenu = () => {
       setShowMenuOptions(false);
     }
   };
+
+  const menuCreation = collapsableFooterTopics.map((value) => {
+    return (
+      <Link
+        href={value.link}
+        target="_blank"
+        rel="noopener noreferrer"
+        id={`${value.name.replace(/\s/g, '')}Link`}
+        aria-labelledby={`${value.name.replace(/\s/g, '')}Link`}
+        title={value.name}
+      >
+        {value.name}
+      </Link>
+    );
+  });
+
   return (
     <>
       <Button
         onClick={toggleMenu}
-        title={!showMenuOptions ? "collapsable" : "close"}
+        title={!showMenuOptions ? 'collapsable' : 'close'}
         className="menuBtn"
         aria-haspopup="true"
-        aria-labelledby={!showMenuOptions ? "collapsable" : "close"}
+        aria-labelledby={!showMenuOptions ? 'collapsable' : 'close'}
       >
         {showMenuOptions ? (
           <b className="fa fa-times fa-sm" />
@@ -28,42 +45,13 @@ const FooterMenu = () => {
         )}
       </Button>
       <div
-        id="menuContent"
         aria-labelledby="menuContent"
-        className={showMenuOptions ? "menuOn" : "menuOff"}
+        className={showMenuOptions ? 'menuOn' : 'menuOff'}
       >
-        <a
-          className="menuItem"
-          aria-labelledby="AccessiblityLink"
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://www.epa.gov/accessibility"
-        >
-          Accessibility
-        </a>
-        <a
-          className="menuItem"
-          id="PrivacyLink"
-          aria-labelledby="PrivacyLink"
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://www.epa.gov/privacy"
-        >
-          Privacy
-        </a>
-        <a
-          className="menuItem"
-          id="PrivacyandSecurityNoticeLink"
-          aria-labelledby="PrivacyandSecurityNoticeLink"
-          rel="noopener noreferrer"
-          target="_blank"
-          href="https://www.epa.gov/privacy/privacy-and-security-notice"
-        >
-          Privacy and Security Notice
-        </a>
+        <UswdsMenu className="menuContent" items={menuCreation} isOpen="true" />
       </div>
     </>
   );
 };
 
-export default FooterMenu;
+export default Menu;
