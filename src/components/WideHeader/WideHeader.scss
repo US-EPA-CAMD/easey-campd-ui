@@ -3,21 +3,6 @@
   width: 100px;
   padding-bottom: 15px;
 }
-.menuBTN {
-  overflow: auto;
-  /* background-color: white; */
-  text-align: center;
-  width: 81px;
-  height: 42px;
-  margin-top: 22px;
-  margin-right: 40px;
-  padding-left: 0px !important;
-  padding-right: 0px !important;
-  min-width: 50px;
-  font-size: 15px;
-  /* color: #0071bc; */
-  border-radius: 5px;
-}
 
 .sitewide-alert__content {
   font-size: 70.5882%;
@@ -25,39 +10,4 @@
   max-width: 35rem;
   padding: 0.5em 6.5em 0.5em 3.66667em;
   position: relative;
-}
-
-.usa-nav__primary button {
-  font-weight: bold;
-  letter-spacing: 0px;
-  color: #0071bc;
-  font-family: "Merriweather", "Georgia", "Cambria", "Times New Roman", "Times",
-    serif;
-}
-.mainMenu > .usa-nav {
-  min-width: 400px;
-}
-#topbanner {
-  position: relative;
-  z-index: -1;
-  width: 100%;
-  text-align: center;
-  background: linear-gradient(to bottom, #520001 0%, #6c0810 100%);
-}
-
-#topbannerinner {
-  margin: 0 auto;
-  width: 100%;
-}
-
-#topbanner h3,
-#topbanner p {
-  color: #fc0;
-  padding-bottom: 2px;
-}
-
-#topbanner a:link,
-#topbanner a:visited,
-#topbanner a:hover {
-  color: #fff;
 }

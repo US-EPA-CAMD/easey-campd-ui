@@ -1,7 +1,8 @@
 import React from "react";
 import { MegaMenu, NavDropDownButton, Link } from "@trussworks/react-uswds";
-import "./Menu.scss";
-const Menu = (props) => {
+import "./WideHeaderMenu.scss";
+
+const WideHeaderMenu = (props) => {
   const subMenuCreation = (arrayTopics) => {
     const title = arrayTopics[0].name;
     return arrayTopics
@@ -56,7 +57,7 @@ const Menu = (props) => {
           isOpen={open[index]}
           label={
             <Link
-              className="menuTitleBTN"
+              className="font-alt-md text-bold"
               href={props[index][0].link}
               onClick={(e) => titleClick(e)}
               target="_blank"
@@ -80,4 +81,4 @@ const Menu = (props) => {
   });
 };
 
-export default Menu;
+export default WideHeaderMenu;
