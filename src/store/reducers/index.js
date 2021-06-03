@@ -1,10 +1,10 @@
 import { combineReducers } from "redux";
-import hourlyEmissions from "./customDataDownload/hourlyEmissions/hourlyEmissions";
+import filterCriteria from "./customDataDownload/filterCriteria";
 import customDataDownload from "./customDataDownload/customDataDownload";
 import apiCallsInProgress from "./apiStatusReducer";
 
 const rootReducer = combineReducers({
-  hourlyEmissions,
+  filterCriteria,
   customDataDownload,
   apiCallsInProgress
 });

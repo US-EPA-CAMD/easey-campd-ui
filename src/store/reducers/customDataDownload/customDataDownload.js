@@ -5,9 +5,9 @@ import initialState from "../initialState";
 const reducer = (state = initialState.customDataDownload, action) => {
   switch (action.type){
     case types.UPDATE_SELECTED_DATATYPE:
-      return Object.assign({}, state, { dataType: action.selectedDataType });
+      return Object.assign({}, state, { dataType: action.dataType });
     case types.UPDATE_SELECTED_DATASUBTYPE:
-      return Object.assign({}, state, { dataSubType: action.selectedDataSubType });
+      return Object.assign({}, state, { dataSubType: action.dataSubType });
     case types.RESET_DATA_PREVIEW:
       return {...state, dataPreview: null, totalCount:null};
     case types.ADD_APPLIED_FILTER:
