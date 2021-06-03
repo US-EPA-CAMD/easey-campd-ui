@@ -9,7 +9,17 @@ export async function getDataFromMDM(endpoint) {
   return axios.get(url).then(handleResponse).catch(handleError);
 }
 
-export const getPrograms = (allowance) => allowance? getDataFromMDM('programs?allowanceOnly=true&isActive=true&exclude=MATS') : getDataFromMDM('programs?exclude=MATS');
+export const getPrograms = (allowanceOnly, showActiveOnly) => {
+  if(allowanceOnly){
+    if(showActiveOnly){
+      return getDataFromMDM('programs?allowanceOnly=true&isActive=true&exclude=MATS');
+    }else{
+      return getDataFromMDM('programs?allowanceOnly=true&exclude=MATS')
+    }
+  }else{
+    return getDataFromMDM('programs?exclude=MATS');
+  }
+}
 export const getUnitTypes = getDataFromMDM('unit-types');
 export const getFuelTypes = getDataFromMDM('fuel-types');
 export const getStates = getDataFromMDM('states');
