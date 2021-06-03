@@ -23,31 +23,36 @@ const FilterCriteriaPanel = ({
     controlTechnology: <ControlTechnology closeFlyOutHandler={closeFlyOutHandler}/>,
   };
 
-  const hourlyDailyEmissions = {
+  const hourlyEmissions = {
     ...emissions,
     timePeriod: <TimePeriod closeFlyOutHandler={closeFlyOutHandler} />,
+  };
+
+  const dailyEmissions = {
+    ...emissions,
+    timePeriod: <TimePeriod closeFlyOutHandler={closeFlyOutHandler} showOpHrsOnly={false}/>,
   }
 
   const allownaceAcctInfo = {
-    program: <Program closeFlyOutHandler={closeFlyOutHandler} allowance={true}/>,
+    program: <Program closeFlyOutHandler={closeFlyOutHandler} allowanceOnly={true}/>,
     facility: <Facility closeFlyOutHandler={closeFlyOutHandler}/>,
     stateTerritory: <StateTerritory closeFlyOutHandler={closeFlyOutHandler}/>,
   };
 
   const allowanceHoldings = {
-    program: <Program closeFlyOutHandler={closeFlyOutHandler} allowance={true}/>,
+    program: <Program closeFlyOutHandler={closeFlyOutHandler} allowanceOnly={true} showActiveOnly={true}/>,
     facility: <Facility closeFlyOutHandler={closeFlyOutHandler}/>,
     stateTerritory: <StateTerritory closeFlyOutHandler={closeFlyOutHandler}/>,
   };
 
   const allownaceTransactions = {
-    program: <Program closeFlyOutHandler={closeFlyOutHandler} allowance={true}/>,
+    program: <Program closeFlyOutHandler={closeFlyOutHandler} allowanceOnly={true}/>,
     facility: <Facility closeFlyOutHandler={closeFlyOutHandler}/>,
     stateTerritory: <StateTerritory closeFlyOutHandler={closeFlyOutHandler}/>,
   };
 
   const complianceAllownaceBased = {
-    program: <Program closeFlyOutHandler={closeFlyOutHandler}/>,
+    program: <Program closeFlyOutHandler={closeFlyOutHandler} allowanceOnly={true}/>,
     facility: <Facility closeFlyOutHandler={closeFlyOutHandler}/>,
     stateTerritory: <StateTerritory closeFlyOutHandler={closeFlyOutHandler}/>,
   };
@@ -64,8 +69,9 @@ const FilterCriteriaPanel = ({
   const contentRenderer = () => {
     switch (selectedDataSubtype) {
       case emissionsSubTypes[0]:
+        return hourlyEmissions[selectedFilter];
       case emissionsSubTypes[1]:
-        return hourlyDailyEmissions[selectedFilter];
+        return dailyEmissions[selectedFilter];
       case emissionsSubTypes[2]:
       case emissionsSubTypes[3]:
       case emissionsSubTypes[4]:

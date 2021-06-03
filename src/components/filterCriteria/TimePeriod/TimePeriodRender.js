@@ -22,6 +22,7 @@ const TimePeriodRender = ({
   onInvalidHandler,
   closeFlyOutHandler,
   validations,
+  showOpHrsOnly,
 }) => {
   const isFormValid = () => {
     return (
@@ -92,13 +93,15 @@ const TimePeriodRender = ({
         }}
       />
       <br />
-      <Checkbox
+      {showOpHrsOnly &&
+        <Checkbox
         id="opHrsonly"
         name="opHrsonly"
         label="Operating hours only"
         checked={formState.opHrsOnly}
         onChange={handleOptHrsOnlyUpdate}
       />
+      }
       <Button type="button" outline onClick={closeFlyOutHandler}>
         Cancel
       </Button>
