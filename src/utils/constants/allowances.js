@@ -1,8 +1,8 @@
 export const ALLOWANCES_DATA_SUBTYPES = [
   { value: '', label: '- Select -' },
-  { value: 1, label: 'Account Information' },
-  { value: 2, label: 'Holdings' },
-  { value: 3, label: 'Transactions' },
+  { value: 1, label: 'Account Information', service: '' },
+  { value: 2, label: 'Holdings', service: 'holdings' },
+  { value: 3, label: 'Transactions', service: 'transactions' },
 ];
 
 export const ACCOUNT_INFO_FILTERS = [

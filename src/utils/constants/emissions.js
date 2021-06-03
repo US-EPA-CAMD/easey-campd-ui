@@ -1,12 +1,12 @@
 export const EMISSIONS_DATA_SUBTYPES = [
   { value: '', label: '- Select -' },
-  { value: 1, label: 'Hourly Emissions' },
-  { value: 2, label: 'Daily Emissions' },
-  { value: 3, label: 'Monthly Emissions' },
-  { value: 4, label: 'Quarterly Emissions' },
-  { value: 5, label: 'Ozone Season Emissions' },
-  { value: 6, label: 'Annual Emissions' },
-  { value: 7, label: 'Facility/Unit Attributes' },
+  { value: 1, label: 'Hourly Emissions', service: 'hourly' },
+  { value: 2, label: 'Daily Emissions', service: 'daily' },
+  { value: 3, label: 'Monthly Emissions', service: 'monthly' },
+  { value: 4, label: 'Quarterly Emissions', service: '' },
+  { value: 5, label: 'Ozone Season Emissions', service: '' },
+  { value: 6, label: 'Annual Emissions', service: '' },
+  { value: 7, label: 'Facility/Unit Attributes', service: '' },
 ];
 
 export const EMISSIONS_FILTERS = [

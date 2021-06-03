@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import { Button, Radio, Label } from '@trussworks/react-uswds';
 import axios from 'axios';
 import { connect } from 'react-redux';
+import { constructRequestUrl } from '../../../utils/selectors/general';
 
-const DownloadFileType = (appliedFilters) => {
+const DownloadFileType = ({ dataType, dataSubType, filterCriteria }) => {
   const [fileType, setFileType] = useState('text/csv');
 
-  const onRadioChange = (event) => {
+  const onRadioChangeHandler = (event) => {
     if (event.target.id === 'json') {
       setFileType('application/json');
     } else {
@@ -16,17 +17,13 @@ const DownloadFileType = (appliedFilters) => {
 
   const onDownloadHandler = () => {
     axios
-      .get(
-        'https://easey-dev.app.cloud.gov/api/emissions-mgmt/apportioned/hourly?page=1&perPage=100&attachFile=true&beginDate=2019-01-01&endDate=2019-01-01&opHoursOnly=true',
-        {
-          headers: {
-            Accept: fileType,
-          },
-          responseType: 'blob',
-        }
-      )
+      .get(constructRequestUrl(dataType, dataSubType, filterCriteria, true), {
+        headers: {
+          Accept: fileType,
+        },
+        responseType: 'blob',
+      })
       .then((response) => {
-        console.log(response);
         const disposition = response.headers['content-disposition'];
         const parts =
           disposition !== undefined ? disposition.split('; ') : undefined;
@@ -34,8 +31,10 @@ const DownloadFileType = (appliedFilters) => {
         if (parts !== undefined && parts[0] === 'attachment') {
           const url = window.URL.createObjectURL(new Blob([response.data]));
           const link = document.createElement('a');
+          let fileName = parts[1].replace('filename=', '');
+          fileName = fileName.replace(/"/g,'')
           link.href = url;
-          link.setAttribute('download', parts[1].replace('filename=', ''));
+          link.setAttribute('download', fileName);
           document.body.appendChild(link);
           link.click();
           link.parentNode.removeChild(link);
@@ -55,12 +54,12 @@ const DownloadFileType = (appliedFilters) => {
           name="input-radio"
           color="bg-primary"
           defaultChecked
-          onClick={onRadioChange}
+          onClick={onRadioChangeHandler}
         />
         <Label htmlFor="csv" className="text-bold position-relative top-neg-1">
           CSV
         </Label>
-        <Radio id="json" name="input-radio" onClick={onRadioChange} />
+        <Radio id="json" name="input-radio" onClick={onRadioChangeHandler} />
         <Label htmlFor="json" className="text-bold position-relative top-neg-1">
           JSON
         </Label>
@@ -78,7 +77,9 @@ const DownloadFileType = (appliedFilters) => {
 
 const mapStateToProps = (state) => {
   return {
-    appliedFilters: state.customDataDownload.appliedFilters,
+    dataType: state.customDataDownload.dataType,
+    dataSubType: state.customDataDownload.dataSubType,
+    filterCriteria: state.filterCriteria,
   };
 };
 
