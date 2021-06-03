@@ -2,15 +2,39 @@ import React from 'react';
 import { cleanup, fireEvent, render } from '@testing-library/react';
 
 import DownloadFileType from './DownloadFileType';
+import { Provider } from 'react-redux';
+import initialState from '../../../store/reducers/initialState';
+import configureStore from '../../../store/configureStore.dev';
 
-const mockHandler = {
-  onClick: jest.fn(),
-};
+jest.mock('axios', () => ({
+  get: jest.fn(() => Promise.resolve({ data: 'content' })),
+}));
+
+initialState.customDataDownload.dataType= "EMISSIONS";
+initialState.customDataDownload.dataSubType= "Hourly Emissions";
+initialState.filterCriteria = {
+  timePeriod: {
+    startDate: "2019-01-01",
+    endDate: "2019-01-01",
+    opHrsOnly: true,
+  },
+  program: [],
+  facility: [],
+  unitType: [],
+  fuelType: [],
+  stateTerritory: [],
+  controlTechnology: [],
+}
+const store = configureStore(initialState);
 
 describe('<DownloadFileType/>', () => {
   let query;
   beforeEach(() => {
-    query = render(<DownloadFileType onClick={mockHandler.onClick} />);
+    query = render(
+      <Provider store={store}>
+        <DownloadFileType />
+      </Provider>
+    );
   });
 
   afterEach(cleanup);
@@ -23,7 +47,9 @@ describe('<DownloadFileType/>', () => {
 
   it('handles the download button click', () => {
     const { getByRole } = query;
-    fireEvent.click(getByRole('button'));
-    expect(mockHandler.onClick).toHaveBeenCalledTimes(1);
+    const downloadButton = getByRole('button' , { name: "Download" });
+    expect(downloadButton).toBeDefined();
+    jest.spyOn(document, 'createElement').mockImplementation(() => jest.fn());
+    fireEvent.click(downloadButton);
   });
 });

@@ -32,7 +32,7 @@ const DownloadFileType = ({ dataType, dataSubType, filterCriteria }) => {
           const url = window.URL.createObjectURL(new Blob([response.data]));
           const link = document.createElement('a');
           let fileName = parts[1].replace('filename=', '');
-          fileName = fileName.replace(/"/g,'')
+          fileName = fileName.replace(/"/g, '');
           link.href = url;
           link.setAttribute('download', fileName);
           document.body.appendChild(link);
