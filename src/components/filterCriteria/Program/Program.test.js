@@ -1,7 +1,10 @@
 import React from 'react';
-import { render } from '@testing-library/react';
-import ProgramRenderer  from './ProgramRenderer';
-import {restructurePrograms} from "../../utils/selectors/filterCriteria";
+import { render, fireEvent, cleanup } from '@testing-library/react';
+import Program  from './Program';
+import {restructurePrograms} from "../../../utils/selectors/filterCriteria";
+import configureStore from "../../../store/configureStore.dev";
+import { Provider } from "react-redux";
+import initialState from "../../../store/reducers/initialState";
 
 const program = [
   {
@@ -210,59 +213,45 @@ const program = [
   }
 ];
 const storeProgam = restructurePrograms(program);
+initialState.hourlyEmissions.program = storeProgam;
+const store = configureStore(initialState);
 
-describe('Program renderer Component', () => {
-  it('renders form elements without errors for active retired and enable select all flags set to true', () => {
-    const { getAllByTestId, getAllByRole, getByText } = render(
-      <ProgramRenderer
-        showActiveRetired={true}
-        showActive={true}
-        showRetired={true}
-        items={storeProgam}
-        enableSelectAll={true}
-        onSelectAll={jest.fn()}
-        onSelectItem={jest.fn()}
-        />
-    );
 
-    const activeProgramHeader = getByText('Active Programs')
-    expect(activeProgramHeader).toBeInTheDocument()
-    const retiredProgramHeader = getByText('Retired Programs')
-    expect(retiredProgramHeader).toBeInTheDocument()
-
-    const groupNames = getAllByTestId('program-group-name')
-    expect(groupNames).toHaveLength(4)
-
-    const selectAllCheckBoxes = getAllByTestId('select-all')
-    expect(selectAllCheckBoxes).toHaveLength(4)
-
-    const checkbox = getAllByRole('checkbox')
-    expect(checkbox).toHaveLength(storeProgam[0].items.length + storeProgam[1].items.length + selectAllCheckBoxes.length)
-
+describe("Hourly Emissions Program", () => {
+  let queries;
+  beforeEach(() => {
+    // setup a DOM element as a render target
+    queries = render(
+      <Provider 
+        store={store}>
+        <Program
+          closeFlyOutHandler={jest.fn()}
+          loadEmissionsProgramsDispatcher={jest.fn()}
+          updateProgramSelectionDispatcher={jest.fn()}
+          addAppliedFilterDispatcher={jest.fn()}
+          removeAppliedFilterDispatcher={jest.fn()}
+          />
+      </Provider>);
   });
 
-  it('renders form elements without errors for active retired and enable select all falgs set to false', () => {
-    const { getAllByTestId, getAllByRole, queryByText } = render(
-      <ProgramRenderer
-        showActiveRetired={false}
-        showActive={false}
-        showRetired={false}
-        items={storeProgam}
-        enableSelectAll={false}
-        onSelectAll={jest.fn()}
-        onSelectItem={jest.fn()}
-        />
-    );
+  afterEach(cleanup);
 
-    expect(queryByText('Active Programs')).toBeNull()
-    expect(queryByText('Retired Programs')).toBeNull()
-
-    const groupNames = getAllByTestId('program-group-name')
-    expect(groupNames).toHaveLength(2)
+  it("Check that the  component properly renders", () => {
+    const { getByText, getAllByTestId, getAllByRole } = queries
+    expect(getByText('Active Programs')).toBeInTheDocument()
+    expect(getByText('Retired Programs')).toBeInTheDocument()
+    expect(getAllByTestId('program-group-name')).toHaveLength(4)
 
     const checkbox = getAllByRole('checkbox')
     expect(checkbox).toHaveLength(storeProgam[0].items.length + storeProgam[1].items.length)
 
+  });
+
+  it("handles checkbox selection appropriately", () => {
+    const { getByRole } = queries;
+    const arpCheckbox = getByRole('checkbox', {name:"Acid Rain Program (ARP)"});
+    fireEvent.click(arpCheckbox);
+    expect(arpCheckbox.checked).toEqual(true);
   });
 
 });

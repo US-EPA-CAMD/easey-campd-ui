@@ -8,14 +8,14 @@ import {
   removeAppliedFilter,
 } from '../../../store/actions/customDataDownload/customDataDownload';
 import DataTypeSelectorRender from '../DataTypeSelectorRender/DataTypeSelectorRender';
-import FilterCriteriaRender from '../FilterCriteriaRender/FilterCriteriaRender';
-import FlyOutPanel from '../FlyOutPanel/FlyOutPanel';
-import ManageDataPreview from '../ManageDataPreview/ManageDataPreview';
+import FilterCriteriaMenu from '../../filterCriteria/FilterCriteriaMenu/FilterCriteriaMenu';
+import FilterCriteriaPanel from '../../filterCriteria/FilterCriteriaPanel/FilterCriteriaPanel';
+import ManageDataPreview from '../../dataPreview/ManageDataPreview/ManageDataPreview';
 import * as constants from '../../../utils/constants/customDataDownload';
 
 // *** STYLES (individual component)
 import './ManageDataDownload.scss';
-import { resetFilter } from '../../../store/actions/customDataDownload/hourlyEmissions/hourlyEmissions';
+import { resetFilter } from '../../../store/actions/customDataDownload/filterCriteria';
 
 const ManageDataDownload = ({
   selectedDataType,
@@ -73,6 +73,7 @@ const ManageDataDownload = ({
     setDataTypeApplied(false);
     setDataSubtypeApplied(false);
     setDisplayFilters(false);
+    setActiveFilter(false);
   };
 
   const handleFilterButtonClick = (filterType) => {
@@ -163,7 +164,7 @@ const ManageDataDownload = ({
           selectionChange={selectionChange}
           displayCancel={displayCancel}
         />
-        <FilterCriteriaRender
+        <FilterCriteriaMenu
           dataSubtypeApplied={dataSubtypeApplied}
           selectedDataType={selectedDataType}
           getSelectedDataSubType={getSelectedDataSubType}
@@ -172,7 +173,7 @@ const ManageDataDownload = ({
           activeFilter={activeFilter}
         />
       </div>
-      <FlyOutPanel
+      <FilterCriteriaPanel
         show={displayFilters}
         selectedDataType={selectedDataType}
         selectedDataSubtype={getSelectedDataSubType(
