@@ -5,13 +5,13 @@ export const COMPLIANCES_DATA_SUBTYPES = [
 ];
 
 export const EMISSIONS_BASED_FILTERS = [
-  { value: 'facility', label: 'FACILITY (Optional)' },
-  { value: 'ownerOperator', label: 'OWNER/OPERATOR (Optional)' },
-  { value: 'stateTerritory', label: 'STATE/TERRITORY (Optional)' },
-  { value: 'year', label: 'YEAR (Optional)' },
+  { value: 'Facility', stateVar: 'facility', label: 'FACILITY (Optional)' },
+  { value: 'Owner Operator', label: 'OWNER/OPERATOR (Optional)' },
+  { value: 'State/Territory', stateVar: 'stateTerritory',  label: 'STATE/TERRITORY (Optional)' },
+  { value: 'Year', label: 'YEAR (Optional)' },
 ];
 
 export const ALLOWANCE_BASED_FILTERS = [
-  { value: 'program', label: 'PROGRAM (Optional)' },
+  { value: 'Program', stateVar: 'program', label: 'PROGRAM (Optional)' },
   ...EMISSIONS_BASED_FILTERS,
 ];

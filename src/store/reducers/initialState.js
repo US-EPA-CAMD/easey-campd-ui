@@ -6,7 +6,7 @@ export default {
     dataPreview: null,
     totalCount: null,
   },
-  hourlyEmissions: {
+  filterCriteria: {
     timePeriod: {
       startDate: null,
       endDate: null,

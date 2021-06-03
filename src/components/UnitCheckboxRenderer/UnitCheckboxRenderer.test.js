@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import UnitCheckboxRenderer from './UnitCheckboxRenderer';
-import { restructureUnitTypes } from '../../utils/selectors/hourlyEmissions';
+import { restructureUnitTypes } from '../../utils/selectors/filterCriteria';
 
 const unitType = [
   {
