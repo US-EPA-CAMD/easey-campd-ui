@@ -21,11 +21,12 @@ export const TimePeriod = ({
   removeAppliedFiltersDispatcher,
   appliedFilters,
   closeFlyOutHandler,
+  showOpHrsOnly=true,
 }) => {
   const [formState, setFormState] = useState({
     startDate: formatDateToUi(timePeriod.startDate),
     endDate: formatDateToUi(timePeriod.endDate),
-    opHrsOnly: timePeriod.opHrsOnly,
+    opHrsOnly: showOpHrsOnly? timePeriod.opHrsOnly: false,
   });
 
   const [validations, setValidations] = useState({
@@ -117,6 +118,7 @@ export const TimePeriod = ({
       formState={formState}
       closeFlyOutHandler={closeFlyOutHandler}
       validations={validations}
+      showOpHrsOnly={showOpHrsOnly}
     />
   );
 };
