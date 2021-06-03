@@ -15,7 +15,6 @@ const FilterCriteriaPanel = ({
   closeFlyOutHandler,
 }) => {
   const emissions = {
-    timePeriod: <TimePeriod closeFlyOutHandler={closeFlyOutHandler} />,
     program: <Program closeFlyOutHandler={closeFlyOutHandler}/>,
     facility: <Facility closeFlyOutHandler={closeFlyOutHandler}/>,
     unitType: <UnitType closeFlyOutHandler={closeFlyOutHandler}/>,
@@ -23,6 +22,11 @@ const FilterCriteriaPanel = ({
     stateTerritory: <StateTerritory closeFlyOutHandler={closeFlyOutHandler}/>,
     controlTechnology: <ControlTechnology closeFlyOutHandler={closeFlyOutHandler}/>,
   };
+
+  const hourlyDailyEmissions = {
+    ...emissions,
+    timePeriod: <TimePeriod closeFlyOutHandler={closeFlyOutHandler} />,
+  }
 
   const allownaceAcctInfo = {
     program: <Program closeFlyOutHandler={closeFlyOutHandler} allowance={true}/>,
@@ -61,6 +65,7 @@ const FilterCriteriaPanel = ({
     switch (selectedDataSubtype) {
       case emissionsSubTypes[0]:
       case emissionsSubTypes[1]:
+        return hourlyDailyEmissions[selectedFilter];
       case emissionsSubTypes[2]:
       case emissionsSubTypes[3]:
       case emissionsSubTypes[4]:
