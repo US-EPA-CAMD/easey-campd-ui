@@ -23,7 +23,7 @@ const CheckboxGroup = (props) => {
   const showActiveInId = props.showActiveRetired ? `-${props.showActive}` : '';
 
   return (
-    <div className="margin-x-2 margin-top-2 margin-bottom-5">
+    <div className="margin-x-2 margin-top-2 margin-bottom-5 position-relative">
       <div
         className={`${
           props.showActiveRetired
