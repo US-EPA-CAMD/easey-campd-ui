@@ -5,17 +5,16 @@ import DownloadFileType from './DownloadFileType';
 import { Provider } from 'react-redux';
 import initialState from '../../../store/reducers/initialState';
 import configureStore from '../../../store/configureStore.dev';
+import axios from 'axios';
 
-jest.mock('axios', () => ({
-  get: jest.fn(() => Promise.resolve({ data: 'content' })),
-}));
+jest.mock('axios');
 
-initialState.customDataDownload.dataType= "EMISSIONS";
-initialState.customDataDownload.dataSubType= "Hourly Emissions";
+initialState.customDataDownload.dataType = 'EMISSIONS';
+initialState.customDataDownload.dataSubType = 'Hourly Emissions';
 initialState.filterCriteria = {
   timePeriod: {
-    startDate: "2019-01-01",
-    endDate: "2019-01-01",
+    startDate: '2019-01-01',
+    endDate: '2019-01-01',
     opHrsOnly: true,
   },
   program: [],
@@ -24,7 +23,7 @@ initialState.filterCriteria = {
   fuelType: [],
   stateTerritory: [],
   controlTechnology: [],
-}
+};
 const store = configureStore(initialState);
 
 describe('<DownloadFileType/>', () => {
@@ -46,10 +45,36 @@ describe('<DownloadFileType/>', () => {
   });
 
   it('handles the download button click', () => {
-    const { getByRole } = query;
-    const downloadButton = getByRole('button' , { name: "Download" });
+    const { getByRole, getByLabelText } = query;
+    const downloadButton = getByRole('button', { name: 'Download' });
     expect(downloadButton).toBeDefined();
-    jest.spyOn(document, 'createElement').mockImplementation(() => jest.fn());
+
+    const link = {
+      click: jest.fn(),
+      setAttribute: jest.fn(),
+      parentNode: {
+        removeChild: jest.fn(),
+      },
+    };
+    const response = {
+      headers: {
+        'content-disposition':
+          'attachment; filename="c8dbc0c6-18a4-4b59-ab13-68f112fe1f8f.json"',
+      },
+      data: 'data',
+    };
+    axios.get.mockImplementation(() => Promise.resolve(response));
+    global.URL.createObjectURL = jest.fn();
+    global.Blob = function (content, options) {
+      return { content, options };
+    };
+    jest.spyOn(document, 'createElement').mockImplementation(() => link);
+    jest
+      .spyOn(document.body, 'appendChild')
+      .mockImplementation(() => jest.fn());
+
+    fireEvent.click(downloadButton);
+    fireEvent.click(getByLabelText('JSON'));
     fireEvent.click(downloadButton);
   });
 });
