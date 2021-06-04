@@ -42,12 +42,12 @@ export const constructTimePeriodQuery = (dataSubType, filterCriteria) => {
   switch (dataSubType.toLowerCase()) {
     case 'hourly emissions':
       return `beginDate=${filterCriteria.timePeriod.startDate}&endDate=${filterCriteria.timePeriod.endDate}&opHoursOnly=${filterCriteria.timePeriod.opHrsOnly}`;
-    case 'daily':
-      return `beginDate=${filterCriteria.timePeriod.startDate}&endate=${filterCriteria.timePeriod.endDate}`;
-    case 'monthly':
-      return `opYear=${filterCriteria.timePeriod.opYear}&opMonth=${filterCriteria.timePeriod.opMonth}`;
-    case 'quarterly':
-      return `opYear=${filterCriteria.timePeriod.opYear}&quarter=${filterCriteria.timePeriod.quarter}`;
+    // case 'daily':
+    //   return `beginDate=${filterCriteria.timePeriod.startDate}&endate=${filterCriteria.timePeriod.endDate}`;
+    // case 'monthly':
+    //   return `opYear=${filterCriteria.timePeriod.opYear}&opMonth=${filterCriteria.timePeriod.opMonth}`;
+    // case 'quarterly':
+    //   return `opYear=${filterCriteria.timePeriod.opYear}&quarter=${filterCriteria.timePeriod.quarter}`;
     default:
       return '';
   }
