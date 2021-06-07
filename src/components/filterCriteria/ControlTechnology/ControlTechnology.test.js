@@ -222,11 +222,13 @@ const controlTechnology = [
     controlEquipParamDescription: 'Particulates (Opacity)',
   },
 ];
-const storeControlTechnology = restructureControlTechnologies(controlTechnology);
-initialState.hourlyEmissions.controlTechnology = storeControlTechnology;
+const storeControlTechnology = restructureControlTechnologies(
+  controlTechnology
+);
+initialState.filterCriteria.controlTechnology = storeControlTechnology;
 const store = configureStore(initialState);
 
-describe('Hourly Emissions Control technology', () => {
+describe('Control technology', () => {
   let queries;
   beforeEach(() => {
     // setup a DOM element as a render target
@@ -274,5 +276,21 @@ describe('Hourly Emissions Control technology', () => {
     });
     fireEvent.click(wlCheckbox);
     expect(wlCheckbox.checked).toEqual(true);
+
+    const selectAllNox = getByRole('checkbox', {
+      name: 'Nitrogen Oxides (NOX)',
+    });
+    fireEvent.click(selectAllNox);
+    expect(selectAllNox.checked).toEqual(true);
+
+    const applyButton = getByRole('button', {
+      name: 'Apply Filter',
+    });
+    fireEvent.click(applyButton);
+
+    fireEvent.click(wlCheckbox);
+    expect(wlCheckbox.checked).toEqual(false);
+
+    fireEvent.click(applyButton);
   });
 });

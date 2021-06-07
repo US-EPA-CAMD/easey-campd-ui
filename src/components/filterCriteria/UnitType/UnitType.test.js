@@ -97,7 +97,7 @@ const unitType = [
     unitTypeDescription: 'Cement Kiln',
     sortOrder: null,
     unitTypeGroupCode: 'F',
-    unitTypeGroupDescription: 'Furnance',
+    unitTypeGroupDescription: 'Furnaces',
   },
   {
     unitTypeCode: 'OB',
@@ -125,7 +125,7 @@ const unitType = [
     unitTypeDescription: 'Process Heater',
     sortOrder: null,
     unitTypeGroupCode: 'F',
-    unitTypeGroupDescription: 'Furnance',
+    unitTypeGroupDescription: 'Furnaces',
   },
   {
     unitTypeCode: 'S',
@@ -164,10 +164,10 @@ const unitType = [
   },
 ];
 const storeUnitType = restructureUnitTypes(unitType);
-initialState.hourlyEmissions.unitType = storeUnitType;
+initialState.filterCriteria.unitType = storeUnitType;
 const store = configureStore(initialState);
 
-describe('Hourly Emissions Unit Type', () => {
+describe('Unit Type', () => {
   let queries;
   beforeEach(() => {
     // setup a DOM element as a render target
@@ -175,8 +175,8 @@ describe('Hourly Emissions Unit Type', () => {
       <Provider store={store}>
         <UnitType
           closeFlyOutHandler={jest.fn()}
-          loadEmissionsProgramsDispatcher={jest.fn()}
-          updateProgramSelectionDispatcher={jest.fn()}
+          loadUnitTypesDispatcher={jest.fn()}
+          updateUnitTypeSelectionDispatcher={jest.fn()}
           addAppliedFilterDispatcher={jest.fn()}
           removeAppliedFilterDispatcher={jest.fn()}
         />
@@ -190,6 +190,7 @@ describe('Hourly Emissions Unit Type', () => {
     const { getByText, getAllByTestId, getAllByRole } = queries;
     expect(getByText('Boilers')).toBeInTheDocument();
     expect(getByText('Turbines')).toBeInTheDocument();
+    expect(getByText('Furnaces')).toBeInTheDocument();
 
     const selectAllCheckBoxes = getAllByTestId('select-all');
     expect(selectAllCheckBoxes).toHaveLength(3);
@@ -203,12 +204,31 @@ describe('Hourly Emissions Unit Type', () => {
     );
   });
 
-  it('handles checkbox selection appropriately', () => {
+  it('handles checkbox selection appropriately and applies them', () => {
     const { getByRole } = queries;
     const afbCheckbox = getByRole('checkbox', {
       name: 'Arch-fired boiler (AF)',
     });
     fireEvent.click(afbCheckbox);
     expect(afbCheckbox.checked).toEqual(true);
+
+    const selectAllBoilers = getByRole('checkbox', {
+      name: 'Boilers',
+    });
+    fireEvent.click(selectAllBoilers);
+    expect(selectAllBoilers.checked).toEqual(true);
+
+    const applyButton = getByRole('button', {
+      name: 'Apply Filter',
+    });
+    fireEvent.click(applyButton);
+
+    const klnCheckbox = getByRole('checkbox', {
+      name: 'Cement Kiln (KLN)',
+    });
+    fireEvent.click(klnCheckbox);
+    expect(klnCheckbox.checked).toEqual(true);
+
+    fireEvent.click(applyButton);
   });
 });

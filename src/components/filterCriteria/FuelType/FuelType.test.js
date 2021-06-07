@@ -113,10 +113,10 @@ const fuelType = [
 ];
 
 const storeFuelType = restructureFuelTypes(fuelType);
-initialState.hourlyEmissions.fuelType = storeFuelType;
+initialState.filterCriteria.fuelType = storeFuelType;
 const store = configureStore(initialState);
 
-describe('Hourly Emissions Fuel Type', () => {
+describe('Fuel Type', () => {
   let queries;
   beforeEach(() => {
     // setup a DOM element as a render target
@@ -157,10 +157,26 @@ describe('Hourly Emissions Fuel Type', () => {
 
   it('handles checkbox selection appropriately', () => {
     const { getByRole } = queries;
-    const afbCheckbox = getByRole('checkbox', {
+    const coalCheckbox = getByRole('checkbox', {
       name: 'Coal (C)',
     });
-    fireEvent.click(afbCheckbox);
-    expect(afbCheckbox.checked).toEqual(true);
+    fireEvent.click(coalCheckbox);
+    expect(coalCheckbox.checked).toEqual(true);
+
+    const selectAllGas = getByRole('checkbox', {
+      name: 'Gas',
+    });
+    fireEvent.click(selectAllGas);
+    expect(selectAllGas.checked).toEqual(true);
+
+    const applyButton = getByRole('button', {
+      name: 'Apply Filter',
+    });
+    fireEvent.click(applyButton);
+
+    fireEvent.click(coalCheckbox);
+    expect(coalCheckbox.checked).toEqual(false);
+
+    fireEvent.click(applyButton);
   });
 });
