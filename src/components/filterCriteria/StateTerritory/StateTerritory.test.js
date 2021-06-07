@@ -71,7 +71,7 @@ const states = [{
   "stateName": "States Of Micronesia",
   "epaRegion": "9"
 }];
-initialState.hourlyEmissions.stateTerritory = states.map(s=> ({id: s.stateCode, label:s.stateName, selected:false}));
+initialState.filterCriteria.stateTerritory = states.map(s=> ({id: s.stateCode, label:s.stateName, selected:false}));
 const store = configureStore(initialState);
 
 let flyOutClosed = false;
@@ -101,7 +101,7 @@ describe('State/Territory Component', () => {
     searchbox.focus();
     const listBox = getByTestId("multi-select-listbox");
     expect(listBox).toBeInTheDocument();
-    expect(within(listBox).getAllByTestId('multi-select-option').length).toBe(initialState.hourlyEmissions.stateTerritory.length);
+    expect(within(listBox).getAllByTestId('multi-select-option').length).toBe(initialState.filterCriteria.stateTerritory.length);
   });
 
   it('handles click event of cancel button', () => {

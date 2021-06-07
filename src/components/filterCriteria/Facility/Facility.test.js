@@ -293,7 +293,7 @@ const facilities = [
     ]
   }
 ];
-initialState.hourlyEmissions.facility = facilities.map(f=> ({id: f.orisCode, label:`${f.name} (${f.orisCode})`, selected:false}));
+initialState.filterCriteria.facility = facilities.map(f=> ({id: f.orisCode, label:`${f.name} (${f.orisCode})`, selected:false}));
 const store = configureStore(initialState);
 let flyOutClosed = false;
 describe('Facility Component', () => {
@@ -322,7 +322,7 @@ describe('Facility Component', () => {
     searchbox.focus();
     const listBox = getByTestId("multi-select-listbox");
     expect(listBox).toBeInTheDocument();
-    expect(within(listBox).getAllByTestId('multi-select-option').length).toBe(initialState.hourlyEmissions.facility.length);
+    expect(within(listBox).getAllByTestId('multi-select-option').length).toBe(initialState.filterCriteria.facility.length);
   });
 
   it('handles click event of cancel button', () => {

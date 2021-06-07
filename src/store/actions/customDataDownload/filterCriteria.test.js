@@ -1,158 +1,32 @@
 import * as actions from "./filterCriteria";
-import * as types from "../../actionTypes";
+import * as types from "../actionTypes";
 import axios from "axios";
 import thunk from "redux-thunk";
 import MockAdapter from "axios-mock-adapter";
 import configureMockStore from "redux-mock-store";
-import config from "../../../../config";
-import initState from "../../../reducers/initialState";
-import {restructurePrograms} from "../../../../utils/selectors/filterCriteria";
+import config from "../../../config";
+import initState from "../../reducers/initialState";
+import {restructurePrograms, restructureControlTechnologies, restructureFuelTypes, restructureUnitTypes} from "../../../utils/selectors/filterCriteria";
 
 // Test an async action
 const middleware = [thunk];
 const mockStore = configureMockStore(middleware);
 const mock = new MockAdapter(axios);
 
-describe("Emissions Filter Async Actions", () => {
+describe("Filter Criteria Async Actions", () => {
   it("should create appropriate action when update time period action is dispatched", () => {
     const timePeriod = {
       startDate: "03/31/2021",
       endDate: "04/02/2021",
       opHrsOnly: false
     }
-    const expectedAction = { type: types.HOURLY_EMISSIONS.UPDATE_TIME_PERIOD, selectedTimePeriod: timePeriod };
+    const expectedAction = { type: types.UPDATE_TIME_PERIOD, timePeriod: timePeriod };
 
     const actionDispached  = actions.updateTimePeriod(timePeriod);
     expect(actionDispached).toEqual(expectedAction);
   });
 
-  it("should create BEGIN_API_CALL and LOAD_HOURLY_EMISSIONS_SUCCESS when loading hourly emissions data", () => {
-    const timePeriod = initState.hourlyEmissions.timePeriod;
-    timePeriod.startDate="2019-01-01";
-    timePeriod.endDate="2019-01-01";
-    timePeriod.opHrsOnly=true;
-    const hourlyEmissions = [
-      {
-        "state": "AL",
-        "facilityName": "Barry",
-        "orisCode": "3",
-        "unitId": "4",
-        "gLoad": "150.00",
-        "sLoad": null,
-        "so2Mass": "1617.200",
-        "so2Rate": "0.983",
-        "noxMass": "481.800",
-        "noxRate": "0.293",
-        "co2Mass": "168.700",
-        "co2Rate": "0.103",
-        "heatInput": "1644.500",
-        "primaryFuelInfo": "Coal",
-        "secondaryFuelInfo": "Pipeline Natural Gas",
-        "unitTypeInfo": "Tangentially-fired",
-        "so2ControlInfo": null,
-        "partControlInfo": "Electrostatic Precipitator",
-        "noxControlInfo": "Low NOx Burner Technology w/ Separated OFA,Selective Non-catalytic Reduction",
-        "hgControlInfo": "Halogenated PAC Sorbent Injection",
-        "prgCodeInfo": "ARP, CSNOX, CSOSG2, CSSO2G2, MATS",
-        "assocStacks": null,
-        "opDate": "2019-01-01",
-        "opHour": "0",
-        "opTime": "1.00",
-        "so2MassMeasureFlg": "Measured",
-        "so2RateMeasureFlg": "Calculated",
-        "noxMassMeasureFlg": "Measured",
-        "noxRateMeasureFlg": "Measured",
-        "co2MassMeasureFlg": "Measured",
-        "co2RateMeasureFlg": "Calculated"
-      },
-      {
-        "state": "AL",
-        "facilityName": "Barry",
-        "orisCode": "3",
-        "unitId": "4",
-        "gLoad": "150.00",
-        "sLoad": null,
-        "so2Mass": "1611.300",
-        "so2Rate": "0.983",
-        "noxMass": "460.700",
-        "noxRate": "0.281",
-        "co2Mass": "168.200",
-        "co2Rate": "0.103",
-        "heatInput": "1639.500",
-        "primaryFuelInfo": "Coal",
-        "secondaryFuelInfo": "Pipeline Natural Gas",
-        "unitTypeInfo": "Tangentially-fired",
-        "so2ControlInfo": null,
-        "partControlInfo": "Electrostatic Precipitator",
-        "noxControlInfo": "Low NOx Burner Technology w/ Separated OFA,Selective Non-catalytic Reduction",
-        "hgControlInfo": "Halogenated PAC Sorbent Injection",
-        "prgCodeInfo": "ARP, CSNOX, CSOSG2, CSSO2G2, MATS",
-        "assocStacks": null,
-        "opDate": "2019-01-01",
-        "opHour": "1",
-        "opTime": "1.00",
-        "so2MassMeasureFlg": "Measured",
-        "so2RateMeasureFlg": "Calculated",
-        "noxMassMeasureFlg": "Measured",
-        "noxRateMeasureFlg": "Measured",
-        "co2MassMeasureFlg": "Measured",
-        "co2RateMeasureFlg": "Calculated"
-      },
-      {
-        "state": "AL",
-        "facilityName": "Barry",
-        "orisCode": "3",
-        "unitId": "4",
-        "gLoad": "150.00",
-        "sLoad": null,
-        "so2Mass": "1608.300",
-        "so2Rate": "0.978",
-        "noxMass": "407.900",
-        "noxRate": "0.248",
-        "co2Mass": "168.800",
-        "co2Rate": "0.103",
-        "heatInput": "1644.900",
-        "primaryFuelInfo": "Coal",
-        "secondaryFuelInfo": "Pipeline Natural Gas",
-        "unitTypeInfo": "Tangentially-fired",
-        "so2ControlInfo": null,
-        "partControlInfo": "Electrostatic Precipitator",
-        "noxControlInfo": "Low NOx Burner Technology w/ Separated OFA,Selective Non-catalytic Reduction",
-        "hgControlInfo": "Halogenated PAC Sorbent Injection",
-        "prgCodeInfo": "ARP, CSNOX, CSOSG2, CSSO2G2, MATS",
-        "assocStacks": null,
-        "opDate": "2019-01-01",
-        "opHour": "2",
-        "opTime": "1.00",
-        "so2MassMeasureFlg": "Measured",
-        "so2RateMeasureFlg": "Calculated",
-        "noxMassMeasureFlg": "Measured",
-        "noxRateMeasureFlg": "Measured",
-        "co2MassMeasureFlg": "Measured",
-        "co2RateMeasureFlg": "Calculated"
-      }
-    ];
-    const successResponse = {
-      data: hourlyEmissions,
-      headers: {
-        "x-total-count": hourlyEmissions.length
-      }
-    };
-    mock
-      .onGet(`${config.services.emissions.uri}/apportioned/hourly?page=1&perPage=100&beginDate=${timePeriod.startDate}&endDate=${timePeriod.endDate}&opHoursOnly=${timePeriod.opHrsOnly}`)
-      .reply(200, successResponse.data, successResponse.headers);
-    const expectedActions = [
-      { type: types.BEGIN_API_CALL },
-      { type: types.LOAD_HOURLY_EMISSIONS_SUCCESS, hourlyEmissions: {data: successResponse.data,totalCount: successResponse.headers["x-total-count"]}},
-    ];
-
-    const store = mockStore(initState.customDataDownload);
-    return store.dispatch(actions.loadHourlyEmissions(initState.hourlyEmissions)).then(() => {
-      expect(store.getActions()).toEqual(expectedActions);
-    })
-  });
-
-  it("should create BEGIN_API_CALL and LOAD_EMISSIONS_PROGRAMS_SUCCESS when loading programs data", () => {
+  it("should create BEGIN_API_CALL and LOAD_PROGRAMS_SUCCESS when loading programs data", () => {
     const program = [
       {
         "programCode": "ARP",
@@ -364,11 +238,11 @@ describe("Emissions Filter Async Actions", () => {
       .reply(200, program);
     const expectedActions = [
       { type: types.BEGIN_API_CALL },
-      { type: types.LOAD_EMISSIONS_PROGRAMS_SUCCESS, program: restructurePrograms(program)},
+      { type: types.LOAD_PROGRAMS_SUCCESS, program: restructurePrograms(program)},
     ];
 
     const store = mockStore(initState);
-    return store.dispatch(actions.loadEmissionsPrograms()).then(() => {
+    return store.dispatch(actions.loadPrograms()).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
     })
   });
@@ -661,11 +535,528 @@ describe("Emissions Filter Async Actions", () => {
       .reply(200, facilities);
     const expectedActions = [
       { type: types.BEGIN_API_CALL },
-      { type: types.LOAD_FACILITIES_SUCCESS, facilities: facilities.map(f=> ({id: f.orisCode, label:`${f.name} (${f.orisCode})`, selected:false}))},
+      { type: types.LOAD_FACILITIES_SUCCESS, facility: facilities.map(f=> ({id: f.orisCode, label:`${f.name} (${f.orisCode})`, selected:false}))},
     ];
 
     const store = mockStore(initState);
     return store.dispatch(actions.loadFacilities()).then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+    })
+  });
+
+  it("should create BEGIN_API_CALL and LOAD_CONTROL_TECHNOLOGIES_SUCCESS when loading control technologies data", () => {
+    const controlTechnologies = [
+      {
+        "controlCode": "APAC",
+        "controlDescription": "Additives to Enhance PAC and Existing Equipment Performance",
+        "controlEquipParamCode": "HG",
+        "controlEquipParamDescription": "Mercury"
+      },
+      {
+        "controlCode": "B",
+        "controlDescription": "Baghouse",
+        "controlEquipParamCode": "PART",
+        "controlEquipParamDescription": "Particulates (Opacity)"
+      },
+      {
+        "controlCode": "C",
+        "controlDescription": "Cyclone",
+        "controlEquipParamCode": "PART",
+        "controlEquipParamDescription": "Particulates (Opacity)"
+      },
+      {
+        "controlCode": "CAT",
+        "controlDescription": "Catalyst (gold, palladium, or other) used to oxidize mercury",
+        "controlEquipParamCode": "HG",
+        "controlEquipParamDescription": "Mercury"
+      },
+      {
+        "controlCode": "CM",
+        "controlDescription": "Combustion Modification/Fuel Reburning",
+        "controlEquipParamCode": "NOX",
+        "controlEquipParamDescription": "Nitrogen Oxides"
+      },
+      {
+        "controlCode": "DA",
+        "controlDescription": "Dual Alkali",
+        "controlEquipParamCode": "SO2",
+        "controlEquipParamDescription": "Sulfur Dioxide"
+      },
+      {
+        "controlCode": "DL",
+        "controlDescription": "Dry Lime FGD",
+        "controlEquipParamCode": "SO2",
+        "controlEquipParamDescription": "Sulfur Dioxide"
+      },
+      {
+        "controlCode": "DLNB",
+        "controlDescription": "Dry Low NOx Burners",
+        "controlEquipParamCode": "NOX",
+        "controlEquipParamDescription": "Nitrogen Oxides"
+      },
+      {
+        "controlCode": "DSI",
+        "controlDescription": "Dry Sorbent Injection",
+        "controlEquipParamCode": null,
+        "controlEquipParamDescription": null
+      },
+      {
+        "controlCode": "ESP",
+        "controlDescription": "Electrostatic Precipitator",
+        "controlEquipParamCode": "PART",
+        "controlEquipParamDescription": "Particulates (Opacity)"
+      },
+      {
+        "controlCode": "FBL",
+        "controlDescription": "Fluidized Bed Limestone Injection",
+        "controlEquipParamCode": "SO2",
+        "controlEquipParamDescription": "Sulfur Dioxide"
+      },
+      {
+        "controlCode": "H2O",
+        "controlDescription": "Water Injection",
+        "controlEquipParamCode": "NOX",
+        "controlEquipParamDescription": "Nitrogen Oxides"
+      },
+      {
+        "controlCode": "HESP",
+        "controlDescription": "Hybrid ESP",
+        "controlEquipParamCode": "PART",
+        "controlEquipParamDescription": "Particulates (Opacity)"
+      },
+      {
+        "controlCode": "HPAC",
+        "controlDescription": "Halogenated PAC Sorbent Injection",
+        "controlEquipParamCode": "HG",
+        "controlEquipParamDescription": "Mercury"
+      },
+      {
+        "controlCode": "LNB",
+        "controlDescription": "Low NOx Burner Technology (Dry Bottom only)",
+        "controlEquipParamCode": "NOX",
+        "controlEquipParamDescription": "Nitrogen Oxides"
+      },
+      {
+        "controlCode": "LNBO",
+        "controlDescription": "Low NOx Burner Technology w/ Overfire Air",
+        "controlEquipParamCode": "NOX",
+        "controlEquipParamDescription": "Nitrogen Oxides"
+      },
+      {
+        "controlCode": "LNC1",
+        "controlDescription": "Low NOx Burner Technology w/ Closed-coupled OFA",
+        "controlEquipParamCode": "NOX",
+        "controlEquipParamDescription": "Nitrogen Oxides"
+      },
+      {
+        "controlCode": "LNC2",
+        "controlDescription": "Low NOx Burner Technology w/ Separated OFA",
+        "controlEquipParamCode": "NOX",
+        "controlEquipParamDescription": "Nitrogen Oxides"
+      },
+      {
+        "controlCode": "LNC3",
+        "controlDescription": "Low NOx Burner Technology w/ Closed-coupled/Separated OFA",
+        "controlEquipParamCode": "NOX",
+        "controlEquipParamDescription": "Nitrogen Oxides"
+      },
+      {
+        "controlCode": "LNCB",
+        "controlDescription": "Low NOx Cell Burner",
+        "controlEquipParamCode": "NOX",
+        "controlEquipParamDescription": "Nitrogen Oxides"
+      },
+      {
+        "controlCode": "MO",
+        "controlDescription": "Magnesium Oxide",
+        "controlEquipParamCode": "SO2",
+        "controlEquipParamDescription": "Sulfur Dioxide"
+      },
+      {
+        "controlCode": "NH3",
+        "controlDescription": "Ammonia Injection",
+        "controlEquipParamCode": "NOX",
+        "controlEquipParamDescription": "Nitrogen Oxides"
+      },
+      {
+        "controlCode": "O",
+        "controlDescription": "Other",
+        "controlEquipParamCode": null,
+        "controlEquipParamDescription": null
+      },
+      {
+        "controlCode": "OFA",
+        "controlDescription": "Overfire Air",
+        "controlEquipParamCode": "NOX",
+        "controlEquipParamDescription": "Nitrogen Oxides"
+      },
+      {
+        "controlCode": "REAC",
+        "controlDescription": "Regenerative Activated Coke Technology",
+        "controlEquipParamCode": "HG",
+        "controlEquipParamDescription": "Mercury"
+      },
+      {
+        "controlCode": "SB",
+        "controlDescription": "Sodium Based",
+        "controlEquipParamCode": "SO2",
+        "controlEquipParamDescription": "Sulfur Dioxide"
+      },
+      {
+        "controlCode": "SCR",
+        "controlDescription": "Selective Catalytic Reduction",
+        "controlEquipParamCode": "NOX",
+        "controlEquipParamDescription": "Nitrogen Oxides"
+      },
+      {
+        "controlCode": "SNCR",
+        "controlDescription": "Selective Non-catalytic Reduction",
+        "controlEquipParamCode": "NOX",
+        "controlEquipParamDescription": "Nitrogen Oxides"
+      },
+      {
+        "controlCode": "SORB",
+        "controlDescription": "Other (Non PAC) Sorbent Injection",
+        "controlEquipParamCode": "HG",
+        "controlEquipParamDescription": "Mercury"
+      },
+      {
+        "controlCode": "STM",
+        "controlDescription": "Steam Injection",
+        "controlEquipParamCode": "NOX",
+        "controlEquipParamDescription": "Nitrogen Oxides"
+      },
+      {
+        "controlCode": "UPAC",
+        "controlDescription": "Untreated PAC Sorbent Injection",
+        "controlEquipParamCode": "HG",
+        "controlEquipParamDescription": "Mercury"
+      },
+      {
+        "controlCode": "WESP",
+        "controlDescription": "Wet ESP",
+        "controlEquipParamCode": "PART",
+        "controlEquipParamDescription": "Particulates (Opacity)"
+      },
+      {
+        "controlCode": "WL",
+        "controlDescription": "Wet Lime FGD",
+        "controlEquipParamCode": "SO2",
+        "controlEquipParamDescription": "Sulfur Dioxide"
+      },
+      {
+        "controlCode": "WLS",
+        "controlDescription": "Wet Limestone",
+        "controlEquipParamCode": "SO2",
+        "controlEquipParamDescription": "Sulfur Dioxide"
+      },
+      {
+        "controlCode": "WS",
+        "controlDescription": "Wet Scrubber",
+        "controlEquipParamCode": "PART",
+        "controlEquipParamDescription": "Particulates (Opacity)"
+      }
+    ];
+    mock
+      .onGet(`${config.services.mdm.uri}/control-technologies`)
+      .reply(200, controlTechnologies);
+    const expectedActions = [
+      { type: types.BEGIN_API_CALL },
+      { type: types.LOAD_CONTROL_TECHNOLOGIES_SUCCESS, controlTechnology: restructureControlTechnologies(controlTechnologies)},
+    ];
+
+    const store = mockStore(initState);
+    return store.dispatch(actions.loadControlTechnologies()).then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+    })
+  });
+
+  it("should create BEGIN_API_CALL and LOAD_FUEL_TYPES_SUCCESS when loading fuel types data", () => {
+    const fuelTypes = [
+      {
+        "fuelTypeCode": "C",
+        "fuelTypeDescription": "Coal",
+        "fuelGroupCode": "COAL",
+        "fuelGroupDescription": "All Coal"
+      },
+      {
+        "fuelTypeCode": "CRF",
+        "fuelTypeDescription": "Coal Refuse",
+        "fuelGroupCode": "COAL",
+        "fuelGroupDescription": "All Coal"
+      },
+      {
+        "fuelTypeCode": "DSL",
+        "fuelTypeDescription": "Diesel Oil",
+        "fuelGroupCode": "OIL",
+        "fuelGroupDescription": "All Oil"
+      },
+      {
+        "fuelTypeCode": "LPG",
+        "fuelTypeDescription": "Liquified Petroleum Gas",
+        "fuelGroupCode": "GAS",
+        "fuelGroupDescription": "All Gas"
+      },
+      {
+        "fuelTypeCode": "NNG",
+        "fuelTypeDescription": "Natural Gas",
+        "fuelGroupCode": "GAS",
+        "fuelGroupDescription": "All Gas"
+      },
+      {
+        "fuelTypeCode": "OGS",
+        "fuelTypeDescription": "Other Gas",
+        "fuelGroupCode": "GAS",
+        "fuelGroupDescription": "All Gas"
+      },
+      {
+        "fuelTypeCode": "OIL",
+        "fuelTypeDescription": "Residual Oil",
+        "fuelGroupCode": "OIL",
+        "fuelGroupDescription": "All Oil"
+      },
+      {
+        "fuelTypeCode": "OOL",
+        "fuelTypeDescription": "Other Oil",
+        "fuelGroupCode": "OIL",
+        "fuelGroupDescription": "All Oil"
+      },
+      {
+        "fuelTypeCode": "OSF",
+        "fuelTypeDescription": "Other Solid Fuel",
+        "fuelGroupCode": "OTHER",
+        "fuelGroupDescription": "All Other Fuels"
+      },
+      {
+        "fuelTypeCode": "PNG",
+        "fuelTypeDescription": "Pipeline Natural Gas",
+        "fuelGroupCode": "GAS",
+        "fuelGroupDescription": "All Gas"
+      },
+      {
+        "fuelTypeCode": "PRG",
+        "fuelTypeDescription": "Process Gas",
+        "fuelGroupCode": "GAS",
+        "fuelGroupDescription": "All Gas"
+      },
+      {
+        "fuelTypeCode": "PRS",
+        "fuelTypeDescription": "Process Sludge",
+        "fuelGroupCode": "OTHER",
+        "fuelGroupDescription": "All Other Fuels"
+      },
+      {
+        "fuelTypeCode": "PTC",
+        "fuelTypeDescription": "Petroleum Coke",
+        "fuelGroupCode": "COAL",
+        "fuelGroupDescription": "All Coal"
+      },
+      {
+        "fuelTypeCode": "R",
+        "fuelTypeDescription": "Refuse",
+        "fuelGroupCode": "OTHER",
+        "fuelGroupDescription": "All Other Fuels"
+      },
+      {
+        "fuelTypeCode": "TDF",
+        "fuelTypeDescription": "Tire Derived Fuel",
+        "fuelGroupCode": "OTHER",
+        "fuelGroupDescription": "All Other Fuels"
+      },
+      {
+        "fuelTypeCode": "W",
+        "fuelTypeDescription": "Wood",
+        "fuelGroupCode": "OTHER",
+        "fuelGroupDescription": "All Other Fuels"
+      },
+      {
+        "fuelTypeCode": "WL",
+        "fuelTypeDescription": "Waste Liquid",
+        "fuelGroupCode": "OTHER",
+        "fuelGroupDescription": "All Other Fuels"
+      }
+    ];
+    mock
+      .onGet(`${config.services.mdm.uri}/fuel-types`)
+      .reply(200, fuelTypes);
+    const expectedActions = [
+      { type: types.BEGIN_API_CALL },
+      { type: types.LOAD_FUEL_TYPES_SUCCESS, fuelType: restructureFuelTypes(fuelTypes)},
+    ];
+
+    const store = mockStore(initState);
+    return store.dispatch(actions.loadFuelTypes()).then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+    })
+  });
+
+  it("should create BEGIN_API_CALL and LOAD_UNIT_TYPES_SUCCESS when loading unit types data", () => {
+    const unitTypes = [
+      {
+        "unitTypeCode": "AF",
+        "unitTypeDescription": "Arch-fired boiler",
+        "sortOrder": null,
+        "unitTypeGroupCode": "B",
+        "unitTypeGroupDescription": "Boilers"
+      },
+      {
+        "unitTypeCode": "BFB",
+        "unitTypeDescription": "Bubbling fluidized bed boiler",
+        "sortOrder": null,
+        "unitTypeGroupCode": "B",
+        "unitTypeGroupDescription": "Boilers"
+      },
+      {
+        "unitTypeCode": "C",
+        "unitTypeDescription": "Cyclone boiler",
+        "sortOrder": null,
+        "unitTypeGroupCode": "B",
+        "unitTypeGroupDescription": "Boilers"
+      },
+      {
+        "unitTypeCode": "CB",
+        "unitTypeDescription": "Cell burner boiler",
+        "sortOrder": null,
+        "unitTypeGroupCode": "B",
+        "unitTypeGroupDescription": "Boilers"
+      },
+      {
+        "unitTypeCode": "CC",
+        "unitTypeDescription": "Combined cycle",
+        "sortOrder": null,
+        "unitTypeGroupCode": "T",
+        "unitTypeGroupDescription": "Turbines"
+      },
+      {
+        "unitTypeCode": "CFB",
+        "unitTypeDescription": "Circulating fluidized bed boiler",
+        "sortOrder": null,
+        "unitTypeGroupCode": "B",
+        "unitTypeGroupDescription": "Boilers"
+      },
+      {
+        "unitTypeCode": "CT",
+        "unitTypeDescription": "Combustion turbine",
+        "sortOrder": null,
+        "unitTypeGroupCode": "T",
+        "unitTypeGroupDescription": "Turbines"
+      },
+      {
+        "unitTypeCode": "DB",
+        "unitTypeDescription": "Dry bottom wall-fired boiler",
+        "sortOrder": null,
+        "unitTypeGroupCode": "B",
+        "unitTypeGroupDescription": "Boilers"
+      },
+      {
+        "unitTypeCode": "DTF",
+        "unitTypeDescription": "Dry bottom turbo-fired boiler",
+        "sortOrder": null,
+        "unitTypeGroupCode": "B",
+        "unitTypeGroupDescription": "Boilers"
+      },
+      {
+        "unitTypeCode": "DVF",
+        "unitTypeDescription": "Dry bottom vertically-fired boiler",
+        "sortOrder": null,
+        "unitTypeGroupCode": "B",
+        "unitTypeGroupDescription": "Boilers"
+      },
+      {
+        "unitTypeCode": "ICE",
+        "unitTypeDescription": "Internal combustion engine",
+        "sortOrder": null,
+        "unitTypeGroupCode": "T",
+        "unitTypeGroupDescription": "Turbines"
+      },
+      {
+        "unitTypeCode": "IGC",
+        "unitTypeDescription": "Integrated gasification combined cycle",
+        "sortOrder": null,
+        "unitTypeGroupCode": "T",
+        "unitTypeGroupDescription": "Turbines"
+      },
+      {
+        "unitTypeCode": "KLN",
+        "unitTypeDescription": "Cement Kiln",
+        "sortOrder": null,
+        "unitTypeGroupCode": "F",
+        "unitTypeGroupDescription": "Furnaces"
+      },
+      {
+        "unitTypeCode": "OB",
+        "unitTypeDescription": "Other boiler",
+        "sortOrder": null,
+        "unitTypeGroupCode": "B",
+        "unitTypeGroupDescription": "Boilers"
+      },
+      {
+        "unitTypeCode": "OT",
+        "unitTypeDescription": "Other turbine",
+        "sortOrder": null,
+        "unitTypeGroupCode": "T",
+        "unitTypeGroupDescription": "Turbines"
+      },
+      {
+        "unitTypeCode": "PFB",
+        "unitTypeDescription": "Pressurized fluidized bed boiler",
+        "sortOrder": null,
+        "unitTypeGroupCode": "B",
+        "unitTypeGroupDescription": "Boilers"
+      },
+      {
+        "unitTypeCode": "PRH",
+        "unitTypeDescription": "Process Heater",
+        "sortOrder": null,
+        "unitTypeGroupCode": "F",
+        "unitTypeGroupDescription": "Furnaces"
+      },
+      {
+        "unitTypeCode": "S",
+        "unitTypeDescription": "Stoker",
+        "sortOrder": null,
+        "unitTypeGroupCode": "B",
+        "unitTypeGroupDescription": "Boilers"
+      },
+      {
+        "unitTypeCode": "T",
+        "unitTypeDescription": "Tangentially-fired",
+        "sortOrder": null,
+        "unitTypeGroupCode": "B",
+        "unitTypeGroupDescription": "Boilers"
+      },
+      {
+        "unitTypeCode": "WBF",
+        "unitTypeDescription": "Wet bottom wall-fired boiler",
+        "sortOrder": null,
+        "unitTypeGroupCode": "B",
+        "unitTypeGroupDescription": "Boilers"
+      },
+      {
+        "unitTypeCode": "WBT",
+        "unitTypeDescription": "Wet bottom turbo-fired boiler",
+        "sortOrder": null,
+        "unitTypeGroupCode": "B",
+        "unitTypeGroupDescription": "Boilers"
+      },
+      {
+        "unitTypeCode": "WVF",
+        "unitTypeDescription": "Wet bottom vertically-fired boiler",
+        "sortOrder": null,
+        "unitTypeGroupCode": "B",
+        "unitTypeGroupDescription": "Boilers"
+      }
+    ];
+    mock
+      .onGet(`${config.services.mdm.uri}/unit-types`)
+      .reply(200, unitTypes);
+    const expectedActions = [
+      { type: types.BEGIN_API_CALL },
+      { type: types.LOAD_UNIT_TYPES_SUCCESS, unitType: restructureUnitTypes(unitTypes)},
+    ];
+
+    const store = mockStore(initState);
+    return store.dispatch(actions.loadUnitTypes()).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
     })
   });

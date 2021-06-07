@@ -1,15 +1,24 @@
-import apiStatusReducer from "./apiStatusReducer";
-import {beginApiCall} from "../actions/apiStatusActions";
-import {loadHourlyEmissionsSuccess} from "../actions/customDataDownload/customDataDownload";
-import initialState from "./initialState";
+import * as actions from "./customDataDownload";
+import * as types from "../actionTypes";
+import axios from "axios";
+import thunk from "redux-thunk";
+import MockAdapter from "axios-mock-adapter";
+import configureMockStore from "redux-mock-store";
+import config from "../../../config";
+import initState from "../../reducers/initialState";
 
-describe("API status reducer", () => {
-  it("should update state when BEGIN_API_CALL and LOAD_HOURLY_EMISSIONS_SUCCESS actions are dispatched", () => {
-    let state, action;
-    action = beginApiCall();
-    state = apiStatusReducer(initialState.apiCallsInProgress, action);
-    expect(state).toEqual(1);
+// Test an async action
+const middleware = [thunk];
+const mockStore = configureMockStore(middleware);
+const mock = new MockAdapter(axios);
 
+describe("custom data download Async Actions", () => {
+
+  it("should create BEGIN_API_CALL and LOAD_HOURLY_EMISSIONS_SUCCESS when loading hourly emissions data", () => {
+    const timePeriod = initState.filterCriteria.timePeriod;
+    timePeriod.startDate="2019-01-01";
+    timePeriod.endDate="2019-01-01";
+    timePeriod.opHrsOnly=true;
     const hourlyEmissions = [
       {
         "state": "AL",
@@ -111,8 +120,24 @@ describe("API status reducer", () => {
         "co2RateMeasureFlg": "Calculated"
       }
     ];
-    action = loadHourlyEmissionsSuccess(hourlyEmissions, hourlyEmissions.length);
-    state = apiStatusReducer(state, action)
-    expect(state).toEqual(0);
+    const successResponse = {
+      data: hourlyEmissions,
+      headers: {
+        "x-total-count": hourlyEmissions.length
+      }
+    };
+    mock
+      .onGet(`${config.services.emissions.uri}/apportioned/hourly?page=1&perPage=100&beginDate=${timePeriod.startDate}&endDate=${timePeriod.endDate}&opHoursOnly=${timePeriod.opHrsOnly}&attachFile=false`)
+      .reply(200, successResponse.data, successResponse.headers);
+    const expectedActions = [
+      { type: types.BEGIN_API_CALL },
+      { type: types.LOAD_HOURLY_EMISSIONS_SUCCESS, hourlyEmissions: {data: successResponse.data,totalCount: successResponse.headers["x-total-count"]}},
+    ];
+
+    const store = mockStore(initState.customDataDownload);
+    return store.dispatch(actions.loadHourlyEmissions(initState.filterCriteria)).then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+    })
   });
 });
+

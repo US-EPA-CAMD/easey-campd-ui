@@ -213,7 +213,7 @@ const program = [
   }
 ];
 const storeProgam = restructurePrograms(program);
-initialState.hourlyEmissions.program = storeProgam;
+initialState.filterCriteria.program = storeProgam;
 const store = configureStore(initialState);
 
 
