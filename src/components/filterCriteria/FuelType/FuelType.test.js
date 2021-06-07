@@ -163,7 +163,6 @@ describe('Fuel Type', () => {
     fireEvent.click(coalCheckbox);
     expect(coalCheckbox.checked).toEqual(true);
 
-    
     const selectAllGas = getByRole('checkbox', {
       name: 'Gas',
     });
