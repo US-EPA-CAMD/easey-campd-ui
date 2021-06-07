@@ -10,7 +10,7 @@ initialState.customDataDownload.dataSubType= "Hourly Emissions";
 initialState.customDataDownload.appliedFilters = [
   {key:"Time Period", values:["1/1/2019 - 1/1/2019"]}
 ];
-initialState.hourlyEmissions.timePeriod = {
+initialState.filterCriteria.timePeriod = {
   startDate: "2019-01-01", endDate: "2019-01-01", opHrsOnly:false
 };
 const store = configureStore(initialState);
