@@ -1,8 +1,8 @@
-import hourlyEmissionsReducer from "./hourlyEmissions";
-import * as actions from "../../../actions/customDataDownload/hourlyEmissions/hourlyEmissions";
-import initialState from "../../initialState";
+import filterCriteriaReducer from "./filterCriteria";
+import * as actions from "../../actions/customDataDownload/filterCriteria";
+import initialState from "../initialState";
 
-describe("Emissions Filter Reducer", () => {
+describe("filterCriteria Reducer", () => {
   it("should update state when update time period is dispatched", () => {
     const timePeriod = {
       startDate: "03/31/2021",
@@ -10,7 +10,7 @@ describe("Emissions Filter Reducer", () => {
       opHrsOnly: false
     }
     const action = actions.updateTimePeriod(timePeriod);
-    const newState = hourlyEmissionsReducer(initialState.hourlyEmissions, action);
+    const newState = filterCriteriaReducer(initialState.filterCriteria, action);
 
     expect(newState.timePeriod.startDate).toEqual(timePeriod.startDate);
     expect(newState.timePeriod.endDate).toEqual(timePeriod.endDate);
