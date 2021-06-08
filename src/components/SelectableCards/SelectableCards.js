@@ -1,15 +1,19 @@
 import React, { useState } from "react";
 import "./SelectableCards.scss";
 import { useHistory } from "react-router-dom";
-
-import { Button } from "@trussworks/react-uswds";
+import { connect } from "react-redux";
+import { updateSelectedDataType } from "../../store/actions/customDataDownload/customDataDownload";
 import { faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const SelectableCard = ({ selected, title, onClick }) => {
   return (
     <button
-      className={selected ? "selectablecard selected" : "selectablecard"}
+      className={
+        selected
+          ? "selectablecard selected width-card height-card"
+          : "selectablecard width-card height-card"
+      }
       onClick={onClick}
       data-testid="selectable-card"
     >
@@ -20,7 +24,11 @@ const SelectableCard = ({ selected, title, onClick }) => {
             : "fa fa-check-circle white-color fa-lg checkMarkOff"
         }
       />
-      <span className={selected ? "datatype selected" : "datatype"}>
+      <span
+        className={
+          selected ? "text-center text-white" : "text-center text-primary"
+        }
+      >
         {title}
       </span>
     </button>
@@ -46,34 +54,41 @@ const SelectableCardList = ({ contents, onChange }) => {
   return <>{content}</>;
 };
 
-export const SelectDataTypeInCards = ({ cardContents }) => {
+export const SelectDataTypeInCards = ({
+  updateSelectedDataTypeDispatcher,
+  cardContents,
+}) => {
   const [selected, setSelected] = useState(-1);
   const onListChanged = (selectedItem) => {
     setSelected(selectedItem);
   };
   const history = useHistory();
   const handleRoute = () => {
-    history.push("/manage-data-download", {
-      selectedDataType: cardContents[selected],
-    });
+    setTimeout(() => {
+      updateSelectedDataTypeDispatcher(cardContents[selected]);
+      history.push("/manage-data-download");
+    }, 1000);
   };
   return (
-    <div className="cardsContainer react-transition flip-in-y">
+    <div className="cardsContainer">
       <h3 className="font-alt-lg margin-3">
         <b>Select a Data Type </b>
         <FontAwesomeIcon
           icon={faQuestionCircle}
-          className="text-gray-30 font-body-sm question-icon position-relative top-neg-1px"
+          className="text-primary font-body-sm question-icon position-relative top-neg-1px"
         />
       </h3>
       <SelectableCardList contents={cardContents} onChange={onListChanged} />
-      <Button
-        className="continueBtn"
-        disabled={selected === -1}
-        onClick={(e) => handleRoute()}
-      >
-        Continue
-      </Button>
+      {selected !== -1 && handleRoute()}
     </div>
   );
 };
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    updateSelectedDataTypeDispatcher: (selectedDataType) =>
+      dispatch(updateSelectedDataType(selectedDataType)),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(SelectDataTypeInCards);

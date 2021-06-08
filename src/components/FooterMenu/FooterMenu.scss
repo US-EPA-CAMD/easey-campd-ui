@@ -1,0 +1,47 @@
+.usa-button.menuBtn, .usa-button.menuBtn:hover {
+  background-color: #f0f0f0;
+  width: 36px;
+  height: 36px;
+  border-radius: 60px;
+  border-style: outset;
+  border-width: 2px;
+  box-shadow: 0px 0px 2px #1488e7;
+  z-index: 10;
+  color: #1488e7;
+}
+
+.usa-nav__submenu.menuContent {
+  bottom: 5px;
+  right: 50px;
+  width: 200px;
+  box-shadow: 0px -2px 22px -6px rgba(60, 55, 61, 0.37),
+    -10px 10px 22px -6px rgba(60, 55, 61, 0.37);
+  a {
+    color: #0071bc !important;
+    font-size: 0.7em !important;
+  }
+}
+
+.menuOff {
+  display: none;
+}
+
+.menuOn {
+  display: block;
+}
+
+.usa-nav__submenu.menuContent > .usa-nav__submenu-item {
+  padding: 6px 6px;
+  margin-top: 0px !important;
+  text-decoration: none;
+  display: block;
+  border-bottom: 1px solid lightgrey;
+}
+
+.usa-nav__submenu.menuContent > .usa-nav__submenu-item:first-child {
+  border-top: 1px solid lightgrey;
+}
+
+.usa-footer {
+  overflow: visible !important;
+}

@@ -1,21 +1,20 @@
-import { render } from "@testing-library/react";
-import "@testing-library/jest-dom/extend-expect";
-import WideHeader from "./WideHeader";
-import { BrowserRouter } from "react-router-dom";
-import * as React from "react";
+import { fireEvent, render } from '@testing-library/react';
+import '@testing-library/jest-dom/extend-expect';
+import * as React from 'react';
 
-describe("testing search/filter feature of generic uswds table component", () => {
-  const WideHeaderTest = () => {
-    return <WideHeader />;
-  };
-  const { container } = render(
-    <BrowserRouter>
-      <WideHeaderTest />
-    </BrowserRouter>
-  );
+import WideHeader from './WideHeader';
 
-  test("navbar renders a menu button", () => {
-    const btnMenu = container.getElementsByClassName("btnMenu");
-    expect(btnMenu.length).toEqual(1);
+describe('WideHeader', () => {
+  const query = render(<WideHeader />);
+
+  test('navbar renders a menu button and EPA logo. Click events trigger', () => {
+    const { getByTestId, getByAltText } = query;
+    const btnMenu = getByTestId('btnMenu');
+    const search = getByTestId('search')
+
+    expect(btnMenu).toBeTruthy();
+    expect(search).toBeTruthy();
+    expect(getByAltText('Official EPA Logo')).toBeTruthy();
+    fireEvent.click(btnMenu);
   });
 });

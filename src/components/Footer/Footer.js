@@ -2,7 +2,7 @@ import React from "react";
 import { Logo, Footer as TWFooter, SocialLinks } from "@trussworks/react-uswds";
 
 import "./Footer.scss";
-import Menu from "../Menu/Menu";
+import FooterMenu from "../FooterMenu/FooterMenu";
 import config from "../../config";
 
 const Footer = () => {
@@ -36,7 +36,7 @@ const Footer = () => {
               <SocialLinks
                 links={[
                   <>
-                    <Menu />
+                    <FooterMenu />
                   </>,
                 ]}
               />

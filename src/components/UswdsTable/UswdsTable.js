@@ -13,6 +13,7 @@ import TablePagination from "../TablePagination/TablePagination";
 import TablePaginationFilter from "../TablePaginationFilter/TablePaginationFilter";
 import TableSearch from "../TableSearch/TableSearch";
 import { EditableCell, setEditable } from "../TableCell/TableCell";
+
 import "./UswdsTable.scss";
 
 // if showEntries is not supplied, by default will have show entries of only [100 and all data]
@@ -38,6 +39,7 @@ const UswdsTable = ({
     if (disabledColumnFilters.length >= 1) {
       disabledColumnFilters.map((column) => {
         columns[column] = { ...columns[column], disableGlobalFilter: true };
+        return true;
       });
     }
   }
@@ -117,9 +119,11 @@ const UswdsTable = ({
   const variant = bordered ? "usa-table" : "usa-table usa-table--borderless";
 
   return (
-    <div className="container">
-      <div className="tableHead">
-        <h3 className="tableTitle"> {title}</h3>
+    // <div className="container">
+    <div>
+      {(title || paginate || search) &&
+        <div className="tableHead">
+          <h3 className="tableTitle"> {title}</h3>
         <div className="filterAndSearch">
           {paginate ? (
             <span className="filter">
@@ -146,6 +150,7 @@ const UswdsTable = ({
           )}
         </div>
       </div>
+      }
       <table className={variant} {...getTableProps()}>
         <TableHeader
           headerGroups={headerGroups}

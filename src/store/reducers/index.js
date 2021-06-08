@@ -1,8 +1,12 @@
 import { combineReducers } from "redux";
-import emissionsFilterReducer from "./emissionsFilter";
+import filterCriteria from "./customDataDownload/filterCriteria";
+import customDataDownload from "./customDataDownload/customDataDownload";
+import apiCallsInProgress from "./apiStatusReducer";
 
 const rootReducer = combineReducers({
-  emissionsFilter: emissionsFilterReducer
+  filterCriteria,
+  customDataDownload,
+  apiCallsInProgress
 });
 
 export default rootReducer;

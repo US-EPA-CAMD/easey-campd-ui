@@ -1,9 +1,23 @@
 export default {
-  emissionsFilter:{
+  customDataDownload: {
+    dataType: null,
+    dataSubType: null,
+    appliedFilters: [],
+    dataPreview: null,
+    totalCount: null,
+  },
+  filterCriteria: {
     timePeriod: {
       startDate: null,
       endDate: null,
-      opHrsOnly: true
-    }
-  }
+      opHrsOnly: true,
+    },
+    program: [],
+    facility: [],
+    unitType: [],
+    fuelType: [],
+    stateTerritory: [],
+    controlTechnology: [],
+  },
+  apiCallsInProgress: 0,
 };
