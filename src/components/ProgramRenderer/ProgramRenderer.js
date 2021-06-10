@@ -17,7 +17,7 @@ const ProgramRenderer = ({
         result.push(
           <div key={1}>
             <div className="margin-x-2">
-              <h4 className="font-sans-lg text-semibold margin-0">Active Programs</h4>
+              <h4 className="font-sans-lg text-semibold margin-bottom-1">Active Programs</h4>
               <div className="margin-0 height-2px bg-base-light" />
             </div>
             <div>
@@ -37,7 +37,7 @@ const ProgramRenderer = ({
         result.push(
           <div key={2}>
             <div className="margin-x-2">
-              <h4 className="font-sans-lg text-semibold margin-0">Retired Programs</h4>
+              <h4 className="font-sans-lg text-semibold margin-bottom-1">Retired Programs</h4>
               <div className="margin-0 height-2px bg-base-light" />
             </div>
             <div>
