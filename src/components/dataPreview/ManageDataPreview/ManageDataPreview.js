@@ -146,7 +146,7 @@ const ManageDataPreview = ({
   return (
     <div className="minh-tablet width-full manage-data-preview-wrapper">
       <div className="display-flex flex-row flex-justify bg-base-lightest padding-left-3 padding-right-3 minh-10 maxh-15">
-        <h2 className="flex-align-self-center font-alt-2xl text-bold">
+        <h2 className="flex-align-self-center font-alt-2xl text-bold margin-0">
           Custom Data Download
         </h2>
         <Button

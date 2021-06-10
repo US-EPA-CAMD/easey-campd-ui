@@ -51,15 +51,14 @@ const SubHeader = () => {
         className="padding-y-3"
         style={{
           backgroundImage: `url(${
-            process.env.PUBLIC_URL + "/images/header-bg.png"
+            process.env.PUBLIC_URL + '/images/header-bg.png'
           })`,
         }}
       >
         <div className="usa-nav-container">
           <div className="margin-left-3">
             <Title className="float-left clearfix margin-left-9">
-              <h1 className="text-white font-alt-xl text-normal margin-0"
-              >
+              <h1 className="text-white font-alt-xl text-normal margin-0" >
                 CAMPD: Clean Air Markets Program Data
               </h1>
             </Title>
@@ -95,7 +94,7 @@ const SubHeader = () => {
                     <Link
                       to=""
                       onClick={(event) =>
-                        handleSubMenuClick("select-data-type", 0)
+                        handleSubMenuClick('select-data-type', 0)
                       }
                     >
                       Custom Data Download
@@ -164,7 +163,7 @@ const SubHeader = () => {
                   ]}
                   isOpen={navDropdownOpen[2]}
                 />
-              </>
+              </>,
             ]}
           />
         </div>

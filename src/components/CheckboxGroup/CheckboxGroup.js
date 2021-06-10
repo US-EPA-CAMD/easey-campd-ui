@@ -38,7 +38,7 @@ const CheckboxGroup = (props) => {
             data-testid="select-all"
           />
         ) : (
-          <h5 className="font-sans-md text-bold">{props.description}</h5>
+          <h5 className="font-sans-md text-bold margin-0">{props.description}</h5>
         )}
       </div>
       {!props.showActiveRetired && (
