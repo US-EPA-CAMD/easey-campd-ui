@@ -42,10 +42,9 @@ const FilterCriteriaMenu = ({
                       outline="true"
                       onClick={() => handleFilterButtonClick(el.value)}
                       className={
-                        isAddedToFilters(el.value, appliedFilters) ||
-                        activeFilter === el.value
-                          ? 'filter-button applied-filter'
-                          : 'filter-button'
+                        isAddedToFilters(el.value, appliedFilters) || activeFilter===el.value
+                          ? "filter-button applied-filter"
+                          : "filter-button"
                       }
                     >
                       {el.label}
