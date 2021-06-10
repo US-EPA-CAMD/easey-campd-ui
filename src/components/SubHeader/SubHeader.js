@@ -58,14 +58,10 @@ const SubHeader = () => {
         <div className="usa-nav-container">
           <div className="margin-left-3">
             <Title className="float-left clearfix margin-left-9">
-              <a
-                href={config.app.path}
-                title="Home"
-                aria-label="Home"
-                className="text-white font-alt-xl text-normal"
+              <h1 className="text-white font-alt-xl text-normal margin-0"
               >
                 CAMPD: Clean Air Markets Program Data
-              </a>
+              </h1>
             </Title>
           </div>
           <PrimaryNav

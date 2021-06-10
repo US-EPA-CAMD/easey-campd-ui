@@ -15,7 +15,7 @@ const DataPreviewRender = ({
     <div className="preview-content-wrapper padding-top-4 padding-left-3 padding-bottom-2">
       <div className="display-flex flex-row flex-justify">
         <div className="flex-align-center">
-          <div className="panel-header">Data Preview &nbsp;</div>
+          <div className="panel-header"><h3>Data Preview &nbsp;</h3></div>
           <span className="font-alt-sm text-bold padding-top-1">
             {loading === 0 && dataPreview !== null
               ? dataPreview.length > 0

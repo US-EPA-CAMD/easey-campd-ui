@@ -23,7 +23,7 @@ const DataTypeSelectorView = ({
   return (
     <>
       <div className="panel-header padding-top-3 padding-bottom-3 padding-left-2">
-        Data Type
+       <h2>Data Type</h2> 
         <FontAwesomeIcon
           icon={faQuestionCircle}
           className="text-primary font-body-md question-icon"
