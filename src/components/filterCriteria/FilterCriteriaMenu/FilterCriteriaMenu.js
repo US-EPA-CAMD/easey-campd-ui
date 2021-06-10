@@ -23,7 +23,7 @@ const FilterCriteriaMenu = ({
       {dataSubtypeApplied === true && (
         <>
           <div className="panel-header padding-top-3 padding-left-2">
-            <h2>Filters</h2> 
+            <h2>Filters</h2>
             <FontAwesomeIcon
               icon={faQuestionCircle}
               className="text-primary font-body-md question-icon"
@@ -42,9 +42,10 @@ const FilterCriteriaMenu = ({
                       outline="true"
                       onClick={() => handleFilterButtonClick(el.value)}
                       className={
-                        isAddedToFilters(el.value, appliedFilters) || activeFilter===el.value
-                          ? "filter-button applied-filter"
-                          : "filter-button"
+                        isAddedToFilters(el.value, appliedFilters) ||
+                        activeFilter === el.value
+                          ? 'filter-button applied-filter'
+                          : 'filter-button'
                       }
                     >
                       {el.label}
