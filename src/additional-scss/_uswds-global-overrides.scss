@@ -226,6 +226,10 @@
   .usa-logo {
     font-size: 23px !important;
   }
+
+  .usa-logo__text > h1{
+    line-height: 1.1;
+  }
 }
 
 .usa-date-picker__calendar {

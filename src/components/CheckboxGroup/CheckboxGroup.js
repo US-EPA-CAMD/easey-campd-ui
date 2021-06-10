@@ -25,11 +25,7 @@ const CheckboxGroup = (props) => {
   return (
     <div className="margin-x-2 margin-top-2 margin-bottom-5 position-relative">
       <div
-        className={`${
-          props.showActiveRetired
-            ? 'font-sans-md text-bold'
-            : 'font-sans-lg text-semibold'
-        } padding-bottom-1`}
+        className="font-sans-lg text-semibold padding-bottom-1"
         data-testid="program-group-name"
       >
         {props.enableSelectAll ? (
@@ -42,7 +38,7 @@ const CheckboxGroup = (props) => {
             data-testid="select-all"
           />
         ) : (
-          props.description
+          <h5 className="font-sans-md text-bold margin-0">{props.description}</h5>
         )}
       </div>
       {!props.showActiveRetired && (

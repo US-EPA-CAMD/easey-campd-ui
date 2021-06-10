@@ -56,7 +56,7 @@ const StateTerritory = ({
   return (
     <>
       <div className="panel-header padding-top-2 margin-x-2">
-        State/Territory
+        <h3>State/Territory</h3>
         <FontAwesomeIcon
           icon={faQuestionCircle}
           className="text-gray-30 font-body-md question-icon"

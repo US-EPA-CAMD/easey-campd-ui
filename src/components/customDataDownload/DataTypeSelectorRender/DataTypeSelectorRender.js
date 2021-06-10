@@ -1,6 +1,6 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Button, Dropdown } from '@trussworks/react-uswds';
+import { Button, Dropdown, Label } from '@trussworks/react-uswds';
 import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 
 import * as constants from '../../../utils/constants/customDataDownload';
@@ -23,7 +23,7 @@ const DataTypeSelectorView = ({
   return (
     <>
       <div className="panel-header padding-top-3 padding-bottom-3 padding-left-2">
-        Data Type
+        <h2>Data Type</h2>
         <FontAwesomeIcon
           icon={faQuestionCircle}
           className="text-primary font-body-md question-icon"
@@ -32,35 +32,46 @@ const DataTypeSelectorView = ({
       <div className="border-bottom-1px border-base-light clearfix padding-y-1 padding-x-2">
         <div className="display-flex flex-row flex-justify">
           {selectedDataSubtype !== '' &&
-          selectedDataSubtype !== '-1' &&
-          dataSubtypeApplied === true && (
-          <>
-            <span className="text-bold padding-top-1 font-sans-xs">
-              {initcap(selectedDataType)},{' '}
-              {getSelectedDataSubType(constants.DATA_SUBTYPES_MAP[selectedDataType])}
-            </span>
-            <Button
-              outline="true"
-              className="margin-right-0"
-              onClick={handleChangeButtonClick}
-            >
-              Change
-            </Button>
-          </>)}
+            selectedDataSubtype !== '-1' &&
+            dataSubtypeApplied === true && (
+              <>
+                <span className="text-bold padding-top-1 font-sans-xs">
+                  {initcap(selectedDataType)},{' '}
+                  {getSelectedDataSubType(
+                    constants.DATA_SUBTYPES_MAP[selectedDataType]
+                  )}
+                </span>
+                <Button
+                  outline="true"
+                  className="margin-right-0"
+                  onClick={handleChangeButtonClick}
+                >
+                  Change
+                </Button>
+              </>
+            )}
         </div>
         {dataTypeApplied === false && (
           <>
-            <div className="padding-top-1 font-body-md">
+            <Label
+              className="padding-top-1 font-body-md margin-0"
+              htmlFor="data-type"
+            >
               Data Type (Required)
-            </div>
+            </Label>
             <div className="padding-y-1">
               <Dropdown
+                id="data-type"
                 onChange={handleDataTypeDropdown}
                 value={selectedDataType}
               >
-                <option key= "" value="">- Select -</option>
+                <option key="" value="">
+                  - Select -
+                </option>
                 {constants.DATA_TYPES.map((el) => (
-                  <option key ={el} value={el}>{initcap(el)}</option>
+                  <option key={el} value={el}>
+                    {initcap(el)}
+                  </option>
                 ))}
               </Dropdown>
             </div>
@@ -68,11 +79,15 @@ const DataTypeSelectorView = ({
         )}
         {dataSubtypeApplied === false && (
           <>
-            <div className="padding-top-1 font-body-md">
+            <Label
+              className="padding-top-1 font-body-md margin-0"
+              htmlFor="data-sub-type"
+            >
               Data Subtype (Required)
-            </div>
+            </Label>
             <div className="padding-y-1">
               <Dropdown
+                id="data-sub-type"
                 onChange={changeDataSubtype}
                 value={selectedDataSubtype}
               >
