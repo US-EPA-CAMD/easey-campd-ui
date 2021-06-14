@@ -48,7 +48,7 @@ const CheckboxGroup = (props) => {
         ? props.items
             .filter((item) => item.active === props.showActive)
             .map((item) => (
-              <div key={item.id} className="font-sans-sm">
+              <div key={item.id} className="font-sans-sm line-height-sans-4">
                 <Checkbox
                   id={item.id}
                   name={props.name}
@@ -59,7 +59,7 @@ const CheckboxGroup = (props) => {
               </div>
             ))
         : props.items.map((item) => (
-            <div key={item.id} className="font-sans-sm">
+            <div key={item.id} className="font-sans-sm line-height-sans-4">
               <Checkbox
                 id={item.id}
                 name={props.name}

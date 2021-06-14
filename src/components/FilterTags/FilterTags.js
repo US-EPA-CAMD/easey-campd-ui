@@ -6,7 +6,7 @@ import PillButton from '../PillButton/PillButton';
 const FilterTags = (props) => {
   return (
     <div className="display-flex">
-      <div className="font-weight-bold margin-1 margin-right-2">Filters:</div>
+      <div className="text-bold margin-1 margin-right-2">Filters:</div>
       {props.items.map((item, i) => {
         let label =
           item.values.length > 1

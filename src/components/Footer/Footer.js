@@ -26,7 +26,7 @@ const Footer = () => {
                   <p className="content margin-0">
                     United States Environmental Protection Agency
                   </p>
-                  <p className="text-normal font-alt-xs">
+                  <p className="text-normal font-alt-xs margin-top-0 padding-bottom-1">
                     {config.app.version} published {config.app.published}
                   </p>
                 </h2>

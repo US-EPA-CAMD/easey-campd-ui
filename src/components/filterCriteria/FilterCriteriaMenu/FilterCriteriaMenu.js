@@ -29,7 +29,7 @@ const FilterCriteriaMenu = ({
               className="text-primary font-body-md question-icon"
             />
           </div>
-          <div className="clearfix padding-y-3 padding-x-2">
+          <div className="clearfix padding-y-1 padding-x-2">
             <div className="filter-container">
               {constants.FILTERS_MAP[selectedDataType][
                 getSelectedDataSubType(
