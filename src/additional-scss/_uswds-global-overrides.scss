@@ -183,6 +183,7 @@
   .usa-nav__primary button {
     font-family: "Source Sans Pro Web", serif !important;
     font-weight: bold !important;
+    color: #fff;
   }
 
   .usa-nav__primary button[aria-expanded="false"]::after {
@@ -212,6 +213,10 @@
 
     background-image: none !important;
     @extend .bg-primary;
+  }
+
+  .usa-nav__primary > .usa-nav__primary-item > a {
+    color: #fff;
   }
 
   .usa-nav__submenu {

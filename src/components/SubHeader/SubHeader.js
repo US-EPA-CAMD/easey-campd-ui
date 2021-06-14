@@ -72,14 +72,12 @@ const SubHeader = () => {
                   href={config.app.path}
                   title="Home"
                   aria-label="Home"
-                  className="text-white"
                 >
                   HOME
                 </a>
               </>,
               <>
                 <NavDropDownButton
-                  className="text-white"
                   key="testItemTwo"
                   label="DATA"
                   menuId="menuData"
@@ -118,7 +116,6 @@ const SubHeader = () => {
               </>,
               <>
                 <NavDropDownButton
-                  className="text-white"
                   key="testItemThree"
                   label="ANALYSIS"
                   menuId="menuAnalysis"
@@ -142,7 +139,6 @@ const SubHeader = () => {
               </>,
               <>
                 <NavDropDownButton
-                  className="text-white"
                   key="testItemFour"
                   label="VISUALIZATION"
                   menuId="menuVisualization"

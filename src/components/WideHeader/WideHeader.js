@@ -54,7 +54,7 @@ const WideHeader = () => {
     <div className="header-container">
       <GovBanner className="padding-y-2px react-transition swipe-right bg-base-lighter" />
       <div className={`usa-overlay ${expanded ? "is-visible" : ""}`} />
-      <Header basic={true}>
+      <Header basic={true} className="margin-bottom-neg-1">
         <div className="bg-secondary-darker text-center text-gold padding-y-2px react-transition swipe-down">
           EPA {config.app.env} Environment: The content on this page is not
           production data and this site is being used for <b>development</b>{" "}
