@@ -45,8 +45,7 @@ const DownloadFileType = ({ dataType, dataSubType, filterCriteria }) => {
 
   return (
     <div
-      className="height-10 border-2px radius-lg bg-primary-lighter"
-      style={{ borderColor: '#005EA2' }}
+      className="height-10 border-2px radius-lg bg-primary-lighter border-primary"
     >
       <div className="display-flex flex-row flex-justify flex-align-self-center font-sans-sm">
         <Radio

@@ -71,7 +71,7 @@ export const SelectDataTypeInCards = ({
   };
   return (
     <div className="cardsContainer">
-      <h3 className="font-alt-lg margin-3">
+      <h3 className="font-alt-lg margin-y-3">
         <b>Select a Data Type </b>
         <FontAwesomeIcon
           icon={faQuestionCircle}
