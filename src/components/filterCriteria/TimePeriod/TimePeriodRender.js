@@ -39,7 +39,7 @@ const TimePeriodRender = ({
   return (
     <Form onSubmit={applyFilterHandler} className="maxw-mobile-lg padding-x-3">
       <div className="panel-header text-bold padding-top-2">
-        Time Period
+        <h3>Time Period</h3>
         <FontAwesomeIcon
           icon={faQuestionCircle}
           className="text-gray-30 font-body-md question-icon"

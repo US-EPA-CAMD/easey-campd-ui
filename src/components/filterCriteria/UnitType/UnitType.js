@@ -82,7 +82,7 @@ const UnitType = ({
   return (
     <>
       <div className="panel-header padding-top-2 margin-x-2">
-        Unit Type
+        <h3>Unit Type</h3>
         <FontAwesomeIcon
           icon={faQuestionCircle}
           className="text-gray-30 font-body-md question-icon"

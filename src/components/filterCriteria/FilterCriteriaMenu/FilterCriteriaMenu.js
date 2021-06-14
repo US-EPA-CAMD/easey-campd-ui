@@ -23,7 +23,7 @@ const FilterCriteriaMenu = ({
       {dataSubtypeApplied === true && (
         <>
           <div className="panel-header padding-top-3 padding-left-2">
-            Filters
+            <h2>Filters</h2>
             <FontAwesomeIcon
               icon={faQuestionCircle}
               className="text-primary font-body-md question-icon"
