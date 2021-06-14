@@ -4,8 +4,9 @@ import CheckboxGroup from '../CheckboxGroup/CheckboxGroup';
 
 const GroupCheckboxGroup = (props) => {
   return (
-    props.items.map(group =>
+    props.items.map((group,i) =>
       <CheckboxGroup
+        getFocus={i===0? props.getFocus: false}
         key={group.name}
         name={group.name}
         description={group.description}

@@ -34,6 +34,7 @@ const CheckboxGroup = (props) => {
       >
         {props.enableSelectAll ? (
           <Checkbox
+            autoFocus={props.getFocus}
             id={`${props.name}${showActiveInId}`}
             label={props.description}
             name={props.name}
@@ -51,9 +52,10 @@ const CheckboxGroup = (props) => {
       {props.showActiveRetired
         ? props.items
             .filter((item) => item.active === props.showActive)
-            .map((item) => (
+            .map((item, i) => (
               <div key={item.id} className="font-sans-sm">
                 <Checkbox
+                  autoFocus={props.getFocus && i===0?true:false}
                   id={item.id}
                   name={props.name}
                   label={item.label}
@@ -62,9 +64,10 @@ const CheckboxGroup = (props) => {
                 />
               </div>
             ))
-        : props.items.map((item) => (
+        : props.items.map((item, i) => (
             <div key={item.id} className="font-sans-sm">
               <Checkbox
+                //autoFocus={props.getFocus && i===0?true:false}
                 id={item.id}
                 name={props.name}
                 label={item.label}

@@ -10,7 +10,7 @@ const PillButton = (props) => {
         type="button"
         className="padding-1 padding-right-0 margin-0 radius-0 radius-left-lg bg-primary"
         title={props.tooltip}
-        onClick={() => props.onClick(props.index, props.label)}
+        onClick={(evt) => props.onClick(props.index, props.label, evt.target)}
         disabled={props.disableButton}
       >
         {props.label}

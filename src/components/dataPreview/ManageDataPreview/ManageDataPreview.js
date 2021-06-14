@@ -162,7 +162,7 @@ const ManageDataPreview = ({
         <div className="bg-base-lightest padding-left-3 padding-right-3 padding-bottom-2 font-alt-sm">
           <FilterTags
             items={appliedFilters}
-            onClick={(filterType) => handleFilterButtonClick(filterType)}
+            onClick={(filterType, evtTarget) => handleFilterButtonClick(filterType, evtTarget)}
             onRemove={(filterType, filterTag) =>
               onFilterTagRemovedHandler(filterType, filterTag)
             }
