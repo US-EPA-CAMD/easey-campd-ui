@@ -113,7 +113,7 @@ const MultiSelectCombobox = ({
         {label}
       </Label>
       <div role="combobox" name={entity} aria-hidden="true" aria-haspopup="listbox" aria-expanded={showListBox} aria-owns="listbox" aria-controls="listbox"
-          id="multi-select-combobox" className="border-1px bg-white">
+          id="multi-select-combobox" className="margin-top-1 margin-bottom-2 border-1px bg-white">
         <div className="margin-x-05 margin-top-05 display-block maxh-card overflow-y-scroll">
           {selectedItems.length>0 && selectedItems.map(i=>i.component)}
         </div>
