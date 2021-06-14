@@ -13,6 +13,7 @@ const UnitCheckboxRenderer = ({
       <div key={1}>
         <div>
           <GroupCheckboxGroup
+            getFocus={true}
             showActiveRetired={false}
             items={items}
             enableSelectAll={enableSelectAll}

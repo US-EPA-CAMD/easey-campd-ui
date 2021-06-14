@@ -22,6 +22,7 @@ const ProgramRenderer = ({
             </div>
             <div>
               <GroupCheckboxGroup
+                getFocus={true}
                 showActiveRetired={true}
                 showActive={true}
                 items={items}
@@ -42,6 +43,7 @@ const ProgramRenderer = ({
             </div>
             <div>
               <GroupCheckboxGroup
+                getFocus={false}
                 showActiveRetired={true}
                 showActive={false}
                 items={items}

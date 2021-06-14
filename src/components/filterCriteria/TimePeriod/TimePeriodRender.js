@@ -84,6 +84,7 @@ const TimePeriodRender = ({
         startDateHint="mm/dd/yyyy"
         startDateLabel="Start Date (Required)"
         startDatePickerProps={{
+          autoFocus:true,
           defaultValue: formatDateToApi(formState.startDate),
           onChange: handleStartDateUpdate,
           onInvalid: onInvalidHandler,

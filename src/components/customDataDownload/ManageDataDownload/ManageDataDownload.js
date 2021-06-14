@@ -40,6 +40,7 @@ const ManageDataDownload = ({
   const [displayFilters, setDisplayFilters] = useState(false);
   const [selectedFilter, setSelectedFilter] = useState('');
   const [activeFilter, setActiveFilter] = useState(null);
+  const [filterClickRef, setFilterClickRef] = useState(null);
 
   useEffect(() => {
     if (
@@ -76,7 +77,7 @@ const ManageDataDownload = ({
     setActiveFilter(false);
   };
 
-  const handleFilterButtonClick = (filterType) => {
+  const handleFilterButtonClick = (filterType, evtTarget) => {
     // *** if the same button as is currently selected is pressed again
     if (displayFilters === true && selectedFilter === filterType) {
       setSelectedFilter('');
@@ -86,6 +87,7 @@ const ManageDataDownload = ({
       setSelectedFilter(filterType);
       setDisplayFilters(true);
       setActiveFilter(filterType);
+      setFilterClickRef(evtTarget);
     }
   };
 
@@ -120,6 +122,10 @@ const ManageDataDownload = ({
     setSelectedFilter('');
     setDisplayFilters(false);
     setActiveFilter(null);
+    if(filterClickRef!==null){
+      filterClickRef.focus();
+      setFilterClickRef(null);
+    }
   };
 
   // *** UTILITY FUNCTION

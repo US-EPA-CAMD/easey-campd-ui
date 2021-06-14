@@ -24,7 +24,8 @@ const FilterTags = (props) => {
             label={label}
             position="bottom"
             tooltip={description}
-            onClick={() => props.onClick(item.key)}
+            //onClick={() => props.onClick(item.key)}
+            onClick={(index, label, evtTarget) => props.onClick(item.key, evtTarget)}
             onRemove={() => props.onRemove(item.key, label)}
           />
         );
