@@ -14,7 +14,7 @@ const Layout = (props) => {
         <WideHeader />
         <SubHeader />
       </div>
-      <div className="mainContent">{childrenWithProps}</div>
+      <div className="mainContent" role="main">{childrenWithProps}</div>
       <div className="bottomFooter">
         <Footer />
       </div>
