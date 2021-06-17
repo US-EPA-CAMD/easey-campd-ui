@@ -35,6 +35,7 @@ const FooterMenu = () => {
         onClick={toggleMenu}
         title={!showMenuOptions ? 'collapsable' : 'close'}
         className="menuBtn padding-0 margin-0 float-right opacity-100 border-primary"
+        id={!showMenuOptions ? 'collapsable' : 'close'}
         aria-haspopup="true"
         aria-labelledby={!showMenuOptions ? 'collapsable' : 'close'}
       >
