@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {
   Form,
   Checkbox,
@@ -24,6 +24,20 @@ const TimePeriodRender = ({
   validations,
   showOpHrsOnly,
 }) => {
+
+  useEffect(()=>{
+    const startDateInput = document.getElementById("event-date-start");
+    if(startDateInput){
+      startDateInput.setAttribute("aria-describedby", "event-date-start-hint");
+      startDateInput.nextSibling.setAttribute("aria-label", "Toggle calendar for Start Date");
+    }
+    const endDateInput = document.getElementById("event-date-end");
+    if(endDateInput){
+      endDateInput.setAttribute("aria-describedby", "event-date-end-hint");
+      endDateInput.nextSibling.setAttribute("aria-label", "Toggle calendar for End Date");
+    }
+  });
+
   const isFormValid = () => {
     return (
       validations.startDateFormat &&
@@ -51,26 +65,30 @@ const TimePeriodRender = ({
         validation
         heading="Requirements"
         style={{ display: isFormValid() ? "none" : "block" }}
+        aria-live="assertive"
       >
         <ValidationChecklist id="validate-time-period">
           <ValidationItem
             id="startDateFormat"
             isValid={validations.startDateFormat}
+            aria-checked={validations.startDateFormat}
           >
             Enter the Start Date in the MM/DD/YYYY format
           </ValidationItem>
           <ValidationItem
             id="endDateFormat"
             isValid={validations.endDateFormat}
+            aria-checked={validations.endDateFormat}
           >
             Enter the End Date in the MM/DD/YYYY format
           </ValidationItem>
-          <ValidationItem id="dateRange" isValid={validations.dateRange}>
+          <ValidationItem id="dateRange" isValid={validations.dateRange} aria-checked={validations.dateRange}>
             Enter an end date that is greater than or equal to the begin date
           </ValidationItem>
         </ValidationChecklist>
       </Alert>
       <DateRangePicker
+        aria-describedby="validate-time-period"
         endDateHint="mm/dd/yyyy"
         endDateLabel="End Date (Required)"
         endDatePickerProps={{
