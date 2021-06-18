@@ -1,5 +1,6 @@
 import { Button, Menu as UswdsMenu, Link } from '@trussworks/react-uswds';
 import React, { useState } from 'react';
+import {handleTabfocus} from "../../utils/selectors/general";
 
 import './FooterMenu.scss';
 import { collapsableFooterTopics } from '../../utils/constants/menuTopics';
@@ -32,6 +33,7 @@ const FooterMenu = () => {
   return (
     <>
       <Button
+        onFocus={handleTabfocus}
         onClick={toggleMenu}
         title={!showMenuOptions ? 'collapsable' : 'close'}
         className="menuBtn padding-0 margin-0 float-right opacity-100 border-primary"

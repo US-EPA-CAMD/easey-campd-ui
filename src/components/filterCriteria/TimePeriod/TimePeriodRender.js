@@ -36,6 +36,13 @@ const TimePeriodRender = ({
       endDateInput.setAttribute("aria-describedby", "event-date-end-hint");
       endDateInput.nextSibling.setAttribute("aria-label", "Toggle calendar for End Date");
     }
+    const datePickerWrapper = document.querySelectorAll('.usa-date-picker__wrapper');
+    datePickerWrapper.forEach(el=>{
+      const sibling = el.previousSibling;
+      if(sibling){
+        sibling.remove();
+      }
+    });
   });
 
   const isFormValid = () => {
@@ -121,12 +128,12 @@ const TimePeriodRender = ({
         onChange={handleOptHrsOnlyUpdate}
       />
       }
-      <Button type="button" outline onClick={closeFlyOutHandler}>
+      <Button type="button" outline onClick={closeFlyOutHandler} className={isApplyFilterDisabled()?"autofocus2":""}>
         Cancel
       </Button>
       <Button
         type="submit"
-        className="float-right"
+        className={isApplyFilterDisabled()?"float-right":"float-right autofocus2"}
         disabled={isApplyFilterDisabled()}
       >
         Apply Filter

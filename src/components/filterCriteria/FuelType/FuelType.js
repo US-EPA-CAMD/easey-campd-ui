@@ -106,7 +106,7 @@ const FuelType = ({
             </Button>
             <Button
               type="button"
-              className="float-right"
+              className="float-right autofocus2"
               onClick={handleApplyFilter}
             >
               Apply Filter
