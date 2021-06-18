@@ -124,17 +124,17 @@ const MultiSelectCombobox = ({
       <Label id={`${entity}-label`} htmlFor={`${entity}-searchbox`}>
         {label}
       </Label>
-      <div role="combobox" name={entity} aria-haspopup="listbox" aria-expanded={showListBox} aria-owns="listbox" aria-controls="listbox"
+      <div role="combobox" name={entity} aria-haspopup="listbox" aria-expanded={showListBox} aria-owns="listbox"
           id="multi-select-combobox" className="margin-top-1 margin-bottom-2 border-1px bg-white">
         <div className="margin-x-05 margin-top-05 display-block maxh-card overflow-y-scroll">
           {selectedItems.length>0 && selectedItems.map(i=>i.component)}
         </div>
-        <input id={`${entity}-searchbox`} type="text" role="searchbox" aria-autocomplete="list" aria-controls="listbox" aria-activedescendant="listbox"
-          className="search position-static bg-white border-0 width-full height-4 padding-x-1" data-testid="input-search"
+        <input id={`${entity}-searchbox`} type="text" aria-labelledby={`${entity}-label`} aria-autocomplete="list" aria-controls="listbox" aria-activedescendant="listbox"
+          className="search position-static bg-white border-0 width-full height-4 padding-x-1 autofocus1" data-testid="input-search"
           value={filter} onChange={(e)=>onSearchHanlder(e.target.value)} autoFocus onClick={()=>setShowListBox(true)} onKeyDown={(e)=>handleKeyDown(e)}/>
           <FontAwesomeIcon icon={faCaretDown} className="pin-right margin-right-4 padding-top-05" onClick={()=>setShowListBox(true)}/>
         {showListBox &&
-          <ul aria-multiselectable="true" role="listbox" aria-labelledby="listbox" id="listbox" data-testid="multi-select-listbox" tabIndex="-1"
+          <ul aria-multiselectable="true" role="listbox" aria-labelledby={`${entity}-label`} id="listbox" data-testid="multi-select-listbox" tabIndex="-1"
             className="list-box bg-white display-block height-mobile width-full overflow-y-scroll overflow-x-hidden border-top">
           {data.length>0? data.map((item,i)=>
             (<li key={i} role="option" aria-selected={item.selected} data-id={item.id} tabIndex="0" data-label={item.label} data-testid="multi-select-option"

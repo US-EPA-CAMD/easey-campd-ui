@@ -41,7 +41,11 @@ const FilterCriteriaMenu = ({
                     <Button
                       outline="true"
                       onClick={(evt) => handleFilterButtonClick(el.value, evt.target)}
-                      aria-selected={activeFilter===el.value?true:false}
+                      onFocus={()=>activeFilter?document.querySelector('.autofocus2')?.focus():null}
+                      aria-selected={
+                        isAddedToFilters(el.value, appliedFilters) || activeFilter===el.value
+                          ? true : false
+                      }
                       className={
                         isAddedToFilters(el.value, appliedFilters) || activeFilter===el.value
                           ? "filter-button applied-filter"

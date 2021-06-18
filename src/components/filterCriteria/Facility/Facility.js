@@ -82,8 +82,7 @@ const Facility = ({
             </Button>
             <Button
               type="button"
-              className="float-right"
-              //disabled={!isApplyFilterEnabled()}
+              className="float-right autofocus2"
               onClick={handleApplyFilter}
             >
               Apply Filter

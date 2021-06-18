@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Radio, Label , Fieldset} from '@trussworks/react-uswds';
+import { Button, Radio, Fieldset} from '@trussworks/react-uswds';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { constructRequestUrl } from '../../../utils/selectors/general';

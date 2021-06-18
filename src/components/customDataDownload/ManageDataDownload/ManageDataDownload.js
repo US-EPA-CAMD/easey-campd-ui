@@ -55,6 +55,13 @@ const ManageDataDownload = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedDataType, selectedDataSubtype, appliedDataType]);
 
+  useEffect(()=>{
+    if(!activeFilter && filterClickRef!==null){
+      filterClickRef.focus();
+      setFilterClickRef(null);
+    }// eslint-disable-next-line react-hooks/exhaustive-deps
+  },[activeFilter]);
+
   // *** EVENT HANDLERS
   const changeDataSubtype = (event) => {
     if (event) {
@@ -122,10 +129,6 @@ const ManageDataDownload = ({
     setSelectedFilter('');
     setDisplayFilters(false);
     setActiveFilter(null);
-    if(filterClickRef!==null){
-      filterClickRef.focus();
-      setFilterClickRef(null);
-    }
   };
 
   // *** UTILITY FUNCTION
