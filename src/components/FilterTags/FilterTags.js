@@ -5,7 +5,7 @@ import PillButton from '../PillButton/PillButton';
 
 const FilterTags = (props) => {
   return (
-    <div className="display-flex">
+    <div className="display-flex grid-row">
       <div className="text-bold margin-1 margin-right-2">Filters:</div>
       {props.items.map((item, i) => {
         let label =
