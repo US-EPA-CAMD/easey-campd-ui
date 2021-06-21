@@ -152,8 +152,9 @@ const MultiSelectCombobox = ({
       </div>
       {window.addEventListener('click', function(e){
         // cross origin check compliant
-        if (e.origin !== undefined && !e.origin.endsWith('epa.gov'))
+        if (e.origin !== undefined && !e.origin.endsWith('epa.gov')) {
           return;
+        }
 
         const multiSelectComboboxDiv = document.getElementById('multi-select-combobox');
         if (multiSelectComboboxDiv && !multiSelectComboboxDiv.contains(e.target)){
