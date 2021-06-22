@@ -68,6 +68,7 @@ const TimePeriodRender = ({
       </div>
       <hr />
       <Alert
+        role="alert"
         type="info"
         validation
         heading="Requirements"
