@@ -1,5 +1,8 @@
+/***** SETTINGS VARIABLES (values to be overriden before compiling scss) *****/
+@import "../../additional-scss/uswds-settings";
+
 /***** MAIN SOURCE stylesheet *****/
-@import "~uswds/dist/css/uswds";
+@import "~uswds/dist/scss/uswds";
 
 /***** GLOBAL VARIABLES (scss values used througout the app) *****/
 @import "../../additional-scss/variables";
