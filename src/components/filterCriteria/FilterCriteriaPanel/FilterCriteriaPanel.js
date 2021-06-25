@@ -1,5 +1,5 @@
 import React from "react";
-import TimePeriodFullDates from "../TimePeriod/TimePeriodFullDates";
+import TimePeriod from "../TimePeriod/TimePeriod";
 import Program from "../Program/Program";
 import Facility from "../Facility/Facility";
 import UnitType from "../UnitType/UnitType";
@@ -25,12 +25,17 @@ const FilterCriteriaPanel = ({
 
   const hourlyEmissions = {
     ...emissions,
-    timePeriod: <TimePeriodFullDates closeFlyOutHandler={closeFlyOutHandler} />,
+    timePeriod: <TimePeriod closeFlyOutHandler={closeFlyOutHandler} />,
   };
 
   const dailyEmissions = {
     ...emissions,
-    timePeriod: <TimePeriodFullDates closeFlyOutHandler={closeFlyOutHandler} showOpHrsOnly={false}/>,
+    timePeriod: <TimePeriod closeFlyOutHandler={closeFlyOutHandler} showOpHrsOnly={false}/>,
+  }
+
+  const monthlyEmissions = {
+    ...emissions,
+    timePeriod: <TimePeriod closeFlyOutHandler={closeFlyOutHandler} showYear={true}/>,
   }
 
   const allownaceAcctInfo = {
@@ -73,6 +78,7 @@ const FilterCriteriaPanel = ({
       case emissionsSubTypes[1]:
         return dailyEmissions[selectedFilter];
       case emissionsSubTypes[2]:
+        return monthlyEmissions[selectedFilter];
       case emissionsSubTypes[3]:
       case emissionsSubTypes[4]:
       case emissionsSubTypes[5]:

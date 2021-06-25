@@ -7,6 +7,8 @@ import {
   ValidationChecklist,
   ValidationItem,
   Alert,
+  Label,
+  TextInput,
 } from "@trussworks/react-uswds";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
@@ -24,7 +26,7 @@ const TimePeriodRender = ({
   closeFlyOutHandler,
   validations,
   showOpHrsOnly,
-  years=false,
+  showYear,
 }) => {
 
   useEffect(()=>{
@@ -61,7 +63,12 @@ const TimePeriodRender = ({
         />
       </div>
       <hr />
-      {years ? null : (
+      {showYear ? (
+        <>
+          <Label htmlFor="yearInput">Year(s)</Label>
+          <TextInput id="yearInput" name="otherInput" type="text" />
+        </>
+      ) : (
         <>
           <Alert
             role="alert"

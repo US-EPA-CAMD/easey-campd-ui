@@ -50,6 +50,58 @@ export const formatDateToUi = (dateString) => {
   return null;
 };
 
+export const formatYearsToArray = (multiSelectDateString) => {
+  // param=2001-2003,2007 return=[2001, 2002, 2003, 2007]
+  const range = (start, stop) =>
+  Array(stop - start).fill(start).map((x, y) => x + y)
+
+  const dateStringArray = multiSelectDateString.split(',');
+  let numberArray = [];
+
+  dateStringArray.forEach(dateString => {
+  if (dateString && dateString.includes('-')) {
+    const t = dateString.split('-');
+    numberArray.concat(range(t(0).parseInt(), t(1).parseInt()));
+    }
+    else {
+      numberArray.push(dateString.parseInt())
+    }
+  });
+
+  return numberArray;
+}
+
+export const formatArrayToYearsUi = (yearArray) => {
+  // param=[2001, 2002, 2003, 2007] return=2001-2003,2007
+
+  let result = [];
+  if (yearArray.length !== 0) {
+    let start, end; 
+    end = start = yearArray[0];
+    for (let i = 1; i < yearArray.Length; i++) {
+      if (yearArray[i] === yearArray[i - 1] + 1) {
+        end = yearArray[i];
+      } else {
+        if (start === end) {
+          result += start + ',';
+        } else if (end === start + 1) {
+          result += start + ',' + end + ',';
+        } else {
+          result += start + '-' + end + ',';
+        }
+  
+        start = end = yearArray[i];
+      }
+    }
+    if (start === end) {
+      result += start;
+    } else {
+      result += start + '-' + end;
+    }
+  }
+  return result;
+};
+
 const getServiceSubtype = (options, dataSubType) => {
   const entry = options.find(
     (list) => list.label.toUpperCase() === dataSubType.toUpperCase()
