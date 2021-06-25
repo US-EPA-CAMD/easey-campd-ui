@@ -108,12 +108,21 @@ export const TimePeriodFullDates = ({
     setFormState({ ...formState, opHrsOnly: evt.target.checked });
   };
 
+  const isFormValid = () => {
+    return (
+      validations.startDateFormat &&
+      validations.endDateFormat &&
+      validations.dateRange
+    );
+  };
+
   return (
     <TimePeriodRender
       applyFilterHandler={applyFilterHandler}
       handleStartDateUpdate={handleStartDateUpdate}
       handleEndDateUpdate={handleEndDateUpdate}
       handleOptHrsOnlyUpdate={handleOptHrsOnlyUpdate}
+      isFormValid={isFormValid}
       onInvalidHandler={onInvalidHandler}
       formState={formState}
       closeFlyOutHandler={closeFlyOutHandler}

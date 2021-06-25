@@ -14,7 +14,7 @@ import {
   formatDateToApi,
 } from '../../../utils/selectors/general';
 
-export const TimePeriodFullDates = ({
+export const TimePeriodYears = ({
   timePeriod,
   updateTimePeriodDispatcher,
   addAppliedFilterDispatcher,
@@ -141,4 +141,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(TimePeriodFullDates);
+export default connect(mapStateToProps, mapDispatchToProps)(TimePeriodYears);
