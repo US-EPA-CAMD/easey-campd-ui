@@ -40,3 +40,25 @@ export const isDateRangeValid = (startDateString, endDateString) =>{
   return new Date(startDateString) <= new Date(endDateString);
 };
 
+export const isYearFormat = (yearString) => {
+  let valid = false;
+  let regex = /^\d{4}$/;
+
+  const yearArray = yearString.replace(/ /g,'').split(',');
+  yearArray.forEach((year) => {
+    if (year && year.includes('-')) {
+      const t = year.split('-');
+      if(t.length === 2) {
+        valid = t[0].match(regex) && t[1].match(regex);
+      }
+    } else {
+      valid = year.match(regex) !== null;
+    }
+  });
+
+  return valid;
+};
+
+export const isYearRange = (yearString) => {
+
+}

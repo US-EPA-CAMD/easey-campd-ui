@@ -7,12 +7,12 @@ import { addAppliedFilter, removeAppliedFilter } from '../../../store/actions/cu
 import {
   isDateFormatValid,
   isDateRangeValid,
+  isYearFormat,
 } from '../../../utils/dateValidation/dateValidation';
 import {
   isAddedToFilters,
   formatDateToUi,
   formatDateToApi,
-  formatArrayToYearsUi,
   formatYearsToArray,
 } from '../../../utils/selectors/general';
 
@@ -32,7 +32,7 @@ export const TimePeriod = ({
     startDate: formatDateToUi(timePeriod.startDate),
     endDate: formatDateToUi(timePeriod.endDate),
     opHrsOnly: showOpHrsOnly? timePeriod.opHrsOnly: false,
-    year: formatArrayToYearsUi(timePeriod.year),
+    year: showYear ? timePeriod.year.yearString : '',
   });
 
   const [validations, setValidations] = useState({
@@ -41,8 +41,6 @@ export const TimePeriod = ({
     dateRange: true,
     yearFormat: true,
     yearRange: true,
-    monthFormat: true,
-    quarterFormat: true,
     selectedCheckbox: true,
   });
 
@@ -55,13 +53,14 @@ export const TimePeriod = ({
       if (
         validations.yearFormat &&
         validations.yearRange &&
-        validations.monthFormat &&
-        validations.quarterFormat &&
         validations.selectedCheckbox &&
         applyFilterClicked
       ) {
         updateTimePeriodDispatcher({
-          year: formatYearsToArray(formState.year),
+          year: {
+            yearArray: formatYearsToArray(formState.year),
+            yearString: formState.year,
+          },
           // months: formatDateToArray(formState.months),
           // quarters: formatDateToArray(formState.quarters),
         });
@@ -82,6 +81,7 @@ export const TimePeriod = ({
           key: filterToApply,
           values: [`${formState.year}${appendMonthOrQuarter}`],
         });
+
         closeFlyOutHandler();
       }
     } else {
@@ -116,9 +116,10 @@ export const TimePeriod = ({
   }, [validations]);
 
   const validateInput = () => {
+    const updatedValidations = {};
     if (showYear) {
+      updatedValidations['yearFormat'] = isYearFormat(formState.year);
     } else {
-      const updatedValidations = {};
       updatedValidations['startDateFormat'] = isDateFormatValid(
         formState.startDate
       );
@@ -136,8 +137,8 @@ export const TimePeriod = ({
       } else {
         updatedValidations['dateRange'] = false;
       }
-      setValidations({ ...validations, ...updatedValidations });
     }
+    setValidations({ ...validations, ...updatedValidations });
   };
 
   const onInvalidHandler = (evt) => {
@@ -161,8 +162,8 @@ export const TimePeriod = ({
     setFormState({ ...formState, opHrsOnly: evt.target.checked });
   };
 
-  const handleYearUpdate = (value) => {
-    setFormState({ ...formState, year: value });
+  const handleYearUpdate = (event) => {
+    setFormState({ ...formState, year: event.target.value.replace(/ /g,'') });
   };
   // const handleMonthUpdate = (value) => {
   //   setFormState({ ...formState, months: value });
@@ -173,7 +174,7 @@ export const TimePeriod = ({
 
   const isFormValid = () => {
     if (showYear) {
-      return true;
+      return validations.yearFormat;
     } else {
       return (
         validations.startDateFormat &&

@@ -11,7 +11,10 @@ export default {
       startDate: null,
       endDate: null,
       opHrsOnly: true,
-      year: [],
+      year: {
+        yearArray: [],
+        yearString: '',
+      },
       month: [],
       quarter: [],
     },
