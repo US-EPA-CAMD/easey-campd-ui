@@ -79,7 +79,7 @@ export const TimePeriod = ({
 
         addAppliedFilterDispatcher({
           key: filterToApply,
-          values: [`${formState.year}${appendMonthOrQuarter}`],
+          values: [`${formState.year}${appendMonthOrQuarter}`, 'filter tag year value'],
         });
 
         closeFlyOutHandler();
