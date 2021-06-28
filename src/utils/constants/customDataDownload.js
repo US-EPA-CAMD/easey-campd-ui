@@ -30,3 +30,25 @@ export const FILTERS_MAP = {
     'Emissions Based': Compliances.EMISSIONS_BASED_FILTERS,
   },
 };
+
+export const MONTHS = {
+  1: 'January',
+  2: 'February',
+  3: 'March',
+  4: 'April',
+  5: 'May',
+  6: 'June',
+  7: 'July',
+  8: 'August',
+  9: 'September',
+  10: 'October',
+  11: 'November',
+  12: 'December',
+};
+
+export const QUARTERS = {
+  1: 'Q1',
+  2: 'Q2',
+  3: 'Q3',
+  4: 'Q4',
+};

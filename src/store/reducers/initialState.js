@@ -11,6 +11,12 @@ export default {
       startDate: null,
       endDate: null,
       opHrsOnly: true,
+      year: {
+        yearArray: [],
+        yearString: '',
+      },
+      month: [],
+      quarter: [],
     },
     program: [],
     facility: [],

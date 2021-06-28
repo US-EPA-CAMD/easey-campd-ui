@@ -50,6 +50,36 @@ export const formatDateToUi = (dateString) => {
   return null;
 };
 
+export const formatYearsToArray = (multiSelectDateString) => {
+  // param=2001-2003,2007 return=[2001, 2002, 2003, 2007]
+  const range = (start, stop) =>
+    Array(stop - start + 1)
+      .fill(start)
+      .map((x, y) => x + y);
+
+  const dateStringArray = multiSelectDateString.replace(/ /g, '').split(',');
+  const numberArray = [];
+
+  dateStringArray.forEach((dateString) => {
+    if (dateString && dateString.includes('-')) {
+      const t = dateString.split('-');
+      numberArray.push(...range(parseInt(t[0]), parseInt(t[1])));
+    } else {
+      numberArray.push(parseInt(dateString));
+    }
+  });
+
+  return numberArray;
+};
+
+export const formatMonthsToArray = () => {
+  return [];
+};
+
+export const formatQuartersToArray = () => {
+  return [];
+};
+
 const getServiceSubtype = (options, dataSubType) => {
   const entry = options.find(
     (list) => list.label.toUpperCase() === dataSubType.toUpperCase()
