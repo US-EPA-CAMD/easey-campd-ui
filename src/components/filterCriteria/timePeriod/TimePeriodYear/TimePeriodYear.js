@@ -7,6 +7,9 @@ import {
   ValidationItem,
 } from '@trussworks/react-uswds';
 
+import CheckboxGroup from '../../../CheckboxGroup/CheckboxGroup';
+import * as constants from '../../../../utils/constants/customDataDownload';
+
 const TimePeriodYear = ({
   formState,
   showMonth,
@@ -45,7 +48,9 @@ const TimePeriodYear = ({
           </ValidationItem>
         </ValidationChecklist>
       </Alert>
-      <Label htmlFor="event-year-input">Year(s)</Label>
+      <Label className="text-bold" htmlFor="event-year-input">
+        Year(s)
+      </Label>
       <div className="usa-hint" id="date-format-hint">
         Ex: 1995-2000,2003,2005,2010-2015
       </div>
@@ -60,7 +65,35 @@ const TimePeriodYear = ({
         onInvalid={onInvalidHandler}
         defaultValue={formState.year}
       />
-      <hr />
+      {showMonth && (
+        <div className="">
+          <CheckboxGroup
+            enableSelectAll={true}
+            getFocus={true}
+            name="Month(s)"
+            description="Month(s)"
+            items={constants.MONTHS}
+            smallLabel={true}
+            onSelectAll={null}
+            onSelectItem={null}
+          />
+        </div>
+      )}
+      {showQuarter && (
+        <div className="">
+          <CheckboxGroup
+            enableSelectAll={true}
+            getFocus={true}
+            name="Quarter(s)"
+            description="Quarter(s)"
+            items={constants.QUARTERS}
+            smallLabel={true}
+            onSelectAll={null}
+            onSelectItem={null}
+          />
+        </div>
+      )}
+      {!showMonth && !showQuarter && <hr />}
     </>
   );
 };

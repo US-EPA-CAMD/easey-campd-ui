@@ -21,11 +21,14 @@ const CheckboxGroup = (props) => {
   };
 
   const showActiveInId = props.showActiveRetired ? `-${props.showActive}` : '';
+  const containerSize = props.smallLabel ? '' : 'margin-x-2 margin-top-2'
+  const labelSize = props.smallLabel ? '' : 'font-sans-lg text-semibold'
+  const label = props.smallLabel ? <strong>{props.description}</strong> : props.description;
 
   return (
-    <div className="margin-x-2 margin-top-2 margin-bottom-5 position-relative">
+    <div className={`${containerSize} margin-bottom-5 position-relative`}>
       <div
-        className="font-sans-lg text-semibold padding-bottom-1"
+        className={`${labelSize} padding-bottom-1`}
         data-testid="program-group-name"
       >
         {props.enableSelectAll ? (
@@ -33,7 +36,7 @@ const CheckboxGroup = (props) => {
             className={props.getFocus?"autofocus1":""}
             autoFocus={props.getFocus}
             id={`${props.name}${showActiveInId}`}
-            label={props.description}
+            label={label}
             name={props.name}
             checked={evaluateSelectAll()}
             onChange={props.onSelectAll}
