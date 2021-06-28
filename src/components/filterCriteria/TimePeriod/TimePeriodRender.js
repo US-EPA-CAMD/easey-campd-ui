@@ -1,19 +1,11 @@
-import React, {useEffect} from "react";
+import React from "react";
 import {
   Form,
-  Checkbox,
   Button,
-  DateRangePicker,
-  ValidationChecklist,
-  ValidationItem,
-  Alert,
-  Label,
-  TextInput,
 } from "@trussworks/react-uswds";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
 
-import { formatDateToApi } from "../../../utils/selectors/general";
 import TimePeriodYear from "./subType/TimePeriodYear";
 import TimePeriodFullDate from "./subType/TimePeriodFullDate";
 

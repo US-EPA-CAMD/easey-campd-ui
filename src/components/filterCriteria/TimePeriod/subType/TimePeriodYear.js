@@ -17,7 +17,6 @@ const TimePeriodYear = ({
   onInvalidHandler,
   validations,
   isFormValid,
-  yearIsRequired,
 }) => {
   return (
     <>
