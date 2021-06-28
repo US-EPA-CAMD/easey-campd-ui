@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useHistory, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import config from "../../config";
 import {
   Menu,
@@ -7,64 +7,67 @@ import {
   PrimaryNav,
   NavDropDownButton,
   Title,
+  Button,
 } from "@trussworks/react-uswds";
 
 import "./SubHeader.scss";
 
 const SubHeader = () => {
-  const history = useHistory();
 
-  const [navDropdownOpen, setNavDropdownOpen] = useState([false, false, false]);
-  const [categorySelected, setCategorySelected] = useState([
-    //false,
-    true,
-    false,
-    false,
-  ]);
+  const [navDropdownOpen, setNavDropdownOpen] = useState([false, false, false, false, false, false]);
+  const [categorySelected, setCategorySelected] = useState([false, true, false, false, false, false]);
 
   const handleToggleNavDropdown = (column) => {
     setNavDropdownOpen((prevNavDropdownOpen) => {
       const newOpenState = Array(prevNavDropdownOpen.length).fill(false);
-
       newOpenState[column] = !prevNavDropdownOpen[column];
       return newOpenState;
     });
   };
 
-  const handleSubMenuClick = (route, column) => {
+  const handleSubMenuClick = (column) => {
     handleToggleNavDropdown(column);
 
     setCategorySelected((prevCategorySelected) => {
-      const newCategorySelected = Array(prevCategorySelected.length).fill(
-        false
-      );
+      const newCategorySelected = Array(prevCategorySelected.length).fill(false);
       newCategorySelected[column] = true;
       return newCategorySelected;
     });
-
-    history.push(route);
   };
 
   return (
-    <div className="subheaderWrapper">
+    <div className="subheader-wrapper">
       <Header
-        className="padding-y-3"
+        className="padding-y-2 mobile-lg:height-6 desktop:height-15"
         style={{
           backgroundImage: `url(${
             process.env.PUBLIC_URL + '/images/header-bg.png'
           })`,
+          backgroundSize: "cover",
+          backgroundPosition: "center top",
+          alignSelf: "top center"
         }}
       >
-        <div className="usa-nav-container">
-          <div className="margin-left-3">
-            <Title className="float-left clearfix margin-left-9">
-              <h1 className="text-white font-alt-xl text-normal margin-0" >
-                CAMPD: Clean Air Markets Program Data
-              </h1>
-            </Title>
-          </div>
+        <div className="usa-nav-container clearfix">
+          <Title className="float-left margin-0">
+            <h1 className="display-inline-block text-white text-heavy desktop-lg:font-sans-3xl desktop:font-sans-2xl mobile-lg:font-sans-xl margin-0" >
+              CAMPD
+            </h1>
+            <span
+              className="display-none desktop:display-block desktop-lg:display-inline-block desktop-lg:margin-left-1 text-white text-normal font-sans-md width-card text-wrap">
+              Clean Air Markets Program Data
+            </span>
+          </Title>
+          <Button
+            className="desktop:display-none float-right bg-transparent"
+          >
+            <img
+              src={`${process.env.PUBLIC_URL}/images/mobile-menu-expand.svg`}
+              alt="Expandable Menu"
+            />
+          </Button>
           <PrimaryNav
-            className="float-right clearfix margin-right-3 margin-top-3"
+            className="desktop float-right desktop:margin-top-3 desktop-lg:margin-top-0"
             items={[
               <>
                 <a
@@ -72,27 +75,31 @@ const SubHeader = () => {
                   href={config.app.path}
                   title="Home"
                   aria-label="Home"
+                  onClick={()=>handleSubMenuClick(0)}
                 >
                   HOME
                 </a>
+                {categorySelected[0] === true ? (
+                  <div className="menu-underline" />
+                ) : null}
               </>,
               <>
                 <NavDropDownButton
                   key="testItemTwo"
                   label="DATA"
                   menuId="menuData"
-                  isOpen={navDropdownOpen[0]}
+                  isOpen={navDropdownOpen[1]}
                   onToggle={() => {
-                    handleToggleNavDropdown(0);
+                    handleToggleNavDropdown(1);
                   }}
                 />
                 <Menu
                   id="extended-nav-section-two"
                   items={[
                     <Link
-                      to=""
-                      onClick={(event) =>
-                        handleSubMenuClick('select-data-type', 0)
+                      to="/select-data-type"
+                      onClick={() =>
+                        handleSubMenuClick(1)
                       }
                     >
                       Custom Data Download
@@ -108,9 +115,9 @@ const SubHeader = () => {
                       CAMPD API
                     </Link>,
                   ]}
-                  isOpen={navDropdownOpen[0]}
+                  isOpen={navDropdownOpen[1]}
                 />
-                {categorySelected[0] === true ? (
+                {categorySelected[1] === true ? (
                   <div className="menu-underline" />
                 ) : null}
               </>,
@@ -119,11 +126,10 @@ const SubHeader = () => {
                   key="testItemThree"
                   label="ANALYSIS"
                   menuId="menuAnalysis"
-                  isOpen={navDropdownOpen[1]}
+                  isOpen={navDropdownOpen[2]}
                   onToggle={() => {
-                    handleToggleNavDropdown(1);
+                    handleToggleNavDropdown(2);
                   }}
-                  isCurrent={true}
                 />
                 <Menu
                   id="extended-nav-section-three"
@@ -134,7 +140,7 @@ const SubHeader = () => {
                       Analysis
                     </Link>,
                   ]}
-                  isOpen={navDropdownOpen[1]}
+                  isOpen={navDropdownOpen[2]}
                 />
               </>,
               <>
@@ -142,11 +148,10 @@ const SubHeader = () => {
                   key="testItemFour"
                   label="VISUALIZATION"
                   menuId="menuVisualization"
-                  isOpen={navDropdownOpen[2]}
+                  isOpen={navDropdownOpen[3]}
                   onToggle={() => {
-                    handleToggleNavDropdown(2);
+                    handleToggleNavDropdown(3);
                   }}
-                  isCurrent={true}
                 />
                 <Menu
                   id="extended-nav-section-four"
@@ -157,9 +162,53 @@ const SubHeader = () => {
                       Visualization
                     </Link>,
                   ]}
-                  isOpen={navDropdownOpen[2]}
+                  isOpen={navDropdownOpen[3]}
                 />
               </>,
+              <>
+              <NavDropDownButton
+                key="testItemFive"
+                label="CAM API"
+                menuId="menuCamApi"
+                isOpen={navDropdownOpen[4]}
+                onToggle={() => {
+                  handleToggleNavDropdown(4);
+                }}
+              />
+              <Menu
+                id="extended-nav-section-five"
+                items={[
+                  <Link
+                    to="" /*onClick={(event) => handleSubMenuClick("", 2)}*/
+                  >
+                    CAM API
+                  </Link>,
+                ]}
+                isOpen={navDropdownOpen[4]}
+              />
+            </>,
+            <>
+              <NavDropDownButton
+                key="testItemSix"
+                label="HELP"
+                menuId="menuHelp"
+                isOpen={navDropdownOpen[5]}
+                onToggle={() => {
+                  handleToggleNavDropdown(5);
+                }}
+              />
+              <Menu
+              id="extended-nav-section-six"
+              items={[
+                <Link
+                  to="" /*onClick={(event) => handleSubMenuClick("", 2)}*/
+                >
+                  Help
+                </Link>,
+              ]}
+              isOpen={navDropdownOpen[5]}
+            />
+            </>,
             ]}
           />
         </div>
