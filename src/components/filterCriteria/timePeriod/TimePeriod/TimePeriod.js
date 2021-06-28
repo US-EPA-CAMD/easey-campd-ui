@@ -7,6 +7,8 @@ import { addAppliedFilter, removeAppliedFilter } from '../../../../store/actions
 import {
   isDateFormatValid,
   isDateRangeValid,
+  isInValidReportingQuarter,
+  isInYearRange,
   isYearFormat,
 } from '../../../../utils/dateValidation/dateValidation';
 import {
@@ -39,8 +41,8 @@ export const TimePeriod = ({
     startDateFormat: true,
     endDateFormat: true,
     dateRange: true,
+    validReportingQuarter: true,
     yearFormat: true,
-    yearRange: true,
     selectedCheckbox: true,
   });
 
@@ -51,9 +53,7 @@ export const TimePeriod = ({
   useEffect(() => {
     if (showYear) {
       if (
-        validations.yearFormat &&
-        validations.yearRange &&
-        validations.selectedCheckbox &&
+        (isFormValid()) &&
         applyFilterClicked
       ) {
         updateTimePeriodDispatcher({
@@ -86,9 +86,7 @@ export const TimePeriod = ({
       }
     } else {
       if (
-        validations.startDateFormat &&
-        validations.endDateFormat &&
-        validations.dateRange &&
+        (isFormValid()) &&
         applyFilterClicked
       ) {
         updateTimePeriodDispatcher({
@@ -119,6 +117,29 @@ export const TimePeriod = ({
     const updatedValidations = {};
     if (showYear) {
       updatedValidations['yearFormat'] = isYearFormat(formState.year);
+      updatedValidations['selectedCheckBox'] = true;
+
+      if (showMonth) {
+        updatedValidations['validReportingQuarter'] = isInValidReportingQuarter(
+          formState.year,
+          formState.month,
+          [3, 6, 9],
+          true,
+          false
+        );
+      } else if (showQuarter) {
+        updatedValidations['validReportingQuarter'] = isInValidReportingQuarter(
+          formState.year,
+          formState.quarter,
+          [1, 2, 3],
+          false,
+          true
+        );
+      } else {
+        updatedValidations['validReportingQuarter'] = isInYearRange(
+          formatYearsToArray(formState.year)
+        );
+      }
     } else {
       updatedValidations['startDateFormat'] = isDateFormatValid(
         formState.startDate
@@ -174,7 +195,11 @@ export const TimePeriod = ({
 
   const isFormValid = () => {
     if (showYear) {
-      return validations.yearFormat;
+      return (
+        validations.yearFormat &&
+        validations.validReportingQuarter &&
+        validations.selectedCheckbox
+      );
     } else {
       return (
         validations.startDateFormat &&

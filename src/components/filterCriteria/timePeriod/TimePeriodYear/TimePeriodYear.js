@@ -36,6 +36,13 @@ const TimePeriodYear = ({
           >
             Enter Year(s) in the YYYY-YYYY,YYYY format
           </ValidationItem>
+          <ValidationItem
+            id="validReportingQuarter"
+            isValid={validations.validReportingQuarter}
+            aria-checked={validations.validReportingQuarter}
+          >
+            Enter Year(s) between 1995 and this year
+          </ValidationItem>
         </ValidationChecklist>
       </Alert>
       <Label htmlFor="event-year-input">Year(s)</Label>

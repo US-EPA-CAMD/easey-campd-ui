@@ -53,22 +53,31 @@ export const formatDateToUi = (dateString) => {
 export const formatYearsToArray = (multiSelectDateString) => {
   // param=2001-2003,2007 return=[2001, 2002, 2003, 2007]
   const range = (start, stop) =>
-  Array(stop - start + 1).fill(start).map((x, y) => x + y)
+    Array(stop - start + 1)
+      .fill(start)
+      .map((x, y) => x + y);
 
-  const dateStringArray = multiSelectDateString.replace(/ /g,'').split(',');
+  const dateStringArray = multiSelectDateString.replace(/ /g, '').split(',');
   let numberArray = [];
 
-  dateStringArray.forEach(dateString => {
-  if (dateString && dateString.includes('-')) {
-    const t = dateString.split('-');
-    numberArray.push(...(range(parseInt(t[0]), parseInt(t[1]))));
-    }
-    else {
-      numberArray.push(parseInt(dateString))
+  dateStringArray.forEach((dateString) => {
+    if (dateString && dateString.includes('-')) {
+      const t = dateString.split('-');
+      numberArray.push(...range(parseInt(t[0]), parseInt(t[1])));
+    } else {
+      numberArray.push(parseInt(dateString));
     }
   });
 
   return numberArray;
+};
+
+export const formatMonthsToArray = () => {
+
+}
+
+export const formatQuartersToArray = () => {
+
 }
 
 const getServiceSubtype = (options, dataSubType) => {
