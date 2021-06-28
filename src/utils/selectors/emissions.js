@@ -50,8 +50,13 @@ export const constructTimePeriodQuery = (dataSubType, filterCriteria) => {
     //   return `opYear=${filterCriteria.timePeriod.year}&opMonth=${filterCriteria.timePeriod.month}`;
     // case 'quarterly':
     //   return `opYear=${filterCriteria.timePeriod.year}&quarter=${filterCriteria.timePeriod.quarter}`;
-    case 'ozone emissions' || 'annual emissions':
-      return `${constructQuery(filterCriteria.timePeriod.year.yearArray, 'opYear', true)}`;
+    case 'ozone emissions':
+    case 'annual emissions':
+      return `${constructQuery(
+        filterCriteria.timePeriod.year.yearArray,
+        'opYear',
+        true
+      )}`;
     default:
       return '';
   }

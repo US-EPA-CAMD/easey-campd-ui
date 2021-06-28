@@ -58,7 +58,7 @@ export const formatYearsToArray = (multiSelectDateString) => {
       .map((x, y) => x + y);
 
   const dateStringArray = multiSelectDateString.replace(/ /g, '').split(',');
-  let numberArray = [];
+  const numberArray = [];
 
   dateStringArray.forEach((dateString) => {
     if (dateString && dateString.includes('-')) {
@@ -73,12 +73,12 @@ export const formatYearsToArray = (multiSelectDateString) => {
 };
 
 export const formatMonthsToArray = () => {
-
-}
+  return [];
+};
 
 export const formatQuartersToArray = () => {
-
-}
+  return [];
+};
 
 const getServiceSubtype = (options, dataSubType) => {
   const entry = options.find(

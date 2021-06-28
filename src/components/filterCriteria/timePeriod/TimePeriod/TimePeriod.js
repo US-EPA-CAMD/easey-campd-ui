@@ -52,61 +52,13 @@ export const TimePeriod = ({
 
   useEffect(() => {
     if (showYear) {
-      if (
-        (isFormValid()) &&
-        applyFilterClicked
-      ) {
-        updateTimePeriodDispatcher({
-          year: {
-            yearArray: formatYearsToArray(formState.year),
-            yearString: formState.year,
-          },
-          // months: formatDateToArray(formState.months),
-          // quarters: formatDateToArray(formState.quarters),
-        });
-        if (isAddedToFilters(filterToApply, appliedFilters)) {
-          removeAppliedFiltersDispatcher(filterToApply);
-        }
-        let appendMonthOrQuarter;
-
-        if (showMonth) {
-          appendMonthOrQuarter = `; ${formState.month}`;
-        } else if (showQuarter) {
-          appendMonthOrQuarter = `; ${formState.quarter}`;
-        } else {
-          appendMonthOrQuarter = '';
-        }
-
-        addAppliedFilterDispatcher({
-          key: filterToApply,
-          values: [`${formState.year}${appendMonthOrQuarter}`, 'filter tag year value'],
-        });
-
+      if (isFormValid() && applyFilterClicked) {
+        updateYearHelper();
         closeFlyOutHandler();
       }
     } else {
-      if (
-        (isFormValid()) &&
-        applyFilterClicked
-      ) {
-        updateTimePeriodDispatcher({
-          startDate: formatDateToApi(formState.startDate),
-          endDate: formatDateToApi(formState.endDate),
-          opHrsOnly: formState.opHrsOnly,
-        });
-        if (isAddedToFilters(filterToApply, appliedFilters)) {
-          removeAppliedFiltersDispatcher(filterToApply);
-        }
-        addAppliedFilterDispatcher({
-          key: filterToApply,
-          values: [`${formState.startDate} - ${formState.endDate}`],
-        });
-        if (formState.opHrsOnly) {
-          addAppliedFilterDispatcher({
-            key: filterToApply,
-            values: ['Operating Hours Only'],
-          });
-        }
+      if (isFormValid() && applyFilterClicked) {
+        updateFullDateHelper();
         closeFlyOutHandler();
       }
     }
@@ -208,6 +160,56 @@ export const TimePeriod = ({
       );
     }
   };
+
+  // HELPER FUNCTIONS
+  const updateYearHelper = () => {
+    updateTimePeriodDispatcher({
+      year: {
+        yearArray: formatYearsToArray(formState.year),
+        yearString: formState.year,
+      },
+      // months: formatDateToArray(formState.months),
+      // quarters: formatDateToArray(formState.quarters),
+    });
+    if (isAddedToFilters(filterToApply, appliedFilters)) {
+      removeAppliedFiltersDispatcher(filterToApply);
+    }
+    let appendMonthOrQuarter;
+
+    if (showMonth) {
+      appendMonthOrQuarter = `; ${formState.month}`;
+    } else if (showQuarter) {
+      appendMonthOrQuarter = `; ${formState.quarter}`;
+    } else {
+      appendMonthOrQuarter = '';
+    }
+
+    addAppliedFilterDispatcher({
+      key: filterToApply,
+      values: [`${formState.year}${appendMonthOrQuarter}`, 'filter tag year value'],
+    });
+  }
+
+  const updateFullDateHelper = () => {
+    updateTimePeriodDispatcher({
+      startDate: formatDateToApi(formState.startDate),
+      endDate: formatDateToApi(formState.endDate),
+      opHrsOnly: formState.opHrsOnly,
+    });
+    if (isAddedToFilters(filterToApply, appliedFilters)) {
+      removeAppliedFiltersDispatcher(filterToApply);
+    }
+    addAppliedFilterDispatcher({
+      key: filterToApply,
+      values: [`${formState.startDate} - ${formState.endDate}`],
+    });
+    if (formState.opHrsOnly) {
+      addAppliedFilterDispatcher({
+        key: filterToApply,
+        values: ['Operating Hours Only'],
+      });
+    }
+  }
 
   return (
     <TimePeriodRender

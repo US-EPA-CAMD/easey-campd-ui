@@ -44,7 +44,7 @@ export const isDateRangeValid = (startDateString, endDateString) =>{
 
 export const isYearFormat = (yearString) => {
   let valid = false;
-  let regex = /^\d{4}$/;
+  const regex = /^\d{4}$/;
 
   const yearArray = yearString.replace(/ /g,'').split(',');
   yearArray.forEach((year) => {
@@ -65,9 +65,9 @@ export const isInYearRange = (yearArray) => {
   const curYear = new Date().getFullYear();
   let result = false;
   yearArray.forEach((year) => {
-    year >= 1995 && year <= curYear ? (result = true) : (result = false);
+    result = year >= 1995 && year <= curYear;
     if (!result) {
-      return false;
+      return;
     }
   });
   return result;
