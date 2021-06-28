@@ -17,6 +17,7 @@ const TimePeriodYear = ({
   onInvalidHandler,
   validations,
   isFormValid,
+  yearIsRequired,
 }) => {
   return (
     <>
@@ -34,7 +35,7 @@ const TimePeriodYear = ({
             isValid={validations.yearFormat}
             aria-checked={validations.yearFormat}
           >
-            Enter the Year in format
+            Enter Year(s) in the YYYY-YYYY,YYYY format
           </ValidationItem>
         </ValidationChecklist>
       </Alert>
@@ -45,7 +46,7 @@ const TimePeriodYear = ({
       <TextInput
         aria-describedby="validate-time-period"
         autoFocus={true}
-        className="margin-bottom-2"
+        className="margin-bottom-4"
         id="event-year-input"
         name="yearInput"
         type="text"
