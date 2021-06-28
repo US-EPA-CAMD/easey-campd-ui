@@ -1,5 +1,5 @@
 import React from "react";
-import TimePeriod from "../TimePeriod/TimePeriod";
+import TimePeriod from "../timePeriod/TimePeriod/TimePeriod";
 import Program from "../Program/Program";
 import Facility from "../Facility/Facility";
 import UnitType from "../UnitType/UnitType";

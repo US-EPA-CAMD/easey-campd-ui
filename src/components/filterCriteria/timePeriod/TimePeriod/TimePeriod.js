@@ -2,19 +2,19 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 
 import TimePeriodRender from './TimePeriodRender';
-import { updateTimePeriod } from '../../../store/actions/customDataDownload/filterCriteria';
-import { addAppliedFilter, removeAppliedFilter } from '../../../store/actions/customDataDownload/customDataDownload';
+import { updateTimePeriod } from '../../../../store/actions/customDataDownload/filterCriteria';
+import { addAppliedFilter, removeAppliedFilter } from '../../../../store/actions/customDataDownload/customDataDownload';
 import {
   isDateFormatValid,
   isDateRangeValid,
   isYearFormat,
-} from '../../../utils/dateValidation/dateValidation';
+} from '../../../../utils/dateValidation/dateValidation';
 import {
   isAddedToFilters,
   formatDateToUi,
   formatDateToApi,
   formatYearsToArray,
-} from '../../../utils/selectors/general';
+} from '../../../../utils/selectors/general';
 
 export const TimePeriod = ({
   timePeriod,

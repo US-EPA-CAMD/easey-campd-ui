@@ -6,8 +6,8 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
 
-import TimePeriodYear from "./subType/TimePeriodYear";
-import TimePeriodFullDate from "./subType/TimePeriodFullDate";
+import TimePeriodYear from "../TimePeriodYear/TimePeriodYear";
+import TimePeriodFullDate from "../TimePeriodFullDate/TimePeriodFullDate";
 
 const TimePeriodRender = ({
   applyFilterHandler,
