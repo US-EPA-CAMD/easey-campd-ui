@@ -74,7 +74,7 @@ export const formatYearsToArray = (multiSelectDateString) => {
 
 export const formatMonthsToApiOrString = (monthArray, string=false) => {
   // param = [{id: 1, label: 'January', selected: true}] return=[1] OR 'January'
-  let apiMonthArrayOrString = [];
+  const apiMonthArrayOrString = [];
   monthArray.forEach((month) => {
     if (month.selected) {
       string ? apiMonthArrayOrString.push(month.label) : apiMonthArrayOrString.push(month.id);
@@ -85,7 +85,7 @@ export const formatMonthsToApiOrString = (monthArray, string=false) => {
 
 export const formatQuartersToApiOrString = (quarterArray, string=false) => {
     // param = [{id: 1, label: 'Q1', selected: true}] return=[1] OR 'Q1'
-  let apiQuarterArrayOrString = [];
+  const apiQuarterArrayOrString = [];
   quarterArray.forEach((quarter) => {
     if (quarter.selected) {
       string ? apiQuarterArrayOrString.push(quarter.label) : apiQuarterArrayOrString.push(quarter.id);

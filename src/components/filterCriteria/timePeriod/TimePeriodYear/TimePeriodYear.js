@@ -22,16 +22,17 @@ const TimePeriodYear = ({
   validations,
   isFormValid,
 }) => {
-
   let property;
   if (showMonth) {
     property = 'month(s)';
   } else if (showQuarter) {
     property = 'quarter(s)';
   }
-  const rangeMessage = (showMonth || showQuarter) ? 
-  `Enter ${property} between 01/01/1995 and the end of the calendar quarter, ${reportingQuarter()}` : 'Enter year(s) between 1995 and this year'
-  
+  const rangeMessage =
+    showMonth || showQuarter
+      ? `Enter ${property} between 01/01/1995 and the end of the calendar quarter, ${reportingQuarter()}`
+      : 'Enter year(s) between 1995 and this year';
+
   return (
     <>
       <Alert
@@ -48,7 +49,8 @@ const TimePeriodYear = ({
             isValid={validations.yearFormat}
             aria-checked={validations.yearFormat}
           >
-            Enter year(s) using a comma separated format (ex. 1995, 2000, 2001-2005)
+            Enter year(s) using a comma separated format (ex. 1995, 2000,
+            2001-2005)
           </ValidationItem>
           <ValidationItem
             id="validReportingQuarter"
@@ -59,9 +61,7 @@ const TimePeriodYear = ({
           </ValidationItem>
         </ValidationChecklist>
       </Alert>
-      <Label htmlFor="event-year-input">
-        Year(s) (Required)
-      </Label>
+      <Label htmlFor="event-year-input">Year(s) (Required)</Label>
       <div className="usa-hint" id="date-format-hint">
         Ex: 1995-2000,2003,2005,2010-2015
       </div>
@@ -76,7 +76,7 @@ const TimePeriodYear = ({
         onInvalid={onInvalidHandler}
         defaultValue={formState.year}
       />
-      {showMonth && ( 
+      {showMonth && (
         <div className="">
           <CheckboxGroup
             enableSelectAll={true}

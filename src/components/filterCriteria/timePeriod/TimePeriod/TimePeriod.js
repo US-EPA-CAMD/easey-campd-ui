@@ -21,7 +21,6 @@ import {
 } from '../../../../utils/selectors/general';
 import * as constants from '../../../../utils/constants/customDataDownload';
 
-
 export const TimePeriod = ({
   timePeriod,
   updateTimePeriodDispatcher,
@@ -50,9 +49,7 @@ export const TimePeriod = ({
     validReportingQuarter: true,
     yearFormat: true,
   });
-
   const [applyFilterClicked, setApplyFilterClicked] = useState(false);
-
   const filterToApply = 'Time Period';
 
   useEffect(() => {
@@ -74,7 +71,6 @@ export const TimePeriod = ({
     const updatedValidations = {};
     if (showYear) {
       updatedValidations['yearFormat'] = isYearFormat(formState.year);
-
       if (showMonth) {
         updatedValidations['validReportingQuarter'] = isInValidReportingQuarter(
           formState.year,
@@ -142,7 +138,6 @@ export const TimePeriod = ({
   const handleMonthUpdate = (evt) => {
     const newItems = formState.month;
     const found = newItems.findIndex((i) => i.id === parseInt(evt.target.id));
-
     if (found > -1) {
       newItems[found].selected = evt.target.checked;
       setFormState({ ...formState, month: newItems });
@@ -152,7 +147,6 @@ export const TimePeriod = ({
   const handleQuarterUpdate = (evt) => {
     const newItems = formState.quarter;
     const found = newItems.findIndex((i) => i.id === parseInt(evt.target.id));
-
     if (found > -1) {
       newItems[found].selected = evt.target.checked;
       setFormState({ ...formState, quarter: newItems });
@@ -201,7 +195,6 @@ export const TimePeriod = ({
       removeAppliedFiltersDispatcher(filterToApply);
     }
     let appendMonthOrQuarter;
-
     if (showMonth) {
       appendMonthOrQuarter = `; ${formatMonthsToApiOrString(formState.month, true).join(', ')}`;
     } else if (showQuarter) {
@@ -209,7 +202,6 @@ export const TimePeriod = ({
     } else {
       appendMonthOrQuarter = '';
     }
-
     addAppliedFilterDispatcher({
       key: filterToApply,
       values: [`${formState.year}${appendMonthOrQuarter}`, 'filter tag year value'],
