@@ -75,7 +75,7 @@ export const isInYearRange = (yearArray) => {
 
 export const isInValidReportingQuarter = (
   yearString,
-  monthOrQuarterString,
+  monthOrQuarterArray,
   values,
   isMonth = false,
   isQuarter = false,
@@ -88,13 +88,6 @@ export const isInValidReportingQuarter = (
   const curDate = new Date();
   const curYear = new Date().getFullYear();
   let isValid = false;
-
-  let monthOrQuarterArray;
-  if (isMonth) {
-    monthOrQuarterArray = formatMonthsToArray(monthOrQuarterString);
-  } else if (isQuarter) {
-    monthOrQuarterArray = formatQuartersToArray(monthOrQuarterString);
-  }
 
   if (yearArray.length === 1 && yearArray.includes(`${curYear}`)) {
     monthOrQuarterArray.forEach((monthOrQuarter) => {

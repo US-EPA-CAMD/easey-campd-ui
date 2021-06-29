@@ -42,7 +42,7 @@ export const MONTHS = [
   { id: 8, label: 'August', selected: false },
   { id: 9, label: 'September', selected: false },
   { id: 10, label: 'October', selected: false },
-  { id: 11, label: 'Novemeber', selected: false },
+  { id: 11, label: 'November', selected: false },
   { id: 12, label: 'December', selected: false },
 ];
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Label,
   TextInput,
@@ -21,6 +21,21 @@ const TimePeriodYear = ({
   validations,
   isFormValid,
 }) => {
+  let itemType = [];
+  if (showMonth) {
+    itemType = formState.month;
+  } else if (showQuarter) {
+    itemType = formState.quarter;
+  }
+  const [items, setItems] = useState(itemType);
+
+  const onSelectAllHandler = (e) => {
+    const newItems = items.forEach((i) => {
+      i.selected = e.target.checked;
+    });
+    setItems(newItems);
+  };
+
   return (
     <>
       <Alert
@@ -37,19 +52,19 @@ const TimePeriodYear = ({
             isValid={validations.yearFormat}
             aria-checked={validations.yearFormat}
           >
-            Enter Year(s) in the YYYY-YYYY,YYYY format
+            Enter year(s) using a comma separated format (ex. 1995, 2000, 2001-2005)
           </ValidationItem>
           <ValidationItem
             id="validReportingQuarter"
             isValid={validations.validReportingQuarter}
             aria-checked={validations.validReportingQuarter}
           >
-            Enter Year(s) between 1995 and this year
+            Enter year(s) between 1995 and this year
           </ValidationItem>
         </ValidationChecklist>
       </Alert>
-      <Label className="text-bold" htmlFor="event-year-input">
-        Year(s)
+      <Label htmlFor="event-year-input">
+        Year(s) (Required)
       </Label>
       <div className="usa-hint" id="date-format-hint">
         Ex: 1995-2000,2003,2005,2010-2015
@@ -71,11 +86,11 @@ const TimePeriodYear = ({
             enableSelectAll={true}
             getFocus={true}
             name="Month(s)"
-            description="Month(s)"
-            items={constants.MONTHS}
+            description="Month(s) (Required)"
+            items={items}
             smallLabel={true}
-            onSelectAll={null}
-            onSelectItem={null}
+            onSelectAll={onSelectAllHandler}
+            onSelectItem={handleMonthUpdate}
           />
         </div>
       )}
@@ -85,11 +100,11 @@ const TimePeriodYear = ({
             enableSelectAll={true}
             getFocus={true}
             name="Quarter(s)"
-            description="Quarter(s)"
-            items={constants.QUARTERS}
+            description="Quarter(s) (Required)"
+            items={items}
             smallLabel={true}
-            onSelectAll={null}
-            onSelectItem={null}
+            onSelectAll={onSelectAllHandler}
+            onSelectItem={handleQuarterUpdate}
           />
         </div>
       )}

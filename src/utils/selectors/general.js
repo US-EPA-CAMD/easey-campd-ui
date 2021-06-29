@@ -72,12 +72,24 @@ export const formatYearsToArray = (multiSelectDateString) => {
   return numberArray;
 };
 
-export const formatMonthsToArray = () => {
-  return [];
+export const formatMonthsToApiOrString = (monthArray, string=false) => {
+  let apiMonthArrayOrString = [];
+  monthArray.forEach((month) => {
+    if (month.selected) {
+      string ? apiMonthArrayOrString.push(month.label) : apiMonthArrayOrString.push(month.id);
+    }
+  });
+  return apiMonthArrayOrString;
 };
 
-export const formatQuartersToArray = () => {
-  return [];
+export const formatQuartersToApiOrString = (quarterArray, string=false) => {
+  let apiQuarterArrayOrString = [];
+  quarterArray.forEach((quarter) => {
+    if (quarter.selected) {
+      string ? apiQuarterArrayOrString.push(quarter.label) : apiQuarterArrayOrString.push(quarter.id);
+    }
+  });
+  return apiQuarterArrayOrString;
 };
 
 const getServiceSubtype = (options, dataSubType) => {

@@ -15,6 +15,8 @@ const TimePeriodRender = ({
   handleEndDateUpdate,
   handleOptHrsOnlyUpdate,
   handleYearUpdate,
+  handleMonthUpdate,
+  handleQuarterUpdate,
   formState,
   isFormValid,
   onInvalidHandler,
@@ -56,6 +58,8 @@ const TimePeriodRender = ({
           showMonth={showMonth}
           showQuarter={showQuarter}
           handleYearUpdate={handleYearUpdate}
+          handleMonthUpdate={handleMonthUpdate}
+          handleQuarterUpdate={handleQuarterUpdate}
           onInvalidHandler={onInvalidHandler}
           validations={validations}
           isFormValid={isFormValid}
@@ -72,23 +76,26 @@ const TimePeriodRender = ({
           isFormValid={isFormValid}
         />
       )}
-      <Button
-        type="button"
-        outline
-        onClick={closeFlyOutHandler}
-        className={isApplyFilterDisabled() ? 'autofocus2' : ''}
-      >
-        Cancel
-      </Button>
-      <Button
-        type="submit"
-        className={
-          isApplyFilterDisabled() ? 'float-right' : 'float-right autofocus2'
-        }
-        disabled={isApplyFilterDisabled()}
-      >
-        Apply Filter
-      </Button>
+      <hr className="margin-y-2" />
+      <div className="margin-bottom-3">
+        <Button
+          type="button"
+          outline
+          onClick={closeFlyOutHandler}
+          className={isApplyFilterDisabled() ? 'autofocus2' : ''}
+        >
+          Cancel
+        </Button>
+        <Button
+          type="submit"
+          className={
+            isApplyFilterDisabled() ? 'float-right' : 'float-right autofocus2'
+          }
+          disabled={isApplyFilterDisabled()}
+        >
+          Apply Filter
+        </Button>
+      </div>
     </Form>
   );
 };
