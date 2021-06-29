@@ -68,16 +68,16 @@ const WideHeader = () => {
         >
           <img
             src={`${process.env.PUBLIC_URL}/images/EPALogo.svg`}
-            className="margin-3 react-transition swipe-right"
+            className="margin-y-3 react-transition swipe-right mobile-lg:padding-left-2 desktop:padding-left-4"
             alt="Official EPA Logo"
           />
         </a>
         <div className="usa-nav-container">
-          <div className="usa-navbar">
+          <div className="usa-navbar mobile-lg:padding-right-2 desktop:padding-right-4">
             <NavMenuButton
               onClick={() => onClick()}
               label="Menu"
-              className="display-block usa-button react-transition swipe-left"
+              className="display-block usa-button react-transition swipe-left margin-right-0 "
               data-testId="btnMenu"
             />
           </div>
