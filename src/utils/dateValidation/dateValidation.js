@@ -1,4 +1,4 @@
-import { formatMonthsToArray, formatQuartersToArray, formatYearsToArray } from "../selectors/general";
+import { formatYearsToArray } from "../selectors/general";
 
 const setDate = (year, month, date) => {
   const newDate = new Date(0)
@@ -46,11 +46,11 @@ export const isYearFormat = (yearString) => {
   let valid = false;
   const regex = /^\d{4}$/;
 
-  const yearArray = yearString.replace(/ /g,'').split(',');
+  const yearArray = yearString.replace(/ /g, '').split(',');
   yearArray.forEach((year) => {
     if (year && year.includes('-')) {
       const t = year.split('-');
-      if(t.length === 2) {
+      if (t.length === 2) {
         valid = t[0].match(regex) && t[1].match(regex);
       }
     } else {
@@ -76,7 +76,7 @@ export const isInYearRange = (yearArray) => {
 export const isInValidReportingQuarter = (
   yearString,
   monthOrQuarterArray,
-  values,
+  values
 ) => {
   const yearArray = formatYearsToArray(yearString);
   if (!isInYearRange(yearArray)) {
@@ -107,5 +107,3 @@ export const isInValidReportingQuarter = (
 
   return isValid;
 };
-
-
