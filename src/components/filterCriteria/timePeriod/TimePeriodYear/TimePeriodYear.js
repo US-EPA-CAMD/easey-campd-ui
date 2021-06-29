@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Label,
   TextInput,
@@ -8,7 +8,7 @@ import {
 } from '@trussworks/react-uswds';
 
 import CheckboxGroup from '../../../CheckboxGroup/CheckboxGroup';
-import * as constants from '../../../../utils/constants/customDataDownload';
+import { reportingQuarter } from '../../../../utils/selectors/general';
 
 const TimePeriodYear = ({
   formState,
@@ -17,25 +17,21 @@ const TimePeriodYear = ({
   handleYearUpdate,
   handleMonthUpdate,
   handleQuarterUpdate,
+  onSelectAllHandler,
   onInvalidHandler,
   validations,
   isFormValid,
 }) => {
-  let itemType = [];
+
+  let property;
   if (showMonth) {
-    itemType = formState.month;
+    property = 'month(s)';
   } else if (showQuarter) {
-    itemType = formState.quarter;
+    property = 'quarter(s)';
   }
-  const [items, setItems] = useState(itemType);
-
-  const onSelectAllHandler = (e) => {
-    const newItems = items.forEach((i) => {
-      i.selected = e.target.checked;
-    });
-    setItems(newItems);
-  };
-
+  const rangeMessage = (showMonth || showQuarter) ? 
+  `Enter ${property} between 01/01/1995 and the end of the calendar quarter, ${reportingQuarter()}` : 'Enter year(s) between 1995 and this year'
+  
   return (
     <>
       <Alert
@@ -59,7 +55,7 @@ const TimePeriodYear = ({
             isValid={validations.validReportingQuarter}
             aria-checked={validations.validReportingQuarter}
           >
-            Enter year(s) between 1995 and this year
+            {rangeMessage}
           </ValidationItem>
         </ValidationChecklist>
       </Alert>
@@ -80,14 +76,14 @@ const TimePeriodYear = ({
         onInvalid={onInvalidHandler}
         defaultValue={formState.year}
       />
-      {showMonth && (
+      {showMonth && ( 
         <div className="">
           <CheckboxGroup
             enableSelectAll={true}
             getFocus={true}
-            name="Month(s)"
+            name="month"
             description="Month(s) (Required)"
-            items={items}
+            items={formState.month}
             smallLabel={true}
             onSelectAll={onSelectAllHandler}
             onSelectItem={handleMonthUpdate}
@@ -99,9 +95,9 @@ const TimePeriodYear = ({
           <CheckboxGroup
             enableSelectAll={true}
             getFocus={true}
-            name="Quarter(s)"
+            name="quarter"
             description="Quarter(s) (Required)"
-            items={items}
+            items={formState.quarter}
             smallLabel={true}
             onSelectAll={onSelectAllHandler}
             onSelectItem={handleQuarterUpdate}

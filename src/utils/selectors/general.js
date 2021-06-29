@@ -73,6 +73,7 @@ export const formatYearsToArray = (multiSelectDateString) => {
 };
 
 export const formatMonthsToApiOrString = (monthArray, string=false) => {
+  // param = [{id: 1, label: 'January', selected: true}] return=[1] OR 'January'
   let apiMonthArrayOrString = [];
   monthArray.forEach((month) => {
     if (month.selected) {
@@ -83,6 +84,7 @@ export const formatMonthsToApiOrString = (monthArray, string=false) => {
 };
 
 export const formatQuartersToApiOrString = (quarterArray, string=false) => {
+    // param = [{id: 1, label: 'Q1', selected: true}] return=[1] OR 'Q1'
   let apiQuarterArrayOrString = [];
   quarterArray.forEach((quarter) => {
     if (quarter.selected) {
@@ -91,6 +93,24 @@ export const formatQuartersToApiOrString = (quarterArray, string=false) => {
   });
   return apiQuarterArrayOrString;
 };
+
+export const reportingQuarter = () => {
+  const curDate = new Date();
+  const curYear = new Date().getFullYear();
+  let quarter;
+  if (curDate < new Date(`March 31, ${curYear}`)) {
+    quarter = `12/31/'${curYear - 1}`;
+  } else if (curDate < new Date(`June 30, ${curYear}`)) {
+    quarter = `03/31/${curYear}`;
+  } else if (curDate < new Date(`September 30, ${curYear}`)) {
+    quarter = `06/30/${curYear}`;
+  } else if (curDate < new Date(`December 31, ${curYear}`)) {
+    quarter = `09/30/${curYear}`;
+  } else {
+    quarter = `12/31/${curYear}`;
+  }
+  return quarter;
+}
 
 const getServiceSubtype = (options, dataSubType) => {
   const entry = options.find(

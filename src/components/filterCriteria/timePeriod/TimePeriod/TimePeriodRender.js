@@ -8,6 +8,7 @@ import { faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
 
 import TimePeriodYear from "../TimePeriodYear/TimePeriodYear";
 import TimePeriodFullDate from "../TimePeriodFullDate/TimePeriodFullDate";
+import { formatMonthsToApiOrString, formatQuartersToApiOrString } from "../../../../utils/selectors/general";
 
 const TimePeriodRender = ({
   applyFilterHandler,
@@ -19,6 +20,7 @@ const TimePeriodRender = ({
   handleQuarterUpdate,
   formState,
   isFormValid,
+  onSelectAllHandler,
   onInvalidHandler,
   closeFlyOutHandler,
   validations,
@@ -31,9 +33,9 @@ const TimePeriodRender = ({
   const isApplyFilterDisabled = () => {
     if (showYear) {
       if (showMonth) {
-        return !(formState.year.length > 0 && formState.month.length > 0);
+        return !(formState.year.length > 0 && formatMonthsToApiOrString(formState.month).length > 0);
       } else if (showQuarter) {
-        return !(formState.year.length > 0 && formState.quarter.length > 0);
+        return !(formState.year.length > 0 && formatQuartersToApiOrString(formState.quarter).length > 0);
       } else {
         return !(formState.year.length > 0);
       }
@@ -60,6 +62,7 @@ const TimePeriodRender = ({
           handleYearUpdate={handleYearUpdate}
           handleMonthUpdate={handleMonthUpdate}
           handleQuarterUpdate={handleQuarterUpdate}
+          onSelectAllHandler={onSelectAllHandler}
           onInvalidHandler={onInvalidHandler}
           validations={validations}
           isFormValid={isFormValid}
@@ -76,7 +79,7 @@ const TimePeriodRender = ({
           isFormValid={isFormValid}
         />
       )}
-      <hr className="margin-y-2" />
+      {(showMonth) && <hr className="margin-y-2" />}
       <div className="margin-bottom-3">
         <Button
           type="button"

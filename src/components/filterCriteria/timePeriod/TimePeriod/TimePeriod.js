@@ -49,7 +49,6 @@ export const TimePeriod = ({
     dateRange: true,
     validReportingQuarter: true,
     yearFormat: true,
-    selectedCheckbox: true,
   });
 
   const [applyFilterClicked, setApplyFilterClicked] = useState(false);
@@ -75,29 +74,24 @@ export const TimePeriod = ({
     const updatedValidations = {};
     if (showYear) {
       updatedValidations['yearFormat'] = isYearFormat(formState.year);
-      updatedValidations['selectedCheckBox'] = true;
 
-      // if (showMonth) {
-      //   updatedValidations['validReportingQuarter'] = isInValidReportingQuarter(
-      //     formState.year,
-      //     formState.month,
-      //     [3, 6, 9],
-      //     true,
-      //     false
-      //   );
-      // } else if (showQuarter) {
-      //   updatedValidations['validReportingQuarter'] = isInValidReportingQuarter(
-      //     formState.year,
-      //     formState.quarter,
-      //     [1, 2, 3],
-      //     false,
-      //     true
-      //   );
-      // } else {
-      //   updatedValidations['validReportingQuarter'] = isInYearRange(
-      //     formatYearsToArray(formState.year)
-      //   );
-      // }
+      if (showMonth) {
+        updatedValidations['validReportingQuarter'] = isInValidReportingQuarter(
+          formState.year,
+          formatMonthsToApiOrString(formState.month),
+          [3, 6, 9],
+        );
+      } else if (showQuarter) {
+        updatedValidations['validReportingQuarter'] = isInValidReportingQuarter(
+          formState.year,
+          formatQuartersToApiOrString(formState.quarter),
+          [1, 2, 3],
+        );
+      } else {
+        updatedValidations['validReportingQuarter'] = isInYearRange(
+          formatYearsToArray(formState.year)
+        );
+      }
     } else {
       updatedValidations['startDateFormat'] = isDateFormatValid(
         formState.startDate
@@ -165,12 +159,24 @@ export const TimePeriod = ({
     }
   };
 
+  const onSelectAllHandler = (evt) => {
+    const items = (evt.target.name === 'month' ? formState.month : formState.quarter);
+
+    items.forEach((i) => {
+      i.selected = evt.target.checked;
+    });
+    if(evt.target.name === 'month') {
+      setFormState({...formState, month: items})
+    } else {
+      setFormState({...formState, quarter: items})
+    }
+  };
+
   const isFormValid = () => {
     if (showYear) {
       return (
         validations.yearFormat &&
-        validations.validReportingQuarter &&
-        validations.selectedCheckbox
+        validations.validReportingQuarter
       );
     } else {
       return (
@@ -241,6 +247,7 @@ export const TimePeriod = ({
       handleMonthUpdate={handleMonthUpdate}
       handleQuarterUpdate={handleQuarterUpdate}
       isFormValid={isFormValid}
+      onSelectAllHandler={onSelectAllHandler}
       onInvalidHandler={onInvalidHandler}
       formState={formState}
       closeFlyOutHandler={closeFlyOutHandler}
