@@ -32,6 +32,86 @@ const WideHeader = () => {
   /***** EVENT HANDLERS *****/
   const onClick = () => setExpanded((prvExpanded) => !prvExpanded);
 
+  const toggleNavTabFocusItems = () => {
+    const  focusableElements =
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
+    const slideOutMenuNav = document.querySelector('#root > div > div > div.topHeader > div.header-container > header > div.usa-nav-container > nav');
+
+    const firstFocusableElement = slideOutMenuNav.querySelectorAll(focusableElements)[0]; // get first element to be focused inside slideOutMenuNav
+    const focusableContent = slideOutMenuNav.querySelectorAll(focusableElements);
+    const lastFocusableElement = focusableContent[focusableContent.length - 1]; // get last element to be focused inside slideOutMenuNav
+
+    document.addEventListener('keydown', e => {
+      let isTabPressed = e.key === 'Tab' || e.keyCode === 9;
+
+      if (!isTabPressed) {
+        return;
+      }
+
+      if (e.shiftKey) { // if shift key pressed for shift + tab combination
+        if (document.activeElement === firstFocusableElement) {
+          lastFocusableElement.focus(); // add focus for the last focusable element
+          e.preventDefault();
+        }
+      } else { // if tab key is pressed
+        if (document.activeElement === lastFocusableElement) { // if focused has reached to last focusable element then focus first focusable element after pressing tab
+          firstFocusableElement.focus(); // add focus for the first focusable element
+          e.preventDefault();
+        }
+      }
+    });
+
+    firstFocusableElement.focus();
+  };
+
+  const searchFormFixes = () => {
+
+    setTimeout(() => {
+      const searchButton = document.querySelector('#root > div > div > div.topHeader > div.header-container > header > div.usa-nav-container > nav > form > button');
+      // const searchButtonSpan = document.querySelector('#root > div > div > div.topHeader > div.header-container > header > div.usa-nav-container > nav > form > button span');
+
+      searchButton.classList.add('search-form-button');
+    });
+  };
+
+  const rearrangeSearchForm = () => {
+    // const slideOutMenuNav = document.querySelector('#root > div > div > div.topHeader > div.header-container > header > div.usa-nav-container > nav');
+    const closeButton = document.querySelector('#root > div > div > div.topHeader > div.header-container > header > div.usa-nav-container > nav .usa-nav__close');
+    const searchFormElement = document.querySelector('form.usa-search');
+
+    // function insertAfter(newNode, referenceNode) {
+    //   referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
+    // }
+
+    setTimeout(() => {
+      // searchFormElement.remove();
+      // slideOutMenuNav.appendChild(searchFormElement);
+      // searchFormElement.parentNode.removeChild(searchFormElement);
+      // slideOutMenuNav.insertAdjacentHTML('afterbegin', <h1>Haha</h1>);
+      // closeButton.insertAdjacentHTML('afterend', <li>Test Yes</li>);
+      // searchFormElement.parentNode.insertBefore(newNode, searchFormElement.nextSibling);
+      // closeButton.parentNode.insertBefore(searchFormElement, closeButton.nextSibling);
+      // insertAfter(slideOutMenuNav, searchFormElement);
+      // console.log(typeof searchFormElement);
+      // console.log(searchFormElement);
+      // closeButton.tabIndex = 1;
+      console.log(closeButton.tabIndex);
+      console.log(searchFormElement.tabIndex);
+    });
+  }
+
+  const menuButtonClickedHandler = () => {
+    onClick();
+
+    setTimeout(() => {
+      const navClose = document.querySelector('button.usa-nav__close');
+      navClose.focus();
+      toggleNavTabFocusItems();
+      searchFormFixes();
+      rearrangeSearchForm();
+    });
+  }
+
   const onSearch = (event) => {
     // *** URI encode the component after trimming to get rid of leading/trailing spaces
     // *** and mitigate any character collision issues during http request with window.open
@@ -61,8 +141,7 @@ const WideHeader = () => {
           and/or <b>testing</b> purposes only.
         </div>
         <a
-          href="https://www.epa.gov/"
-          target="_blank"
+          href="#main-content"
           rel="noopener noreferrer"
           title="Go to the EPA home page"
         >
@@ -72,12 +151,13 @@ const WideHeader = () => {
             alt="Official EPA Logo"
           />
         </a>
-        <div className="usa-nav-container">
+        <div id="usa-side-nav" className="usa-nav-container">
           <div className="usa-navbar">
             <NavMenuButton
-              onClick={() => onClick()}
+              onClick={() => menuButtonClickedHandler()}
               label="Menu"
               className="display-block usa-button react-transition swipe-left"
+              aria-haspopup="true"
               data-testId="btnMenu"
             />
           </div>
