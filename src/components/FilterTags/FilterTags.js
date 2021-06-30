@@ -8,6 +8,7 @@ const FilterTags = (props) => {
     <div className="display-flex grid-row">
       <div className="text-bold margin-1 margin-right-2">Filters:</div>
       {props.items.map((item, i) => {
+        let description = `${item.key}: ${item.values.join(', ')}`;
         let label =
           item.values.length > 1
             ? `${item.key} (${item.values.length})`
@@ -17,10 +18,10 @@ const FilterTags = (props) => {
             label = `${item.values[0]}`;
           } else {
             label = 'Time Period'
+            description = `${item.key}: ${item.values[0]}`
           }
 
         }
-        const description = `${item.key}: ${item.values.join(', ')}`;
 
         return (
           <PillButton

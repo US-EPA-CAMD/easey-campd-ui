@@ -25,7 +25,7 @@ describe('SubHeader', () => {
     );
     const { container, getByText } = query;
 
-    const header = getByText('CAMPD: Clean Air Markets Program Data');
+    const header = getByText('Clean Air Markets Program Data');
     const home = getByText('HOME');
     const data = getByText('DATA');
     const analysis = getByText('ANALYSIS');
