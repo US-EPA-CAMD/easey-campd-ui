@@ -30,7 +30,7 @@ const TimePeriodYear = ({
   }
   const rangeMessage =
     showMonth || showQuarter
-      ? `Enter ${property} between 01/01/1995 and the end of the calendar quarter, ${reportingQuarter()}`
+      ? `Enter ${property} and year(s) between 01/01/1995 and the end of the calendar quarter, ${reportingQuarter()}`
       : 'Enter year(s) between 1995 and this year';
 
   return (
