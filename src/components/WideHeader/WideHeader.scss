@@ -30,3 +30,24 @@
     transform: translateY(-50%);
   }
 }
+
+.main-content-skip-visible-hidden {
+  clip: rect(1px, 1px, 1px, 1px);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+
+  &:focus {
+    clip: auto;
+    height: auto;
+    overflow: auto;
+    position: absolute;
+    width: auto;
+  }
+}
+
+// 2. slide out menu: ensure menu button is focused after menu closed.
+// 3. slide out menu: usa-navbar menu button needs aria-is-expanded to toggle when it's open and closed.
+// 4. footer button needs to have aria-is-expanded to toggle.
