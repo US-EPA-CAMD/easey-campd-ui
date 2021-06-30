@@ -38,8 +38,10 @@ const FooterMenu = () => {
         title={!showMenuOptions ? 'collapsable' : 'close'}
         className="menuBtn padding-0 margin-0 float-right opacity-100 border-primary"
         id={!showMenuOptions ? 'collapsable' : 'close'}
+        aria-expanded="false"
         aria-haspopup="true"
         aria-labelledby={!showMenuOptions ? 'collapsable' : 'close'}
+        aria-label="Secondary Menu"
       >
         {showMenuOptions ? (
           <b className="fa fa-times fa-sm" />

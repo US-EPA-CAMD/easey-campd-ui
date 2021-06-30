@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Route, Switch } from "react-router-dom";
 
 import SelectDataType from "../SelectDataType/SelectDataType";
@@ -12,6 +12,18 @@ import Layout from "../Layout/Layout";
 import "./App.scss";
 
 function App() {
+
+  const prepDocument = () => {
+    setTimeout(() => {
+      const mainContent = document.querySelector('.mainContent');
+      mainContent.setAttribute('id', 'main-content');
+    });
+  };
+
+  useEffect(() => {
+    prepDocument();
+  });
+
   return (
     <div className="react-transition fade-in">
       <Layout>

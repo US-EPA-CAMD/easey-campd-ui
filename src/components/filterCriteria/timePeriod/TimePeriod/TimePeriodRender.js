@@ -8,6 +8,7 @@ import { faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
 
 import TimePeriodYear from "../TimePeriodYear/TimePeriodYear";
 import TimePeriodFullDate from "../TimePeriodFullDate/TimePeriodFullDate";
+import { formatMonthsToApiOrString, formatQuartersToApiOrString } from "../../../../utils/selectors/general";
 
 const TimePeriodRender = ({
   applyFilterHandler,
@@ -15,8 +16,11 @@ const TimePeriodRender = ({
   handleEndDateUpdate,
   handleOptHrsOnlyUpdate,
   handleYearUpdate,
+  handleMonthUpdate,
+  handleQuarterUpdate,
   formState,
   isFormValid,
+  onSelectAllHandler,
   onInvalidHandler,
   closeFlyOutHandler,
   validations,
@@ -29,9 +33,9 @@ const TimePeriodRender = ({
   const isApplyFilterDisabled = () => {
     if (showYear) {
       if (showMonth) {
-        return !(formState.year.length > 0 && formState.month.length > 0);
+        return !(formState.year.length > 0 && formatMonthsToApiOrString(formState.month).length > 0);
       } else if (showQuarter) {
-        return !(formState.year.length > 0 && formState.quarter.length > 0);
+        return !(formState.year.length > 0 && formatQuartersToApiOrString(formState.quarter).length > 0);
       } else {
         return !(formState.year.length > 0);
       }
@@ -56,6 +60,9 @@ const TimePeriodRender = ({
           showMonth={showMonth}
           showQuarter={showQuarter}
           handleYearUpdate={handleYearUpdate}
+          handleMonthUpdate={handleMonthUpdate}
+          handleQuarterUpdate={handleQuarterUpdate}
+          onSelectAllHandler={onSelectAllHandler}
           onInvalidHandler={onInvalidHandler}
           validations={validations}
           isFormValid={isFormValid}
@@ -72,23 +79,26 @@ const TimePeriodRender = ({
           isFormValid={isFormValid}
         />
       )}
-      <Button
-        type="button"
-        outline
-        onClick={closeFlyOutHandler}
-        className={isApplyFilterDisabled() ? 'autofocus2' : ''}
-      >
-        Cancel
-      </Button>
-      <Button
-        type="submit"
-        className={
-          isApplyFilterDisabled() ? 'float-right' : 'float-right autofocus2'
-        }
-        disabled={isApplyFilterDisabled()}
-      >
-        Apply Filter
-      </Button>
+      {(showMonth) && <hr className="margin-y-2" />}
+      <div className="margin-bottom-3">
+        <Button
+          type="button"
+          outline
+          onClick={closeFlyOutHandler}
+          className={isApplyFilterDisabled() ? 'autofocus2' : ''}
+        >
+          Cancel
+        </Button>
+        <Button
+          type="submit"
+          className={
+            isApplyFilterDisabled() ? 'float-right' : 'float-right autofocus2'
+          }
+          disabled={isApplyFilterDisabled()}
+        >
+          Apply Filter
+        </Button>
+      </div>
     </Form>
   );
 };

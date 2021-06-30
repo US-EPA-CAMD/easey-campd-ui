@@ -31,24 +31,24 @@ export const FILTERS_MAP = {
   },
 };
 
-export const MONTHS = {
-  1: 'January',
-  2: 'February',
-  3: 'March',
-  4: 'April',
-  5: 'May',
-  6: 'June',
-  7: 'July',
-  8: 'August',
-  9: 'September',
-  10: 'October',
-  11: 'November',
-  12: 'December',
-};
+export const MONTHS = [
+  { id: 1, label: 'January', selected: false },
+  { id: 2, label: 'February', selected: false },
+  { id: 3, label: 'March', selected: false },
+  { id: 4, label: 'April', selected: false },
+  { id: 5, label: 'May', selected: false },
+  { id: 6, label: 'June', selected: false },
+  { id: 7, label: 'July', selected: false },
+  { id: 8, label: 'August', selected: false },
+  { id: 9, label: 'September', selected: false },
+  { id: 10, label: 'October', selected: false },
+  { id: 11, label: 'November', selected: false },
+  { id: 12, label: 'December', selected: false },
+];
 
-export const QUARTERS = {
-  1: 'Q1',
-  2: 'Q2',
-  3: 'Q3',
-  4: 'Q4',
-};
+export const QUARTERS = [
+  { id: 1, label: 'Q1', selected: false },
+  { id: 2, label: 'Q2', selected: false },
+  { id: 3, label: 'Q3', selected: false },
+  { id: 4, label: 'Q4', selected: false },
+];
