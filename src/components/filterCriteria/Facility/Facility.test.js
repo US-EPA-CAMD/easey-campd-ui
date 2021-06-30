@@ -320,6 +320,7 @@ describe('Facility Component', () => {
     const searchbox = getByTestId("input-search");
     expect(searchbox).toBeInTheDocument();
     searchbox.focus();
+    fireEvent.click(searchbox);
     const listBox = getByTestId("multi-select-listbox");
     expect(listBox).toBeInTheDocument();
     expect(within(listBox).getAllByTestId('multi-select-option').length).toBe(initialState.filterCriteria.facility.length);
@@ -335,6 +336,7 @@ describe('Facility Component', () => {
     const { getByTestId, getAllByTestId} = query;
     const searchbox = getByTestId("input-search");
     searchbox.focus();
+    fireEvent.click(searchbox);
     fireEvent.change(searchbox, { target: { value: 'Barry' } })
     expect(searchbox.value).toBe('Barry');
     expect(within(getByTestId("multi-select-listbox")).getAllByTestId('multi-select-option').length).toBe(1);
