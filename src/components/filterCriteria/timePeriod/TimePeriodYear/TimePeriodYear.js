@@ -7,6 +7,9 @@ import {
   ValidationItem,
 } from '@trussworks/react-uswds';
 
+import CheckboxGroup from '../../../CheckboxGroup/CheckboxGroup';
+import { reportingQuarter } from '../../../../utils/selectors/general';
+
 const TimePeriodYear = ({
   formState,
   showMonth,
@@ -14,10 +17,22 @@ const TimePeriodYear = ({
   handleYearUpdate,
   handleMonthUpdate,
   handleQuarterUpdate,
+  onSelectAllHandler,
   onInvalidHandler,
   validations,
   isFormValid,
 }) => {
+  let property;
+  if (showMonth) {
+    property = 'month(s)';
+  } else if (showQuarter) {
+    property = 'quarter(s)';
+  }
+  const rangeMessage =
+    showMonth || showQuarter
+      ? `Enter ${property} between 01/01/1995 and the end of the calendar quarter, ${reportingQuarter()}`
+      : 'Enter year(s) between 1995 and this year';
+
   return (
     <>
       <Alert
@@ -34,18 +49,19 @@ const TimePeriodYear = ({
             isValid={validations.yearFormat}
             aria-checked={validations.yearFormat}
           >
-            Enter Year(s) in the YYYY-YYYY,YYYY format
+            Enter year(s) using a comma separated format (ex. 1995, 2000,
+            2001-2005)
           </ValidationItem>
           <ValidationItem
             id="validReportingQuarter"
             isValid={validations.validReportingQuarter}
             aria-checked={validations.validReportingQuarter}
           >
-            Enter Year(s) between 1995 and this year
+            {rangeMessage}
           </ValidationItem>
         </ValidationChecklist>
       </Alert>
-      <Label htmlFor="event-year-input">Year(s)</Label>
+      <Label htmlFor="event-year-input">Year(s) (Required)</Label>
       <div className="usa-hint" id="date-format-hint">
         Ex: 1995-2000,2003,2005,2010-2015
       </div>
@@ -60,7 +76,35 @@ const TimePeriodYear = ({
         onInvalid={onInvalidHandler}
         defaultValue={formState.year}
       />
-      <hr />
+      {showMonth && (
+        <div className="">
+          <CheckboxGroup
+            enableSelectAll={true}
+            getFocus={true}
+            name="month"
+            description="Month(s) (Required)"
+            items={formState.month}
+            smallLabel={true}
+            onSelectAll={onSelectAllHandler}
+            onSelectItem={handleMonthUpdate}
+          />
+        </div>
+      )}
+      {showQuarter && (
+        <div className="">
+          <CheckboxGroup
+            enableSelectAll={true}
+            getFocus={true}
+            name="quarter"
+            description="Quarter(s) (Required)"
+            items={formState.quarter}
+            smallLabel={true}
+            onSelectAll={onSelectAllHandler}
+            onSelectItem={handleQuarterUpdate}
+          />
+        </div>
+      )}
+      {!showMonth && !showQuarter && <hr />}
     </>
   );
 };
