@@ -49,6 +49,7 @@ export const TimePeriod = ({
     validReportingQuarter: true,
     yearFormat: true,
   });
+
   const [applyFilterClicked, setApplyFilterClicked] = useState(false);
   const filterToApply = 'Time Period';
 
@@ -84,25 +85,15 @@ export const TimePeriod = ({
           [1, 2, 3],
         );
       } else {
-        updatedValidations['validReportingQuarter'] = isInYearRange(
-          formatYearsToArray(formState.year)
-        );
+        updatedValidations['validReportingQuarter'] = isInYearRange(formatYearsToArray(formState.year));
       }
     } else {
-      updatedValidations['startDateFormat'] = isDateFormatValid(
-        formState.startDate
-      );
-      updatedValidations['endDateFormat'] = isDateFormatValid(
-        formState.endDate
-      );
+      updatedValidations['startDateFormat'] = isDateFormatValid(formState.startDate);
+      updatedValidations['endDateFormat'] = isDateFormatValid(formState.endDate);
       if (
-        updatedValidations['startDateFormat'] &&
-        updatedValidations['endDateFormat']
+        updatedValidations['startDateFormat'] && updatedValidations['endDateFormat']
       ) {
-        updatedValidations['dateRange'] = isDateRangeValid(
-          formState.startDate,
-          formState.endDate
-        );
+        updatedValidations['dateRange'] = isDateRangeValid(formState.startDate, formState.endDate);
       } else {
         updatedValidations['dateRange'] = false;
       }
@@ -154,24 +145,22 @@ export const TimePeriod = ({
   };
 
   const onSelectAllHandler = (evt) => {
-    const items = (evt.target.name === 'month' ? formState.month : formState.quarter);
+    const items = evt.target.name === 'month' ? formState.month : formState.quarter;
 
     items.forEach((i) => {
       i.selected = evt.target.checked;
     });
-    if(evt.target.name === 'month') {
-      setFormState({...formState, month: items})
+
+    if (evt.target.name === 'month') {
+      setFormState({ ...formState, month: items });
     } else {
-      setFormState({...formState, quarter: items})
+      setFormState({ ...formState, quarter: items });
     }
   };
 
   const isFormValid = () => {
     if (showYear) {
-      return (
-        validations.yearFormat &&
-        validations.validReportingQuarter
-      );
+      return validations.yearFormat && validations.validReportingQuarter;
     } else {
       return (
         validations.startDateFormat &&
@@ -191,9 +180,11 @@ export const TimePeriod = ({
       month: formatMonthsToApiOrString(formState.month),
       quarter: formatQuartersToApiOrString(formState.quarter),
     });
+
     if (isAddedToFilters(filterToApply, appliedFilters)) {
       removeAppliedFiltersDispatcher(filterToApply);
     }
+
     let appendMonthOrQuarter;
     if (showMonth) {
       appendMonthOrQuarter = `; ${formatMonthsToApiOrString(formState.month, true).join(', ')}`;
@@ -202,6 +193,7 @@ export const TimePeriod = ({
     } else {
       appendMonthOrQuarter = '';
     }
+
     addAppliedFilterDispatcher({
       key: filterToApply,
       values: [`${formState.year}${appendMonthOrQuarter}`, 'filter tag year value'],
@@ -214,13 +206,16 @@ export const TimePeriod = ({
       endDate: formatDateToApi(formState.endDate),
       opHrsOnly: formState.opHrsOnly,
     });
+
     if (isAddedToFilters(filterToApply, appliedFilters)) {
       removeAppliedFiltersDispatcher(filterToApply);
     }
+
     addAppliedFilterDispatcher({
       key: filterToApply,
       values: [`${formState.startDate} - ${formState.endDate}`],
     });
+    
     if (formState.opHrsOnly) {
       addAppliedFilterDispatcher({
         key: filterToApply,
