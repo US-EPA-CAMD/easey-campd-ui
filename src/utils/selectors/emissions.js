@@ -75,6 +75,41 @@ export const getMonthlyEmissionsTableRecords = (monthlyEmissions) => {
   return records;
 };
 
+export const getQuarterlyEmissionsTableRecords = (quarterlyEmissions) => {
+  const records = [];
+  quarterlyEmissions.forEach((el) => {
+    records.push({
+      col1: el.state,
+      col2: el.facilityName,
+      col3: el.orisCode,
+      col4: el.unitId,
+      col5: el.assocStacks,
+      col6: el.opYear,
+      col7: el.opQuarter,
+      col8: el.sumOpTime,
+      col9: el.countOpTime,
+      col10: el.gLoad,
+      col11: el.sLoad,
+      col12: el.so2Mass,
+      col13: el.so2Rate,
+      col14: el.noxMass,
+      col15: el.noxRate,
+      col16: el.co2Mass,
+      col17: el.co2Rate,
+      col18: el.heatInput,
+      col19: el.primaryFuelInfo,
+      col20: el.secondaryFuelInfo,
+      col21: el.unitTypeInfo,
+      col22: el.so2ControlInfo,
+      col23: el.partControlInfo,
+      col24: el.noxControlInfo,
+      col25: el.hgControlInfo,
+      col26: el.prgCodeInfo,
+    });
+  });
+  return records;
+};
+
 export const constructTimePeriodQuery = (dataSubType, filterCriteria) => {
   switch (dataSubType.toLowerCase()) {
     case 'hourly emissions':

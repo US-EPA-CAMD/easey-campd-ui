@@ -4,6 +4,7 @@ import { Button } from '@trussworks/react-uswds';
 
 import HourlyEmissions from '../HourlyEmissions/HourlyEmissions';
 import MonthlyEmissions from '../MonthlyEmissions/MonthlyEmissions';
+import QuarterlyEmissions from '../QuarterlyEmissions/QuarterlyEmissions';
 import FilterTags from '../../FilterTags/FilterTags';
 import { isAddedToFilters } from '../../../utils/selectors/general';
 import {
@@ -106,8 +107,12 @@ const ManageDataPreview = ({
         ),
       },
       'Quarterly Emissions': {
-        requiredFilters: ['unknown'],
-        component: null,
+        requiredFilters: emissionsConstants.EMISSIONS_REQUIRED_FILTERS,
+        component: (
+          <QuarterlyEmissions
+            handleUpdateInAppliedFilters={handleUpdateInAppliedFilters}
+          />
+        ),
       },
       'Ozone Season Emissions': {
         requiredFilters: ['unknown'],
