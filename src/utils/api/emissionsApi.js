@@ -11,6 +11,15 @@ export async function getHourlyEmissions(filterCriteria) {
     .catch(handleError);
 }
 
+export async function getDailyEmissions(filterCriteria) {
+  const url = constructRequestUrl('emissions', 'daily emissions', filterCriteria);
+
+  return axios
+    .get(url.replace(/\r?\n|\r/g, ''))
+    .then(handleResponse)
+    .catch(handleError);
+}
+
 export async function getMonthlyEmissions(filterCriteria) {
   const url = constructRequestUrl('emissions', 'monthly emissions', filterCriteria);
 
