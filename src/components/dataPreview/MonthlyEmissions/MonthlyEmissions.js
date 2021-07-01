@@ -1,8 +1,8 @@
 import React, { useEffect, useMemo } from "react";
 import { connect } from "react-redux";
-import { loadMonthlyEmissions } from "../../../../store/actions/customDataDownload/customDataDownload";
-import { getMonthlyEmissionsTableRecords } from "../../../../utils/selectors/emissions";
-import DataPreviewRender from "../../DataPreviewRender/DataPreviewRender";
+import { loadMonthlyEmissions } from "../../../store/actions/customDataDownload/customDataDownload";
+import { getMonthlyEmissionsTableRecords } from "../../../utils/selectors/emissions";
+import DataPreviewRender from "../DataPreviewRender/DataPreviewRender";
 
 export const MonthlyEmissions = ({
   dataPreview,

@@ -1,8 +1,8 @@
 import React, { useEffect, useMemo } from "react";
 import { connect } from "react-redux";
-import { loadHourlyEmissions } from "../../../../store/actions/customDataDownload/customDataDownload";
-import { getHourlyEmissionsTableRecords } from "../../../../utils/selectors/emissions";
-import DataPreviewRender from "../../DataPreviewRender/DataPreviewRender";
+import { loadHourlyEmissions } from "../../../store/actions/customDataDownload/customDataDownload";
+import { getHourlyEmissionsTableRecords } from "../../../utils/selectors/emissions";
+import DataPreviewRender from "../DataPreviewRender/DataPreviewRender";
 
 export const HourlyEmissions = ({
   dataPreview,

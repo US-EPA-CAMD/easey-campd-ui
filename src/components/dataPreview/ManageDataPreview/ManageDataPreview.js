@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Button } from '@trussworks/react-uswds';
 
-import HourlyEmissions from '../emissions/HourlyEmissions/HourlyEmissions';
-import MonthlyEmissions from '../emissions/MonthlyEmissions/MonthlyEmissions';
+import HourlyEmissions from '../HourlyEmissions/HourlyEmissions';
+import MonthlyEmissions from '../MonthlyEmissions/MonthlyEmissions';
 import FilterTags from '../../FilterTags/FilterTags';
 import { isAddedToFilters } from '../../../utils/selectors/general';
 import {
