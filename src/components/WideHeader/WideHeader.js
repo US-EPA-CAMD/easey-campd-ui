@@ -9,7 +9,7 @@ import {
   PrimaryNav,
   NavMenuButton,
   GovBanner,
-  Search, Button,
+  Search,
 } from '@trussworks/react-uswds';
 
 /*** additional 'local' (i.e., our app) components ***/

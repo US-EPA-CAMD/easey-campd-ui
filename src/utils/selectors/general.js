@@ -5,7 +5,7 @@ import {
 import config from '../../config';
 import { constructTimePeriodQuery } from './emissions';
 import * as constants from '../constants/customDataDownload';
-import { isYearFormat } from '../dateValidation/dateValidation';
+import { isYearFormat } from '../DateValidation/dateValidation';
 
 export const isAddedToFilters = (filter, appliedFilters) => {
   return appliedFilters.filter((el) => el.key === filter).length > 0;
