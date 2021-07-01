@@ -149,3 +149,41 @@ export const collapsableFooterTopics = [
     name: 'Privacy and Security Notice',
   },
 ];
+
+export const subHeaderMenuList = [
+  {
+    label: "HOME",
+    items: []
+  },
+  {
+    label: "DATA",
+    items: [
+      {menu: "Custom Data Download", link:"/select-data-type"},
+      {menu: "Bulk Data Files", link:""}
+    ]
+  },
+  {
+    label: "ANALYSIS",
+    items: [{menu: "Coming Soon", link:""}]
+  },
+  {
+    label: "VISUALIZATION",
+    items: [{menu: "Coming Soon", link:""}]
+  },
+  {
+    label: "CAM API",
+    items: [{menu: "Coming Soon", link:""}]
+  },
+  {
+    label: "HELP",
+    items: [
+      {menu: "About CAMPD", link:""},
+      {menu: "Tutorials", link:""},
+      {menu: "Glossary", link:""},
+      {menu: "FAQs", link:""},
+      {menu: "Related Resources", link:""},
+      {menu: "Contact Us", link:""},
+      {menu: "Site Map", link:""}
+    ]
+  }
+];

@@ -7,7 +7,7 @@ div.row.column1 {
   height: auto;
 }
 .mainContent {
-  min-height: 80vh;
+  min-height: fit-content;
   max-width: 100%;
 }
 .row {
@@ -18,4 +18,21 @@ div.row.column1 {
 .sideNav {
   display: flex;
   flex-direction: column;
+}
+
+.skip-to-content-anchor {
+  position: absolute;
+  left: -999px;
+  width: 1px;
+  height: 1px;
+  top: auto;
+
+  &:focus {
+    color: #000000;
+    display: inline-block;
+    height: auto;
+    width: auto;
+    position: static;
+    margin: auto;
+  }
 }

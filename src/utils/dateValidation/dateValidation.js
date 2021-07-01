@@ -50,7 +50,7 @@ export const isYearFormat = (yearString) => {
   yearArray.forEach((year) => {
     if (year && year.includes('-')) {
       const t = year.split('-');
-      if (t.length === 2) {
+      if (t.length === 2 && t[0] < t[1]) {
         valid = t[0].match(regex) && t[1].match(regex);
       }
     } else {

@@ -5,6 +5,7 @@ import {
 import config from '../../config';
 import { constructTimePeriodQuery } from './emissions';
 import * as constants from '../constants/customDataDownload';
+import { isYearFormat } from '../dateValidation/dateValidation';
 
 export const isAddedToFilters = (filter, appliedFilters) => {
   return appliedFilters.filter((el) => el.key === filter).length > 0;
@@ -52,22 +53,24 @@ export const formatDateToUi = (dateString) => {
 
 export const formatYearsToArray = (multiSelectDateString) => {
   // param=2001-2003,2007 return=[2001, 2002, 2003, 2007]
-  const range = (start, stop) =>
-    Array(stop - start + 1)
-      .fill(start)
-      .map((x, y) => x + y);
-
-  const dateStringArray = multiSelectDateString.replace(/ /g, '').split(',');
   const numberArray = [];
+  if (isYearFormat(multiSelectDateString)) {
+    const range = (start, stop) =>
+      Array(stop - start + 1)
+        .fill(start)
+        .map((x, y) => x + y);
 
-  dateStringArray.forEach((dateString) => {
-    if (dateString && dateString.includes('-')) {
-      const t = dateString.split('-');
-      numberArray.push(...range(parseInt(t[0]), parseInt(t[1])));
-    } else {
-      numberArray.push(parseInt(dateString));
-    }
-  });
+    const dateStringArray = multiSelectDateString.replace(/ /g, '').split(',');
+
+    dateStringArray.forEach((dateString) => {
+      if (dateString && dateString.includes('-')) {
+        const t = dateString.split('-');
+        numberArray.push(...range(parseInt(t[0]), parseInt(t[1])));
+      } else {
+        numberArray.push(parseInt(dateString));
+      }
+    });
+  }
 
   return numberArray;
 };
@@ -143,7 +146,7 @@ export const constructRequestUrl = (
   const controlTechnologyQuery = filterCriteria.controlTechnology
     ? constructQuery(filterCriteria.controlTechnology, 'controlTechnologies')
     : '';
-  const pagination = download ? '' : 'page=1&perPage=100&';
+  const pagination = download ? '' : 'page=1&perPage=100';
   const attachFile = download ? '&attachFile=true' : '&attachFile=false';
 
   let apiService;

@@ -67,6 +67,87 @@ export function loadHourlyEmissions(filterCriterias) {
   };
 }
 
+/* ---------DAILY EMISSIONS----------- */
+export function loadDailyEmissionsSuccess(dailyEmissions, totalCount) {
+  return {
+    type: types.LOAD_DAILY_EMISSIONS_SUCCESS,
+    dailyEmissions: {
+      data: dailyEmissions,
+      totalCount: totalCount,
+    },
+  };
+}
+
+export function loadDailyEmissions(filterCriterias) {
+  return (dispatch) => {
+    dispatch(beginApiCall());
+    return emissionsApi
+      .getDailyEmissions(filterCriterias)
+      .then((res) => {
+        dispatch(
+          loadDailyEmissionsSuccess(res.data, res.headers['x-total-count'])
+        );
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+}
+
+/* ---------MONTHLY EMISSIONS----------- */
+export function loadMonthlyEmissionsSuccess(monthlyEmissions, totalCount) {
+  return {
+    type: types.LOAD_MONTHLY_EMISSIONS_SUCCESS,
+    monthlyEmissions: {
+      data: monthlyEmissions,
+      totalCount: totalCount,
+    },
+  };
+}
+
+export function loadMonthlyEmissions(filterCriterias) {
+  return (dispatch) => {
+    dispatch(beginApiCall());
+    return emissionsApi
+      .getMonthlyEmissions(filterCriterias)
+      .then((res) => {
+        dispatch(
+          loadMonthlyEmissionsSuccess(res.data, res.headers['x-total-count'])
+        );
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+}
+
+/* ---------QUARTERLY EMISSIONS----------- */
+export function loadQuarterlyEmissionsSuccess(quarterlyEmissions, totalCount) {
+  return {
+    type: types.LOAD_QUARTERLY_EMISSIONS_SUCCESS,
+    quarterlyEmissions: {
+      data: quarterlyEmissions,
+      totalCount: totalCount,
+    },
+  };
+}
+
+export function loadQuarterlyEmissions(filterCriterias) {
+  return (dispatch) => {
+    dispatch(beginApiCall());
+    return emissionsApi
+      .getQuarterlyEmissions(filterCriterias)
+      .then((res) => {
+        dispatch(
+          loadQuarterlyEmissionsSuccess(res.data, res.headers['x-total-count'])
+        );
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+}
+
 /* ---------OZONE EMISSIONS----------- */
 
 export function loadOzoneEmissionsSuccess(ozoneEmissions, totalCount) {

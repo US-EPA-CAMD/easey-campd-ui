@@ -70,7 +70,7 @@ export const SelectDataTypeInCards = ({
     }, 1000);
   };
   return (
-    <div className="cardsContainer">
+    <>
       <h3 className="font-alt-lg margin-y-3">
         <b>Select a Data Type </b>
         <FontAwesomeIcon
@@ -78,9 +78,11 @@ export const SelectDataTypeInCards = ({
           className="text-primary font-body-sm question-icon position-relative top-neg-1px"
         />
       </h3>
-      <SelectableCardList contents={cardContents} onChange={onListChanged} />
+      <div className="height-card">
+        <SelectableCardList contents={cardContents} onChange={onListChanged} />
+      </div>
       {selected !== -1 && handleRoute()}
-    </div>
+    </>
   );
 };
 
