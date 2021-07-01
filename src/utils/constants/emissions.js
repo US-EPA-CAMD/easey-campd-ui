@@ -24,4 +24,4 @@ export const FACILITY_UNIT_FILTERS = [
     { value: 'Source Category', stateVar: 'sourceCategory', label: 'SOURCE CATEGORY (Optional)' },
 ]
 
-export const HOURLY_EMISSIONS_REQUIRED_FILTERS = ['Time Period'];
+export const EMISSIONS_REQUIRED_FILTERS = ['Time Period'];

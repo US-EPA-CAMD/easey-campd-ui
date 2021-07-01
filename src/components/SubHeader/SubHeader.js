@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import config from "../../config";
 import SubHeaderInfo from "../SubHeaderInfo/SubHeaderInfo";
+import {subHeaderMenuList} from "../../utils/constants/menuTopics";
 import {
   Menu,
   Header,
@@ -15,11 +16,12 @@ import "./SubHeader.scss";
 
 const SubHeader = () => {
   const pathname= useLocation().pathname;
+  const cddPath = ["/select-data-type", "/manage-data-download"];
 
   useEffect(()=>{
     setCategorySelected([
       pathname==="/",
-      pathname==="/select-data-type", false, false, false, false
+      cddPath.includes(pathname), false, false, false, false
     ])
   },[pathname]);
 
@@ -27,7 +29,7 @@ const SubHeader = () => {
   const [categorySelected, setCategorySelected] =
     useState([
       pathname==="/",
-      pathname==="/select-data-type", false, false, false, false]);
+      cddPath.includes(pathname), false, false, false, false]);
 
   const handleToggleNavDropdown = (column) => {
     setNavDropdownOpen((prevNavDropdownOpen) => {
@@ -40,11 +42,10 @@ const SubHeader = () => {
   const handleSubMenuClick = (column) => {
     handleToggleNavDropdown(column);
 
-    setCategorySelected((prevCategorySelected) => {
-      const newCategorySelected = Array(prevCategorySelected.length).fill(false);
-      newCategorySelected[column] = true;
-      return newCategorySelected;
-    });
+    setCategorySelected([
+      pathname==="/",
+      cddPath.includes(pathname), false, false, false, false
+    ])
   };
 
   return (
@@ -71,158 +72,69 @@ const SubHeader = () => {
             </span>
           </Title>
           <Button
-            className="desktop:display-none float-right bg-transparent margin-0 position-relative"
+            className="desktop:display-none float-right bg-transparent margin-0 position-relative top-1"
           >
             <img
-              src={`${process.env.PUBLIC_URL}/images/mobile-menu-expand.svg`}
+              src={`${process.env.PUBLIC_URL}/images/icons/mobile-menu-expand.svg`}
               alt="Expandable Menu"
-              className="position-absolute right-0 top-1"
+              className= {"position-absolute bottom-1px"}
             />
           </Button>
           <PrimaryNav
-            className="desktop float-right desktop:margin-top-3 desktop-lg:margin-top-0"
-            items={[
-              <>
-                <a
-                  id="extended-nav-section-one"
-                  href={config.app.path}
-                  title="Home"
-                  aria-label="Home"
-                  onClick={()=>handleSubMenuClick(0)}
-                >
-                  HOME
-                </a>
-                {categorySelected[0] === true ? (
-                  <div className="menu-underline" />
-                ) : null}
-              </>,
-              <>
-                <NavDropDownButton
-                  key="testItemTwo"
-                  label="DATA"
-                  menuId="menuData"
-                  isOpen={navDropdownOpen[1]}
-                  onToggle={() => {
-                    handleToggleNavDropdown(1);
-                  }}
-                />
-                <Menu
-                  id="extended-nav-section-two"
-                  items={[
-                    <Link
-                      to="/select-data-type"
-                      onClick={() =>
-                        handleSubMenuClick(1)
-                      }
-                    >
-                      Custom Data Download
-                    </Link>,
-                    <Link
-                      to="" /*onClick={(event) => handleSubMenuClick("", 1)}*/
-                    >
-                      Datasets
-                    </Link>,
-                    <Link
-                      to="" /*onClick={(event) => handleSubMenuClick("", 1)}*/
-                    >
-                      CAMPD API
-                    </Link>,
-                  ]}
-                  isOpen={navDropdownOpen[1]}
-                />
-                {categorySelected[1] === true ? (
-                  <div className="menu-underline" />
-                ) : null}
-              </>,
-              <>
-                <NavDropDownButton
-                  key="testItemThree"
-                  label="ANALYSIS"
-                  menuId="menuAnalysis"
-                  isOpen={navDropdownOpen[2]}
-                  onToggle={() => {
-                    handleToggleNavDropdown(2);
-                  }}
-                />
-                <Menu
-                  id="extended-nav-section-three"
-                  items={[
-                    <Link
-                      to="" /*onClick={(event) => handleSubMenuClick("", 2)}*/
-                    >
-                      Analysis
-                    </Link>,
-                  ]}
-                  isOpen={navDropdownOpen[2]}
-                />
-              </>,
-              <>
-                <NavDropDownButton
-                  key="testItemFour"
-                  label="VISUALIZATION"
-                  menuId="menuVisualization"
-                  isOpen={navDropdownOpen[3]}
-                  onToggle={() => {
-                    handleToggleNavDropdown(3);
-                  }}
-                />
-                <Menu
-                  id="extended-nav-section-four"
-                  items={[
-                    <Link
-                      to="" /*onClick={(event) => handleSubMenuClick("", 2)}*/
-                    >
-                      Visualization
-                    </Link>,
-                  ]}
-                  isOpen={navDropdownOpen[3]}
-                />
-              </>,
-              <>
-              <NavDropDownButton
-                key="testItemFive"
-                label="CAM API"
-                menuId="menuCamApi"
-                isOpen={navDropdownOpen[4]}
-                onToggle={() => {
-                  handleToggleNavDropdown(4);
-                }}
-              />
-              <Menu
-                id="extended-nav-section-five"
-                items={[
-                  <Link
-                    to="" /*onClick={(event) => handleSubMenuClick("", 2)}*/
-                  >
-                    CAM API
-                  </Link>,
-                ]}
-                isOpen={navDropdownOpen[4]}
-              />
-            </>,
-            <>
-              <NavDropDownButton
-                key="testItemSix"
-                label="HELP"
-                menuId="menuHelp"
-                isOpen={navDropdownOpen[5]}
-                onToggle={() => {
-                  handleToggleNavDropdown(5);
-                }}
-              />
-              <Menu
-              id="extended-nav-section-six"
-              items={[
-                <Link
-                  to="" /*onClick={(event) => handleSubMenuClick("", 2)}*/
-                >
-                  Help
-                </Link>,
-              ]}
-              isOpen={navDropdownOpen[5]}
-            />
-            </>,
-            ]}
+            className="float-right desktop:margin-top-3 desktop-lg:margin-top-0"
+            items={
+              subHeaderMenuList.map((el,i)=>{
+                if(i===0){
+                  return(
+                    <>
+                      <a
+                        href={config.app.path}
+                        title={el.label}
+                        aria-label={el.label}
+                        onClick={()=>handleSubMenuClick(i)}
+                      >
+                        {el.label}
+                      </a>
+                      {categorySelected[i] === true ? (
+                        <div className="menu-underline" />
+                      ) : null}
+                    </>
+                  )
+                }else{
+                  return(
+                    <>
+                      <NavDropDownButton
+                        key={i}
+                        label={el.label}
+                        menuId={`menu-${el.label}`}
+                        isOpen={navDropdownOpen[i]}
+                        onToggle={() => {
+                          handleToggleNavDropdown(i);
+                        }}
+                      />
+                      <Menu
+                        id={i===subHeaderMenuList.length-1?`extended-nav-section-last`:null}
+                        className="font-body-xs"
+                        items={el.items.map((item,index)=>
+                          <Link
+                            key={index}
+                            to={item.link}
+                            onClick={() =>
+                              handleSubMenuClick(i)
+                            }
+                          >
+                            {item.menu}
+                          </Link>,
+                        )}
+                        isOpen={navDropdownOpen[i]}
+                      />
+                      {categorySelected[i] === true ? (
+                        <div className="menu-underline" />
+                      ) : null}
+                    </>
+                  )
+                }
+              })}
           />
         </div>
         {categorySelected[0] && <SubHeaderInfo/>}

@@ -3,6 +3,10 @@ import { connect } from 'react-redux';
 import { Button } from '@trussworks/react-uswds';
 
 import HourlyEmissions from '../HourlyEmissions/HourlyEmissions';
+import DailyEmissions from '../DailyEmissions/DailyEmissions';
+import MonthlyEmissions from '../MonthlyEmissions/MonthlyEmissions';
+import QuarterlyEmissions from '../QuarterlyEmissions/QuarterlyEmissions';
+import AnnualEmissions from '../AnnualEmissions/AnnualEmissions';
 import FilterTags from '../../FilterTags/FilterTags';
 import { isAddedToFilters } from '../../../utils/selectors/general';
 import {
@@ -85,7 +89,7 @@ const ManageDataPreview = ({
   const mapDataPreview = {
     EMISSIONS: {
       'Hourly Emissions': {
-        requiredFilters: emissionsConstants.HOURLY_EMISSIONS_REQUIRED_FILTERS,
+        requiredFilters: emissionsConstants.EMISSIONS_REQUIRED_FILTERS,
         component: (
           <HourlyEmissions
             handleUpdateInAppliedFilters={handleUpdateInAppliedFilters}
@@ -93,24 +97,45 @@ const ManageDataPreview = ({
         ),
       },
       'Daily Emissions': {
-        requiredFilters: ['unknown'],
-        component: null,
+        requiredFilters: emissionsConstants.EMISSIONS_REQUIRED_FILTERS,
+        component: (
+          <DailyEmissions
+            handleUpdateInAppliedFilters={handleUpdateInAppliedFilters}
+          />
+        ),
       },
       'Monthly Emissions': {
-        requiredFilters: ['unknown'],
-        component: null,
+        requiredFilters: emissionsConstants.EMISSIONS_REQUIRED_FILTERS,
+        component: (
+          <MonthlyEmissions
+            handleUpdateInAppliedFilters={handleUpdateInAppliedFilters}
+          />
+        ),
       },
       'Quarterly Emissions': {
-        requiredFilters: ['unknown'],
-        component: null,
+        requiredFilters: emissionsConstants.EMISSIONS_REQUIRED_FILTERS,
+        component: (
+          <QuarterlyEmissions
+            handleUpdateInAppliedFilters={handleUpdateInAppliedFilters}
+          />
+        ),
       },
       'Ozone Season Emissions': {
-        requiredFilters: ['unknown'],
-        component: null,
+        requiredFilters: emissionsConstants.EMISSIONS_REQUIRED_FILTERS,
+        component: (
+          <AnnualEmissions
+            handleUpdateInAppliedFilters={handleUpdateInAppliedFilters}
+            ozone={true}
+          />
+        ),
       },
       'Annual Emissions': {
-        requiredFilters: ['unknown'],
-        component: null,
+        requiredFilters: emissionsConstants.EMISSIONS_REQUIRED_FILTERS,
+        component: (
+          <AnnualEmissions
+            handleUpdateInAppliedFilters={handleUpdateInAppliedFilters}
+          />
+        ),
       },
       'Facility/Unit Attributes': {
         requiredFilters: ['unknown'],
