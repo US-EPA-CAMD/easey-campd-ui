@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Button } from '@trussworks/react-uswds';
 
-import HourlyEmissions from '../HourlyEmissions/HourlyEmissions';
+import HourlyEmissions from '../emissions/HourlyEmissions/HourlyEmissions';
+import MonthlyEmissions from '../emissions/MonthlyEmissions/MonthlyEmissions';
 import FilterTags from '../../FilterTags/FilterTags';
 import { isAddedToFilters } from '../../../utils/selectors/general';
 import {
@@ -85,7 +86,7 @@ const ManageDataPreview = ({
   const mapDataPreview = {
     EMISSIONS: {
       'Hourly Emissions': {
-        requiredFilters: emissionsConstants.HOURLY_EMISSIONS_REQUIRED_FILTERS,
+        requiredFilters: emissionsConstants.EMISSIONS_REQUIRED_FILTERS,
         component: (
           <HourlyEmissions
             handleUpdateInAppliedFilters={handleUpdateInAppliedFilters}
@@ -97,8 +98,12 @@ const ManageDataPreview = ({
         component: null,
       },
       'Monthly Emissions': {
-        requiredFilters: ['unknown'],
-        component: null,
+        requiredFilters: emissionsConstants.EMISSIONS_REQUIRED_FILTERS,
+        component: (
+          <MonthlyEmissions
+            handleUpdateInAppliedFilters={handleUpdateInAppliedFilters}
+          />
+        ),
       },
       'Quarterly Emissions': {
         requiredFilters: ['unknown'],

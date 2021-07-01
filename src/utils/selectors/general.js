@@ -143,7 +143,7 @@ export const constructRequestUrl = (
   const controlTechnologyQuery = filterCriteria.controlTechnology
     ? constructQuery(filterCriteria.controlTechnology, 'controlTechnologies')
     : '';
-  const pagination = download ? '' : 'page=1&perPage=100&';
+  const pagination = download ? '' : 'page=1&perPage=100';
   const attachFile = download ? '&attachFile=true' : '&attachFile=false';
 
   let apiService;
