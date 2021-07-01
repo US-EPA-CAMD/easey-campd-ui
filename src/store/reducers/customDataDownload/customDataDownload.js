@@ -32,26 +32,10 @@ const reducer = (state = initialState.customDataDownload, action) => {
       return Object.assign({}, state, { dataPreview: action.monthlyEmissions.data }, { totalCount: action.monthlyEmissions.totalCount });
     case types.LOAD_QUARTERLY_EMISSIONS_SUCCESS:
       return Object.assign({}, state, { dataPreview: action.quarterlyEmissions.data }, { totalCount: action.quarterlyEmissions.totalCount });
-      return Object.assign(
-        {},
-        state,
-        { dataPreview: action.hourlyEmissions.data },
-        { totalCount: action.hourlyEmissions.totalCount }
-      );
     case types.LOAD_OZONE_EMISSIONS_SUCCESS:
-      return Object.assign(
-        {},
-        state,
-        { dataPreview: action.ozoneEmissions.data },
-        { totalCount: action.ozoneEmissions.totalCount }
-      );
+      return Object.assign({}, state, { dataPreview: action.ozoneEmissions.data }, { totalCount: action.ozoneEmissions.totalCount });
     case types.LOAD_ANNUAL_EMISSIONS_SUCCESS:
-      return Object.assign(
-        {},
-        state,
-        { dataPreview: action.annualEmissions.data },
-        { totalCount: action.annualEmissions.totalCount }
-      );
+      return Object.assign({}, state, { dataPreview: action.annualEmissions.data }, { totalCount: action.annualEmissions.totalCount });
     default:
       return state;
   }
