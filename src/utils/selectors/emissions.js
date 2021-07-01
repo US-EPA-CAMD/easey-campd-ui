@@ -40,6 +40,40 @@ export const getHourlyEmissionsTableRecords = (hourlyEmissions) => {
   return records;
 };
 
+export const getAnnualEmissionsTableRecords = (annualEmissions) => {
+  const records = [];
+  annualEmissions.forEach((el) => {
+    records.push({
+      col1: el.state,
+      col2: el.facilityName,
+      col3: el.orisCode,
+      col4: el.unitId,
+      col5: el.assocStacks,
+      col6: el.opYear,
+      col7: el.sumOpTime,
+      col8: el.countOpTime,
+      col9: el.gLoad,
+      col10: el.sLoad,
+      col11: el.so2Mass,
+      col12: el.so2Rate,
+      col13: el.noxMass,
+      col14: el.noxRate,
+      col15: el.co2Mass,
+      col16: el.co2Rate,
+      col17: el.heatInput,
+      col18: el.primaryFuelInfo,
+      col19: el.secondaryFuelInfo,
+      col20: el.unitTypeInfo,
+      col21: el.so2ControlInfo,
+      col22: el.partControlInfo,
+      col23: el.noxControlInfo,
+      col24: el.hgControlInfo,
+      col25: el.prgCodeInfo,
+    });
+  });
+  return records;
+};
+
 export const constructTimePeriodQuery = (dataSubType, filterCriteria) => {
   switch (dataSubType.toLowerCase()) {
     case 'hourly emissions':
@@ -50,13 +84,10 @@ export const constructTimePeriodQuery = (dataSubType, filterCriteria) => {
     //   return `opYear=${filterCriteria.timePeriod.year}&opMonth=${filterCriteria.timePeriod.month}`;
     // case 'quarterly':
     //   return `opYear=${filterCriteria.timePeriod.year}&quarter=${filterCriteria.timePeriod.quarter}`;
-    case 'ozone emissions':
+    case 'ozone season emissions':
+      return`${constructQuery(filterCriteria.timePeriod.year.yearArray,'opYear',true)}`;
     case 'annual emissions':
-      return `${constructQuery(
-        filterCriteria.timePeriod.year.yearArray,
-        'opYear',
-        true
-      )}`;
+      return`${constructQuery(filterCriteria.timePeriod.year.yearArray,'opYear',true)}`;
     default:
       return '';
   }

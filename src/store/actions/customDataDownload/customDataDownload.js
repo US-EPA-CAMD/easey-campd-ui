@@ -66,3 +66,60 @@ export function loadHourlyEmissions(filterCriterias) {
       });
   };
 }
+
+/* ---------OZONE EMISSIONS----------- */
+
+export function loadOzoneEmissionsSuccess(ozoneEmissions, totalCount) {
+  return {
+    type: types.LOAD_OZONE_EMISSIONS_SUCCESS,
+    ozoneEmissions: {
+      data: ozoneEmissions,
+      totalCount: totalCount,
+    },
+  };
+}
+
+export function loadOzoneEmissions(filterCriterias) {
+  return (dispatch) => {
+    dispatch(beginApiCall());
+    return emissionsApi
+      .getOzoneEmissions(filterCriterias)
+      .then((res) => {
+        dispatch(
+          loadOzoneEmissionsSuccess(res.data, res.headers['x-total-count'])
+          );
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    };
+  }
+
+  /* ---------ANNUAL EMISSIONS----------- */
+
+export function loadAnnualEmissionsSuccess(annualEmissions, totalCount) {
+  return {
+    type: types.LOAD_ANNUAL_EMISSIONS_SUCCESS,
+    annualEmissions: {
+      data: annualEmissions,
+      totalCount: totalCount,
+    },
+  };
+}
+
+export function loadAnnualEmissions(filterCriterias) {
+  return (dispatch) => {
+    dispatch(beginApiCall());
+    return emissionsApi
+      .getAnnualEmissions(filterCriterias)
+      .then((res) => {
+        dispatch(
+          loadAnnualEmissionsSuccess(res.data, res.headers['x-total-count'])
+          );
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    };
+  }
+  

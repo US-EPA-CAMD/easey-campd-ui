@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Button } from '@trussworks/react-uswds';
 
 import HourlyEmissions from '../HourlyEmissions/HourlyEmissions';
+import AnnualEmissions from '../AnnualEmissions/AnnualEmissions';
 import FilterTags from '../../FilterTags/FilterTags';
 import { isAddedToFilters } from '../../../utils/selectors/general';
 import {
@@ -85,7 +86,7 @@ const ManageDataPreview = ({
   const mapDataPreview = {
     EMISSIONS: {
       'Hourly Emissions': {
-        requiredFilters: emissionsConstants.HOURLY_EMISSIONS_REQUIRED_FILTERS,
+        requiredFilters: emissionsConstants.EMISSIONS_REQUIRED_FILTERS,
         component: (
           <HourlyEmissions
             handleUpdateInAppliedFilters={handleUpdateInAppliedFilters}
@@ -105,12 +106,21 @@ const ManageDataPreview = ({
         component: null,
       },
       'Ozone Season Emissions': {
-        requiredFilters: ['unknown'],
-        component: null,
+        requiredFilters: emissionsConstants.EMISSIONS_REQUIRED_FILTERS,
+        component: (
+          <AnnualEmissions
+            handleUpdateInAppliedFilters={handleUpdateInAppliedFilters}
+            ozone={true}
+          />
+        ),
       },
       'Annual Emissions': {
-        requiredFilters: ['unknown'],
-        component: null,
+        requiredFilters: emissionsConstants.EMISSIONS_REQUIRED_FILTERS,
+        component: (
+          <AnnualEmissions
+            handleUpdateInAppliedFilters={handleUpdateInAppliedFilters}
+          />
+        ),
       },
       'Facility/Unit Attributes': {
         requiredFilters: ['unknown'],
