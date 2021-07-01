@@ -10,11 +10,14 @@ const Layout = (props) => {
   );
   return (
     <div className="react-transition fade-in">
+        <a id='skip-nav' className='skip-to-content-anchor' href='#main-content'>
+            Skip to Content
+        </a>
       <div className="topHeader">
         <WideHeader />
         <SubHeader />
       </div>
-      <div className="mainContent">{childrenWithProps}</div>
+      <div className="mainContent" role="main">{childrenWithProps}</div>
       <div className="bottomFooter">
         <Footer />
       </div>

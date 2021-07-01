@@ -56,7 +56,7 @@ const Facility = ({
   return (
     <>
       <div className="panel-header padding-top-2 margin-x-2">
-        Facility
+        <h3>Facility</h3>
         <FontAwesomeIcon
           icon={faQuestionCircle}
           className="text-gray-30 font-body-md question-icon"
@@ -82,8 +82,7 @@ const Facility = ({
             </Button>
             <Button
               type="button"
-              className="float-right"
-              //disabled={!isApplyFilterEnabled()}
+              className="float-right autofocus2"
               onClick={handleApplyFilter}
             >
               Apply Filter

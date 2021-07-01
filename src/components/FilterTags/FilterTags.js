@@ -5,17 +5,23 @@ import PillButton from '../PillButton/PillButton';
 
 const FilterTags = (props) => {
   return (
-    <div className="display-flex">
-      <div className="font-weight-bold margin-1 margin-right-2">Filters:</div>
+    <div className="display-flex grid-row">
+      <div className="text-bold margin-1 margin-right-2">Filters:</div>
       {props.items.map((item, i) => {
+        let description = `${item.key}: ${item.values.join(', ')}`;
         let label =
           item.values.length > 1
             ? `${item.key} (${item.values.length})`
             : `${item.key}: ${item.values[0]}`;
         if (item.key === 'Time Period') {
-          label = `${item.values[0]}`;
+          if (item.values.length === 1) {
+            label = `${item.values[0]}`;
+          } else {
+            label = 'Time Period'
+            description = `${item.key}: ${item.values[0]}`
+          }
+
         }
-        const description = `${item.key}: ${item.values.join(', ')}`;
 
         return (
           <PillButton
@@ -24,7 +30,8 @@ const FilterTags = (props) => {
             label={label}
             position="bottom"
             tooltip={description}
-            onClick={() => props.onClick(item.key)}
+            //onClick={() => props.onClick(item.key)}
+            onClick={(index, label, evtTarget) => props.onClick(item.key, evtTarget)}
             onRemove={() => props.onRemove(item.key, label)}
           />
         );

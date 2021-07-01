@@ -142,13 +142,12 @@ const ManageDataPreview = ({
       },
     },
   };
-
   return (
     <div className="minh-tablet width-full manage-data-preview-wrapper">
       <div className="display-flex flex-row flex-justify bg-base-lightest padding-left-3 padding-right-3 minh-10 maxh-15">
-        <div className="flex-align-self-center font-alt-2xl text-bold">
+        <h2 className="flex-align-self-center font-alt-2xl text-bold margin-0">
           Custom Data Download
-        </div>
+        </h2>
         <Button
           type="button"
           className="flex-align-self-center clearfix width-card height-6 font-sans-md"
@@ -159,15 +158,19 @@ const ManageDataPreview = ({
         </Button>
       </div>
       {appliedFilters.length > 0 && (
-        <div className="bg-base-lightest padding-left-3 padding-right-3 padding-bottom-2 font-alt-sm">
-          <FilterTags
-            items={appliedFilters}
-            onClick={(filterType) => handleFilterButtonClick(filterType)}
-            onRemove={(filterType, filterTag) =>
-              onFilterTagRemovedHandler(filterType, filterTag)
-            }
-            onClearAll={() => onFilterTagClearAllHandler()}
-          />
+        <div className="display-none desktop:display-block">
+          <div className="bg-base-lightest padding-left-3 padding-right-3 padding-bottom-2 font-alt-sm">
+            <FilterTags
+              items={appliedFilters}
+              onClick={(filterType, evtTarget) =>
+                handleFilterButtonClick(filterType, evtTarget)
+              }
+              onRemove={(filterType, filterTag) =>
+                onFilterTagRemovedHandler(filterType, filterTag)
+              }
+              onClearAll={() => onFilterTagClearAllHandler()}
+            />
+          </div>
         </div>
       )}
       {renderPreviewData && mapDataPreview[dataType][dataSubType].component}

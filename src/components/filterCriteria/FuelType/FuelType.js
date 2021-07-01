@@ -82,7 +82,7 @@ const FuelType = ({
   return (
     <>
       <div className="panel-header padding-top-2 margin-x-2">
-        Unit Fuel Type
+        <h3>Unit Fuel Type</h3>
         <FontAwesomeIcon
           icon={faQuestionCircle}
           className="text-gray-30 font-body-md question-icon"
@@ -106,7 +106,7 @@ const FuelType = ({
             </Button>
             <Button
               type="button"
-              className="float-right"
+              className="float-right autofocus2"
               onClick={handleApplyFilter}
             >
               Apply Filter

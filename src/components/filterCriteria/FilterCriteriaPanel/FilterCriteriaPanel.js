@@ -1,5 +1,5 @@
 import React from "react";
-import TimePeriod from "../TimePeriod/TimePeriod";
+import TimePeriod from "../timePeriod/TimePeriod/TimePeriod";
 import Program from "../Program/Program";
 import Facility from "../Facility/Facility";
 import UnitType from "../UnitType/UnitType";
@@ -31,6 +31,21 @@ const FilterCriteriaPanel = ({
   const dailyEmissions = {
     ...emissions,
     timePeriod: <TimePeriod closeFlyOutHandler={closeFlyOutHandler} showOpHrsOnly={false}/>,
+  }
+
+  const monthlyEmissions = {
+    ...emissions,
+    timePeriod: <TimePeriod closeFlyOutHandler={closeFlyOutHandler} showYear={true} showMonth={true}/>,
+  }
+
+  const quarterlyEmissions = {
+    ...emissions,
+    timePeriod: <TimePeriod closeFlyOutHandler={closeFlyOutHandler} showYear={true} showQuarter={true}/>,
+  }
+
+  const annualOzoneEmissions = {
+    ...emissions,
+    timePeriod: <TimePeriod closeFlyOutHandler={closeFlyOutHandler} showYear={true}/>,
   }
 
   const allownaceAcctInfo = {
@@ -73,9 +88,12 @@ const FilterCriteriaPanel = ({
       case emissionsSubTypes[1]:
         return dailyEmissions[selectedFilter];
       case emissionsSubTypes[2]:
+        return monthlyEmissions[selectedFilter];
       case emissionsSubTypes[3]:
+        return quarterlyEmissions[selectedFilter];
       case emissionsSubTypes[4]:
       case emissionsSubTypes[5]:
+        return annualOzoneEmissions[selectedFilter];
       case emissionsSubTypes[6]:
         return emissions[selectedFilter];
       case allowanceSubTypes[0]:

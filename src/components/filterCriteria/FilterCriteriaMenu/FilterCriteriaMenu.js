@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import * as constants from "../../../utils/constants/customDataDownload";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button } from "@trussworks/react-uswds";
@@ -11,25 +11,25 @@ import "./FilterCriteriaMenu.scss";
 import { isAddedToFilters } from "../../../utils/selectors/general";
 
 const FilterCriteriaMenu = ({
-  dataSubtypeApplied,
-  selectedDataType,
-  getSelectedDataSubType,
-  handleFilterButtonClick,
-  activeFilter,
-  appliedFilters,
-}) => {
+    dataSubtypeApplied,
+    selectedDataType,
+    getSelectedDataSubType,
+    handleFilterButtonClick,
+    activeFilter,
+    appliedFilters
+  }) => {
   return (
     <>
       {dataSubtypeApplied === true && (
         <>
           <div className="panel-header padding-top-3 padding-left-2">
-            Filters
+            <h2>Filters</h2>
             <FontAwesomeIcon
               icon={faQuestionCircle}
               className="text-primary font-body-md question-icon"
             />
           </div>
-          <div className="clearfix padding-y-3 padding-x-2">
+          <div className="clearfix padding-y-1 padding-x-2">
             <div className="filter-container">
               {constants.FILTERS_MAP[selectedDataType][
                 getSelectedDataSubType(
@@ -40,7 +40,12 @@ const FilterCriteriaMenu = ({
                   <p key={i} className="padding-y-0">
                     <Button
                       outline="true"
-                      onClick={() => handleFilterButtonClick(el.value)}
+                      onClick={(evt) => handleFilterButtonClick(el.value, evt.target)}
+                      onFocus={()=>activeFilter?document.querySelector('.autofocus2')?.focus():null}
+                      aria-selected={
+                        isAddedToFilters(el.value, appliedFilters) || activeFilter===el.value
+                          ? true : false
+                      }
                       className={
                         isAddedToFilters(el.value, appliedFilters) || activeFilter===el.value
                           ? "filter-button applied-filter"

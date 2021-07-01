@@ -40,6 +40,7 @@ const ManageDataDownload = ({
   const [displayFilters, setDisplayFilters] = useState(false);
   const [selectedFilter, setSelectedFilter] = useState('');
   const [activeFilter, setActiveFilter] = useState(null);
+  const [filterClickRef, setFilterClickRef] = useState(null);
 
   useEffect(() => {
     if (
@@ -53,6 +54,13 @@ const ManageDataDownload = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedDataType, selectedDataSubtype, appliedDataType]);
+
+  useEffect(()=>{
+    if(!activeFilter && filterClickRef!==null){
+      filterClickRef.focus();
+      setFilterClickRef(null);
+    }// eslint-disable-next-line react-hooks/exhaustive-deps
+  },[activeFilter]);
 
   // *** EVENT HANDLERS
   const changeDataSubtype = (event) => {
@@ -76,7 +84,7 @@ const ManageDataDownload = ({
     setActiveFilter(false);
   };
 
-  const handleFilterButtonClick = (filterType) => {
+  const handleFilterButtonClick = (filterType, evtTarget) => {
     // *** if the same button as is currently selected is pressed again
     if (displayFilters === true && selectedFilter === filterType) {
       setSelectedFilter('');
@@ -86,6 +94,7 @@ const ManageDataDownload = ({
       setSelectedFilter(filterType);
       setDisplayFilters(true);
       setActiveFilter(filterType);
+      setFilterClickRef(evtTarget);
     }
   };
 

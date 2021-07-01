@@ -22,14 +22,14 @@ const Footer = () => {
                 />
               }
               heading={
-                <h3 className="usa-footer__logo-heading padding-top-3 text-left">
+                <h2 className="usa-footer__logo-heading padding-top-3 text-left">
                   <p className="content margin-0">
                     United States Environmental Protection Agency
                   </p>
-                  <p className="text-normal font-alt-xs">
+                  <p className="text-normal font-alt-xs margin-top-0 padding-bottom-1">
                     {config.app.version} published {config.app.published}
                   </p>
-                </h3>
+                </h2>
               }
             />
             <div className="usa-footer__contact-links mobile-lg:grid-col-6 padding-top-5">

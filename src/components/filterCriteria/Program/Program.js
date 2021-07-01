@@ -85,7 +85,7 @@ const Program = ({
   return (
     <>
       <div className="panel-header padding-top-2 margin-x-2">
-        Program
+        <h3>Program</h3>
         <FontAwesomeIcon
           icon={faQuestionCircle}
           className="text-gray-30 font-body-md question-icon"
@@ -113,7 +113,7 @@ const Program = ({
             </Button>
             <Button
               type="button"
-              className="float-right"
+              className="float-right autofocus2"
               //disabled={!isApplyFilterEnabled()}
               onClick={handleApplyFilter}
             >

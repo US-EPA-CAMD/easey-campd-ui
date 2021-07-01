@@ -50,9 +50,15 @@ export const getSelectedIds = (filterState, description = false) => {
   return result;
 };
 
-export const constructQuery = (filterState, filterName) => {
+export const constructQuery = (filterState, filterName, multiSelectTimePeriod=false) => {
   const useCode = filterName === 'program' ? false : true;
-  const selectedFilters = getSelectedIds(filterState, useCode);
+  let selectedFilters;
+  if (multiSelectTimePeriod) {
+    selectedFilters = filterState
+  } else {
+    selectedFilters = getSelectedIds(filterState, useCode);
+  }
+
   let query = '';
   selectedFilters.forEach((p, i) => {
     if (i === selectedFilters.length - 1) {

@@ -5,6 +5,7 @@ import {
 import config from '../../config';
 import { constructTimePeriodQuery } from './emissions';
 import * as constants from '../constants/customDataDownload';
+import { isYearFormat } from '../dateValidation/dateValidation';
 
 export const isAddedToFilters = (filter, appliedFilters) => {
   return appliedFilters.filter((el) => el.key === filter).length > 0;
@@ -49,6 +50,70 @@ export const formatDateToUi = (dateString) => {
   }
   return null;
 };
+
+export const formatYearsToArray = (multiSelectDateString) => {
+  // param=2001-2003,2007 return=[2001, 2002, 2003, 2007]
+  const numberArray = [];
+  if (isYearFormat(multiSelectDateString)) {
+    const range = (start, stop) =>
+      Array(stop - start + 1)
+        .fill(start)
+        .map((x, y) => x + y);
+
+    const dateStringArray = multiSelectDateString.replace(/ /g, '').split(',');
+
+    dateStringArray.forEach((dateString) => {
+      if (dateString && dateString.includes('-')) {
+        const t = dateString.split('-');
+        numberArray.push(...range(parseInt(t[0]), parseInt(t[1])));
+      } else {
+        numberArray.push(parseInt(dateString));
+      }
+    });
+  }
+
+  return numberArray;
+};
+
+export const formatMonthsToApiOrString = (monthArray, string=false) => {
+  // param = [{id: 1, label: 'January', selected: true}] return=[1] OR 'January'
+  const apiMonthArrayOrString = [];
+  monthArray.forEach((month) => {
+    if (month.selected) {
+      string ? apiMonthArrayOrString.push(month.label) : apiMonthArrayOrString.push(month.id);
+    }
+  });
+  return apiMonthArrayOrString;
+};
+
+export const formatQuartersToApiOrString = (quarterArray, string=false) => {
+    // param = [{id: 1, label: 'Q1', selected: true}] return=[1] OR 'Q1'
+  const apiQuarterArrayOrString = [];
+  quarterArray.forEach((quarter) => {
+    if (quarter.selected) {
+      string ? apiQuarterArrayOrString.push(quarter.label) : apiQuarterArrayOrString.push(quarter.id);
+    }
+  });
+  return apiQuarterArrayOrString;
+};
+
+export const reportingQuarter = () => {
+  const curDate = new Date();
+  const curYear = new Date().getFullYear();
+  let quarter;
+  if (curDate < new Date(`March 31, ${curYear}`)) {
+    quarter = `12/31/'${curYear - 1}`;
+  } else if (curDate < new Date(`June 30, ${curYear}`)) {
+    quarter = `03/31/${curYear}`;
+  } else if (curDate < new Date(`September 30, ${curYear}`)) {
+    quarter = `06/30/${curYear}`;
+  } else if (curDate < new Date(`December 31, ${curYear}`)) {
+    quarter = `09/30/${curYear}`;
+  } else {
+    quarter = `12/31/${curYear}`;
+  }
+  return quarter;
+}
 
 const getServiceSubtype = (options, dataSubType) => {
   const entry = options.find(
@@ -112,3 +177,16 @@ export const constructRequestUrl = (
 
   return url.replace(/\r?\n|\r/g, '');
 };
+
+export const handleTabfocus = () =>{
+  const firstElement = document.querySelector('.autofocus1');
+  const startDateDiv = document.querySelector('#event-date-start');
+  if(firstElement){
+    firstElement.focus();
+    if(firstElement.firstChild){
+      firstElement.firstChild.focus();
+    }
+  }else if(startDateDiv){
+    startDateDiv.focus();
+  }
+}

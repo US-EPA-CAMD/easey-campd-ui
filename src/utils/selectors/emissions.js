@@ -1,3 +1,5 @@
+import { constructQuery } from "./filterCriteria";
+
 export const getHourlyEmissionsTableRecords = (hourlyEmissions) => {
   const records = [];
   hourlyEmissions.forEach((el) => {
@@ -45,9 +47,16 @@ export const constructTimePeriodQuery = (dataSubType, filterCriteria) => {
     // case 'daily':
     //   return `beginDate=${filterCriteria.timePeriod.startDate}&endate=${filterCriteria.timePeriod.endDate}`;
     // case 'monthly':
-    //   return `opYear=${filterCriteria.timePeriod.opYear}&opMonth=${filterCriteria.timePeriod.opMonth}`;
+    //   return `opYear=${filterCriteria.timePeriod.year}&opMonth=${filterCriteria.timePeriod.month}`;
     // case 'quarterly':
-    //   return `opYear=${filterCriteria.timePeriod.opYear}&quarter=${filterCriteria.timePeriod.quarter}`;
+    //   return `opYear=${filterCriteria.timePeriod.year}&quarter=${filterCriteria.timePeriod.quarter}`;
+    case 'ozone emissions':
+    case 'annual emissions':
+      return `${constructQuery(
+        filterCriteria.timePeriod.year.yearArray,
+        'opYear',
+        true
+      )}`;
     default:
       return '';
   }

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Radio, Label } from '@trussworks/react-uswds';
+import { Button, Radio, Fieldset} from '@trussworks/react-uswds';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { constructRequestUrl } from '../../../utils/selectors/general';
@@ -45,32 +45,34 @@ const DownloadFileType = ({ dataType, dataSubType, filterCriteria }) => {
 
   return (
     <div
-      className="height-10 border-2px radius-lg bg-primary-lighter"
-      style={{ borderColor: '#005EA2' }}
+      className="height-10 border-2px radius-lg bg-primary-lighter border-primary display-flex flex-row flex-align-center font-sans-sm"
     >
-      <div className="display-flex flex-row flex-justify flex-align-self-center font-sans-sm">
+      <Fieldset legend="Download File" legendSrOnly={true} className="display-flex flex-row flex-align-self-center">
         <Radio
           id="csv"
           name="input-radio"
           color="bg-primary"
+          className="margin-x-1 margin-bottom-1"
           defaultChecked
           onClick={onRadioChangeHandler}
+          label="CSV"
         />
-        <Label htmlFor="csv" className="text-bold position-relative top-neg-1">
-          CSV
-        </Label>
-        <Radio id="json" name="input-radio" onClick={onRadioChangeHandler} />
-        <Label htmlFor="json" className="text-bold position-relative top-neg-1">
-          JSON
-        </Label>
-        <Button
-          type="button"
-          className="margin-x-3"
-          onClick={() => onDownloadHandler()}
-        >
-          Download
-        </Button>
-      </div>
+        <Radio
+          id="json"
+          name="input-radio"
+          color="bg-primary"
+          className="margin-x-1 margin-bottom-1"
+          onClick={onRadioChangeHandler}
+          label="JSON" />
+      </Fieldset>
+      <Button
+        type="button"
+        className="margin-x-1"
+        onClick={() => onDownloadHandler()}
+        label="JSON"
+      >
+        Download
+      </Button>
     </div>
   );
 };

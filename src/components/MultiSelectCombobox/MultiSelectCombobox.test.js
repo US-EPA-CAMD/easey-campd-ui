@@ -313,6 +313,7 @@ describe('MultiSelectCombobox Component', () => {
     const searchbox = getByTestId("input-search");
     expect(searchbox).toBeInTheDocument();
     searchbox.focus();
+    searchbox.click();
     const listBox = getByTestId("multi-select-listbox");
     expect(listBox).toBeInTheDocument();
     expect(within(listBox).getAllByTestId('multi-select-option').length).toBe(items.length);
@@ -320,7 +321,7 @@ describe('MultiSelectCombobox Component', () => {
 
   it('handles click event of listbox option', () => {
     const { getByTestId, getAllByTestId} = query;
-    getByTestId("input-search").focus();
+    getByTestId("input-search").click();
     const options = getAllByTestId("multi-select-option");
     fireEvent.click(options[0]);
     fireEvent.click(options[1]);
@@ -330,7 +331,7 @@ describe('MultiSelectCombobox Component', () => {
   test('It should search using input box for facilities in listboxt', () => {
     const { getByTestId, getAllByTestId} = query;
     const searchbox = getByTestId("input-search");
-    searchbox.focus();
+    searchbox.click();
     fireEvent.change(searchbox, { target: { value: 'Barry' } })
     expect(searchbox.value).toBe('Barry');
     expect(within(getByTestId("multi-select-listbox")).getAllByTestId('multi-select-option').length).toBe(1);
