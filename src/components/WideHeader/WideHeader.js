@@ -9,8 +9,8 @@ import {
   PrimaryNav,
   NavMenuButton,
   GovBanner,
-  Search,
-} from "@trussworks/react-uswds";
+  Search, Button,
+} from '@trussworks/react-uswds';
 
 /*** additional 'local' (i.e., our app) components ***/
 import WideHeaderMenu from "../WideHeaderMenu/WideHeaderMenu";
@@ -31,6 +31,65 @@ const WideHeader = () => {
 
   /***** EVENT HANDLERS *****/
   const onClick = () => setExpanded((prvExpanded) => !prvExpanded);
+
+  const toggleNavTabFocusItems = () => {
+    const  focusableElements =
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
+    const slideOutMenuNav = document.querySelector('#root > div > div > div.topHeader > div.header-container > header > div.usa-nav-container > nav');
+
+    const firstFocusableElement = slideOutMenuNav.querySelectorAll(focusableElements)[0]; // get first element to be focused inside slideOutMenuNav
+    const focusableContent = slideOutMenuNav.querySelectorAll(focusableElements);
+    const lastFocusableElement = focusableContent[focusableContent.length - 1]; // get last element to be focused inside slideOutMenuNav
+
+    document.addEventListener('keydown', e => {
+      let isTabPressed = e.key === 'Tab' || e.keyCode === 9;
+
+      if (!isTabPressed) {
+        return;
+      }
+
+      if (e.shiftKey) { // if shift key pressed for shift + tab combination
+        if (document.activeElement === firstFocusableElement) {
+          lastFocusableElement.focus(); // add focus for the last focusable element
+          e.preventDefault();
+        }
+      } else { // if tab key is pressed
+        if (document.activeElement === lastFocusableElement) { // if focused has reached to last focusable element then focus first focusable element after pressing tab
+          firstFocusableElement.focus(); // add focus for the first focusable element
+          e.preventDefault();
+        }
+      }
+    });
+
+    firstFocusableElement.focus();
+  };
+
+  const searchFormFixes = () => {
+    setTimeout(() => {
+      const searchButton = document.querySelector('#root > div > div > div.topHeader > div.header-container > header > div.usa-nav-container > nav > form > button');
+
+      searchButton.classList.add('search-form-button');
+    });
+  };
+
+  const catchCloseButtonEvent = () => {
+    const navCloseButton = document.querySelector('#usa-side-nav > nav > button');
+
+    navCloseButton.onclick = () => {
+      const mainMenuButton = document.querySelector('#main-header-menu');
+      mainMenuButton.focus();
+    };
+  };
+
+  const menuButtonClickedHandler = () => {
+    onClick();
+
+    setTimeout(() => {
+      catchCloseButtonEvent();
+      toggleNavTabFocusItems();
+      searchFormFixes();
+    });
+  }
 
   const onSearch = (event) => {
     // *** URI encode the component after trimming to get rid of leading/trailing spaces
@@ -61,24 +120,27 @@ const WideHeader = () => {
           and/or <b>testing</b> purposes only.
         </div>
         <a
-          href="https://www.epa.gov/"
-          target="_blank"
-          rel="noopener noreferrer"
-          title="Go to the EPA home page"
+            href="https://www.epa.gov/"
+            target="_blank"
+            rel="noopener noreferrer"
+            title="Go to the EPA home page"
         >
           <img
             src={`${process.env.PUBLIC_URL}/images/EPALogo.svg`}
-            className="margin-3 react-transition swipe-right"
+            className="margin-y-3 react-transition swipe-right mobile-lg:padding-left-2 desktop:padding-left-4"
             alt="Official EPA Logo"
           />
         </a>
-        <div className="usa-nav-container">
-          <div className="usa-navbar">
+        <div id="usa-side-nav" className="usa-nav-container">
+          <div className="usa-navbar mobile-lg:padding-right-2 desktop:padding-right-4">
             <NavMenuButton
-              onClick={() => onClick()}
+              onClick={() => menuButtonClickedHandler()}
               label="Menu"
-              className="display-block usa-button react-transition swipe-left"
+              id="main-header-menu"
+              className="display-block usa-button react-transition swipe-left margin-right-0 "
+              aria-haspopup="true"
               data-testId="btnMenu"
+              aria-expanded={expanded}
             />
           </div>
           <PrimaryNav

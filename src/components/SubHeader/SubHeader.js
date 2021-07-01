@@ -1,6 +1,7 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
 import config from "../../config";
+import SubHeaderInfo from "../SubHeaderInfo/SubHeaderInfo";
 import {
   Menu,
   Header,
@@ -13,9 +14,20 @@ import {
 import "./SubHeader.scss";
 
 const SubHeader = () => {
+  const pathname= useLocation().pathname;
+
+  useEffect(()=>{
+    setCategorySelected([
+      pathname==="/",
+      pathname==="/select-data-type", false, false, false, false
+    ])
+  },[pathname]);
 
   const [navDropdownOpen, setNavDropdownOpen] = useState([false, false, false, false, false, false]);
-  const [categorySelected, setCategorySelected] = useState([false, true, false, false, false, false]);
+  const [categorySelected, setCategorySelected] =
+    useState([
+      pathname==="/",
+      pathname==="/select-data-type", false, false, false, false]);
 
   const handleToggleNavDropdown = (column) => {
     setNavDropdownOpen((prevNavDropdownOpen) => {
@@ -38,7 +50,7 @@ const SubHeader = () => {
   return (
     <div className="subheader-wrapper">
       <Header
-        className="padding-y-2 mobile-lg:height-6 desktop:height-15"
+        className="padding-y-2 mobile-lg:padding-x-2 desktop:padding-x-4"
         style={{
           backgroundImage: `url(${
             process.env.PUBLIC_URL + '/images/header-bg.png'
@@ -48,7 +60,7 @@ const SubHeader = () => {
           alignSelf: "top center"
         }}
       >
-        <div className="usa-nav-container clearfix">
+        <div className="usa-nav-container clearfix padding-x-0">
           <Title className="float-left margin-0">
             <h1 className="display-inline-block text-white text-heavy desktop-lg:font-sans-3xl desktop:font-sans-2xl mobile-lg:font-sans-xl margin-0" >
               CAMPD
@@ -59,11 +71,12 @@ const SubHeader = () => {
             </span>
           </Title>
           <Button
-            className="desktop:display-none float-right bg-transparent"
+            className="desktop:display-none float-right bg-transparent margin-0 position-relative"
           >
             <img
               src={`${process.env.PUBLIC_URL}/images/mobile-menu-expand.svg`}
               alt="Expandable Menu"
+              className="position-absolute right-0 top-1"
             />
           </Button>
           <PrimaryNav
@@ -212,6 +225,7 @@ const SubHeader = () => {
             ]}
           />
         </div>
+        {categorySelected[0] && <SubHeaderInfo/>}
       </Header>
     </div>
   );
