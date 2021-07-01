@@ -16,11 +16,12 @@ import "./SubHeader.scss";
 
 const SubHeader = () => {
   const pathname= useLocation().pathname;
+  const cddPath = ["/select-data-type", "/manage-data-download"];
 
   useEffect(()=>{
     setCategorySelected([
       pathname==="/",
-      pathname==="/select-data-type", false, false, false, false
+      cddPath.includes(pathname), false, false, false, false
     ])
   },[pathname]);
 
@@ -28,7 +29,7 @@ const SubHeader = () => {
   const [categorySelected, setCategorySelected] =
     useState([
       pathname==="/",
-      pathname==="/select-data-type", false, false, false, false]);
+      cddPath.includes(pathname), false, false, false, false]);
 
   const handleToggleNavDropdown = (column) => {
     setNavDropdownOpen((prevNavDropdownOpen) => {
@@ -43,7 +44,7 @@ const SubHeader = () => {
 
     setCategorySelected([
       pathname==="/",
-      pathname==="/select-data-type", false, false, false, false
+      cddPath.includes(pathname), false, false, false, false
     ])
   };
 
