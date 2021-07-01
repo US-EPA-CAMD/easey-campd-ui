@@ -40,6 +40,40 @@ export const getHourlyEmissionsTableRecords = (hourlyEmissions) => {
   return records;
 };
 
+export const getDailyEmissionsTableRecords = (dailyEmissions) => {
+  const records = [];
+  dailyEmissions.forEach((el) => {
+    records.push({
+      col1: el.state,
+      col2: el.facilityName,
+      col3: el.orisCode,
+      col4: el.unitId,
+      col5: el.assocStacks,
+      col6: el.opDate,
+      col7: el.sumOpTime,
+      col8: el.countOpTime,
+      col9: el.gLoad,
+      col10: el.sLoad,
+      col11: el.so2Mass,
+      col12: el.so2Rate,
+      col13: el.noxMass,
+      col14: el.noxRate,
+      col15: el.co2Mass,
+      col16: el.co2Rate,
+      col17: el.heatInput,
+      col18: el.primaryFuelInfo,
+      col19: el.secondaryFuelInfo,
+      col20: el.unitTypeInfo,
+      col21: el.so2ControlInfo,
+      col22: el.partControlInfo,
+      col23: el.noxControlInfo,
+      col24: el.hgControlInfo,
+      col25: el.prgCodeInfo,
+    });
+  });
+  return records;
+};
+
 export const getMonthlyEmissionsTableRecords = (monthlyEmissions) => {
   const records = [];
   monthlyEmissions.forEach((el) => {
@@ -115,7 +149,7 @@ export const constructTimePeriodQuery = (dataSubType, filterCriteria) => {
     case 'hourly emissions':
       return `&beginDate=${filterCriteria.timePeriod.startDate}&endDate=${filterCriteria.timePeriod.endDate}&opHoursOnly=${filterCriteria.timePeriod.opHrsOnly}`;
     case 'daily emissions':
-      return `&beginDate=${filterCriteria.timePeriod.startDate}&endate=${filterCriteria.timePeriod.endDate}`;
+      return `&beginDate=${filterCriteria.timePeriod.startDate}&endDate=${filterCriteria.timePeriod.endDate}`;
     case 'monthly emissions':
       return `${constructQuery(filterCriteria.timePeriod.year.yearArray, 'opYear', true)}${constructQuery(filterCriteria.timePeriod.month, 'opMonth', true)}`;
     case 'quarterly emissions':

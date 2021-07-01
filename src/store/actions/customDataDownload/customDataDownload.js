@@ -67,6 +67,33 @@ export function loadHourlyEmissions(filterCriterias) {
   };
 }
 
+/* ---------DAILY EMISSIONS----------- */
+export function loadDailyEmissionsSuccess(dailyEmissions, totalCount) {
+  return {
+    type: types.LOAD_DAILY_EMISSIONS_SUCCESS,
+    dailyEmissions: {
+      data: dailyEmissions,
+      totalCount: totalCount,
+    },
+  };
+}
+
+export function loadDailyEmissions(filterCriterias) {
+  return (dispatch) => {
+    dispatch(beginApiCall());
+    return emissionsApi
+      .getDailyEmissions(filterCriterias)
+      .then((res) => {
+        dispatch(
+          loadDailyEmissionsSuccess(res.data, res.headers['x-total-count'])
+        );
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+}
+
 /* ---------MONTHLY EMISSIONS----------- */
 export function loadMonthlyEmissionsSuccess(monthlyEmissions, totalCount) {
   return {

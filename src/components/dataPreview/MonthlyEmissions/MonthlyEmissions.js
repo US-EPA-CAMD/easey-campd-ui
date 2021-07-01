@@ -66,15 +66,15 @@ export const MonthlyEmissions = ({
         accessor: "col9",
       },
       {
-        Header: "Gross Load (MW)",
+        Header: "Gross Load (MWh)",
         accessor: "col10",
       },
       {
-        Header: "Steam Load (1000 lb/hr)",
+        Header: "Steam Load (1000 lb)",
         accessor: "col11",
       },
       {
-        Header: "SO2 Mass (lbs)",
+        Header: "SO2 Mass (short tons)",
         accessor: "col12",
       },
       {
@@ -82,7 +82,7 @@ export const MonthlyEmissions = ({
         accessor: "col13",
       },
       {
-        Header: "NOx Mass (lbs)",
+        Header: "NOx Mass (short tons)",
         accessor: "col14",
       },
       {
