@@ -164,15 +164,15 @@ export const subHeaderMenuList = [
   },
   {
     label: "ANALYSIS",
-    items: [{menu: "Comming Soon", link:""}]
+    items: [{menu: "Coming Soon", link:""}]
   },
   {
     label: "VISUALIZATION",
-    items: [{menu: "Comming Soon", link:""}]
+    items: [{menu: "Coming Soon", link:""}]
   },
   {
     label: "CAM API",
-    items: [{menu: "Comming Soon", link:""}]
+    items: [{menu: "Coming Soon", link:""}]
   },
   {
     label: "HELP",

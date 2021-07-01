@@ -46,7 +46,7 @@ const HomePage = () =>{
         />
         <div className="margin-left-4">
           <h2 className="text-primary-dark font-heading-xl text-bold margin-top-0 mobile-lg:display-inline desktop:display-block desktop:margin-bottom-0">Visualization</h2>
-          <div className="bg-base-light width-15 height-3 margin-left-1 mobile-lg:display-inline desktop:display-block">
+          <div className="bg-base-light width-15 height-3 margin-left-1 mobile-lg:display-inline desktop:display-block desktop:margin-top-1">
             <span className="text-white font-body-xs text-uppercase text-light padding-1">Coming Soon</span>
           </div>
           <p className="font-body-sm text-ls-1 line-height-sans-6">

@@ -1,3 +1,5 @@
+name: campd-ui
+path: campd
 host: easey-tst.app.cloud.gov
 environment: testing
 memory: 1024M
