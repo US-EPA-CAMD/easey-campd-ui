@@ -10,7 +10,7 @@ import {
   isInValidReportingQuarter,
   isInYearRange,
   isYearFormat,
-} from '../../../../utils/DateValidation/dateValidation';
+} from '../../../../utils/dateValidation/dateValidation';
 import {
   isAddedToFilters,
   formatDateToUi,
