@@ -66,3 +66,58 @@ export function loadHourlyEmissions(filterCriterias) {
       });
   };
 }
+
+/* ---------MONTHLY EMISSIONS----------- */
+export function loadMonthlyEmissionsSuccess(monthlyEmissions, totalCount) {
+  return {
+    type: types.LOAD_MONTHLY_EMISSIONS_SUCCESS,
+    monthlyEmissions: {
+      data: monthlyEmissions,
+      totalCount: totalCount,
+    },
+  };
+}
+
+export function loadMonthlyEmissions(filterCriterias) {
+  return (dispatch) => {
+    dispatch(beginApiCall());
+    return emissionsApi
+      .getMonthlyEmissions(filterCriterias)
+      .then((res) => {
+        dispatch(
+          loadMonthlyEmissionsSuccess(res.data, res.headers['x-total-count'])
+        );
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+}
+
+/* ---------QUARTERLY EMISSIONS----------- */
+export function loadQuarterlyEmissionsSuccess(quarterlyEmissions, totalCount) {
+  return {
+    type: types.LOAD_QUARTERLY_EMISSIONS_SUCCESS,
+    quarterlyEmissions: {
+      data: quarterlyEmissions,
+      totalCount: totalCount,
+    },
+  };
+}
+
+export function loadQuarterlyEmissions(filterCriterias) {
+  return (dispatch) => {
+    dispatch(beginApiCall());
+    return emissionsApi
+      .getQuarterlyEmissions(filterCriterias)
+      .then((res) => {
+        dispatch(
+          loadQuarterlyEmissionsSuccess(res.data, res.headers['x-total-count'])
+        );
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+}
+

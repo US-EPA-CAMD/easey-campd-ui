@@ -9,8 +9,8 @@ import {
   PrimaryNav,
   NavMenuButton,
   GovBanner,
-  Search,
-} from "@trussworks/react-uswds";
+  Search, Button,
+} from '@trussworks/react-uswds';
 
 /*** additional 'local' (i.e., our app) components ***/
 import WideHeaderMenu from "../WideHeaderMenu/WideHeaderMenu";
@@ -65,50 +65,29 @@ const WideHeader = () => {
   };
 
   const searchFormFixes = () => {
-
     setTimeout(() => {
       const searchButton = document.querySelector('#root > div > div > div.topHeader > div.header-container > header > div.usa-nav-container > nav > form > button');
-      // const searchButtonSpan = document.querySelector('#root > div > div > div.topHeader > div.header-container > header > div.usa-nav-container > nav > form > button span');
 
       searchButton.classList.add('search-form-button');
     });
   };
 
-  const rearrangeSearchForm = () => {
-    // const slideOutMenuNav = document.querySelector('#root > div > div > div.topHeader > div.header-container > header > div.usa-nav-container > nav');
-    const closeButton = document.querySelector('#root > div > div > div.topHeader > div.header-container > header > div.usa-nav-container > nav .usa-nav__close');
-    const searchFormElement = document.querySelector('form.usa-search');
+  const catchCloseButtonEvent = () => {
+    const navCloseButton = document.querySelector('#usa-side-nav > nav > button');
 
-    // function insertAfter(newNode, referenceNode) {
-    //   referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
-    // }
-
-    setTimeout(() => {
-      // searchFormElement.remove();
-      // slideOutMenuNav.appendChild(searchFormElement);
-      // searchFormElement.parentNode.removeChild(searchFormElement);
-      // slideOutMenuNav.insertAdjacentHTML('afterbegin', <h1>Haha</h1>);
-      // closeButton.insertAdjacentHTML('afterend', <li>Test Yes</li>);
-      // searchFormElement.parentNode.insertBefore(newNode, searchFormElement.nextSibling);
-      // closeButton.parentNode.insertBefore(searchFormElement, closeButton.nextSibling);
-      // insertAfter(slideOutMenuNav, searchFormElement);
-      // console.log(typeof searchFormElement);
-      // console.log(searchFormElement);
-      // closeButton.tabIndex = 1;
-      console.log(closeButton.tabIndex);
-      console.log(searchFormElement.tabIndex);
-    });
-  }
+    navCloseButton.onclick = () => {
+      const mainMenuButton = document.querySelector('#main-header-menu');
+      mainMenuButton.focus();
+    };
+  };
 
   const menuButtonClickedHandler = () => {
     onClick();
 
     setTimeout(() => {
-      const navClose = document.querySelector('button.usa-nav__close');
-      navClose.focus();
+      catchCloseButtonEvent();
       toggleNavTabFocusItems();
       searchFormFixes();
-      rearrangeSearchForm();
     });
   }
 
@@ -141,9 +120,10 @@ const WideHeader = () => {
           and/or <b>testing</b> purposes only.
         </div>
         <a
-          href="#main-content"
-          rel="noopener noreferrer"
-          title="Go to the EPA home page"
+            href="https://www.epa.gov/"
+            target="_blank"
+            rel="noopener noreferrer"
+            title="Go to the EPA home page"
         >
           <img
             src={`${process.env.PUBLIC_URL}/images/EPALogo.svg`}
@@ -156,9 +136,11 @@ const WideHeader = () => {
             <NavMenuButton
               onClick={() => menuButtonClickedHandler()}
               label="Menu"
+              id="main-header-menu"
               className="display-block usa-button react-transition swipe-left margin-right-0 "
               aria-haspopup="true"
               data-testId="btnMenu"
+              aria-expanded={expanded}
             />
           </div>
           <PrimaryNav
