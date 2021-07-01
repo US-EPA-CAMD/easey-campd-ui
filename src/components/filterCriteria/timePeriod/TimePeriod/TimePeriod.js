@@ -38,8 +38,8 @@ export const TimePeriod = ({
     endDate: formatDateToUi(timePeriod.endDate),
     opHrsOnly: showOpHrsOnly? timePeriod.opHrsOnly: false,
     year: showYear ? timePeriod.year.yearString : '',
-    month: showMonth ? constants.MONTHS : [],
-    quarter: showQuarter ? constants.QUARTERS : [],
+    month: showMonth ? timePeriod.month : [],
+    quarter: showQuarter ? timePeriod.quarter : [],
   });
 
   const [validations, setValidations] = useState({
@@ -70,17 +70,17 @@ export const TimePeriod = ({
 
   useEffect(() => {
     if (showMonth && timePeriod.month.length === 0) {
-      const items = formState.month;
-      items.forEach((i) => {
-        i.selected = false;
-      });
-      setFormState({ ...formState, month: items });
+      updateTimePeriodDispatcher({...timePeriod, month: JSON.parse(JSON.stringify(constants.MONTHS))});
     } else if (showQuarter && timePeriod.quarter.length === 0) {
-      const items = formState.quarter;
-      items.forEach((i) => {
-        i.selected = false;
-      });
-      setFormState({ ...formState, quarter: items });
+      updateTimePeriodDispatcher({...timePeriod, quarter: JSON.parse(JSON.stringify(constants.QUARTERS))});
+    } // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (showMonth) {
+      setFormState({...formState, month: JSON.parse(JSON.stringify(timePeriod.month))});
+    } else if (showQuarter) {
+      setFormState({...formState, quarter: JSON.parse(JSON.stringify(timePeriod.quarter))});
     } // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [timePeriod.month, timePeriod.quarter]);
 
@@ -193,8 +193,8 @@ export const TimePeriod = ({
         yearArray: formatYearsToArray(formState.year),
         yearString: formState.year,
       },
-      month: formatMonthsToApiOrString(formState.month),
-      quarter: formatQuartersToApiOrString(formState.quarter),
+      month: formState.month,
+      quarter: formState.quarter,
     });
 
     if (isAddedToFilters(filterToApply, appliedFilters)) {
