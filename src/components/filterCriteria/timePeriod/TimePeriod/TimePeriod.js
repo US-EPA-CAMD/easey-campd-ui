@@ -38,8 +38,8 @@ export const TimePeriod = ({
     endDate: formatDateToUi(timePeriod.endDate),
     opHrsOnly: showOpHrsOnly? timePeriod.opHrsOnly: false,
     year: showYear ? timePeriod.year.yearString : '',
-    month: showMonth ? constants.MONTHS : [],
-    quarter: showQuarter ? constants.QUARTERS : [],
+    month: showMonth ? JSON.parse(JSON.stringify(constants.MONTHS)) : [],
+    quarter: showQuarter ? JSON.parse(JSON.stringify(constants.QUARTERS)) : [],
   });
 
   const [validations, setValidations] = useState({
@@ -70,17 +70,15 @@ export const TimePeriod = ({
 
   useEffect(() => {
     if (showMonth && timePeriod.month.length === 0) {
-      const items = formState.month;
-      items.forEach((i) => {
-        i.selected = false;
+      setFormState({
+        ...formState,
+        month: JSON.parse(JSON.stringify(constants.MONTHS)),
       });
-      setFormState({ ...formState, month: items });
     } else if (showQuarter && timePeriod.quarter.length === 0) {
-      const items = formState.quarter;
-      items.forEach((i) => {
-        i.selected = false;
+      setFormState({
+        ...formState,
+        quarter: JSON.parse(JSON.stringify(constants.QUARTERS)),
       });
-      setFormState({ ...formState, quarter: items });
     } // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [timePeriod.month, timePeriod.quarter]);
 
