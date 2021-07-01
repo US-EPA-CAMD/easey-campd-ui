@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import SelectDataTypeInCards from "../SelectableCards/SelectableCards";
 import {DATA_TYPES} from '../../utils/constants/customDataDownload'
 
 import "./SelectDataType.scss";
 
 const SelectDataType = () => {
+  useEffect(() => {
+    document.title = "CAMPD - Custom Data Download";
+  }, []);
+
   return (
     <div className="selectDataTypeContent maxw-tablet">
       <h2 className="text-bold font-alt-xl margin-top-0 margin-bottom-1">Custom Data Download</h2>
