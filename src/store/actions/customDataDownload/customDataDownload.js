@@ -2,6 +2,9 @@ import * as types from "../actionTypes";
 import { beginApiCall } from '../apiStatusActions';
 import * as emissionsApi from '../../../utils/api/emissionsApi';
 
+const data = res.data;
+const headers = res.headers['x-total-count'];
+
 export function updateSelectedDataType(dataType) {
   return {
     type: types.UPDATE_SELECTED_DATATYPE,
@@ -58,7 +61,7 @@ export function loadHourlyEmissions(filterCriterias) {
       .getHourlyEmissions(filterCriterias)
       .then((res) => {
         dispatch(
-          loadHourlyEmissionsSuccess(res.data, res.headers['x-total-count'])
+          loadHourlyEmissionsSuccess(data, headers)
         );
       })
       .catch((err) => {
@@ -85,7 +88,7 @@ export function loadMonthlyEmissions(filterCriterias) {
       .getMonthlyEmissions(filterCriterias)
       .then((res) => {
         dispatch(
-          loadMonthlyEmissionsSuccess(res.data, res.headers['x-total-count'])
+          loadMonthlyEmissionsSuccess(data, headers)
         );
       })
       .catch((err) => {
@@ -112,7 +115,7 @@ export function loadQuarterlyEmissions(filterCriterias) {
       .getQuarterlyEmissions(filterCriterias)
       .then((res) => {
         dispatch(
-          loadQuarterlyEmissionsSuccess(res.data, res.headers['x-total-count'])
+          loadQuarterlyEmissionsSuccess(data, headers)
         );
       })
       .catch((err) => {
@@ -120,4 +123,3 @@ export function loadQuarterlyEmissions(filterCriterias) {
       });
   };
 }
-
