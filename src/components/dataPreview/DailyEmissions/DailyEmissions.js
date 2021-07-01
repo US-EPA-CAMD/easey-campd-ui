@@ -1,12 +1,12 @@
 import React, { useEffect, useMemo } from "react";
 import { connect } from "react-redux";
-import { loadQuarterlyEmissions } from "../../../store/actions/customDataDownload/customDataDownload";
-import { getQuarterlyEmissionsTableRecords } from "../../../utils/selectors/emissions";
+import { loadDailyEmissions } from "../../../store/actions/customDataDownload/customDataDownload";
+import { getDailyEmissionsTableRecords } from "../../../utils/selectors/emissions";
 import DataPreviewRender from "../DataPreviewRender/DataPreviewRender";
 
-export const QuarterlyEmissions = ({
+export const DailyEmissions = ({
   dataPreview,
-  loadQuarterlyEmissionsDispacher,
+  loadDailyEmissionsDispacher,
   loading,
   filterCriteria,
   handleUpdateInAppliedFilters,
@@ -22,7 +22,7 @@ export const QuarterlyEmissions = ({
 
   useEffect(() =>{
     if(dataPreview === null){
-      loadQuarterlyEmissionsDispacher(filterCriteria);
+      loadDailyEmissionsDispacher(filterCriteria);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]);
@@ -50,88 +50,84 @@ export const QuarterlyEmissions = ({
         accessor: 'col5',
       },
       {
-        Header: 'Year',
+        Header: 'Date',
         accessor: 'col6',
       },
       {
-        Header: 'Month',
+        Header: 'Sum of the Operating Time',
         accessor: 'col7',
       },
       {
-        Header: 'Sum of the Operating Time',
+        Header: 'Operating Time Count',
         accessor: 'col8',
       },
       {
-        Header: 'Operating Time Count',
+        Header: 'Gross Load (MWh)',
         accessor: 'col9',
       },
       {
-        Header: 'Gross Load (MWh)',
+        Header: 'Steam Load (1000 lb)',
         accessor: 'col10',
       },
       {
-        Header: 'Steam Load (1000 lb)',
+        Header: 'SO2 Mass (short tons)',
         accessor: 'col11',
       },
       {
-        Header: 'SO2 Mass (short tons)',
+        Header: 'SO2 Rate (lbs/mmBtu)',
         accessor: 'col12',
       },
       {
-        Header: 'SO2 Rate (lbs/mmBtu)',
+        Header: 'NOx Mass (short tons)',
         accessor: 'col13',
       },
       {
-        Header: 'NOx Mass (short tons)',
+        Header: 'NOx Rate (lbs/mmBtu)',
         accessor: 'col14',
       },
       {
-        Header: 'NOx Rate (lbs/mmBtu)',
+        Header: 'CO2 Mass (short tons)',
         accessor: 'col15',
       },
       {
-        Header: 'CO2 Mass (short tons)',
+        Header: 'CO2 Rate (short tons/mmBtu)',
         accessor: 'col16',
       },
       {
-        Header: 'CO2 Rate (short tons/mmBtu)',
+        Header: 'Heat Input (mmBtu)',
         accessor: 'col17',
       },
       {
-        Header: 'Heat Input (mmBtu)',
+        Header: 'Primary Fuel Type',
         accessor: 'col18',
       },
       {
-        Header: 'Primary Fuel Type',
+        Header: 'Secondary Fuel Type',
         accessor: 'col19',
       },
       {
-        Header: 'Secondary Fuel Type',
+        Header: 'Unit Type',
         accessor: 'col20',
       },
       {
-        Header: 'Unit Type',
+        Header: 'SO2 Controls',
         accessor: 'col21',
       },
       {
-        Header: 'SO2 Controls',
+        Header: 'PM Controls',
         accessor: 'col22',
       },
       {
-        Header: 'PM Controls',
+        Header: 'NOx Controls',
         accessor: 'col23',
       },
       {
-        Header: 'NOx Controls',
+        Header: 'Hg Controls',
         accessor: 'col24',
       },
       {
-        Header: 'Hg Controls',
-        accessor: 'col25',
-      },
-      {
         Header: 'Program',
-        accessor: 'col26',
+        accessor: 'col25',
       },
     ],
     []
@@ -139,9 +135,9 @@ export const QuarterlyEmissions = ({
 
   const data = useMemo(() => {
     if (loading === 0 && dataPreview !== null) {
-      return getQuarterlyEmissionsTableRecords(dataPreview);
+      return getDailyEmissionsTableRecords(dataPreview);
     } else {
-      return [{ col3: "Loading quarterly emissions data preview..." }];
+      return [{ col3: "Loading daily emissions data preview..." }];
     }
   }, [loading, dataPreview]);
 
@@ -168,8 +164,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loadQuarterlyEmissionsDispacher: (filters) => dispatch(loadQuarterlyEmissions(filters))
+    loadDailyEmissionsDispacher: (filters) => dispatch(loadDailyEmissions(filters))
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(QuarterlyEmissions);
+export default connect(mapStateToProps, mapDispatchToProps)(DailyEmissions);
