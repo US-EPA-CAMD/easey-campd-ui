@@ -19,3 +19,12 @@ export async function getMonthlyEmissions(filterCriteria) {
     .then(handleResponse)
     .catch(handleError);
 }
+
+export async function getQuarterlyEmissions(filterCriteria) {
+  const url = constructRequestUrl('emissions', 'quarterly emissions', filterCriteria);
+
+  return axios
+    .get(url.replace(/\r?\n|\r/g, ''))
+    .then(handleResponse)
+    .catch(handleError);
+}

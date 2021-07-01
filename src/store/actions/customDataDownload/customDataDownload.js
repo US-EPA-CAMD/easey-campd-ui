@@ -93,3 +93,31 @@ export function loadMonthlyEmissions(filterCriterias) {
       });
   };
 }
+
+/* ---------QUARTERLY EMISSIONS----------- */
+export function loadQuarterlyEmissionsSuccess(quarterlyEmissions, totalCount) {
+  return {
+    type: types.LOAD_QUARTERLY_EMISSIONS_SUCCESS,
+    quarterlyEmissions: {
+      data: quarterlyEmissions,
+      totalCount: totalCount,
+    },
+  };
+}
+
+export function loadQuarterlyEmissions(filterCriterias) {
+  return (dispatch) => {
+    dispatch(beginApiCall());
+    return emissionsApi
+      .getQuarterlyEmissions(filterCriterias)
+      .then((res) => {
+        dispatch(
+          loadQuarterlyEmissionsSuccess(res.data, res.headers['x-total-count'])
+        );
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+}
+
