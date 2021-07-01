@@ -68,6 +68,22 @@ export const TimePeriod = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [validations]);
 
+  useEffect(() => {
+    if (showMonth && timePeriod.month.length === 0) {
+      const items = formState.month;
+      items.forEach((i) => {
+        i.selected = false;
+      });
+      setFormState({ ...formState, month: items });
+    } else if (showQuarter && timePeriod.quarter.length === 0) {
+      const items = formState.quarter;
+      items.forEach((i) => {
+        i.selected = false;
+      });
+      setFormState({ ...formState, quarter: items });
+    } // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [timePeriod.month, timePeriod.quarter]);
+
   const validateInput = () => {
     const updatedValidations = {};
     if (showYear) {
