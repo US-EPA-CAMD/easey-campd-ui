@@ -21,17 +21,19 @@ const TimePeriodYear = ({
   onInvalidHandler,
   validations,
   isFormValid,
+  isAnnual,
 }) => {
-  let property;
+  let rangeMessage;
   if (showMonth) {
-    property = 'month(s)';
+    rangeMessage = `Enter month(s) and year(s) between 01/01/1995 and the end of the calendar quarter, ${reportingQuarter()}`;
   } else if (showQuarter) {
-    property = 'quarter(s)';
+    rangeMessage = `Enter quarter(s) and year(s) between 01/01/1995 and the end of the calendar quarter, ${reportingQuarter()}`;
+  } else if (isAnnual) {
+    rangeMessage =
+      'Enter year(s) 1980, 1985, 1990, or a year between 1995 and this year';
+  } else {
+    rangeMessage = 'Enter year(s) between 1995 and this year';
   }
-  const rangeMessage =
-    showMonth || showQuarter
-      ? `Enter ${property} and year(s) between 01/01/1995 and the end of the calendar quarter, ${reportingQuarter()}`
-      : 'Enter year(s) between 1995 and this year';
 
   return (
     <>

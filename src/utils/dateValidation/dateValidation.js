@@ -61,11 +61,20 @@ export const isYearFormat = (yearString) => {
   return valid;
 };
 
-export const isInYearRange = (yearArray) => {
+export const isInYearRange = (yearArray, isAnnual = false) => {
   const curYear = new Date().getFullYear();
   let result = false;
   yearArray.forEach((year) => {
-    result = year >= 1995 && year <= curYear;
+    if (isAnnual) {
+      result =
+        year === 1980 ||
+        year === 1985 ||
+        year === 1990 ||
+        (year >= 1995 && year <= curYear);
+    } else {
+      result = year >= 1995 && year <= curYear;
+    }
+
     if (!result) {
       return;
     }
