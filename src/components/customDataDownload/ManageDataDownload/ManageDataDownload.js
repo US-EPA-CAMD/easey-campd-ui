@@ -25,6 +25,10 @@ const ManageDataDownload = ({
   resetFilterDispatcher,
   appliedFilters,
 }) => {
+  useEffect(() => {
+    document.title = "CAMPD - Manage Data Download";
+  }, []);
+
   // *** HOOKS
   const [dataTypeApplied, setDataTypeApplied] = useState(false);
   const [dataSubtypeApplied, setDataSubtypeApplied] = useState(false);
