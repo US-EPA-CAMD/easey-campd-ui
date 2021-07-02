@@ -54,7 +54,7 @@ export const QuarterlyEmissions = ({
         accessor: 'col6',
       },
       {
-        Header: 'Month',
+        Header: 'Quarter',
         accessor: 'col7',
       },
       {
