@@ -13,7 +13,7 @@ const HomePage = () =>{
         />
         <div className="margin-left-4">
           <h2 className="text-primary-dark font-heading-xl text-bold margin-top-0">Data</h2>
-          <p className="font-body-sm text-ls-1 line-height-sans-6">
+          <p className="font-body-sm text-ls-1 line-height-sans-6 desktop:width-mobile">
             Create custom queries, download bulk datasets and use the CAMD API to retrieve emissions, allowance and compliance data.
           </p>
           <Button
@@ -34,12 +34,12 @@ const HomePage = () =>{
           <div className="bg-base-light width-15 height-3 margin-left-1 mobile-lg:display-inline">
             <span className="text-white font-body-xs text-uppercase text-light padding-1">Coming Soon</span>
           </div>
-          <p className="font-body-sm text-ls-1 line-height-sans-6">
+          <p className="font-body-sm text-ls-1 line-height-sans-6 desktop:width-mobile">
             View and download common analyses, reports, insights and other information using CAMPD data.
           </p>
         </div>
       </div>
-      <div className="margin-y-3 display-flex flex-row flex-align-start mobile-lg:grid-col-12 desktop-lg:grid-col-4">
+      <div className="margin-y-3 display-flex flex-row flex-align-start mobile-lg:grid-col-auto desktop-lg:grid-col-4">
         <img
           src={`${process.env.PUBLIC_URL}/images/icons/icon-visualization.svg`}
           alt="Visualization Icon"
@@ -49,7 +49,7 @@ const HomePage = () =>{
           <div className="bg-base-light width-15 height-3 margin-left-1 mobile-lg:display-inline desktop:display-block desktop:margin-top-1">
             <span className="text-white font-body-xs text-uppercase text-light padding-1">Coming Soon</span>
           </div>
-          <p className="font-body-sm text-ls-1 line-height-sans-6">
+          <p className="font-body-sm text-ls-1 line-height-sans-6 desktop:width-mobile">
             Visualize and interact with CAMPD data graphically and through maps.
           </p>
         </div>
