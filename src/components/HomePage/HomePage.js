@@ -1,8 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Button } from "@trussworks/react-uswds";
 import { useHistory } from "react-router-dom";
 
-const HomePage = () =>{
+const HomePage = () => {
+  useEffect(() => {
+    document.title = "CAMPD - Home";
+  }, []);
+
   const history = useHistory();
   return(
     <div className="grid-row mobile-lg:padding-x-2 desktop:padding-x-4">
