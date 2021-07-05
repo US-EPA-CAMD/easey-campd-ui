@@ -28,6 +28,7 @@ const TimePeriodRender = ({
   showYear,
   showMonth,
   showQuarter,
+  isAnnual,
 }) => {
 
   const isApplyFilterDisabled = () => {
@@ -66,6 +67,7 @@ const TimePeriodRender = ({
           onInvalidHandler={onInvalidHandler}
           validations={validations}
           isFormValid={isFormValid}
+          isAnnual={isAnnual}
         />
       ) : (
         <TimePeriodFullDate

@@ -43,9 +43,14 @@ const FilterCriteriaPanel = ({
     timePeriod: <TimePeriod closeFlyOutHandler={closeFlyOutHandler} showYear={true} showQuarter={true}/>,
   }
 
-  const annualOzoneEmissions = {
+  const annualEmissions = {
     ...emissions,
-    timePeriod: <TimePeriod closeFlyOutHandler={closeFlyOutHandler} showYear={true}/>,
+    timePeriod: <TimePeriod closeFlyOutHandler={closeFlyOutHandler} showYear={true} isAnnual={true} />,
+  }
+
+  const ozoneEmissions = {
+    ...emissions,
+    timePeriod: <TimePeriod closeFlyOutHandler={closeFlyOutHandler} showYear={true} isAnnual={false}/>,
   }
 
   const allownaceAcctInfo = {
@@ -92,8 +97,9 @@ const FilterCriteriaPanel = ({
       case emissionsSubTypes[3]:
         return quarterlyEmissions[selectedFilter];
       case emissionsSubTypes[4]:
+        return ozoneEmissions[selectedFilter]
       case emissionsSubTypes[5]:
-        return annualOzoneEmissions[selectedFilter];
+        return annualEmissions[selectedFilter];
       case emissionsSubTypes[6]:
         return emissions[selectedFilter];
       case allowanceSubTypes[0]:

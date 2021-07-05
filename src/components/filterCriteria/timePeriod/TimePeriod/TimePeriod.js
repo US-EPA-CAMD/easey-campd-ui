@@ -32,6 +32,7 @@ export const TimePeriod = ({
   showYear=false,
   showMonth=false,
   showQuarter=false,
+  isAnnual=false,
 }) => {
   const [formState, setFormState] = useState({
     startDate: formatDateToUi(timePeriod.startDate),
@@ -101,7 +102,7 @@ export const TimePeriod = ({
           [1, 2, 3],
         );
       } else {
-        updatedValidations['validReportingQuarter'] = isInYearRange(formatYearsToArray(formState.year));
+        updatedValidations['validReportingQuarter'] = isInYearRange(formatYearsToArray(formState.year), isAnnual);
       }
     } else {
       updatedValidations['startDateFormat'] = isDateFormatValid(formState.startDate);
@@ -259,6 +260,7 @@ export const TimePeriod = ({
       showYear={showYear}
       showMonth={showMonth}
       showQuarter={showQuarter}
+      isAnnual={isAnnual}
     />
   );
 };
