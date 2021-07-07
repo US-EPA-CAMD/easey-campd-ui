@@ -38,7 +38,7 @@ const TimePeriodRender = ({
       } else if (showQuarter) {
         return !(formState.year.length > 0 && formatQuartersToApiOrString(formState.quarter).length > 0);
       } else {
-        return !(formState.year.length > 0);
+        return (formState.year.length <= 0);
       }
     } else {
       return !(formState.startDate && formState.endDate);

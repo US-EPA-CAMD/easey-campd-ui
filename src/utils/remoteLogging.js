@@ -1,7 +1,6 @@
 //This module sends browser logs to a remote logging service
 
 import log from "loglevel";
-//import remote from 'loglevel-plugin-remote';
 
 const customJSON = (log) => ({
   msg: log.message,

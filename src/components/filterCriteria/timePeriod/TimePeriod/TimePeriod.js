@@ -232,7 +232,6 @@ export const TimePeriod = ({
       key: filterToApply,
       values: [`${formState.startDate} - ${formState.endDate}`],
     });
-    
     if (formState.opHrsOnly) {
       addAppliedFilterDispatcher({
         key: filterToApply,
