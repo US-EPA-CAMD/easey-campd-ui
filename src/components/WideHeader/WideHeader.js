@@ -42,7 +42,7 @@ const WideHeader = () => {
     const lastFocusableElement = focusableContent[focusableContent.length - 1]; // get last element to be focused inside slideOutMenuNav
 
     document.addEventListener('keydown', e => {
-      let isTabPressed = e.key === 'Tab' || e.keyCode === 9;
+      const isTabPressed = e.key === 'Tab' || e.keyCode === 9;
 
       if (!isTabPressed) {
         return;

@@ -16,7 +16,7 @@ const reducer = (state = initialState.customDataDownload, action) => {
         appliedFilters: [...state.appliedFilters, action.appliedFilter]
        };
     case types.REMOVE_APPLIED_FILTER:
-      const filter = (action.removal.opHours && !action.removal.removeAll) 
+      const filter = (action.removal.opHours && !action.removal.removeAll)
       ? (el) => el.values[0] !== 'Operating Hours Only'
       : (el) => el.key !== action.removal.removedFilter
 
