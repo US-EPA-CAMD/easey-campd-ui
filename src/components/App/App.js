@@ -6,6 +6,7 @@ import ManageDataDownloadRoute from "../protectedRoutes/ManageDataDownloadRoute/
 import ManageDataDownload from "../customDataDownload/ManageDataDownload/ManageDataDownload";
 import NotFound from "../NotFound/NotFound";
 import HomePage from "../HomePage/HomePage";
+import DataLandingPage from "../DataLandingPage/DataLandingPage";
 
 import Layout from "../Layout/Layout";
 
@@ -30,6 +31,7 @@ function App() {
         <Switch>
           <Route path="/" exact component={HomePage}/>
           <Route path="/select-data-type" exact component={SelectDataType} />
+          <Route path="/data" exact component={DataLandingPage} />
           <ManageDataDownloadRoute path='/manage-data-download' exact component={ManageDataDownload} />
           <Route path="/*" component={NotFound} />
         </Switch>

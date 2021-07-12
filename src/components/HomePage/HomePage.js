@@ -18,7 +18,7 @@ const HomePage = () => {
         <div className="margin-left-4">
           <h2 className="text-primary-dark font-heading-xl text-bold margin-top-0">Data</h2>
           <p className="font-body-sm text-ls-1 line-height-sans-6 desktop:width-mobile">
-            Create custom queries, download bulk datasets and use the CAMD API to retrieve emissions, allowance and compliance data.
+            Create custom queries, download bulk datasets and use the CAM API to retrieve emissions, allowance and compliance data.
           </p>
           <Button
             className="bg-accent-cool-dark radius-md"
