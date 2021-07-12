@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-//import "./TableBody.scss";
+
 const TableBody = ({
   getTableBodyProps,
   rows,

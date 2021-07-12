@@ -1,143 +1,258 @@
-import * as actions from "./customDataDownload";
-import * as types from "../actionTypes";
-import axios from "axios";
-import thunk from "redux-thunk";
-import MockAdapter from "axios-mock-adapter";
-import configureMockStore from "redux-mock-store";
-import config from "../../../config";
-import initState from "../../reducers/initialState";
+import * as actions from './customDataDownload';
+import * as types from '../actionTypes';
+import axios from 'axios';
+import thunk from 'redux-thunk';
+import MockAdapter from 'axios-mock-adapter';
+import configureMockStore from 'redux-mock-store';
+import config from '../../../config';
+import initState from '../../reducers/initialState';
 
 // Test an async action
 const middleware = [thunk];
 const mockStore = configureMockStore(middleware);
 const mock = new MockAdapter(axios);
 
-describe("custom data download Async Actions", () => {
-
-  it("should create BEGIN_API_CALL and LOAD_HOURLY_EMISSIONS_SUCCESS when loading hourly emissions data", () => {
+describe('custom data download Async Actions', () => {
+  /* --- HOURLY EMISSIONS --- */
+  it('should create BEGIN_API_CALL and LOAD_HOURLY_EMISSIONS_SUCCESS when loading hourly emissions data', () => {
     const timePeriod = initState.filterCriteria.timePeriod;
-    timePeriod.startDate="2019-01-01";
-    timePeriod.endDate="2019-01-01";
-    timePeriod.opHrsOnly=true;
+    timePeriod.startDate = '2019-01-01';
+    timePeriod.endDate = '2019-01-01';
+    timePeriod.opHrsOnly = true;
     const hourlyEmissions = [
       {
-        "state": "AL",
-        "facilityName": "Barry",
-        "orisCode": "3",
-        "unitId": "4",
-        "gLoad": "150.00",
-        "sLoad": null,
-        "so2Mass": "1617.200",
-        "so2Rate": "0.983",
-        "noxMass": "481.800",
-        "noxRate": "0.293",
-        "co2Mass": "168.700",
-        "co2Rate": "0.103",
-        "heatInput": "1644.500",
-        "primaryFuelInfo": "Coal",
-        "secondaryFuelInfo": "Pipeline Natural Gas",
-        "unitTypeInfo": "Tangentially-fired",
-        "so2ControlInfo": null,
-        "partControlInfo": "Electrostatic Precipitator",
-        "noxControlInfo": "Low NOx Burner Technology w/ Separated OFA,Selective Non-catalytic Reduction",
-        "hgControlInfo": "Halogenated PAC Sorbent Injection",
-        "prgCodeInfo": "ARP, CSNOX, CSOSG2, CSSO2G2, MATS",
-        "assocStacks": null,
-        "opDate": "2019-01-01",
-        "opHour": "0",
-        "opTime": "1.00",
-        "so2MassMeasureFlg": "Measured",
-        "so2RateMeasureFlg": "Calculated",
-        "noxMassMeasureFlg": "Measured",
-        "noxRateMeasureFlg": "Measured",
-        "co2MassMeasureFlg": "Measured",
-        "co2RateMeasureFlg": "Calculated"
+        test: 'Test',
       },
-      {
-        "state": "AL",
-        "facilityName": "Barry",
-        "orisCode": "3",
-        "unitId": "4",
-        "gLoad": "150.00",
-        "sLoad": null,
-        "so2Mass": "1611.300",
-        "so2Rate": "0.983",
-        "noxMass": "460.700",
-        "noxRate": "0.281",
-        "co2Mass": "168.200",
-        "co2Rate": "0.103",
-        "heatInput": "1639.500",
-        "primaryFuelInfo": "Coal",
-        "secondaryFuelInfo": "Pipeline Natural Gas",
-        "unitTypeInfo": "Tangentially-fired",
-        "so2ControlInfo": null,
-        "partControlInfo": "Electrostatic Precipitator",
-        "noxControlInfo": "Low NOx Burner Technology w/ Separated OFA,Selective Non-catalytic Reduction",
-        "hgControlInfo": "Halogenated PAC Sorbent Injection",
-        "prgCodeInfo": "ARP, CSNOX, CSOSG2, CSSO2G2, MATS",
-        "assocStacks": null,
-        "opDate": "2019-01-01",
-        "opHour": "1",
-        "opTime": "1.00",
-        "so2MassMeasureFlg": "Measured",
-        "so2RateMeasureFlg": "Calculated",
-        "noxMassMeasureFlg": "Measured",
-        "noxRateMeasureFlg": "Measured",
-        "co2MassMeasureFlg": "Measured",
-        "co2RateMeasureFlg": "Calculated"
-      },
-      {
-        "state": "AL",
-        "facilityName": "Barry",
-        "orisCode": "3",
-        "unitId": "4",
-        "gLoad": "150.00",
-        "sLoad": null,
-        "so2Mass": "1608.300",
-        "so2Rate": "0.978",
-        "noxMass": "407.900",
-        "noxRate": "0.248",
-        "co2Mass": "168.800",
-        "co2Rate": "0.103",
-        "heatInput": "1644.900",
-        "primaryFuelInfo": "Coal",
-        "secondaryFuelInfo": "Pipeline Natural Gas",
-        "unitTypeInfo": "Tangentially-fired",
-        "so2ControlInfo": null,
-        "partControlInfo": "Electrostatic Precipitator",
-        "noxControlInfo": "Low NOx Burner Technology w/ Separated OFA,Selective Non-catalytic Reduction",
-        "hgControlInfo": "Halogenated PAC Sorbent Injection",
-        "prgCodeInfo": "ARP, CSNOX, CSOSG2, CSSO2G2, MATS",
-        "assocStacks": null,
-        "opDate": "2019-01-01",
-        "opHour": "2",
-        "opTime": "1.00",
-        "so2MassMeasureFlg": "Measured",
-        "so2RateMeasureFlg": "Calculated",
-        "noxMassMeasureFlg": "Measured",
-        "noxRateMeasureFlg": "Measured",
-        "co2MassMeasureFlg": "Measured",
-        "co2RateMeasureFlg": "Calculated"
-      }
     ];
     const successResponse = {
       data: hourlyEmissions,
       headers: {
-        "x-total-count": hourlyEmissions.length
-      }
+        'x-total-count': hourlyEmissions.length,
+      },
     };
     mock
-      .onGet(`${config.services.emissions.uri}/apportioned/hourly?page=1&perPage=100&beginDate=${timePeriod.startDate}&endDate=${timePeriod.endDate}&opHoursOnly=${timePeriod.opHrsOnly}&attachFile=false`)
+      .onGet(
+        `${config.services.emissions.uri}/apportioned/hourly?page=1&perPage=100&beginDate=${timePeriod.startDate}&endDate=${timePeriod.endDate}&opHoursOnly=${timePeriod.opHrsOnly}&attachFile=false`
+      )
       .reply(200, successResponse.data, successResponse.headers);
     const expectedActions = [
       { type: types.BEGIN_API_CALL },
-      { type: types.LOAD_HOURLY_EMISSIONS_SUCCESS, hourlyEmissions: {data: successResponse.data,totalCount: successResponse.headers["x-total-count"]}},
+      {
+        type: types.LOAD_HOURLY_EMISSIONS_SUCCESS,
+        hourlyEmissions: {
+          data: successResponse.data,
+          totalCount: successResponse.headers['x-total-count'],
+        },
+      },
     ];
 
     const store = mockStore(initState.customDataDownload);
-    return store.dispatch(actions.loadHourlyEmissions(initState.filterCriteria)).then(() => {
-      expect(store.getActions()).toEqual(expectedActions);
-    })
+    return store
+      .dispatch(actions.loadHourlyEmissions(initState.filterCriteria))
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+      });
   });
-});
 
+  /* --- DAILY EMISSIONS --- */
+  it('should create BEGIN_API_CALL and LOAD_DAILY_EMISSIONS_SUCCESS when loading daily emissions data', () => {
+    const timePeriod = initState.filterCriteria.timePeriod;
+    timePeriod.startDate = '2019-01-01';
+    timePeriod.endDate = '2019-01-01';
+    const dailyEmissions = [
+      {
+        test: 'Test',
+      },
+    ];
+    const successResponse = {
+      data: dailyEmissions,
+      headers: {
+        'x-total-count': dailyEmissions.length,
+      },
+    };
+    mock
+      .onGet(
+        `${config.services.emissions.uri}/apportioned/daily?page=1&perPage=100&beginDate=${timePeriod.startDate}&endDate=${timePeriod.endDate}&attachFile=false`
+      )
+      .reply(200, successResponse.data, successResponse.headers);
+    const expectedActions = [
+      { type: types.BEGIN_API_CALL },
+      {
+        type: types.LOAD_DAILY_EMISSIONS_SUCCESS,
+        dailyEmissions: {
+          data: successResponse.data,
+          totalCount: successResponse.headers['x-total-count'],
+        },
+      },
+    ];
+
+    const store = mockStore(initState.customDataDownload);
+    return store
+      .dispatch(actions.loadDailyEmissions(initState.filterCriteria))
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+      });
+  });
+
+  /* --- MONTHLY EMISSIONS --- */
+  it('should create BEGIN_API_CALL and LOAD_MONTHLY_EMISSIONS_SUCCESS when loading monthly emissions data', () => {
+    const timePeriod = initState.filterCriteria.timePeriod;
+    timePeriod.year.yearString = '2019';
+    timePeriod.year.yearArray = [2019];
+    timePeriod.month = [{ id: 1, label: 'January', selected: true }];
+    const monthlyEmissions = [
+      {
+        test: 'Test',
+      },
+    ];
+    const successResponse = {
+      data: monthlyEmissions,
+      headers: {
+        'x-total-count': monthlyEmissions.length,
+      },
+    };
+    mock
+      .onGet(
+        `${config.services.emissions.uri}/apportioned/monthly?page=1&perPage=100&opYear=${timePeriod.year.yearString}&opMonth=${timePeriod.month[0].id}&attachFile=false`
+      )
+      .reply(200, successResponse.data, successResponse.headers);
+    const expectedActions = [
+      { type: types.BEGIN_API_CALL },
+      {
+        type: types.LOAD_MONTHLY_EMISSIONS_SUCCESS,
+        monthlyEmissions: {
+          data: successResponse.data,
+          totalCount: successResponse.headers['x-total-count'],
+        },
+      },
+    ];
+
+    const store = mockStore(initState.customDataDownload);
+    return store
+      .dispatch(actions.loadMonthlyEmissions(initState.filterCriteria))
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+      });
+  });
+
+  /* --- QUARTERLY EMISSIONS --- */
+  it('should create BEGIN_API_CALL and LOAD_QUARTERLY_EMISSIONS_SUCCESS when loading quarterly emissions data', () => {
+    const timePeriod = initState.filterCriteria.timePeriod;
+    timePeriod.year.yearString = '2019';
+    timePeriod.year.yearArray = [2019];
+    timePeriod.quarter = [{ id: 1, label: 'Q1', selected: true }];
+    const quarterlyEmissions = [
+      {
+        test: 'Test',
+      },
+    ];
+    const successResponse = {
+      data: quarterlyEmissions,
+      headers: {
+        'x-total-count': quarterlyEmissions.length,
+      },
+    };
+    mock
+      .onGet(
+        `${config.services.emissions.uri}/apportioned/quarterly?page=1&perPage=100&opYear=${timePeriod.year.yearString}&opQuarter=${timePeriod.quarter[0].id}&attachFile=false`
+      )
+      .reply(200, successResponse.data, successResponse.headers);
+    const expectedActions = [
+      { type: types.BEGIN_API_CALL },
+      {
+        type: types.LOAD_QUARTERLY_EMISSIONS_SUCCESS,
+        quarterlyEmissions: {
+          data: successResponse.data,
+          totalCount: successResponse.headers['x-total-count'],
+        },
+      },
+    ];
+
+    const store = mockStore(initState.customDataDownload);
+    return store
+      .dispatch(actions.loadQuarterlyEmissions(initState.filterCriteria))
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+      });
+  });
+
+  /* --- OZONE EMISSIONS --- */
+  it('should create BEGIN_API_CALL and LOAD_OZONE_EMISSIONS_SUCCESS when loading ozone emissions data', () => {
+    const timePeriod = initState.filterCriteria.timePeriod;
+    timePeriod.year.yearString = '2019';
+    timePeriod.year.yearArray = [2019];
+    const ozoneEmissions = [
+      {
+        test: 'Test',
+      },
+    ];
+    const successResponse = {
+      data: ozoneEmissions,
+      headers: {
+        'x-total-count': ozoneEmissions.length,
+      },
+    };
+    mock
+      .onGet(
+        `${config.services.emissions.uri}/apportioned/ozone?page=1&perPage=100&opYear=${timePeriod.year.yearString}&attachFile=false`
+      )
+      .reply(200, successResponse.data, successResponse.headers);
+    const expectedActions = [
+      { type: types.BEGIN_API_CALL },
+      {
+        type: types.LOAD_OZONE_EMISSIONS_SUCCESS,
+        ozoneEmissions: {
+          data: successResponse.data,
+          totalCount: successResponse.headers['x-total-count'],
+        },
+      },
+    ];
+
+    const store = mockStore(initState.customDataDownload);
+    return store
+      .dispatch(actions.loadOzoneEmissions(initState.filterCriteria))
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+      });
+  });
+
+    /* --- ANNUAL EMISSIONS --- */
+    it('should create BEGIN_API_CALL and LOAD_ANNUAL_EMISSIONS_SUCCESS when loading annual emissions data', () => {
+      const timePeriod = initState.filterCriteria.timePeriod;
+      timePeriod.year.yearString = '2019';
+      timePeriod.year.yearArray = [2019];
+      const annualEmissions = [
+        {
+          test: 'Test',
+        },
+      ];
+      const successResponse = {
+        data: annualEmissions,
+        headers: {
+          'x-total-count': annualEmissions.length,
+        },
+      };
+      mock
+        .onGet(
+          `${config.services.emissions.uri}/apportioned/annual?page=1&perPage=100&opYear=${timePeriod.year.yearString}&attachFile=false`
+        )
+        .reply(200, successResponse.data, successResponse.headers);
+      const expectedActions = [
+        { type: types.BEGIN_API_CALL },
+        {
+          type: types.LOAD_ANNUAL_EMISSIONS_SUCCESS,
+          annualEmissions: {
+            data: successResponse.data,
+            totalCount: successResponse.headers['x-total-count'],
+          },
+        },
+      ];
+  
+      const store = mockStore(initState.customDataDownload);
+      return store
+        .dispatch(actions.loadAnnualEmissions(initState.filterCriteria))
+        .then(() => {
+          expect(store.getActions()).toEqual(expectedActions);
+        });
+    });
+});

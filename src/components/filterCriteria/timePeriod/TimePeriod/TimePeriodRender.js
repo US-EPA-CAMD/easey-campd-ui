@@ -28,6 +28,7 @@ const TimePeriodRender = ({
   showYear,
   showMonth,
   showQuarter,
+  isAnnual,
 }) => {
 
   const isApplyFilterDisabled = () => {
@@ -37,7 +38,7 @@ const TimePeriodRender = ({
       } else if (showQuarter) {
         return !(formState.year.length > 0 && formatQuartersToApiOrString(formState.quarter).length > 0);
       } else {
-        return !(formState.year.length > 0);
+        return (formState.year.length <= 0);
       }
     } else {
       return !(formState.startDate && formState.endDate);
@@ -66,6 +67,7 @@ const TimePeriodRender = ({
           onInvalidHandler={onInvalidHandler}
           validations={validations}
           isFormValid={isFormValid}
+          isAnnual={isAnnual}
         />
       ) : (
         <TimePeriodFullDate
