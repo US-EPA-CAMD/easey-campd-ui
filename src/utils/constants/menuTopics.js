@@ -158,6 +158,7 @@ export const subHeaderMenuList = [
   {
     label: "DATA",
     items: [
+      {menu: "DATA Overview", link:"/data"},
       {menu: "Custom Data Download", link:"/select-data-type"},
       {menu: "Bulk Data Files", link:""}
     ]
