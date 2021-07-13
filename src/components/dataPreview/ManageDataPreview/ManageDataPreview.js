@@ -181,7 +181,7 @@ const ManageDataPreview = ({
           <FontAwesomeIcon
             icon={faQuestionCircle}
             className="text-primary font-body-md question-icon"
-            title="Use the filters below to refine your query. The filter criteria will not update based on other criteria selections. If no selections are made in a filter, all data related to that filter will be returned."
+            title="Preview the first 100 rows of your query here."
           />
           <Button
             type="button"
