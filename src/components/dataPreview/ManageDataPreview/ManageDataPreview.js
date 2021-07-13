@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Button } from '@trussworks/react-uswds';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faQuestionCircle,
+} from "@fortawesome/free-solid-svg-icons";
 
 import HourlyEmissions from '../HourlyEmissions/HourlyEmissions';
 import DailyEmissions from '../DailyEmissions/DailyEmissions';
@@ -173,14 +177,21 @@ const ManageDataPreview = ({
         <h2 className="flex-align-self-center font-alt-2xl text-bold margin-0">
           Custom Data Download
         </h2>
-        <Button
-          type="button"
-          className="flex-align-self-center clearfix width-card height-6 font-sans-md"
-          disabled={!requirementsMet}
-          onClick={() => setRenderPreviewData(true)}
-        >
-          Preview Data
-        </Button>
+        <div className="flex-align-self-center">
+          <FontAwesomeIcon
+            icon={faQuestionCircle}
+            className="text-primary font-body-md question-icon"
+            title="Use the filters below to refine your query. The filter criteria will not update based on other criteria selections. If no selections are made in a filter, all data related to that filter will be returned."
+          />
+          <Button
+            type="button"
+            className="clearfix width-card height-6 font-sans-md margin-left-3"
+            disabled={!requirementsMet}
+            onClick={() => setRenderPreviewData(true)}
+          >
+            Preview Data
+          </Button>
+        </div>
       </div>
       {appliedFilters.length > 0 && (
         <div className="display-none desktop:display-block">
