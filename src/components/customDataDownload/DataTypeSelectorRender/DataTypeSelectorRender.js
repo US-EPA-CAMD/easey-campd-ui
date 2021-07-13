@@ -27,6 +27,7 @@ const DataTypeSelectorView = ({
         <FontAwesomeIcon
           icon={faQuestionCircle}
           className="text-primary font-body-md question-icon"
+          title="Data type and subtype can be changed at any time"
         />
       </div>
       <div className="border-bottom-1px border-base-light clearfix padding-y-1 padding-x-2">
