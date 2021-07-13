@@ -7,6 +7,7 @@ import { addAppliedFilter, removeAppliedFilter } from '../../../../store/actions
 import {
   isDateFormatValid,
   isDateRangeValid,
+  isInValidDateRange,
   isInValidReportingQuarter,
   isInYearRange,
   isYearFormat,
@@ -110,9 +111,16 @@ export const TimePeriod = ({
       if (
         updatedValidations['startDateFormat'] && updatedValidations['endDateFormat']
       ) {
-        updatedValidations['dateRange'] = isDateRangeValid(formState.startDate, formState.endDate);
+        updatedValidations['dateRange'] = isDateRangeValid(
+          formState.startDate,
+          formState.endDate
+        );
+        updatedValidations['validReportingQuarter'] =
+          isInValidDateRange(formState.startDate, new Date('1995-01-01')) &&
+          isInValidDateRange(formState.endDate, new Date('1995-01-01'));
       } else {
         updatedValidations['dateRange'] = false;
+        updatedValidations['validReportingQuarter'] = false
       }
     }
     setValidations({ ...validations, ...updatedValidations });
@@ -182,7 +190,8 @@ export const TimePeriod = ({
       return (
         validations.startDateFormat &&
         validations.endDateFormat &&
-        validations.dateRange
+        validations.dateRange &&
+        validations.validReportingQuarter
       );
     }
   };

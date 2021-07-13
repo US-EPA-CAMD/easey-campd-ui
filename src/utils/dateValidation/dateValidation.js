@@ -1,4 +1,4 @@
-import { formatYearsToArray } from "../selectors/general";
+import { formatYearsToArray, reportingQuarter } from "../selectors/general";
 
 const setDate = (year, month, date) => {
   const newDate = new Date(0)
@@ -80,6 +80,12 @@ export const isInYearRange = (yearArray, isAnnual = false) => {
     }
   });
   return result;
+};
+
+export const isInValidDateRange = (date, minDate) => {
+  const dateInput = new Date(date);
+  const maxDate = new Date(reportingQuarter());
+  return dateInput >= minDate && dateInput <= maxDate;
 };
 
 export const isInValidReportingQuarter = (
