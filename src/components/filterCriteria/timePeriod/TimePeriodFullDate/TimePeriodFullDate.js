@@ -6,7 +6,7 @@ import {
   DateRangePicker,
   Checkbox,
 } from '@trussworks/react-uswds';
-import { formatDateToApi } from '../../../../utils/selectors/general';
+import { formatDateToApi, reportingQuarter } from '../../../../utils/selectors/general';
 
 const TimePeriodFullDate = ({
   formState,
@@ -46,6 +46,8 @@ const TimePeriodFullDate = ({
     });
   });
 
+  const rangeMessage = `Enter dates between 01/01/1995 and the end of the calendar quarter, ${reportingQuarter()}`
+
   return (
     <>
       <Alert
@@ -77,6 +79,13 @@ const TimePeriodFullDate = ({
             aria-checked={validations.dateRange}
           >
             Enter an end date that is greater than or equal to the begin date
+          </ValidationItem>
+          <ValidationItem
+            id="validReportingQuarter"
+            isValid={validations.validReportingQuarter}
+            aria-checked={validations.validReportingQuarter}
+          >
+            {rangeMessage}
           </ValidationItem>
         </ValidationChecklist>
       </Alert>
