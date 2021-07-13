@@ -188,3 +188,14 @@ export const subHeaderMenuList = [
     ]
   }
 ];
+
+export const subHeaderUtilityList = [
+  {
+    label: "TEST 1",
+    items: []
+  },
+  {
+    label: "Test 2",
+    items: []
+  },
+];
