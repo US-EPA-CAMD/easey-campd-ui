@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   NavDropDownButton,
   PrimaryNav,
@@ -9,28 +9,61 @@ import {
 import config from '../../config';
 
 const SubHeaderNav = ({
-  handleSubMenuClick,
-  categorySelected,
+  pathname,
+  cddPath,
   menuList,
   navDropdownOpen,
   handleToggleNavDropdown,
-  isUtility = false}
-) => {
+  isUtility = false,
+}) => {
+  useEffect(() => {
+    setCategorySelected([
+      pathname === '/',
+      cddPath.includes(pathname),
+      false,
+      false,
+      false,
+      false,
+    ]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathname]);
+
+  const [categorySelected, setCategorySelected] = useState([
+    pathname === '/',
+    cddPath.includes(pathname),
+    false,
+    false,
+    false,
+    false,
+  ]);
+
+  const handleSubMenuClick = (column) => {
+    handleToggleNavDropdown(column);
+
+    setCategorySelected([
+      pathname === '/',
+      cddPath.includes(pathname),
+      false,
+      false,
+      false,
+      false,
+    ]);
+  };
 
   return (
     <PrimaryNav
       items={menuList.map((el, i) => {
-        if (i === 0) {
+        if (el.items.length === 1 && el.items[0].menu === 'notMenu') {
           return (
             <>
-              <a
-                href={config.app.path}
+              <Link
+                href={el.items[0].link}
                 title={el.label}
                 aria-label={el.label}
-                onClick={() => handleSubMenuClick(i)}
+                style={isUtility ? { fontSize: '11px'} : null}
               >
                 {el.label}
-              </a>
+              </Link>
               {categorySelected[i] === true ? (
                 <div className="menu-underline" />
               ) : null}
@@ -42,6 +75,7 @@ const SubHeaderNav = ({
               <NavDropDownButton
                 key={i}
                 label={el.label}
+                style={isUtility ? { fontSize: '11px' } : null}
                 menuId={`menu-${el.label}`}
                 isOpen={navDropdownOpen[i]}
                 onToggle={() => {
@@ -50,15 +84,15 @@ const SubHeaderNav = ({
               />
               <Menu
                 id={
-                  i === menuList.length - 1
-                    ? `extended-nav-section-last`
-                    : null
+                  i === menuList.length - 1 ? `extended-nav-section-last` : null
                 }
                 className="font-body-xs"
                 items={el.items.map((item, index) => (
                   <Link
                     key={index}
-                    to={item.link}
+                    style={isUtility ? { fontSize: '11px' } : null}
+                    href={item.link}
+                    variant="nav"
                     onClick={() => handleSubMenuClick(i)}
                   >
                     {item.menu}
@@ -66,7 +100,10 @@ const SubHeaderNav = ({
                 ))}
                 isOpen={navDropdownOpen[i]}
               />
-              {categorySelected[i] === true ? (
+              {isUtility && (
+                <span className="utility-divider" />
+              )}
+              {categorySelected[i] === true && !isUtility ? (
                 <div className="menu-underline" />
               ) : null}
             </>
