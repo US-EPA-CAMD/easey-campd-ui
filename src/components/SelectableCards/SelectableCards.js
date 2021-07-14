@@ -78,6 +78,7 @@ export const SelectDataTypeInCards = ({
         <FontAwesomeIcon
           icon={faQuestionCircle}
           className="text-primary font-body-sm question-icon position-relative top-neg-1px"
+          title="Data type and subtype can be changed at any time."
         />
       </h3>
       <div className="grid-row">
