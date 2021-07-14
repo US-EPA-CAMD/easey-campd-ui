@@ -8,30 +8,32 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const SelectableCard = ({ selected, title, onClick }) => {
   return (
-    <button
-      className={
-        selected
-          ? "selectablecard selected width-card height-card"
-          : "selectablecard width-card height-card"
-      }
-      onClick={onClick}
-      data-testid="selectable-card"
-    >
-      <span
+    <div className="margin-x-9 padding-x-7 tablet:grid-col-4 tablet:margin-x-0 tablet:padding-x-0">
+      <button
         className={
           selected
-            ? "fa fa-check-circle white-color fa-lg checkMarkOn"
-            : "fa fa-check-circle white-color fa-lg checkMarkOff"
+            ? "selectablecard selected width-card height-card"
+            : "selectablecard width-card height-card margin-x-auto"
         }
-      />
-      <span
-        className={
-          selected ? "text-center text-white" : "text-center text-primary"
-        }
+        onClick={onClick}
+        data-testid="selectable-card"
       >
-        {title}
-      </span>
-    </button>
+        <span
+          className={
+            selected
+              ? "fa fa-check-circle white-color fa-lg checkMarkOn"
+              : "fa fa-check-circle white-color fa-lg checkMarkOff"
+          }
+        />
+        <span
+          className={
+            selected ? "text-white text-center" : "text-primary text-center"
+          }
+        >
+          {title}
+        </span>
+      </button>
+    </div>
   );
 };
 
@@ -71,14 +73,14 @@ export const SelectDataTypeInCards = ({
   };
   return (
     <>
-      <h3 className="font-alt-lg margin-y-3">
+      <h3 className="font-alt-lg margin-y-3 mobile-lg:text-center tablet:text-left">
         <b>Select a Data Type </b>
         <FontAwesomeIcon
           icon={faQuestionCircle}
           className="text-primary font-body-sm question-icon position-relative top-neg-1px"
         />
       </h3>
-      <div className="height-card">
+      <div className="grid-row">
         <SelectableCardList contents={cardContents} onChange={onListChanged} />
       </div>
       {selected !== -1 && handleRoute()}
