@@ -160,22 +160,19 @@ export const subHeaderMenuList = [
   {
     label: 'DATA',
     items: [
-      { menu: 'DATA Overview', link: '/data' },
+      { menu: 'Data Home', link: '/data' },
       { menu: 'Custom Data Download', link: '/select-data-type' },
       { menu: 'Bulk Data Files', link: '#' },
+      { menu: 'CAM API', link: '#' },
     ],
   },
   {
     label: 'ANALYSIS',
-    items: [{ menu: 'Coming Soon', link: '#' }],
+    items: [{ menu: 'Coming Soon – View and download analyses', link: '#' }],
   },
   {
     label: 'VISUALIZATION',
-    items: [{ menu: 'Coming Soon', link: '#' }],
-  },
-  {
-    label: 'CAM API',
-    items: [{ menu: 'Coming Soon', link: '#' }],
+    items: [{ menu: 'Coming Soon – Visualize and interact with data', link: '#' }],
   },
 ];
 

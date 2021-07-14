@@ -6,48 +6,27 @@ import {
   Link,
 } from '@trussworks/react-uswds';
 
-import config from '../../config';
-
 const SubHeaderNav = ({
   pathname,
   cddPath,
   menuList,
   navDropdownOpen,
   handleToggleNavDropdown,
+  initialCategorySelected,
   isUtility = false,
 }) => {
+  
   useEffect(() => {
-    setCategorySelected([
-      pathname === '/',
-      cddPath.includes(pathname),
-      false,
-      false,
-      false,
-      false,
-    ]);
+    setCategorySelected(initialCategorySelected);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
 
-  const [categorySelected, setCategorySelected] = useState([
-    pathname === '/',
-    cddPath.includes(pathname),
-    false,
-    false,
-    false,
-    false,
-  ]);
+  const [categorySelected, setCategorySelected] = useState(initialCategorySelected);
 
   const handleSubMenuClick = (column) => {
     handleToggleNavDropdown(column);
 
-    setCategorySelected([
-      pathname === '/',
-      cddPath.includes(pathname),
-      false,
-      false,
-      false,
-      false,
-    ]);
+    setCategorySelected(initialCategorySelected);
   };
 
   return (

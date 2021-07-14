@@ -16,6 +16,14 @@ import "./SubHeader.scss";
 const SubHeader = () => {
   const pathname= useLocation().pathname;
   const cddPath = ["/select-data-type", "/manage-data-download"];
+  const initialCategorySelected = [
+    pathname === '/',
+    cddPath.includes(pathname),
+    false,
+    false,
+    false,
+    false,
+  ];
 
   const [primaryNavDropdownOpen, setPrimaryNavDropdownOpen] = useState([false, false, false, false, false]);
   const [utilityNavDropdownOpen, setUtilityNavDropdownOpen] = useState([false, false, false, false]);
@@ -51,7 +59,7 @@ const SubHeader = () => {
         }}
       >
         <div className="usa-nav-container clearfix padding-x-0">
-          <Title className="float-left margin-0">
+          <Title className="float-left margin-0 desktop-lg:padding-top-2">
             <h1 className="display-inline-block text-white text-heavy desktop-lg:font-sans-3xl desktop:font-sans-2xl mobile-lg:font-sans-xl margin-0">
               CAMPD
             </h1>
@@ -73,6 +81,7 @@ const SubHeader = () => {
               menuList={subHeaderUtilityList}
               navDropdownOpen={utilityNavDropdownOpen}
               handleToggleNavDropdown={handleToggleUtilityNavDropdown}
+              initialCategorySelected={initialCategorySelected}
               isUtility={true}
             />
             <SubHeaderNav
@@ -81,6 +90,7 @@ const SubHeader = () => {
               menuList={subHeaderMenuList}
               navDropdownOpen={primaryNavDropdownOpen}
               handleToggleNavDropdown={handleTogglePrimaryNavDropdown}
+              initialCategorySelected={initialCategorySelected}
             />
           </div>
         </div>
