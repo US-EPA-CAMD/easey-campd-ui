@@ -155,13 +155,13 @@ export const collapsableFooterTopics = [
 export const subHeaderMenuList = [
   {
     label: 'HOME',
-    items: [{ menu: 'notMenu', link: config.app.path }],
+    items: [{ menu: 'notMenu', link: `${config.app.path}/` }],
   },
   {
     label: 'DATA',
     items: [
-      { menu: 'Data Home', link: '/data' },
-      { menu: 'Custom Data Download', link: '/select-data-type' },
+      { menu: 'Data Home', link: `${config.app.path}/data` },
+      { menu: 'Custom Data Download', link: `${config.app.path}/select-data-type` },
       { menu: 'Bulk Data Files', link: '#' },
       { menu: 'CAM API', link: '#' },
     ],
