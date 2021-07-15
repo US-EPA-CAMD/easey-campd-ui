@@ -11,7 +11,7 @@ const SelectDataType = () => {
   return (
     <div className="grid-row">
       <div className="padding-4 desktop:grid-offset-2 desktop:padding-x-0 desktop:padding-y-4 desktop:width-tablet desktop-lg:grid-offset-3 sdt-wrapper">
-        <h2 className="text-bold font-serif-xl margin-0">Custom Data Download</h2>
+        <h2 className="text-bold font-serif-xl tablet:font-serif-2xl margin-0">Custom Data Download</h2>
         <div className="display-flex flex-row flex-align-center">
           <div className="desktop:width-05 tablet:width-1 height-10 bg-accent-cool display-none tablet:display-flex" />
           <p
