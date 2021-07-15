@@ -186,6 +186,10 @@
     color: #fff;
   }
 
+  .usa-nav__primary button[aria-expanded="false"] { 
+    background-image: none !important;
+  }
+
   .usa-nav__primary button[aria-expanded="false"]::after {
     display: inline-block;
     vertical-align: 0.255em;
