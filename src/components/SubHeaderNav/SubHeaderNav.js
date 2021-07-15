@@ -8,14 +8,12 @@ import {
 
 const SubHeaderNav = ({
   pathname,
-  cddPath,
   menuList,
   navDropdownOpen,
   handleToggleNavDropdown,
   initialCategorySelected,
   isUtility = false,
 }) => {
-  
   useEffect(() => {
     setCategorySelected(initialCategorySelected);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -23,11 +21,13 @@ const SubHeaderNav = ({
 
   const [categorySelected, setCategorySelected] = useState(initialCategorySelected);
 
-  const handleSubMenuClick = (column) => {
-    handleToggleNavDropdown(column);
+  const handleSubMenuClick = (column, isUtility) => {
+    handleToggleNavDropdown(column, isUtility);
 
     setCategorySelected(initialCategorySelected);
   };
+
+  const utilityStyle = isUtility ? { fontSize: '11px'} : null
 
   return (
     <PrimaryNav
@@ -39,7 +39,7 @@ const SubHeaderNav = ({
                 href={el.items[0].link}
                 title={el.label}
                 aria-label={el.label}
-                style={isUtility ? { fontSize: '11px'} : null}
+                style={utilityStyle}
               >
                 {el.label}
               </Link>
@@ -54,25 +54,25 @@ const SubHeaderNav = ({
               <NavDropDownButton
                 key={i}
                 label={el.label}
-                style={isUtility ? { fontSize: '11px' } : null}
+                style={utilityStyle}
                 menuId={`menu-${el.label}`}
                 isOpen={navDropdownOpen[i]}
                 onToggle={() => {
-                  handleToggleNavDropdown(i);
+                  handleToggleNavDropdown(i, isUtility);
                 }}
               />
               <Menu
                 id={
                   i === menuList.length - 1 ? `extended-nav-section-last` : null
                 }
-                className="font-body-xs"
+                className="font-body-xs margin-top-neg-1"
                 items={el.items.map((item, index) => (
                   <Link
                     key={index}
-                    style={isUtility ? { fontSize: '11px' } : null}
                     href={item.link}
+                    style={utilityStyle}
                     variant="nav"
-                    onClick={() => handleSubMenuClick(i)}
+                    onClick={() => handleSubMenuClick(i, isUtility)}
                   >
                     {item.menu}
                   </Link>

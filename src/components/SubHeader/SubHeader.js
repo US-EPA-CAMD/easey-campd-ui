@@ -1,21 +1,19 @@
-import React, { useState } from "react";
-import { useLocation } from "react-router-dom";
+import React, { useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import { Header, Title, Button } from '@trussworks/react-uswds';
+
+import SubHeaderInfo from '../SubHeaderInfo/SubHeaderInfo';
+import SubHeaderNav from '../SubHeaderNav/SubHeaderNav';
 import {
-  Header,
-  Title,
-  Button,
-} from "@trussworks/react-uswds";
+  subHeaderMenuList,
+  subHeaderUtilityList,
+} from '../../utils/constants/menuTopics';
 
-import SubHeaderInfo from "../SubHeaderInfo/SubHeaderInfo";
-import SubHeaderNav from "../SubHeaderNav/SubHeaderNav";
-import {subHeaderMenuList, subHeaderUtilityList} from "../../utils/constants/menuTopics";
-
-import "./SubHeader.scss";
-
+import './SubHeader.scss';
 
 const SubHeader = () => {
-  const pathname= useLocation().pathname;
-  const cddPath = ["/select-data-type", "/manage-data-download"];
+  const pathname = useLocation().pathname;
+  const cddPath = ['/select-data-type', '/manage-data-download'];
   const initialCategorySelected = [
     pathname === '/',
     cddPath.includes(pathname),
@@ -24,24 +22,22 @@ const SubHeader = () => {
     false,
     false,
   ];
-
-  const [primaryNavDropdownOpen, setPrimaryNavDropdownOpen] = useState([false, false, false, false, false]);
-  const [utilityNavDropdownOpen, setUtilityNavDropdownOpen] = useState([false, false, false, false]);
-
-  const handleTogglePrimaryNavDropdown = (column) => {
-    setPrimaryNavDropdownOpen((prevNavDropdownOpen) => {
-      const newOpenState = Array(prevNavDropdownOpen.length).fill(false);
-      newOpenState[column] = !prevNavDropdownOpen[column];
-      return newOpenState;
-    });
+  const initialNavOpen = {
+    primary: [false, false, false, false, false],
+    utility: [false, false, false, false],
   };
 
+  const [navDropdownOpen, setNavDropdownOpen] = useState(initialNavOpen);
 
-  const handleToggleUtilityNavDropdown = (column) => {
-    setUtilityNavDropdownOpen((prevNavDropdownOpen) => {
-      const newOpenState = Array(prevNavDropdownOpen.length).fill(false);
-      newOpenState[column] = !prevNavDropdownOpen[column];
-      return newOpenState;
+  const handleToggleNavDropdown = (column, isUtility) => {
+    setNavDropdownOpen((prevNavDropdownOpen) => {
+      const newNavState = Object.assign({}, initialNavOpen);
+      if (isUtility) {
+        newNavState.utility[column] = !prevNavDropdownOpen.utility[column];
+      } else {
+        newNavState.primary[column] = !prevNavDropdownOpen.primary[column];
+      }
+      return newNavState;
     });
   };
 
@@ -77,19 +73,17 @@ const SubHeader = () => {
           <div className="display-flex flex-column flex-align-end">
             <SubHeaderNav
               pathname={pathname}
-              cddPath={cddPath}
               menuList={subHeaderUtilityList}
-              navDropdownOpen={utilityNavDropdownOpen}
-              handleToggleNavDropdown={handleToggleUtilityNavDropdown}
+              navDropdownOpen={navDropdownOpen.utility}
+              handleToggleNavDropdown={handleToggleNavDropdown}
               initialCategorySelected={initialCategorySelected}
               isUtility={true}
             />
             <SubHeaderNav
               pathname={pathname}
-              cddPath={cddPath}
               menuList={subHeaderMenuList}
-              navDropdownOpen={primaryNavDropdownOpen}
-              handleToggleNavDropdown={handleTogglePrimaryNavDropdown}
+              navDropdownOpen={navDropdownOpen.primary}
+              handleToggleNavDropdown={handleToggleNavDropdown}
               initialCategorySelected={initialCategorySelected}
             />
           </div>
