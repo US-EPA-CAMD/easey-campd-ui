@@ -6,6 +6,8 @@ import {
   Link,
 } from '@trussworks/react-uswds';
 
+import './SubHeaderNav.scss';
+
 const SubHeaderNav = ({
   pathname,
   menuList,
@@ -21,7 +23,7 @@ const SubHeaderNav = ({
 
   const [categorySelected, setCategorySelected] = useState(initialCategorySelected);
 
-  const handleSubMenuClick = (column, isUtility) => {
+  const handleSubMenuClick = (column) => {
     handleToggleNavDropdown(column, isUtility);
 
     setCategorySelected(initialCategorySelected);
@@ -72,7 +74,7 @@ const SubHeaderNav = ({
                     href={item.link}
                     style={utilityStyle}
                     variant="nav"
-                    onClick={() => handleSubMenuClick(i, isUtility)}
+                    onClick={() => handleSubMenuClick(i)}
                   >
                     {item.menu}
                   </Link>

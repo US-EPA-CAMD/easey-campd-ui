@@ -9,8 +9,6 @@ import {
   subHeaderUtilityList,
 } from '../../utils/constants/menuTopics';
 
-import './SubHeader.scss';
-
 const SubHeader = () => {
   const pathname = useLocation().pathname;
   const cddPath = ['/select-data-type', '/manage-data-download'];
