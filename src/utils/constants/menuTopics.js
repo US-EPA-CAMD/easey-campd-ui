@@ -152,39 +152,58 @@ export const collapsableFooterTopics = [
 
 export const subHeaderMenuList = [
   {
-    label: "HOME",
-    items: []
+    label: 'HOME',
+    items: [{ menu: 'notMenu', link: '/' }],
   },
   {
-    label: "DATA",
+    label: 'DATA',
     items: [
-      {menu: "DATA Overview", link:"/data"},
-      {menu: "Custom Data Download", link:"/select-data-type"},
-      {menu: "Bulk Data Files", link:""}
-    ]
+      { menu: 'Data Home', link: '/data' },
+      { menu: 'Custom Data Download', link: '/select-data-type' },
+      { menu: 'Bulk Data Files', link: '#' },
+      { menu: 'CAM API', link: '#' },
+    ],
   },
   {
-    label: "ANALYSIS",
-    items: [{menu: "Coming Soon", link:""}]
+    label: 'ANALYSIS',
+    items: [{ menu: 'Coming Soon – View and download analyses', link: '#' }],
   },
   {
-    label: "VISUALIZATION",
-    items: [{menu: "Coming Soon", link:""}]
-  },
-  {
-    label: "CAM API",
-    items: [{menu: "Coming Soon", link:""}]
-  },
-  {
-    label: "HELP",
+    label: 'VISUALIZATION',
     items: [
-      {menu: "About CAMPD", link:""},
-      {menu: "Tutorials", link:""},
-      {menu: "Glossary", link:""},
-      {menu: "FAQs", link:""},
-      {menu: "Related Resources", link:""},
-      {menu: "Contact Us", link:""},
-      {menu: "Site Map", link:""}
-    ]
-  }
+      { menu: 'Coming Soon – Visualize and interact with data', link: '#' },
+    ],
+  },
+];
+
+export const subHeaderUtilityList = [
+  {
+    label: 'Resources',
+    items: [
+      { menu: 'Glossary', link: '#' },
+      { menu: 'Related Resources', link: '#' },
+    ],
+  },
+  {
+    label: 'Help/Support',
+    items: [
+      { menu: 'About CAMPD', link: '#' },
+      { menu: 'Tutorials', link: '#' },
+      { menu: 'FAQs', link: '#' },
+      { menu: 'Contact Us', link: '#' },
+    ],
+  },
+  {
+    label: 'Regulatory Partners',
+    items: [
+      {
+        menu: 'Coming Soon - Information and resources for Regulatory Partners',
+        link: '#',
+      },
+    ],
+  },
+  {
+    label: 'Site Map',
+    items: [{ menu: 'notMenu', link: '#' }],
+  },
 ];

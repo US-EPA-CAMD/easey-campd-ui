@@ -1,6 +1,6 @@
 const config = {
   app: {
-    path: process.env.REACT_APP_EASEY_CAMPD_UI_PATH || "/",
+    path: process.env.REACT_APP_EASEY_CAMPD_UI_PATH || "/campd",
     env: process.env.REACT_APP_EASEY_CAMPD_UI_ENV || "local-dev",
     version: process.env.REACT_APP_EASEY_CAMPD_UI_VERSION || "v0.0.0",
     published: process.env.REACT_APP_EASEY_CAMPD_UI_PUBLISHED || "local",

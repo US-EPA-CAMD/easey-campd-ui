@@ -5,7 +5,7 @@ import { MemoryRouter } from 'react-router-dom';
 
 describe('Data Landing Page Component', () => {
     test("should render content without error", () => {
-      const {getAllByRole, getByText} = render(<MemoryRouter><DataLandingPage/></MemoryRouter>);
+      const {getAllByRole, getByText, getByRole} = render(<MemoryRouter><DataLandingPage/></MemoryRouter>);
       const btns = getAllByRole("button");
       expect(getByText("Data")).toBeDefined();
       expect(getByText("Custom Data Download Tool")).toBeDefined();

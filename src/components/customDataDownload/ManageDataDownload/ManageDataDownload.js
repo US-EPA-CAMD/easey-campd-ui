@@ -162,7 +162,7 @@ const ManageDataDownload = ({
       className="manage-download-wrapper"
       data-testid="manage-data-download-wrapper"
     >
-      <div className="side-panel bg-base-lighter margin-0">
+      <div className={`${displayFilters ? 'desktop:display-none desktop-lg:display-block' : ''} side-panel bg-base-lighter margin-0`}>
         <DataTypeSelectorRender
           selectedDataType={selectedDataType}
           getSelectedDataSubType={getSelectedDataSubType}
