@@ -31,12 +31,12 @@ const DataTypeSelectorView = ({
         />
       </div>
       <div className="border-bottom-1px border-base-light clearfix padding-y-1 padding-x-2">
-        <div className="display-flex flex-row flex-justify flex-align-center">
+        <div className="grid-row display-flex flex-align-center">
           {selectedDataSubtype !== '' &&
             selectedDataSubtype !== '-1' &&
             dataSubtypeApplied === true && (
               <>
-                <span className="text-bold font-sans-xs">
+                <span className="text-bold font-sans-xs desktop:grid-col-12 desktop:padding-bottom-1 desktop-lg:grid-col-8">
                   {initcap(selectedDataType)},{' '}
                   {getSelectedDataSubType(
                     constants.DATA_SUBTYPES_MAP[selectedDataType]
@@ -44,7 +44,7 @@ const DataTypeSelectorView = ({
                 </span>
                 <Button
                   outline="true"
-                  className="margin-right-0"
+                  className="margin-right-0 desktop:grid-col-4"
                   onClick={handleChangeButtonClick}
                 >
                   Change

@@ -120,7 +120,7 @@ const FilterCriteriaPanel = ({
   return (
     <>
       {show === true ? (
-        <div className="side-panel bg-base-lightest margin-0 position-relative z-top shadow-5">
+        <div className="filter-panel side-nav-height bg-base-lightest margin-0 shadow-5">
           <div className="padding-top-6 padding-bottom-3 padding-x-1">
             {contentRenderer()}
           </div>

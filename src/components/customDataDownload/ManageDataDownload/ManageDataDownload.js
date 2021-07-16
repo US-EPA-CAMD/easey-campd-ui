@@ -7,7 +7,7 @@ import {
   updateSelectedDataSubType,
   removeAppliedFilter,
 } from '../../../store/actions/customDataDownload/customDataDownload';
-import DataTypeSelectorRender from '../DataTypeSelectorRender/DataTypeSelectorRender';
+import DataTypeSelectorView from '../DataTypeSelectorView/DataTypeSelectorView';
 import FilterCriteriaMenu from '../../filterCriteria/FilterCriteriaMenu/FilterCriteriaMenu';
 import FilterCriteriaPanel from '../../filterCriteria/FilterCriteriaPanel/FilterCriteriaPanel';
 import ManageDataPreview from '../../dataPreview/ManageDataPreview/ManageDataPreview';
@@ -158,35 +158,54 @@ const ManageDataDownload = ({
   };
 
   return (
-    <div
-      className="manage-download-wrapper"
-      data-testid="manage-data-download-wrapper"
-    >
-      <div className="side-panel bg-base-lighter margin-0">
-        <DataTypeSelectorRender
+    <div className="position-relative">
+      <div
+        className="display-flex flex-no-wrap grid-row"
+        data-testid="manage-data-download-wrapper"
+      >
+        <div className={`${displayFilters ? 'desktop:display-none desktop-lg:display-block' : ''} grid-col-4 side-nav side-nav-height bg-base-lighter margin-0`}>
+          <DataTypeSelectorView
+            selectedDataType={selectedDataType}
+            getSelectedDataSubType={getSelectedDataSubType}
+            selectedDataSubtype={selectedDataSubtype}
+            dataTypeApplied={dataTypeApplied}
+            dataSubtypeApplied={dataSubtypeApplied}
+            handleDataTypeDropdown={handleDataTypeDropdown}
+            handleChangeButtonClick={handleChangeButtonClick}
+            changeDataSubtype={changeDataSubtype}
+            handleApplyButtonClick={handleApplyButtonClick}
+            handleCancelButtonClick={handleCancelButtonClick}
+            selectionChange={selectionChange}
+            displayCancel={displayCancel}
+          />
+          <FilterCriteriaMenu
+            dataSubtypeApplied={dataSubtypeApplied}
+            selectedDataType={selectedDataType}
+            getSelectedDataSubType={getSelectedDataSubType}
+            handleFilterButtonClick={handleFilterButtonClick}
+            appliedFilters={appliedFilters}
+            activeFilter={activeFilter}
+          />
+        </div>
+        <div className="desktop-lg:display-none">
+          <FilterCriteriaPanel
+          show={displayFilters}
           selectedDataType={selectedDataType}
+          selectedDataSubtype={getSelectedDataSubType(
+            constants.DATA_SUBTYPES_MAP[selectedDataType]
+          )}
+          selectedFilter={getFilterVariable(selectedFilter)}
+          closeFlyOutHandler={closeFlyOutHandler}
           getSelectedDataSubType={getSelectedDataSubType}
-          selectedDataSubtype={selectedDataSubtype}
-          dataTypeApplied={dataTypeApplied}
-          dataSubtypeApplied={dataSubtypeApplied}
-          handleDataTypeDropdown={handleDataTypeDropdown}
-          handleChangeButtonClick={handleChangeButtonClick}
-          changeDataSubtype={changeDataSubtype}
-          handleApplyButtonClick={handleApplyButtonClick}
-          handleCancelButtonClick={handleCancelButtonClick}
-          selectionChange={selectionChange}
-          displayCancel={displayCancel}
         />
-        <FilterCriteriaMenu
-          dataSubtypeApplied={dataSubtypeApplied}
-          selectedDataType={selectedDataType}
-          getSelectedDataSubType={getSelectedDataSubType}
+        </div>
+        <ManageDataPreview
+          dataType={appliedDataType.dataType}
           handleFilterButtonClick={handleFilterButtonClick}
-          appliedFilters={appliedFilters}
-          activeFilter={activeFilter}
         />
       </div>
-      <FilterCriteriaPanel
+      <div className="display-none desktop-lg:display-block">
+        <FilterCriteriaPanel
         show={displayFilters}
         selectedDataType={selectedDataType}
         selectedDataSubtype={getSelectedDataSubType(
@@ -196,11 +215,8 @@ const ManageDataDownload = ({
         closeFlyOutHandler={closeFlyOutHandler}
         getSelectedDataSubType={getSelectedDataSubType}
       />
-      <ManageDataPreview
-        dataType={appliedDataType.dataType}
-        handleFilterButtonClick={handleFilterButtonClick}
-      />
-    </div>
+      </div>
+  </div>
   );
 };
 

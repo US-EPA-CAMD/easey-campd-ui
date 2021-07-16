@@ -1,16 +1,29 @@
-.side-panel {
-  width: 25vw;
-  min-width: 320px !important;
-  max-width: 25vw !important;
-  min-height: 80vh !important;
-  max-height: fit-content !important;
-  overflow: hidden !important;
-  //filter: drop-shadow(0.35rem 0.35rem 0.4rem rgba(0, 0, 0, 0.5));
-  //filter: drop-shadow(5px 0px 9px rgba(0, 0, 0, 0.5));
+@media screen and (min-width: 1024px) {
+  .side-nav {
+    min-width: 332px;
+    max-width: 332px;
+  }
+  .filter-panel {
+    width: 332px;
+  }
 }
 
-.manage-download-wrapper {
-  display: flex;
+@media screen and (min-width: 1200px) {
+  .side-nav {
+    min-width: 389px;
+    max-width: 389px;
+  }
+  .filter-panel {
+    position: absolute;
+    top: 0;
+    left: 389px;
+    width: 389px;
+  }
+}
+
+.side-nav-height {
+  min-height: 90vh;
+  max-height: 100vh;
 }
 
 .question-icon {
