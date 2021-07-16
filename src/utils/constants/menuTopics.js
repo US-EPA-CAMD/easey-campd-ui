@@ -1,5 +1,3 @@
-import config from "../../config";
-
 export const environmentalTopics = [
   {
     link: 'https://www.epa.gov/environmental-topics',
@@ -155,13 +153,13 @@ export const collapsableFooterTopics = [
 export const subHeaderMenuList = [
   {
     label: 'HOME',
-    items: [{ menu: 'notMenu', link: `${config.app.path}/` }],
+    items: [{ menu: 'notMenu', link: '/' }],
   },
   {
     label: 'DATA',
     items: [
-      { menu: 'Data Home', link: `${config.app.path}/data` },
-      { menu: 'Custom Data Download', link: `${config.app.path}/select-data-type` },
+      { menu: 'Data Home', link: '/data' },
+      { menu: 'Custom Data Download', link: '/select-data-type' },
       { menu: 'Bulk Data Files', link: '#' },
       { menu: 'CAM API', link: '#' },
     ],
@@ -172,7 +170,9 @@ export const subHeaderMenuList = [
   },
   {
     label: 'VISUALIZATION',
-    items: [{ menu: 'Coming Soon – Visualize and interact with data', link: '#' }],
+    items: [
+      { menu: 'Coming Soon – Visualize and interact with data', link: '#' },
+    ],
   },
 ];
 

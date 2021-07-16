@@ -1,14 +1,14 @@
 import React, { useEffect } from "react";
-import { Route, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 
+import Layout from "../Layout/Layout";
 import SelectDataType from "../SelectDataType/SelectDataType";
 import ManageDataDownloadRoute from "../protectedRoutes/ManageDataDownloadRoute/ManageDataDownloadRoute";
 import ManageDataDownload from "../customDataDownload/ManageDataDownload/ManageDataDownload";
 import NotFound from "../NotFound/NotFound";
 import HomePage from "../HomePage/HomePage";
 import DataLandingPage from "../DataLandingPage/DataLandingPage";
-
-import Layout from "../Layout/Layout";
+import config from "../../config";
 
 import "./App.scss";
 
@@ -27,6 +27,7 @@ function App() {
 
   return (
     <div className="react-transition fade-in">
+      <BrowserRouter basename={config.app.path}>
       <Layout>
         <Switch>
           <Route path="/" exact component={HomePage}/>
@@ -36,6 +37,7 @@ function App() {
           <Route path="/*" component={NotFound} />
         </Switch>
       </Layout>
+      </BrowserRouter>
     </div>
   );
 }
