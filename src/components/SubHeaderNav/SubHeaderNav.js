@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import {
   NavDropDownButton,
   PrimaryNav,
   Menu,
-  Link,
 } from '@trussworks/react-uswds';
 
 import './SubHeaderNav.scss';
+
 
 const SubHeaderNav = ({
   pathname,
@@ -38,7 +39,7 @@ const SubHeaderNav = ({
           return (
             <>
               <Link
-                href={el.items[0].link}
+                to={el.items[0].link}
                 title={el.label}
                 aria-label={el.label}
                 style={utilityStyle}
@@ -71,9 +72,8 @@ const SubHeaderNav = ({
                 items={el.items.map((item, index) => (
                   <Link
                     key={index}
-                    href={item.link}
+                    to={item.link}
                     style={utilityStyle}
-                    variant="nav"
                     onClick={() => handleSubMenuClick(i)}
                   >
                     {item.menu}
