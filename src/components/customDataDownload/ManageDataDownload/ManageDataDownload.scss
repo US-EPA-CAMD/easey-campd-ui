@@ -1,10 +1,11 @@
-@media screen and (min-width: 1024px) {
+@media screen and (min-width: 1024px) and (max-width: 1999px) {
   .side-nav {
     min-width: 332px;
     max-width: 332px;
   }
   .filter-panel {
-    width: 332px;
+    min-width: 332px;
+    max-width: 332px;
   }
 }
 
@@ -17,7 +18,9 @@
     position: absolute;
     top: 0;
     left: 389px;
-    width: 389px;
+    min-width: 389px;
+    max-width: 389px;
+    z-index: 1;
   }
 }
 
