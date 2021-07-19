@@ -159,11 +159,8 @@ const ManageDataDownload = ({
 
   return (
     <div className="position-relative">
-      <div
-        className="display-flex flex-no-wrap grid-row"
-        data-testid="manage-data-download-wrapper"
-      >
-        <div className={`${displayFilters ? 'desktop:display-none desktop-lg:display-block' : ''} grid-col-4 side-nav side-nav-height bg-base-lighter margin-0`}>
+      <div className="display-flex flex-no-wrap" data-testid="manage-data-download-wrapper">
+        <div className={`${displayFilters ? 'desktop:display-none desktop-lg:display-block' : ''} side-nav side-nav-height bg-base-lighter margin-0`}>
           <DataTypeSelectorView
             selectedDataType={selectedDataType}
             getSelectedDataSubType={getSelectedDataSubType}
@@ -187,8 +184,7 @@ const ManageDataDownload = ({
             activeFilter={activeFilter}
           />
         </div>
-        <div className="desktop-lg:display-none">
-          <FilterCriteriaPanel
+        <FilterCriteriaPanel
           show={displayFilters}
           selectedDataType={selectedDataType}
           selectedDataSubtype={getSelectedDataSubType(
@@ -198,23 +194,10 @@ const ManageDataDownload = ({
           closeFlyOutHandler={closeFlyOutHandler}
           getSelectedDataSubType={getSelectedDataSubType}
         />
-        </div>
         <ManageDataPreview
-          dataType={appliedDataType.dataType}
-          handleFilterButtonClick={handleFilterButtonClick}
-        />
-      </div>
-      <div className="display-none desktop-lg:display-block">
-        <FilterCriteriaPanel
-        show={displayFilters}
-        selectedDataType={selectedDataType}
-        selectedDataSubtype={getSelectedDataSubType(
-          constants.DATA_SUBTYPES_MAP[selectedDataType]
-        )}
-        selectedFilter={getFilterVariable(selectedFilter)}
-        closeFlyOutHandler={closeFlyOutHandler}
-        getSelectedDataSubType={getSelectedDataSubType}
-      />
+            dataType={appliedDataType.dataType}
+            handleFilterButtonClick={handleFilterButtonClick}
+          />
       </div>
   </div>
   );

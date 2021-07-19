@@ -170,7 +170,7 @@ const ManageDataPreview = ({
     },
   };
   return (
-    <div className="grid-col-8 width-full">
+    <div className="width-full">
       <div className="display-flex flex-row flex-justify bg-base-lightest padding-left-3 padding-right-3 minh-10">
         <h2 className="flex-align-self-center font-alt-xl text-bold margin-0">
           Custom Data Download
