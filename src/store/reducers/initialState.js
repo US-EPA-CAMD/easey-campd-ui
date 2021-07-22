@@ -24,6 +24,7 @@ export default {
     fuelType: [],
     stateTerritory: [],
     controlTechnology: [],
+    accountType: [],
   },
   apiCallsInProgress: 0,
 };
