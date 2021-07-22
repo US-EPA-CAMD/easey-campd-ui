@@ -4,10 +4,10 @@ import { Button } from '@trussworks/react-uswds';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 
-import UnitCheckboxRenderer from '../../UnitCheckboxRenderer/UnitCheckboxRenderer';
+import CheckboxGroupRenderer from '../../CheckboxGroupRenderer/CheckboxGroupRenderer';
 import {
-  loadUnitTypes,
-  updateUnitTypeSelection,
+  loadAccountTypes,
+  updateAccountTypeSelection,
 } from '../../../store/actions/customDataDownload/filterCriteria';
 import {
   addAppliedFilter,
@@ -16,63 +16,63 @@ import {
 import { getSelectedIds } from '../../../utils/selectors/filterCriteria';
 import { isAddedToFilters } from '../../../utils/selectors/general';
 
-const UnitType = ({
-  storeUnitType,
+const AccountType = ({
+  storeAccountType,
   appliedFilters,
-  loadUnitTypesDispatcher,
-  updateUnitTypeSelectionDispatcher,
+  loadAccountTypesDispatcher,
+  updateAccountTypeSelectionDispatcher,
   addAppliedFilterDispatcher,
   removeAppliedFilterDispatcher,
   loading,
   closeFlyOutHandler,
 }) => {
-  const [unitType, setUnitTypes] = useState(
-    JSON.parse(JSON.stringify(storeUnitType))
+  const [accountType, setAccountTypes] = useState(
+    JSON.parse(JSON.stringify(storeAccountType))
   );
 
-  const filterToApply = 'Unit Type';
+  const filterToApply = 'Account Type';
 
-  const onSelectAllUnitTypesHandler = (e) => {
-    const newUnitTypes = [...unitType];
-    const groupIndex = newUnitTypes.findIndex(
+  const onSelectAllAccountTypesHandler = (e) => {
+    const newAccountTypes = [...accountType];
+    const groupIndex = newAccountTypes.findIndex(
       (group) => group.name === e.target.id
     );
-    newUnitTypes[groupIndex].items.forEach((i) => {
+    newAccountTypes[groupIndex].items.forEach((i) => {
       i.selected = e.target.checked;
     });
-    setUnitTypes(newUnitTypes);
+    setAccountTypes(newAccountTypes);
   };
 
-  const onSelectUnitTypeHandler = (e) => {
-    const newUnitTypes = [...unitType];
-    const groupIndex = newUnitTypes.findIndex(
+  const onSelectAccountTypeHandler = (e) => {
+    const newAccountTypes = [...accountType];
+    const groupIndex = newAccountTypes.findIndex(
       (group) => group.name === e.target.name
     );
-    const found = newUnitTypes[groupIndex].items.findIndex(
+    const found = newAccountTypes[groupIndex].items.findIndex(
       (i) => i.id === e.target.id
     );
     if (found > -1) {
-      newUnitTypes[groupIndex].items[found].selected = e.target.checked;
-      setUnitTypes(newUnitTypes);
+      newAccountTypes[groupIndex].items[found].selected = e.target.checked;
+      setAccountTypes(newAccountTypes);
     }
   };
 
   useEffect(() => {
-    if (storeUnitType.length === 0) {
-      loadUnitTypesDispatcher();
+    if (storeAccountType.length === 0) {
+      loadAccountTypesDispatcher();
     } // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    setUnitTypes(JSON.parse(JSON.stringify(storeUnitType)));
-  }, [storeUnitType]);
+    setAccountTypes(JSON.parse(JSON.stringify(storeAccountType)));
+  }, [storeAccountType]);
 
   const handleApplyFilter = () => {
-    updateUnitTypeSelectionDispatcher(unitType);
+    updateAccountTypeSelectionDispatcher(accountType);
     if (isAddedToFilters(filterToApply, appliedFilters)) {
       removeAppliedFilterDispatcher(filterToApply);
     }
-    const selection = getSelectedIds(unitType);
+    const selection = getSelectedIds(accountType);
     if (selection.length > 0) {
       addAppliedFilterDispatcher({ key: filterToApply, values: selection });
     }
@@ -82,21 +82,22 @@ const UnitType = ({
   return (
     <>
       <div className="panel-header padding-top-2 margin-x-2">
-        <h3>Unit Type</h3>
+        <h3>Account Type</h3>
         <FontAwesomeIcon
           icon={faQuestionCircle}
           className="text-gray-30 font-body-md question-icon"
         />
         <hr />
       </div>
-      {unitType.length > 0 && loading === 0 && (
+      {accountType.length > 0 && loading === 0 && (
         <>
           <div className="display-block maxh-mobile-lg overflow-y-scroll overflow-x-hidden">
-            <UnitCheckboxRenderer
-              items={unitType}
+            <CheckboxGroupRenderer
+              items={accountType}
               enableSelectAll={true}
-              onSelectAll={onSelectAllUnitTypesHandler}
-              onSelectItem={onSelectUnitTypeHandler}
+              onSelectAll={onSelectAllAccountTypesHandler}
+              onSelectItem={onSelectAccountTypeHandler}
+              showActiveRetired={false}
             />
           </div>
           <hr />
@@ -114,7 +115,7 @@ const UnitType = ({
           </div>
         </>
       )}
-      {loading > 0 && unitType.length === 0 && (
+      {loading > 0 && accountType.length === 0 && (
         <span className="font-alt-sm text-bold margin-x-2">Loading...</span>
       )}
     </>
@@ -123,7 +124,7 @@ const UnitType = ({
 
 const mapStateToProps = (state) => {
   return {
-    storeUnitType: state.filterCriteria.unitType,
+    storeAccountType: state.filterCriteria.accountType,
     appliedFilters: state.customDataDownload.appliedFilters,
     loading: state.apiCallsInProgress,
   };
@@ -131,9 +132,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loadUnitTypesDispatcher: () => dispatch(loadUnitTypes()),
-    updateUnitTypeSelectionDispatcher: (unitType) =>
-      dispatch(updateUnitTypeSelection(unitType)),
+    loadAccountTypesDispatcher: () => dispatch(loadAccountTypes()),
+    updateAccountTypeSelectionDispatcher: (accountType) =>
+      dispatch(updateAccountTypeSelection(accountType)),
     addAppliedFilterDispatcher: (filterToApply) =>
       dispatch(addAppliedFilter(filterToApply)),
     removeAppliedFilterDispatcher: (removedFilter) =>
@@ -141,4 +142,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(UnitType);
+export default connect(mapStateToProps, mapDispatchToProps)(AccountType);

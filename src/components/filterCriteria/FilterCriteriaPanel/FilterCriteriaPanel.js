@@ -7,6 +7,7 @@ import FuelType from "../FuelType/FuelType";
 import StateTerritory from "../StateTerritory/StateTerritory";
 import ControlTechnology from "../ControlTechnology/ControlTechnology";
 import {FILTERS_MAP} from "../../../utils/constants/customDataDownload";
+import AccountType from "../AccountType/AccountType";
 
 const FilterCriteriaPanel = ({
   show,
@@ -22,6 +23,13 @@ const FilterCriteriaPanel = ({
     stateTerritory: <StateTerritory closeFlyOutHandler={closeFlyOutHandler}/>,
     controlTechnology: <ControlTechnology closeFlyOutHandler={closeFlyOutHandler}/>,
   };
+
+  const allowances = {
+    program: <Program closeFlyOutHandler={closeFlyOutHandler} allowanceOnly={true} showActiveOnly={true}/>,
+    facility: <Facility closeFlyOutHandler={closeFlyOutHandler}/>,
+    stateTerritory: <StateTerritory closeFlyOutHandler={closeFlyOutHandler}/>,
+    accountType: <AccountType closeFlyOutHandler={closeFlyOutHandler}/>
+  }
 
   const hourlyEmissions = {
     ...emissions,
@@ -54,21 +62,15 @@ const FilterCriteriaPanel = ({
   }
 
   const allownaceAcctInfo = {
-    program: <Program closeFlyOutHandler={closeFlyOutHandler} allowanceOnly={true}/>,
-    facility: <Facility closeFlyOutHandler={closeFlyOutHandler}/>,
-    stateTerritory: <StateTerritory closeFlyOutHandler={closeFlyOutHandler}/>,
+    ...allowances,
   };
 
   const allowanceHoldings = {
-    program: <Program closeFlyOutHandler={closeFlyOutHandler} allowanceOnly={true} showActiveOnly={true}/>,
-    facility: <Facility closeFlyOutHandler={closeFlyOutHandler}/>,
-    stateTerritory: <StateTerritory closeFlyOutHandler={closeFlyOutHandler}/>,
+    ...allowances,
   };
 
   const allownaceTransactions = {
-    program: <Program closeFlyOutHandler={closeFlyOutHandler} allowanceOnly={true}/>,
-    facility: <Facility closeFlyOutHandler={closeFlyOutHandler}/>,
-    stateTerritory: <StateTerritory closeFlyOutHandler={closeFlyOutHandler}/>,
+    ...allowances,
   };
 
   const complianceAllownaceBased = {

@@ -34,6 +34,10 @@ const reducer = (state = initialState.filterCriteria, action) => {
       return Object.assign({}, state, { controlTechnology: action.controlTechnology });
     case types.UPDATE_CONTROL_TECHNOLOGY_SELECTION:
       return Object.assign({}, state, { controlTechnology: action.controlTechnology });
+    case types.LOAD_ACCOUNT_TYPES_SUCCESS:
+      return Object.assign({}, state, { accountType: action.accountType });
+    case types.UPDATE_ACCOUNT_TYPE_SELECTION:
+      return Object.assign({}, state, { accountType: action.accountType });
     default:
       return state;
   }
