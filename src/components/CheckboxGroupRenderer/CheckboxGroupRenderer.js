@@ -1,7 +1,7 @@
 import React from 'react';
 import GroupCheckboxGroup from '../GroupCheckboxGroup/GroupCheckboxGroup';
 
-const ProgramRenderer = ({
+const CheckboxGroupRenderer = ({
   showActiveRetired,
   showActive,
   showRetired,
@@ -74,4 +74,4 @@ const ProgramRenderer = ({
   return (renderer());
 }
 
-export default ProgramRenderer;
+export default CheckboxGroupRenderer;

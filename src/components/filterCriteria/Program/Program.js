@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from "react-redux";
-import ProgramRenderer from '../../ProgramRenderer/ProgramRenderer';
+import CheckboxGroupRenderer from '../../CheckboxGroupRenderer/CheckboxGroupRenderer';
 import {loadPrograms, updateProgramSelection} from "../../../store/actions/customDataDownload/filterCriteria";
 import { addAppliedFilter, removeAppliedFilter } from "../../../store/actions/customDataDownload/customDataDownload";
 import { getSelectedIds } from "../../../utils/selectors/filterCriteria";
@@ -96,7 +96,7 @@ const Program = ({
         program.length > 0 && loading===0 &&
         <>
           <div className="display-block maxh-mobile-lg overflow-y-scroll overflow-x-hidden">
-            <ProgramRenderer
+            <CheckboxGroupRenderer
               showActiveRetired={true}
               items={program}
               showActive={true}
