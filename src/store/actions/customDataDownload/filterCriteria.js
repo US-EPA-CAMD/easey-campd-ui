@@ -224,7 +224,7 @@ export function loadAccountTypes() {
 
 export function updateAccountTypeSelection(accountType) {
   return {
-    type: types.UPDATE_UNIT_TYPE_SELECTION,
+    type: types.UPDATE_ACCOUNT_TYPE_SELECTION,
     accountType,
   };
 }

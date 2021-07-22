@@ -212,7 +212,7 @@ const program = [
 ];
 const storeProgam = restructurePrograms(program);
 
-describe('Program renderer Component', () => {
+describe('Checkbox renderer Component', () => {
   it('renders form elements without errors for active retired and enable select all flags set to true', () => {
     const { getAllByTestId, getAllByRole, getByText } = render(
       <CheckboxGroupRenderer
