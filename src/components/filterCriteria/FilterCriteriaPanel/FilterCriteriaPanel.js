@@ -58,7 +58,7 @@ const FilterCriteriaPanel = ({
 
   const ozoneEmissions = {
     ...emissions,
-    timePeriod: <TimePeriod closeFlyOutHandler={closeFlyOutHandler} showYear={true} isAnnual={false}/>,
+    timePeriod: <TimePeriod closeFlyOutHandler={closeFlyOutHandler} showYear={true} />,
   }
 
   const allownaceAcctInfo = {
@@ -67,10 +67,12 @@ const FilterCriteriaPanel = ({
 
   const allowanceHoldings = {
     ...allowances,
+    timePeriod: <TimePeriod closeFlyOutHandler={closeFlyOutHandler} showYear={true} isVintage={true}/>
   };
 
   const allownaceTransactions = {
     ...allowances,
+    timePeriod: <TimePeriod closeFlyOutHandler={closeFlyOutHandler} showYear={true} isVintage={true}/>
   };
 
   const complianceAllownaceBased = {

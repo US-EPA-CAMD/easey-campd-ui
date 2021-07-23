@@ -34,6 +34,7 @@ export const TimePeriod = ({
   showMonth=false,
   showQuarter=false,
   isAnnual=false,
+  isVintage=false,
 }) => {
   const [formState, setFormState] = useState({
     startDate: formatDateToUi(timePeriod.startDate),
@@ -53,7 +54,7 @@ export const TimePeriod = ({
   });
 
   const [applyFilterClicked, setApplyFilterClicked] = useState(false);
-  const filterToApply = 'Time Period';
+  const filterToApply = isVintage ? 'Vintage Year' : 'Time Period';
 
   useEffect(() => {
     if (showYear) {
@@ -103,7 +104,7 @@ export const TimePeriod = ({
           [1, 2, 3],
         );
       } else {
-        updatedValidations['validReportingQuarter'] = isInYearRange(formatYearsToArray(formState.year), isAnnual);
+        updatedValidations['validReportingQuarter'] = isInYearRange(formatYearsToArray(formState.year), isAnnual, isVintage);
       }
     } else {
       updatedValidations['startDateFormat'] = isDateFormatValid(formState.startDate);
@@ -269,6 +270,7 @@ export const TimePeriod = ({
       showMonth={showMonth}
       showQuarter={showQuarter}
       isAnnual={isAnnual}
+      isVintage={isVintage}
     />
   );
 };
