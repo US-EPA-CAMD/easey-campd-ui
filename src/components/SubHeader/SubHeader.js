@@ -11,7 +11,7 @@ import {
 
 const SubHeader = () => {
   const pathname = useLocation().pathname;
-  const cddPath = ['/select-data-type', '/manage-data-download'];
+  const cddPath = ['/select-data-type', '/manage-data-download','/data'];
   const initialCategorySelected = [
     pathname === '/',
     cddPath.includes(pathname),

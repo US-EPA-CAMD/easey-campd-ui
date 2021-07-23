@@ -7,7 +7,7 @@ export const ALLOWANCES_DATA_SUBTYPES = [
 
 export const ACCOUNT_INFO_FILTERS = [
   { value: 'Program', stateVar: 'program', label: 'PROGRAM (Optional)' },
-  { value: 'Account Type', label: 'ACCOUNT TYPE (Optional)' },
+  { value: 'Account Type', stateVar:'accountType', label: 'ACCOUNT TYPE (Optional)' },
   { value: 'Account Number', label: 'ACCOUNT NUMBER/NAME (Optional)' },
   { value: 'Facility', stateVar: 'facility', label: 'FACILITY (Optional)' },
   { value: 'Owner Operator', label: 'OWNER/OPERATOR (Optional)' },

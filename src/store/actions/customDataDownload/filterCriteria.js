@@ -6,6 +6,7 @@ import {
   restructureUnitTypes,
   restructureFuelTypes,
   restructureControlTechnologies,
+  restructureAccountTypes,
 } from '../../../utils/selectors/filterCriteria';
 
 export function resetFilter(filterToReset, resetAll = false) {
@@ -197,4 +198,33 @@ export function updateStateSelection(stateTerritory){
     type: types.UPDATE_STATE_SELECTION,
     stateTerritory,
   }
+}
+
+/* ---------ACCOUNT TYPE----------- */
+export function loadAccountTypesSuccess(accountTypes) {
+  return {
+    type: types.LOAD_ACCOUNT_TYPES_SUCCESS,
+    accountType: restructureAccountTypes(accountTypes),
+  };
+}
+
+export function loadAccountTypes() {
+  return (dispatch) => {
+    dispatch(beginApiCall());
+    return filterCriteriaApi
+      .getAccountTypes
+      .then((res) => {
+        dispatch(loadAccountTypesSuccess(res.data));
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+}
+
+export function updateAccountTypeSelection(accountType) {
+  return {
+    type: types.UPDATE_ACCOUNT_TYPE_SELECTION,
+    accountType,
+  };
 }

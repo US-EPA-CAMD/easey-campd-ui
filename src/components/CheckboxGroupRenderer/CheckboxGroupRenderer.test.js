@@ -1,6 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import ProgramRenderer  from './ProgramRenderer';
+
+import CheckboxGroupRenderer  from './CheckboxGroupRenderer';
 import {restructurePrograms} from "../../utils/selectors/filterCriteria";
 
 const program = [
@@ -211,10 +212,10 @@ const program = [
 ];
 const storeProgam = restructurePrograms(program);
 
-describe('Program renderer Component', () => {
+describe('Checkbox renderer Component', () => {
   it('renders form elements without errors for active retired and enable select all flags set to true', () => {
     const { getAllByTestId, getAllByRole, getByText } = render(
-      <ProgramRenderer
+      <CheckboxGroupRenderer
         showActiveRetired={true}
         showActive={true}
         showRetired={true}
@@ -243,7 +244,7 @@ describe('Program renderer Component', () => {
 
   it('renders form elements without errors for active retired and enable select all falgs set to false', () => {
     const { getAllByTestId, getAllByRole, queryByText } = render(
-      <ProgramRenderer
+      <CheckboxGroupRenderer
         showActiveRetired={false}
         showActive={false}
         showRetired={false}
