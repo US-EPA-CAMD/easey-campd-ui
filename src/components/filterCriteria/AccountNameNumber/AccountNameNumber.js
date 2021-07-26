@@ -60,7 +60,7 @@ const AccountNameNumber = ({
     const stateCopy = [..._accountNameNumber];
     const found = stateCopy.find((e) => e.id === id);
     if (found) {
-      updateType === 'add' ? (found.selected = true) : (found.selected = false);
+      found.selected = updateType === 'add' ? true : false;
     }
     setAccountNameNumber([...stateCopy]);
   };
