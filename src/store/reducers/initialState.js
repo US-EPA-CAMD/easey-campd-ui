@@ -25,6 +25,7 @@ export default {
     stateTerritory: [],
     controlTechnology: [],
     accountType: [],
+    accountNameNumber: [],
   },
   apiCallsInProgress: 0,
 };

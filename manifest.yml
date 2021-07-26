@@ -12,6 +12,6 @@ applications:
       REACT_APP_EASEY_MDM_API: https://((host))/api/master-data-mgmt
       REACT_APP_EASEY_FACILITIES_API: https://((host))/api/facility-mgmt
       REACT_APP_EASEY_EMISSIONS_API: https://((host))/api/emissions-mgmt
-      REACT_APP_EASEY_ALLOWANCE_API: https://((host))/api/allowance-mgmt
+      REACT_APP_EASEY_ACCOUNT_API: https://((host))/api/account-mgmt
     routes:
       - route: ((host))/((path))

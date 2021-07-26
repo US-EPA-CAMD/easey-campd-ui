@@ -33,3 +33,12 @@ export async function getAllFacilities() {
     .then(handleResponse)
     .catch(handleError);
 }
+
+export async function getAllAccounts() {
+  const url = `${config.services.account.uri}/accounts`;
+  console.log(url);
+  return axios
+    .get(url)
+    .then(handleResponse)
+    .catch(handleError);
+}
