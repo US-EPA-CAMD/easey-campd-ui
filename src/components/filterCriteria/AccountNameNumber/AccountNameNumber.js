@@ -1,12 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
+import { Button } from '@trussworks/react-uswds';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
+
+import {
+  loadAccountNameNumbers,
+  updateAccountNameNumberSelection,
+} from '../../../store/actions/customDataDownload/filterCriteria';
+import {
+  addAppliedFilter,
+  removeAppliedFilter,
+} from '../../../store/actions/customDataDownload/customDataDownload';
+import { isAddedToFilters } from '../../../utils/selectors/general';
 import MultiSelectCombobox from '../../MultiSelectCombobox/MultiSelectCombobox';
-import { loadAccountNameNumbers, loadStates, updateAccountNameNumberSelection, updateStateSelection } from "../../../store/actions/customDataDownload/filterCriteria";
-import { addAppliedFilter, removeAppliedFilter } from "../../../store/actions/customDataDownload/customDataDownload";
-import { isAddedToFilters } from "../../../utils/selectors/general";
-import {Button} from "@trussworks/react-uswds";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
 
 const AccountNameNumber = ({
   accountNameNumber,
@@ -16,42 +23,47 @@ const AccountNameNumber = ({
   addAppliedFilterDispatcher,
   removeAppliedFilterDispatcher,
   loading,
-  closeFlyOutHandler}) => {
+  closeFlyOutHandler,
+}) => {
+  const [_accountNameNumber, setAccountNameNumber] = useState(
+    JSON.parse(JSON.stringify(accountNameNumber))
+  );
 
-  const [_accountNameNumber, setAccountNameNumber] = useState(JSON.parse(JSON.stringify(accountNameNumber)));
+  const filterToApply = 'Account Name/Number';
 
-  const filterToApply = "Account Name/Number";
+  useEffect(() => {
+    if (accountNameNumber.length === 0) {
+      loadAccountNameNumbersDispatcher();
+    } // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  useEffect(()=>{
-    if(accountNameNumber.length===0){
-        loadAccountNameNumbersDispatcher();
-    }// eslint-disable-next-line react-hooks/exhaustive-deps
-  },[]);
-
-  useEffect(()=>{
+  useEffect(() => {
     setAccountNameNumber(JSON.parse(JSON.stringify(accountNameNumber)));
-  },[accountNameNumber]);
+  }, [accountNameNumber]);
 
-  const handleApplyFilter = () =>{
+  const handleApplyFilter = () => {
     updateAccountNameNumberSelectionDispacher(_accountNameNumber);
-    if(isAddedToFilters(filterToApply, appliedFilters)){
+    if (isAddedToFilters(filterToApply, appliedFilters)) {
       removeAppliedFilterDispatcher(filterToApply);
     }
-    const selection = _accountNameNumber.filter(e=>e.selected)
-    if(selection.length>0){
-      addAppliedFilterDispatcher({key:filterToApply, values:selection.map(e=>e.label)});
+    const selection = _accountNameNumber.filter((e) => e.selected);
+    if (selection.length > 0) {
+      addAppliedFilterDispatcher({
+        key: filterToApply,
+        values: selection.map((e) => e.label),
+      });
     }
     closeFlyOutHandler();
   };
 
-  const onChangeUpdate = (id, updateType) =>{
+  const onChangeUpdate = (id, updateType) => {
     const stateCopy = [..._accountNameNumber];
-    const found =stateCopy.find(e=> e.id===id);
-    if(found){
-      updateType==="add"? found.selected = true : found.selected = false;
+    const found = stateCopy.find((e) => e.id === id);
+    if (found) {
+      updateType === 'add' ? (found.selected = true) : (found.selected = false);
     }
     setAccountNameNumber([...stateCopy]);
-  }
+  };
 
   return (
     <>
@@ -63,16 +75,15 @@ const AccountNameNumber = ({
         />
         <hr />
       </div>
-      {
-        accountNameNumber.length > 0 && loading===0 &&
+      {accountNameNumber.length > 0 && loading === 0 && (
         <>
           <div className="margin-x-2">
             <MultiSelectCombobox
               items={JSON.parse(JSON.stringify(accountNameNumber))}
               label="Select or Search Account Names/Numbers"
-              entity={"name/number"}
+              entity={'name/number'}
               onChangeUpdate={onChangeUpdate}
-              searchBy="beginsWith"
+              searchBy="contains"
             />
           </div>
           <hr />
@@ -89,30 +100,31 @@ const AccountNameNumber = ({
             </Button>
           </div>
         </>
-      }
-      {
-        loading>0 && accountNameNumber.length===0 &&
+      )}
+      {loading > 0 && accountNameNumber.length === 0 && (
         <span className="font-alt-sm text-bold margin-x-2">Loading...</span>
-      }
+      )}
     </>
   );
-}
-
+};
 
 const mapStateToProps = (state) => {
   return {
     accountNameNumber: state.filterCriteria.accountNameNumber,
     appliedFilters: state.customDataDownload.appliedFilters,
-    loading: state.apiCallsInProgress
+    loading: state.apiCallsInProgress,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     loadAccountNameNumbersDispatcher: () => dispatch(loadAccountNameNumbers()),
-    updateAccountNameNumberSelectionDispacher: (accountNameNumberSelection) => dispatch(updateAccountNameNumberSelection(accountNameNumberSelection)),
-    addAppliedFilterDispatcher: (filterToApply) => dispatch(addAppliedFilter(filterToApply)),
-    removeAppliedFilterDispatcher: (removedFilter) => dispatch(removeAppliedFilter(removedFilter))
+    updateAccountNameNumberSelectionDispacher: (accountNameNumberSelection) =>
+      dispatch(updateAccountNameNumberSelection(accountNameNumberSelection)),
+    addAppliedFilterDispatcher: (filterToApply) =>
+      dispatch(addAppliedFilter(filterToApply)),
+    removeAppliedFilterDispatcher: (removedFilter) =>
+      dispatch(removeAppliedFilter(removedFilter)),
   };
 };
 
