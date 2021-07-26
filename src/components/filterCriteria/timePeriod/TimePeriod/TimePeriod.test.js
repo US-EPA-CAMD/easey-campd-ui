@@ -157,4 +157,33 @@ describe('Emissions TimePeriod Component', () => {
       expect(updatedTimePeriod.year.yearString).toBe(timePeriod.year.yearString);
       expect(updatedTimePeriod.quarter[0].selected).toBe(true);
     });
+
+    it('handles VINTAGE YEAR interactions appropriately', () => {
+      let updatedTimePeriod;
+      const dispather = (formState) => {
+        updatedTimePeriod = formState;
+      };
+      const timePeriod = {
+        year: { yearString: '2019,2020', yearArray: [2019, 2020] },
+        month: [],
+        quarter: [],
+      };
+      const { getByText, getByTestId } = render(
+        <TimePeriod
+          timePeriod={timePeriod}
+          updateTimePeriodDispatcher={dispather}
+          addAppliedFilterDispatcher={jest.fn()}
+          appliedFilters={['timePeriod']}
+          closeFlyOutHandler={jest.fn()}
+          showYear={true}
+          isVintage={true}
+        />
+      );
+      const textBox = getByTestId('textInput');
+      userEvent.type(textBox, '2019,2020');
+      const applyFilterButton = getByText('Apply Filter').closest('button');
+      expect(applyFilterButton).not.toBeDisabled();
+      fireEvent.click(applyFilterButton);
+      expect(updatedTimePeriod.year.yearString).toBe(timePeriod.year.yearString);
+    });
 });

@@ -29,6 +29,7 @@ const TimePeriodRender = ({
   showMonth,
   showQuarter,
   isAnnual,
+  isVintage,
 }) => {
 
   const isApplyFilterDisabled = () => {
@@ -45,10 +46,12 @@ const TimePeriodRender = ({
     }
   };
 
+  const title = isVintage ? 'Vintage Year' : 'Time Period'
+
   return (
     <Form onSubmit={applyFilterHandler} className="maxw-mobile-lg padding-x-3">
       <div className="panel-header text-bold padding-top-2">
-        <h3>Time Period</h3>
+        <h3>{title}</h3>
         <FontAwesomeIcon
           icon={faQuestionCircle}
           className="text-gray-30 font-body-md question-icon"
@@ -68,6 +71,7 @@ const TimePeriodRender = ({
           validations={validations}
           isFormValid={isFormValid}
           isAnnual={isAnnual}
+          isVintage={isVintage}
         />
       ) : (
         <TimePeriodFullDate
