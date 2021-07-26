@@ -8,7 +8,6 @@ import ManageDataDownload from "../customDataDownload/ManageDataDownload/ManageD
 import NotFound from "../NotFound/NotFound";
 import HomePage from "../HomePage/HomePage";
 import DataLandingPage from "../DataLandingPage/DataLandingPage";
-import { AppVersion } from "@us-epa-camd/easey-design-system";
 import config from "../../config";
 
 import "./App.scss";
@@ -39,10 +38,6 @@ function App() {
         </Switch>
       </Layout>
       </BrowserRouter>
-      <AppVersion
-          publishDate={config.app.published}
-          version={config.app.version}
-      />
     </div>
   );
 }
