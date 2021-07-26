@@ -40,8 +40,8 @@ function App() {
       </Layout>
       </BrowserRouter>
       <AppVersion
-          publishDate="Tues 13 2021"
-          version="v0.0.98"
+          publishDate={config.app.published}
+          version={config.app.version}
       />
     </div>
   );
