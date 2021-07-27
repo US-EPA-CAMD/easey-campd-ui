@@ -18,7 +18,8 @@
     "node-sass": "^4.14.1",
     "prettier": "^2.2.1",
     "react": "^16.13.1",
-    "react-bootstrap": "^1.0.0",
+    "react-data-table-component": "^7.0.0-rc2",
+    "react-data-table-component-extensions": "^1.5.2",
     "react-dom": "^16.13.1",
     "react-hook-form": "^6.3.1",
     "react-icons": "^4.2.0",
@@ -33,6 +34,7 @@
     "redux-mock-store": "~1.5.4",
     "redux-thunk": "^2.3.0",
     "resize-observer-polyfill": "^1.5.1",
+    "styled-components": "^5.3.0",
     "uswds": "^2.11.1"
   },
   "scripts": {

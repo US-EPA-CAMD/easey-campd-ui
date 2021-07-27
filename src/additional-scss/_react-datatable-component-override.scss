@@ -1,0 +1,78 @@
+@import "/variables";
+
+.data-display-table {
+  margin-top: 0.5%;
+  max-width: 100%;
+  max-height: 60vh;
+  overflow-x: scroll;
+  overflow-y: scroll;
+  .rdt_Table {
+    .epa-active-element {
+      border: none !important;
+    }
+  }
+  .rdt_TableCol_Sortable {
+    color: $epa-black !important;
+    margin-right: 1em !important;
+  }
+  .rdt_TableCol_Sortable .hkcGBu {
+    font-family: "Public Sans", sans-serif;
+    font-size: 16.64px !important;
+    color: $epa-black !important;
+    font-weight: bold !important;
+    white-space: normal !important;
+    overflow: visible !important;
+  }
+  .rdt_TableRow {
+    border-top: solid 1px $epa-navy !important;
+    border-bottom: solid 1px $epa-navy !important;
+  }
+  .rdt_TableRow:nth-child(odd) {
+    background-color: #f0f0f0 !important;
+  }
+  .rdt_TableHead {
+    position: sticky !important;
+    top: 0px;
+    z-index: 1;
+    /* this comment is here to avoid a code smell for empty content */
+  }
+  .rdt_TableHeader {
+    display: none;
+  }
+  .rdt_TableHeadRow {
+    border-bottom: solid 2px $epa-navy !important;
+    .rdt_TableCol {
+      @extend .bg-white;
+      //@extend .font-heading-md;
+      //@extend .font-body-lg;
+      border: solid 1px $epa-white;
+      text-align: center;
+      :focus {
+        outline: none;
+        border: solid 4px #2672de;
+        color: $epa-black !important;
+      }
+      :hover:not(:focus) {
+        color: $epa-black !important;
+      }
+    }
+  }
+
+  .rdt_TableBody {
+    //height = 400px
+  }
+
+  .rdt_ExpanderRow {
+    /* this comment is here to avoid a code smell for empty content */
+  }
+  .rdt_TableFooter {
+    /* this comment is here to avoid a code smell for empty content */
+  }
+  .rdt_TableCell {
+    font-family: "Public Sans", sans-serif;
+    font-size: 15.6px !important;
+  }
+  .__rdt_custom_sort_icon__ {
+    @extend .text-indigo;
+  }
+}

@@ -5,6 +5,7 @@ export default {
     appliedFilters: [],
     dataPreview: null,
     totalCount: null,
+    fieldMappings: [],
   },
   filterCriteria: {
     timePeriod: {

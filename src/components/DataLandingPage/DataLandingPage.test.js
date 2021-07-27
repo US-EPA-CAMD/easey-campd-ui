@@ -9,7 +9,7 @@ describe('Data Landing Page Component', () => {
       const btns = getAllByRole("button");
       expect(getByText("Data")).toBeDefined();
       expect(getByText("Custom Data Download Tool")).toBeDefined();
-      expect(getByText("Static Datasets")).toBeDefined();
+      expect(getByText("Bulk Data Files")).toBeDefined();
       expect(getByText("CAM API")).toBeDefined();
       expect(btns.length).toBe(3);
       fireEvent.click(getByRole("button", {name: "Start your data query"}));

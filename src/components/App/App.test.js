@@ -4,19 +4,21 @@ import { MemoryRouter } from 'react-router-dom';
 import { Provider } from "react-redux";
 import App from './App';
 import configureStore from "../../store/configureStore.dev";
+import config from "../../config";
 const store = configureStore();
 
 
 describe("Testing the main routing App component", () => {
-  it("renders the right component with following path /select-data-type", () => {
-    const { getByTestId } = render(
+  it("renders home page component provided with the default path", () => {
+    const { getByText, getByRole } = render(
       <Provider store={store}>
-        <MemoryRouter initialEntries={['/select-data-type']}>
+        <MemoryRouter initialEntries={[`${config.app.path}`]}>
             <App />
         </MemoryRouter>
       </Provider>
     );
-    const descriptionParagraph = getByTestId("description-paragraph");
-    expect(descriptionParagraph).toBeInTheDocument();
+    const textInHomePage = getByText("Visualization");
+    expect(textInHomePage).toBeInTheDocument();
+    expect(getByRole("button", {name: "Start your data query"})).toBeDefined();
   });
 });
