@@ -228,3 +228,32 @@ export function updateAccountTypeSelection(accountType) {
     accountType,
   };
 }
+
+/* ---------ACCOUNT NAME/NUMBER---------- */
+export function loadAccountNameNumbersSuccess(accountNameNumbers) {
+  return {
+    type: types.LOAD_ACCOUNT_NAME_NUMBER_SUCCESS,
+    accountNameNumber: accountNameNumbers.map(ann=> ({id: ann.accountNumber, label:`${ann.accountName} (${ann.accountNumber})`, selected:false}))
+  };
+}
+
+export function loadAccountNameNumbers() {
+  return (dispatch) => {
+    dispatch(beginApiCall());
+    return filterCriteriaApi
+      .getAllAccounts()
+      .then((res) => {
+        dispatch(loadAccountNameNumbersSuccess(res.data));
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+}
+
+export function updateAccountNameNumberSelection(accountNameNumber){
+  return {
+    type: types.UPDATE_ACCOUNT_NAME_NUMBER_SELECTION,
+    accountNameNumber,
+  }
+}

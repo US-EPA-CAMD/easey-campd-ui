@@ -1,5 +1,5 @@
 import {
-  constructFacilityOrStateQuery,
+  constructComboBoxQuery,
   constructQuery,
 } from './filterCriteria';
 import config from '../../config';
@@ -132,10 +132,10 @@ export const constructRequestUrl = (
     ? constructQuery(filterCriteria.program, 'program')
     : '';
   const facilityQuery = filterCriteria.facility
-    ? constructFacilityOrStateQuery(filterCriteria.facility, 'orisCode')
+    ? constructComboBoxQuery(filterCriteria.facility, 'orisCode')
     : '';
   const stateTerritoryQuery = filterCriteria.stateTerritory
-    ? constructFacilityOrStateQuery(filterCriteria.stateTerritory, 'state')
+    ? constructComboBoxQuery(filterCriteria.stateTerritory, 'state')
     : '';
   const unitTypeQuery = filterCriteria.unitType
     ? constructQuery(filterCriteria.unitType, 'unitType')

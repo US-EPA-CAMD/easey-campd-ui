@@ -33,6 +33,10 @@ export const resetFilterHelper = (state, filterToReset, resetAll = false) => {
       return Object.assign({}, state, {
         accountType: initialState.filterCriteria.accountType,
       });
+    case 'Account Name/Number':
+      return Object.assign({}, state, {
+        accountNameNumber: initialState.filterCriteria.accountNameNumber,
+      });
     default:
       return initialState.filterCriteria;
   }
@@ -115,8 +119,8 @@ export const restructurePrograms = (programs) => {
   return data;
 };
 
-/* ---------FACILITY----------- */
-export const constructFacilityOrStateQuery = (filterState, queryString) =>{
+/* ---------FACILITY / STATE / ACCOUNT NAME NUMBER----------- */
+export const constructComboBoxQuery = (filterState, queryString) =>{
   const selection = filterState.filter(f=> f.selected);
   let query='';
   selection.forEach((f,i)=>{
