@@ -1,8 +1,7 @@
 import React from 'react';
-import { render, fireEvent, getByRole } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import { TimePeriod } from './TimePeriod';
 import userEvent from '@testing-library/user-event';
-import TimePeriodRender from './TimePeriodRender';
 
 describe('Emissions TimePeriod Component', () => {
 
@@ -37,7 +36,7 @@ describe('Emissions TimePeriod Component', () => {
 
   it('handles interactions appropriately', ()=>{
     let updatedTimePeriod;
-    const dispather = (formState) =>{
+    const dispatcher = (formState) =>{
       updatedTimePeriod = formState;
     };
     const timePeriod = {
@@ -48,7 +47,7 @@ describe('Emissions TimePeriod Component', () => {
     const { getByText, getByRole } = render(
       <TimePeriod
         timePeriod={timePeriod}
-        updateTimePeriodDispatcher={dispather}
+        updateTimePeriodDispatcher={dispatcher}
         addAppliedFilterDispatcher={jest.fn()}
         appliedFilters={["timePeriod"]}
         closeFlyOutHandler={jest.fn()}
@@ -67,7 +66,7 @@ describe('Emissions TimePeriod Component', () => {
  
     it('handles YEAR interactions appropriately', () => {
       let updatedTimePeriod;
-      const dispather = (formState) => {
+      const dispatcher = (formState) => {
         updatedTimePeriod = formState;
       };
       const timePeriod = {
@@ -78,7 +77,7 @@ describe('Emissions TimePeriod Component', () => {
       const { getByText, getByTestId } = render(
         <TimePeriod
           timePeriod={timePeriod}
-          updateTimePeriodDispatcher={dispather}
+          updateTimePeriodDispatcher={dispatcher}
           addAppliedFilterDispatcher={jest.fn()}
           appliedFilters={['timePeriod']}
           closeFlyOutHandler={jest.fn()}
@@ -96,7 +95,7 @@ describe('Emissions TimePeriod Component', () => {
 
     it('handles MONTH interactions appropriately', () => {
       let updatedTimePeriod;
-      const dispather = (formState) => {
+      const dispatcher = (formState) => {
         updatedTimePeriod = formState;
       };
       const timePeriod = {
@@ -107,7 +106,7 @@ describe('Emissions TimePeriod Component', () => {
       const { getByText, getByTestId, getByLabelText } = render(
         <TimePeriod
           timePeriod={timePeriod}
-          updateTimePeriodDispatcher={dispather}
+          updateTimePeriodDispatcher={dispatcher}
           addAppliedFilterDispatcher={jest.fn()}
           appliedFilters={['timePeriod']}
           closeFlyOutHandler={jest.fn()}
@@ -128,7 +127,7 @@ describe('Emissions TimePeriod Component', () => {
 
     it('handles QUARTER interactions appropriately', () => {
       let updatedTimePeriod;
-      const dispather = (formState) => {
+      const dispatcher = (formState) => {
         updatedTimePeriod = formState;
       };
       const timePeriod = {
@@ -139,7 +138,7 @@ describe('Emissions TimePeriod Component', () => {
       const { getByText, getByTestId, getByLabelText } = render(
         <TimePeriod
           timePeriod={timePeriod}
-          updateTimePeriodDispatcher={dispather}
+          updateTimePeriodDispatcher={dispatcher}
           addAppliedFilterDispatcher={jest.fn()}
           appliedFilters={['timePeriod']}
           closeFlyOutHandler={jest.fn()}
@@ -160,18 +159,18 @@ describe('Emissions TimePeriod Component', () => {
 
     it('handles VINTAGE YEAR interactions appropriately', () => {
       let updatedTimePeriod;
-      const dispather = (formState) => {
+      const dispatcher = (formState) => {
         updatedTimePeriod = formState;
       };
       const timePeriod = {
-        year: { yearString: '2019,2020', yearArray: [2019, 2020] },
+        year: { yearString: '2019-2020', yearArray: [2019, 2020] },
         month: [],
         quarter: [],
       };
       const { getByText, getByTestId } = render(
         <TimePeriod
           timePeriod={timePeriod}
-          updateTimePeriodDispatcher={dispather}
+          updateTimePeriodDispatcher={dispatcher}
           addAppliedFilterDispatcher={jest.fn()}
           appliedFilters={['timePeriod']}
           closeFlyOutHandler={jest.fn()}
@@ -180,10 +179,39 @@ describe('Emissions TimePeriod Component', () => {
         />
       );
       const textBox = getByTestId('textInput');
-      userEvent.type(textBox, '2019,2020');
+      userEvent.type(textBox, '2019-2020');
       const applyFilterButton = getByText('Apply Filter').closest('button');
       expect(applyFilterButton).not.toBeDisabled();
       fireEvent.click(applyFilterButton);
       expect(updatedTimePeriod.year.yearString).toBe(timePeriod.year.yearString);
+    });
+
+    it('YEAR validations', () => {
+      const timePeriod = {
+        year: { yearString: '', yearArray: [] },
+        month: [],
+        quarter: [],
+      };
+      const { getByText, getByTestId } = render(
+        <TimePeriod
+          timePeriod={timePeriod}
+          updateTimePeriodDispatcher={jest.fn()}
+          addAppliedFilterDispatcher={jest.fn()}
+          appliedFilters={['timePeriod']}
+          closeFlyOutHandler={jest.fn()}
+          showYear={true}
+          isVintage={true}
+        />
+      );
+      const textBox = getByTestId('textInput');
+
+      userEvent.type(textBox, '2019x,2020');
+      const applyFilterButton = getByText('Apply Filter').closest('button');
+      fireEvent.click(applyFilterButton);
+      expect(applyFilterButton).not.toBeDisabled();
+
+      userEvent.type(textBox, '2019-2000,2020');
+      fireEvent.click(applyFilterButton);
+      expect(applyFilterButton).not.toBeDisabled();
     });
 });
