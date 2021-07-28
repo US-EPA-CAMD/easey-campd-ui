@@ -6,6 +6,7 @@ import {
   restructureUnitTypes,
   restructureFuelTypes,
   restructureControlTechnologies,
+  restructureAccountTypes,
 } from '../../../utils/selectors/filterCriteria';
 
 export function resetFilter(filterToReset, resetAll = false) {
@@ -196,5 +197,63 @@ export function updateStateSelection(stateTerritory){
   return {
     type: types.UPDATE_STATE_SELECTION,
     stateTerritory,
+  }
+}
+
+/* ---------ACCOUNT TYPE----------- */
+export function loadAccountTypesSuccess(accountTypes) {
+  return {
+    type: types.LOAD_ACCOUNT_TYPES_SUCCESS,
+    accountType: restructureAccountTypes(accountTypes),
+  };
+}
+
+export function loadAccountTypes() {
+  return (dispatch) => {
+    dispatch(beginApiCall());
+    return filterCriteriaApi
+      .getAccountTypes
+      .then((res) => {
+        dispatch(loadAccountTypesSuccess(res.data));
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+}
+
+export function updateAccountTypeSelection(accountType) {
+  return {
+    type: types.UPDATE_ACCOUNT_TYPE_SELECTION,
+    accountType,
+  };
+}
+
+/* ---------ACCOUNT NAME/NUMBER---------- */
+export function loadAccountNameNumbersSuccess(accountNameNumbers) {
+  return {
+    type: types.LOAD_ACCOUNT_NAME_NUMBER_SUCCESS,
+    accountNameNumber: accountNameNumbers.map(ann=> ({id: ann.accountNumber, label:`${ann.accountName} (${ann.accountNumber})`, selected:false}))
+  };
+}
+
+export function loadAccountNameNumbers() {
+  return (dispatch) => {
+    dispatch(beginApiCall());
+    return filterCriteriaApi
+      .getAllAccounts()
+      .then((res) => {
+        dispatch(loadAccountNameNumbersSuccess(res.data));
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+}
+
+export function updateAccountNameNumberSelection(accountNameNumber){
+  return {
+    type: types.UPDATE_ACCOUNT_NAME_NUMBER_SELECTION,
+    accountNameNumber,
   }
 }

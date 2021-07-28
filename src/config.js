@@ -21,10 +21,10 @@ const config = {
         process.env.REACT_APP_EASEY_EMISSIONS_API ||
         "https://easey-dev.app.cloud.gov/api/emissions-mgmt",
     },
-    allowance: {
+    account: {
       uri:
-        process.env.REACT_APP_EASEY_ALLOWANCE_API ||
-        "https://easey-dev.app.cloud.gov/api/allowance-mgmt",
+        process.env.REACT_APP_EASEY_ACCOUNT_API ||
+        "https://easey-dev.app.cloud.gov/api/account-mgmt",
     },
   },
 };

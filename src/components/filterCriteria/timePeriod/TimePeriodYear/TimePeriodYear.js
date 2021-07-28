@@ -22,6 +22,7 @@ const TimePeriodYear = ({
   validations,
   isFormValid,
   isAnnual,
+  isVintage,
 }) => {
   let rangeMessage;
   if (showMonth) {
@@ -31,9 +32,14 @@ const TimePeriodYear = ({
   } else if (isAnnual) {
     rangeMessage =
       'Enter year(s) 1980, 1985, 1990, or a year between 1995 and this year';
+  } else if (isVintage) {
+    rangeMessage = 'Enter year(s) greater than or equal to 1995';
   } else {
     rangeMessage = 'Enter year(s) between 1995 and this year';
   }
+
+  let yearLabel = 'Year(s)'
+  yearLabel += isVintage ? '' : ' (Required)'
 
   return (
     <>
@@ -63,7 +69,7 @@ const TimePeriodYear = ({
           </ValidationItem>
         </ValidationChecklist>
       </Alert>
-      <Label htmlFor="event-year-input">Year(s) (Required)</Label>
+      <Label htmlFor="event-year-input">{yearLabel}</Label>
       <div className="usa-hint" id="date-format-hint">
         Ex: 1995-2000,2003,2005,2010-2015
       </div>

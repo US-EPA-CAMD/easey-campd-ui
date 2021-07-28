@@ -7,8 +7,8 @@ export const ALLOWANCES_DATA_SUBTYPES = [
 
 export const ACCOUNT_INFO_FILTERS = [
   { value: 'Program', stateVar: 'program', label: 'PROGRAM (Optional)' },
-  { value: 'Account Type', label: 'ACCOUNT TYPE (Optional)' },
-  { value: 'Account Number', label: 'ACCOUNT NUMBER/NAME (Optional)' },
+  { value: 'Account Type', stateVar:'accountType', label: 'ACCOUNT TYPE (Optional)' },
+  { value: 'Account Name/Number', stateVar: 'accountNameNumber', label: 'ACCOUNT NAME/NUMBER (Optional)' },
   { value: 'Facility', stateVar: 'facility', label: 'FACILITY (Optional)' },
   { value: 'Owner Operator', label: 'OWNER/OPERATOR (Optional)' },
   { value: 'State/Territory', stateVar: 'stateTerritory', label: 'STATE/TERRITORY (Optional)' },
@@ -16,7 +16,7 @@ export const ACCOUNT_INFO_FILTERS = [
 
 export const ALLOWANCE_HOLDINGS_FILTERS = [
   ...ACCOUNT_INFO_FILTERS,
-  { value: 'vintageYear', label: 'VINTAGE YEAR (Optional)' },
+  { value: 'Vintage Year', stateVar: 'timePeriod', label: 'VINTAGE YEAR (Optional)' },
 ];
 
 export const ALLOWANCE_TRANSACTIONS_FILTERS = [

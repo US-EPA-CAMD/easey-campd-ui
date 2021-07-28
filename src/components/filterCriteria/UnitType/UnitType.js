@@ -4,7 +4,7 @@ import { Button } from '@trussworks/react-uswds';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 
-import UnitCheckboxRenderer from '../../UnitCheckboxRenderer/UnitCheckboxRenderer';
+import CheckboxGroupRenderer from '../../CheckboxGroupRenderer/CheckboxGroupRenderer';
 import {
   loadUnitTypes,
   updateUnitTypeSelection,
@@ -92,11 +92,12 @@ const UnitType = ({
       {unitType.length > 0 && loading === 0 && (
         <>
           <div className="display-block maxh-mobile-lg overflow-y-scroll overflow-x-hidden">
-            <UnitCheckboxRenderer
+            <CheckboxGroupRenderer
               items={unitType}
               enableSelectAll={true}
               onSelectAll={onSelectAllUnitTypesHandler}
               onSelectItem={onSelectUnitTypeHandler}
+              showActiveRetired={false}
             />
           </div>
           <hr />

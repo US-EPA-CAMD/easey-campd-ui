@@ -29,6 +29,14 @@ export const resetFilterHelper = (state, filterToReset, resetAll = false) => {
       return Object.assign({}, state, {
         controlTechnology: initialState.filterCriteria.controlTechnology,
       });
+    case 'Account Type':
+      return Object.assign({}, state, {
+        accountType: initialState.filterCriteria.accountType,
+      });
+    case 'Account Name/Number':
+      return Object.assign({}, state, {
+        accountNameNumber: initialState.filterCriteria.accountNameNumber,
+      });
     default:
       return initialState.filterCriteria;
   }
@@ -111,8 +119,8 @@ export const restructurePrograms = (programs) => {
   return data;
 };
 
-/* ---------FACILITY----------- */
-export const constructFacilityOrStateQuery = (filterState, queryString) =>{
+/* ---------FACILITY / STATE / ACCOUNT NAME NUMBER----------- */
+export const constructComboBoxQuery = (filterState, queryString) =>{
   const selection = filterState.filter(f=> f.selected);
   let query='';
   selection.forEach((f,i)=>{
@@ -291,6 +299,54 @@ export const restructureControlTechnologies = (controlTechnologies) => {
       label: `${ct.controlDescription} (${ct.controlCode})`,
       group: ct.controlEquipParamCode,
       groupDescription: ct?.controlEquipParamDescription || 'Other',
+      selected: false,
+    };
+    const index = data.findIndex(group => group.name === entry.groupDescription)
+    data[index].items.push(entry);
+  });
+
+  return data;
+};
+
+/* ---------ACCOUNT TYPE----------- */
+const accountTypeGroups = (accountTypes) => {
+  const unique = [];
+  const map = new Map();
+  accountTypes.forEach( (accountType) => {
+    const desc = accountType.accountTypeGroupDescription;
+    if(!map.has(desc)) {
+      map.set(desc, true);
+      unique.push(desc);
+    }
+  })
+
+  return unique;
+}
+
+export const restructureAccountTypes = (accountTypes) => {
+  const groups = accountTypeGroups(accountTypes);
+  const data = groups.map((group) => group = {
+    name: group,
+    description: group,
+    items: []
+  })
+
+  accountTypes.sort((a, b) => {
+    const textA = a.accountTypeCode.toUpperCase();
+    const textB = b.accountTypeCode.toUpperCase();
+    if (textA < textB) {
+      return -1;
+    } else {
+      return textA > textB ? 1 : 0;
+    }
+  });
+  accountTypes.forEach((at) => {
+    const entry = {
+      id: at.accountTypeCode,
+      description: at.accountTypeDescription,
+      label: `${at.accountTypeDescription} (${at.accountTypeCode})`,
+      group: at.accountTypeGroupCode,
+      groupDescription: at.accountTypeGroupDescription,
       selected: false,
     };
     const index = data.findIndex(group => group.name === entry.groupDescription)
