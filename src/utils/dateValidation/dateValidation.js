@@ -47,15 +47,17 @@ export const isYearFormat = (yearString) => {
   const regex = /^\d{4}$/;
 
   const yearArray = yearString.replace(/ /g, '').split(',');
-  yearArray.forEach((year) => {
+  yearArray.every((year) => {
     if (year && year.includes('-')) {
       const t = year.split('-');
-      if (t.length === 2 && t[0] < t[1]) {
-        valid = t[0].match(regex) && t[1].match(regex);
-      }
+      valid =
+        t.length === 2 && t[0] < t[1]
+          ? t[0].match(regex) && t[1].match(regex)
+          : false;
     } else {
       valid = year.match(regex) !== null;
     }
+    return valid;
   });
 
   return valid;
