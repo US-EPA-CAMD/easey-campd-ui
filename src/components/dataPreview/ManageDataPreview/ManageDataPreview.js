@@ -5,12 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faQuestionCircle,
 } from "@fortawesome/free-solid-svg-icons";
-
-import HourlyEmissions from '../HourlyEmissions/HourlyEmissions';
-import DailyEmissions from '../DailyEmissions/DailyEmissions';
-import MonthlyEmissions from '../MonthlyEmissions/MonthlyEmissions';
-import QuarterlyEmissions from '../QuarterlyEmissions/QuarterlyEmissions';
-import AnnualEmissions from '../AnnualEmissions/AnnualEmissions';
+import DataPreview from '../DataPreview/DataPreview';
 import FilterTags from '../../FilterTags/FilterTags';
 import { isAddedToFilters } from '../../../utils/selectors/general';
 import {
@@ -21,7 +16,7 @@ import {
   resetFilter,
   updateTimePeriod,
 } from '../../../store/actions/customDataDownload/filterCriteria';
-import * as emissionsConstants from '../../../utils/constants/emissions';
+import {EMISSIONS_REQUIRED_FILTERS} from '../../../utils/constants/emissions';
 
 const ManageDataPreview = ({
   dataType,
@@ -43,7 +38,7 @@ const ManageDataPreview = ({
       dataSubType &&
       dataSubType !== '' &&
       contains(
-        mapDataPreview[dataType][dataSubType]?.requiredFilters || null,
+        mapRequiredFilters[dataType] || null,
         appliedFilters
       )
     ) {
@@ -88,90 +83,14 @@ const ManageDataPreview = ({
     handleUpdateInAppliedFilters();
   };
 
-  const mapDataPreview = {
-    EMISSIONS: {
-      'Hourly Emissions': {
-        requiredFilters: emissionsConstants.EMISSIONS_REQUIRED_FILTERS,
-        component: (
-          <HourlyEmissions
-            handleUpdateInAppliedFilters={handleUpdateInAppliedFilters}
-          />
-        ),
-      },
-      'Daily Emissions': {
-        requiredFilters: emissionsConstants.EMISSIONS_REQUIRED_FILTERS,
-        component: (
-          <DailyEmissions
-            handleUpdateInAppliedFilters={handleUpdateInAppliedFilters}
-          />
-        ),
-      },
-      'Monthly Emissions': {
-        requiredFilters: emissionsConstants.EMISSIONS_REQUIRED_FILTERS,
-        component: (
-          <MonthlyEmissions
-            handleUpdateInAppliedFilters={handleUpdateInAppliedFilters}
-          />
-        ),
-      },
-      'Quarterly Emissions': {
-        requiredFilters: emissionsConstants.EMISSIONS_REQUIRED_FILTERS,
-        component: (
-          <QuarterlyEmissions
-            handleUpdateInAppliedFilters={handleUpdateInAppliedFilters}
-          />
-        ),
-      },
-      'Ozone Season Emissions': {
-        requiredFilters: emissionsConstants.EMISSIONS_REQUIRED_FILTERS,
-        component: (
-          <AnnualEmissions
-            handleUpdateInAppliedFilters={handleUpdateInAppliedFilters}
-            ozone={true}
-          />
-        ),
-      },
-      'Annual Emissions': {
-        requiredFilters: emissionsConstants.EMISSIONS_REQUIRED_FILTERS,
-        component: (
-          <AnnualEmissions
-            handleUpdateInAppliedFilters={handleUpdateInAppliedFilters}
-          />
-        ),
-      },
-      'Facility/Unit Attributes': {
-        requiredFilters: ['unknown'],
-        component: null,
-      },
-    },
-    ALLOWANCE: {
-      'Account Information': {
-        requiredFilters: ['unknown'],
-        component: null,
-      },
-      Holdings: {
-        requiredFilters: ['unknown'],
-        component: null,
-      },
-      Transactions: {
-        requiredFilters: ['unknown'],
-        component: null,
-      },
-    },
-    COMPLIANCE: {
-      'Allowance Based': {
-        requiredFilters: ['unknown'],
-        component: null,
-      },
-      'Emissions Based': {
-        requiredFilters: ['unknown'],
-        component: null,
-      },
-    },
+  const mapRequiredFilters = {
+    EMISSIONS: EMISSIONS_REQUIRED_FILTERS,
+    ALLOWANCE: ['unknown'],
+    COMPLIANCE: ['unknown']
   };
   return (
     <div className="width-full">
-      <div className="display-flex flex-row flex-justify bg-base-lightest padding-left-3 padding-right-3 minh-10">
+      <div className="display-flex flex-row flex-justify bg-base-lightest padding-x-3 minh-10">
         <h2 className="flex-align-self-center font-alt-xl text-bold margin-0">
           Custom Data Download
         </h2>
@@ -207,7 +126,7 @@ const ManageDataPreview = ({
           </div>
         </div>
       )}
-      {renderPreviewData && mapDataPreview[dataType][dataSubType].component}
+      {renderPreviewData && <DataPreview handleUpdateInAppliedFilters={handleUpdateInAppliedFilters}/>}
     </div>
   );
 };

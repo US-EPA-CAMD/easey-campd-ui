@@ -2,7 +2,7 @@ import axios from 'axios';
 import { handleResponse, handleError } from './apiUtils';
 import { constructRequestUrl } from '../selectors/general';
 
-export async function getHourlyEmissions(filterCriteria) {
+async function getHourlyEmissions(filterCriteria) {
   const url = constructRequestUrl('emissions', 'hourly emissions', filterCriteria);
 
   return axios
@@ -11,7 +11,7 @@ export async function getHourlyEmissions(filterCriteria) {
     .catch(handleError);
 }
 
-export async function getOzoneEmissions(filterCriteria) {
+async function getOzoneEmissions(filterCriteria) {
   const url = constructRequestUrl('emissions', 'ozone season emissions', filterCriteria);
 
   return axios
@@ -20,7 +20,7 @@ export async function getOzoneEmissions(filterCriteria) {
     .catch(handleError);
 }
 
-export async function getAnnualEmissions(filterCriteria) {
+async function getAnnualEmissions(filterCriteria) {
   const url = constructRequestUrl('emissions', 'annual emissions', filterCriteria);
 
   return axios
@@ -29,7 +29,7 @@ export async function getAnnualEmissions(filterCriteria) {
     .catch(handleError);
 }
 
-export async function getDailyEmissions(filterCriteria) {
+async function getDailyEmissions(filterCriteria) {
   const url = constructRequestUrl('emissions', 'daily emissions', filterCriteria);
 
   return axios
@@ -38,7 +38,7 @@ export async function getDailyEmissions(filterCriteria) {
     .catch(handleError);
 }
 
-export async function getMonthlyEmissions(filterCriteria) {
+async function getMonthlyEmissions(filterCriteria) {
   const url = constructRequestUrl('emissions', 'monthly emissions', filterCriteria);
 
   return axios
@@ -47,7 +47,7 @@ export async function getMonthlyEmissions(filterCriteria) {
     .catch(handleError);
 }
 
-export async function getQuarterlyEmissions(filterCriteria) {
+async function getQuarterlyEmissions(filterCriteria) {
   const url = constructRequestUrl('emissions', 'quarterly emissions', filterCriteria);
 
   return axios
@@ -55,3 +55,26 @@ export async function getQuarterlyEmissions(filterCriteria) {
     .then(handleResponse)
     .catch(handleError);
 }
+
+
+const mapSelectionToApiCall = (dataType, dataSubType, filterCriteria) => {
+  if(dataType==="EMISSIONS"){
+    switch (dataSubType) {
+      case 'Hourly Emissions':
+        return getHourlyEmissions(filterCriteria);
+      case 'Daily Emissions':
+        return getDailyEmissions(filterCriteria);
+      case 'Monthly Emissions':
+        return getMonthlyEmissions(filterCriteria);
+      case 'Annual Emissions':
+        return getAnnualEmissions(filterCriteria);
+      case 'Quarterly Emissions':
+        return getQuarterlyEmissions(filterCriteria);
+      case 'Ozone Season Emissions':
+        return getOzoneEmissions(filterCriteria);
+      default:
+        console.log(`Sorry, ${dataSubType} is not hooked up to API.`);
+    }
+  }
+};
+export default mapSelectionToApiCall;
