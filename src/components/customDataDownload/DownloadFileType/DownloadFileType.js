@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Button, Radio, Fieldset} from '@trussworks/react-uswds';
 import axios from 'axios';
 import { connect } from 'react-redux';
+
 import { constructRequestUrl } from '../../../utils/selectors/general';
 
 const DownloadFileType = ({ dataType, dataSubType, filterCriteria }) => {
@@ -29,7 +30,7 @@ const DownloadFileType = ({ dataType, dataSubType, filterCriteria }) => {
           disposition !== undefined ? disposition.split('; ') : undefined;
 
         if (parts !== undefined && parts[0] === 'attachment') {
-          const url = window.URL.createObjectURL(new Blob([response.data]));
+          const url = window.URL.createObjectURL(new Blob([response.data], {type: fileType}));
           const link = document.createElement('a');
           let fileName = parts[1].replace('filename=', '');
           fileName = fileName.replace(/"/g, '');
