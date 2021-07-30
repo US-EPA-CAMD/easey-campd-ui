@@ -42,11 +42,17 @@
   .rdt_TableHeadRow {
     border-bottom: solid 2px $epa-navy !important;
     .rdt_TableCol {
+      min-width: 15em !important;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 30em;
+      //padding: 0 0 0 0.7rem !important;
+      margin: 0 !important;
       @extend .bg-white;
       //@extend .font-heading-md;
       //@extend .font-body-lg;
       border: solid 1px $epa-white;
-      text-align: center;
+      //text-align: center;
       :focus {
         outline: none;
         border: solid 4px #2672de;
@@ -71,6 +77,10 @@
   .rdt_TableCell {
     font-family: "Public Sans", sans-serif;
     font-size: 15.6px !important;
+    min-width: 15em !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 30em;
   }
   .__rdt_custom_sort_icon__ {
     @extend .text-indigo;
