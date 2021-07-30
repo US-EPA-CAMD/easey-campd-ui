@@ -257,3 +257,12 @@
 .bg-primary {
   background-color: #005ea2 !important;
 }
+
+.usa-checkbox,
+.usa-radio {
+  background: inherit;
+}
+
+.usa-checkbox__label::before {
+  background: white;
+}
