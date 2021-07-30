@@ -1,7 +1,8 @@
-import React from 'react';
-
+import React, {useEffect} from 'react';
+import DataTable from "react-data-table-component";
 import DownloadFileType from '../../customDataDownload/DownloadFileType/DownloadFileType';
-import UswdsTable from '../../UswdsTable/UswdsTable';
+import { ensure508, cleanUp508 } from '../../../utils/ensure-508/ensure-508';
+
 import './DataPreviewRender.scss';
 
 const DataPreviewRender = ({
@@ -9,10 +10,21 @@ const DataPreviewRender = ({
   data,
   loading,
   dataPreview,
-  totalCount,
+  totalCount
 }) => {
+
+  useEffect(() => {
+    setTimeout(() => {
+      ensure508();
+    }, 1000);
+
+    return () => {
+      cleanUp508();
+    };
+  }, [dataPreview]);
+
   return (
-    <div className="preview-content-wrapper padding-top-4 padding-left-3 padding-bottom-2">
+    <div className="preview-content-wrapper padding-x-3 padding-y-3">
       <div className="display-flex flex-row flex-justify flex-align-center">
         <div className="flex-align-center" aria-live="polite">
           <div className="panel-header display-inline "><h3 className="margin-y-0">Data Preview &nbsp;</h3></div>
@@ -31,8 +43,21 @@ const DataPreviewRender = ({
         </div>
       </div>
       {loading === 0 && dataPreview !== null && dataPreview.length > 0 && (
-        <div className="table-wrapper margin-top-2">
-          <UswdsTable columns={columns} data={data} bordered={false} />
+        <div className="data-display-table">
+          <DataTable
+            //className="data-display-table"
+            columns={columns}
+            data={data}
+            //defaultSortField={defaultSort ? defaultSort : "col1"}
+            //fixedHeader={true}
+            //fixedHeaderScrollHeight="60vh"
+            noHeader={true}
+            highlightOnHover={true}
+            selectableRows={false}
+            responsive={false}
+            striped={true}
+            persistTableHead={false}
+          />
         </div>
       )}
     </div>

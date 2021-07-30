@@ -24,18 +24,8 @@ const reducer = (state = initialState.customDataDownload, action) => {
           ...state,
           appliedFilters: action.removal.removeAll ? [] : state.appliedFilters.filter(filter)
       }
-    case types.LOAD_HOURLY_EMISSIONS_SUCCESS:
-      return Object.assign({}, state, { dataPreview: action.hourlyEmissions.data }, { totalCount: action.hourlyEmissions.totalCount });
-    case types.LOAD_DAILY_EMISSIONS_SUCCESS:
-      return Object.assign({}, state, { dataPreview: action.dailyEmissions.data }, { totalCount: action.dailyEmissions.totalCount });
-    case types.LOAD_MONTHLY_EMISSIONS_SUCCESS:
-      return Object.assign({}, state, { dataPreview: action.monthlyEmissions.data }, { totalCount: action.monthlyEmissions.totalCount });
-    case types.LOAD_QUARTERLY_EMISSIONS_SUCCESS:
-      return Object.assign({}, state, { dataPreview: action.quarterlyEmissions.data }, { totalCount: action.quarterlyEmissions.totalCount });
-    case types.LOAD_OZONE_EMISSIONS_SUCCESS:
-      return Object.assign({}, state, { dataPreview: action.ozoneEmissions.data }, { totalCount: action.ozoneEmissions.totalCount });
-    case types.LOAD_ANNUAL_EMISSIONS_SUCCESS:
-      return Object.assign({}, state, { dataPreview: action.annualEmissions.data }, { totalCount: action.annualEmissions.totalCount });
+    case types.LOAD_DATA_PREVIEW_SUCCESS:
+      return Object.assign({}, state, { dataPreview: action.dataPreview.data }, { totalCount: action.dataPreview.totalCount }, { fieldMappings: action.dataPreview.fieldMappings });
     default:
       return state;
   }
