@@ -1,25 +1,26 @@
-@media screen and (min-width: 1024px) and (max-width: 1999px) {
+@import "../../../additional-scss/variables";
+@media screen and (min-width: 1024px) {
   .side-nav {
-    min-width: 332px;
-    max-width: 332px;
+    min-width: $side-nav-width-desktop;
+    max-width: $side-nav-width-desktop;
   }
   .filter-panel {
-    min-width: 332px;
-    max-width: 332px;
+    min-width: $side-nav-width-desktop;
+    max-width: $side-nav-width-desktop;
   }
 }
 
 @media screen and (min-width: 1200px) {
   .side-nav {
-    min-width: 389px;
-    max-width: 389px;
+    min-width: $side-nav-width-desktop-lg;
+    max-width: $side-nav-width-desktop-lg;
   }
   .filter-panel {
     position: absolute;
     top: 0;
-    left: 389px;
-    min-width: 389px;
-    max-width: 389px;
+    left: $side-nav-width-desktop-lg;
+    min-width: $side-nav-width-desktop-lg;
+    max-width: $side-nav-width-desktop-lg;
     z-index: 2;
   }
 }

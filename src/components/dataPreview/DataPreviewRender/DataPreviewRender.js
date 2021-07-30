@@ -28,7 +28,7 @@ const DataPreviewRender = ({
       <div className="display-flex flex-row flex-justify flex-align-center">
         <div className="flex-align-center" aria-live="polite">
           <div className="panel-header display-inline "><h3 className="margin-y-0">Data Preview &nbsp;</h3></div>
-          <span className="font-alt-sm text-bold">
+          <span className="font-alt-sm text-bold desktop:display-block desktop-lg:display-inline">
             {loading === 0 && dataPreview !== null
               ? dataPreview.length > 0
                 ? `(Viewing the first ${dataPreview.length} records of ${totalCount})`
