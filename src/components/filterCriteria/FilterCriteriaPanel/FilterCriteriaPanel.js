@@ -17,7 +17,7 @@ const FilterCriteriaPanel = ({
   closeFlyOutHandler,
 }) => {
   const emissions = {
-    program: <Program closeFlyOutHandler={closeFlyOutHandler}/>,
+    program: <Program closeFlyOutHandler={closeFlyOutHandler} dataType = {'emissions'}/>,
     facility: <Facility closeFlyOutHandler={closeFlyOutHandler}/>,
     unitType: <UnitType closeFlyOutHandler={closeFlyOutHandler}/>,
     fuelType: <FuelType closeFlyOutHandler={closeFlyOutHandler}/>,
@@ -26,7 +26,6 @@ const FilterCriteriaPanel = ({
   };
 
   const allowances = {
-    program: <Program closeFlyOutHandler={closeFlyOutHandler} allowanceOnly={true} showActiveOnly={true}/>,
     facility: <Facility closeFlyOutHandler={closeFlyOutHandler}/>,
     stateTerritory: <StateTerritory closeFlyOutHandler={closeFlyOutHandler}/>,
     accountType: <AccountType closeFlyOutHandler={closeFlyOutHandler}/>,
@@ -65,20 +64,23 @@ const FilterCriteriaPanel = ({
 
   const allownaceAcctInfo = {
     ...allowances,
+    program: <Program closeFlyOutHandler={closeFlyOutHandler} dataType={'allowance'}/>,
   };
 
   const allowanceHoldings = {
     ...allowances,
+    program: <Program closeFlyOutHandler={closeFlyOutHandler} dataType={'allowance'} showActiveOnly={true}/>,
     timePeriod: <TimePeriod closeFlyOutHandler={closeFlyOutHandler} showYear={true} isVintage={true}/>
   };
 
   const allownaceTransactions = {
     ...allowances,
+    program: <Program closeFlyOutHandler={closeFlyOutHandler} dataType={'allowance'}/>,
     timePeriod: <TimePeriod closeFlyOutHandler={closeFlyOutHandler} showYear={true} isVintage={true}/>
   };
 
   const complianceAllownaceBased = {
-    program: <Program closeFlyOutHandler={closeFlyOutHandler} allowanceOnly={true}/>,
+    program: <Program closeFlyOutHandler={closeFlyOutHandler} dataType={'compliance'}/>,
     facility: <Facility closeFlyOutHandler={closeFlyOutHandler}/>,
     stateTerritory: <StateTerritory closeFlyOutHandler={closeFlyOutHandler}/>,
   };
