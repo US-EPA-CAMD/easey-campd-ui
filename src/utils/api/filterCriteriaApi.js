@@ -8,17 +8,19 @@ export async function getDataFromMDM(endpoint) {
   return axios.get(url).then(handleResponse).catch(handleError);
 }
 
-export const getPrograms = (allowanceOnly, showActiveOnly) => {
-  if(allowanceOnly){
-    if(showActiveOnly){
-      return getDataFromMDM('programs?allowanceOnly=true&isActive=true&exclude=MATS');
-    }else{
-      return getDataFromMDM('programs?allowanceOnly=true&exclude=MATS')
-    }
-  }else{
-    return getDataFromMDM('programs?exclude=MATS');
+export const getPrograms = (dataType, showActiveOnly) => {
+  if (showActiveOnly) {
+    return getDataFromMDM("programs?allowanceUIFilter=true&isActive=true");
+  } else if (dataType === "emissions") {
+    return getDataFromMDM("programs?emissionsUIFilter=true");
+  } else if (dataType === "allowance") {
+    return getDataFromMDM("programs?allowanceUIFilter=true");
+  } else if (dataType === "compliance") {
+    return getDataFromMDM("programs?complianceUIFilter=true");
+  } else {
+    return getDataFromMDM("programs?exclude=MATS");
   }
-}
+};
 export const getUnitTypes = getDataFromMDM('unit-types');
 export const getFuelTypes = getDataFromMDM('fuel-types');
 export const getStates = getDataFromMDM('states');

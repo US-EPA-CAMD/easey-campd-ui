@@ -35,10 +35,10 @@ export function loadProgramsSuccess(programs) {
   };
 }
 
-export function loadPrograms(allowanceOnly, showActiveOnly) {
+export function loadPrograms(dataType, showActiveOnly) {
   return (dispatch) => {
     dispatch(beginApiCall());
-    return filterCriteriaApi.getPrograms(allowanceOnly, showActiveOnly)
+    return filterCriteriaApi.getPrograms(dataType, showActiveOnly)
       .then((res) => {
         dispatch(loadProgramsSuccess(res.data));
       })

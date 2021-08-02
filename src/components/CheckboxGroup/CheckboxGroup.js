@@ -41,7 +41,7 @@ const CheckboxGroup = (props) => {
             onChange={props.onSelectAll}
             data-testid="select-all"
           />
-        ) : (
+        ) : props.items.filter((item) => item.active === props.showActive).length > 0 && (
           <h5 className="font-sans-md text-bold margin-0">{props.description}</h5>
         )}
       </div>

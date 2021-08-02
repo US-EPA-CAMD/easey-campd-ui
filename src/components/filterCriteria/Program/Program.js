@@ -18,7 +18,7 @@ const Program = ({
   removeAppliedFilterDispatcher,
   loading,
   closeFlyOutHandler,
-  allowanceOnly=false,
+  dataType,
   showActiveOnly=false}) => {
 
   const [program, setPrograms] = useState(JSON.parse(JSON.stringify(storeProgram)));
@@ -50,7 +50,7 @@ const Program = ({
 
   useEffect(()=>{
     if(storeProgram.length===0){
-      loadProgramsDispatcher(allowanceOnly, showActiveOnly);
+      loadProgramsDispatcher(dataType, showActiveOnly);
     }// eslint-disable-next-line react-hooks/exhaustive-deps
   },[]);
 
@@ -141,7 +141,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loadProgramsDispatcher: (allowanceOnly, showActiveOnly) => dispatch(loadPrograms(allowanceOnly, showActiveOnly)),
+    loadProgramsDispatcher: (dataType, showActiveOnly) => dispatch(loadPrograms(dataType, showActiveOnly)),
     updateProgramSelectionDispatcher: (program) => dispatch(updateProgramSelection(program)),
     addAppliedFilterDispatcher: (filterToApply) => dispatch(addAppliedFilter(filterToApply)),
     removeAppliedFilterDispatcher: (removedFilter) => dispatch(removeAppliedFilter(removedFilter))
