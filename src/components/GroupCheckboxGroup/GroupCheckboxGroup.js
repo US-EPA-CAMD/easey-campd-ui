@@ -8,7 +8,6 @@ const GroupCheckboxGroup = (props) => {
     (props.showActiveRetired)?
       group.items.filter(item=>item.active===props.showActive).length>0 &&
       <CheckboxGroup
-        getFocus={i===0? props.getFocus: false}
         key={group.name}
         name={group.name}
         description={group.description}
@@ -21,7 +20,6 @@ const GroupCheckboxGroup = (props) => {
       />
     :
       <CheckboxGroup
-      getFocus={i===0? props.getFocus: false}
       key={group.name}
       name={group.name}
       description={group.description}

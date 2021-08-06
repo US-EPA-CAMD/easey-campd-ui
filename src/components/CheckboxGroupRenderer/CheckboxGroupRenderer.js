@@ -22,7 +22,6 @@ const CheckboxGroupRenderer = ({
             </div>
             <div>
               <GroupCheckboxGroup
-                getFocus={true}
                 showActiveRetired={true}
                 showActive={true}
                 items={items}
@@ -43,7 +42,6 @@ const CheckboxGroupRenderer = ({
             </div>
             <div>
               <GroupCheckboxGroup
-                getFocus={false}
                 showActiveRetired={true}
                 showActive={false}
                 items={items}

@@ -35,6 +35,7 @@ export const TimePeriod = ({
   showQuarter=false,
   isAnnual=false,
   isVintage=false,
+  renderedHandler,
 }) => {
   const [formState, setFormState] = useState({
     startDate: formatDateToUi(timePeriod.startDate),
@@ -72,6 +73,7 @@ export const TimePeriod = ({
   }, [validations]);
 
   useEffect(() => {
+    renderedHandler();
     if (showMonth && timePeriod.month.length === 0) {
       updateTimePeriodDispatcher({...timePeriod, month: JSON.parse(JSON.stringify(constants.MONTHS))});
     } else if (showQuarter && timePeriod.quarter.length === 0) {

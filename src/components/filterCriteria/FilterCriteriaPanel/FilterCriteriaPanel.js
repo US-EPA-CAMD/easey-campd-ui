@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import TimePeriod from "../timePeriod/TimePeriod/TimePeriod";
 import Program from "../Program/Program";
 import Facility from "../Facility/Facility";
@@ -9,6 +9,7 @@ import ControlTechnology from "../ControlTechnology/ControlTechnology";
 import {FILTERS_MAP} from "../../../utils/constants/customDataDownload";
 import AccountType from "../AccountType/AccountType";
 import AccountNameNumber from "../AccountNameNumber/AccountNameNumber";
+import { focusTrap } from "../../../utils/ensure-508/focus-trap";
 
 const FilterCriteriaPanel = ({
   show,
@@ -16,78 +17,107 @@ const FilterCriteriaPanel = ({
   selectedFilter,
   closeFlyOutHandler,
 }) => {
+
+  const [childrenRendered, setChildrenRendered] = useState(false);
+  const [firstFocusableEl, setFirstFocusableEl] = useState(null);
+
+  useEffect(() => {
+    if(show && childrenRendered){
+      const { firstComponentFocusableElement, handleKeyPress } = focusTrap(".filter-panel");
+      // set focus to first element only once
+      if(firstFocusableEl === null && firstComponentFocusableElement){
+        setFirstFocusableEl(firstComponentFocusableElement);
+        firstComponentFocusableElement.focus();
+      }
+      // *** FOCUS TRAP
+      document.addEventListener("keydown", handleKeyPress);
+      // * clean up
+      return () => {
+        setChildrenRendered(false);
+        document.removeEventListener("keydown", handleKeyPress);
+      };
+    }
+    if(!show){
+      setFirstFocusableEl(null);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [show, childrenRendered]);
+
+  const renderedHandler = () =>{
+    setChildrenRendered(true)
+  };
   const emissions = {
-    program: <Program closeFlyOutHandler={closeFlyOutHandler} dataType = {'emissions'}/>,
-    facility: <Facility closeFlyOutHandler={closeFlyOutHandler}/>,
-    unitType: <UnitType closeFlyOutHandler={closeFlyOutHandler}/>,
-    fuelType: <FuelType closeFlyOutHandler={closeFlyOutHandler}/>,
-    stateTerritory: <StateTerritory closeFlyOutHandler={closeFlyOutHandler}/>,
-    controlTechnology: <ControlTechnology closeFlyOutHandler={closeFlyOutHandler}/>,
+    program: <Program closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} dataType = {'emissions'}/>,
+    facility: <Facility closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
+    unitType: <UnitType closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
+    fuelType: <FuelType closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
+    stateTerritory: <StateTerritory closeFlyOutHandler={closeFlyOutHandler}renderedHandler={renderedHandler}/>,
+    controlTechnology: <ControlTechnology closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
   };
 
   const allowances = {
-    facility: <Facility closeFlyOutHandler={closeFlyOutHandler}/>,
-    stateTerritory: <StateTerritory closeFlyOutHandler={closeFlyOutHandler}/>,
-    accountType: <AccountType closeFlyOutHandler={closeFlyOutHandler}/>,
-    accountNameNumber: <AccountNameNumber closeFlyOutHandler={closeFlyOutHandler} />
+    facility: <Facility closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
+    stateTerritory: <StateTerritory closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
+    accountType: <AccountType closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
+    accountNameNumber: <AccountNameNumber closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>
   }
 
   const hourlyEmissions = {
     ...emissions,
-    timePeriod: <TimePeriod closeFlyOutHandler={closeFlyOutHandler} />,
+    timePeriod: <TimePeriod closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
   };
 
   const dailyEmissions = {
     ...emissions,
-    timePeriod: <TimePeriod closeFlyOutHandler={closeFlyOutHandler} showOpHrsOnly={false}/>,
+    timePeriod: <TimePeriod closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} showOpHrsOnly={false}/>,
   }
 
   const monthlyEmissions = {
     ...emissions,
-    timePeriod: <TimePeriod closeFlyOutHandler={closeFlyOutHandler} showYear={true} showMonth={true}/>,
+    timePeriod: <TimePeriod closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} showYear={true} showMonth={true}/>,
   }
 
   const quarterlyEmissions = {
     ...emissions,
-    timePeriod: <TimePeriod closeFlyOutHandler={closeFlyOutHandler} showYear={true} showQuarter={true}/>,
+    timePeriod: <TimePeriod closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} showYear={true} showQuarter={true}/>,
   }
 
   const annualEmissions = {
     ...emissions,
-    timePeriod: <TimePeriod closeFlyOutHandler={closeFlyOutHandler} showYear={true} isAnnual={true} />,
+    timePeriod: <TimePeriod closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} showYear={true} isAnnual={true} />,
   }
 
   const ozoneEmissions = {
     ...emissions,
-    timePeriod: <TimePeriod closeFlyOutHandler={closeFlyOutHandler} showYear={true} />,
+    timePeriod: <TimePeriod closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} showYear={true} />,
   }
 
   const allownaceAcctInfo = {
     ...allowances,
-    program: <Program closeFlyOutHandler={closeFlyOutHandler} dataType={'allowance'}/>,
+    program: <Program closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} dataType={'allowance'}/>,
   };
 
   const allowanceHoldings = {
     ...allowances,
-    program: <Program closeFlyOutHandler={closeFlyOutHandler} dataType={'allowance'} showActiveOnly={true}/>,
-    timePeriod: <TimePeriod closeFlyOutHandler={closeFlyOutHandler} showYear={true} isVintage={true}/>
+    program: <Program closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} dataType={'allowance'} showActiveOnly={true}/>,
+    timePeriod: <TimePeriod closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} showYear={true} isVintage={true}/>
   };
 
   const allownaceTransactions = {
     ...allowances,
-    program: <Program closeFlyOutHandler={closeFlyOutHandler} dataType={'allowance'}/>,
-    timePeriod: <TimePeriod closeFlyOutHandler={closeFlyOutHandler} showYear={true} isVintage={true}/>
+    program: <Program closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} dataType={'allowance'}/>,
+    timePeriod: <TimePeriod closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} showYear={true} isVintage={true}/>
   };
 
   const complianceAllownaceBased = {
-    program: <Program closeFlyOutHandler={closeFlyOutHandler} dataType={'compliance'}/>,
-    facility: <Facility closeFlyOutHandler={closeFlyOutHandler}/>,
-    stateTerritory: <StateTerritory closeFlyOutHandler={closeFlyOutHandler}/>,
+    program: <Program closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} dataType={'compliance'}/>,
+    facility: <Facility closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
+    stateTerritory: <StateTerritory closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
   };
 
   const complianceEmissionsBased = {
-    facility: <Facility closeFlyOutHandler={closeFlyOutHandler}/>,
-    stateTerritory: <StateTerritory closeFlyOutHandler={closeFlyOutHandler}/>,
+    facility: <Facility closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
+    stateTerritory: <StateTerritory closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
   }
 
   const emissionsSubTypes = Object.keys(FILTERS_MAP.EMISSIONS);

@@ -25,6 +25,7 @@ const ControlTechnology = ({
   removeAppliedFilterDispatcher,
   loading,
   closeFlyOutHandler,
+  renderedHandler
 }) => {
   const [controlTechnology, setControlTechnologies] = useState(
     JSON.parse(JSON.stringify(storeControlTechnology))
@@ -66,6 +67,12 @@ const ControlTechnology = ({
   useEffect(() => {
     setControlTechnologies(JSON.parse(JSON.stringify(storeControlTechnology)));
   }, [storeControlTechnology]);
+
+  useEffect(() => {
+    if(controlTechnology.length > 0 && loading === 0){
+      renderedHandler();
+    }// eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [controlTechnology, loading]);
 
   const handleApplyFilter = () => {
     updateControlTechnologySelectionDispatcher(controlTechnology);

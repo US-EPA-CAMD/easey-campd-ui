@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import DataTable from "react-data-table-component";
 import DownloadFileType from '../../customDataDownload/DownloadFileType/DownloadFileType';
-import { ensure508, cleanUp508 } from '../../../utils/ensure-508/ensure-508';
+import { ensure508, cleanUp508 } from '../../../utils/ensure-508/rdt-table';
 
 import './DataPreviewRender.scss';
 

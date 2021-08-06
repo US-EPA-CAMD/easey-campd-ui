@@ -24,6 +24,7 @@ const AccountNameNumber = ({
   removeAppliedFilterDispatcher,
   loading,
   closeFlyOutHandler,
+  renderedHandler
 }) => {
   const [_accountNameNumber, setAccountNameNumber] = useState(
     JSON.parse(JSON.stringify(accountNameNumber))
@@ -34,11 +35,13 @@ const AccountNameNumber = ({
   useEffect(() => {
     if (accountNameNumber.length === 0) {
       loadAccountNameNumbersDispatcher();
-    } // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    setAccountNameNumber(JSON.parse(JSON.stringify(accountNameNumber)));
+    }else{
+      if(_accountNameNumber.length===0){
+        setAccountNameNumber(JSON.parse(JSON.stringify(accountNameNumber)));
+      }
+      renderedHandler();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accountNameNumber]);
 
   const handleApplyFilter = () => {
