@@ -19,24 +19,12 @@ const Program = ({
   loading,
   closeFlyOutHandler,
   dataType,
-  showActiveOnly=false}) => {
+  showActiveOnly=false,
+  renderedHandler}) => {
 
   const [program, setPrograms] = useState(JSON.parse(JSON.stringify(storeProgram)));
 
   const filterToApply = "Program";
-
-  // const onSelectAllProgramsHandler = (e) =>{
-  //   const newPrograms = [...program];
-  //   const [groupName, activeString] = e.target.id.split('-');
-  //   const groupIndex = (groupName === 'Annual')? 0:1;
-  //   const active = (activeString==='true');
-  //   newPrograms[groupIndex].items.forEach(i=>{
-  //     if(i.active===active){
-  //       i.selected = e.target.checked
-  //     }
-  //   });
-  //   setPrograms(newPrograms);
-  // };
 
   const onSelectProgramHandler = (e) =>{
     const newPrograms = [...program];
@@ -58,6 +46,12 @@ const Program = ({
     setPrograms(JSON.parse(JSON.stringify(storeProgram)));
   },[storeProgram]);
 
+  useEffect(()=>{
+    if(program.length > 0 && loading===0){
+      renderedHandler();
+    }// eslint-disable-next-line react-hooks/exhaustive-deps
+  },[program, loading]);
+
   const handleApplyFilter = () =>{
     updateProgramSelectionDispatcher(program);
     if(isAddedToFilters(filterToApply, appliedFilters)){
@@ -69,18 +63,6 @@ const Program = ({
     }
     closeFlyOutHandler();
   };
-
-  // const isApplyFilterEnabled = () =>{
-  //   let annualSelection, ozonSelection;
-  //   if(program.length===0){
-  //     annualSelection=false;
-  //     ozonSelection=false;
-  //   }else{
-  //     annualSelection = program[0].items.filter(i=>i.selected).length>0?true:false;
-  //     ozonSelection = program[1].items.filter(i=>i.selected).length>0?true:false;
-  //   }
-  //   return annualSelection || ozonSelection;
-  // };
 
   return (
     <>
@@ -102,7 +84,6 @@ const Program = ({
               showActive={true}
               showRetired={!showActiveOnly}
               enableSelectAll={false}
-              //onSelectAll={onSelectAllProgramsHandler}
               onSelectItem={onSelectProgramHandler}
             />
           </div>
@@ -113,8 +94,7 @@ const Program = ({
             </Button>
             <Button
               type="button"
-              className="float-right autofocus2"
-              //disabled={!isApplyFilterEnabled()}
+              className="float-right"
               onClick={handleApplyFilter}
             >
               Apply Filter

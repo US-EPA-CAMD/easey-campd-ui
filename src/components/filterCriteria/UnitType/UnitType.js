@@ -25,6 +25,7 @@ const UnitType = ({
   removeAppliedFilterDispatcher,
   loading,
   closeFlyOutHandler,
+  renderedHandler
 }) => {
   const [unitType, setUnitTypes] = useState(
     JSON.parse(JSON.stringify(storeUnitType))
@@ -66,6 +67,12 @@ const UnitType = ({
   useEffect(() => {
     setUnitTypes(JSON.parse(JSON.stringify(storeUnitType)));
   }, [storeUnitType]);
+
+  useEffect(() => {
+    if(unitType.length > 0 && loading === 0){
+      renderedHandler();
+    }// eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [unitType, loading]);
 
   const handleApplyFilter = () => {
     updateUnitTypeSelectionDispatcher(unitType);

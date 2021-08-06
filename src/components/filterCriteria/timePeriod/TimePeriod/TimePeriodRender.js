@@ -91,15 +91,12 @@ const TimePeriodRender = ({
           type="button"
           outline
           onClick={closeFlyOutHandler}
-          className={isApplyFilterDisabled() ? 'autofocus2' : ''}
         >
           Cancel
         </Button>
         <Button
           type="submit"
-          className={
-            isApplyFilterDisabled() ? 'float-right' : 'float-right autofocus2'
-          }
+          className="float-right"
           disabled={isApplyFilterDisabled()}
         >
           Apply Filter
