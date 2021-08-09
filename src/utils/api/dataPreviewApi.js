@@ -2,104 +2,53 @@ import axios from 'axios';
 import { handleResponse, handleError } from './apiUtils';
 import { constructRequestUrl } from '../selectors/general';
 
-/* ----- EMISSIONS ----- */
-async function getHourlyEmissions(filterCriteria) {
-  const url = constructRequestUrl('emissions', 'hourly emissions', filterCriteria);
-
-  return axios
-    .get(url.replace(/\r?\n|\r/g, ''))
-    .then(handleResponse)
-    .catch(handleError);
-}
-
-async function getOzoneEmissions(filterCriteria) {
-  const url = constructRequestUrl('emissions', 'ozone season emissions', filterCriteria);
-
-  return axios
-    .get(url.replace(/\r?\n|\r/g, ''))
-    .then(handleResponse)
-    .catch(handleError);
-}
-
-async function getAnnualEmissions(filterCriteria) {
-  const url = constructRequestUrl('emissions', 'annual emissions', filterCriteria);
-
-  return axios
-    .get(url.replace(/\r?\n|\r/g, ''))
-    .then(handleResponse)
-    .catch(handleError);
-}
-
-async function getDailyEmissions(filterCriteria) {
-  const url = constructRequestUrl('emissions', 'daily emissions', filterCriteria);
-
-  return axios
-    .get(url.replace(/\r?\n|\r/g, ''))
-    .then(handleResponse)
-    .catch(handleError);
-}
-
-async function getMonthlyEmissions(filterCriteria) {
-  const url = constructRequestUrl('emissions', 'monthly emissions', filterCriteria);
-
-  return axios
-    .get(url.replace(/\r?\n|\r/g, ''))
-    .then(handleResponse)
-    .catch(handleError);
-}
-
-async function getQuarterlyEmissions(filterCriteria) {
-  const url = constructRequestUrl('emissions', 'quarterly emissions', filterCriteria);
-
-  return axios
-    .get(url.replace(/\r?\n|\r/g, ''))
-    .then(handleResponse)
-    .catch(handleError);
-}
-
-/* ----- ALLOWANCE ----- */
-async function getAllowanceHoldings(filterCriteria) {
-  const url = constructRequestUrl('allowance', 'holdings', filterCriteria);
-
-  return axios
-    .get(url.replace(/\r?\n|\r/g, ''))
-    .then(handleResponse)
-    .catch(handleError);
-}
-
-/* ----- REQUEST ----- */
 const mapSelectionToApiCall = (dataType, dataSubType, filterCriteria) => {
   const notFound = `Sorry, ${dataSubType} is not hooked up to API.`;
+  let url;
 
   if (dataType === 'EMISSIONS') {
     switch (dataSubType) {
       case 'Hourly Emissions':
-        return getHourlyEmissions(filterCriteria);
+        url = constructRequestUrl('emissions', 'hourly emissions', filterCriteria);
+        break;
       case 'Daily Emissions':
-        return getDailyEmissions(filterCriteria);
+        url = constructRequestUrl('emissions', 'daily emissions', filterCriteria);
+        break;
       case 'Monthly Emissions':
-        return getMonthlyEmissions(filterCriteria);
-      case 'Annual Emissions':
-        return getAnnualEmissions(filterCriteria);
+        url = constructRequestUrl('emissions', 'monthly emissions', filterCriteria);
+        break;
       case 'Quarterly Emissions':
-        return getQuarterlyEmissions(filterCriteria);
+        url = constructRequestUrl('emissions', 'quarterly emissions', filterCriteria);
+        break;
+      case 'Annual Emissions':
+        url = constructRequestUrl('emissions', 'annual emissions', filterCriteria);
+        break;
       case 'Ozone Season Emissions':
-        return getOzoneEmissions(filterCriteria);
+        url = constructRequestUrl('emissions', 'ozone season emissions', filterCriteria);
+        break;
       default:
         console.log(notFound);
     }
   } else if (dataType === 'ALLOWANCE') {
     switch (dataSubType) {
       case 'Holdings':
-        return getAllowanceHoldings(filterCriteria);
+        url = constructRequestUrl('allowance', 'holdings', filterCriteria);
+        break;
       case 'Transactions':
-        return 'placeholder';
+        url = 'placeholder';
+        break;
       case 'Account Information':
-        return 'placeholder';
+        url = 'placeholder';
+        break;
       default:
         console.log(notFound);
     }
   }
+
+  return axios
+    .get(url.replace(/\r?\n|\r/g, ''))
+    .then(handleResponse)
+    .catch(handleError);
 };
 
 export default mapSelectionToApiCall;
