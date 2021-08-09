@@ -25,6 +25,7 @@ const AccountType = ({
   removeAppliedFilterDispatcher,
   loading,
   closeFlyOutHandler,
+  renderedHandler
 }) => {
   const [accountType, setAccountTypes] = useState(
     JSON.parse(JSON.stringify(storeAccountType))
@@ -66,6 +67,12 @@ const AccountType = ({
   useEffect(() => {
     setAccountTypes(JSON.parse(JSON.stringify(storeAccountType)));
   }, [storeAccountType]);
+
+  useEffect(() => {
+    if(accountType.length > 0 && loading === 0){
+      renderedHandler();
+    }// eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [accountType, loading]);
 
   const handleApplyFilter = () => {
     updateAccountTypeSelectionDispatcher(accountType);

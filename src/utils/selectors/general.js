@@ -185,15 +185,3 @@ export const constructRequestUrl = (
   return url.replace(/\r?\n|\r/g, '');
 };
 
-export const handleTabfocus = () =>{
-  const firstElement = document.querySelector('.autofocus1');
-  const startDateDiv = document.querySelector('#event-date-start');
-  if(firstElement){
-    firstElement.focus();
-    if(firstElement.firstChild){
-      firstElement.firstChild.focus();
-    }
-  }else if(startDateDiv){
-    startDateDiv.focus();
-  }
-}

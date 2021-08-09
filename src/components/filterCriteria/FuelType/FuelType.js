@@ -25,6 +25,7 @@ const FuelType = ({
   removeAppliedFilterDispatcher,
   loading,
   closeFlyOutHandler,
+  renderedHandler
 }) => {
   const [fuelType, setFuelTypes] = useState(
     JSON.parse(JSON.stringify(storeFuelType))
@@ -66,6 +67,12 @@ const FuelType = ({
   useEffect(() => {
     setFuelTypes(JSON.parse(JSON.stringify(storeFuelType)));
   }, [storeFuelType]);
+
+  useEffect(() => {
+    if(fuelType.length > 0 && loading === 0){
+      renderedHandler();
+    }// eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fuelType, loading]);
 
   const handleApplyFilter = () => {
     updateFuelTypeSelectionDispatcher(fuelType);

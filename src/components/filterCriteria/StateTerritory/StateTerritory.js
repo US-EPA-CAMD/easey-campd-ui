@@ -16,7 +16,8 @@ const StateTerritory = ({
   addAppliedFilterDispatcher,
   removeAppliedFilterDispatcher,
   loading,
-  closeFlyOutHandler}) => {
+  closeFlyOutHandler,
+  renderedHandler}) => {
 
   const [_stateTerritory, setStateTerritory] = useState(JSON.parse(JSON.stringify(stateTerritory)));
 
@@ -25,11 +26,13 @@ const StateTerritory = ({
   useEffect(()=>{
     if(stateTerritory.length===0){
       loadStatesDispatcher();
-    }// eslint-disable-next-line react-hooks/exhaustive-deps
-  },[]);
-
-  useEffect(()=>{
-    setStateTerritory(JSON.parse(JSON.stringify(stateTerritory)));
+    }else{
+      if(_stateTerritory.length===0){
+        setStateTerritory(JSON.parse(JSON.stringify(stateTerritory)));
+      }
+      renderedHandler();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   },[stateTerritory]);
 
   const handleApplyFilter = () =>{

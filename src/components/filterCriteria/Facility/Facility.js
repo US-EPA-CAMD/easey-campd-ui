@@ -16,7 +16,8 @@ const Facility = ({
   addAppliedFilterDispatcher,
   removeAppliedFilterDispatcher,
   loading,
-  closeFlyOutHandler}) => {
+  closeFlyOutHandler,
+  renderedHandler}) => {
 
   const [stateFacility, setStateFacility] = useState(JSON.parse(JSON.stringify(facility)));
 
@@ -25,11 +26,13 @@ const Facility = ({
   useEffect(()=>{
     if(facility.length===0){
       loadFacilitiesDispatcher();
-    }// eslint-disable-next-line react-hooks/exhaustive-deps
-  },[]);
-
-  useEffect(()=>{
-    setStateFacility(JSON.parse(JSON.stringify(facility)));
+    }else{
+      if(stateFacility.length===0){
+        setStateFacility(JSON.parse(JSON.stringify(facility)));
+      }
+      renderedHandler();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   },[facility]);
 
   const handleApplyFilter = () =>{
