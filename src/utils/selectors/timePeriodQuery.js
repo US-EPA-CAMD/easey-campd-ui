@@ -37,7 +37,8 @@ export const constructTimePeriodQuery = (dataSubType, filterCriteria) => {
         'opYear',
         true
       )}`;
-    case 'holdings' || 'transactions':
+    case 'holdings':
+    case 'transactions':
       return `${constructQuery(
         filterCriteria.timePeriod.year.yearArray,
         'vintageYear',
