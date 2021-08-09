@@ -2,6 +2,7 @@ import axios from 'axios';
 import { handleResponse, handleError } from './apiUtils';
 import { constructRequestUrl } from '../selectors/general';
 
+/* ----- EMISSIONS ----- */
 async function getHourlyEmissions(filterCriteria) {
   const url = constructRequestUrl('emissions', 'hourly emissions', filterCriteria);
 
@@ -56,9 +57,21 @@ async function getQuarterlyEmissions(filterCriteria) {
     .catch(handleError);
 }
 
+/* ----- ALLOWANCE ----- */
+const getAllowanceHoldings = async (filterCriteria) => {
+  const url = constructRequestUrl('allowance', 'holdings', filterCriteria);
+
+  return axios
+    .get(url.replace(/\r?\n|\r/g, ''))
+    .then(handleResponse)
+    .catch(handleError);
+}
+
 
 const mapSelectionToApiCall = (dataType, dataSubType, filterCriteria) => {
-  if(dataType==="EMISSIONS"){
+  const notFound = `Sorry, ${dataSubType} is not hooked up to API.`;
+
+  if (dataType === 'EMISSIONS') {
     switch (dataSubType) {
       case 'Hourly Emissions':
         return getHourlyEmissions(filterCriteria);
@@ -73,8 +86,20 @@ const mapSelectionToApiCall = (dataType, dataSubType, filterCriteria) => {
       case 'Ozone Season Emissions':
         return getOzoneEmissions(filterCriteria);
       default:
-        console.log(`Sorry, ${dataSubType} is not hooked up to API.`);
+        console.log(notFound);
+    }
+  } else if (dataType === 'ALLOWANCE') {
+    switch (dataSubType) {
+      case 'Holdings':
+        return getAllowanceHoldings(filterCriteria);
+      case 'Transactions':
+        return 'placeholder';
+      case 'Account Information':
+        return 'placeholder';
+      default:
+        console.log(notFound);
     }
   }
 };
+
 export default mapSelectionToApiCall;

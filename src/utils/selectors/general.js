@@ -3,7 +3,7 @@ import {
   constructQuery,
 } from './filterCriteria';
 import config from '../../config';
-import { constructTimePeriodQuery } from './emissions';
+import { constructTimePeriodQuery } from './timePeriodQuery';
 import * as constants from '../constants/customDataDownload';
 import { isYearFormat } from '../dateValidation/dateValidation';
 
@@ -146,6 +146,13 @@ export const constructRequestUrl = (
   const controlTechnologyQuery = filterCriteria.controlTechnology
     ? constructQuery(filterCriteria.controlTechnology, 'controlTechnologies')
     : '';
+  const accountNameNumberQuery = filterCriteria.accountNameNumber
+  ? constructComboBoxQuery(filterCriteria.accountNameNumber, 'accountNumber')
+  : '';
+  const accountTypeQuery = filterCriteria.accountType
+  ? constructQuery(filterCriteria.accountType, 'accountType')
+  : '';
+
   const pagination = download ? '' : 'page=1&perPage=100';
   const attachFile = download ? '&attachFile=true' : '&attachFile=false';
 
@@ -154,9 +161,9 @@ export const constructRequestUrl = (
     case 'emissions':
       apiService = `${config.services.emissions.uri}/apportioned/`;
       break;
-    // case 'allowance':
-    //   apiService = `${config.services.allowance.uri}/allowance/`;
-    //   break;
+    case 'allowance':
+      apiService = `${config.services.account.uri}/allowances/`;
+      break;
     // case 'compliance':
     //   apiService = `${config.services.compliance.uri}/compliance/`;
     //   break;
@@ -172,7 +179,7 @@ export const constructRequestUrl = (
   const url = `${apiService}${subTypeService}?${pagination}${constructTimePeriodQuery(
     dataSubType,
     filterCriteria
-  )}${programQuery}${facilityQuery}${stateTerritoryQuery}${unitTypeQuery}${fuelTypeQuery}${controlTechnologyQuery}${attachFile}`;
+  )}${programQuery}${facilityQuery}${stateTerritoryQuery}${unitTypeQuery}${fuelTypeQuery}${controlTechnologyQuery}${accountNameNumberQuery}${accountTypeQuery}${attachFile}`;
   console.log(url.replace(/\r?\n|\r/g, ''));
 
   return url.replace(/\r?\n|\r/g, '');
