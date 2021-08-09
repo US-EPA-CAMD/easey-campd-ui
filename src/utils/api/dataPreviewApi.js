@@ -58,7 +58,7 @@ async function getQuarterlyEmissions(filterCriteria) {
 }
 
 /* ----- ALLOWANCE ----- */
-const getAllowanceHoldings = async (filterCriteria) => {
+async function getAllowanceHoldings(filterCriteria) {
   const url = constructRequestUrl('allowance', 'holdings', filterCriteria);
 
   return axios
@@ -67,7 +67,7 @@ const getAllowanceHoldings = async (filterCriteria) => {
     .catch(handleError);
 }
 
-
+/* ----- REQUEST ----- */
 const mapSelectionToApiCall = (dataType, dataSubType, filterCriteria) => {
   const notFound = `Sorry, ${dataSubType} is not hooked up to API.`;
 

@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Button } from '@trussworks/react-uswds';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faQuestionCircle,
-} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 import DataPreview from '../DataPreview/DataPreview';
 import FilterTags from '../../FilterTags/FilterTags';
 import { isAddedToFilters } from '../../../utils/selectors/general';
@@ -16,7 +14,7 @@ import {
   resetFilter,
   updateTimePeriod,
 } from '../../../store/actions/customDataDownload/filterCriteria';
-import {EMISSIONS_REQUIRED_FILTERS} from '../../../utils/constants/emissions';
+import { EMISSIONS_REQUIRED_FILTERS } from '../../../utils/constants/emissions';
 
 const ManageDataPreview = ({
   dataType,
@@ -37,10 +35,7 @@ const ManageDataPreview = ({
       dataType &&
       dataSubType &&
       dataSubType !== '' &&
-      contains(
-        mapRequiredFilters[dataType] || null,
-        appliedFilters
-      )
+      contains(mapRequiredFilters[dataType] || null, appliedFilters)
     ) {
       setRequirementsMet(true);
     } else {
@@ -48,14 +43,6 @@ const ManageDataPreview = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dataType, dataSubType, appliedFilters]);
-
-  const contains = (first, second) => {
-    if (first === null) {
-      return false;
-    }
-    const search = first.map((el) => isAddedToFilters(el, second));
-    return search.indexOf(false) === -1;
-  };
 
   const handleUpdateInAppliedFilters = () => {
     resetDataPreviewDispacher();
@@ -71,7 +58,7 @@ const ManageDataPreview = ({
       });
       removeAppliedFiltersDispatcher(filterType, false, true);
     } else {
-      resetFiltersDispatcher(filterType)
+      resetFiltersDispatcher(filterType);
       removeAppliedFiltersDispatcher(filterType);
     }
     handleUpdateInAppliedFilters();
@@ -83,11 +70,23 @@ const ManageDataPreview = ({
     handleUpdateInAppliedFilters();
   };
 
+  const contains = (first, second) => {
+    if (first === null) {
+      return false;
+    } else {
+      const search = first.includes('none')
+        ? [true]
+        : first.map((el) => isAddedToFilters(el, second));
+      return appliedFilters.length > 0 && search.indexOf(false) === -1;
+    }
+  };
+
   const mapRequiredFilters = {
     EMISSIONS: EMISSIONS_REQUIRED_FILTERS,
-    ALLOWANCE: ['unknown'],
-    COMPLIANCE: ['unknown']
+    ALLOWANCE: ['none'],
+    COMPLIANCE: ['none'],
   };
+
   return (
     <div className="width-full">
       <div className="display-flex flex-row flex-justify bg-base-lightest padding-x-3 minh-10">
@@ -126,7 +125,11 @@ const ManageDataPreview = ({
           </div>
         </div>
       )}
-      {renderPreviewData && <DataPreview handleUpdateInAppliedFilters={handleUpdateInAppliedFilters}/>}
+      {renderPreviewData && (
+        <DataPreview
+          handleUpdateInAppliedFilters={handleUpdateInAppliedFilters}
+        />
+      )}
     </div>
   );
 };
