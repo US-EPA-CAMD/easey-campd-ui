@@ -1,5 +1,8 @@
-import { constructQuery } from "./filterCriteria";
-import { formatMonthsToApiOrString, formatQuartersToApiOrString } from "./general";
+import { constructQuery } from './filterCriteria';
+import {
+  formatMonthsToApiOrString,
+  formatQuartersToApiOrString,
+} from './general';
 
 export const constructTimePeriodQuery = (dataSubType, filterCriteria) => {
   switch (dataSubType.toLowerCase()) {
@@ -29,7 +32,18 @@ export const constructTimePeriodQuery = (dataSubType, filterCriteria) => {
       )}`;
     case 'ozone season emissions':
     case 'annual emissions':
-      return`${constructQuery(filterCriteria.timePeriod.year.yearArray,'opYear',true)}`;
+      return `${constructQuery(
+        filterCriteria.timePeriod.year.yearArray,
+        'opYear',
+        true
+      )}`;
+    case 'holdings':
+    case 'transactions':
+      return `${constructQuery(
+        filterCriteria.timePeriod.year.yearArray,
+        'vintageYear',
+        true
+      )}`;
     default:
       return '';
   }
