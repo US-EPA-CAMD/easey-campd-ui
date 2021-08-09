@@ -7,12 +7,12 @@ const PillButton = (props) => {
   return (
     <div className="display-inline-flex margin-bottom-05">
       <Button
-        //onFocus={props.index===0? handleTabfocus: null}
         type="button"
         className="padding-1 padding-right-0 margin-0 radius-0 radius-left-lg bg-primary"
         title={props.tooltip}
         onClick={(evt) => props.onClick(props.index, props.label, evt.target)}
         disabled={props.disableButton}
+        aria-label={!props.disableButton?`Modify`:null}
       >
         {props.label}
       </Button>

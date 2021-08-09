@@ -38,6 +38,7 @@ const CheckboxGroup = (props) => {
             checked={evaluateSelectAll()}
             onChange={props.onSelectAll}
             data-testid="select-all"
+            aria-label={`All ${props.description}`}
           />
         ) : (
           <h5 className="font-sans-md text-bold margin-0">{props.description}</h5>
