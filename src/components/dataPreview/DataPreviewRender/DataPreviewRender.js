@@ -26,7 +26,7 @@ const DataPreviewRender = ({
   return (
     <div className="preview-content-wrapper padding-x-3 padding-y-3">
       <div className="display-flex flex-row flex-justify flex-align-center">
-        <div className="flex-align-center" aria-live="polite">
+        <div id="data-table-title" className="flex-align-center" aria-live="polite">
           <div className="panel-header display-inline "><h3 className="margin-y-0">Data Preview &nbsp;</h3></div>
           <span className="font-alt-sm text-bold desktop:display-block desktop-lg:display-inline">
             {loading === 0 && dataPreview !== null
@@ -43,14 +43,10 @@ const DataPreviewRender = ({
         </div>
       </div>
       {loading === 0 && dataPreview !== null && dataPreview.length > 0 && (
-        <div className="data-display-table">
+        <div className="data-display-table" table-aria-labelledby="data-table-title">
           <DataTable
-            //className="data-display-table"
             columns={columns}
             data={data}
-            //defaultSortField={defaultSort ? defaultSort : "col1"}
-            //fixedHeader={true}
-            //fixedHeaderScrollHeight="60vh"
             noHeader={true}
             highlightOnHover={true}
             selectableRows={false}
