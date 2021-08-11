@@ -81,11 +81,14 @@ export const changeGridCellAttributeValue = () => {
  *****************************************************/
 export const addAriaLabelToDatatable = () => {
   document.querySelectorAll(`.rdt_Table`).forEach((element) => {
-    const defaultLabel = document.querySelector(".data-table-title")
-      ? document.querySelector(".data-table-title").textContent
-      : "Data Table";
-
-    element.setAttribute("aria-label", defaultLabel);
+    let label = "Data Table";
+    const tableContainer = document.querySelector(".data-display-table");
+    if(tableContainer){
+      label = tableContainer.getAttribute("table-aria-labelledby");
+      element.setAttribute("aria-labelledby", label);
+    }else{
+      element.setAttribute("aria-label", label);
+    }
   });
 };
 
@@ -143,32 +146,27 @@ export const addInitialAriaSort = () => {
  *              none
  *****************************************************/
 export const setAriaSort = (event) => {
+  const targetEl = event.target.closest(".rdt_TableCol_Sortable");
   // *** disregard any events that don't result in sorting
   if (
     (event.type === "keydown" && event.key !== "Enter") ||
     event.type === "click"
   ) {
     // *** make sure aria-sort attribute is set
-    switch (event.target.closest(".rdt_TableCol").getAttribute("aria-sort")) {
+    switch (targetEl.getAttribute("aria-sort")) {
       // * flip any column currently marked as "sorted" to the opposite of currently chosen direction
       case "ascending":
-        event.target
-          .closest(".rdt_TableCol")
-          .setAttribute("aria-sort", "descending");
+        targetEl.setAttribute("aria-sort", "descending");
         break;
 
       // * flip any column currently marked as "sorted" to the opposite of currently chosen direction
       case "descending":
-        event.target
-          .closest(".rdt_TableCol")
-          .setAttribute("aria-sort", "ascending");
+        targetEl.setAttribute("aria-sort", "ascending");
         break;
 
-      // * default direction is descending
+      // * default direction is ascending
       default:
-        event.target
-          .closest(".rdt_TableCol")
-          .setAttribute("aria-sort", "descending");
+        targetEl.setAttribute("aria-sort", "ascending");
         break;
     }
   }
@@ -188,7 +186,7 @@ export const setAriaSort = (event) => {
 export const assignAriaSortHandlersToDatatable = () => {
   setTimeout(() => {
     // *** only event being taken into account are the ones that result in sorting of the datatable
-    document.querySelectorAll(".rdt_TableCol").forEach((element) => {
+    document.querySelectorAll(".rdt_TableCol_Sortable").forEach((element) => {
       element.addEventListener("click", setAriaSort, true);
       element.addEventListener("keydown", setAriaSort, true);
     });
@@ -202,7 +200,7 @@ export const assignAriaSortHandlersToDatatable = () => {
  *   508 compliance
  *****************************************************/
 export const removeAriaSortHandlersFromDatatable = () => {
-  document.querySelectorAll(".rdt_TableCol").forEach((element) => {
+  document.querySelectorAll(".rdt_TableCol_Sortable").forEach((element) => {
     element.removeEventListener("click", setAriaSort);
     element.removeEventListener("keydown", setAriaSort);
   });
