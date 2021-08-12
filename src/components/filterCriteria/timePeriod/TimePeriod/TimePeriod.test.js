@@ -175,7 +175,7 @@ describe('Emissions TimePeriod Component', () => {
           appliedFilters={['timePeriod']}
           closeFlyOutHandler={jest.fn()}
           showYear={true}
-          isVintage={true}
+          isAllowance={true}
         />
       );
       const textBox = getByTestId('textInput');
@@ -200,7 +200,7 @@ describe('Emissions TimePeriod Component', () => {
           appliedFilters={['timePeriod']}
           closeFlyOutHandler={jest.fn()}
           showYear={true}
-          isVintage={true}
+          isAllowance={true}
         />
       );
       const textBox = getByTestId('textInput');

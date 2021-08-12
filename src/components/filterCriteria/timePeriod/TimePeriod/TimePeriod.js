@@ -28,13 +28,14 @@ export const TimePeriod = ({
   addAppliedFilterDispatcher,
   removeAppliedFiltersDispatcher,
   appliedFilters,
+  filterToApply,
   closeFlyOutHandler,
   showOpHrsOnly=true,
   showYear=false,
   showMonth=false,
   showQuarter=false,
   isAnnual=false,
-  isVintage=false,
+  isAllowance=false,
   renderedHandler,
 }) => {
   const [formState, setFormState] = useState({
@@ -55,7 +56,6 @@ export const TimePeriod = ({
   });
 
   const [applyFilterClicked, setApplyFilterClicked] = useState(false);
-  const filterToApply = isVintage ? 'Vintage Year' : 'Time Period';
 
   useEffect(() => {
     if (showYear) {
@@ -97,33 +97,43 @@ export const TimePeriod = ({
         updatedValidations['validReportingQuarter'] = isInValidReportingQuarter(
           formState.year,
           formatMonthsToApiOrString(formState.month),
-          [3, 6, 9],
+          [3, 6, 9]
         );
       } else if (showQuarter) {
         updatedValidations['validReportingQuarter'] = isInValidReportingQuarter(
           formState.year,
           formatQuartersToApiOrString(formState.quarter),
-          [1, 2, 3],
+          [1, 2, 3]
         );
       } else {
-        updatedValidations['validReportingQuarter'] = isInYearRange(formatYearsToArray(formState.year), isAnnual, isVintage);
+        updatedValidations['validReportingQuarter'] = isInYearRange(
+          formatYearsToArray(formState.year),
+          isAnnual,
+          isAllowance
+        );
       }
     } else {
-      updatedValidations['startDateFormat'] = isDateFormatValid(formState.startDate);
-      updatedValidations['endDateFormat'] = isDateFormatValid(formState.endDate);
+      updatedValidations['startDateFormat'] = isDateFormatValid(
+        formState.startDate
+      );
+      updatedValidations['endDateFormat'] = isDateFormatValid(
+        formState.endDate
+      );
       if (
-        updatedValidations['startDateFormat'] && updatedValidations['endDateFormat']
+        updatedValidations['startDateFormat'] &&
+        updatedValidations['endDateFormat']
       ) {
         updatedValidations['dateRange'] = isDateRangeValid(
           formState.startDate,
           formState.endDate
         );
+        const minDate = isAllowance ? '1993-03-23' : '1995-01-01';
         updatedValidations['validReportingQuarter'] =
-          isInValidDateRange(formState.startDate, new Date('1995-01-01')) &&
-          isInValidDateRange(formState.endDate, new Date('1995-01-01'));
+          isInValidDateRange(formState.startDate, new Date(minDate), isAllowance) &&
+          isInValidDateRange(formState.endDate, new Date(minDate), isAllowance);
       } else {
         updatedValidations['dateRange'] = false;
-        updatedValidations['validReportingQuarter'] = false
+        updatedValidations['validReportingQuarter'] = false;
       }
     }
     setValidations({ ...validations, ...updatedValidations });
@@ -202,6 +212,7 @@ export const TimePeriod = ({
   // HELPER FUNCTIONS
   const updateYearHelper = () => {
     updateTimePeriodDispatcher({
+      ...timePeriod,
       year: {
         yearArray: formatYearsToArray(formState.year),
         yearString: formState.year,
@@ -231,6 +242,7 @@ export const TimePeriod = ({
 
   const updateFullDateHelper = () => {
     updateTimePeriodDispatcher({
+      ...timePeriod,
       startDate: formatDateToApi(formState.startDate),
       endDate: formatDateToApi(formState.endDate),
       opHrsOnly: formState.opHrsOnly,
@@ -266,13 +278,14 @@ export const TimePeriod = ({
       onInvalidHandler={onInvalidHandler}
       formState={formState}
       closeFlyOutHandler={closeFlyOutHandler}
+      filterToApply={filterToApply}
       validations={validations}
       showOpHrsOnly={showOpHrsOnly}
       showYear={showYear}
       showMonth={showMonth}
       showQuarter={showQuarter}
       isAnnual={isAnnual}
-      isVintage={isVintage}
+      isAllowance={isAllowance}
     />
   );
 };
