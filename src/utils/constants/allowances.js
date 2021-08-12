@@ -1,8 +1,8 @@
 export const ALLOWANCES_DATA_SUBTYPES = [
   { value: '', label: '- Select -' },
-  { value: 1, label: 'Account Information', service: '' },
-  { value: 2, label: 'Holdings', service: 'holdings' },
-  { value: 3, label: 'Transactions', service: 'transactions' },
+  { value: 1, label: 'Account Information', service: '', required: ['none'] },
+  { value: 2, label: 'Holdings', service: 'holdings', required: ['none'] },
+  { value: 3, label: 'Transactions', service: 'transactions', required: ['Transaction Date'] },
 ];
 
 export const ACCOUNT_INFO_FILTERS = [
@@ -20,7 +20,7 @@ export const ALLOWANCE_HOLDINGS_FILTERS = [
 ];
 
 export const ALLOWANCE_TRANSACTIONS_FILTERS = [
+  { value: 'Transaction Date', stateVar: 'transactionDate', label: 'TRANSACTION DATE (Required)' },
   ...ALLOWANCE_HOLDINGS_FILTERS,
-  { value: 'Transaction Date', stateVar: 'transactionDate', label: 'TRANSACTION DATE (Optional)' },
   { value: 'transactionType', label: 'TRANSACTION TYPE (Optional)' },
 ];
