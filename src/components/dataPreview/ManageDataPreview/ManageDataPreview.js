@@ -14,7 +14,9 @@ import {
   resetFilter,
   updateTimePeriod,
 } from '../../../store/actions/customDataDownload/filterCriteria';
-import { EMISSIONS_REQUIRED_FILTERS } from '../../../utils/constants/emissions';
+import { EMISSIONS_DATA_SUBTYPES } from '../../../utils/constants/emissions';
+import { ALLOWANCES_DATA_SUBTYPES } from '../../../utils/constants/allowances';
+import { COMPLIANCES_DATA_SUBTYPES } from '../../../utils/constants/compliances';
 
 const ManageDataPreview = ({
   dataType,
@@ -35,7 +37,7 @@ const ManageDataPreview = ({
       dataType &&
       dataSubType &&
       dataSubType !== '' &&
-      contains(mapRequiredFilters[dataType] || null, appliedFilters)
+      contains()
     ) {
       setRequirementsMet(true);
     } else {
@@ -70,21 +72,28 @@ const ManageDataPreview = ({
     handleUpdateInAppliedFilters();
   };
 
-  const contains = (first, second) => {
-    if (first === null) {
+  const contains = () => {
+    const mapRequiredFilters = {
+      EMISSIONS: EMISSIONS_DATA_SUBTYPES,
+      ALLOWANCE: ALLOWANCES_DATA_SUBTYPES,
+      COMPLIANCE: COMPLIANCES_DATA_SUBTYPES,
+    };
+    const subTypes = mapRequiredFilters[dataType] || null;
+    if (!subTypes) {
       return false;
-    } else {
-      const search = first.includes('none')
-        ? [true]
-        : first.map((el) => isAddedToFilters(el, second));
-      return appliedFilters.length > 0 && search.indexOf(false) === -1;
     }
-  };
+    const index = subTypes.filter((el) => el.label === dataSubType);
+    if (index.length === 0) {
+      return false;
+    }
 
-  const mapRequiredFilters = {
-    EMISSIONS: EMISSIONS_REQUIRED_FILTERS,
-    ALLOWANCE: ['none'],
-    COMPLIANCE: ['none'],
+    const search =
+      index[0].required[0] === 'none'
+        ? [true]
+        : index[0].required.map((el) =>
+            isAddedToFilters(el, appliedFilters)
+          );
+    return appliedFilters.length > 0 && search.indexOf(false) === -1;
   };
 
   return (

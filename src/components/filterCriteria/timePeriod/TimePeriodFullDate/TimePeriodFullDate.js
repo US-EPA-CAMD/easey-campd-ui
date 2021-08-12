@@ -28,7 +28,6 @@ const TimePeriodFullDate = ({
     ? 'Enter dates between 03/23/1993 and the current date'
     : `Enter dates between 01/01/1995 and the end of the calendar quarter, ${reportingQuarter()}`;
 
-  const require = isAllowance ? '' : ' (Required)'
   return (
     <>
       <Alert
@@ -73,7 +72,7 @@ const TimePeriodFullDate = ({
       <DateRangePicker
         aria-describedby="validate-time-period"
         endDateHint="mm/dd/yyyy"
-        endDateLabel={`End Date${require}`}
+        endDateLabel={'End Date (Required)'}
         endDatePickerProps={{
           defaultValue: formatDateToApi(formState.endDate),
           onChange: handleEndDateUpdate,
@@ -83,7 +82,7 @@ const TimePeriodFullDate = ({
           name: 'endDate',
         }}
         startDateHint="mm/dd/yyyy"
-        startDateLabel={`Start Date${require}`}
+        startDateLabel={'Start Date (Required)'}
         startDatePickerProps={{
           autoFocus: true,
           defaultValue: formatDateToApi(formState.startDate),
