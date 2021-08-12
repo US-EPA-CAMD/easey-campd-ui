@@ -63,7 +63,7 @@ export const isYearFormat = (yearString) => {
   return valid;
 };
 
-export const isInYearRange = (yearArray, isAnnual = false, isVintage = false) => {
+export const isInYearRange = (yearArray, isAnnual = false, isAllowance = false) => {
   const curYear = new Date().getFullYear();
   let result = false;
   yearArray.forEach((year) => {
@@ -73,7 +73,7 @@ export const isInYearRange = (yearArray, isAnnual = false, isVintage = false) =>
         year === 1985 ||
         year === 1990 ||
         (year >= 1995 && year <= curYear);
-    } else if (isVintage){
+    } else if (isAllowance){
       result = year >= 1995;
     } else {
       result = year >= 1995 && year <= curYear;
@@ -86,9 +86,9 @@ export const isInYearRange = (yearArray, isAnnual = false, isVintage = false) =>
   return result;
 };
 
-export const isInValidDateRange = (date, minDate) => {
+export const isInValidDateRange = (date, minDate, isAllowance=false) => {
   const dateInput = new Date(date);
-  const maxDate = new Date(reportingQuarter());
+  const maxDate = isAllowance ? new Date() : new Date(reportingQuarter());
   return dateInput >= minDate && dateInput <= maxDate;
 };
 

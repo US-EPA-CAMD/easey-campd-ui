@@ -23,13 +23,14 @@ const TimePeriodRender = ({
   onSelectAllHandler,
   onInvalidHandler,
   closeFlyOutHandler,
+  filterToApply,
   validations,
   showOpHrsOnly,
   showYear,
   showMonth,
   showQuarter,
   isAnnual,
-  isVintage,
+  isAllowance,
 }) => {
 
   const isApplyFilterDisabled = () => {
@@ -46,12 +47,10 @@ const TimePeriodRender = ({
     }
   };
 
-  const title = isVintage ? 'Vintage Year' : 'Time Period'
-
   return (
     <Form onSubmit={applyFilterHandler} className="maxw-mobile-lg padding-x-3">
       <div className="panel-header text-bold padding-top-2">
-        <h3>{title}</h3>
+        <h3>{filterToApply}</h3>
         <FontAwesomeIcon
           icon={faQuestionCircle}
           className="text-gray-30 font-body-md question-icon"
@@ -71,7 +70,7 @@ const TimePeriodRender = ({
           validations={validations}
           isFormValid={isFormValid}
           isAnnual={isAnnual}
-          isVintage={isVintage}
+          isAllowance={isAllowance}
         />
       ) : (
         <TimePeriodFullDate
@@ -83,6 +82,7 @@ const TimePeriodRender = ({
           onInvalidHandler={onInvalidHandler}
           validations={validations}
           isFormValid={isFormValid}
+          isAllowance={isAllowance}
         />
       )}
       {(showMonth) && <hr className="margin-y-2" />}

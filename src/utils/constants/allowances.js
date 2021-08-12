@@ -16,11 +16,11 @@ export const ACCOUNT_INFO_FILTERS = [
 
 export const ALLOWANCE_HOLDINGS_FILTERS = [
   ...ACCOUNT_INFO_FILTERS,
-  { value: 'Vintage Year', stateVar: 'timePeriod', label: 'VINTAGE YEAR (Optional)' },
+  { value: 'Vintage Year', stateVar: 'vintageYear', label: 'VINTAGE YEAR (Optional)' },
 ];
 
 export const ALLOWANCE_TRANSACTIONS_FILTERS = [
   ...ALLOWANCE_HOLDINGS_FILTERS,
-  { value: 'transactionDate', label: 'TRANSACTION DATE (Optional)' },
+  { value: 'Transaction Date', stateVar: 'transactionDate', label: 'TRANSACTION DATE (Optional)' },
   { value: 'transactionType', label: 'TRANSACTION TYPE (Optional)' },
 ];

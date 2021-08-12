@@ -22,7 +22,7 @@ const TimePeriodYear = ({
   validations,
   isFormValid,
   isAnnual,
-  isVintage,
+  isAllowance,
 }) => {
   let rangeMessage;
   if (showMonth) {
@@ -32,14 +32,14 @@ const TimePeriodYear = ({
   } else if (isAnnual) {
     rangeMessage =
       'Enter year(s) 1980, 1985, 1990, or a year between 1995 and this year';
-  } else if (isVintage) {
+  } else if (isAllowance) {
     rangeMessage = 'Enter year(s) greater than or equal to 1995';
   } else {
     rangeMessage = 'Enter year(s) between 1995 and this year';
   }
 
   let yearLabel = 'Year(s)'
-  yearLabel += isVintage ? '' : ' (Required)'
+  yearLabel += isAllowance ? '' : ' (Required)'
 
   return (
     <>
