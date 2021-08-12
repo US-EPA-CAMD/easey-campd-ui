@@ -107,7 +107,14 @@ const FilterCriteriaPanel = ({
     ...allowances,
     program: <Program closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} dataType={'allowance'}/>,
     vintageYear: <TimePeriod closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} showYear={true} isAllowance={true} filterToApply={'Vintage Year'}/>,
-    transactionDate: <TimePeriod closeFlyOutHandler={closeFlyOutHandler} showOpHrsOnly={false} renderedHandler={renderedHandler} isAllowance={true} filterToApply={'Transaction Date'} />
+    transactionDate: 
+      <TimePeriod 
+        closeFlyOutHandler={closeFlyOutHandler} 
+        showOpHrsOnly={false} 
+        renderedHandler={renderedHandler} 
+        isAllowance={true} 
+        filterToApply={'Transaction Date'} 
+      />
   };
 
   const complianceAllownaceBased = {
