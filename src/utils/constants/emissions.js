@@ -1,16 +1,18 @@
+const timePeriodLabel = 'Time Period'
+
 export const EMISSIONS_DATA_SUBTYPES = [
   { value: '', label: '- Select -' },
-  { value: 1, label: 'Hourly Emissions', service: 'hourly', required: ['Time Period'] },
-  { value: 2, label: 'Daily Emissions', service: 'daily', required: ['Time Period'] },
-  { value: 3, label: 'Monthly Emissions', service: 'monthly', required: ['Time Period'] },
-  { value: 4, label: 'Quarterly Emissions', service: 'quarterly', required: ['Time Period'] },
-  { value: 5, label: 'Ozone Season Emissions', service: 'ozone', required: ['Time Period'] },
-  { value: 6, label: 'Annual Emissions', service: 'annual', required: ['Time Period'] },
-  { value: 7, label: 'Facility/Unit Attributes', service: '', required: ['Time Period'] },
+  { value: 1, label: 'Hourly Emissions', service: 'hourly', required: [timePeriodLabel] },
+  { value: 2, label: 'Daily Emissions', service: 'daily', required: [timePeriodLabel] },
+  { value: 3, label: 'Monthly Emissions', service: 'monthly', required: [timePeriodLabel] },
+  { value: 4, label: 'Quarterly Emissions', service: 'quarterly', required: [timePeriodLabel] },
+  { value: 5, label: 'Ozone Season Emissions', service: 'ozone', required: [timePeriodLabel] },
+  { value: 6, label: 'Annual Emissions', service: 'annual', required: [timePeriodLabel] },
+  { value: 7, label: 'Facility/Unit Attributes', service: '', required: [timePeriodLabel] },
 ];
 
 export const EMISSIONS_FILTERS = [
-  { value: 'Time Period', stateVar: 'timePeriod', label: 'TIME PERIOD (Required)' },
+  { value: timePeriodLabel, stateVar: 'timePeriod', label: 'TIME PERIOD (Required)' },
   { value: 'Program', stateVar: 'program', label: 'PROGRAM (Optional)' },
   { value: 'State/Territory', stateVar: 'stateTerritory', label: 'STATE/TERRITORY (Optional)' },
   { value: 'Facility', stateVar: 'facility', label: 'FACILITY (Optional)' },
