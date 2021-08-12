@@ -39,7 +39,10 @@ export const DataPreview = ({
   const data = useMemo(() => {
     let result = [];
     if (loading === 0 && dataPreview !== null) {
-      result =dataPreview;
+      result = dataPreview.map((d,i)=>{
+        d['id'] = i;
+        return d;
+      });
     }
     return result;
   }, [loading, dataPreview]);
