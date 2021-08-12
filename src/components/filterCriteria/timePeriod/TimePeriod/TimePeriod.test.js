@@ -16,7 +16,9 @@ describe('Emissions TimePeriod Component', () => {
       <TimePeriod
         timePeriod={initTimePeriod}
         updateTimePeriodDispatcher={jest.fn()}
+        removeAppliedFiltersDispatcher={jest.fn()}
         closeFlyOutHandler={jest.fn()}
+        renderedHandler={jest.fn()}
       />
     );
 
@@ -49,8 +51,10 @@ describe('Emissions TimePeriod Component', () => {
         timePeriod={timePeriod}
         updateTimePeriodDispatcher={dispatcher}
         addAppliedFilterDispatcher={jest.fn()}
+        removeAppliedFiltersDispatcher={jest.fn()}
         appliedFilters={["timePeriod"]}
         closeFlyOutHandler={jest.fn()}
+        renderedHandler={jest.fn()}
       />
     );
     const checkbox = getByRole('checkbox', {checked:true})
@@ -79,10 +83,12 @@ describe('Emissions TimePeriod Component', () => {
           timePeriod={timePeriod}
           updateTimePeriodDispatcher={dispatcher}
           addAppliedFilterDispatcher={jest.fn()}
+          removeAppliedFiltersDispatcher={jest.fn()}
           appliedFilters={['timePeriod']}
           closeFlyOutHandler={jest.fn()}
           showYear={true}
           isAnnual={true}
+          renderedHandler={jest.fn()}
         />
       );
       const textBox = getByTestId('textInput');
@@ -108,10 +114,12 @@ describe('Emissions TimePeriod Component', () => {
           timePeriod={timePeriod}
           updateTimePeriodDispatcher={dispatcher}
           addAppliedFilterDispatcher={jest.fn()}
+          removeAppliedFiltersDispatcher={jest.fn()}
           appliedFilters={['timePeriod']}
           closeFlyOutHandler={jest.fn()}
           showYear={true}
           showMonth={true}
+          renderedHandler={jest.fn()}
         />
       );
       const textBox = getByTestId('textInput');
@@ -140,10 +148,12 @@ describe('Emissions TimePeriod Component', () => {
           timePeriod={timePeriod}
           updateTimePeriodDispatcher={dispatcher}
           addAppliedFilterDispatcher={jest.fn()}
+          removeAppliedFiltersDispatcher={jest.fn()}
           appliedFilters={['timePeriod']}
           closeFlyOutHandler={jest.fn()}
           showYear={true}
           showQuarter={true}
+          renderedHandler={jest.fn()}
         />
       );
       const textBox = getByTestId('textInput');
@@ -172,10 +182,12 @@ describe('Emissions TimePeriod Component', () => {
           timePeriod={timePeriod}
           updateTimePeriodDispatcher={dispatcher}
           addAppliedFilterDispatcher={jest.fn()}
-          appliedFilters={['timePeriod']}
+          removeAppliedFiltersDispatcher={jest.fn()}
+          appliedFilters={['vintageYear']}
           closeFlyOutHandler={jest.fn()}
           showYear={true}
           isAllowance={true}
+          renderedHandler={jest.fn()}
         />
       );
       const textBox = getByTestId('textInput');
@@ -197,10 +209,12 @@ describe('Emissions TimePeriod Component', () => {
           timePeriod={timePeriod}
           updateTimePeriodDispatcher={jest.fn()}
           addAppliedFilterDispatcher={jest.fn()}
-          appliedFilters={['timePeriod']}
+          removeAppliedFiltersDispatcher={jest.fn()}
+          appliedFilters={['vintageYear']}
           closeFlyOutHandler={jest.fn()}
           showYear={true}
           isAllowance={true}
+          renderedHandler={jest.fn()}
         />
       );
       const textBox = getByTestId('textInput');
