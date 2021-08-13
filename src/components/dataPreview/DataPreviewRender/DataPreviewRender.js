@@ -2,6 +2,7 @@ import React, {useEffect} from 'react';
 import DataTable from "react-data-table-component";
 import DownloadFileType from '../../customDataDownload/DownloadFileType/DownloadFileType';
 import { ensure508, cleanUp508 } from '../../../utils/ensure-508/rdt-table';
+import { ArrowDownwardSharp } from "@material-ui/icons";
 
 import './DataPreviewRender.scss';
 
@@ -53,6 +54,9 @@ const DataPreviewRender = ({
             responsive={false}
             striped={true}
             persistTableHead={false}
+            sortIcon={
+              <ArrowDownwardSharp className="margin-left-2 text-primary" />
+            }
           />
         </div>
       )}
