@@ -116,6 +116,10 @@ const MultiSelectCombobox = ({
       }
     }else if(event.key === "Escape"){
       setShowListBox(false);
+      const applyBtn = document.querySelector(".autofocus2");
+      if(applyBtn){
+        applyBtn.focus();
+      }
     }
   }
 
