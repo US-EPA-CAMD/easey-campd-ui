@@ -1,8 +1,8 @@
 export const ALLOWANCES_DATA_SUBTYPES = [
   { value: '', label: '- Select -' },
   { value: 1, label: 'Account Information', service: '', required: ['none'] },
-  { value: 2, label: 'Holdings', service: 'holdings', required: ['none'] },
-  { value: 3, label: 'Transactions', service: 'transactions', required: ['Transaction Date'] },
+  { value: 2, label: 'Holdings', service: 'allowance-holdings', required: ['none'] },
+  { value: 3, label: 'Transactions', service: 'allowance-transactions', required: ['Transaction Date'] },
 ];
 
 export const ACCOUNT_INFO_FILTERS = [
