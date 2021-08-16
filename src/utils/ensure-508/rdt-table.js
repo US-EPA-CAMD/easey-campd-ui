@@ -59,16 +59,7 @@ export const changeGridCellAttributeValue = () => {
     });
   });
 };
-// export const changeit = () => {
-//   setTimeout(() => {
-//     // *** change auto-generated attribute role from "gridcell" to "cell"
-//     document.querySelectorAll(`[role="row"]`).forEach((element) => {
-//       console.log('element',element)
-//       element.setAttribute("role", "cell");
-//       // element.setAttribute("id", `${element.id}${element.className}`);
-//     });
-//   });
-// };
+
 /*****************************************************
  * addAriaLabelToDatatable:
  *
@@ -104,7 +95,7 @@ export const addAriaLabelToDatatable = () => {
  *****************************************************/
 export const addInitialAriaSort = () => {
   setTimeout(() => {
-    document.querySelectorAll(`.rdt_TableCol`).forEach((column) => {
+    document.querySelectorAll(`.rdt_TableCol_Sortable`).forEach((column) => {
       // *** traverse all sort icons
       if (column.querySelectorAll(".__rdt_custom_sort_icon__").length > 0) {
         // *** isolate the svg element of the icon
@@ -118,7 +109,7 @@ export const addInitialAriaSort = () => {
               .classList.contains("asc")
           ) {
             column
-              .closest(`.rdt_TableCol`)
+              .closest(`.rdt_TableCol_Sortable`)
               .setAttribute("aria-sort", "ascending");
           } else if (
             column
@@ -126,9 +117,13 @@ export const addInitialAriaSort = () => {
               .classList.contains("desc")
           ) {
             column
-              .closest(`.rdt_TableCol`)
+              .closest(`.rdt_TableCol_Sortable`)
               .setAttribute("aria-sort", "descending");
           }
+        }else {
+          column
+            .closest(`.rdt_TableCol_Sortable`)
+            .setAttribute("aria-sort", "none");
         }
       }
     });
@@ -146,29 +141,35 @@ export const addInitialAriaSort = () => {
  *              none
  *****************************************************/
 export const setAriaSort = (event) => {
-  const targetEl = event.target.closest(".rdt_TableCol_Sortable");
+  const currentColumn = event.target.closest(".rdt_TableCol_Sortable");
+  const sortIcon = currentColumn.querySelector(".__rdt_custom_sort_icon__");
+
   // *** disregard any events that don't result in sorting
   if (
     (event.type === "keydown" && event.key !== "Enter") ||
     event.type === "click"
   ) {
+
     // *** make sure aria-sort attribute is set
-    switch (targetEl.getAttribute("aria-sort")) {
-      // * flip any column currently marked as "sorted" to the opposite of currently chosen direction
-      case "ascending":
-        targetEl.setAttribute("aria-sort", "descending");
-        break;
-
-      // * flip any column currently marked as "sorted" to the opposite of currently chosen direction
-      case "descending":
-        targetEl.setAttribute("aria-sort", "ascending");
-        break;
-
-      // * default direction is ascending
-      default:
-        targetEl.setAttribute("aria-sort", "ascending");
-        break;
-    }
+    document.querySelectorAll(`.rdt_TableCol_Sortable`).forEach((column) => {
+      if(column === currentColumn){
+        if(currentColumn.ariaSort === "none"){
+          if(sortIcon.classList.contains("asc")){
+            currentColumn.ariaSort = "ascending";
+          }else if(sortIcon.classList.contains("desc")){
+            currentColumn.ariaSort = "descending";
+          }
+        }else{
+          if(currentColumn.ariaSort === "ascending"){
+            currentColumn.ariaSort = "descending"
+          } else{
+            currentColumn.ariaSort = "ascending";
+          }
+        }
+      }else{
+        column.ariaSort = "none";
+      }
+    });
   }
 };
 
