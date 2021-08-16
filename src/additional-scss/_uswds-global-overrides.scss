@@ -180,6 +180,8 @@
 }
 
 .subheader-wrapper {
+  @extend .bg-primary-dark;
+
   .usa-nav__primary button {
     font-family: "Source Sans Pro Web", serif !important;
     font-weight: bold !important;
