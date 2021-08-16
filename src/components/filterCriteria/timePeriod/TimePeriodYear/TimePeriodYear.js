@@ -39,7 +39,7 @@ const TimePeriodYear = ({
   }
 
   let yearLabel = 'Year(s)'
-  yearLabel += isAllowance ? '' : ' (Required)'
+  yearLabel += isAllowance ? '' : ' (Required) '
 
   return (
     <>
@@ -69,10 +69,11 @@ const TimePeriodYear = ({
           </ValidationItem>
         </ValidationChecklist>
       </Alert>
-      <Label htmlFor="event-year-input">{yearLabel}</Label>
-      <div className="usa-hint" id="date-format-hint">
-        Ex: 1995-2000,2003,2005,2010-2015
-      </div>
+      <Label htmlFor="event-year-input">{yearLabel}
+        <div id="date-format-hint">
+          Ex: 1995-2000,2003,2005,2010-2015
+        </div>
+        </Label>
       <TextInput
         aria-describedby="validate-time-period"
         autoFocus={true}
