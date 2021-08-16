@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Button } from "@trussworks/react-uswds";
+import { Button, Tag } from "@trussworks/react-uswds";
 import { useHistory } from "react-router-dom";
 
 const HomePage = () => {
@@ -35,9 +35,7 @@ const HomePage = () => {
         />
         <div className="margin-left-4">
           <h2 className="text-primary-dark font-heading-xl text-bold margin-top-0 mobile-lg:display-inline">Analysis</h2>
-          <div className="bg-base-light width-15 height-3 margin-left-1 mobile-lg:display-inline">
-            <span className="font-body-xs text-uppercase text-light padding-1">Coming Soon</span>
-          </div>
+          <Tag  className="margin-left-1 mobile-lg:display-inline">Coming Soon</Tag>
           <p className="font-body-sm text-ls-1 line-height-sans-6 desktop:width-mobile">
             View and download common analyses, reports, insights and other information using CAMPD data.
           </p>
@@ -49,10 +47,8 @@ const HomePage = () => {
           alt=""
         />
         <div className="margin-left-4">
-          <h2 className="text-primary-dark font-heading-xl text-bold margin-top-0 mobile-lg:display-inline desktop:display-block desktop:margin-bottom-0">Visualization</h2>
-          <div className="bg-base-light width-15 height-3 margin-left-1 mobile-lg:display-inline desktop:display-block desktop:margin-top-1">
-            <span className="font-body-xs text-uppercase text-light padding-1">Coming Soon</span>
-          </div>
+          <h2 className="text-primary-dark font-heading-xl text-bold margin-top-0 mobile-lg:display-inline desktop-lg:display-block desktop-lg:margin-bottom-0 widescreen:display-inline">Visualization</h2>
+          <Tag className="margin-left-1">Coming Soon</Tag>
           <p className="font-body-sm text-ls-1 line-height-sans-6 desktop:width-mobile">
             Visualize and interact with CAMPD data graphically and through maps.
           </p>
