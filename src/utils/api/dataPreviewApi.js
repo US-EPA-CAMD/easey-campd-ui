@@ -35,7 +35,7 @@ const mapSelectionToApiCall = (dataType, dataSubType, filterCriteria) => {
         url = constructRequestUrl('allowance', 'holdings', filterCriteria);
         break;
       case 'Transactions':
-        url = 'placeholder';
+        url = constructRequestUrl('allowance', 'transactions', filterCriteria);
         break;
       case 'Account Information':
         url = 'placeholder';
