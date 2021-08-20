@@ -8,7 +8,7 @@ export const EMISSIONS_BASED_FILTERS = [
   { value: 'Facility', stateVar: 'facility', label: 'FACILITY (Optional)' },
   { value: 'Owner Operator', label: 'OWNER/OPERATOR (Optional)' },
   { value: 'State/Territory', stateVar: 'stateTerritory',  label: 'STATE/TERRITORY (Optional)' },
-  { value: 'Year', label: 'YEAR (Optional)' },
+  { value: 'Year', stateVar: 'timePeriod', label: 'YEAR (Optional)' },
 ];
 
 export const ALLOWANCE_BASED_FILTERS = [
