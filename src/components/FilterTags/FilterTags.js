@@ -13,7 +13,7 @@ const FilterTags = (props) => {
           item.values.length > 1
             ? `${item.key} (${item.values.length})`
             : `${item.key}: ${item.values[0]}`;
-        if (item.key === 'Time Period' || item.key === 'Vintage Year') {
+        if (item.key === 'Time Period' || item.key === 'Vintage Year' || item.key === 'Year') {
           if (item.values.length === 1) {
             label = `${item.values[0]}`;
           } else {

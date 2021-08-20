@@ -121,6 +121,7 @@ const FilterCriteriaPanel = ({
     program: <Program closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} dataType={'compliance'}/>,
     facility: <Facility closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
     stateTerritory: <StateTerritory closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
+    timePeriod: <TimePeriod closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} showYear={true} filterToApply={'Year'}/>,
   };
 
   const complianceEmissionsBased = {
