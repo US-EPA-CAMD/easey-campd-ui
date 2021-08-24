@@ -19,6 +19,7 @@ const Program = ({
   loading,
   closeFlyOutHandler,
   dataType,
+  dataSubType,
   showActiveOnly=false,
   renderedHandler}) => {
 
@@ -28,12 +29,16 @@ const Program = ({
 
   const onSelectProgramHandler = (e) =>{
     const newPrograms = [...program];
-    const groupIndex = (e.target.name === 'Annual')? 0:1;
-    const found = newPrograms[groupIndex].items.findIndex(i=>i.id===e.target.id);
-    if(found>-1){
-      newPrograms[groupIndex].items[found].selected = e.target.checked;
-      setPrograms(newPrograms);
-    }
+    let found = -1;
+    newPrograms.forEach(group =>{
+      if(group.name === e.target.name){
+        found = group.items.findIndex(i=>i.id===e.target.id);
+        if(found>-1){
+          group.items[found].selected = e.target.checked;
+          setPrograms(newPrograms);
+        }
+      }
+    })
   };
 
   useEffect(()=>{
@@ -43,7 +48,8 @@ const Program = ({
   },[]);
 
   useEffect(()=>{
-    setPrograms(JSON.parse(JSON.stringify(storeProgram)));
+    setPrograms(JSON.parse(JSON.stringify(getProgramItems())));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   },[storeProgram]);
 
   useEffect(()=>{
@@ -51,6 +57,16 @@ const Program = ({
       renderedHandler();
     }// eslint-disable-next-line react-hooks/exhaustive-deps
   },[program, loading]);
+
+  const getProgramItems = () =>{
+    let res = storeProgram;
+    if(storeProgram.length>1){
+      if(dataSubType==="Ozone Season Emissions"){
+        res = [storeProgram[1]];
+      }
+    }
+    return res;
+  };
 
   const handleApplyFilter = () =>{
     updateProgramSelectionDispatcher(program);
@@ -115,6 +131,7 @@ const mapStateToProps = (state) => {
   return {
     storeProgram: state.filterCriteria.program,
     appliedFilters: state.customDataDownload.appliedFilters,
+    dataSubType: state.customDataDownload.dataSubType,
     loading: state.apiCallsInProgress
   };
 };
