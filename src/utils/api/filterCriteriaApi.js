@@ -11,11 +11,11 @@ export async function getDataFromMDM(endpoint) {
 export const getPrograms = (dataType, showActiveOnly) => {
   if (showActiveOnly) {
     return getDataFromMDM("programs?allowanceUIFilter=true&isActive=true");
-  } else if (dataType === "emissions") {
+  } else if (dataType === "EMISSIONS") {
     return getDataFromMDM("programs?emissionsUIFilter=true");
-  } else if (dataType === "allowance") {
+  } else if (dataType === "ALLOWANCE") {
     return getDataFromMDM("programs?allowanceUIFilter=true");
-  } else if (dataType === "compliance") {
+  } else if (dataType === "COMPLIANCE") {
     return getDataFromMDM("programs?complianceUIFilter=true");
   } else {
     return getDataFromMDM("programs?exclude=MATS");

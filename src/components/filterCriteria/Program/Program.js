@@ -63,6 +63,8 @@ const Program = ({
     if(storeProgram.length>1){
       if(dataSubType==="Ozone Season Emissions"){
         res = [storeProgram[1]];
+      }else if(dataSubType==="Annual Emissions"){
+        res = [storeProgram[0]];
       }
     }
     return res;
@@ -131,6 +133,7 @@ const mapStateToProps = (state) => {
   return {
     storeProgram: state.filterCriteria.program,
     appliedFilters: state.customDataDownload.appliedFilters,
+    dataType: state.customDataDownload.dataType,
     dataSubType: state.customDataDownload.dataSubType,
     loading: state.apiCallsInProgress
   };
