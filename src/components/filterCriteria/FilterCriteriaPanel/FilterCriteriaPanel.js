@@ -47,7 +47,7 @@ const FilterCriteriaPanel = ({
     setChildrenRendered(true)
   };
   const emissions = {
-    program: <Program closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} dataType = {'emissions'}/>,
+    program: <Program closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
     facility: <Facility closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
     unitType: <UnitType closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
     fuelType: <FuelType closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
@@ -94,18 +94,18 @@ const FilterCriteriaPanel = ({
 
   const allownaceAcctInfo = {
     ...allowances,
-    program: <Program closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} dataType={'allowance'}/>,
+    program: <Program closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
   };
 
   const allowanceHoldings = {
     ...allowances,
-    program: <Program closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} dataType={'allowance'} showActiveOnly={true}/>,
+    program: <Program closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} showActiveOnly={true}/>,
     vintageYear: <TimePeriod closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} showYear={true} isAllowance={true} filterToApply={'Vintage Year'}/>
   };
 
   const allownaceTransactions = {
     ...allowances,
-    program: <Program closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} dataType={'allowance'}/>,
+    program: <Program closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
     vintageYear: <TimePeriod closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} showYear={true} isAllowance={true} filterToApply={'Vintage Year'}/>,
     transactionDate:
       <TimePeriod
@@ -118,7 +118,7 @@ const FilterCriteriaPanel = ({
   };
 
   const complianceAllownaceBased = {
-    program: <Program closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} dataType={'compliance'}/>,
+    program: <Program closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
     facility: <Facility closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
     stateTerritory: <StateTerritory closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
     timePeriod: <TimePeriod closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} showYear={true} filterToApply={'Year'}/>,
