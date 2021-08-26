@@ -45,7 +45,7 @@ export function loadDataPreviewSuccess(data, totalCount, fieldMappings) {
     type: types.LOAD_DATA_PREVIEW_SUCCESS,
     dataPreview: {
       data,
-      totalCount,
+      totalCount : totalCount? totalCount : data.length,
       fieldMappings
     },
   };
