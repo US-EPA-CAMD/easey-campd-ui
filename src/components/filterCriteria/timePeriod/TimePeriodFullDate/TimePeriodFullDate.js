@@ -43,6 +43,7 @@ const TimePeriodFullDate = ({
             id="startDateFormat"
             isValid={validations.startDateFormat}
             aria-checked={validations.startDateFormat}
+            className={validations.startDateFormat? 'display-none': null}
           >
             Enter the Start Date in the MM/DD/YYYY format
           </ValidationItem>
@@ -50,6 +51,7 @@ const TimePeriodFullDate = ({
             id="endDateFormat"
             isValid={validations.endDateFormat}
             aria-checked={validations.endDateFormat}
+            className={validations.endDateFormat? 'display-none': null}
           >
             Enter the End Date in the MM/DD/YYYY format
           </ValidationItem>
@@ -57,6 +59,7 @@ const TimePeriodFullDate = ({
             id="dateRange"
             isValid={validations.dateRange}
             aria-checked={validations.dateRange}
+            className={validations.dateRange? 'display-none': null}
           >
             Enter an end date that is greater than or equal to the begin date
           </ValidationItem>
@@ -64,6 +67,7 @@ const TimePeriodFullDate = ({
             id="validReportingQuarter"
             isValid={validations.validReportingQuarter}
             aria-checked={validations.validReportingQuarter}
+            className={validations.validReportingQuarter? 'display-none': null}
           >
             {rangeMessage}
           </ValidationItem>
