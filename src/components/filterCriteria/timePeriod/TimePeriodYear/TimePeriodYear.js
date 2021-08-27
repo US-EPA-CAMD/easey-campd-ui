@@ -56,6 +56,7 @@ const TimePeriodYear = ({
             id="yearFormat"
             isValid={validations.yearFormat}
             aria-checked={validations.yearFormat}
+            className={validations.yearFormat? 'display-none': null}
           >
             Enter year(s) using a comma separated format (ex. 1995, 2000,
             2001-2005)
@@ -64,6 +65,7 @@ const TimePeriodYear = ({
             id="validReportingQuarter"
             isValid={validations.validReportingQuarter}
             aria-checked={validations.validReportingQuarter}
+            className={validations.validReportingQuarter? 'display-none': null}
           >
             {rangeMessage}
           </ValidationItem>
