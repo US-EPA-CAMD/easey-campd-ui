@@ -5,134 +5,17 @@ import { Provider } from 'react-redux';
 import configureStore from '../../../store/configureStore.dev';
 import initialState from '../../../store/reducers/initialState';
 import DataPreviewRender from './DataPreviewRender';
-import { getHourlyEmissionsTableRecords } from '../../../utils/selectors/emissions';
 
-const columns = [
-  {
-    Header: 'State',
-    accessor: 'col1',
-  },
-  {
-    Header: 'Facility Name',
-    accessor: 'col2',
-  },
-  {
-    Header: 'Facility ID',
-    accessor: 'col3',
-  },
-  {
-    Header: 'Unit ID',
-    accessor: 'col4',
-  },
-  {
-    Header: 'Associated Stacks',
-    accessor: 'col5',
-  },
-  {
-    Header: 'Date',
-    accessor: 'col6',
-  },
-  {
-    Header: 'Hour',
-    accessor: 'col7',
-  },
-  {
-    Header: 'Operating Time',
-    accessor: 'col8',
-  },
-  {
-    Header: 'Gross Load (MW)',
-    accessor: 'col9',
-  },
-  {
-    Header: 'Steam Load (1000 lb/hr)',
-    accessor: 'col10',
-  },
-  {
-    Header: 'SO2 Mass (lbs)',
-    accessor: 'col11',
-  },
-  {
-    Header: 'SO2 Mass Measure Indicator',
-    accessor: 'col12',
-  },
-  {
-    Header: 'SO2 Rate (lbs/mmBtu)',
-    accessor: 'col13',
-  },
-  {
-    Header: 'SO2 Rate Measure Indicator',
-    accessor: 'col14',
-  },
-  {
-    Header: 'NOx Mass (lbs)',
-    accessor: 'col15',
-  },
-  {
-    Header: 'NOx Mass Measure Indicator',
-    accessor: 'col16',
-  },
-  {
-    Header: 'NOx Rate (lbs/mmBtu)',
-    accessor: 'col17',
-  },
-  {
-    Header: 'NOx Rate Measure Indicator',
-    accessor: 'col18',
-  },
-  {
-    Header: 'CO2 Mass (short tons)',
-    accessor: 'col19',
-  },
-  {
-    Header: 'CO2 Mass Measure Indicator',
-    accessor: 'col20',
-  },
-  {
-    Header: 'CO2 Rate (short tons/mmBtu)',
-    accessor: 'col21',
-  },
-  {
-    Header: 'CO2 Rate Measure Indicator ',
-    accessor: 'col22',
-  },
-  {
-    Header: 'Heat Input (mmBtu)',
-    accessor: 'col23',
-  },
-  {
-    Header: 'Primary Fuel Type',
-    accessor: 'col24',
-  },
-  {
-    Header: 'Secondary Fuel Type',
-    accessor: 'col25',
-  },
-  {
-    Header: 'Unit Type',
-    accessor: 'col26',
-  },
-  {
-    Header: 'SO2 Controls',
-    accessor: 'col27',
-  },
-  {
-    Header: 'PM Controls',
-    accessor: 'col28',
-  },
-  {
-    Header: 'NOx Controls',
-    accessor: 'col29',
-  },
-  {
-    Header: 'Hg Controls',
-    accessor: 'col30',
-  },
-  {
-    Header: 'Program',
-    accessor: 'col31',
-  },
-];
+const fieldMappings = [{"label":"State","value":"state"},{"label":"Facility Name","value":"facilityName"},{"label":"Facility ID","value":"orisCode"},
+{"label":"Unit ID","value":"unitId"},{"label":"Associated Stacks","value":"assocStacks"},{"label":"Date","value":"opDate"},{"label":"Hour","value":"opHour"},
+{"label":"Operating Time","value":"opTime"},{"label":"Gross Load (MW)","value":"gLoad"},{"label":"Steam Load (1000 lb/hr)","value":"sLoad"},
+{"label":"SO2 Mass (lbs)","value":"so2Mass"},{"label":"SO2 Mass Measure Indicator","value":"so2MassMeasureFlg"},{"label":"SO2 Rate (lbs/mmBtu)","value":"so2Rate"},
+{"label":"SO2 Rate Measure Indicator","value":"so2RateMeasureFlg"},{"label":"NOx Mass (lbs)","value":"noxMass"},{"label":"NOx Mass Measure Indicator","value":"noxMassMeasureFlg"},
+{"label":"NOx Rate (lbs/mmBtu)","value":"noxRate"},{"label":"NOx Rate Measure Indicator","value":"noxRateMeasureFlg"},{"label":"CO2 Mass (short tons)","value":"co2Mass"},
+{"label":"CO2 Mass Measure Indicator","value":"co2MassMeasureFlg"},{"label":"CO2 Rate (short tons/mmBtu)","value":"co2Rate"},{"label":"CO2 Rate Measure Indicator","value":"co2RateMeasureFlg"},
+{"label":"Heat Input (mmBtu)","value":"heatInput"},{"label":"Primary Fuel Type","value":"primaryFuelInfo"},{"label":"Secondary Fuel Type","value":"secondaryFuelInfo"},
+{"label":"Unit Type","value":"unitTypeInfo"},{"label":"SO2 Controls","value":"so2ControlInfo"},{"label":"PM Controls","value":"partControlInfo"},{"label":"NOx Controls","value":"noxControlInfo"},
+{"label":"Hg Controls","value":"hgControlInfo"},{"label":"Program","value":"prgCodeInfo"}];
 
 const dataPreview = [
   {
@@ -187,19 +70,34 @@ initialState.filterCriteria = {
   controlTechnology: [],
 };
 const store = configureStore(initialState);
+const columns = () =>
+    fieldMappings.map(el => ({
+      name: el.label,
+      selector: el.value,
+      sortable: true
+    }));
+
+  const data = () => {
+    let result = [];
+    if (dataPreview !== null) {
+      result = dataPreview.map((d,i)=>{
+        d['id'] = i;
+        return d;
+      });
+    }
+    return result;
+  };
 
 describe('ManageDataPreview', () => {
   test('Check that the  component properly renders', () => {
     const { getByText } = render(
-      <Provider store={store}>
-        <DataPreviewRender
-          loading={0}
-          dataPreview={dataPreview}
-          columns={columns}
-          data={getHourlyEmissionsTableRecords(dataPreview)}
-          totalCount={1}
+      <DataPreviewRender
+        loading={1}
+        dataPreview={dataPreview}
+        columns={columns}
+        data={data}
+        totalCount={1}
         />
-      </Provider>
     );
     const dataPreviewHeader = getByText('Data Preview');
     expect(dataPreviewHeader).toBeDefined();

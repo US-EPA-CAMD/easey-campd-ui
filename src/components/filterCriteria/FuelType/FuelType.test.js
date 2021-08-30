@@ -128,6 +128,7 @@ describe('Fuel Type', () => {
           updateProgramSelectionDispatcher={jest.fn()}
           addAppliedFilterDispatcher={jest.fn()}
           removeAppliedFilterDispatcher={jest.fn()}
+          renderedHandler ={jest.fn()}
         />
       </Provider>
     );
@@ -145,7 +146,7 @@ describe('Fuel Type', () => {
     const selectAllCheckBoxes = getAllByTestId('select-all');
     expect(selectAllCheckBoxes).toHaveLength(4);
 
-    const checkbox = getAllByRole('checkbox');
+    const checkbox = getAllByRole('input');
     expect(checkbox).toHaveLength(
       storeFuelType[0].items.length +
         storeFuelType[1].items.length +
@@ -157,14 +158,14 @@ describe('Fuel Type', () => {
 
   it('handles checkbox selection appropriately', () => {
     const { getByRole } = queries;
-    const coalCheckbox = getByRole('checkbox', {
-      name: 'Coal (C)',
+    const coalCheckbox = getByRole('input', {
+      id: 'Coal',
     });
     fireEvent.click(coalCheckbox);
     expect(coalCheckbox.checked).toEqual(true);
 
-    const selectAllGas = getByRole('checkbox', {
-      name: 'Gas',
+    const selectAllGas = getByRole('input', {
+      id: 'Gas',
     });
     fireEvent.click(selectAllGas);
     expect(selectAllGas.checked).toEqual(true);

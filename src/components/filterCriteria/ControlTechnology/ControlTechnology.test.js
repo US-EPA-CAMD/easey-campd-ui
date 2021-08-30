@@ -240,6 +240,7 @@ describe('Control technology', () => {
           updateProgramSelectionDispatcher={jest.fn()}
           addAppliedFilterDispatcher={jest.fn()}
           removeAppliedFilterDispatcher={jest.fn()}
+          renderedHandler ={jest.fn()}
         />
       </Provider>
     );
@@ -258,7 +259,7 @@ describe('Control technology', () => {
     const selectAllCheckBoxes = getAllByTestId('select-all');
     expect(selectAllCheckBoxes).toHaveLength(5);
 
-    const checkbox = getAllByRole('checkbox');
+    const checkbox = getAllByRole('input', {type:"checkbox"});
     expect(checkbox).toHaveLength(
       storeControlTechnology[0].items.length +
         storeControlTechnology[1].items.length +
@@ -271,14 +272,14 @@ describe('Control technology', () => {
 
   it('handles checkbox selection appropriately', () => {
     const { getByRole } = queries;
-    const wlCheckbox = getByRole('checkbox', {
-      name: 'Wet Limestone (WLS)',
+    const AllMercury = getByRole('input', {
+      name: 'Mercury',
     });
-    fireEvent.click(wlCheckbox);
-    expect(wlCheckbox.checked).toEqual(true);
+    fireEvent.click(AllMercury);
+    expect(AllMercury.checked).toEqual(true);
 
-    const selectAllNox = getByRole('checkbox', {
-      name: 'Nitrogen Oxides (NOX)',
+    const selectAllNox = getByRole('input', {
+      id: 'Nitrogen Oxides',
     });
     fireEvent.click(selectAllNox);
     expect(selectAllNox.checked).toEqual(true);

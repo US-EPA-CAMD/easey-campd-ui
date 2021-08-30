@@ -14,6 +14,12 @@ initialState.filterCriteria.timePeriod = {
   startDate: '2019-01-01',
   endDate: '2019-01-01',
   opHrsOnly: false,
+  year: {
+    yearArray: [2019,2020],
+    yearString: '2019,2020',
+  },
+  month: [1,3,5],
+  quarter: [],
 };
 let store = configureStore(initialState);
 
