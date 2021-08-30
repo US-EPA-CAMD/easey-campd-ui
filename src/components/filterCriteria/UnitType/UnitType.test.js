@@ -179,6 +179,7 @@ describe('Unit Type', () => {
           updateUnitTypeSelectionDispatcher={jest.fn()}
           addAppliedFilterDispatcher={jest.fn()}
           removeAppliedFilterDispatcher={jest.fn()}
+          renderedHandler={jest.fn()}
         />
       </Provider>
     );
@@ -206,14 +207,14 @@ describe('Unit Type', () => {
 
   it('handles checkbox selection appropriately and applies them', () => {
     const { getByRole } = queries;
-    const afbCheckbox = getByRole('checkbox', {
-      name: 'Arch-fired boiler (AF)',
+    const afbCheckbox = getByRole('input', {
+      id: 'AF',
     });
     fireEvent.click(afbCheckbox);
     expect(afbCheckbox.checked).toEqual(true);
 
-    const selectAllBoilers = getByRole('checkbox', {
-      name: 'Boilers',
+    const selectAllBoilers = getByRole('input', {
+      id: 'Boilers',
     });
     fireEvent.click(selectAllBoilers);
     expect(selectAllBoilers.checked).toEqual(true);
@@ -223,7 +224,7 @@ describe('Unit Type', () => {
     });
     fireEvent.click(applyButton);
 
-    const klnCheckbox = getByRole('checkbox', {
+    const klnCheckbox = getByRole('input', {
       name: 'Cement Kiln (KLN)',
     });
     fireEvent.click(klnCheckbox);

@@ -230,6 +230,7 @@ describe("Hourly Emissions Program", () => {
           updateProgramSelectionDispatcher={jest.fn()}
           addAppliedFilterDispatcher={jest.fn()}
           removeAppliedFilterDispatcher={jest.fn()}
+          renderedHandler ={jest.fn()}
           />
       </Provider>);
   });

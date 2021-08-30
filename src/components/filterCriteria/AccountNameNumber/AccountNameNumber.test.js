@@ -72,6 +72,7 @@ describe('Account Name/Number Component', () => {
           addAppliedFilterDispatcher={jest.fn()}
           removeAppliedFilterDispatcher={jest.fn()}
           closeFlyOutHandler={() => (flyOutClosed = true)}
+          renderedHandler={jest.fn()}
         />
       </Provider>
     );
