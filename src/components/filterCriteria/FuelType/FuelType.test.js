@@ -146,7 +146,7 @@ describe('Fuel Type', () => {
     const selectAllCheckBoxes = getAllByTestId('select-all');
     expect(selectAllCheckBoxes).toHaveLength(4);
 
-    const checkbox = getAllByRole('input');
+    const checkbox = getAllByRole('checkbox');
     expect(checkbox).toHaveLength(
       storeFuelType[0].items.length +
         storeFuelType[1].items.length +
@@ -158,14 +158,14 @@ describe('Fuel Type', () => {
 
   it('handles checkbox selection appropriately', () => {
     const { getByRole } = queries;
-    const coalCheckbox = getByRole('input', {
-      id: 'Coal',
+    const coalCheckbox = getByRole('checkbox', {
+      name: 'Coal (C)',
     });
     fireEvent.click(coalCheckbox);
     expect(coalCheckbox.checked).toEqual(true);
 
-    const selectAllGas = getByRole('input', {
-      id: 'Gas',
+    const selectAllGas = getByRole('checkbox', {
+      name: 'All Gas',
     });
     fireEvent.click(selectAllGas);
     expect(selectAllGas.checked).toEqual(true);

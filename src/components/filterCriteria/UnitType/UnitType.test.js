@@ -207,14 +207,14 @@ describe('Unit Type', () => {
 
   it('handles checkbox selection appropriately and applies them', () => {
     const { getByRole } = queries;
-    const afbCheckbox = getByRole('input', {
-      id: 'AF',
+    const afbCheckbox = getByRole('checkbox', {
+      name: 'Arch-fired boiler (AF)',
     });
     fireEvent.click(afbCheckbox);
     expect(afbCheckbox.checked).toEqual(true);
 
-    const selectAllBoilers = getByRole('input', {
-      id: 'Boilers',
+    const selectAllBoilers = getByRole('checkbox', {
+      name: 'All Boilers',
     });
     fireEvent.click(selectAllBoilers);
     expect(selectAllBoilers.checked).toEqual(true);
@@ -224,7 +224,7 @@ describe('Unit Type', () => {
     });
     fireEvent.click(applyButton);
 
-    const klnCheckbox = getByRole('input', {
+    const klnCheckbox = getByRole('checkbox', {
       name: 'Cement Kiln (KLN)',
     });
     fireEvent.click(klnCheckbox);

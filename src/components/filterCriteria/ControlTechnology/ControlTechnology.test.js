@@ -259,7 +259,7 @@ describe('Control technology', () => {
     const selectAllCheckBoxes = getAllByTestId('select-all');
     expect(selectAllCheckBoxes).toHaveLength(5);
 
-    const checkbox = getAllByRole('input', {type:"checkbox"});
+    const checkbox = getAllByRole('checkbox');
     expect(checkbox).toHaveLength(
       storeControlTechnology[0].items.length +
         storeControlTechnology[1].items.length +
@@ -272,14 +272,14 @@ describe('Control technology', () => {
 
   it('handles checkbox selection appropriately', () => {
     const { getByRole } = queries;
-    const AllMercury = getByRole('input', {
-      name: 'Mercury',
+    const wlCheckbox = getByRole('checkbox', {
+      name: 'Wet Limestone (WLS)',
     });
-    fireEvent.click(AllMercury);
-    expect(AllMercury.checked).toEqual(true);
+    fireEvent.click(wlCheckbox);
+    expect(wlCheckbox.checked).toEqual(true);
 
-    const selectAllNox = getByRole('input', {
-      id: 'Nitrogen Oxides',
+    const selectAllNox = getByRole('checkbox', {
+      name: 'All Nitrogen Oxides (NOX)',
     });
     fireEvent.click(selectAllNox);
     expect(selectAllNox.checked).toEqual(true);
