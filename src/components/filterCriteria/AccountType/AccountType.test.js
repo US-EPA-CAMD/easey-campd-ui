@@ -135,7 +135,7 @@ describe('Account Type', () => {
     const selectAllCheckBoxes = getAllByTestId('select-all');
     expect(selectAllCheckBoxes).toHaveLength(5);
 
-    const checkbox = getAllByRole('input',{type:"checkbox"});
+    const checkbox = getAllByRole('checkbox');
     expect(checkbox).toHaveLength(
       storeAccountType[0].items.length +
         storeAccountType[1].items.length +
@@ -148,17 +148,17 @@ describe('Account Type', () => {
 
   it('handles checkbox selection appropriately and applies them', () => {
     const { getByRole } = queries;
-    const saCheckbox = getByRole('input', {
-      id: 'Surrender',
+    const saCheckbox = getByRole('checkbox', {
+      name: 'Surrender Account (SURR)',
     });
     fireEvent.click(saCheckbox);
     expect(saCheckbox.checked).toEqual(true);
 
-    const selectAllReserve = getByRole('input', {
-      id: 'Reserve',
+    const selectAllRetire = getByRole('checkbox', {
+      name: 'All Surrender',
     });
-    fireEvent.click(selectAllReserve);
-    expect(selectAllReserve.checked).toEqual(true);
+    fireEvent.click(selectAllRetire);
+    expect(selectAllRetire.checked).toEqual(true);
 
     const applyButton = getByRole('button', {
       name: 'Apply Filter',

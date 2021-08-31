@@ -699,8 +699,8 @@ describe("Filter Criteria Async Actions", () => {
       {
         "controlCode": "SB",
         "controlDescription": "Sodium Based",
-        "controlEquipParamCode": "SO2",
-        "controlEquipParamDescription": "Sulfur Dioxide"
+        "controlEquipParamCode": null,
+        "controlEquipParamDescription": "Other"
       },
       {
         "controlCode": "SCR",
