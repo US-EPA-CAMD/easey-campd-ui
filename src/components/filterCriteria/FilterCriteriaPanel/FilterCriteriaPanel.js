@@ -9,6 +9,7 @@ import ControlTechnology from "../ControlTechnology/ControlTechnology";
 import {FILTERS_MAP} from "../../../utils/constants/customDataDownload";
 import AccountType from "../AccountType/AccountType";
 import AccountNameNumber from "../AccountNameNumber/AccountNameNumber";
+import OwnerOperator from "../OwnerOperator/OwnerOperator";
 import { focusTrap } from "../../../utils/ensure-508/focus-trap";
 
 const FilterCriteriaPanel = ({
@@ -59,7 +60,8 @@ const FilterCriteriaPanel = ({
     facility: <Facility closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
     stateTerritory: <StateTerritory closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
     accountType: <AccountType closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
-    accountNameNumber: <AccountNameNumber closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>
+    accountNameNumber: <AccountNameNumber closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
+    ownerOperator: <OwnerOperator closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
   }
 
   const hourlyEmissions = {
@@ -121,12 +123,14 @@ const FilterCriteriaPanel = ({
     program: <Program closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
     facility: <Facility closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
     stateTerritory: <StateTerritory closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
+    ownerOperator: <OwnerOperator closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
     timePeriod: <TimePeriod closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} showYear={true} filterToApply={'Year'}/>,
   };
 
   const complianceEmissionsBased = {
     facility: <Facility closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
     stateTerritory: <StateTerritory closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
+    ownerOperator: <OwnerOperator closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
   }
 
   const emissionsSubTypes = Object.keys(FILTERS_MAP.EMISSIONS);

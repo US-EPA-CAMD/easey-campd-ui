@@ -257,3 +257,33 @@ export function updateAccountNameNumberSelection(accountNameNumber){
     accountNameNumber,
   }
 }
+
+/* ---------ACCOUNT NAME/NUMBER---------- */
+export function loadOwnerOperatorsSuccess(ownerOperators) {
+  const distinctOwnOpers = [...new Set(ownerOperators.map(d=>d.ownerOperator))];
+  return {
+    type: types.LOAD_OWNER_OPERATOR_SUCCESS,
+    ownerOperator: distinctOwnOpers.map(s=> ({id: s, label: s, selected:false}))
+  };
+}
+
+export function loadOwnerOperators(dataSubType) {
+  return (dispatch) => {
+    dispatch(beginApiCall());
+    return filterCriteriaApi
+      .getOwnerOperators(dataSubType)
+      .then((res) => {
+        dispatch(loadOwnerOperatorsSuccess(res.data));
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+}
+
+export function updateOwnerOperatorSelection(ownerOperator){
+  return {
+    type: types.UPDATE_OWNER_OPERATOR_SELECTION,
+    ownerOperator,
+  }
+}

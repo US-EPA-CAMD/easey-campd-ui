@@ -39,7 +39,11 @@ export const constructTimePeriodQuery = (dataSubType, filterCriteria) => {
       )}`;
     case 'holdings':
     case 'transactions':
-      return `&transactionBeginDate=${filterCriteria.timePeriod.startDate}&transactionEndDate=${filterCriteria.timePeriod.endDate}${constructQuery(
+      let timePeriodQuery='&';
+      if(filterCriteria.timePeriod.startDate && filterCriteria.timePeriod.endDate){
+        timePeriodQuery += `transactionBeginDate=${filterCriteria.timePeriod.startDate}&transactionEndDate=${filterCriteria.timePeriod.endDate}`;
+      }
+      return `${timePeriodQuery}${constructQuery(
         filterCriteria.timePeriod.year.yearArray,
         'vintageYear',
         true
