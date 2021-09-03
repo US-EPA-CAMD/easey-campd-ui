@@ -10,7 +10,7 @@ export const ACCOUNT_INFO_FILTERS = [
   { value: 'Account Type', stateVar:'accountType', label: 'ACCOUNT TYPE (Optional)' },
   { value: 'Account Name/Number', stateVar: 'accountNameNumber', label: 'ACCOUNT NAME/NUMBER (Optional)' },
   { value: 'Facility', stateVar: 'facility', label: 'FACILITY (Optional)' },
-  { value: 'Owner Operator', label: 'OWNER/OPERATOR (Optional)' },
+  { value: 'Owner Operator', stateVar:'ownerOperator', label: 'OWNER/OPERATOR (Optional)' },
   { value: 'State/Territory', stateVar: 'stateTerritory', label: 'STATE/TERRITORY (Optional)' },
 ];
 

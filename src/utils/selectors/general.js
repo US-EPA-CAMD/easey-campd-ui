@@ -152,6 +152,9 @@ export const constructRequestUrl = (
   const accountTypeQuery = filterCriteria.accountType
   ? constructQuery(filterCriteria.accountType, 'accountType')
   : '';
+  const ownerOperatorQuery = filterCriteria.ownerOperator
+  ? constructComboBoxQuery(filterCriteria.ownerOperator, 'ownerOperator')
+  : '';
 
   const pagination = download ? '' : 'page=1&perPage=100';
   const attachFile = download ? '&attachFile=true' : '&attachFile=false';
@@ -179,7 +182,8 @@ export const constructRequestUrl = (
   const url = `${apiService}${subTypeService}?${pagination}${constructTimePeriodQuery(
     dataSubType,
     filterCriteria
-  )}${programQuery}${facilityQuery}${stateTerritoryQuery}${unitTypeQuery}${fuelTypeQuery}${controlTechnologyQuery}${accountNameNumberQuery}${accountTypeQuery}${attachFile}`;
+  )}${programQuery}${facilityQuery}${stateTerritoryQuery}${unitTypeQuery}${fuelTypeQuery}${controlTechnologyQuery}
+${accountNameNumberQuery}${accountTypeQuery}${ownerOperatorQuery}${attachFile}`;
   console.log(url.replace(/\r?\n|\r/g, ''));
 
   return url.replace(/\r?\n|\r/g, '');

@@ -36,11 +36,26 @@ export async function getAllFacilities() {
     .catch(handleError);
 }
 
-export async function getAllAccounts() {
-  const url = `${config.services.account.uri}/accounts`;
+export async function getDataFromAccounts(endpoint) {
+  const url = `${config.services.account.uri}/${endpoint}`;
   console.log(url);
-  return axios
-    .get(url)
-    .then(handleResponse)
-    .catch(handleError);
+  return axios.get(url).then(handleResponse).catch(handleError);
+}
+
+export function getAllAccounts() {
+  return getDataFromAccounts("accounts");
+}
+
+export function getOwnerOperators(dataSubType) {
+  if(dataSubType === "Holdings"){
+    return getDataFromAccounts("allowance-holdings/owner-operators");
+  }else if(dataSubType === "Transactions"){
+    return getDataFromAccounts("allowance-transactions/owner-operators");
+  }else if(dataSubType === "Emissions Based"){
+    return getDataFromAccounts("emissions-compliance/owner-operators");
+  }else if(dataSubType === "Allowance Based"){
+    return getDataFromAccounts("allowance-compliance/owner-operators");
+  }else if(dataSubType === "Account Information"){
+    return getDataFromAccounts("accounts/owner-operators");
+  }
 }
