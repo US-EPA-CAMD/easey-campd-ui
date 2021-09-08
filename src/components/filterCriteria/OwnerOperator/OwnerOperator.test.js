@@ -74,7 +74,7 @@ describe('Owner Operator Component', () => {
 
   it('renders all elements properely', () => {
     const { getByTestId, getAllByTestId, getByText} = query;
-    expect(getByText("Owner Operator")).toBeInTheDocument();
+    expect(getByText("Owner/Operator")).toBeInTheDocument();
     const searchbox = getByTestId("input-search");
     expect(searchbox).toBeInTheDocument();
     searchbox.focus();

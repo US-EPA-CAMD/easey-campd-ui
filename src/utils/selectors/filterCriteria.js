@@ -45,6 +45,10 @@ export const resetFilterHelper = (state, filterToReset, resetAll = false) => {
       return Object.assign({}, state, {
         timePeriod: {...state.timePeriod, startDate: null, endDate: null},
       });
+    case 'Owner/Operator':
+      return Object.assign({}, state, {
+        ownerOperator: initialState.filterCriteria.ownerOperator,
+      });
     default:
       return state;
   }

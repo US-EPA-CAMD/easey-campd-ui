@@ -43,6 +43,17 @@ const mapSelectionToApiCall = (dataType, dataSubType, filterCriteria) => {
       default:
         console.log(notFound);
     }
+  } else if (dataType === 'COMPLIANCE') {
+    switch (dataSubType) {
+      case 'Allowance Based':
+        url = constructRequestUrl('compliance', 'allowance based', filterCriteria);
+        break;
+      case 'Emissions Based':
+        url = 'placeholder';
+        break;
+      default:
+        console.log(notFound);
+    }
   }
 
   return axios

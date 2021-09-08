@@ -48,6 +48,12 @@ export const constructTimePeriodQuery = (dataSubType, filterCriteria) => {
         'vintageYear',
         true
       )}`;
+      case 'allowance based':
+      return `${constructQuery(
+        filterCriteria.timePeriod.year.yearArray,
+        'year',
+        true
+      )}`;
     default:
       return '';
   }
