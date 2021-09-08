@@ -165,11 +165,9 @@ export const constructRequestUrl = (
       apiService = `${config.services.emissions.uri}/apportioned/`;
       break;
     case 'allowance':
+    case 'compliance':
       apiService = `${config.services.account.uri}/`;
       break;
-    // case 'compliance':
-    //   apiService = `${config.services.compliance.uri}/compliance/`;
-    //   break;
     default:
       apiService = '';
       break;

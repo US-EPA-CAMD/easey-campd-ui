@@ -22,7 +22,7 @@ const OwnerOperator = ({
 
   const [_ownerOperator, setOwnerOperator] = useState(JSON.parse(JSON.stringify(ownerOperator)));
 
-  const filterToApply = "Owner Operator";
+  const filterToApply = "Owner/Operator";
 
   useEffect(()=>{
     if(ownerOperator.length===0){
