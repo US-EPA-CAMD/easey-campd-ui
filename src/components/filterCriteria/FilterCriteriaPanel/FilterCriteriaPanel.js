@@ -62,6 +62,13 @@ const FilterCriteriaPanel = ({
     accountType: <AccountType closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
     accountNameNumber: <AccountNameNumber closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
     ownerOperator: <OwnerOperator closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
+  };
+
+  const compliances = {
+    facility: <Facility closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
+    stateTerritory: <StateTerritory closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
+    ownerOperator: <OwnerOperator closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
+    timePeriod: <TimePeriod closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} showYear={true} filterToApply={'Year'}/>,
   }
 
   const hourlyEmissions = {
@@ -121,16 +128,11 @@ const FilterCriteriaPanel = ({
 
   const complianceAllownaceBased = {
     program: <Program closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
-    facility: <Facility closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
-    stateTerritory: <StateTerritory closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
-    ownerOperator: <OwnerOperator closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
-    timePeriod: <TimePeriod closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} showYear={true} filterToApply={'Year'}/>,
+    ...compliances,
   };
 
   const complianceEmissionsBased = {
-    facility: <Facility closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
-    stateTerritory: <StateTerritory closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
-    ownerOperator: <OwnerOperator closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
+    ...compliances
   }
 
   const emissionsSubTypes = Object.keys(FILTERS_MAP.EMISSIONS);

@@ -37,6 +37,7 @@ export const resetFilterHelper = (state, filterToReset, resetAll = false) => {
       return Object.assign({}, state, {
         accountNameNumber: initialState.filterCriteria.accountNameNumber,
       });
+    case 'Year':
     case 'Vintage Year':
       return Object.assign({}, state, {
         timePeriod: {...state.timePeriod, year: initialState.filterCriteria.timePeriod.year},
