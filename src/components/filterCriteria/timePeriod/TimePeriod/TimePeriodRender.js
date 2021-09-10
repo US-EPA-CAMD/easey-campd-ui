@@ -31,6 +31,7 @@ const TimePeriodRender = ({
   showQuarter,
   isAnnual,
   isAllowance,
+  minYear,
 }) => {
 
   const isApplyFilterDisabled = () => {
@@ -71,6 +72,7 @@ const TimePeriodRender = ({
           isFormValid={isFormValid}
           isAnnual={isAnnual}
           isAllowance={isAllowance}
+          minYear={minYear}
         />
       ) : (
         <TimePeriodFullDate

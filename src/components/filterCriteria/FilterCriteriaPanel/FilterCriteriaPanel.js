@@ -68,7 +68,6 @@ const FilterCriteriaPanel = ({
     facility: <Facility closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
     stateTerritory: <StateTerritory closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
     ownerOperator: <OwnerOperator closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
-    timePeriod: <TimePeriod closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} showYear={true} filterToApply={'Year'}/>,
   }
 
   const hourlyEmissions = {
@@ -129,10 +128,12 @@ const FilterCriteriaPanel = ({
   const complianceAllownaceBased = {
     program: <Program closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
     ...compliances,
+    timePeriod: <TimePeriod closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} showYear={true} filterToApply={'Year'}/>,
   };
 
   const complianceEmissionsBased = {
-    ...compliances
+    ...compliances,
+    timePeriod: <TimePeriod closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} showYear={true} filterToApply={'Year'} minYear={1996}/>,
   }
 
   const emissionsSubTypes = Object.keys(FILTERS_MAP.EMISSIONS);

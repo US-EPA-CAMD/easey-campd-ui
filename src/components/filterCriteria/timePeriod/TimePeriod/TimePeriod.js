@@ -36,6 +36,7 @@ export const TimePeriod = ({
   showQuarter=false,
   isAnnual=false,
   isAllowance=false,
+  minYear=1995,
   renderedHandler,
 }) => {
   const [formState, setFormState] = useState({
@@ -109,7 +110,8 @@ export const TimePeriod = ({
         updatedValidations['validReportingQuarter'] = isInYearRange(
           formatYearsToArray(formState.year),
           isAnnual,
-          isAllowance
+          isAllowance, 
+          minYear,
         );
       }
     } else {
@@ -286,6 +288,7 @@ export const TimePeriod = ({
       showQuarter={showQuarter}
       isAnnual={isAnnual}
       isAllowance={isAllowance}
+      minYear={minYear}
     />
   );
 };
