@@ -30,19 +30,19 @@ export const TimePeriod = ({
   appliedFilters,
   filterToApply,
   closeFlyOutHandler,
-  showOpHrsOnly=true,
-  showYear=false,
-  showMonth=false,
-  showQuarter=false,
-  isAnnual=false,
-  isAllowance=false,
-  minYear=1995,
+  showOpHrsOnly = true,
+  showYear = false,
+  showMonth = false,
+  showQuarter = false,
+  isAnnual = false,
+  isAllowance = false,
+  minYear = 1995,
   renderedHandler,
 }) => {
   const [formState, setFormState] = useState({
     startDate: formatDateToUi(timePeriod.startDate),
     endDate: formatDateToUi(timePeriod.endDate),
-    opHrsOnly: showOpHrsOnly? timePeriod.opHrsOnly: false,
+    opHrsOnly: showOpHrsOnly ? timePeriod.opHrsOnly : false,
     year: showYear ? timePeriod.year.yearString : '',
     month: showMonth ? timePeriod.month : [],
     quarter: showQuarter ? timePeriod.quarter : [],
@@ -76,17 +76,29 @@ export const TimePeriod = ({
   useEffect(() => {
     renderedHandler();
     if (showMonth && timePeriod.month.length === 0) {
-      updateTimePeriodDispatcher({...timePeriod, month: JSON.parse(JSON.stringify(constants.MONTHS))});
+      updateTimePeriodDispatcher({
+        ...timePeriod,
+        month: JSON.parse(JSON.stringify(constants.MONTHS)),
+      });
     } else if (showQuarter && timePeriod.quarter.length === 0) {
-      updateTimePeriodDispatcher({...timePeriod, quarter: JSON.parse(JSON.stringify(constants.QUARTERS))});
+      updateTimePeriodDispatcher({
+        ...timePeriod,
+        quarter: JSON.parse(JSON.stringify(constants.QUARTERS)),
+      });
     } // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     if (showMonth) {
-      setFormState({...formState, month: JSON.parse(JSON.stringify(timePeriod.month))});
+      setFormState({
+        ...formState,
+        month: JSON.parse(JSON.stringify(timePeriod.month)),
+      });
     } else if (showQuarter) {
-      setFormState({...formState, quarter: JSON.parse(JSON.stringify(timePeriod.quarter))});
+      setFormState({
+        ...formState,
+        quarter: JSON.parse(JSON.stringify(timePeriod.quarter)),
+      });
     } // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [timePeriod.month, timePeriod.quarter]);
 
@@ -109,9 +121,9 @@ export const TimePeriod = ({
       } else {
         updatedValidations['validReportingQuarter'] = isInYearRange(
           formatYearsToArray(formState.year),
-          isAnnual,
-          isAllowance, 
           minYear,
+          isAnnual,
+          isAllowance,
         );
       }
     } else {
@@ -131,7 +143,11 @@ export const TimePeriod = ({
         );
         const minDate = isAllowance ? '1993-03-23' : '1995-01-01';
         updatedValidations['validReportingQuarter'] =
-          isInValidDateRange(formState.startDate, new Date(minDate), isAllowance) &&
+          isInValidDateRange(
+            formState.startDate,
+            new Date(minDate),
+            isAllowance
+          ) &&
           isInValidDateRange(formState.endDate, new Date(minDate), isAllowance);
       } else {
         updatedValidations['dateRange'] = false;
@@ -163,7 +179,7 @@ export const TimePeriod = ({
   };
 
   const handleYearUpdate = (event) => {
-    setFormState({ ...formState, year: event.target.value.replace(/ /g,'') });
+    setFormState({ ...formState, year: event.target.value.replace(/ /g, '') });
   };
 
   const handleMonthUpdate = (evt) => {
@@ -185,7 +201,8 @@ export const TimePeriod = ({
   };
 
   const onSelectAllHandler = (evt) => {
-    const items = evt.target.name === 'month' ? formState.month : formState.quarter;
+    const items =
+      evt.target.name === 'month' ? formState.month : formState.quarter;
 
     items.forEach((i) => {
       i.selected = evt.target.checked;
@@ -229,18 +246,27 @@ export const TimePeriod = ({
 
     let appendMonthOrQuarter;
     if (showMonth) {
-      appendMonthOrQuarter = `; ${formatMonthsToApiOrString(formState.month, true).join(', ')}`;
+      appendMonthOrQuarter = `; ${formatMonthsToApiOrString(
+        formState.month,
+        true
+      ).join(', ')}`;
     } else if (showQuarter) {
-      appendMonthOrQuarter = `; ${formatQuartersToApiOrString(formState.quarter, true).join(', ')}`;
+      appendMonthOrQuarter = `; ${formatQuartersToApiOrString(
+        formState.quarter,
+        true
+      ).join(', ')}`;
     } else {
       appendMonthOrQuarter = '';
     }
 
     addAppliedFilterDispatcher({
       key: filterToApply,
-      values: [`${formState.year}${appendMonthOrQuarter}`, 'filter tag year value'],
+      values: [
+        `${formState.year}${appendMonthOrQuarter}`,
+        'filter tag year value',
+      ],
     });
-  }
+  };
 
   const updateFullDateHelper = () => {
     updateTimePeriodDispatcher({
@@ -264,7 +290,7 @@ export const TimePeriod = ({
         values: ['Operating Hours Only'],
       });
     }
-  }
+  };
 
   return (
     <TimePeriodRender

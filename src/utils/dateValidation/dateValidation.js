@@ -63,7 +63,7 @@ export const isYearFormat = (yearString) => {
   return valid;
 };
 
-export const isInYearRange = (yearArray, isAnnual = false, isAllowance = false, minYear) => {
+export const isInYearRange = (yearArray, minYear, isAnnual = false, isAllowance = false) => {
   const curYear = new Date().getFullYear();
   let result = false;
   yearArray.forEach((year) => {
