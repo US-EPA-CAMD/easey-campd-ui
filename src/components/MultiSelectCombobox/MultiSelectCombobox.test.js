@@ -329,11 +329,18 @@ describe('MultiSelectCombobox Component', () => {
   });
 
   test('It should search using input box for facilities in listboxt', () => {
-    const { getByTestId, getAllByTestId} = query;
+    const { getByTestId, getAllByTestId, getByRole} = query;
     const searchbox = getByTestId("input-search");
     searchbox.click();
     fireEvent.change(searchbox, { target: { value: 'Barry' } })
     expect(searchbox.value).toBe('Barry');
     expect(within(getByTestId("multi-select-listbox")).getAllByTestId('multi-select-option').length).toBe(1);
+    fireEvent.keyDown(searchbox, {key: 'Tab', code: 9});
+    fireEvent.keyDown(searchbox, {key: 'Enter', code: 'Enter'})
+    expect(searchbox.value).toBe('Barry');
+    expect(getAllByTestId("multi-select-option").length).toBe(1);
+    fireEvent.click(getByTestId("multi-select-option"));
+    expect(getByRole("button", {name: "Barry (3)"})).toBeDefined();
+    //expect(getAllByTestId("multi-select-option").length).toBe(facilities.length);
   })
 });

@@ -46,6 +46,10 @@ const reducer = (state = initialState.filterCriteria, action) => {
       return Object.assign({}, state, { ownerOperator: action.ownerOperator });
     case types.UPDATE_OWNER_OPERATOR_SELECTION:
       return Object.assign({}, state, { ownerOperator: action.ownerOperator });
+    case types.LOAD_TRANSACTION_TYPE_SUCCESS:
+      return Object.assign({}, state, { transactionType: action.transactionType });
+    case types.UPDATE_TRANSACTION_TYPE_SELECTION:
+      return Object.assign({}, state, { transactionType: action.transactionType });
       default:
       return state;
   }

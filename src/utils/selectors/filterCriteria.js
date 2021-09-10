@@ -50,6 +50,10 @@ export const resetFilterHelper = (state, filterToReset, resetAll = false) => {
       return Object.assign({}, state, {
         ownerOperator: initialState.filterCriteria.ownerOperator,
       });
+    case 'Transaction Type':
+      return Object.assign({}, state, {
+        transactionType: initialState.filterCriteria.transactionType,
+      });
     default:
       return state;
   }

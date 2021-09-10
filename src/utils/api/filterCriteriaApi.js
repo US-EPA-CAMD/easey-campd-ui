@@ -26,6 +26,7 @@ export const getFuelTypes = getDataFromMDM('fuel-types');
 export const getStates = getDataFromMDM('states');
 export const getControlTechnologies = getDataFromMDM('control-technologies');
 export const getAccountTypes = getDataFromMDM('account-types?exclude=SHOLD|OVERDF');
+export const getTransactionTypes = getDataFromMDM('transaction-types');
 
 export async function getAllFacilities() {
   const url = `${config.services.facilities.uri}/facilities`;
