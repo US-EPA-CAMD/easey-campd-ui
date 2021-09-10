@@ -1,7 +1,7 @@
 export const COMPLIANCES_DATA_SUBTYPES = [
   { value: '', label: '- Select -' },
   { value: 1, label: 'Allowance Based', service: 'allowance-compliance', required: ['none'] },
-  { value: 2, label: 'Emissions Based', required: ['none'] },
+  { value: 2, label: 'Emissions Based', service: 'emissions-compliance', required: ['none'] },
 ];
 
 export const EMISSIONS_BASED_FILTERS = [

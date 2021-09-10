@@ -49,7 +49,7 @@ const mapSelectionToApiCall = (dataType, dataSubType, filterCriteria) => {
         url = constructRequestUrl('compliance', 'allowance based', filterCriteria);
         break;
       case 'Emissions Based':
-        url = 'placeholder';
+        url = constructRequestUrl('compliance', 'emissions based', filterCriteria);
         break;
       default:
         console.log(notFound);
