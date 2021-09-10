@@ -49,11 +49,12 @@ export const constructTimePeriodQuery = (dataSubType, filterCriteria) => {
         true
       )}`;
       case 'allowance based':
-      return `${constructQuery(
-        filterCriteria.timePeriod.year.yearArray,
-        'year',
-        true
-      )}`;
+      case 'emissions based':
+        return `${constructQuery(
+          filterCriteria.timePeriod.year.yearArray,
+          'year',
+          true
+        )}`;
     default:
       return '';
   }
