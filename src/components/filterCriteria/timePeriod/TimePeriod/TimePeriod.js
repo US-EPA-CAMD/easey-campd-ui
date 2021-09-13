@@ -116,6 +116,7 @@ export const TimePeriod = ({
       } else if (showQuarter) {
         updatedValidations['validReportingQuarter'] = isInValidReportingQuarter(
           formState.year,
+          minYear,
           formatQuartersToApiOrString(formState.quarter),
           [1, 2, 3]
         );
