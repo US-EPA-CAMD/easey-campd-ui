@@ -94,11 +94,12 @@ export const isInValidDateRange = (date, minDate, isAllowance=false) => {
 
 export const isInValidReportingQuarter = (
   yearString,
+  minYear,
   monthOrQuarterArray,
   values
 ) => {
   const yearArray = formatYearsToArray(yearString);
-  if (!isInYearRange(yearArray)) {
+  if (!isInYearRange(yearArray, minYear)) {
     return false;
   }
 

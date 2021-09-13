@@ -109,6 +109,7 @@ export const TimePeriod = ({
       if (showMonth) {
         updatedValidations['validReportingQuarter'] = isInValidReportingQuarter(
           formState.year,
+          minYear,
           formatMonthsToApiOrString(formState.month),
           [3, 6, 9]
         );
