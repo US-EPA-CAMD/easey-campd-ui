@@ -10,6 +10,8 @@ import Facility from './Facility';
 import configureStore from "../../../store/configureStore.dev";
 import { Provider } from "react-redux";
 import initialState from "../../../store/reducers/initialState";
+import { loadFacilities, updateFacilitySelection } from "../../../store/actions/customDataDownload/filterCriteria";
+import { addAppliedFilter, removeAppliedFilter } from "../../../store/actions/customDataDownload/customDataDownload";
 
 const facilities = [
   {
@@ -303,10 +305,10 @@ describe('Facility Component', () => {
       <Provider 
         store={store}>
         <Facility
-          loadFacilitiesDispatcher ={jest.fn()}
-          updateFacilitySelectionDispacher ={jest.fn()}
-          addAppliedFilterDispatcher ={jest.fn()}
-          removeAppliedFilterDispatcher ={jest.fn()}
+          loadFacilitiesDispatcher ={loadFacilities}
+          updateFacilitySelectionDispacher ={updateFacilitySelection}
+          addAppliedFilterDispatcher ={addAppliedFilter}
+          removeAppliedFilterDispatcher ={removeAppliedFilter}
           closeFlyOutHandler ={()=> flyOutClosed=true}
           renderedHandler ={jest.fn()}
         />
@@ -333,13 +335,22 @@ describe('Facility Component', () => {
     expect(flyOutClosed).toBe(true);
   });
 
-  test('It should search using input box for facilities in listboxt', () => {
-    const { getByTestId, getAllByTestId} = query;
+  test('It should search using input box for facilities in listboxt and add selection to apply filter', () => {
+    const { getByTestId, getAllByTestId, getByRole, getByText} = query;
     const searchbox = getByTestId("input-search");
     searchbox.focus();
     fireEvent.click(searchbox);
     fireEvent.change(searchbox, { target: { value: 'Barry' } })
     expect(searchbox.value).toBe('Barry');
     expect(within(getByTestId("multi-select-listbox")).getAllByTestId('multi-select-option').length).toBe(1);
+    fireEvent.keyDown(searchbox, {key: 'Tab', code: 9});
+    fireEvent.keyDown(searchbox, {key: 'Enter', code: 'Enter'})
+    expect(searchbox.value).toBe('Barry');
+    expect(getAllByTestId("multi-select-option").length).toBe(1);
+    fireEvent.click(getByTestId("multi-select-option"));
+    expect(getByRole("button", {name: "Barry (3)"})).toBeDefined();
+    expect(getAllByTestId("multi-select-option").length).toBe(facilities.length);
+    fireEvent.click(getByText("Apply Filter"));
+    expect(flyOutClosed).toBe(true);
   })
 });

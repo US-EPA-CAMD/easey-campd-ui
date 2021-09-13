@@ -22,5 +22,5 @@ export const ALLOWANCE_HOLDINGS_FILTERS = [
 export const ALLOWANCE_TRANSACTIONS_FILTERS = [
   { value: 'Transaction Date', stateVar: 'transactionDate', label: 'TRANSACTION DATE (Required)' },
   ...ALLOWANCE_HOLDINGS_FILTERS,
-  { value: 'transactionType', label: 'TRANSACTION TYPE (Optional)' },
+  { value: 'Transaction Type', stateVar: 'transactionType', label: 'TRANSACTION TYPE (Optional)' },
 ];

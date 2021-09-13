@@ -10,6 +10,7 @@ import {FILTERS_MAP} from "../../../utils/constants/customDataDownload";
 import AccountType from "../AccountType/AccountType";
 import AccountNameNumber from "../AccountNameNumber/AccountNameNumber";
 import OwnerOperator from "../OwnerOperator/OwnerOperator";
+import TransactionType from "../TransactionType/TransactionType";
 import { focusTrap } from "../../../utils/ensure-508/focus-trap";
 
 const FilterCriteriaPanel = ({
@@ -122,7 +123,8 @@ const FilterCriteriaPanel = ({
         renderedHandler={renderedHandler}
         isAllowance={true}
         filterToApply={'Transaction Date'}
-      />
+      />,
+      transactionType: <TransactionType closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
   };
 
   const complianceAllownaceBased = {

@@ -101,16 +101,19 @@ describe('Account Name/Number Component', () => {
   });
 
   test('It should search using input box for Account Name/Numbers in listboxt', () => {
-    const { getByTestId } = query;
+    const { getByTestId, getAllByTestId, getByRole, getByText } = query;
     const searchbox = getByTestId('input-search');
     searchbox.focus();
     fireEvent.click(searchbox);
     fireEvent.change(searchbox, { target: { value: 'Auction Reserve' } });
     expect(searchbox.value).toBe('Auction Reserve');
-    expect(
-      within(getByTestId('multi-select-listbox')).getAllByTestId(
-        'multi-select-option'
-      ).length
-    ).toBe(1);
+    expect(within(getByTestId("multi-select-listbox")).getAllByTestId('multi-select-option').length).toBe(1);
+    fireEvent.keyDown(searchbox, {key: 'Tab', code: 9});
+    fireEvent.keyDown(searchbox, {key: 'Enter', code: 'Enter'})
+    fireEvent.click(getByTestId("multi-select-option"));
+    expect(getByRole("button", {name: "Auction Reserve (000000000001)"})).toBeDefined();
+    expect(getAllByTestId("multi-select-option").length).toBe(nameNumbers.length);
+    fireEvent.click(getByText("Apply Filter"));
+    expect(flyOutClosed).toBe(true);
   });
 });
