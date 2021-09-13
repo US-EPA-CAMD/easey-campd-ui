@@ -10,6 +10,8 @@ import StateTerritory from './StateTerritory';
 import configureStore from "../../../store/configureStore.dev";
 import { Provider } from "react-redux";
 import initialState from "../../../store/reducers/initialState";
+import { loadStates, updateStateSelection } from "../../../store/actions/customDataDownload/filterCriteria";
+import { addAppliedFilter, removeAppliedFilter } from "../../../store/actions/customDataDownload/customDataDownload";
 
 const states = [{
   "stateCode": "AK",
@@ -82,10 +84,10 @@ describe('State/Territory Component', () => {
       <Provider 
         store={store}>
         <StateTerritory
-          loadStatesDispatcher ={jest.fn()}
-          updateStateSelectionDispacher ={jest.fn()}
-          addAppliedFilterDispatcher ={jest.fn()}
-          removeAppliedFilterDispatcher ={jest.fn()}
+          loadStatesDispatcher ={loadStates}
+          updateStateSelectionDispacher ={updateStateSelection}
+          addAppliedFilterDispatcher ={addAppliedFilter}
+          removeAppliedFilterDispatcher ={removeAppliedFilter}
           closeFlyOutHandler ={()=> flyOutClosed=true}
           renderedHandler={jest.fn()}
         />
@@ -113,12 +115,19 @@ describe('State/Territory Component', () => {
   });
 
   it('It should search using input box for states in listboxt', () => {
-    const { getByTestId, getAllByTestId} = query;
+    const { getByTestId, getAllByTestId, getByRole, getByText} = query;
     const searchbox = getByTestId("input-search");
     searchbox.focus();
     fireEvent.click(searchbox);
     fireEvent.change(searchbox, { target: { value: 'Alaska' } })
     expect(searchbox.value).toBe('Alaska');
     expect(within(getByTestId("multi-select-listbox")).getAllByTestId('multi-select-option').length).toBe(1);
+    fireEvent.keyDown(searchbox, {key: 'Tab', code: 9});
+    fireEvent.keyDown(searchbox, {key: 'Enter', code: 'Enter'})
+    fireEvent.click(getByTestId("multi-select-option"));
+    expect(getByRole("button", {name: "Alaska"})).toBeDefined();
+    expect(getAllByTestId("multi-select-option").length).toBe(states.length);
+    fireEvent.click(getByText("Apply Filter"));
+    expect(flyOutClosed).toBe(true);
   })
 });

@@ -258,7 +258,7 @@ export function updateAccountNameNumberSelection(accountNameNumber){
   }
 }
 
-/* ---------ACCOUNT NAME/NUMBER---------- */
+/* ---------OWNER OPERATOR---------- */
 export function loadOwnerOperatorsSuccess(ownerOperators) {
   const distinctOwnOpers = [...new Set(ownerOperators.map(d=>d.ownerOperator))];
   return {
@@ -285,5 +285,34 @@ export function updateOwnerOperatorSelection(ownerOperator){
   return {
     type: types.UPDATE_OWNER_OPERATOR_SELECTION,
     ownerOperator,
+  }
+}
+
+/* ---------TRANSACTION TYPE---------- */
+export function loadTransactionTypesSuccess(transactionType) {
+  return {
+    type: types.LOAD_TRANSACTION_TYPE_SUCCESS,
+    transactionType: transactionType.map(t=> ({id: t.transactionTypeDescription, label: t.transactionTypeDescription, selected:false}))
+  };
+}
+
+export function loadTransactionTypes() {
+  return (dispatch) => {
+    dispatch(beginApiCall());
+    return filterCriteriaApi
+      .getTransactionTypes
+      .then((res) => {console.log(res.data);
+        dispatch(loadTransactionTypesSuccess(res.data));
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+}
+
+export function updateTransactionTypeSelection(transactionType){
+  return {
+    type: types.UPDATE_TRANSACTION_TYPE_SELECTION,
+    transactionType,
   }
 }
