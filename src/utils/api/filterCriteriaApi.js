@@ -60,3 +60,12 @@ export function getOwnerOperators(dataSubType) {
     return getDataFromAccounts("accounts/owner-operators");
   }
 }
+
+export async function getFilterMapping(yearSet) {
+  const url = `${config.services.facilities.uri}/facilities/attributes/applicable?year=${yearSet}`;
+  console.log(url);
+  return axios
+    .get(url)
+    .then(handleResponse)
+    .catch(handleError);
+}

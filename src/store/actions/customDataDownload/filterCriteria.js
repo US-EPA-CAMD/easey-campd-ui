@@ -7,6 +7,7 @@ import {
   restructureFuelTypes,
   restructureControlTechnologies,
   restructureAccountTypes,
+  getPipeDelimitedYears,
 } from '../../../utils/selectors/filterCriteria';
 
 export function resetFilter(filterToReset, resetAll = false) {
@@ -301,7 +302,7 @@ export function loadTransactionTypes() {
     dispatch(beginApiCall());
     return filterCriteriaApi
       .getTransactionTypes
-      .then((res) => {console.log(res.data);
+      .then((res) => {
         dispatch(loadTransactionTypesSuccess(res.data));
       })
       .catch((err) => {
@@ -315,4 +316,26 @@ export function updateTransactionTypeSelection(transactionType){
     type: types.UPDATE_TRANSACTION_TYPE_SELECTION,
     transactionType,
   }
+}
+
+/* ---------FILTER MAPPINGS---------- */
+export function loadFilterMappingSuccess(filterMapping) {
+  return {
+    type: types.LOAD_FILTER_MAPPING_SUCCESS,
+    filterMapping
+  };
+}
+
+export function loadFilterMapping(yearsArray) {
+  return (dispatch) => {
+    dispatch(beginApiCall());
+    return filterCriteriaApi
+      .getFilterMapping(getPipeDelimitedYears(yearsArray))
+      .then((res) => {
+        dispatch(loadFilterMappingSuccess(res.data));
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
 }

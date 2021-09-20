@@ -72,7 +72,7 @@ export const formatYearsToArray = (multiSelectDateString) => {
     });
   }
 
-  return numberArray;
+  return numberArray?.sort();
 };
 
 export const formatMonthsToApiOrString = (monthArray, string=false) => {

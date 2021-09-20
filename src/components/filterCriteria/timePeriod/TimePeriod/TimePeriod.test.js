@@ -14,6 +14,7 @@ describe('Emissions TimePeriod Component', () => {
     };
     const { getByTestId, getAllByTestId, getByRole } = render(
       <TimePeriod
+        dataType="EMISSIONS"
         timePeriod={initTimePeriod}
         updateTimePeriodDispatcher={jest.fn()}
         removeAppliedFiltersDispatcher={jest.fn()}
@@ -48,6 +49,7 @@ describe('Emissions TimePeriod Component', () => {
     };
     const { getByText, getByRole } = render(
       <TimePeriod
+        dataType="EMISSIONS"
         timePeriod={timePeriod}
         updateTimePeriodDispatcher={dispatcher}
         addAppliedFilterDispatcher={jest.fn()}
@@ -74,12 +76,16 @@ describe('Emissions TimePeriod Component', () => {
       updatedTimePeriod = formState;
     };
     const timePeriod = {
+      startDate: null,
+      endDate: null,
+      opHrsOnly: true,
       year: { yearString: '2019,2020', yearArray: [2019, 2020] },
       month: [],
       quarter: [],
     };
     const { getByText, getByTestId } = render(
-      <TimePeriod
+      <TimePeriod 
+        dataType="EMISSIONS"
         timePeriod={timePeriod}
         updateTimePeriodDispatcher={dispatcher}
         addAppliedFilterDispatcher={jest.fn()}
@@ -105,12 +111,16 @@ describe('Emissions TimePeriod Component', () => {
       updatedTimePeriod = formState;
     };
     const timePeriod = {
+      startDate: null,
+      endDate: null,
+      opHrsOnly: true,
       year: { yearString: '2019,2020', yearArray: [2019, 2020] },
       month: [{ id: 1, label: 'January', selected: false }],
       quarter: [],
     };
     const { getByText, getByTestId, getByLabelText } = render(
       <TimePeriod
+        dataType="EMISSIONS"
         timePeriod={timePeriod}
         updateTimePeriodDispatcher={dispatcher}
         addAppliedFilterDispatcher={jest.fn()}
@@ -139,12 +149,16 @@ describe('Emissions TimePeriod Component', () => {
       updatedTimePeriod = formState;
     };
     const timePeriod = {
+      startDate: null,
+      endDate: null,
+      opHrsOnly: true,
       year: { yearString: '2019,2020', yearArray: [2019, 2020] },
       month: [],
       quarter: [{ id: 1, label: 'Q1', selected: false }],
     };
     const { getByText, getByTestId, getByLabelText } = render(
       <TimePeriod
+        dataType="EMISSIONS"
         timePeriod={timePeriod}
         updateTimePeriodDispatcher={dispatcher}
         addAppliedFilterDispatcher={jest.fn()}
@@ -173,12 +187,16 @@ describe('Emissions TimePeriod Component', () => {
       updatedTimePeriod = formState;
     };
     const timePeriod = {
+      startDate: null,
+      endDate: null,
+      opHrsOnly: true,
       year: { yearString: '2019-2020', yearArray: [2019, 2020] },
       month: [],
       quarter: [],
     };
     const { getByText, getByTestId } = render(
       <TimePeriod
+        dataType="EMISSIONS"
         timePeriod={timePeriod}
         updateTimePeriodDispatcher={dispatcher}
         addAppliedFilterDispatcher={jest.fn()}
@@ -200,6 +218,9 @@ describe('Emissions TimePeriod Component', () => {
 
   it('YEAR validations', () => {
     const timePeriod = {
+      startDate: null,
+      endDate: null,
+      opHrsOnly: true,
       year: { yearString: '', yearArray: [] },
       month: [],
       quarter: [],
