@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 
 import TimePeriodRender from './TimePeriodRender';
-import { updateTimePeriod } from '../../../../store/actions/customDataDownload/filterCriteria';
+import { updateTimePeriod, loadFilterMapping, resetFilter } from '../../../../store/actions/customDataDownload/filterCriteria';
 import { addAppliedFilter, removeAppliedFilter } from '../../../../store/actions/customDataDownload/customDataDownload';
 import {
   isDateFormatValid,
@@ -21,6 +21,7 @@ import {
   formatQuartersToApiOrString,
 } from '../../../../utils/selectors/general';
 import * as constants from '../../../../utils/constants/customDataDownload';
+import {getTimePeriodYears, verifyTimePeriodChange} from "../../../../utils/selectors/filterLogic";
 
 export const TimePeriod = ({
   timePeriod,
@@ -38,6 +39,9 @@ export const TimePeriod = ({
   isAllowance = false,
   minYear = 1995,
   renderedHandler,
+  loadFilterMappingDispatcher,
+  resetFilterDispacher,
+  dataType,
 }) => {
   const [formState, setFormState] = useState({
     startDate: formatDateToUi(timePeriod.startDate),
@@ -59,16 +63,13 @@ export const TimePeriod = ({
   const [applyFilterClicked, setApplyFilterClicked] = useState(false);
 
   useEffect(() => {
-    if (showYear) {
-      if (isFormValid() && applyFilterClicked) {
-        updateYearHelper();
-        closeFlyOutHandler();
+    if(applyFilterClicked && isFormValid() && verifyFilterLogic()){
+      if(showYear){
+        updateYearHelper()
+      }else{
+        updateFullDateHelper()
       }
-    } else {
-      if (isFormValid() && applyFilterClicked) {
-        updateFullDateHelper();
-        closeFlyOutHandler();
-      }
+      closeFlyOutHandler();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [validations]);
@@ -163,6 +164,29 @@ export const TimePeriod = ({
     evt.preventDefault();
     validateInput();
   };
+
+  const updateFilterMapping = () =>{
+    showYear? loadFilterMappingDispatcher(getTimePeriodYears(null, null, formState.year)) :
+      loadFilterMappingDispatcher(getTimePeriodYears(formatDateToApi(formState.startDate), formatDateToApi(formState.endDate)));
+  }
+
+  const verifyFilterLogic = () =>{
+    let result = true;
+    if(dataType === "EMISSIONS"){
+      if(!isAddedToFilters(filterToApply, appliedFilters)){
+        updateFilterMapping();
+      }else if(verifyTimePeriodChange(formState, timePeriod, showYear)){
+        if(window.confirm("Changing the year will clear out previously selected criteria. Do you want to proceed?")){
+          resetFilterDispacher(null, true);
+          removeAppliedFiltersDispatcher(null, true);
+          updateFilterMapping()
+        }else{
+          result = false;
+        }
+      }
+    }
+    return result;
+  }
 
   const applyFilterHandler = (evt) => {
     evt.preventDefault();
@@ -325,6 +349,7 @@ const mapStateToProps = (state) => {
   return {
     timePeriod: state.filterCriteria.timePeriod,
     appliedFilters: state.customDataDownload.appliedFilters,
+    dataType: state.customDataDownload.dataType
   };
 };
 
@@ -334,8 +359,12 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(updateTimePeriod(timePeriod)),
     addAppliedFilterDispatcher: (filterToApply) =>
       dispatch(addAppliedFilter(filterToApply)),
-    removeAppliedFiltersDispatcher: (removedFilter) =>
-      dispatch(removeAppliedFilter(removedFilter)),
+    removeAppliedFiltersDispatcher: (removedFilter, removeAll) =>
+      dispatch(removeAppliedFilter(removedFilter, removeAll)),
+    loadFilterMappingDispatcher: (years) =>
+      dispatch(loadFilterMapping(years)),
+    resetFilterDispacher: (filter, resetAll) =>
+      dispatch(resetFilter(filter, resetAll)),
   };
 };
 

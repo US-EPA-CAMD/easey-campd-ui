@@ -372,3 +372,27 @@ export const restructureAccountTypes = (accountTypes) => {
 
   return data;
 };
+
+export const getApplicablePrograms = (storeProgram, dataSubType) =>{
+  let res = storeProgram;
+  if(storeProgram.length>1){
+    if(dataSubType==="Ozone Season Emissions"){
+      res = [storeProgram[1]];
+    }else if(dataSubType==="Annual Emissions"){
+      res = [storeProgram[0]];
+    }
+  }
+  return res;
+};
+
+export const getPipeDelimitedYears = (yearsArray) => {
+  let result = "";
+  yearsArray.forEach((year,i) => {
+    if(i===yearsArray.length-1){
+      result += year;
+    }else{
+      result += `${year}|`
+    }
+  })
+  return result;
+}

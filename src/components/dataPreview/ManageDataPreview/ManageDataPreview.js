@@ -52,13 +52,20 @@ const ManageDataPreview = ({
   };
 
   const onFilterTagRemovedHandler = (filterType, label) => {
-    if (filterType === 'Time Period' && label === 'Operating Hours Only') {
-      updateTimePeriodDispatcher({
-        startDate: timePeriod.startDate,
-        endDate: timePeriod.endDate,
-        opHrsOnly: false,
-      });
-      removeAppliedFiltersDispatcher(filterType, false, true);
+    if (filterType === 'Time Period') {
+      if(label === "Operating Hours Only"){
+        updateTimePeriodDispatcher({
+          startDate: timePeriod.startDate,
+          endDate: timePeriod.endDate,
+          opHrsOnly: false,
+        });
+        removeAppliedFiltersDispatcher(filterType, false, true);
+      }else{
+        if(window.confirm("Removing time period will clear out previously selected criteria. Do you want to proceed?")){
+          resetFiltersDispatcher(null, true);
+          removeAppliedFiltersDispatcher(null, true);
+        }
+      }
     } else {
       resetFiltersDispatcher(filterType);
       removeAppliedFiltersDispatcher(filterType);

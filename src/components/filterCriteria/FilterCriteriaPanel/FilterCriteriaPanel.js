@@ -101,6 +101,11 @@ const FilterCriteriaPanel = ({
     timePeriod: <TimePeriod closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} showYear={true} filterToApply={'Time Period'}/>,
   }
 
+  const facUnitAttrEmissions = {
+    ...emissions,
+    timePeriod: <TimePeriod closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} showYear={true} filterToApply={'Time Period'}/>,
+  }
+
   const allownaceAcctInfo = {
     ...allowances,
     program: <Program closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
@@ -157,7 +162,7 @@ const FilterCriteriaPanel = ({
       case emissionsSubTypes[5]:
         return annualEmissions[selectedFilter];
       case emissionsSubTypes[6]:
-        return emissions[selectedFilter];
+        return facUnitAttrEmissions[selectedFilter];
       case allowanceSubTypes[0]:
         return allownaceAcctInfo[selectedFilter];
       case allowanceSubTypes[1]:

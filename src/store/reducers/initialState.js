@@ -28,7 +28,8 @@ export default {
     accountType: [],
     accountNameNumber: [],
     ownerOperator: [],
-    transactionType: []
+    transactionType: [],
+    filterMapping: [],
   },
   apiCallsInProgress: 0,
 };

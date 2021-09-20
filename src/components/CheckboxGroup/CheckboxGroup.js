@@ -58,6 +58,7 @@ const CheckboxGroup = (props) => {
                   label={item.label}
                   checked={item.selected}
                   onChange={props.onSelectItem}
+                  disabled={item.hasOwnProperty("enabled")? !item.enabled : false}
                 />
               </div>
             ))
@@ -69,6 +70,7 @@ const CheckboxGroup = (props) => {
                 label={item.label}
                 checked={item.selected}
                 onChange={props.onSelectItem}
+                disabled={item.hasOwnProperty("enabled")? !item.enabled : false}
               />
             </div>
           ))}
