@@ -52,9 +52,9 @@ const Program = ({
   useEffect(()=>{
     if(dataType === "EMISSIONS" && filterCriteria.filterMapping.length > 0){
       const programsMDM = JSON.parse(JSON.stringify(getApplicablePrograms(storeProgram, dataSubType)));
-      const filteredSet = getProgramsFilteredSet(filterCriteria); //console.log(filteredSet);
+      const filteredSet = getProgramsFilteredSet(filterCriteria);
       programsMDM.forEach(p => {
-        p.items.forEach(el =>{//console.log(filteredSet.includes(el.id));
+        p.items.forEach(el =>{
           el.enabled = filteredSet.includes(el.id);
         })
       });
