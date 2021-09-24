@@ -29,6 +29,7 @@ export default {
     accountNameNumber: [],
     ownerOperator: [],
     transactionType: [],
+    sourceCategory: [],
     filterMapping: [],
   },
   apiCallsInProgress: 0,

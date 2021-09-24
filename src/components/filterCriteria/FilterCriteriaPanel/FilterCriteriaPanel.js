@@ -11,6 +11,7 @@ import AccountType from "../AccountType/AccountType";
 import AccountNameNumber from "../AccountNameNumber/AccountNameNumber";
 import OwnerOperator from "../OwnerOperator/OwnerOperator";
 import TransactionType from "../TransactionType/TransactionType";
+import SourceCategory from "../SourceCategory/SourceCategory";
 import { focusTrap } from "../../../utils/ensure-508/focus-trap";
 
 const FilterCriteriaPanel = ({
@@ -104,6 +105,7 @@ const FilterCriteriaPanel = ({
   const facUnitAttrEmissions = {
     ...emissions,
     timePeriod: <TimePeriod closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} showYear={true} filterToApply={'Time Period'}/>,
+    sourceCategory: <SourceCategory closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
   }
 
   const allownaceAcctInfo = {
