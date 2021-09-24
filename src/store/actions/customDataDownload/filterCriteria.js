@@ -339,3 +339,32 @@ export function loadFilterMapping(yearsArray) {
       });
   };
 }
+
+/* ---------SOURCE CATEGORY---------- */
+export function loadSourceCategoriesSuccess(sourceCategory) {
+  return {
+    type: types.LOAD_SOURCE_CATEGORY_SUCCESS,
+    sourceCategory: sourceCategory.map(t=> ({id: t.sourceCategoryCode, label: t.sourceCategoryDescription, selected:false}))
+  };
+}
+
+export function loadSourceCategories() {
+  return (dispatch) => {
+    dispatch(beginApiCall());
+    return filterCriteriaApi
+      .getSourceCategories
+      .then((res) => {
+        dispatch(loadSourceCategoriesSuccess(res.data));
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+}
+
+export function updateSourceCategorySelection(sourceCategory){
+  return {
+    type: types.UPDATE_SOURCE_CATEGORY_SELECTION,
+    sourceCategory,
+  }
+}

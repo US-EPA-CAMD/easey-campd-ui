@@ -54,6 +54,10 @@ export const resetFilterHelper = (state, filterToReset, resetAll = false) => {
       return Object.assign({}, state, {
         transactionType: initialState.filterCriteria.transactionType,
       });
+    case 'Source Category':
+      return Object.assign({}, state, {
+        sourceCategory: initialState.filterCriteria.sourceCategory,
+      });
     default:
       return state;
   }
