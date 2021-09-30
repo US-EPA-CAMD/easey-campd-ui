@@ -8,7 +8,7 @@ export const EMISSIONS_DATA_SUBTYPES = [
   { value: 4, label: 'Quarterly Emissions', service: 'quarterly', required: [timePeriodLabel] },
   { value: 5, label: 'Ozone Season Emissions', service: 'ozone', required: [timePeriodLabel] },
   { value: 6, label: 'Annual Emissions', service: 'annual', required: [timePeriodLabel] },
-  { value: 7, label: 'Facility/Unit Attributes', service: '', required: [timePeriodLabel] },
+  { value: 7, label: 'Facility/Unit Attributes', service: 'attributes', required: [timePeriodLabel] },
 ];
 
 export const EMISSIONS_FILTERS = [

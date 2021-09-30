@@ -165,7 +165,11 @@ export const constructRequestUrl = (
   let apiService;
   switch (dataType.toLowerCase()) {
     case 'emissions':
-      apiService = `${config.services.emissions.uri}/apportioned/`;
+      if(dataSubType==="Facility/Unit Attributes"){
+        apiService = `${config.services.facilities.uri}/facilities/`;
+      }else{
+        apiService = `${config.services.emissions.uri}/apportioned/`;
+      }
       break;
     case 'allowance':
     case 'compliance':
