@@ -50,6 +50,7 @@ export const constructTimePeriodQuery = (dataSubType, filterCriteria) => {
       )}`;
       case 'allowance based':
       case 'emissions based':
+      case 'facility/unit attributes':
         return `${constructQuery(
           filterCriteria.timePeriod.year.yearArray,
           'year',
