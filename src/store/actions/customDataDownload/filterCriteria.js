@@ -344,7 +344,7 @@ export function loadFilterMapping(yearsArray) {
 export function loadSourceCategoriesSuccess(sourceCategory) {
   return {
     type: types.LOAD_SOURCE_CATEGORY_SUCCESS,
-    sourceCategory: sourceCategory.map(t=> ({id: t.sourceCategoryCode, label: t.sourceCategoryDescription, selected:false}))
+    sourceCategory: sourceCategory.map(t=> ({id: t.sourceCategoryDescription, label: t.sourceCategoryDescription, selected:false}))
   };
 }
 
