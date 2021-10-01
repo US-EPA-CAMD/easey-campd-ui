@@ -158,6 +158,9 @@ export const constructRequestUrl = (
   const transactionTypeQuery = filterCriteria.transactionType
   ? constructComboBoxQuery(filterCriteria.transactionType, 'transactionType')
   : '';
+  const sourceCategoryQuery = filterCriteria.sourceCategory
+  ? constructComboBoxQuery(filterCriteria.sourceCategory, 'sourceCategory')
+  : '';
 
   const pagination = download ? '' : 'page=1&perPage=100';
   const attachFile = download ? '&attachFile=true' : '&attachFile=false';
@@ -188,7 +191,7 @@ export const constructRequestUrl = (
     dataSubType,
     filterCriteria
   )}${programQuery}${facilityQuery}${stateTerritoryQuery}${unitTypeQuery}${fuelTypeQuery}${controlTechnologyQuery}
-${accountNameNumberQuery}${accountTypeQuery}${ownerOperatorQuery}${transactionTypeQuery}${attachFile}`;
+${accountNameNumberQuery}${accountTypeQuery}${ownerOperatorQuery}${transactionTypeQuery}${sourceCategoryQuery}${attachFile}`;
   console.log(url.replace(/\r?\n|\r/g, ''));
 
   return url.replace(/\r?\n|\r/g, '');
