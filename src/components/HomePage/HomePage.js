@@ -16,8 +16,8 @@ const HomePage = () => {
           alt=""
         />
         <div className="margin-left-4">
-          <h2 className="text-primary-dark font-heading-xl text-bold margin-top-0">Data</h2>
-          <p className="font-body-sm text-ls-1 line-height-sans-6 desktop:width-mobile">
+          <h2 className="text-primary-dark font-sans-xl text-bold margin-top-0">Data</h2>
+          <p className="font-sans-sm text-ls-1 line-height-sans-6 desktop:width-mobile">
             Create custom queries, download bulk datasets and use the CAM API to retrieve emissions, allowance and compliance data.
           </p>
           <Button
@@ -34,9 +34,9 @@ const HomePage = () => {
           alt=""
         />
         <div className="margin-left-4">
-          <h2 className="text-primary-dark font-heading-xl text-bold margin-top-0 mobile-lg:display-inline">Analysis</h2>
+          <h2 className="text-primary-dark font-sans-xl text-bold margin-top-0 mobile-lg:display-inline">Analysis</h2>
           <Tag  className="margin-left-1 mobile-lg:display-inline">Coming Soon</Tag>
-          <p className="font-body-sm text-ls-1 line-height-sans-6 desktop:width-mobile">
+          <p className="font-sans-sm text-ls-1 line-height-sans-6 desktop:width-mobile">
             View and download common analyses, reports, insights and other information using CAMPD data.
           </p>
         </div>
@@ -47,9 +47,9 @@ const HomePage = () => {
           alt=""
         />
         <div className="margin-left-4">
-          <h2 className="text-primary-dark font-heading-xl text-bold margin-top-0 mobile-lg:display-inline desktop-lg:display-block desktop-lg:margin-bottom-0 widescreen:display-inline">Visualization</h2>
+          <h2 className="text-primary-dark font-sans-xl text-bold margin-top-0 mobile-lg:display-inline desktop-lg:display-block desktop-lg:margin-bottom-0 widescreen:display-inline">Visualization</h2>
           <Tag className="margin-left-1">Coming Soon</Tag>
-          <p className="font-body-sm text-ls-1 line-height-sans-6 desktop:width-mobile">
+          <p className="font-sans-sm text-ls-1 line-height-sans-6 desktop:width-mobile">
             Visualize and interact with CAMPD data graphically and through maps.
           </p>
         </div>

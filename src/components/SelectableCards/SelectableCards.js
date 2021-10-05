@@ -73,11 +73,11 @@ export const SelectDataTypeInCards = ({
   };
   return (
     <>
-      <h3 className="font-serif-xl text-bold margin-y-3 mobile-lg:text-center tablet:text-left">
+      <h3 className="font-sans-xl text-bold margin-y-3 mobile-lg:text-center tablet:text-left">
         Select a Data Type
         <FontAwesomeIcon
           icon={faQuestionCircle}
-          className="text-primary font-body-sm question-icon position-relative top-neg-1px"
+          className="text-primary font-sans-sm question-icon position-relative top-neg-1px"
           title="Data type and subtype can be changed at any time."
         />
       </h3>

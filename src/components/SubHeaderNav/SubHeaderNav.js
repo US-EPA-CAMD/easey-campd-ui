@@ -68,7 +68,7 @@ const SubHeaderNav = ({
                 id={
                   i === menuList.length - 1 ? `extended-nav-section-last` : null
                 }
-                className="font-body-xs margin-top-neg-1"
+                className="font-sans-xs margin-top-neg-1"
                 items={el.items.map((item, index) => (
                   <Link
                     key={index}
