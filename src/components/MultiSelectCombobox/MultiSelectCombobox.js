@@ -149,7 +149,7 @@ const MultiSelectCombobox = ({
               {item.selected? <FontAwesomeIcon icon={faCheck} color="#005ea2"/>: null}
             </li>)
           ):
-            (<span className="padding-x-2 padding-top-2">No {entity} match your search.</span>)
+            (<span className="padding-x-2 padding-top-2">No {entity.replace("-"," ")} match your search.</span>)
           }
         </ul>
         }
