@@ -73,7 +73,7 @@ const TransactionType = ({
             <MultiSelectCombobox
               items={JSON.parse(JSON.stringify(_transactionType))}
               label="Select or Search Transaction Types"
-              entity={"transaction types"}
+              entity={"transaction-types"}
               onChangeUpdate={onChangeUpdate}
               searchBy="contains"
             />

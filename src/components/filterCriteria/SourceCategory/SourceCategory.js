@@ -73,7 +73,7 @@ const SourceCategory = ({
             <MultiSelectCombobox
               items={JSON.parse(JSON.stringify(_sourceCategory))}
               label="Select or Search Source Categories"
-              entity={"source categories"}
+              entity={"source-categories"}
               onChangeUpdate={onChangeUpdate}
               searchBy="contains"
             />
