@@ -15,9 +15,9 @@ import { addAppliedFilter, removeAppliedFilter } from "../../../store/actions/cu
 
 const facilities = [
   {
-    "facId": "1",
-    "orisCode": "3",
-    "name": "Barry",
+    "id": "1",
+    "facilityId": "3",
+    "facilityName": "Barry",
     "state": "AL",
     "links": [
       {
@@ -43,9 +43,9 @@ const facilities = [
     ]
   },
   {
-    "facId": "2",
-    "orisCode": "5",
-    "name": "Chickasaw",
+    "id": "2",
+    "facilityId": "5",
+    "facilityName": "Chickasaw",
     "state": "AL",
     "links": [
       {
@@ -71,9 +71,9 @@ const facilities = [
     ]
   },
   {
-    "facId": "3",
-    "orisCode": "7",
-    "name": "Gadsden",
+    "id": "3",
+    "facilityId": "7",
+    "facilityName": "Gadsden",
     "state": "AL",
     "links": [
       {
@@ -99,9 +99,9 @@ const facilities = [
     ]
   },
   {
-    "facId": "4",
-    "orisCode": "8",
-    "name": "Gorgas",
+    "id": "4",
+    "facilityId": "8",
+    "facilityName": "Gorgas",
     "state": "AL",
     "links": [
       {
@@ -127,9 +127,9 @@ const facilities = [
     ]
   },
   {
-    "facId": "5",
-    "orisCode": "10",
-    "name": "Greene County",
+    "id": "5",
+    "facilityId": "10",
+    "facilityName": "Greene County",
     "state": "AL",
     "links": [
       {
@@ -155,9 +155,9 @@ const facilities = [
     ]
   },
   {
-    "facId": "6",
-    "orisCode": "26",
-    "name": "E C Gaston",
+    "id": "6",
+    "facilityId": "26",
+    "facilityName": "E C Gaston",
     "state": "AL",
     "links": [
       {
@@ -183,9 +183,9 @@ const facilities = [
     ]
   },
   {
-    "facId": "7",
-    "orisCode": "47",
-    "name": "Colbert",
+    "id": "7",
+    "facilityId": "47",
+    "facilityName": "Colbert",
     "state": "AL",
     "links": [
       {
@@ -211,9 +211,9 @@ const facilities = [
     ]
   },
   {
-    "facId": "8",
-    "orisCode": "50",
-    "name": "Widows Creek",
+    "id": "8",
+    "facilityId": "50",
+    "facilityName": "Widows Creek",
     "state": "AL",
     "links": [
       {
@@ -239,9 +239,9 @@ const facilities = [
     ]
   },
   {
-    "facId": "9",
-    "orisCode": "51",
-    "name": "Dolet Hills Power Station",
+    "id": "9",
+    "facilityId": "51",
+    "facilityName": "Dolet Hills Power Station",
     "state": "LA",
     "links": [
       {
@@ -267,9 +267,9 @@ const facilities = [
     ]
   },
   {
-    "facId": "10",
-    "orisCode": "54",
-    "name": "Smith Generating Facility",
+    "id": "10",
+    "facilityId": "54",
+    "facilityName": "Smith Generating Facility",
     "state": "KY",
     "links": [
       {
@@ -295,7 +295,7 @@ const facilities = [
     ]
   }
 ];
-initialState.filterCriteria.facility = facilities.map(f=> ({id: f.orisCode, label:`${f.name} (${f.orisCode})`, selected:false}));
+initialState.filterCriteria.facility = facilities.map(f=> ({id: f.facilityId, label:`${f.facilityName} (${f.facilityId})`, selected:false}));
 const store = configureStore(initialState);
 let flyOutClosed = false;
 describe('Facility Component', () => {

@@ -129,10 +129,10 @@ export const constructRequestUrl = (
   download = false
 ) => {
   const programQuery = filterCriteria.program
-    ? constructQuery(filterCriteria.program, 'program')
+    ? constructQuery(filterCriteria.program, 'programCodeInfo')
     : '';
   const facilityQuery = filterCriteria.facility
-    ? constructComboBoxQuery(filterCriteria.facility, 'orisCode')
+    ? constructComboBoxQuery(filterCriteria.facility, 'facilityId')
     : '';
   const stateTerritoryQuery = filterCriteria.stateTerritory
     ? constructComboBoxQuery(filterCriteria.stateTerritory, 'state')

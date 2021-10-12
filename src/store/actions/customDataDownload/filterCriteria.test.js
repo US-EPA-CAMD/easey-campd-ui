@@ -250,9 +250,9 @@ describe("Filter Criteria Async Actions", () => {
   it("should create BEGIN_API_CALL and LOAD_FACILITIES_SUCCESS when loading facilities data", () => {
     const facilities = [
       {
-        "facId": "1",
-        "orisCode": "3",
-        "name": "Barry",
+        "id": "1",
+        "facilityId": "3",
+        "facilityName": "Barry",
         "state": "AL",
         "links": [
           {
@@ -278,9 +278,9 @@ describe("Filter Criteria Async Actions", () => {
         ]
       },
       {
-        "facId": "2",
-        "orisCode": "5",
-        "name": "Chickasaw",
+        "id": "2",
+        "facilityId": "5",
+        "facilityName": "Chickasaw",
         "state": "AL",
         "links": [
           {
@@ -306,9 +306,9 @@ describe("Filter Criteria Async Actions", () => {
         ]
       },
       {
-        "facId": "3",
-        "orisCode": "7",
-        "name": "Gadsden",
+        "id": "3",
+        "facilityId": "7",
+        "facilityName": "Gadsden",
         "state": "AL",
         "links": [
           {
@@ -334,9 +334,9 @@ describe("Filter Criteria Async Actions", () => {
         ]
       },
       {
-        "facId": "4",
-        "orisCode": "8",
-        "name": "Gorgas",
+        "id": "4",
+        "facilityId": "8",
+        "facilityName": "Gorgas",
         "state": "AL",
         "links": [
           {
@@ -362,9 +362,9 @@ describe("Filter Criteria Async Actions", () => {
         ]
       },
       {
-        "facId": "5",
-        "orisCode": "10",
-        "name": "Greene County",
+        "id": "5",
+        "facilityId": "10",
+        "facilityName": "Greene County",
         "state": "AL",
         "links": [
           {
@@ -390,9 +390,9 @@ describe("Filter Criteria Async Actions", () => {
         ]
       },
       {
-        "facId": "6",
-        "orisCode": "26",
-        "name": "E C Gaston",
+        "id": "6",
+        "facilityId": "26",
+        "facilityName": "E C Gaston",
         "state": "AL",
         "links": [
           {
@@ -418,9 +418,9 @@ describe("Filter Criteria Async Actions", () => {
         ]
       },
       {
-        "facId": "7",
-        "orisCode": "47",
-        "name": "Colbert",
+        "id": "7",
+        "facilityId": "47",
+        "facilityName": "Colbert",
         "state": "AL",
         "links": [
           {
@@ -446,9 +446,9 @@ describe("Filter Criteria Async Actions", () => {
         ]
       },
       {
-        "facId": "8",
-        "orisCode": "50",
-        "name": "Widows Creek",
+        "id": "8",
+        "facilityId": "50",
+        "facilityName": "Widows Creek",
         "state": "AL",
         "links": [
           {
@@ -474,9 +474,9 @@ describe("Filter Criteria Async Actions", () => {
         ]
       },
       {
-        "facId": "9",
-        "orisCode": "51",
-        "name": "Dolet Hills Power Station",
+        "id": "9",
+        "facilityId": "51",
+        "facilityName": "Dolet Hills Power Station",
         "state": "LA",
         "links": [
           {
@@ -502,9 +502,9 @@ describe("Filter Criteria Async Actions", () => {
         ]
       },
       {
-        "facId": "10",
-        "orisCode": "54",
-        "name": "Smith Generating Facility",
+        "id": "10",
+        "facilityId": "54",
+        "facilityName": "Smith Generating Facility",
         "state": "KY",
         "links": [
           {
@@ -535,7 +535,7 @@ describe("Filter Criteria Async Actions", () => {
       .reply(200, facilities);
     const expectedActions = [
       { type: types.BEGIN_API_CALL },
-      { type: types.LOAD_FACILITIES_SUCCESS, facility: facilities.map(f=> ({id: f.orisCode, label:`${f.name} (${f.orisCode})`, selected:false}))},
+      { type: types.LOAD_FACILITIES_SUCCESS, facility: facilities.map(f=> ({id: f.facilityId, label:`${f.facilityName} (${f.facilityId})`, selected:false}))},
     ];
 
     const store = mockStore(initState);
