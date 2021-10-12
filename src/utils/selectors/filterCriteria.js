@@ -80,7 +80,7 @@ export const getSelectedIds = (filterState, description = false) => {
 };
 
 export const constructQuery = (filterState, filterName, multiSelectTimePeriod=false) => {
-  const useCode = filterName === 'program' ? false : true;
+  const useCode = filterName === 'programCodeInfo' ? false : true;
   let selectedFilters;
   if (multiSelectTimePeriod) {
     selectedFilters = filterState
