@@ -86,7 +86,7 @@ const DownloadFileType = ({ dataType, dataSubType, filterCriteria }) => {
       >
         Download
       </Button>
-      {loading ? <LoadingModal loading={loading} /> : <></>}
+      {loading ? <LoadingModal loading={loading} /> : null}
     </div>
   );
 };
