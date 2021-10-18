@@ -45,7 +45,7 @@ const LoadingModal = (props) => {
 
   return (
     <>
-      {loading && (
+      {loading > 0 && (
         <div
           data-test="component-loading"
           className="loading-modal"

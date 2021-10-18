@@ -9,6 +9,7 @@ import {
   restructureAccountTypes,
   getPipeDelimitedYears,
 } from '../../../utils/selectors/filterCriteria';
+import {FILTERS_MAP, API_CALLING_FILTERS} from "../../../utils/constants/customDataDownload";
 
 export function resetFilter(filterToReset, resetAll = false) {
   return {
@@ -368,3 +369,111 @@ export function updateSourceCategorySelection(sourceCategory){
     sourceCategory,
   }
 }
+
+const dispatchAction = (result, filter, dispatch) =>{
+  switch(filter){
+    case API_CALLING_FILTERS[0]:
+      dispatch(loadProgramsSuccess(result));
+      break;
+    case API_CALLING_FILTERS[1]:
+      dispatch(loadStatesSuccess(result));
+      break;
+    case API_CALLING_FILTERS[2]:
+      dispatch(loadSourceCategoriesSuccess(result));
+      break;
+    case API_CALLING_FILTERS[3]:
+      dispatch(loadFacilitiesSuccess(result));
+      break;
+    case API_CALLING_FILTERS[4]:
+      dispatch(loadUnitTypesSuccess(result));
+      break;
+    case API_CALLING_FILTERS[5]:
+      dispatch(loadFuelTypesSuccess(result));
+      break;
+    case API_CALLING_FILTERS[6]:
+      dispatch(loadControlTechnologiesSuccess(result));
+      break;
+    case API_CALLING_FILTERS[7]:
+      dispatch(loadAccountTypesSuccess(result));
+      break;
+    case API_CALLING_FILTERS[8]:
+      dispatch(loadAccountNameNumbersSuccess(result));
+      break;
+    case API_CALLING_FILTERS[9]:
+      dispatch(loadTransactionTypesSuccess(result));
+      break;
+    case API_CALLING_FILTERS[10]:
+      dispatch(loadOwnerOperatorsSuccess(result));
+      break;
+    default:
+  }
+};
+
+export const loadAllFilters = (dataType, dataSubType, filterCriteria) =>{
+  const filters = FILTERS_MAP[dataType][dataSubType].map(obj => obj.value);
+  const promises=[];
+  const apiCallOrder=[];
+  return(dispatch) => {
+    if(filters.includes(API_CALLING_FILTERS[0])){
+      dispatch(beginApiCall());
+      promises.push(filterCriteriaApi.getPrograms(dataType, dataSubType === "Holdings"? true : false));
+      apiCallOrder.push(API_CALLING_FILTERS[0]);
+    }
+    if(filterCriteria.stateTerritory.length === 0 && filters.includes(API_CALLING_FILTERS[1])){
+      dispatch(beginApiCall());
+      promises.push(filterCriteriaApi.getStates);
+      apiCallOrder.push(API_CALLING_FILTERS[1]);
+    }
+    if(filterCriteria.sourceCategory.length === 0 && filters.includes(API_CALLING_FILTERS[2])){
+      dispatch(beginApiCall());
+      promises.push(filterCriteriaApi.getSourceCategories);
+      apiCallOrder.push(API_CALLING_FILTERS[2]);
+    }
+    if(filterCriteria.facility.length === 0 && filters.includes(API_CALLING_FILTERS[3])){
+      dispatch(beginApiCall());
+      promises.push(filterCriteriaApi.getAllFacilities());
+      apiCallOrder.push(API_CALLING_FILTERS[3]);
+    }
+    if(filterCriteria.unitType.length === 0 && filters.includes(API_CALLING_FILTERS[4])){
+      dispatch(beginApiCall());
+      promises.push(filterCriteriaApi.getUnitTypes);
+      apiCallOrder.push(API_CALLING_FILTERS[4]);
+    }
+    if(filterCriteria.fuelType.length === 0 && filters.includes(API_CALLING_FILTERS[5])){
+      dispatch(beginApiCall());
+      promises.push(filterCriteriaApi.getFuelTypes);
+      apiCallOrder.push(API_CALLING_FILTERS[5]);
+    }
+    if(filterCriteria.controlTechnology.length === 0 && filters.includes(API_CALLING_FILTERS[6])){
+      dispatch(beginApiCall());
+      promises.push(filterCriteriaApi.getControlTechnologies);
+      apiCallOrder.push(API_CALLING_FILTERS[6]);
+    }
+    if(filterCriteria.accountType.length === 0 && filters.includes(API_CALLING_FILTERS[7])){
+      dispatch(beginApiCall());
+      promises.push(filterCriteriaApi.getAccountTypes);
+      apiCallOrder.push(API_CALLING_FILTERS[7]);
+    }
+    if(filterCriteria.accountNameNumber.length === 0 && filters.includes(API_CALLING_FILTERS[8])){
+      dispatch(beginApiCall());
+      promises.push(filterCriteriaApi.getAllAccounts());
+      apiCallOrder.push(API_CALLING_FILTERS[8]);
+    }
+    if(filterCriteria.transactionType.length === 0 && filters.includes(API_CALLING_FILTERS[9])){
+      dispatch(beginApiCall());
+      promises.push(filterCriteriaApi.getTransactionTypes);
+      apiCallOrder.push(API_CALLING_FILTERS[9]);
+    }
+    if(filters.includes(API_CALLING_FILTERS[10])){
+      dispatch(beginApiCall());
+      promises.push(filterCriteriaApi.getOwnerOperators(dataSubType));
+      apiCallOrder.push(API_CALLING_FILTERS[10]);
+    }
+    return Promise.all([...promises]).then((values) => {
+      console.log(values);
+      values.forEach((value, index) =>{
+        dispatchAction(value.data, apiCallOrder[index], dispatch);
+      });
+    })
+  }
+};

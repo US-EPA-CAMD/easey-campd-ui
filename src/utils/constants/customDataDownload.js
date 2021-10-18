@@ -52,3 +52,8 @@ export const QUARTERS = [
   { id: 3, label: 'Q3', selected: false },
   { id: 4, label: 'Q4', selected: false },
 ];
+
+export const API_CALLING_FILTERS = [
+  "Program", "State/Territory", "Source Category", "Facility", "Unit Type", "Unit Fuel Type", "Control Technology",
+  "Account Type", "Account Name/Number", "Transaction Type", "Owner/Operator"
+];

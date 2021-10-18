@@ -25,7 +25,7 @@ let store = configureStore(initialState);
 
 describe('ManageDataPreview', () => {
   test('Check that the  component properly renders', () => {
-    const { getByRole, getByText } = render(
+    const { getByRole } = render(
       <Provider store={store}>
         <ManageDataPreview dataType="EMISSIONS" />
       </Provider>
@@ -33,14 +33,14 @@ describe('ManageDataPreview', () => {
     const previewButton = getByRole('button', { name: 'Preview Data' });
     expect(previewButton).toBeDefined();
     fireEvent.click(previewButton);
-    const dataPreviewHeader = getByText('Data Preview');
+    const dataPreviewHeader = getByRole('alert');
     expect(dataPreviewHeader).toBeDefined();
   });
 
   test('Daily Emissions', () => {
     initialState.customDataDownload.dataSubType = 'Daily Emissions';
     store = configureStore(initialState);
-    const { getByRole, getByText } = render(
+    const { getByRole } = render(
       <Provider store={store}>
         <ManageDataPreview dataType="EMISSIONS" />
       </Provider>
@@ -48,14 +48,14 @@ describe('ManageDataPreview', () => {
     const previewButton = getByRole('button', { name: 'Preview Data' });
     expect(previewButton).toBeDefined();
     fireEvent.click(previewButton);
-    const dataPreviewHeader = getByText('Data Preview');
+    const dataPreviewHeader = getByRole('alert');
     expect(dataPreviewHeader).toBeDefined();
   });
 
   test('Monthly Emissions', () => {
     initialState.customDataDownload.dataSubType = 'Monthly Emissions';
     store = configureStore(initialState);
-    const { getByRole, getByText } = render(
+    const { getByRole } = render(
       <Provider store={store}>
         <ManageDataPreview dataType="EMISSIONS" />
       </Provider>
@@ -63,14 +63,14 @@ describe('ManageDataPreview', () => {
     const previewButton = getByRole('button', { name: 'Preview Data' });
     expect(previewButton).toBeDefined();
     fireEvent.click(previewButton);
-    const dataPreviewHeader = getByText('Data Preview');
+    const dataPreviewHeader = getByRole('alert');
     expect(dataPreviewHeader).toBeDefined();
   });
 
   test('Quarterly Emissions', () => {
     initialState.customDataDownload.dataSubType = 'Quarterly Emissions';
     store = configureStore(initialState);
-    const { getByRole, getByText } = render(
+    const { getByRole } = render(
       <Provider store={store}>
         <ManageDataPreview dataType="EMISSIONS" />
       </Provider>
@@ -78,14 +78,14 @@ describe('ManageDataPreview', () => {
     const previewButton = getByRole('button', { name: 'Preview Data' });
     expect(previewButton).toBeDefined();
     fireEvent.click(previewButton);
-    const dataPreviewHeader = getByText('Data Preview');
+    const dataPreviewHeader = getByRole('alert');
     expect(dataPreviewHeader).toBeDefined();
   });
 
   test('Annual Emissions', () => {
     initialState.customDataDownload.dataSubType = 'Annual Emissions';
     store = configureStore(initialState);
-    const { getByRole, getByText } = render(
+    const { getByRole } = render(
       <Provider store={store}>
         <ManageDataPreview dataType="EMISSIONS" />
       </Provider>
@@ -93,14 +93,14 @@ describe('ManageDataPreview', () => {
     const previewButton = getByRole('button', { name: 'Preview Data' });
     expect(previewButton).toBeDefined();
     fireEvent.click(previewButton);
-    const dataPreviewHeader = getByText('Data Preview');
+    const dataPreviewHeader = getByRole('alert');
     expect(dataPreviewHeader).toBeDefined();
   });
 
   test('Ozone Emissions', () => {
     initialState.customDataDownload.dataSubType = 'Ozone Season Emissions';
     store = configureStore(initialState);
-    const { getByRole, getByText } = render(
+    const { getByRole } = render(
       <Provider store={store}>
         <ManageDataPreview dataType="EMISSIONS" />
       </Provider>
@@ -108,7 +108,7 @@ describe('ManageDataPreview', () => {
     const previewButton = getByRole('button', { name: 'Preview Data' });
     expect(previewButton).toBeDefined();
     fireEvent.click(previewButton);
-    const dataPreviewHeader = getByText('Data Preview');
+    const dataPreviewHeader = getByRole('alert');
     expect(dataPreviewHeader).toBeDefined();
   });
 });

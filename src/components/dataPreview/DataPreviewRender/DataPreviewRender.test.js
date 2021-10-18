@@ -90,7 +90,7 @@ const columns = () =>
 
 describe('ManageDataPreview', () => {
   test('Check that the  component properly renders', () => {
-    const { getByText } = render(
+    const { getByRole } = render(
       <DataPreviewRender
         loading={1}
         dataPreview={dataPreview}
@@ -99,7 +99,7 @@ describe('ManageDataPreview', () => {
         totalCount={1}
         />
     );
-    const dataPreviewHeader = getByText('Data Preview');
+    const dataPreviewHeader = getByRole('alert');
     expect(dataPreviewHeader).toBeDefined();
   });
 });
