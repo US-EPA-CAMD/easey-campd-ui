@@ -1446,7 +1446,7 @@ describe("Filter Criteria Async Actions", () => {
       .reply(200, sourceCategories);
     const expectedActions = [
       { type: types.BEGIN_API_CALL },
-      { type: types.LOAD_SOURCE_CATEGORY_SUCCESS, sourceCategory: sourceCategories.map(t=> ({id: t.sourceCategoryCode, label: t.sourceCategoryDescription, selected:false}))},
+      { type: types.LOAD_SOURCE_CATEGORY_SUCCESS, sourceCategory: sourceCategories.map(t=> ({id: t.sourceCategoryDescription, label: t.sourceCategoryDescription, selected:false}))},
     ];
 
     const store = mockStore(initState);
