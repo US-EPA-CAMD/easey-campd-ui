@@ -1,0 +1,26 @@
+@media screen and (min-width: 480px) {
+  .wrapper {
+    padding-top: 40px;
+    padding-bottom: 40px;
+    padding-left: 15px;
+    padding-right: 7px;
+  }
+}
+
+@media screen and (min-width: 640px) {
+  .wrapper {
+    padding-top: 40px;
+    padding-bottom: 40px;
+    padding-left: 5%;
+    padding-right: 5%;
+  }
+}
+
+@media screen and (min-width: 1400px) {
+  .wrapper {
+    padding-top: 40px;
+    padding-bottom: 40px;
+    padding-left: 10%;
+    padding-right: 10%;
+  }
+}
