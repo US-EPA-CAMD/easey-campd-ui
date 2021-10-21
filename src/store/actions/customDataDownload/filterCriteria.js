@@ -469,11 +469,17 @@ export const loadAllFilters = (dataType, dataSubType, filterCriteria) =>{
       promises.push(filterCriteriaApi.getOwnerOperators(dataSubType));
       apiCallOrder.push(API_CALLING_FILTERS[10]);
     }
-    return Promise.all([...promises]).then((values) => {
-      console.log(values);
-      values.forEach((value, index) =>{
-        dispatchAction(value.data, apiCallOrder[index], dispatch);
+    return Promise.all([...promises])
+      .then((values) => {
+        console.log(values);
+        values.forEach((value, index) =>{
+         if(value){
+          dispatchAction(value.data, apiCallOrder[index], dispatch)
+         }
+        });
+      })
+      .catch((err) => {
+        console.error(err);
       });
-    })
   }
 };
