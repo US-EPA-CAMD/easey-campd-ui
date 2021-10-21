@@ -160,7 +160,7 @@ const BulkDataFiles = () => {
               key={`container-${topic.name.replace(/ /g, '-')}`}
             >
               {' '}
-              <h3 className="text-bold font-heading-xl">{topic.name} </h3>
+              <h2 className="text-bold font-heading-xl">{topic.name} </h2>
               <div className="line-height-sans-6 margin-left-neg-3">
                 {topic.descriptions}
               </div>
