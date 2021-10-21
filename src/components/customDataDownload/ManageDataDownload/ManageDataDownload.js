@@ -16,13 +16,14 @@ import LoadingModal from '../../LoadingModal/LoadingModal';
 
 // *** STYLES (individual component)
 import './ManageDataDownload.scss';
-import { loadAllFilters } from '../../../store/actions/customDataDownload/filterCriteria';
+import { loadAllFilters, resetFilter } from '../../../store/actions/customDataDownload/filterCriteria';
 
 const ManageDataDownload = ({
   selectedDataType,
   updateSelectedDataTypeDispatcher,
   updateSelectedDataSubTypeDispatcher,
   removeAppliedFiltersDispatcher,
+  resetFilterDispatcher,
   appliedFilters,
   loadAllFiltersDispatcher,
   filterCriteria,
@@ -116,6 +117,7 @@ const ManageDataDownload = ({
       });
       if (selectionChange) {
         removeAppliedFiltersDispatcher(null, true);
+        resetFilterDispatcher(null, true);
       }
       setSelectionChange(false);
       setDisplayCancel(true);
@@ -226,6 +228,8 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(removeAppliedFilter(removedFilter, removeAll)),
     loadAllFiltersDispatcher: (dataType, dataSubType, filterCriteria) =>
       dispatch(loadAllFilters(dataType, dataSubType, filterCriteria)),
+    resetFilterDispatcher: (filterToReset, resetAll) =>
+      dispatch(resetFilter(filterToReset, resetAll)),
   };
 };
 
