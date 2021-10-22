@@ -60,7 +60,8 @@ const BulkDataFiles = () => {
       descriptions: (
         <ul>
           <li>Emissions Submittals (updated quarterly)</li>
-          <li>Monitoring Plan Submittals QA data (updated quarterly)</li>
+          <li>Monitoring Plan Submittals</li>
+          <li>QA data (updated quarterly)</li>
         </ul>
       ),
       url: 'https://gaftp.epa.gov/DMDnLoad/xml',
@@ -118,9 +119,9 @@ const BulkDataFiles = () => {
             </ModalHeading>
             <div className="usa-prose">
               <p id="ftp-access-help-modal-description">
-                Modal Content Some browsers have discontinued support of the
-                ftp:// protocol and/or changed settings that prevent access to
-                FTP sites. The options below provide a workaround.
+                Some browsers have discontinued support of the ftp:// protocol
+                and/or changed settings that prevent access to FTP sites. The
+                options below provide a workaround.
                 <br></br>
                 <br></br>
                 <b>Option 1:</b> Access the same data by replacing
