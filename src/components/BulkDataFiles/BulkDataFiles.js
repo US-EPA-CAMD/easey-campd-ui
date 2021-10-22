@@ -7,12 +7,22 @@ import {
   ModalFooter,
 } from '@trussworks/react-uswds';
 
+import { metaAdder } from '../../utils/document/metaAdder';
 import './BulkDataFiles.scss';
 
 const BulkDataFiles = () => {
   useEffect(() => {
-    document.title = 'CAMPD - Bulk Data Files';
+    document.title = 'Bulk Data Files | CAMPD | US EPA';
   }, []);
+
+  metaAdder(
+    'description',
+    'The bulk data files page provides access to larger bulk downloads of apportioned and raw emissions, allowance, and compliance data'
+  );
+  metaAdder(
+    'keywords',
+    'EPA CAMD, FTP, prepackaged data download, static datasets, AMPD, emissions data, allowance, compliance, Clean air markets program data, emissions, analysis,  facility information, CAMPD, AMPD, CAMD'
+  );
 
   const topics = [
     {
@@ -177,7 +187,11 @@ const BulkDataFiles = () => {
                   key={topic.url}
                   id={`${topic.name.split(' ').join('')}`}
                 >
-                  Access {`${topic.name} `} Data
+                  {
+                    (topic.name === 'Allowances'
+                      ? 'Access Allowance Data'
+                      : `Access ${topic.name} Data`)
+                  }
                 </Button>
               </a>
             </div>

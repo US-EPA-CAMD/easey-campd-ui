@@ -44,7 +44,7 @@ const DataLandingPage = () => {
           </p>
           <Button
             className="bg-accent-cool radius-md text-ink"
-            onClick={()=>history.push("/bulk-data-files")}
+            onClick={()=>history.push("/data/bulk-data-files")}
           >
             Start browsing datasets
           </Button>
