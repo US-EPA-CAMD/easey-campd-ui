@@ -1,71 +1,86 @@
-import React, { useEffect } from "react";
-import { Button } from "@trussworks/react-uswds";
-import { useHistory } from "react-router-dom";
-import "./DataLandingPage.scss";
+import React, { useEffect } from 'react';
+import { Button } from '@trussworks/react-uswds';
+import { useHistory } from 'react-router-dom';
+import './DataLandingPage.scss';
 
 const DataLandingPage = () => {
   useEffect(() => {
-    document.title = "CAMPD - Data Landing Page";
+    document.title = 'CAMPD - Data Landing Page';
   }, []);
 
   const history = useHistory();
-  return(
 
-    <div className="mobile-lg:padding-x-7 desktop:margin-x-9 desktop:padding-x-4 desktop-lg:padding-x-7 margin-y-7">
-      <h1 className="text-base-darkest font-sans-2xl text-bold">Data</h1>
-      <p className="text-base-darkest font-sans-lg text-normal text-ls-1 line-height-sans-6">
-        CAMPD’s Data section serves all your bulk and custom data download needs.
+  const topics = [
+    {
+      name: 'Custom Data Download Tool',
+      description: `Users looking to build a custom query for a particular data type will find this tool flexible, fast, and easy to use. Apportioned emissions,
+      allowance, compliance and facility/unit attributes data are available for filtering and querying to the user’s desired parameters.`,
+      url: () => history.push('/select-data-type'),
+      button: 'Start your data query',
+    },
+    {
+      name: 'Bulk Data Files',
+      description: `For larger data downloads, bulk data files provide access to prepackaged datasets of apportioned emissions (including MATS), raw emissions, 
+      monitoring plans, QA, allowance, and compliance data thru EPA’s FTP site. Additionally, modelers who use SMOKE data will find their annual datasets here.`,
+      url: () => history.push('/bulk-data-files'),
+      button: 'Start browsing datasets',
+    },
+    {
+      name: 'CAM API',
+      description: `CAMPD uses web services to display data via an Application Programming Interface (API). An API is a set of commands, functions, protocols, 
+      and objects that programmers can use to create software or interact with an external system. An API interprets that data and presents 
+      you with the information you wanted in a readable way. These services and associated documentation provide an additional means of accessing CAMPD’s data.`,
+      url: () => null,
+      button: 'Learn more about CAM API',
+    },
+  ];
+  return (
+    <div className="wrapper font-sans-sm text-base-darkest text-ls-1 line-height-sans-5">
+      <h1 className="font-sans-2xl text-bold">Data</h1>
+      <p className="font-sans-md line-height-sans-6">
+        CAMPD’s Data section serves all your bulk and custom data download
+        needs.
       </p>
-      <p className="font-sans-sm text-base-darkest text-ls-1 line-height-sans-6 data-intro">
-        {`Three download methods provide apportioned emissions, raw emissions, monitoring plan, QA, allowance, compliance and facility/unit data collected 
-        from CAMD’s market-based trading programs. Users unfamiliar with the data may want to visit the “Tutorials” section under “Help” for more information 
-        about the data as well has how to use the tools below.`}
+      <p>
+        Three download methods provide apportioned emissions, raw emissions,
+        monitoring plan, QA, allowance, compliance and facility/unit data
+        collected from CAMD’s market-based trading programs. Users unfamiliar
+        with the data may want to visit the “Tutorials” section under “Help” for
+        more information about the data as well has how to use the tools below.
       </p>
 
       <div className="grid-row">
-        <div className="margin-y-2 margin-right-4 display-flex flex-column flex-align-start data-card">
-          <h2 className="text-base-darkest font-sans-lg text-bold margin-y-0">Custom Data Download Tool</h2>
-          <p className="font-sans-sm text-base-darkest text-ls-1 line-height-sans-6">
-          {`Users looking to build a custom query for a particular data type will find this tool flexible, fast, and easy to use. Apportioned emissions,
-          allowance, compliance and facility/unit attributes data are available for filtering and querying to the user’s desired parameters.`}
-          </p>
-          <Button
-            className="bg-accent-cool radius-md text-ink"
-            onClick={()=>history.push("/select-data-type")}
-          >
-            Start your data query
-          </Button>
-        </div>
-        <div className="margin-y-2 margin-right-4 display-flex flex-column flex-align-start data-card">
-          <h2 className="text-base-darkest font-sans-lg text-bold margin-y-0">Bulk Data Files</h2>
-          <p className="font-sans-sm text-base-darkest text-ls-1 line-height-sans-6">
-            {`For larger data downloads, bulk data files provide access to prepackaged datasets of apportioned emissions (including MATS), raw emissions, 
-            monitoring plans, QA, allowance, and compliance data thru EPA’s FTP site. Additionally, modelers who use SMOKE data will find their annual datasets here.`}
-          </p>
-          <Button
-            className="bg-accent-cool radius-md text-ink"
-            onClick={()=>history.push("/bulk-data-files")}
-          >
-            Start browsing datasets
-          </Button>
-        </div>
-        <div className="margin-y-2 display-flex flex-column flex-align-start data-card">
-          <h2 className="text-base-darkest font-sans-lg text-bold margin-y-0">CAM API</h2>
-          <p className="font-sans-sm text-base-darkest text-ls-1 line-height-sans-6">
-            {`CAMPD uses web services to display data via an Application Programming Interface (API). An API is a set of commands, functions, protocols, 
-            and objects that programmers can use to create software or interact with an external system. An API interprets that data and presents 
-            you with the information you wanted in a readable way. These services and associated documentation provide an additional means of accessing CAMPD’s data.`}
-          </p>
-          <Button
-            className="bg-accent-cool radius-md margin-0 text-ink"
-            onClick={()=>null}
-          >
-            Learn more about CAM API
-          </Button>
-        </div>
+        {topics.map((topic) => {
+          return (
+            <div
+              className="padding-top-2 padding-bottom-2 grid-col-12 desktop:grid-col-4 padding-right-3 text-base-darkest"
+              key={`container-${topic.name.replace(/ /g, '-')}`}
+            >
+              {' '}
+              <h2 className="text-bold font-heading-xl line-height-sans-3 text-ls-neg-3 margin-bottom-1">
+                {topic.name}{' '}
+              </h2>
+              <div>{topic.description}</div>
+              <a target="_blank" rel="noopener noreferrer" href={topic.url}>
+                <Button
+                  className="margin-top-1"
+                  type="button"
+                  to={topic.url}
+                  role="link"
+                  rel={topic.name}
+                  title={`Go to ${topic.name} page`}
+                  key={topic.url}
+                  id={`${topic.name.split(' ').join('')}`}
+                >
+                  {topic.button}
+                </Button>
+              </a>
+            </div>
+          );
+        })}
       </div>
     </div>
   );
-}
+};
 
 export default DataLandingPage;
