@@ -34,7 +34,7 @@ function App() {
           <Route path="/" exact component={HomePage}/>
           <Route path="/select-data-type" exact component={SelectDataType} />
           <Route path="/data" exact component={DataLandingPage} />
-          <Route path="/bulk-data-files" exact component={BulkDataFiles} />
+          <Route path="/data/bulk-data-files" exact component={BulkDataFiles} />
           <ManageDataDownloadRoute path='/manage-data-download' exact component={ManageDataDownload} />
           <Route path="/*" component={NotFound} />
         </Switch>
