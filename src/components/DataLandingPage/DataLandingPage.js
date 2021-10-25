@@ -22,7 +22,7 @@ const DataLandingPage = () => {
       name: 'Bulk Data Files',
       description: `For larger data downloads, bulk data files provide access to prepackaged datasets of apportioned emissions (including MATS), raw emissions, 
       monitoring plans, QA, allowance, and compliance data thru EPA’s FTP site. Additionally, modelers who use SMOKE data will find their annual datasets here.`,
-      url: () => history.push('/bulk-data-files'),
+      url: () => history.push('/data/bulk-data-files'),
       button: 'Start browsing datasets',
     },
     {
@@ -52,7 +52,7 @@ const DataLandingPage = () => {
         {topics.map((topic) => {
           return (
             <div
-              className="padding-top-2 padding-bottom-2 grid-col-12 desktop:grid-col-4 padding-right-3 text-base-darkest"
+              className="padding-y-2 grid-col-12 desktop:grid-col-4 desktop:padding-right-3 text-base-darkest"
               key={`container-${topic.name.replace(/ /g, '-')}`}
             >
               {' '}
@@ -60,20 +60,19 @@ const DataLandingPage = () => {
                 {topic.name}{' '}
               </h2>
               <div>{topic.description}</div>
-              <a target="_blank" rel="noopener noreferrer" href={topic.url}>
-                <Button
-                  className="margin-top-1"
-                  type="button"
-                  to={topic.url}
-                  role="link"
-                  rel={topic.name}
-                  title={`Go to ${topic.name} page`}
-                  key={topic.url}
-                  id={`${topic.name.split(' ').join('')}`}
-                >
-                  {topic.button}
-                </Button>
-              </a>
+              <Button
+                className="margin-top-1"
+                type="button"
+                to={topic.url}
+                onClick={topic.url}
+                role="link"
+                rel={topic.name}
+                title={`Go to ${topic.name} page`}
+                key={topic.url}
+                id={`${topic.name.split(' ').join('')}`}
+              >
+                {topic.button}
+              </Button>
             </div>
           );
         })}
