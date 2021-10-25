@@ -48,7 +48,6 @@ const DataLandingPage = () => {
         with the data may want to visit the “Tutorials” section under “Help” for
         more information about the data as well has how to use the tools below.
       </p>
-
       <div className="grid-row">
         {topics.map((topic) => {
           return (

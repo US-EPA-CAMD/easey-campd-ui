@@ -7,12 +7,22 @@ import {
   ModalFooter,
 } from '@trussworks/react-uswds';
 
+import { metaAdder } from '../../utils/document/metaAdder';
 import './BulkDataFiles.scss';
 
 const BulkDataFiles = () => {
   useEffect(() => {
-    document.title = 'CAMPD - Bulk Data Files';
+    document.title = 'Bulk Data Files | CAMPD | US EPA';
   }, []);
+
+  metaAdder(
+    'description',
+    'The bulk data files page provides access to larger bulk downloads of apportioned and raw emissions, allowance, and compliance data'
+  );
+  metaAdder(
+    'keywords',
+    'EPA CAMD, FTP, prepackaged data download, static datasets, AMPD, emissions data, allowance, compliance, Clean air markets program data, emissions, analysis,  facility information, CAMPD, AMPD, CAMD'
+  );
 
   const topics = [
     {
@@ -60,7 +70,8 @@ const BulkDataFiles = () => {
       descriptions: (
         <ul>
           <li>Emissions Submittals (updated quarterly)</li>
-          <li>Monitoring Plan Submittals QA data (updated quarterly)</li>
+          <li>Monitoring Plan Submittals</li>
+          <li>QA data (updated quarterly)</li>
         </ul>
       ),
       url: 'https://gaftp.epa.gov/DMDnLoad/xml',
@@ -118,9 +129,9 @@ const BulkDataFiles = () => {
             </ModalHeading>
             <div className="usa-prose">
               <p id="ftp-access-help-modal-description">
-                Modal Content Some browsers have discontinued support of the
-                ftp:// protocol and/or changed settings that prevent access to
-                FTP sites. The options below provide a workaround.
+                Some browsers have discontinued support of the ftp:// protocol
+                and/or changed settings that prevent access to FTP sites. The
+                options below provide a workaround.
                 <br></br>
                 <br></br>
                 <b>Option 1:</b> Access the same data by replacing
@@ -176,7 +187,11 @@ const BulkDataFiles = () => {
                   key={topic.url}
                   id={`${topic.name.split(' ').join('')}`}
                 >
-                  Access {`${topic.name} `} Data
+                  {
+                    (topic.name === 'Allowances'
+                      ? 'Access Allowance Data'
+                      : `Access ${topic.name} Data`)
+                  }
                 </Button>
               </a>
             </div>
