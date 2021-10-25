@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import { Button, Tag } from '@trussworks/react-uswds';
 import { useHistory } from 'react-router-dom';
 
+import './HomePage.scss';
+
 const HomePage = () => {
   useEffect(() => {
     document.title = 'CAMPD - Home';
@@ -58,7 +60,7 @@ const HomePage = () => {
           >
             {topic.img}
             <div className="margin-left-2 desktop:margin-left-1">
-              <h2 className="font-sans-xl text-bold margin-y-2">
+              <h2 className="font-heading-xl text-bold margin-y-2">
                 {topic.name}
               </h2>
               {hasButton ? null : (
