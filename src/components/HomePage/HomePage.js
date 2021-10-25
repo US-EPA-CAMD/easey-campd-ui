@@ -65,7 +65,7 @@ const HomePage = () => {
               </h2>
               {hasButton ? null : (
                 <div className="margin-top-3">
-                  <Tag className="radius-md padding-y-05 font-sans-3xs text-semibold">
+                  <Tag className="radius-md padding-y-05 font-sans-3xs text-semibold text-ls-2">
                     Coming Soon
                   </Tag>
                 </div>
