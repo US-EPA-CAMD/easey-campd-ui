@@ -37,7 +37,7 @@ const DataLandingPage = () => {
   return (
     <div className="padding-y-2 mobile-lg:padding-x-2 tablet:padding-x-4 widescreen:padding-x-10 font-sans-sm text-base-darkest text-ls-1 line-height-sans-5">
       <h1 className="font-sans-2xl text-bold">Data</h1>
-      <p className="font-sans-md line-height-sans-6">
+      <p className="font-sans-lg line-height-sans-6">
         CAMPD’s Data section serves all your bulk and custom data download
         needs.
       </p>
@@ -56,7 +56,7 @@ const DataLandingPage = () => {
               key={`container-${topic.name.replace(/ /g, '-')}`}
             >
               {' '}
-              <h2 className="text-bold font-heading-xl line-height-sans-3 text-ls-neg-3 margin-bottom-1">
+              <h2 className="text-bold font-heading-xl line-height-sans-3 margin-bottom-1">
                 {topic.name}{' '}
               </h2>
               <div>{topic.description}</div>
