@@ -8,7 +8,6 @@ import {
 } from '@trussworks/react-uswds';
 
 import { metaAdder } from '../../utils/document/metaAdder';
-import './BulkDataFiles.scss';
 
 const BulkDataFiles = () => {
   useEffect(() => {
@@ -81,7 +80,7 @@ const BulkDataFiles = () => {
   const modalRef = useRef();
 
   return (
-    <div className="wrapper font-sans-sm text-base-darkest text-ls-1 line-height-sans-6">
+    <div className="padding-y-2 mobile-lg:padding-x-2 tablet:padding-x-4 widescreen:padding-x-10 font-sans-sm text-base-darkest text-ls-1 line-height-sans-6">
       <h1 className="text-base-darkest font-sans-2xl text-bold">
         Bulk Data Files
       </h1>
@@ -167,7 +166,7 @@ const BulkDataFiles = () => {
         {topics.map((topic) => {
           return (
             <div
-              className="padding-top-2 padding-bottom-2 desktop:grid-col-6 mobile-lg:grid-col-12 padding-right-3 text-base-darkest"
+              className="padding-y-2 desktop:grid-col-6 mobile-lg:grid-col-12 padding-right-3 text-base-darkest"
               key={`container-${topic.name.replace(/ /g, '-')}`}
             >
               {' '}

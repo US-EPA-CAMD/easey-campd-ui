@@ -42,7 +42,7 @@ const SubHeader = () => {
   return (
     <div className="subheader-wrapper">
       <Header
-        className="padding-y-2 mobile-lg:padding-x-2 desktop:padding-x-4"
+        className="padding-y-2 mobile-lg:padding-x-2 tablet:padding-x-4 widescreen:padding-x-10"
         style={{
           backgroundImage: `url(${
             process.env.PUBLIC_URL + '/images/header-bg.png'
