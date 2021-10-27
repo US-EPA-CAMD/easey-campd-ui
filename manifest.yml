@@ -5,13 +5,11 @@ applications:
       - nodejs_buildpack
     env:
       OPTIMIZE_MEMORY: true
-      PUBLIC_URL: https://((host))/((path))
       REACT_APP_EASEY_CAMPD_UI_ENV: ((environment))
       REACT_APP_EASEY_CAMPD_UI_HOST: ((host))
-      REACT_APP_EASEY_CAMPD_UI_PATH: /((path))
-      REACT_APP_EASEY_MDM_API: https://((host))/api/master-data-mgmt
-      REACT_APP_EASEY_FACILITIES_API: https://((host))/api/facility-mgmt
-      REACT_APP_EASEY_EMISSIONS_API: https://((host))/api/emissions-mgmt
-      REACT_APP_EASEY_ACCOUNT_API: https://((host))/api/account-mgmt
+      REACT_APP_EASEY_MDM_API: https://((apiHost))/master-data-mgmt
+      REACT_APP_EASEY_FACILITIES_API: https://((apiHost))/api/facility-mgmt
+      REACT_APP_EASEY_EMISSIONS_API: https://((apiHost))/api/emissions-mgmt
+      REACT_APP_EASEY_ACCOUNT_API: https://((apiHost))/api/account-mgmt
     routes:
-      - route: ((host))/((path))
+      - route: ((host))
