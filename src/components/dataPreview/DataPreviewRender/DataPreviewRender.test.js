@@ -6,7 +6,7 @@ import configureStore from '../../../store/configureStore.dev';
 import initialState from '../../../store/reducers/initialState';
 import DataPreviewRender from './DataPreviewRender';
 
-const fieldMappings = [{"label":"State","value":"state"},{"label":"Facility Name","value":"facilityName"},{"label":"Facility ID","value":"orisCode"},
+const fieldMappings = [{"label":"State","value":"state"},{"label":"Facility Name","value":"facilityName"},{"label":"Facility ID","value":"facilityId"},
 {"label":"Unit ID","value":"unitId"},{"label":"Associated Stacks","value":"assocStacks"},{"label":"Date","value":"opDate"},{"label":"Hour","value":"opHour"},
 {"label":"Operating Time","value":"opTime"},{"label":"Gross Load (MW)","value":"gLoad"},{"label":"Steam Load (1000 lb/hr)","value":"sLoad"},
 {"label":"SO2 Mass (lbs)","value":"so2Mass"},{"label":"SO2 Mass Measure Indicator","value":"so2MassMeasureFlg"},{"label":"SO2 Rate (lbs/mmBtu)","value":"so2Rate"},
@@ -21,7 +21,7 @@ const dataPreview = [
   {
     state: 'AL',
     facilityName: 'Barry',
-    orisCode: '3',
+    facilityId: '3',
     unitId: '4',
     gLoad: '150.00',
     sLoad: null,
@@ -90,7 +90,7 @@ const columns = () =>
 
 describe('ManageDataPreview', () => {
   test('Check that the  component properly renders', () => {
-    const { getByText } = render(
+    const { getByRole } = render(
       <DataPreviewRender
         loading={1}
         dataPreview={dataPreview}
@@ -99,7 +99,7 @@ describe('ManageDataPreview', () => {
         totalCount={1}
         />
     );
-    const dataPreviewHeader = getByText('Data Preview');
+    const dataPreviewHeader = getByRole('alert');
     expect(dataPreviewHeader).toBeDefined();
   });
 });

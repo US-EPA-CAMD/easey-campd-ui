@@ -29,9 +29,9 @@ const MultiSelectCombobox = ({
     let filteredData = _items;
     if(value.length>0){
       if(searchBy==="contains"){
-        filteredData = _items.filter(item => item.label.toLowerCase().includes(lowercasedFilter));
+        filteredData = _items.filter(item => item.label?.toLowerCase().includes(lowercasedFilter));
       }else if(searchBy==="beginsWith"){
-        filteredData = _items.filter(item => item.label.toLowerCase().startsWith(lowercasedFilter));
+        filteredData = _items.filter(item => item.label?.toLowerCase().startsWith(lowercasedFilter));
       }
     }
     setFilter(value);
@@ -149,7 +149,7 @@ const MultiSelectCombobox = ({
               {item.selected? <FontAwesomeIcon icon={faCheck} color="#005ea2"/>: null}
             </li>)
           ):
-            (<span className="padding-x-2 padding-top-2">No {entity} match your search.</span>)
+            (<span className="padding-x-2 padding-top-2">No {entity.replace("-"," ")} match your search.</span>)
           }
         </ul>
         }

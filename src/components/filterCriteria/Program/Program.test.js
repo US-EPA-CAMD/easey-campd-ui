@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, cleanup } from '@testing-library/react';
+import { render, fireEvent, cleanup, screen } from '@testing-library/react';
 import Program  from './Program';
 import {restructurePrograms} from "../../../utils/selectors/filterCriteria";
 import configureStore from "../../../store/configureStore.dev";
@@ -212,10 +212,25 @@ const program = [
     "tradingEndDate": null
   }
 ];
+const filterMapping = [{"year":2019,"programCode":"ARP","facilityId":3,"state":"AL","unitTypeCode":"CC","fuelTypeCode":"PNG","controlCode":"DLNB"},
+{"year":2019,"programCode":"ARP","facilityId":3,"state":"AL","unitTypeCode":"CC","fuelTypeCode":"PNG","controlCode":"SCR"},
+{"year":2019,"programCode":"ARP","facilityId":3,"state":"AL","unitTypeCode":"T","fuelTypeCode":"C","controlCode":"CAT"},
+{"year":2019,"programCode":"ARP","facilityId":3,"state":"AL","unitTypeCode":"T","fuelTypeCode":"C","controlCode":"DSI"},
+{"year":2019,"programCode":"ARP","facilityId":3,"state":"AL","unitTypeCode":"T","fuelTypeCode":"C","controlCode":"ESP"},
+{"year":2019,"programCode":"ARP","facilityId":3,"state":"AL","unitTypeCode":"T","fuelTypeCode":"C","controlCode":"HPAC"},
+{"year":2019,"programCode":"ARP","facilityId":3,"state":"AL","unitTypeCode":"T","fuelTypeCode":"C","controlCode":"LNC2"},
+{"year":2019,"programCode":"ARP","facilityId":3,"state":"AL","unitTypeCode":"T","fuelTypeCode":"C","controlCode":"SCR"},
+{"year":2019,"programCode":"ARP","facilityId":3,"state":"AL","unitTypeCode":"T","fuelTypeCode":"C","controlCode":"SNCR"},
+{"year":2019,"programCode":"ARP","facilityId":3,"state":"AL","unitTypeCode":"T","fuelTypeCode":"C","controlCode":"WLS"},
+{"year":2019,"programCode":"ARP","facilityId":3,"state":"AL","unitTypeCode":"T","fuelTypeCode":"PNG","controlCode":"CAT"},
+{"year":2019,"programCode":"ARP","facilityId":3,"state":"AL","unitTypeCode":"T","fuelTypeCode":"PNG","controlCode":"DSI"}];
 const storeProgam = restructurePrograms(program);
 initialState.filterCriteria.program = storeProgam;
+initialState.filterCriteria.timePeriod.year.yearArray = [2019];
+initialState.filterCriteria.filterMapping = filterMapping;
+initialState.customDataDownload.dataType = "EMISSIONS";
 const store = configureStore(initialState);
-
+let flyoutClosed = false;
 
 describe("Hourly Emissions Program", () => {
   let queries;
@@ -225,7 +240,7 @@ describe("Hourly Emissions Program", () => {
       <Provider 
         store={store}>
         <Program
-          closeFlyOutHandler={jest.fn()}
+          closeFlyOutHandler={() => flyoutClosed = true}
           loadEmissionsProgramsDispatcher={jest.fn()}
           updateProgramSelectionDispatcher={jest.fn()}
           addAppliedFilterDispatcher={jest.fn()}
@@ -249,10 +264,13 @@ describe("Hourly Emissions Program", () => {
   });
 
   it("handles checkbox selection appropriately", () => {
-    const { getByRole } = queries;
+    const { getByRole, getByText } = queries;
     const arpCheckbox = getByRole('checkbox', {name:"Acid Rain Program (ARP)"});
     fireEvent.click(arpCheckbox);
     expect(arpCheckbox.checked).toEqual(true);
+    const applyFilterButton = getByText('Apply Filter').closest('button');
+    fireEvent.click(applyFilterButton);
+    expect(flyoutClosed).toBe(true);
   });
 
 });

@@ -3,7 +3,8 @@ import { connect } from "react-redux";
 import CheckboxGroupRenderer from '../../CheckboxGroupRenderer/CheckboxGroupRenderer';
 import {loadPrograms, updateProgramSelection} from "../../../store/actions/customDataDownload/filterCriteria";
 import { addAppliedFilter, removeAppliedFilter } from "../../../store/actions/customDataDownload/customDataDownload";
-import { getSelectedIds } from "../../../utils/selectors/filterCriteria";
+import { getSelectedIds, getApplicablePrograms } from "../../../utils/selectors/filterCriteria";
+import {getProgramsFilteredSet} from "../../../utils/selectors/filterLogic";
 import { isAddedToFilters } from '../../../utils/selectors/general';
 import {Button} from "@trussworks/react-uswds";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -21,7 +22,8 @@ const Program = ({
   dataType,
   dataSubType,
   showActiveOnly=false,
-  renderedHandler}) => {
+  renderedHandler,
+  filterCriteria}) => {
 
   const [program, setPrograms] = useState(JSON.parse(JSON.stringify(storeProgram)));
 
@@ -48,27 +50,26 @@ const Program = ({
   },[]);
 
   useEffect(()=>{
-    setPrograms(JSON.parse(JSON.stringify(getProgramItems())));
+    if(dataType === "EMISSIONS" && filterCriteria.filterMapping.length > 0){
+      const programsMDM = JSON.parse(JSON.stringify(getApplicablePrograms(storeProgram, dataSubType)));
+      const filteredSet = getProgramsFilteredSet(filterCriteria);
+      programsMDM.forEach(p => {
+        p.items.forEach(el =>{
+          el.enabled = filteredSet.includes(el.id);
+        })
+      });
+      setPrograms(programsMDM);
+    }else{
+      setPrograms(JSON.parse(JSON.stringify(getApplicablePrograms(storeProgram, dataSubType))));
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[storeProgram]);
+  },[storeProgram, filterCriteria.filterMapping]);
 
   useEffect(()=>{
     if(program.length > 0 && loading===0){
       renderedHandler();
     }// eslint-disable-next-line react-hooks/exhaustive-deps
   },[program, loading]);
-
-  const getProgramItems = () =>{
-    let res = storeProgram;
-    if(storeProgram.length>1){
-      if(dataSubType==="Ozone Season Emissions"){
-        res = [storeProgram[1]];
-      }else if(dataSubType==="Annual Emissions"){
-        res = [storeProgram[0]];
-      }
-    }
-    return res;
-  };
 
   const handleApplyFilter = () =>{
     updateProgramSelectionDispatcher(program);
@@ -121,7 +122,7 @@ const Program = ({
         </>
       }
       {
-        loading>0 && program.length===0 &&
+        loading>0 &&
         <span className="font-alt-sm text-bold margin-x-2">Loading...</span>
       }
     </>
@@ -132,6 +133,7 @@ const Program = ({
 const mapStateToProps = (state) => {
   return {
     storeProgram: state.filterCriteria.program,
+    filterCriteria: state.filterCriteria,
     appliedFilters: state.customDataDownload.appliedFilters,
     dataType: state.customDataDownload.dataType,
     dataSubType: state.customDataDownload.dataSubType,

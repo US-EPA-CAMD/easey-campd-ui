@@ -27,7 +27,10 @@ export default {
     controlTechnology: [],
     accountType: [],
     accountNameNumber: [],
-    ownerOperator: []
+    ownerOperator: [],
+    transactionType: [],
+    sourceCategory: [],
+    filterMapping: [],
   },
   apiCallsInProgress: 0,
 };

@@ -46,7 +46,17 @@ const reducer = (state = initialState.filterCriteria, action) => {
       return Object.assign({}, state, { ownerOperator: action.ownerOperator });
     case types.UPDATE_OWNER_OPERATOR_SELECTION:
       return Object.assign({}, state, { ownerOperator: action.ownerOperator });
-      default:
+    case types.LOAD_TRANSACTION_TYPE_SUCCESS:
+      return Object.assign({}, state, { transactionType: action.transactionType });
+    case types.UPDATE_TRANSACTION_TYPE_SELECTION:
+      return Object.assign({}, state, { transactionType: action.transactionType });
+    case types.LOAD_SOURCE_CATEGORY_SUCCESS:
+      return Object.assign({}, state, { sourceCategory: action.sourceCategory });
+    case types.UPDATE_SOURCE_CATEGORY_SELECTION:
+      return Object.assign({}, state, { sourceCategory: action.sourceCategory });
+    case types.LOAD_FILTER_MAPPING_SUCCESS:
+      return Object.assign({}, state, { filterMapping: action.filterMapping });
+    default:
       return state;
   }
 };

@@ -72,7 +72,7 @@ export const formatYearsToArray = (multiSelectDateString) => {
     });
   }
 
-  return numberArray;
+  return numberArray?.sort();
 };
 
 export const formatMonthsToApiOrString = (monthArray, string=false) => {
@@ -129,10 +129,10 @@ export const constructRequestUrl = (
   download = false
 ) => {
   const programQuery = filterCriteria.program
-    ? constructQuery(filterCriteria.program, 'program')
+    ? constructQuery(filterCriteria.program, 'programCodeInfo')
     : '';
   const facilityQuery = filterCriteria.facility
-    ? constructComboBoxQuery(filterCriteria.facility, 'orisCode')
+    ? constructComboBoxQuery(filterCriteria.facility, 'facilityId')
     : '';
   const stateTerritoryQuery = filterCriteria.stateTerritory
     ? constructComboBoxQuery(filterCriteria.stateTerritory, 'state')
@@ -155,6 +155,12 @@ export const constructRequestUrl = (
   const ownerOperatorQuery = filterCriteria.ownerOperator
   ? constructComboBoxQuery(filterCriteria.ownerOperator, 'ownerOperator')
   : '';
+  const transactionTypeQuery = filterCriteria.transactionType
+  ? constructComboBoxQuery(filterCriteria.transactionType, 'transactionType')
+  : '';
+  const sourceCategoryQuery = filterCriteria.sourceCategory
+  ? constructComboBoxQuery(filterCriteria.sourceCategory, 'sourceCategory')
+  : '';
 
   const pagination = download ? '' : 'page=1&perPage=100';
   const attachFile = download ? '&attachFile=true' : '&attachFile=false';
@@ -162,7 +168,11 @@ export const constructRequestUrl = (
   let apiService;
   switch (dataType.toLowerCase()) {
     case 'emissions':
-      apiService = `${config.services.emissions.uri}/apportioned/`;
+      if(dataSubType==="Facility/Unit Attributes"){
+        apiService = `${config.services.facilities.uri}/facilities/`;
+      }else{
+        apiService = `${config.services.emissions.uri}/apportioned/`;
+      }
       break;
     case 'allowance':
     case 'compliance':
@@ -181,7 +191,7 @@ export const constructRequestUrl = (
     dataSubType,
     filterCriteria
   )}${programQuery}${facilityQuery}${stateTerritoryQuery}${unitTypeQuery}${fuelTypeQuery}${controlTechnologyQuery}
-${accountNameNumberQuery}${accountTypeQuery}${ownerOperatorQuery}${attachFile}`;
+${accountNameNumberQuery}${accountTypeQuery}${ownerOperatorQuery}${transactionTypeQuery}${sourceCategoryQuery}${attachFile}`;
   console.log(url.replace(/\r?\n|\r/g, ''));
 
   return url.replace(/\r?\n|\r/g, '');

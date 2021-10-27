@@ -1,6 +1,6 @@
 export const ALLOWANCES_DATA_SUBTYPES = [
   { value: '', label: '- Select -' },
-  { value: 1, label: 'Account Information', service: '', required: ['none'] },
+  { value: 1, label: 'Account Information', service: 'accounts/attributes', required: ['none'] },
   { value: 2, label: 'Holdings', service: 'allowance-holdings', required: ['none'] },
   { value: 3, label: 'Transactions', service: 'allowance-transactions', required: ['Transaction Date'] },
 ];
@@ -22,5 +22,5 @@ export const ALLOWANCE_HOLDINGS_FILTERS = [
 export const ALLOWANCE_TRANSACTIONS_FILTERS = [
   { value: 'Transaction Date', stateVar: 'transactionDate', label: 'TRANSACTION DATE (Required)' },
   ...ALLOWANCE_HOLDINGS_FILTERS,
-  { value: 'transactionType', label: 'TRANSACTION TYPE (Optional)' },
+  { value: 'Transaction Type', stateVar: 'transactionType', label: 'TRANSACTION TYPE (Optional)' },
 ];

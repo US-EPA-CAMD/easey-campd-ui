@@ -2,56 +2,65 @@ import initialState from '../../store/reducers/initialState';
 import { initcap } from './general';
 
 export const resetFilterHelper = (state, filterToReset, resetAll = false) => {
-  if (resetAll) {
-    return initialState.filterCriteria;
-  }
+  const clonedFilterCriteria = JSON.parse(JSON.stringify(state));
 
-  switch (filterToReset) {
-    case 'Time Period':
-      return Object.assign({}, state, {
-        timePeriod: initialState.filterCriteria.timePeriod,
-      });
-    case 'Program':
-      return Object.assign({}, state, {program: initialState.filterCriteria.program});
-    case 'Facility':
-      return Object.assign({}, state, {facility: initialState.filterCriteria.facility});
-    case 'State/Territory':
-      return Object.assign({}, state, {stateTerritory: initialState.filterCriteria.stateTerritory});
-    case 'Unit Type':
-      return Object.assign({}, state, {
-        unitType: initialState.filterCriteria.unitType,
-      });
-    case 'Unit Fuel Type':
-      return Object.assign({}, state, {
-        fuelType: initialState.filterCriteria.fuelType,
-      });
-    case 'Control Technology':
-      return Object.assign({}, state, {
-        controlTechnology: initialState.filterCriteria.controlTechnology,
-      });
-    case 'Account Type':
-      return Object.assign({}, state, {
-        accountType: initialState.filterCriteria.accountType,
-      });
-    case 'Account Name/Number':
-      return Object.assign({}, state, {
-        accountNameNumber: initialState.filterCriteria.accountNameNumber,
-      });
-    case 'Vintage Year':
-      return Object.assign({}, state, {
-        timePeriod: {...state.timePeriod, year: initialState.filterCriteria.timePeriod.year},
-      });
-    case 'Transaction Date':
-      return Object.assign({}, state, {
-        timePeriod: {...state.timePeriod, startDate: null, endDate: null},
-      });
-    case 'Owner/Operator':
-      return Object.assign({}, state, {
-        ownerOperator: initialState.filterCriteria.ownerOperator,
-      });
-    default:
-      return state;
+  if (resetAll || filterToReset === "Time Period") {
+    clonedFilterCriteria.timePeriod = initialState.filterCriteria.timePeriod;
   }
+  if (resetAll || filterToReset === "Program") {
+    resetCheckBoxItems(clonedFilterCriteria.program);
+  }
+  if (resetAll || filterToReset === "Facility") {
+    resetComboBoxItems(clonedFilterCriteria.facility);
+  }
+  if (resetAll || filterToReset === "State/Territory") {
+    resetComboBoxItems(clonedFilterCriteria.stateTerritory);
+  }
+  if (resetAll || filterToReset === "Unit Type") {
+    resetCheckBoxItems(clonedFilterCriteria.unitType);
+  }
+  if (resetAll || filterToReset === "Unit Fuel Type") {
+    resetCheckBoxItems(clonedFilterCriteria.fuelType);
+  }
+  if (resetAll || filterToReset === "Control Technology") {
+    resetCheckBoxItems(clonedFilterCriteria.controlTechnology);
+  }
+  if (resetAll || filterToReset === "Account Type") {
+    resetCheckBoxItems(clonedFilterCriteria.accountType);
+  }
+  if (resetAll || filterToReset === "Account Name/Number") {
+    resetComboBoxItems(clonedFilterCriteria.accountNameNumber);
+  }
+  if (resetAll || filterToReset === "Year" || filterToReset === "Vintage Year") {
+    clonedFilterCriteria.timePeriod = {...clonedFilterCriteria.timePeriod, year: initialState.filterCriteria.timePeriod.year};
+  }
+  if (resetAll || filterToReset === "Transaction Date") {
+    clonedFilterCriteria.timePeriod = {...clonedFilterCriteria.timePeriod, startDate: null, endDate: null};
+  }
+  if (resetAll || filterToReset === "Owner/Operator") {
+    resetComboBoxItems(clonedFilterCriteria.ownerOperator);
+  }
+  if (resetAll || filterToReset === "Transaction Type") {
+    resetComboBoxItems(clonedFilterCriteria.transactionType);
+  }
+  if (resetAll || filterToReset === "Source Category") {
+    resetComboBoxItems(clonedFilterCriteria.sourceCategory);
+  }
+  return Object.assign({}, state, clonedFilterCriteria);
+};
+
+export const resetCheckBoxItems = (entity) =>{
+  entity.forEach(e =>{
+    e.items.forEach(item =>{
+      item.selected = false;
+    });
+  });
+};
+
+export const resetComboBoxItems = (entity) =>{
+  entity.forEach(e =>{
+    e.selected = false;
+  });
 };
 
 export const getSelectedIds = (filterState, description = false) => {
@@ -71,7 +80,7 @@ export const getSelectedIds = (filterState, description = false) => {
 };
 
 export const constructQuery = (filterState, filterName, multiSelectTimePeriod=false) => {
-  const useCode = filterName === 'program' ? false : true;
+  const useCode = filterName === 'programCodeInfo' ? false : true;
   let selectedFilters;
   if (multiSelectTimePeriod) {
     selectedFilters = filterState
@@ -367,3 +376,27 @@ export const restructureAccountTypes = (accountTypes) => {
 
   return data;
 };
+
+export const getApplicablePrograms = (storeProgram, dataSubType) =>{
+  let res = storeProgram;
+  if(storeProgram.length>1){
+    if(dataSubType==="Ozone Season Emissions"){
+      res = [storeProgram[1]];
+    }else if(dataSubType==="Annual Emissions"){
+      res = [storeProgram[0]];
+    }
+  }
+  return res;
+};
+
+export const getPipeDelimitedYears = (yearsArray) => {
+  let result = "";
+  yearsArray.forEach((year,i) => {
+    if(i===yearsArray.length-1){
+      result += year;
+    }else{
+      result += `${year}|`
+    }
+  })
+  return result;
+}

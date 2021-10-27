@@ -7,7 +7,9 @@ import {
   restructureFuelTypes,
   restructureControlTechnologies,
   restructureAccountTypes,
+  getPipeDelimitedYears,
 } from '../../../utils/selectors/filterCriteria';
+import {FILTERS_MAP, API_CALLING_FILTERS} from "../../../utils/constants/customDataDownload";
 
 export function resetFilter(filterToReset, resetAll = false) {
   return {
@@ -59,7 +61,7 @@ export function updateProgramSelection(program) {
 export function loadFacilitiesSuccess(facilities) {
   return {
     type: types.LOAD_FACILITIES_SUCCESS,
-    facility: facilities.map(f=> ({id: f.orisCode, label:`${f.name} (${f.orisCode})`, selected:false}))
+    facility: facilities.map(f=> ({id: f.facilityId, label:`${f.facilityName} (${f.facilityId})`, selected:false}))
   };
 }
 
@@ -258,7 +260,7 @@ export function updateAccountNameNumberSelection(accountNameNumber){
   }
 }
 
-/* ---------ACCOUNT NAME/NUMBER---------- */
+/* ---------OWNER OPERATOR---------- */
 export function loadOwnerOperatorsSuccess(ownerOperators) {
   const distinctOwnOpers = [...new Set(ownerOperators.map(d=>d.ownerOperator))];
   return {
@@ -287,3 +289,197 @@ export function updateOwnerOperatorSelection(ownerOperator){
     ownerOperator,
   }
 }
+
+/* ---------TRANSACTION TYPE---------- */
+export function loadTransactionTypesSuccess(transactionType) {
+  return {
+    type: types.LOAD_TRANSACTION_TYPE_SUCCESS,
+    transactionType: transactionType.map(t=> ({id: t.transactionTypeDescription, label: t.transactionTypeDescription, selected:false}))
+  };
+}
+
+export function loadTransactionTypes() {
+  return (dispatch) => {
+    dispatch(beginApiCall());
+    return filterCriteriaApi
+      .getTransactionTypes
+      .then((res) => {
+        dispatch(loadTransactionTypesSuccess(res.data));
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+}
+
+export function updateTransactionTypeSelection(transactionType){
+  return {
+    type: types.UPDATE_TRANSACTION_TYPE_SELECTION,
+    transactionType,
+  }
+}
+
+/* ---------FILTER MAPPINGS---------- */
+export function loadFilterMappingSuccess(filterMapping) {
+  return {
+    type: types.LOAD_FILTER_MAPPING_SUCCESS,
+    filterMapping
+  };
+}
+
+export function loadFilterMapping(yearsArray) {
+  return (dispatch) => {
+    dispatch(beginApiCall());
+    return filterCriteriaApi
+      .getFilterMapping(getPipeDelimitedYears(yearsArray))
+      .then((res) => {
+        dispatch(loadFilterMappingSuccess(res.data));
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+}
+
+/* ---------SOURCE CATEGORY---------- */
+export function loadSourceCategoriesSuccess(sourceCategory) {
+  return {
+    type: types.LOAD_SOURCE_CATEGORY_SUCCESS,
+    sourceCategory: sourceCategory.map(t=> ({id: t.sourceCategoryDescription, label: t.sourceCategoryDescription, selected:false}))
+  };
+}
+
+export function loadSourceCategories() {
+  return (dispatch) => {
+    dispatch(beginApiCall());
+    return filterCriteriaApi
+      .getSourceCategories
+      .then((res) => {
+        dispatch(loadSourceCategoriesSuccess(res.data));
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+}
+
+export function updateSourceCategorySelection(sourceCategory){
+  return {
+    type: types.UPDATE_SOURCE_CATEGORY_SELECTION,
+    sourceCategory,
+  }
+}
+
+const dispatchAction = (result, filter, dispatch) =>{
+  switch(filter){
+    case API_CALLING_FILTERS[0]:
+      dispatch(loadProgramsSuccess(result));
+      break;
+    case API_CALLING_FILTERS[1]:
+      dispatch(loadStatesSuccess(result));
+      break;
+    case API_CALLING_FILTERS[2]:
+      dispatch(loadSourceCategoriesSuccess(result));
+      break;
+    case API_CALLING_FILTERS[3]:
+      dispatch(loadFacilitiesSuccess(result));
+      break;
+    case API_CALLING_FILTERS[4]:
+      dispatch(loadUnitTypesSuccess(result));
+      break;
+    case API_CALLING_FILTERS[5]:
+      dispatch(loadFuelTypesSuccess(result));
+      break;
+    case API_CALLING_FILTERS[6]:
+      dispatch(loadControlTechnologiesSuccess(result));
+      break;
+    case API_CALLING_FILTERS[7]:
+      dispatch(loadAccountTypesSuccess(result));
+      break;
+    case API_CALLING_FILTERS[8]:
+      dispatch(loadAccountNameNumbersSuccess(result));
+      break;
+    case API_CALLING_FILTERS[9]:
+      dispatch(loadTransactionTypesSuccess(result));
+      break;
+    case API_CALLING_FILTERS[10]:
+      dispatch(loadOwnerOperatorsSuccess(result));
+      break;
+    default:
+  }
+};
+
+export const loadAllFilters = (dataType, dataSubType, filterCriteria) =>{
+  const filters = FILTERS_MAP[dataType][dataSubType].map(obj => obj.value);
+  const promises=[];
+  const apiCallOrder=[];
+  return(dispatch) => {
+    if(filters.includes(API_CALLING_FILTERS[0])){
+      dispatch(beginApiCall());
+      promises.push(filterCriteriaApi.getPrograms(dataType, dataSubType === "Holdings"? true : false));
+      apiCallOrder.push(API_CALLING_FILTERS[0]);
+    }
+    if(filterCriteria.stateTerritory.length === 0 && filters.includes(API_CALLING_FILTERS[1])){
+      dispatch(beginApiCall());
+      promises.push(filterCriteriaApi.getStates);
+      apiCallOrder.push(API_CALLING_FILTERS[1]);
+    }
+    if(filterCriteria.sourceCategory.length === 0 && filters.includes(API_CALLING_FILTERS[2])){
+      dispatch(beginApiCall());
+      promises.push(filterCriteriaApi.getSourceCategories);
+      apiCallOrder.push(API_CALLING_FILTERS[2]);
+    }
+    if(filterCriteria.facility.length === 0 && filters.includes(API_CALLING_FILTERS[3])){
+      dispatch(beginApiCall());
+      promises.push(filterCriteriaApi.getAllFacilities());
+      apiCallOrder.push(API_CALLING_FILTERS[3]);
+    }
+    if(filterCriteria.unitType.length === 0 && filters.includes(API_CALLING_FILTERS[4])){
+      dispatch(beginApiCall());
+      promises.push(filterCriteriaApi.getUnitTypes);
+      apiCallOrder.push(API_CALLING_FILTERS[4]);
+    }
+    if(filterCriteria.fuelType.length === 0 && filters.includes(API_CALLING_FILTERS[5])){
+      dispatch(beginApiCall());
+      promises.push(filterCriteriaApi.getFuelTypes);
+      apiCallOrder.push(API_CALLING_FILTERS[5]);
+    }
+    if(filterCriteria.controlTechnology.length === 0 && filters.includes(API_CALLING_FILTERS[6])){
+      dispatch(beginApiCall());
+      promises.push(filterCriteriaApi.getControlTechnologies);
+      apiCallOrder.push(API_CALLING_FILTERS[6]);
+    }
+    if(filterCriteria.accountType.length === 0 && filters.includes(API_CALLING_FILTERS[7])){
+      dispatch(beginApiCall());
+      promises.push(filterCriteriaApi.getAccountTypes);
+      apiCallOrder.push(API_CALLING_FILTERS[7]);
+    }
+    if(filterCriteria.accountNameNumber.length === 0 && filters.includes(API_CALLING_FILTERS[8])){
+      dispatch(beginApiCall());
+      promises.push(filterCriteriaApi.getAllAccounts());
+      apiCallOrder.push(API_CALLING_FILTERS[8]);
+    }
+    if(filterCriteria.transactionType.length === 0 && filters.includes(API_CALLING_FILTERS[9])){
+      dispatch(beginApiCall());
+      promises.push(filterCriteriaApi.getTransactionTypes);
+      apiCallOrder.push(API_CALLING_FILTERS[9]);
+    }
+    if(filters.includes(API_CALLING_FILTERS[10])){
+      dispatch(beginApiCall());
+      promises.push(filterCriteriaApi.getOwnerOperators(dataSubType));
+      apiCallOrder.push(API_CALLING_FILTERS[10]);
+    }
+    return Promise.all([...promises])
+      .then((values) => {
+        console.log(values);
+        values.forEach((value, index) =>{
+         if(value){
+          dispatchAction(value.data, apiCallOrder[index], dispatch)
+         }
+        });
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }
+};

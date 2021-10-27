@@ -14,7 +14,6 @@
   .rdt_TableCol_Sortable {
     color: $epa-black !important;
     margin-right: 1em !important;
-    font-family: "Public Sans", sans-serif;
     font-size: 16.64px !important;
     font-weight: bold !important;
     white-space: normal !important;
@@ -68,7 +67,6 @@
     /* this comment is here to avoid a code smell for empty content */
   }
   .rdt_TableCell {
-    font-family: "Public Sans", sans-serif;
     font-size: 15.6px !important;
     min-width: 15em !important;
     overflow: hidden;

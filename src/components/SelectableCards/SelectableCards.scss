@@ -20,17 +20,11 @@ span.datatype.selected {
 }
 
 .selectablecard {
-  //width: 118px;
-  //height: 28px;
-  //padding: 4rem 1.25rem;
-  //margin-top: 10px;
   margin-bottom: 25px;
-  //margin-right: 10px;
   background: white;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   border: 3px solid #005ea2;
-  font-family: "Merriweather", sans-serif !important;
   font-size: 18px !important;
   font-weight: bold;
 }

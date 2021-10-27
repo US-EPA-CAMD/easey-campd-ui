@@ -34,7 +34,8 @@ describe('custom data download Async Actions', () => {
         'x-field-mappings': '[{"label":"Test","value":"test"},{"label":"Test2","value":"test2"}]'
       },
     };
-    const url = `${config.services.emissions.uri}/apportioned/hourly?page=1&perPage=100&beginDate=${timePeriod.startDate}&endDate=${timePeriod.endDate}&opHoursOnly=${timePeriod.opHrsOnly}&attachFile=false`;
+    const url = `${config.services.emissions.uri}/apportioned/hourly?page=1&perPage=100&beginDate=${timePeriod.startDate}&endDate=${timePeriod.endDate}&operatingHoursOnly=${timePeriod.opHrsOnly}&attachFile=false`;
+    console.log(url);
     mock
       .onGet(url)
       .reply(200, successResponse.data, successResponse.headers);

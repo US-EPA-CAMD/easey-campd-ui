@@ -11,7 +11,7 @@ import {
 
 const SubHeader = () => {
   const pathname = useLocation().pathname;
-  const cddPath = ['/select-data-type', '/manage-data-download','/data'];
+  const cddPath = ['/select-data-type', '/manage-data-download','/data', '/data/bulk-data-files'];
   const initialCategorySelected = [
     pathname === '/',
     cddPath.includes(pathname),
@@ -42,7 +42,7 @@ const SubHeader = () => {
   return (
     <div className="subheader-wrapper">
       <Header
-        className="padding-y-2 mobile-lg:padding-x-2 desktop:padding-x-4"
+        className="padding-y-2 mobile-lg:padding-x-2 tablet:padding-x-4 widescreen:padding-x-10"
         style={{
           backgroundImage: `url(${
             process.env.PUBLIC_URL + '/images/header-bg.png'

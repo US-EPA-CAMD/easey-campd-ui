@@ -52,13 +52,20 @@ const ManageDataPreview = ({
   };
 
   const onFilterTagRemovedHandler = (filterType, label) => {
-    if (filterType === 'Time Period' && label === 'Operating Hours Only') {
-      updateTimePeriodDispatcher({
-        startDate: timePeriod.startDate,
-        endDate: timePeriod.endDate,
-        opHrsOnly: false,
-      });
-      removeAppliedFiltersDispatcher(filterType, false, true);
+    if (filterType === 'Time Period') {
+      if(label === "Operating Hours Only"){
+        updateTimePeriodDispatcher({
+          startDate: timePeriod.startDate,
+          endDate: timePeriod.endDate,
+          opHrsOnly: false,
+        });
+        removeAppliedFiltersDispatcher(filterType, false, true);
+      }else{
+        if(window.confirm("Removing time period will clear out previously selected criteria. Do you want to proceed?")){
+          resetFiltersDispatcher(null, true);
+          removeAppliedFiltersDispatcher(null, true);
+        }
+      }
     } else {
       resetFiltersDispatcher(filterType);
       removeAppliedFiltersDispatcher(filterType);
@@ -99,13 +106,13 @@ const ManageDataPreview = ({
   return (
     <div className="width-full">
       <div className="display-flex flex-row flex-justify bg-base-lightest padding-x-3 minh-10">
-        <h2 className="flex-align-self-center font-alt-xl text-bold margin-0">
+        <h2 className="flex-align-self-center font-sans-xl text-bold margin-0">
           Custom Data Download
         </h2>
         <div className="flex-align-self-center">
           <FontAwesomeIcon
             icon={faQuestionCircle}
-            className="text-primary font-body-md question-icon"
+            className="text-primary font-sans-md question-icon"
             title="Preview the first 100 rows of your query here."
           />
           <Button
@@ -120,7 +127,7 @@ const ManageDataPreview = ({
       </div>
       {appliedFilters.length > 0 && (
         <div className="display-none desktop:display-block">
-          <div className="bg-base-lightest padding-left-3 padding-right-3 padding-bottom-2 font-alt-sm">
+          <div className="bg-base-lightest padding-left-3 padding-right-3 padding-bottom-2 font-sans-sm">
             <FilterTags
               items={appliedFilters}
               onClick={(filterType, evtTarget) =>

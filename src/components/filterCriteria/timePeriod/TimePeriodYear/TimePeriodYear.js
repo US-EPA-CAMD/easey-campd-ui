@@ -23,6 +23,7 @@ const TimePeriodYear = ({
   isFormValid,
   isAnnual,
   isAllowance,
+  minYear,
 }) => {
   let rangeMessage;
   if (showMonth) {
@@ -35,7 +36,7 @@ const TimePeriodYear = ({
   } else if (isAllowance) {
     rangeMessage = 'Enter year(s) greater than or equal to 1995';
   } else {
-    rangeMessage = 'Enter year(s) between 1995 and this year';
+    rangeMessage = `Enter year(s) between ${minYear} and this year`;
   }
 
   let yearLabel = 'Year(s)'
@@ -58,7 +59,7 @@ const TimePeriodYear = ({
             aria-checked={validations.yearFormat}
             className={validations.yearFormat? 'display-none': null}
           >
-            Enter year(s) using a comma separated format (ex. 1995, 2000,
+            Enter year(s) using a comma separated format (ex. 1996, 2000,
             2001-2005)
           </ValidationItem>
           <ValidationItem
@@ -73,7 +74,7 @@ const TimePeriodYear = ({
       </Alert>
       <Label htmlFor="event-year-input">{yearLabel}
         <div id="date-format-hint">
-          Ex: 1995-2000,2003,2005,2010-2015
+          Ex: 1996-2000,2003,2005,2010-2015
         </div>
         </Label>
       <TextInput

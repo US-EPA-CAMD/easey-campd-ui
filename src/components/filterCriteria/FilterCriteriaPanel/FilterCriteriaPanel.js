@@ -10,6 +10,8 @@ import {FILTERS_MAP} from "../../../utils/constants/customDataDownload";
 import AccountType from "../AccountType/AccountType";
 import AccountNameNumber from "../AccountNameNumber/AccountNameNumber";
 import OwnerOperator from "../OwnerOperator/OwnerOperator";
+import TransactionType from "../TransactionType/TransactionType";
+import SourceCategory from "../SourceCategory/SourceCategory";
 import { focusTrap } from "../../../utils/ensure-508/focus-trap";
 
 const FilterCriteriaPanel = ({
@@ -62,6 +64,12 @@ const FilterCriteriaPanel = ({
     accountType: <AccountType closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
     accountNameNumber: <AccountNameNumber closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
     ownerOperator: <OwnerOperator closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
+  };
+
+  const compliances = {
+    facility: <Facility closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
+    stateTerritory: <StateTerritory closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
+    ownerOperator: <OwnerOperator closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
   }
 
   const hourlyEmissions = {
@@ -94,6 +102,12 @@ const FilterCriteriaPanel = ({
     timePeriod: <TimePeriod closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} showYear={true} filterToApply={'Time Period'}/>,
   }
 
+  const facUnitAttrEmissions = {
+    ...emissions,
+    timePeriod: <TimePeriod closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} showYear={true} filterToApply={'Time Period'}/>,
+    sourceCategory: <SourceCategory closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
+  }
+
   const allownaceAcctInfo = {
     ...allowances,
     program: <Program closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
@@ -116,21 +130,19 @@ const FilterCriteriaPanel = ({
         renderedHandler={renderedHandler}
         isAllowance={true}
         filterToApply={'Transaction Date'}
-      />
+      />,
+      transactionType: <TransactionType closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
   };
 
   const complianceAllownaceBased = {
     program: <Program closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
-    facility: <Facility closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
-    stateTerritory: <StateTerritory closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
-    ownerOperator: <OwnerOperator closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
+    ...compliances,
     timePeriod: <TimePeriod closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} showYear={true} filterToApply={'Year'}/>,
   };
 
   const complianceEmissionsBased = {
-    facility: <Facility closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
-    stateTerritory: <StateTerritory closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
-    ownerOperator: <OwnerOperator closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
+    ...compliances,
+    timePeriod: <TimePeriod closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} showYear={true} filterToApply={'Year'} minYear={1996}/>,
   }
 
   const emissionsSubTypes = Object.keys(FILTERS_MAP.EMISSIONS);
@@ -152,7 +164,7 @@ const FilterCriteriaPanel = ({
       case emissionsSubTypes[5]:
         return annualEmissions[selectedFilter];
       case emissionsSubTypes[6]:
-        return emissions[selectedFilter];
+        return facUnitAttrEmissions[selectedFilter];
       case allowanceSubTypes[0]:
         return allownaceAcctInfo[selectedFilter];
       case allowanceSubTypes[1]:

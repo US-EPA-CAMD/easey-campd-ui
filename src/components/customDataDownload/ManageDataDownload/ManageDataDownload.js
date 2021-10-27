@@ -12,10 +12,11 @@ import FilterCriteriaMenu from '../../filterCriteria/FilterCriteriaMenu/FilterCr
 import FilterCriteriaPanel from '../../filterCriteria/FilterCriteriaPanel/FilterCriteriaPanel';
 import ManageDataPreview from '../../dataPreview/ManageDataPreview/ManageDataPreview';
 import * as constants from '../../../utils/constants/customDataDownload';
+import LoadingModal from '../../LoadingModal/LoadingModal';
 
 // *** STYLES (individual component)
 import './ManageDataDownload.scss';
-import { resetFilter } from '../../../store/actions/customDataDownload/filterCriteria';
+import { loadAllFilters, resetFilter } from '../../../store/actions/customDataDownload/filterCriteria';
 
 const ManageDataDownload = ({
   selectedDataType,
@@ -24,6 +25,9 @@ const ManageDataDownload = ({
   removeAppliedFiltersDispatcher,
   resetFilterDispatcher,
   appliedFilters,
+  loadAllFiltersDispatcher,
+  filterCriteria,
+  loading,
 }) => {
   useEffect(() => {
     document.title = "CAMPD - Manage Data Download";
@@ -104,6 +108,7 @@ const ManageDataDownload = ({
 
   const handleApplyButtonClick = () => {
     if (selectedDataType !== '' && selectedDataSubtype !== '') {
+      loadAllFiltersDispatcher(selectedDataType, getSelectedDataSubType(constants.DATA_SUBTYPES_MAP[selectedDataType]), filterCriteria);
       setDataTypeApplied(true);
       setDataSubtypeApplied(true);
       setAppliedDataType({
@@ -198,6 +203,7 @@ const ManageDataDownload = ({
             dataType={appliedDataType.dataType}
             handleFilterButtonClick={handleFilterButtonClick}
           />
+        {loading ? <LoadingModal loading={loading}/>: null}
       </div>
   </div>
   );
@@ -207,6 +213,8 @@ const mapStateToProps = (state) => {
   return {
     selectedDataType: state.customDataDownload.dataType,
     appliedFilters: state.customDataDownload.appliedFilters,
+    filterCriteria: state.filterCriteria,
+    loading: state.apiCallsInProgress,
   };
 };
 
@@ -218,6 +226,8 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(updateSelectedDataSubType(dataSubType)),
     removeAppliedFiltersDispatcher: (removedFilter, removeAll) =>
       dispatch(removeAppliedFilter(removedFilter, removeAll)),
+    loadAllFiltersDispatcher: (dataType, dataSubType, filterCriteria) =>
+      dispatch(loadAllFilters(dataType, dataSubType, filterCriteria)),
     resetFilterDispatcher: (filterToReset, resetAll) =>
       dispatch(resetFilter(filterToReset, resetAll)),
   };

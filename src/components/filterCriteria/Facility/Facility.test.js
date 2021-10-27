@@ -10,12 +10,14 @@ import Facility from './Facility';
 import configureStore from "../../../store/configureStore.dev";
 import { Provider } from "react-redux";
 import initialState from "../../../store/reducers/initialState";
+import { loadFacilities, updateFacilitySelection } from "../../../store/actions/customDataDownload/filterCriteria";
+import { addAppliedFilter, removeAppliedFilter } from "../../../store/actions/customDataDownload/customDataDownload";
 
 const facilities = [
   {
-    "facId": "1",
-    "orisCode": "3",
-    "name": "Barry",
+    "id": "1",
+    "facilityId": "3",
+    "facilityName": "Barry",
     "state": "AL",
     "links": [
       {
@@ -41,9 +43,9 @@ const facilities = [
     ]
   },
   {
-    "facId": "2",
-    "orisCode": "5",
-    "name": "Chickasaw",
+    "id": "2",
+    "facilityId": "5",
+    "facilityName": "Chickasaw",
     "state": "AL",
     "links": [
       {
@@ -69,9 +71,9 @@ const facilities = [
     ]
   },
   {
-    "facId": "3",
-    "orisCode": "7",
-    "name": "Gadsden",
+    "id": "3",
+    "facilityId": "7",
+    "facilityName": "Gadsden",
     "state": "AL",
     "links": [
       {
@@ -97,9 +99,9 @@ const facilities = [
     ]
   },
   {
-    "facId": "4",
-    "orisCode": "8",
-    "name": "Gorgas",
+    "id": "4",
+    "facilityId": "8",
+    "facilityName": "Gorgas",
     "state": "AL",
     "links": [
       {
@@ -125,9 +127,9 @@ const facilities = [
     ]
   },
   {
-    "facId": "5",
-    "orisCode": "10",
-    "name": "Greene County",
+    "id": "5",
+    "facilityId": "10",
+    "facilityName": "Greene County",
     "state": "AL",
     "links": [
       {
@@ -153,9 +155,9 @@ const facilities = [
     ]
   },
   {
-    "facId": "6",
-    "orisCode": "26",
-    "name": "E C Gaston",
+    "id": "6",
+    "facilityId": "26",
+    "facilityName": "E C Gaston",
     "state": "AL",
     "links": [
       {
@@ -181,9 +183,9 @@ const facilities = [
     ]
   },
   {
-    "facId": "7",
-    "orisCode": "47",
-    "name": "Colbert",
+    "id": "7",
+    "facilityId": "47",
+    "facilityName": "Colbert",
     "state": "AL",
     "links": [
       {
@@ -209,9 +211,9 @@ const facilities = [
     ]
   },
   {
-    "facId": "8",
-    "orisCode": "50",
-    "name": "Widows Creek",
+    "id": "8",
+    "facilityId": "50",
+    "facilityName": "Widows Creek",
     "state": "AL",
     "links": [
       {
@@ -237,9 +239,9 @@ const facilities = [
     ]
   },
   {
-    "facId": "9",
-    "orisCode": "51",
-    "name": "Dolet Hills Power Station",
+    "id": "9",
+    "facilityId": "51",
+    "facilityName": "Dolet Hills Power Station",
     "state": "LA",
     "links": [
       {
@@ -265,9 +267,9 @@ const facilities = [
     ]
   },
   {
-    "facId": "10",
-    "orisCode": "54",
-    "name": "Smith Generating Facility",
+    "id": "10",
+    "facilityId": "54",
+    "facilityName": "Smith Generating Facility",
     "state": "KY",
     "links": [
       {
@@ -293,7 +295,7 @@ const facilities = [
     ]
   }
 ];
-initialState.filterCriteria.facility = facilities.map(f=> ({id: f.orisCode, label:`${f.name} (${f.orisCode})`, selected:false}));
+initialState.filterCriteria.facility = facilities.map(f=> ({id: f.facilityId, label:`${f.facilityName} (${f.facilityId})`, selected:false}));
 const store = configureStore(initialState);
 let flyOutClosed = false;
 describe('Facility Component', () => {
@@ -303,10 +305,10 @@ describe('Facility Component', () => {
       <Provider 
         store={store}>
         <Facility
-          loadFacilitiesDispatcher ={jest.fn()}
-          updateFacilitySelectionDispacher ={jest.fn()}
-          addAppliedFilterDispatcher ={jest.fn()}
-          removeAppliedFilterDispatcher ={jest.fn()}
+          loadFacilitiesDispatcher ={loadFacilities}
+          updateFacilitySelectionDispacher ={updateFacilitySelection}
+          addAppliedFilterDispatcher ={addAppliedFilter}
+          removeAppliedFilterDispatcher ={removeAppliedFilter}
           closeFlyOutHandler ={()=> flyOutClosed=true}
           renderedHandler ={jest.fn()}
         />
@@ -333,13 +335,22 @@ describe('Facility Component', () => {
     expect(flyOutClosed).toBe(true);
   });
 
-  test('It should search using input box for facilities in listboxt', () => {
-    const { getByTestId, getAllByTestId} = query;
+  test('It should search using input box for facilities in listboxt and add selection to apply filter', () => {
+    const { getByTestId, getAllByTestId, getByRole, getByText} = query;
     const searchbox = getByTestId("input-search");
     searchbox.focus();
     fireEvent.click(searchbox);
     fireEvent.change(searchbox, { target: { value: 'Barry' } })
     expect(searchbox.value).toBe('Barry');
     expect(within(getByTestId("multi-select-listbox")).getAllByTestId('multi-select-option').length).toBe(1);
+    fireEvent.keyDown(searchbox, {key: 'Tab', code: 9});
+    fireEvent.keyDown(searchbox, {key: 'Enter', code: 'Enter'})
+    expect(searchbox.value).toBe('Barry');
+    expect(getAllByTestId("multi-select-option").length).toBe(1);
+    fireEvent.click(getByTestId("multi-select-option"));
+    expect(getByRole("button", {name: "Barry (3)"})).toBeDefined();
+    expect(getAllByTestId("multi-select-option").length).toBe(facilities.length);
+    fireEvent.click(getByText("Apply Filter"));
+    expect(flyOutClosed).toBe(true);
   })
 });

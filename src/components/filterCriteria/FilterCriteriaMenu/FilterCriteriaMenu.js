@@ -51,6 +51,7 @@ const FilterCriteriaMenu = ({
                           ? "filter-button applied-filter"
                           : "filter-button"
                       }
+                      disabled={selectedDataType === "EMISSIONS" ? el.value === "Time Period"? false : !isAddedToFilters("Time Period", appliedFilters) : false}
                     >
                       {el.label}
                       <FontAwesomeIcon
