@@ -81,7 +81,7 @@ const BulkDataFiles = () => {
 
   return (
     <div className="padding-y-2 mobile-lg:padding-x-2 tablet:padding-x-4 widescreen:padding-x-10 font-sans-sm text-base-darkest text-ls-1 line-height-sans-6">
-      <h1 className="text-base-darkest font-sans-2xl text-bold">
+      <h1 className="font-sans-2xl text-bold">
         Bulk Data Files
       </h1>
       <p>
