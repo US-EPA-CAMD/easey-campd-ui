@@ -53,6 +53,7 @@ export const resetCheckBoxItems = (entity) =>{
   entity.forEach(e =>{
     e.items.forEach(item =>{
       item.selected = false;
+      item.enabled = true;
     });
   });
 };
@@ -60,7 +61,12 @@ export const resetCheckBoxItems = (entity) =>{
 export const resetComboBoxItems = (entity) =>{
   entity.forEach(e =>{
     e.selected = false;
+    e.enabled = true;
   });
+};
+
+export const getComboboxEnabledItems = (arr) =>{
+  return arr.filter(e=>e.enabled);
 };
 
 export const getSelectedIds = (filterState, description = false) => {
@@ -129,6 +135,7 @@ export const restructurePrograms = (programs) => {
         : `${p.programDescription} (${p.programCode})`,
       active: !p.retiredIndicator,
       selected: false,
+      enabled: true,
     };
     if (p.annualIndicator) {
       data[0].items.push(entry);
@@ -194,6 +201,7 @@ export const restructureUnitTypes = (unitTypes) => {
       group: ut.unitTypeGroupCode,
       groupDescription: ut.unitTypeGroupDescription,
       selected: false,
+      enabled: true,
     };
     const index = data.findIndex(group => group.name === entry.groupDescription)
     data[index].items.push(entry);
@@ -252,6 +260,7 @@ export const restructureFuelTypes = (fuelTypes) => {
       group: ft.fuelGroupCode,
       groupDescription: ft.fuelGroupDescription,
       selected: false,
+      enabled: true,
     };
     const index = data.findIndex(group => group.name.toUpperCase() === entry.group.toUpperCase())
     data[index].items.push(entry);
@@ -321,6 +330,7 @@ export const restructureControlTechnologies = (controlTechnologies) => {
       group: ct.controlEquipParamCode,
       groupDescription: ct?.controlEquipParamDescription || 'Other',
       selected: false,
+      enabled: true,
     };
     const index = data.findIndex(group => group.name === entry.groupDescription)
     data[index].items.push(entry);
@@ -369,6 +379,7 @@ export const restructureAccountTypes = (accountTypes) => {
       group: at.accountTypeGroupCode,
       groupDescription: at.accountTypeGroupDescription,
       selected: false,
+      enabled: true,
     };
     const index = data.findIndex(group => group.name === entry.groupDescription)
     data[index].items.push(entry);

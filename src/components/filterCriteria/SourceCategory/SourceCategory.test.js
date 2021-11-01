@@ -55,7 +55,7 @@ const sourceCategories = [
     "sourceCategoryDescription": "Municipal Waste Combustor"
   },
 ];
-initialState.filterCriteria.sourceCategory = sourceCategories.map(f=> ({id: f.sourceCategoryCode, label:f.sourceCategoryDescription, selected:false}));
+initialState.filterCriteria.sourceCategory = sourceCategories.map(f=> ({id: f.sourceCategoryCode, label:f.sourceCategoryDescription, selected:false, enabled:true}));
 const store = configureStore(initialState);
 let flyOutClosed = false;
 describe('Source Category Component', () => {

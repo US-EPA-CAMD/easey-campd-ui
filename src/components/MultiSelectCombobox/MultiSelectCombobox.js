@@ -3,6 +3,7 @@ import {Label} from '@trussworks/react-uswds';
 import PillButton from "../PillButton/PillButton";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown, faCheck } from '@fortawesome/free-solid-svg-icons';
+import { getComboboxEnabledItems } from "../../utils/selectors/filterCriteria";
 import "./MultiSelectCombobox.scss";
 
 const MultiSelectCombobox = ({
@@ -13,8 +14,8 @@ const MultiSelectCombobox = ({
   searchBy}) =>{
 
   const [ filter, setFilter ] = useState('');
-  const [ _items, _setItems ]= useState(items);
-  const [ data, setData ]= useState(JSON.parse(JSON.stringify(items)));
+  const [ _items, _setItems ]= useState(getComboboxEnabledItems(items));
+  const [ data, setData ]= useState(JSON.parse(JSON.stringify(getComboboxEnabledItems(items))));
   const [ showListBox , setShowListBox ] = useState(false);
   const [ selectedItems, setSelectedItems ] = useState([]);
   const selectedItemsRef = useRef(selectedItems);

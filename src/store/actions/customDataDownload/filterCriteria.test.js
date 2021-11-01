@@ -7,7 +7,7 @@ import configureMockStore from "redux-mock-store";
 import config from "../../../config";
 import initState from "../../reducers/initialState";
 import {restructurePrograms, restructureControlTechnologies, restructureFuelTypes, restructureUnitTypes, restructureAccountTypes} from "../../../utils/selectors/filterCriteria";
-
+import { cleanup } from '@testing-library/react';
 // Test an async action
 const middleware = [thunk];
 const mockStore = configureMockStore(middleware);
@@ -1337,6 +1337,8 @@ const states = [
   }
 ];
 describe("Filter Criteria Async Actions", () => {
+  afterEach(cleanup);
+
   it("should create appropriate action when update time period action is dispatched", () => {
     const timePeriod = {
       startDate: "03/31/2021",
@@ -1370,7 +1372,7 @@ describe("Filter Criteria Async Actions", () => {
       .reply(200, facilities);
     const expectedActions = [
       { type: types.BEGIN_API_CALL },
-      { type: types.LOAD_FACILITIES_SUCCESS, facility: facilities.map(f=> ({id: f.facilityId, label:`${f.facilityName} (${f.facilityId})`, selected:false}))},
+      { type: types.LOAD_FACILITIES_SUCCESS, facility: facilities.map(f=> ({id: f.facilityId, label:`${f.facilityName} (${f.facilityId})`, selected:false, enabled:true}))},
     ];
 
     const store = mockStore(initState);
@@ -1430,7 +1432,7 @@ describe("Filter Criteria Async Actions", () => {
       .reply(200, states);
     const expectedActions = [
       { type: types.BEGIN_API_CALL },
-      { type: types.LOAD_STATES_SUCCESS, stateTerritory: states.map(s=> ({id: s.stateCode, label:s.stateName, selected:false}))},
+      { type: types.LOAD_STATES_SUCCESS, stateTerritory: states.map(s=> ({id: s.stateCode, label:s.stateName, selected:false, enabled:true}))},
     ];
 
     const store = mockStore(initState);
@@ -1445,7 +1447,7 @@ describe("Filter Criteria Async Actions", () => {
       .reply(200, sourceCategories);
     const expectedActions = [
       { type: types.BEGIN_API_CALL },
-      { type: types.LOAD_SOURCE_CATEGORY_SUCCESS, sourceCategory: sourceCategories.map(t=> ({id: t.sourceCategoryDescription, label: t.sourceCategoryDescription, selected:false}))},
+      { type: types.LOAD_SOURCE_CATEGORY_SUCCESS, sourceCategory: sourceCategories.map(t=> ({id: t.sourceCategoryDescription, label: t.sourceCategoryDescription, selected:false, enabled:true}))},
     ];
 
     const store = mockStore(initState);
@@ -1750,7 +1752,7 @@ describe("Filter Criteria Async Actions", () => {
       .reply(200, transactionTypes);
     const expectedActions = [
       { type: types.BEGIN_API_CALL },
-      { type: types.LOAD_TRANSACTION_TYPE_SUCCESS, transactionType: transactionTypes.map(t=> ({id: t.transactionTypeDescription, label: t.transactionTypeDescription, selected:false}))},
+      { type: types.LOAD_TRANSACTION_TYPE_SUCCESS, transactionType: transactionTypes.map(t=> ({id: t.transactionTypeDescription, label: t.transactionTypeDescription, selected:false, enabled:true}))},
     ];
 
     const store = mockStore(initState);
@@ -1891,7 +1893,7 @@ describe("Filter Criteria Async Actions", () => {
       .reply(200, ownerOperators);
     const expectedActions = [
       { type: types.BEGIN_API_CALL },
-      { type: types.LOAD_OWNER_OPERATOR_SUCCESS, ownerOperator: distinctOwnOpers.map(s=> ({id: s, label: s, selected:false}))},
+      { type: types.LOAD_OWNER_OPERATOR_SUCCESS, ownerOperator: distinctOwnOpers.map(s=> ({id: s, label: s, selected:false, enabled:true}))},
     ];
 
     const store = mockStore(initState);
@@ -1925,7 +1927,7 @@ describe("Filter Criteria Async Actions", () => {
       .reply(200, ownerOperators);
     const expectedActions = [
       { type: types.BEGIN_API_CALL },
-      { type: types.LOAD_OWNER_OPERATOR_SUCCESS, ownerOperator: distinctOwnOpers.map(s=> ({id: s, label: s, selected:false}))},
+      { type: types.LOAD_OWNER_OPERATOR_SUCCESS, ownerOperator: distinctOwnOpers.map(s=> ({id: s, label: s, selected:false, enabled:true}))},
     ];
 
     const store = mockStore(initState);
@@ -1965,9 +1967,9 @@ describe("Filter Criteria Async Actions", () => {
       { type: types.BEGIN_API_CALL },
       { type: types.BEGIN_API_CALL },
       //{ type: types.LOAD_PROGRAMS_SUCCESS, program: restructurePrograms(program)},
-      { type: types.LOAD_STATES_SUCCESS, stateTerritory: states.map(s=> ({id: s.stateCode, label:s.stateName, selected:false}))},
-      { type: types.LOAD_SOURCE_CATEGORY_SUCCESS, sourceCategory: sourceCategories.map(t=> ({id: t.sourceCategoryDescription, label: t.sourceCategoryDescription, selected:false}))},
-      { type: types.LOAD_FACILITIES_SUCCESS, facility: facilities.map(f=> ({id: f.facilityId, label:`${f.facilityName} (${f.facilityId})`, selected:false}))},
+      { type: types.LOAD_STATES_SUCCESS, stateTerritory: states.map(s=> ({id: s.stateCode, label:s.stateName, selected:false, enabled:true}))},
+      { type: types.LOAD_SOURCE_CATEGORY_SUCCESS, sourceCategory: sourceCategories.map(t=> ({id: t.sourceCategoryDescription, label: t.sourceCategoryDescription, selected:false, enabled:true}))},
+      { type: types.LOAD_FACILITIES_SUCCESS, facility: facilities.map(f=> ({id: f.facilityId, label:`${f.facilityName} (${f.facilityId})`, selected:false, enabled:true}))},
       { type: types.LOAD_UNIT_TYPES_SUCCESS, unitType: restructureUnitTypes(unitTypes)},
       { type: types.LOAD_FUEL_TYPES_SUCCESS, fuelType: restructureFuelTypes(fuelTypes)},
       { type: types.LOAD_CONTROL_TECHNOLOGIES_SUCCESS, controlTechnology: restructureControlTechnologies(controlTechnologies)},

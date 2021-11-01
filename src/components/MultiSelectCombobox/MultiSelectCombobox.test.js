@@ -290,7 +290,7 @@ const facilities = [
     ]
   }
 ];
-const items = facilities.map(f=> ({id: f.facilityId, label:`${f.facilityName} (${f.facilityId})`, selected:false}));
+const items = facilities.map(f=> ({id: f.facilityId, label:`${f.facilityName} (${f.facilityId})`, selected:false, enabled:true}));
 
 describe('MultiSelectCombobox Component', () => {
   let query;

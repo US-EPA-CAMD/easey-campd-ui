@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 
 import TimePeriodRender from './TimePeriodRender';
-import { updateTimePeriod, loadFilterMapping, resetFilter } from '../../../../store/actions/customDataDownload/filterCriteria';
+import { updateTimePeriod, loadFilterMapping, resetFilter, updateFilterCriteria } from '../../../../store/actions/customDataDownload/filterCriteria';
 import { addAppliedFilter, removeAppliedFilter } from '../../../../store/actions/customDataDownload/customDataDownload';
 import {
   isDateFormatValid,
@@ -21,7 +21,7 @@ import {
   formatQuartersToApiOrString,
 } from '../../../../utils/selectors/general';
 import * as constants from '../../../../utils/constants/customDataDownload';
-import {getTimePeriodYears, verifyTimePeriodChange} from "../../../../utils/selectors/filterLogic";
+import {getTimePeriodYears, verifyTimePeriodChange, engageFilterLogic} from "../../../../utils/selectors/filterLogic";
 
 export const TimePeriod = ({
   timePeriod,
@@ -42,6 +42,10 @@ export const TimePeriod = ({
   loadFilterMappingDispatcher,
   resetFilterDispacher,
   dataType,
+  dataSubType,
+  filterCriteria,
+  updateFilterCriteriaDispacher,
+  loading,
 }) => {
   const [formState, setFormState] = useState({
     startDate: formatDateToUi(timePeriod.startDate),
@@ -69,10 +73,24 @@ export const TimePeriod = ({
       }else{
         updateFullDateHelper()
       }
-      closeFlyOutHandler();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [validations]);
+
+  useEffect(()=>{
+    if(applyFilterClicked && loading === 0){
+      if(dataType === "EMISSIONS"){
+        if(filterCriteria.filterMapping.length>0){
+          engageFilterLogic(dataType, dataSubType, filterToApply, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispacher);
+        }else{
+          window.alert("Data is not available for the selected time period. Enter a new time period.");
+          removeAppliedFiltersDispatcher(filterToApply);
+          return;
+        }
+      }
+      closeFlyOutHandler();
+    }// eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filterCriteria]);
 
   useEffect(() => {
     renderedHandler();
@@ -348,8 +366,11 @@ export const TimePeriod = ({
 const mapStateToProps = (state) => {
   return {
     timePeriod: state.filterCriteria.timePeriod,
+    filterCriteria: state.filterCriteria,
     appliedFilters: state.customDataDownload.appliedFilters,
-    dataType: state.customDataDownload.dataType
+    dataType: state.customDataDownload.dataType,
+    dataSubType: state.customDataDownload.dataSubType,
+    loading: state.apiCallsInProgress
   };
 };
 
@@ -357,6 +378,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     updateTimePeriodDispatcher: (timePeriod) =>
       dispatch(updateTimePeriod(timePeriod)),
+    updateFilterCriteriaDispacher: (filterCriteria) =>
+      dispatch(updateFilterCriteria(filterCriteria)),
     addAppliedFilterDispatcher: (filterToApply) =>
       dispatch(addAppliedFilter(filterToApply)),
     removeAppliedFiltersDispatcher: (removedFilter, removeAll) =>
