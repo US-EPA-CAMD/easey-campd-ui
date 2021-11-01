@@ -61,7 +61,7 @@ export function updateProgramSelection(program) {
 export function loadFacilitiesSuccess(facilities) {
   return {
     type: types.LOAD_FACILITIES_SUCCESS,
-    facility: facilities.map(f=> ({id: f.facilityId, label:`${f.facilityName} (${f.facilityId})`, selected:false}))
+    facility: facilities.map(f=> ({id: f.facilityId, label:`${f.facilityName} (${f.facilityId})`, selected:false, enabled:true}))
   };
 }
 
@@ -177,7 +177,7 @@ export function updateControlTechnologySelection(controlTechnology) {
 export function loadStatesSuccess(states) {
   return {
     type: types.LOAD_STATES_SUCCESS,
-    stateTerritory: states.map(s=> ({id: s.stateCode, label:s.stateName, selected:false}))
+    stateTerritory: states.map(s=> ({id: s.stateCode, label:s.stateName, selected:false, enabled:true}))
   };
 }
 
@@ -235,7 +235,7 @@ export function updateAccountTypeSelection(accountType) {
 export function loadAccountNameNumbersSuccess(accountNameNumbers) {
   return {
     type: types.LOAD_ACCOUNT_NAME_NUMBER_SUCCESS,
-    accountNameNumber: accountNameNumbers.map(ann=> ({id: ann.accountNumber, label:`${ann.accountName} (${ann.accountNumber})`, selected:false}))
+    accountNameNumber: accountNameNumbers.map(ann=> ({id: ann.accountNumber, label:`${ann.accountName} (${ann.accountNumber})`, selected:false, enabled:true}))
   };
 }
 
@@ -265,7 +265,7 @@ export function loadOwnerOperatorsSuccess(ownerOperators) {
   const distinctOwnOpers = [...new Set(ownerOperators.map(d=>d.ownerOperator))];
   return {
     type: types.LOAD_OWNER_OPERATOR_SUCCESS,
-    ownerOperator: distinctOwnOpers.map(s=> ({id: s, label: s, selected:false}))
+    ownerOperator: distinctOwnOpers.map(s=> ({id: s, label: s, selected:false, enabled:true}))
   };
 }
 
@@ -294,7 +294,7 @@ export function updateOwnerOperatorSelection(ownerOperator){
 export function loadTransactionTypesSuccess(transactionType) {
   return {
     type: types.LOAD_TRANSACTION_TYPE_SUCCESS,
-    transactionType: transactionType.map(t=> ({id: t.transactionTypeDescription, label: t.transactionTypeDescription, selected:false}))
+    transactionType: transactionType.map(t=> ({id: t.transactionTypeDescription, label: t.transactionTypeDescription, selected:false, enabled:true}))
   };
 }
 
@@ -345,7 +345,7 @@ export function loadFilterMapping(yearsArray) {
 export function loadSourceCategoriesSuccess(sourceCategory) {
   return {
     type: types.LOAD_SOURCE_CATEGORY_SUCCESS,
-    sourceCategory: sourceCategory.map(t=> ({id: t.sourceCategoryDescription, label: t.sourceCategoryDescription, selected:false}))
+    sourceCategory: sourceCategory.map(t=> ({id: t.sourceCategoryDescription, label: t.sourceCategoryDescription, selected:false, enabled:true}))
   };
 }
 
@@ -481,5 +481,12 @@ export const loadAllFilters = (dataType, dataSubType, filterCriteria) =>{
       .catch((err) => {
         console.error(err);
       });
+  }
+};
+
+export const updateFilterCriteria = (filterCriteria) =>{
+  return {
+    type: types.UPDATE_FILTER_CRITERIA,
+    filterCriteria,
   }
 };

@@ -4,7 +4,7 @@ import CheckboxGroupRenderer from '../../CheckboxGroupRenderer/CheckboxGroupRend
 import {loadPrograms, updateProgramSelection} from "../../../store/actions/customDataDownload/filterCriteria";
 import { addAppliedFilter, removeAppliedFilter } from "../../../store/actions/customDataDownload/customDataDownload";
 import { getSelectedIds, getApplicablePrograms } from "../../../utils/selectors/filterCriteria";
-import {getProgramsFilteredSet} from "../../../utils/selectors/filterLogic";
+//import {getProgramsFilteredSet} from "../../../utils/selectors/filterLogic";
 import { isAddedToFilters } from '../../../utils/selectors/general';
 import {Button} from "@trussworks/react-uswds";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -25,7 +25,7 @@ const Program = ({
   renderedHandler,
   filterCriteria}) => {
 
-  const [program, setPrograms] = useState(JSON.parse(JSON.stringify(storeProgram)));
+  const [program, setPrograms] = useState(JSON.parse(JSON.stringify(getApplicablePrograms(storeProgram, dataSubType))));
 
   const filterToApply = "Program";
 
@@ -43,27 +43,27 @@ const Program = ({
     })
   };
 
-  useEffect(()=>{
-    if(storeProgram.length===0){
-      loadProgramsDispatcher(dataType, showActiveOnly);
-    }// eslint-disable-next-line react-hooks/exhaustive-deps
-  },[]);
+  // useEffect(()=>{
+  //   if(storeProgram.length===0){
+  //     loadProgramsDispatcher(dataType, showActiveOnly);
+  //   }// eslint-disable-next-line react-hooks/exhaustive-deps
+  // },[]);
 
-  useEffect(()=>{
-    if(dataType === "EMISSIONS" && filterCriteria.filterMapping.length > 0){
-      const programsMDM = JSON.parse(JSON.stringify(getApplicablePrograms(storeProgram, dataSubType)));
-      const filteredSet = getProgramsFilteredSet(filterCriteria);
-      programsMDM.forEach(p => {
-        p.items.forEach(el =>{
-          el.enabled = filteredSet.includes(el.id);
-        })
-      });
-      setPrograms(programsMDM);
-    }else{
-      setPrograms(JSON.parse(JSON.stringify(getApplicablePrograms(storeProgram, dataSubType))));
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[storeProgram, filterCriteria.filterMapping]);
+  // useEffect(()=>{
+  //   if(dataType === "EMISSIONS" && filterCriteria.filterMapping.length > 0){
+  //     const programsMDM = JSON.parse(JSON.stringify(getApplicablePrograms(storeProgram, dataSubType)));
+  //     const filteredSet = getProgramsFilteredSet(filterCriteria);
+  //     programsMDM.forEach(p => {
+  //       p.items.forEach(el =>{
+  //         el.enabled = filteredSet.includes(el.id);
+  //       })
+  //     });
+  //     setPrograms(programsMDM);
+  //   }else{
+  //     setPrograms(JSON.parse(JSON.stringify(getApplicablePrograms(storeProgram, dataSubType))));
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // },[storeProgram, filterCriteria.filterMapping]);
 
   useEffect(()=>{
     if(program.length > 0 && loading===0){

@@ -295,7 +295,7 @@ const facilities = [
     ]
   }
 ];
-initialState.filterCriteria.facility = facilities.map(f=> ({id: f.facilityId, label:`${f.facilityName} (${f.facilityId})`, selected:false}));
+initialState.filterCriteria.facility = facilities.map(f=> ({id: f.facilityId, label:`${f.facilityName} (${f.facilityId})`, selected:false, enabled:true}));
 const store = configureStore(initialState);
 let flyOutClosed = false;
 describe('Facility Component', () => {

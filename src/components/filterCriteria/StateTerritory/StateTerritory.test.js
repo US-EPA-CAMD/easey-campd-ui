@@ -73,7 +73,7 @@ const states = [{
   "stateName": "States Of Micronesia",
   "epaRegion": "9"
 }];
-initialState.filterCriteria.stateTerritory = states.map(s=> ({id: s.stateCode, label:s.stateName, selected:false}));
+initialState.filterCriteria.stateTerritory = states.map(s=> ({id: s.stateCode, label:s.stateName, selected:false, enabled:true}));
 const store = configureStore(initialState);
 
 let flyOutClosed = false;

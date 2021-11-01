@@ -56,6 +56,8 @@ const reducer = (state = initialState.filterCriteria, action) => {
       return Object.assign({}, state, { sourceCategory: action.sourceCategory });
     case types.LOAD_FILTER_MAPPING_SUCCESS:
       return Object.assign({}, state, { filterMapping: action.filterMapping });
+    case types.UPDATE_FILTER_CRITERIA:
+      return Object.assign({}, state, action.filterCriteria);
     default:
       return state;
   }
