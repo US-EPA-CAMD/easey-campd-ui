@@ -1,5 +1,6 @@
 import {formatYearsToArray, formatDateToApi} from "./general";
 import { FILTERS_MAP } from "../constants/customDataDownload";
+import { getComboboxSelectedItems } from "../selectors/filterCriteria";
 
 //returs pipe delimited set of years
 export const getTimePeriodYears = (start, end, years=null) =>{
@@ -53,9 +54,11 @@ const updateEnabledStatusComboBox = (arry, filteredSet) =>{
 
 export const filterEmissionsProgram = (filterCriteria) =>{
   const selectedYrs = getSelectedYrs(filterCriteria);
+  const selectedStates = getComboboxSelectedItems(filterCriteria.stateTerritory);
   const filteredSet = [...new Set(
     filterCriteria.filterMapping.filter(x => {
-      return (selectedYrs.length === 0 || selectedYrs.includes(x.year))
+      return (selectedYrs.length === 0 || selectedYrs.includes(x.year))  &&
+      (selectedStates.length === 0 || selectedStates.includes(x.state))
     }).map(i => i.programCode)
   )];
   updateEnabledStatusCheckBox(filterCriteria.program, filteredSet);
@@ -73,9 +76,11 @@ export const filterEmissionsStateTerritory = (filterCriteria) =>{
 
 export const filterEmissionsFacility = (filterCriteria) =>{
   const selectedYrs = getSelectedYrs(filterCriteria);
+  const selectedStates = getComboboxSelectedItems(filterCriteria.stateTerritory);
   const filteredSet = [...new Set(
     filterCriteria.filterMapping.filter(x => {
-      return (selectedYrs.length === 0 || selectedYrs.includes(x.year))
+      return (selectedYrs.length === 0 || selectedYrs.includes(x.year)) &&
+      (selectedStates.length === 0 || selectedStates.includes(x.state))
     }).map(i => String(i.facilityId))
   )];
   updateEnabledStatusComboBox(filterCriteria.facility, filteredSet);
@@ -83,9 +88,11 @@ export const filterEmissionsFacility = (filterCriteria) =>{
 
 export const filterEmissionsUnitType = (filterCriteria) =>{
   const selectedYrs = getSelectedYrs(filterCriteria);
+  const selectedStates = getComboboxSelectedItems(filterCriteria.stateTerritory);
   const filteredSet = [...new Set(
     filterCriteria.filterMapping.filter(x => {
-      return (selectedYrs.length === 0 || selectedYrs.includes(x.year))
+      return (selectedYrs.length === 0 || selectedYrs.includes(x.year)) &&
+      (selectedStates.length === 0 || selectedStates.includes(x.state))
     }).map(i => i.unitTypeCode)
   )];
   updateEnabledStatusCheckBox(filterCriteria.unitType, filteredSet);
@@ -93,9 +100,11 @@ export const filterEmissionsUnitType = (filterCriteria) =>{
 
 export const filterEmissionsFuelType = (filterCriteria) =>{
   const selectedYrs = getSelectedYrs(filterCriteria);
+  const selectedStates = getComboboxSelectedItems(filterCriteria.stateTerritory);
   const filteredSet = [...new Set(
     filterCriteria.filterMapping.filter(x => {
-      return (selectedYrs.length === 0 || selectedYrs.includes(x.year))
+      return (selectedYrs.length === 0 || selectedYrs.includes(x.year)) &&
+      (selectedStates.length === 0 || selectedStates.includes(x.state))
     }).map(i => i.fuelTypeCode)
   )];
   updateEnabledStatusCheckBox(filterCriteria.fuelType, filteredSet);
@@ -103,9 +112,11 @@ export const filterEmissionsFuelType = (filterCriteria) =>{
 
 export const filterEmissionsControlTechnology = (filterCriteria) =>{
   const selectedYrs = getSelectedYrs(filterCriteria);
+  const selectedStates = getComboboxSelectedItems(filterCriteria.stateTerritory);
   const filteredSet = [...new Set(
     filterCriteria.filterMapping.filter(x => {
-      return (selectedYrs.length === 0 || selectedYrs.includes(x.year))
+      return (selectedYrs.length === 0 || selectedYrs.includes(x.year)) &&
+      (selectedStates.length === 0 || selectedStates.includes(x.state))
     }).map(i => i.controlCode)
   )];
   updateEnabledStatusCheckBox(filterCriteria.controlTechnology, filteredSet);
@@ -113,9 +124,11 @@ export const filterEmissionsControlTechnology = (filterCriteria) =>{
 
 export const filterEmissionsSourceCategory = (filterCriteria) =>{
   const selectedYrs = getSelectedYrs(filterCriteria);
+  const selectedStates = getComboboxSelectedItems(filterCriteria.stateTerritory);
   const filteredSet = [...new Set(
     filterCriteria.filterMapping.filter(x => {
-      return (selectedYrs.length === 0 || selectedYrs.includes(x.year))
+      return (selectedYrs.length === 0 || selectedYrs.includes(x.year)) &&
+      (selectedStates.length === 0 || selectedStates.includes(x.state))
     }).map(i => String(i.sourceCategoryDescription))
   )];
   updateEnabledStatusComboBox(filterCriteria.sourceCategory, filteredSet);

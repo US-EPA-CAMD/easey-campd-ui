@@ -10,7 +10,7 @@ import StateTerritory from './StateTerritory';
 import configureStore from "../../../store/configureStore.dev";
 import { Provider } from "react-redux";
 import initialState from "../../../store/reducers/initialState";
-import { loadStates, updateStateSelection } from "../../../store/actions/customDataDownload/filterCriteria";
+import { updateStateSelection } from "../../../store/actions/customDataDownload/filterCriteria";
 import { addAppliedFilter, removeAppliedFilter } from "../../../store/actions/customDataDownload/customDataDownload";
 
 const states = [{
@@ -84,7 +84,6 @@ describe('State/Territory Component', () => {
       <Provider 
         store={store}>
         <StateTerritory
-          loadStatesDispatcher ={loadStates}
           updateStateSelectionDispacher ={updateStateSelection}
           addAppliedFilterDispatcher ={addAppliedFilter}
           removeAppliedFilterDispatcher ={removeAppliedFilter}
