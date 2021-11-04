@@ -69,6 +69,10 @@ export const getComboboxEnabledItems = (arr) =>{
   return arr.filter(e=>e.enabled);
 };
 
+export const getComboboxSelectedItems = (arr) =>{
+  return arr.filter(e=>e.selected && e.enabled).map(el => el.id);
+};
+
 export const getSelectedIds = (filterState, description = false) => {
   const result = [];
   filterState.forEach((f) => {

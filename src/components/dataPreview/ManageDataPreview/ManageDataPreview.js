@@ -6,6 +6,7 @@ import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 import DataPreview from '../DataPreview/DataPreview';
 import FilterTags from '../../FilterTags/FilterTags';
 import { isAddedToFilters } from '../../../utils/selectors/general';
+import { engageFilterLogic } from '../../../utils/selectors/filterLogic';
 import {
   resetDataPreview,
   removeAppliedFilter,
@@ -13,6 +14,7 @@ import {
 import {
   resetFilter,
   updateTimePeriod,
+  updateFilterCriteria,
 } from '../../../store/actions/customDataDownload/filterCriteria';
 import { EMISSIONS_DATA_SUBTYPES } from '../../../utils/constants/emissions';
 import { ALLOWANCES_DATA_SUBTYPES } from '../../../utils/constants/allowances';
@@ -28,9 +30,12 @@ const ManageDataPreview = ({
   resetFiltersDispatcher,
   removeAppliedFiltersDispatcher,
   updateTimePeriodDispatcher,
+  filterCriteria,
+  updateFilterCriteriaDispacher
 }) => {
   const [requirementsMet, setRequirementsMet] = useState(false);
   const [renderPreviewData, setRenderPreviewData] = useState(false);
+  const [removedAppliedFilter, setRemovedAppliedFilter] = useState(null);
 
   useEffect(() => {
     if (
@@ -42,9 +47,18 @@ const ManageDataPreview = ({
       setRequirementsMet(true);
     } else {
       setRequirementsMet(false);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }// eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dataType, dataSubType, appliedFilters]);
+
+  useEffect(()=>{
+    if(removedAppliedFilter !== null){
+      if(dataType === "EMISSIONS"){
+        if(filterCriteria.filterMapping.length>0){
+          engageFilterLogic(dataType, dataSubType, removedAppliedFilter, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispacher);
+        }
+      }
+    }// eslint-disable-next-line react-hooks/exhaustive-deps
+  },[appliedFilters]);
 
   const handleUpdateInAppliedFilters = () => {
     resetDataPreviewDispacher();
@@ -69,6 +83,7 @@ const ManageDataPreview = ({
     } else {
       resetFiltersDispatcher(filterType);
       removeAppliedFiltersDispatcher(filterType);
+      setRemovedAppliedFilter(filterType);
     }
     handleUpdateInAppliedFilters();
   };
@@ -152,9 +167,11 @@ const ManageDataPreview = ({
 
 const mapStateToProps = (state) => {
   return {
+    dataType: state.customDataDownload.dataType,
     dataSubType: state.customDataDownload.dataSubType,
     appliedFilters: state.customDataDownload.appliedFilters,
     timePeriod: state.filterCriteria.timePeriod,
+    filterCriteria: state.filterCriteria,
   };
 };
 
@@ -167,6 +184,8 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(resetFilter(filterToReset, resetAll)),
     updateTimePeriodDispatcher: (timePeriod) =>
       dispatch(updateTimePeriod(timePeriod)),
+    updateFilterCriteriaDispacher: (filterCriteria) => 
+      dispatch(updateFilterCriteria(filterCriteria)),
   };
 };
 
