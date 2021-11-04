@@ -81,21 +81,4 @@ describe('Bulk Data Files: ', () => {
       expect(section).toBeTruthy();
     });
   });
-
-  test('buttons render without errors', () => {
-    const query = render(
-      <Provider store={store}>
-        <MemoryRouter>
-          <BulkDataFiles />
-        </MemoryRouter>
-      </Provider>
-    );
-    const { getByText } = query;
-
-    topics.forEach((element) => {
-      const text = `Access ${element.name} Data`;
-      const button = getByText(text);
-      expect(button).toBeTruthy();
-    });
-  });
 });
