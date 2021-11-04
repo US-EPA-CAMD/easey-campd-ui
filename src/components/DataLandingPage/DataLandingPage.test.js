@@ -5,14 +5,14 @@ import { MemoryRouter } from 'react-router-dom';
 
 describe('Data Landing Page Component', () => {
     test("should render content without error", () => {
-      const {getAllByRole, getByText, getByRole} = render(<MemoryRouter><DataLandingPage/></MemoryRouter>);
-      const btns = getAllByRole("button");
+      const {getAllByTestId, getByText, getByRole} = render(<MemoryRouter><DataLandingPage/></MemoryRouter>);
+      const btns = getAllByTestId("button");
       expect(getByText("Data")).toBeDefined();
       expect(getByText("Custom Data Download Tool")).toBeDefined();
       expect(getByText("Bulk Data Files")).toBeDefined();
       expect(getByText("CAM API")).toBeDefined();
       expect(btns.length).toBe(3);
-      fireEvent.click(getByRole("button", {name: "Start your data query"}));
+      fireEvent.click(getByText("Start your data query"));
     });
     // test("clicking filter links updates product query params", () => {
     //   let testHistory, testLocation;
