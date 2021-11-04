@@ -1,4 +1,4 @@
-host: easey.app.cloud.gov
+host: campd.epa.gov
 apiHost: api.epa.gov/easey
 environment: production
 memory: 2048M

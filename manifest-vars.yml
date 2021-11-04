@@ -1,6 +1,6 @@
 #THIS FILE SHOULD CONTAIN DEV SETTINGS AND CI/CD WORKFLOW WILL CHANGE SETTINGS BASED ON ENV
 name: campd-ui
-host: easey-dev.app.cloud.gov
+host: campd-dev.app.cloud.gov
 apiHost: api.epa.gov/easey/dev
 environment: development
 memory: 1024M

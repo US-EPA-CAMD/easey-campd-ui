@@ -46,7 +46,7 @@ const ownerOperators = [
     "ownType": "OWN"
   }];
 const distinctOwnOpers = [...new Set(ownerOperators.map(d=>d.ownerOperator))];
-initialState.filterCriteria.ownerOperator = distinctOwnOpers.map(s=> ({id: s, label: s, selected:false}))
+initialState.filterCriteria.ownerOperator = distinctOwnOpers.map(s=> ({id: s, label: s, selected:false, enabled:true}))
 const store = configureStore(initialState);
 
 let flyOutClosed = false;

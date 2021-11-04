@@ -61,7 +61,7 @@ const transactionTypes = [
     "transactionTypeDescription": "Enforcement Surrender"
   },
 ];
-initialState.filterCriteria.transactionType = transactionTypes.map(f=> ({id: f.transactionTypeDescription, label:f.transactionTypeDescription, selected:false}));
+initialState.filterCriteria.transactionType = transactionTypes.map(f=> ({id: f.transactionTypeDescription, label:f.transactionTypeDescription, selected:false, enabled:true}));
 const store = configureStore(initialState);
 let flyOutClosed = false;
 describe('Transaction Type Component', () => {

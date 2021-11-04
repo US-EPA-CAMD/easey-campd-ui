@@ -9,6 +9,7 @@ import NotFound from "../NotFound/NotFound";
 import HomePage from "../HomePage/HomePage";
 import DataLandingPage from "../DataLandingPage/DataLandingPage";
 import BulkDataFiles from "../BulkDataFiles/BulkDataFiles";
+import TutorialsPage from "../TutorialsPage/TutorialsPage";
 import config from "../../config";
 
 import "./App.scss";
@@ -35,6 +36,7 @@ function App() {
           <Route path="/select-data-type" exact component={SelectDataType} />
           <Route path="/data" exact component={DataLandingPage} />
           <Route path="/data/bulk-data-files" exact component={BulkDataFiles} />
+          <Route path="/help-support/tutorials" exact component={TutorialsPage} />
           <ManageDataDownloadRoute path='/manage-data-download' exact component={ManageDataDownload} />
           <Route path="/*" component={NotFound} />
         </Switch>

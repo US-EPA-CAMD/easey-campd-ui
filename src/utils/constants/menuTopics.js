@@ -188,7 +188,7 @@ export const subHeaderUtilityList = [
     label: 'Help/Support',
     items: [
       { menu: 'About CAMPD', link: '#' },
-      { menu: 'Tutorials', link: '#' },
+      { menu: 'Tutorials', link: '/help-support/tutorials' },
       { menu: 'FAQs', link: '#' },
       { menu: 'Contact Us', link: '#' },
     ],

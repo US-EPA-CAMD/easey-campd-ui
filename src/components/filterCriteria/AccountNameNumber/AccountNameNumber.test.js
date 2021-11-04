@@ -57,6 +57,7 @@ initialState.filterCriteria.accountNameNumber = nameNumbers.map((ann) => ({
   id: ann.accountNumber,
   label: `${ann.accountName} (${ann.accountNumber})`,
   selected: false,
+  enabled:true
 }));
 const store = configureStore(initialState);
 let flyOutClosed = false;
