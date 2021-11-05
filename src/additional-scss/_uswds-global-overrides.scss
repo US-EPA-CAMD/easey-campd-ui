@@ -268,3 +268,9 @@
 .usa-checkbox__label::before {
   background: white;
 }
+
+.usa-accordion__content {
+  p {
+    max-width: inherit;
+  }
+}

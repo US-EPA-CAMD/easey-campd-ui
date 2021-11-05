@@ -72,8 +72,8 @@ const TutorialsPage = () => {
       </p>
       <p>
         If a guide does not provide the solution you need, reference the{' '}
-        <Link href={'#'}>FAQs </Link>
-        and/or the <Link href={'#'}>Contact Us </Link> pages.
+        <Link href={'/help-support/faqs'}>FAQs</Link>{' '}
+        and/or the <Link href={'#'}>Contact Us</Link> pages.
       </p>
       <div className="grid-row">
         {topics.map((topic) => {
