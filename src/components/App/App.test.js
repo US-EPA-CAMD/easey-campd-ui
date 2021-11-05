@@ -10,7 +10,7 @@ const store = configureStore();
 
 describe("Testing the main routing App component", () => {
   it("renders home page component provided with the default path", () => {
-    const { getByText, getByRole } = render(
+    const { getByText } = render(
       <Provider store={store}>
         <MemoryRouter initialEntries={[`${config.app.path}`]}>
             <App />
@@ -19,6 +19,5 @@ describe("Testing the main routing App component", () => {
     );
     const textInHomePage = getByText("Visualization");
     expect(textInHomePage).toBeInTheDocument();
-    expect(getByRole("button", {name: "Start your data query"})).toBeDefined();
   });
 });
