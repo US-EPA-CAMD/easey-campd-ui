@@ -232,7 +232,7 @@ const FaqsPage = () => {
         {
           title:
             'My company is automating download of the FTP bulk data files (previously called prepackaged datasets). What credentials do we need to use?',
-          id: 'general-',
+          id: 'general-credentials',
           expanded: false,
           content: (
             <p>SFTP connections need to use Port 21 with anonymous login.</p>
