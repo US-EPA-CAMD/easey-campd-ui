@@ -54,7 +54,7 @@ const ManageDataPreview = ({
     if(removedAppliedFilter !== null){
       if(dataType === "EMISSIONS"){
         if(filterCriteria.filterMapping.length>0){
-          engageFilterLogic(dataType, dataSubType, removedAppliedFilter, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispacher);
+          engageFilterLogic(dataType, dataSubType, removedAppliedFilter, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispacher, true);
         }
       }
     }// eslint-disable-next-line react-hooks/exhaustive-deps
