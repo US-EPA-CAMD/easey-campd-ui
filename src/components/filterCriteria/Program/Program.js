@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from "react-redux";
 import CheckboxGroupRenderer from '../../CheckboxGroupRenderer/CheckboxGroupRenderer';
-import {loadPrograms, updateProgramSelection} from "../../../store/actions/customDataDownload/filterCriteria";
+import { updateFilterCriteria, updateProgramSelection } from "../../../store/actions/customDataDownload/filterCriteria";
 import { addAppliedFilter, removeAppliedFilter } from "../../../store/actions/customDataDownload/customDataDownload";
 import { getSelectedIds, getApplicablePrograms } from "../../../utils/selectors/filterCriteria";
-//import {getProgramsFilteredSet} from "../../../utils/selectors/filterLogic";
+import { engageFilterLogic } from "../../../utils/selectors/filterLogic";
 import { isAddedToFilters } from '../../../utils/selectors/general';
 import {Button} from "@trussworks/react-uswds";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -13,11 +13,10 @@ import { faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
 const Program = ({
   storeProgram,
   appliedFilters,
-  loadProgramsDispatcher,
+  updateFilterCriteriaDispacher,
   updateProgramSelectionDispatcher,
   addAppliedFilterDispatcher,
   removeAppliedFilterDispatcher,
-  loading,
   closeFlyOutHandler,
   dataType,
   dataSubType,
@@ -26,8 +25,26 @@ const Program = ({
   filterCriteria}) => {
 
   const [program, setPrograms] = useState(JSON.parse(JSON.stringify(getApplicablePrograms(storeProgram, dataSubType))));
-
+  const [applyFilterClicked, setApplyFilterClicked] = useState(false);
   const filterToApply = "Program";
+
+  useEffect(()=>{
+    if(program.length > 0){
+      renderedHandler();
+    }// eslint-disable-next-line react-hooks/exhaustive-deps
+  },[program]);
+
+  useEffect(()=>{
+    if(applyFilterClicked){
+      if(dataType === "EMISSIONS"){
+        if(filterCriteria.filterMapping.length>0){
+          engageFilterLogic(dataType, dataSubType, filterToApply, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispacher);
+        }
+      }
+      closeFlyOutHandler();
+    }// eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [storeProgram]);
+
 
   const onSelectProgramHandler = (e) =>{
     const newPrograms = [...program];
@@ -43,34 +60,6 @@ const Program = ({
     })
   };
 
-  // useEffect(()=>{
-  //   if(storeProgram.length===0){
-  //     loadProgramsDispatcher(dataType, showActiveOnly);
-  //   }// eslint-disable-next-line react-hooks/exhaustive-deps
-  // },[]);
-
-  // useEffect(()=>{
-  //   if(dataType === "EMISSIONS" && filterCriteria.filterMapping.length > 0){
-  //     const programsMDM = JSON.parse(JSON.stringify(getApplicablePrograms(storeProgram, dataSubType)));
-  //     const filteredSet = getProgramsFilteredSet(filterCriteria);
-  //     programsMDM.forEach(p => {
-  //       p.items.forEach(el =>{
-  //         el.enabled = filteredSet.includes(el.id);
-  //       })
-  //     });
-  //     setPrograms(programsMDM);
-  //   }else{
-  //     setPrograms(JSON.parse(JSON.stringify(getApplicablePrograms(storeProgram, dataSubType))));
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // },[storeProgram, filterCriteria.filterMapping]);
-
-  useEffect(()=>{
-    if(program.length > 0 && loading===0){
-      renderedHandler();
-    }// eslint-disable-next-line react-hooks/exhaustive-deps
-  },[program, loading]);
-
   const handleApplyFilter = () =>{
     updateProgramSelectionDispatcher(program);
     if(isAddedToFilters(filterToApply, appliedFilters)){
@@ -80,7 +69,7 @@ const Program = ({
     if(selection.length>0){
       addAppliedFilterDispatcher({key:filterToApply, values:selection});
     }
-    closeFlyOutHandler();
+    setApplyFilterClicked(true);
   };
 
   return (
@@ -94,7 +83,7 @@ const Program = ({
         <hr />
       </div>
       {
-        program.length > 0 && loading===0 &&
+        program.length > 0 &&
         <>
           <div className="display-block maxh-mobile-lg overflow-y-scroll overflow-x-hidden">
             <CheckboxGroupRenderer
@@ -121,10 +110,6 @@ const Program = ({
           </div>
         </>
       }
-      {
-        loading>0 &&
-        <span className="font-alt-sm text-bold margin-x-2">Loading...</span>
-      }
     </>
   );
 }
@@ -137,16 +122,15 @@ const mapStateToProps = (state) => {
     appliedFilters: state.customDataDownload.appliedFilters,
     dataType: state.customDataDownload.dataType,
     dataSubType: state.customDataDownload.dataSubType,
-    loading: state.apiCallsInProgress
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loadProgramsDispatcher: (dataType, showActiveOnly) => dispatch(loadPrograms(dataType, showActiveOnly)),
     updateProgramSelectionDispatcher: (program) => dispatch(updateProgramSelection(program)),
     addAppliedFilterDispatcher: (filterToApply) => dispatch(addAppliedFilter(filterToApply)),
-    removeAppliedFilterDispatcher: (removedFilter) => dispatch(removeAppliedFilter(removedFilter))
+    removeAppliedFilterDispatcher: (removedFilter) => dispatch(removeAppliedFilter(removedFilter)),
+    updateFilterCriteriaDispacher: (filterCriteria) => dispatch(updateFilterCriteria(filterCriteria)),
   };
 };
 

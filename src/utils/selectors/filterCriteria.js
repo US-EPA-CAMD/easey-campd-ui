@@ -1,5 +1,5 @@
 import initialState from '../../store/reducers/initialState';
-import { initcap } from './general';
+import {formatYearsToArray, formatDateToApi, initcap} from "./general";
 
 export const resetFilterHelper = (state, filterToReset, resetAll = false) => {
   const clonedFilterCriteria = JSON.parse(JSON.stringify(state));
@@ -58,6 +58,18 @@ export const resetCheckBoxItems = (entity) =>{
   });
 };
 
+export const getCheckBoxSelectedItems = (arr) =>{
+  const result = [];
+  arr.forEach(entry =>{
+    entry.items.forEach(item =>{
+      if(item.selected){
+        result.push(item.id);
+      }
+    });
+  });
+  return result;
+};
+
 export const resetComboBoxItems = (entity) =>{
   entity.forEach(e =>{
     e.selected = false;
@@ -71,6 +83,56 @@ export const getComboboxEnabledItems = (arr) =>{
 
 export const getComboboxSelectedItems = (arr) =>{
   return arr.filter(e=>e.selected && e.enabled).map(el => el.id);
+};
+
+export const updateEnabledStatusCheckBox = (arry, filteredSet) =>{
+  arry.forEach(el => {
+    el.items.forEach(obj =>{
+      obj.enabled = filteredSet.includes(obj.id);
+    });
+  });
+};
+
+export const updateEnabledStatusComboBox = (arry, filteredSet) =>{
+  arry.forEach(obj => {
+    obj.enabled = filteredSet.includes(obj.id);
+  });
+};
+
+//returs pipe delimited set of years
+export const getTimePeriodYears = (start, end, years=null) =>{
+  if(years!==null){
+    return  formatYearsToArray(years);
+  }
+  if(start === null || end === null){
+    return [];
+  }else{
+    const startYear = start.substring(0, 4);
+    const endYear = end.substring(0, 4);
+    if(startYear === endYear){
+      return [Number(startYear)];
+    }else{
+      return formatYearsToArray(`${startYear}-${endYear}`);
+    }
+  }
+};
+
+export const verifyTimePeriodChange = (formState, timePeriod, showYear) =>{
+  let result = false;
+  if(showYear && timePeriod.year?.yearArray.length > 0){
+    result = JSON.stringify(timePeriod.year.yearArray) !== JSON.stringify(getTimePeriodYears(null, null, formState.year));
+  }
+  if(timePeriod.startDate !== null && timePeriod.endDate !== null){
+    const storeTimePeriod = getTimePeriodYears(timePeriod.startDate, timePeriod.endDate);
+    const formTimePeriod = getTimePeriodYears(formatDateToApi(formState.startDate), formatDateToApi(formState.endDate));
+    result = JSON.stringify(storeTimePeriod) !== JSON.stringify(formTimePeriod);
+  }
+  return result;
+}
+
+export const getSelectedYrs = (filterCriteria) =>{
+  return filterCriteria.timePeriod.year?.yearArray.length>0 ? filterCriteria.timePeriod.year.yearArray :
+  getTimePeriodYears(filterCriteria.timePeriod.startDate, filterCriteria.timePeriod.endDate);
 };
 
 export const getSelectedIds = (filterState, description = false) => {

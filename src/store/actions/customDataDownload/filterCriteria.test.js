@@ -1458,294 +1458,346 @@ describe("Filter Criteria Async Actions", () => {
 
   it("should create BEGIN_API_CALL and LOAD_TRANSACTION_TYPE_SUCCESS when loading transaction types data", () => {
     const transactionTypes = [
-      {
-        "transactionTypeCode": "AD",
-        "transactionTypeDescription": "Activate Conditional Allowances"
-      },
-      {
-        "transactionTypeCode": "AT",
-        "transactionTypeDescription": "Transfer Due to Corrected Energy Conservation"
-      },
-      {
-        "transactionTypeCode": "CASURR",
-        "transactionTypeDescription": "Compliance Assurance Surrender"
-      },
-      {
-        "transactionTypeCode": "CC",
-        "transactionTypeDescription": "Substitution Control by Contract Deduction"
-      },
-      {
-        "transactionTypeCode": "CR",
-        "transactionTypeDescription": "Conservation Issuance"
-      },
-      {
-        "transactionTypeCode": "DE",
-        "transactionTypeDescription": "Reallocation Transfer"
-      },
-      {
-        "transactionTypeCode": "DI",
-        "transactionTypeDescription": "Reallocation Surrender"
-      },
-      {
-        "transactionTypeCode": "EB",
-        "transactionTypeDescription": "Energy Biomass Issuance"
-      },
-      {
-        "transactionTypeCode": "EG",
-        "transactionTypeDescription": "Energy Geothermal Issuance"
-      },
-      {
-        "transactionTypeCode": "EMADJ",
-        "transactionTypeDescription": "Emissions Adjustment Deduction"
-      },
-      {
-        "transactionTypeCode": "EMISS",
-        "transactionTypeDescription": "Emissions Deduction"
-      },
-      {
-        "transactionTypeCode": "ENFSURR",
-        "transactionTypeDescription": "Enforcement Surrender"
-      },
-      {
-        "transactionTypeCode": "EP",
-        "transactionTypeDescription": "Phase 1 Extension Issuance"
-      },
-      {
-        "transactionTypeCode": "EPAAUCT",
-        "transactionTypeDescription": "Purchase at EPA Auction"
-      },
-      {
-        "transactionTypeCode": "ERLYRED",
-        "transactionTypeDescription": "Early Reduction Issuance"
-      },
-      {
-        "transactionTypeCode": "ERRCORR",
-        "transactionTypeDescription": "Error Correction"
-      },
-      {
-        "transactionTypeCode": "ERRREV",
-        "transactionTypeDescription": "Error Reversal"
-      },
-      {
-        "transactionTypeCode": "ES",
-        "transactionTypeDescription": "Energy Solar Issuance"
-      },
-      {
-        "transactionTypeCode": "EW",
-        "transactionTypeDescription": "Energy Wind Issuance"
-      },
-      {
-        "transactionTypeCode": "FP",
-        "transactionTypeDescription": "Phase 1 Extension Projected Emission Deduction"
-      },
-      {
-        "transactionTypeCode": "INITALL",
-        "transactionTypeDescription": "Initial Allocation"
-      },
-      {
-        "transactionTypeCode": "INTOESC",
-        "transactionTypeDescription": "Contribute to Auction"
-      },
-      {
-        "transactionTypeCode": "JC",
-        "transactionTypeDescription": "July Confirmation Credit"
-      },
-      {
-        "transactionTypeCode": "JD",
-        "transactionTypeDescription": "July Confirmation Deduction"
-      },
-      {
-        "transactionTypeCode": "LEGACY",
-        "transactionTypeDescription": "Transfer from Legacy System"
-      },
-      {
-        "transactionTypeCode": "LO",
-        "transactionTypeDescription": "Deduction of Loaned Allowances"
-      },
-      {
-        "transactionTypeCode": "NBPADJ",
-        "transactionTypeDescription": "NBP Additional Emissions Deduction from CAIROS Account"
-      },
-      {
-        "transactionTypeCode": "NBPALL",
-        "transactionTypeDescription": "CAIROS Transfer from NBP"
-      },
-      {
-        "transactionTypeCode": "NBPOS",
-        "transactionTypeDescription": "Conversion of NBP allowances into CAIROS"
-      },
-      {
-        "transactionTypeCode": "NBPPEN",
-        "transactionTypeDescription": "NBP Penalty Deduction From CAIROS Account"
-      },
-      {
-        "transactionTypeCode": "NEWCSR",
-        "transactionTypeDescription": "Distribute Allowances for Revised CSAPR Update"
-      },
-      {
-        "transactionTypeCode": "NEWPROG",
-        "transactionTypeDescription": "Distribute Allowances for New Program"
-      },
-      {
-        "transactionTypeCode": "NUSAALL",
-        "transactionTypeDescription": "New Unit Set Aside Allocation"
-      },
-      {
-        "transactionTypeCode": "OFFPEN",
-        "transactionTypeDescription": "Offset/Penalty Deduction"
-      },
-      {
-        "transactionTypeCode": "OPTALL",
-        "transactionTypeDescription": "Opt-In Allocation"
-      },
-      {
-        "transactionTypeCode": "OPTIN",
-        "transactionTypeDescription": "Opt-in Transfer to Replacement Unit"
-      },
-      {
-        "transactionTypeCode": "OSADJ",
-        "transactionTypeDescription": "CSAPR Ozone Season Emissions Adjustment Deduction"
-      },
-      {
-        "transactionTypeCode": "OSPEN",
-        "transactionTypeDescription": "CSAPR Ozone Season Offset/Penalty Deduction"
-      },
-      {
-        "transactionTypeCode": "OTHALL",
-        "transactionTypeDescription": "Other Reserve Allocation"
-      },
-      {
-        "transactionTypeCode": "OUTESC",
-        "transactionTypeDescription": "Return Contributed Allowances"
-      },
-      {
-        "transactionTypeCode": "PRIAUCT",
-        "transactionTypeDescription": "Purchase at Private Auction"
-      },
-      {
-        "transactionTypeCode": "PRIVATE",
-        "transactionTypeDescription": "Private Transfer"
-      },
-      {
-        "transactionTypeCode": "PX",
-        "transactionTypeDescription": "Phase 1 Extension Control Failure Deduction"
-      },
-      {
-        "transactionTypeCode": "RECALL",
-        "transactionTypeDescription": "Recall State Program Allowances"
-      },
-      {
-        "transactionTypeCode": "REISCSR",
-        "transactionTypeDescription": "Distribute Revintaged Allowances for Revised CSAPR Update"
-      },
-      {
-        "transactionTypeCode": "REISSUE",
-        "transactionTypeDescription": "Distribute Revintaged Allowances"
-      },
-      {
-        "transactionTypeCode": "REMCSR",
-        "transactionTypeDescription": "Remove for Revised CSAPR Update Reissuance"
-      },
-      {
-        "transactionTypeCode": "REMOVAL",
-        "transactionTypeDescription": "Remove for Reissuance"
-      },
-      {
-        "transactionTypeCode": "RETURN",
-        "transactionTypeDescription": "Return of Unsold Allowances from EPA Auction Reserve"
-      },
-      {
-        "transactionTypeCode": "RP",
-        "transactionTypeDescription": "Phase 2 Early Reduction Payback"
-      },
-      {
-        "transactionTypeCode": "RR",
-        "transactionTypeDescription": "Reverse Reduced Utilization Payback"
-      },
-      {
-        "transactionTypeCode": "RS",
-        "transactionTypeDescription": "Reduced Utilization Payback"
-      },
-      {
-        "transactionTypeCode": "RTNCAIR",
-        "transactionTypeDescription": "Return of CAIR Allowances"
-      },
-      {
-        "transactionTypeCode": "RTNCRER",
-        "transactionTypeDescription": "Return of unused allowances from the Conservation and Renewable Energy Reserve"
-      },
-      {
-        "transactionTypeCode": "RU",
-        "transactionTypeDescription": "Reduced Utilization Issuance"
-      },
-      {
-        "transactionTypeCode": "SC",
-        "transactionTypeDescription": "State Cap Issuance"
-      },
-      {
-        "transactionTypeCode": "SD",
-        "transactionTypeDescription": "Substitution Distribution"
-      },
-      {
-        "transactionTypeCode": "SE",
-        "transactionTypeDescription": "State Cap Deduction"
-      },
-      {
-        "transactionTypeCode": "SM",
-        "transactionTypeDescription": "Small Diesel Issuance"
-      },
-      {
-        "transactionTypeCode": "SP",
-        "transactionTypeDescription": "State Cap Payback"
-      },
-      {
-        "transactionTypeCode": "SR",
-        "transactionTypeDescription": "Reverse Substitution Payback"
-      },
-      {
-        "transactionTypeCode": "SS",
-        "transactionTypeDescription": "Substitution Payback"
-      },
-      {
-        "transactionTypeCode": "ST",
-        "transactionTypeDescription": "Substitution Termination"
-      },
-      {
-        "transactionTypeCode": "STATE",
-        "transactionTypeDescription": "State Reallocation"
-      },
-      {
-        "transactionTypeCode": "SU",
-        "transactionTypeDescription": "Substitution Issuance"
-      },
-      {
-        "transactionTypeCode": "TAKEBCK",
-        "transactionTypeDescription": "Takeback for Underutilization"
-      },
-      {
-        "transactionTypeCode": "TD",
-        "transactionTypeDescription": "Transfer from Direct Sale to Auction"
-      },
-      {
-        "transactionTypeCode": "TERM",
-        "transactionTypeDescription": "Terminate State Program Allowances"
-      },
-      {
-        "transactionTypeCode": "TF",
-        "transactionTypeDescription": "Internal Transfer to Reduce Offset"
-      },
-      {
-        "transactionTypeCode": "TM",
-        "transactionTypeDescription": "Reduced Utilization Termination"
-      },
-      {
-        "transactionTypeCode": "UNDERUT",
-        "transactionTypeDescription": "Underutilization Deduction"
-      },
-      {
-        "transactionTypeCode": "VOLSURR",
-        "transactionTypeDescription": "Voluntary Surrender"
-      }
+        {
+          "transactionTypeCode": "AD",
+          "transactionTypeDescription": "Activate Conditional Allowances"
+        },
+        {
+          "transactionTypeCode": "AT",
+          "transactionTypeDescription": "Transfer Due to Corrected Energy Conservation"
+        },
+        {
+          "transactionTypeCode": "CASURR",
+          "transactionTypeDescription": "Compliance Assurance Surrender"
+        },
+        {
+          "transactionTypeCode": "CC",
+          "transactionTypeDescription": "Substitution Control by Contract Deduction"
+        },
+        {
+          "transactionTypeCode": "CR",
+          "transactionTypeDescription": "Conservation Issuance"
+        },
+        {
+          "transactionTypeCode": "DE",
+          "transactionTypeDescription": "Reallocation Transfer"
+        },
+        {
+          "transactionTypeCode": "DI",
+          "transactionTypeDescription": "Reallocation Surrender"
+        },
+        {
+          "transactionTypeCode": "EB",
+          "transactionTypeDescription": "Energy Biomass Issuance"
+        },
+        {
+          "transactionTypeCode": "EC",
+          "transactionTypeDescription": "Error Correction"
+        },
+        {
+          "transactionTypeCode": "EG",
+          "transactionTypeDescription": "Energy Geothermal Issuance"
+        },
+        {
+          "transactionTypeCode": "EMADJ",
+          "transactionTypeDescription": "Emissions Adjustment Deduction"
+        },
+        {
+          "transactionTypeCode": "EMISS",
+          "transactionTypeDescription": "Emissions Deduction"
+        },
+        {
+          "transactionTypeCode": "ENFSURR",
+          "transactionTypeDescription": "Enforcement Surrender"
+        },
+        {
+          "transactionTypeCode": "EP",
+          "transactionTypeDescription": "Phase 1 Extension Issuance"
+        },
+        {
+          "transactionTypeCode": "EPAAUCT",
+          "transactionTypeDescription": "Purchase at EPA Auction"
+        },
+        {
+          "transactionTypeCode": "ER",
+          "transactionTypeDescription": "Error Reversal"
+        },
+        {
+          "transactionTypeCode": "ERLYRED",
+          "transactionTypeDescription": "Early Reduction Issuance"
+        },
+        {
+          "transactionTypeCode": "ERRCORR",
+          "transactionTypeDescription": "Error Correction"
+        },
+        {
+          "transactionTypeCode": "ERRREV",
+          "transactionTypeDescription": "Error Reversal"
+        },
+        {
+          "transactionTypeCode": "ES",
+          "transactionTypeDescription": "Energy Solar Issuance"
+        },
+        {
+          "transactionTypeCode": "EW",
+          "transactionTypeDescription": "Energy Wind Issuance"
+        },
+        {
+          "transactionTypeCode": "FP",
+          "transactionTypeDescription": "Phase 1 Extension Projected Emission Deduction"
+        },
+        {
+          "transactionTypeCode": "IA",
+          "transactionTypeDescription": "Initial Allocation"
+        },
+        {
+          "transactionTypeCode": "INITALL",
+          "transactionTypeDescription": "Initial Allocation"
+        },
+        {
+          "transactionTypeCode": "INTOESC",
+          "transactionTypeDescription": "Contribute to Auction"
+        },
+        {
+          "transactionTypeCode": "JC",
+          "transactionTypeDescription": "July Confirmation Credit"
+        },
+        {
+          "transactionTypeCode": "JD",
+          "transactionTypeDescription": "July Confirmation Deduction"
+        },
+        {
+          "transactionTypeCode": "LEGACY",
+          "transactionTypeDescription": "Transfer from Legacy System"
+        },
+        {
+          "transactionTypeCode": "LO",
+          "transactionTypeDescription": "Deduction of Loaned Allowances"
+        },
+        {
+          "transactionTypeCode": "NBPADJ",
+          "transactionTypeDescription": "NBP Additional Emissions Deduction from CAIROS Account"
+        },
+        {
+          "transactionTypeCode": "NBPALL",
+          "transactionTypeDescription": "CAIROS Transfer from NBP"
+        },
+        {
+          "transactionTypeCode": "NBPOS",
+          "transactionTypeDescription": "Conversion of NBP allowances into CAIROS"
+        },
+        {
+          "transactionTypeCode": "NBPPEN",
+          "transactionTypeDescription": "NBP Penalty Deduction From CAIROS Account"
+        },
+        {
+          "transactionTypeCode": "NC",
+          "transactionTypeDescription": "Termination of NBP allowances into CAIROS"
+        },
+        {
+          "transactionTypeCode": "NEWCSR",
+          "transactionTypeDescription": "Distribute Allowances for Revised CSAPR Update"
+        },
+        {
+          "transactionTypeCode": "NEWPROG",
+          "transactionTypeDescription": "Distribute Allowances for New Program"
+        },
+        {
+          "transactionTypeCode": "NUSAALL",
+          "transactionTypeDescription": "New Unit Set Aside Allocation"
+        },
+        {
+          "transactionTypeCode": "OFFPEN",
+          "transactionTypeDescription": "Offset/Penalty Deduction"
+        },
+        {
+          "transactionTypeCode": "OI",
+          "transactionTypeDescription": "Opt-In Allocation"
+        },
+        {
+          "transactionTypeCode": "OPTALL",
+          "transactionTypeDescription": "Opt-In Allocation"
+        },
+        {
+          "transactionTypeCode": "OPTIN",
+          "transactionTypeDescription": "Opt-in Transfer to Replacement Unit"
+        },
+        {
+          "transactionTypeCode": "OR",
+          "transactionTypeDescription": "Allocation from Other Reserve"
+        },
+        {
+          "transactionTypeCode": "OSADJ",
+          "transactionTypeDescription": "CSAPR Ozone Season Emissions Adjustment Deduction"
+        },
+        {
+          "transactionTypeCode": "OSPEN",
+          "transactionTypeDescription": "CSAPR Ozone Season Offset/Penalty Deduction"
+        },
+        {
+          "transactionTypeCode": "OTHALL",
+          "transactionTypeDescription": "Other Reserve Allocation"
+        },
+        {
+          "transactionTypeCode": "OUTESC",
+          "transactionTypeDescription": "Return Contributed Allowances"
+        },
+        {
+          "transactionTypeCode": "PE",
+          "transactionTypeDescription": "Penalty Deduction"
+        },
+        {
+          "transactionTypeCode": "PRIAUCT",
+          "transactionTypeDescription": "Purchase at Private Auction"
+        },
+        {
+          "transactionTypeCode": "PRIVATE",
+          "transactionTypeDescription": "Private Transfer"
+        },
+        {
+          "transactionTypeCode": "PX",
+          "transactionTypeDescription": "Phase 1 Extension Control Failure Deduction"
+        },
+        {
+          "transactionTypeCode": "RC",
+          "transactionTypeDescription": "Early Reduction Allocation"
+        },
+        {
+          "transactionTypeCode": "RECALL",
+          "transactionTypeDescription": "Recall State Program Allowances"
+        },
+        {
+          "transactionTypeCode": "REISCSR",
+          "transactionTypeDescription": "Distribute Revintaged Allowances for Revised CSAPR Update"
+        },
+        {
+          "transactionTypeCode": "REISSUE",
+          "transactionTypeDescription": "Distribute Revintaged Allowances"
+        },
+        {
+          "transactionTypeCode": "REMCSR",
+          "transactionTypeDescription": "Remove for Revised CSAPR Update Reissuance"
+        },
+        {
+          "transactionTypeCode": "REMOVAL",
+          "transactionTypeDescription": "Remove for Reissuance"
+        },
+        {
+          "transactionTypeCode": "RETURN",
+          "transactionTypeDescription": "Return of Unsold Allowances from EPA Auction Reserve"
+        },
+        {
+          "transactionTypeCode": "RP",
+          "transactionTypeDescription": "Phase 2 Early Reduction Payback"
+        },
+        {
+          "transactionTypeCode": "RR",
+          "transactionTypeDescription": "Reverse Reduced Utilization Payback"
+        },
+        {
+          "transactionTypeCode": "RS",
+          "transactionTypeDescription": "Reduced Utilization Payback"
+        },
+        {
+          "transactionTypeCode": "RTNCAIR",
+          "transactionTypeDescription": "Return of CAIR Allowances"
+        },
+        {
+          "transactionTypeCode": "RTNCRER",
+          "transactionTypeDescription": "Return of unused allowances from the Conservation and Renewable Energy Reserve"
+        },
+        {
+          "transactionTypeCode": "RU",
+          "transactionTypeDescription": "Reduced Utilization Issuance"
+        },
+        {
+          "transactionTypeCode": "SA",
+          "transactionTypeDescription": "State Reallocation"
+        },
+        {
+          "transactionTypeCode": "SC",
+          "transactionTypeDescription": "State Cap Issuance"
+        },
+        {
+          "transactionTypeCode": "SD",
+          "transactionTypeDescription": "Substitution Distribution"
+        },
+        {
+          "transactionTypeCode": "SE",
+          "transactionTypeDescription": "State Cap Deduction"
+        },
+        {
+          "transactionTypeCode": "SM",
+          "transactionTypeDescription": "Small Diesel Issuance"
+        },
+        {
+          "transactionTypeCode": "SP",
+          "transactionTypeDescription": "State Cap Payback"
+        },
+        {
+          "transactionTypeCode": "SR",
+          "transactionTypeDescription": "Reverse Substitution Payback"
+        },
+        {
+          "transactionTypeCode": "SS",
+          "transactionTypeDescription": "Substitution Payback"
+        },
+        {
+          "transactionTypeCode": "ST",
+          "transactionTypeDescription": "Substitution Termination"
+        },
+        {
+          "transactionTypeCode": "STATE",
+          "transactionTypeDescription": "State Reallocation"
+        },
+        {
+          "transactionTypeCode": "SU",
+          "transactionTypeDescription": "Substitution Issuance"
+        },
+        {
+          "transactionTypeCode": "TAKEBCK",
+          "transactionTypeDescription": "Takeback for Underutilization"
+        },
+        {
+          "transactionTypeCode": "TB",
+          "transactionTypeDescription": "Takeback for Underutilization"
+        },
+        {
+          "transactionTypeCode": "TC",
+          "transactionTypeDescription": "Terminate to CAIROS"
+        },
+        {
+          "transactionTypeCode": "TD",
+          "transactionTypeDescription": "Transfer from Direct Sale to Auction"
+        },
+        {
+          "transactionTypeCode": "TE",
+          "transactionTypeDescription": "Emissions Deduction"
+        },
+        {
+          "transactionTypeCode": "TERM",
+          "transactionTypeDescription": "Terminate State Program Allowances"
+        },
+        {
+          "transactionTypeCode": "TF",
+          "transactionTypeDescription": "Internal Transfer to Reduce Offset"
+        },
+        {
+          "transactionTypeCode": "TM",
+          "transactionTypeDescription": "Reduced Utilization Termination"
+        },
+        {
+          "transactionTypeCode": "TR",
+          "transactionTypeDescription": "Private Trade"
+        },
+        {
+          "transactionTypeCode": "UNDERUT",
+          "transactionTypeDescription": "Underutilization Deduction"
+        },
+        {
+          "transactionTypeCode": "VOLSURR",
+          "transactionTypeDescription": "Voluntary Surrender"
+        }
     ];
     mock
       .onGet(`${config.services.mdm.uri}/transaction-types`)

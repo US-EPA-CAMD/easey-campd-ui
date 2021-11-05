@@ -21,7 +21,8 @@ import {
   formatQuartersToApiOrString,
 } from '../../../../utils/selectors/general';
 import * as constants from '../../../../utils/constants/customDataDownload';
-import {getTimePeriodYears, verifyTimePeriodChange, engageFilterLogic} from "../../../../utils/selectors/filterLogic";
+import { engageFilterLogic } from "../../../../utils/selectors/filterLogic";
+import { getTimePeriodYears, verifyTimePeriodChange } from "../../../../utils/selectors/filterCriteria";
 
 export const TimePeriod = ({
   timePeriod,
