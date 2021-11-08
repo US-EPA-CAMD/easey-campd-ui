@@ -69,7 +69,7 @@ const FaqsPage = () => {
             <p>
               Electric utility data are reported to EPA and the Department of
               Energy through several complementary programs, and CAMPD feeds
-              some of these other databases Overall, the data may not match
+              some of these other databases. Overall, the data may not match
               because the purposes of each database are different.
             </p>
           ),
@@ -87,7 +87,7 @@ const FaqsPage = () => {
           expanded: false,
           content: (
             <p>
-              The aggregated rate data shown in AMPD (for daily, monthly, etc.
+              The aggregated rate data shown in CAMPD (for daily, monthly, etc.
               time periods) are straight averages of the hourly rates – meaning
               that the hourly rates for the time period are added up and then
               divided by the operating hour count for that time period. If
@@ -119,7 +119,7 @@ const FaqsPage = () => {
           expanded: false,
           content: (
             <p>
-              he type of monitoring methods employed at a unit will determine
+              The type of monitoring methods employed at a unit will determine
               whether the hourly fuel type(s) will be reported. Emissions data
               by fuel type is generally not available for units that measure
               their emissions via stack-mounted CEMS (continuous emissions
@@ -145,13 +145,14 @@ const FaqsPage = () => {
             <p>
               EPA does not supply or collect allowance price data or price
               information on individual trades in the market. Third parties
-              provide trade price data which is published via the{' '}
+              provide trade price data which is published via the EPA web and
+              EPA annual{' '}
               <Link
                 target="_blank"
                 rel="noopener noreferrer"
                 href={'https://www3.epa.gov/airmarkets/progress/reports/'}
               >
-                EPA web and EPA annual progress
+                progress
               </Link>{' '}
               reports as a public service in graphical format only. EPA is
               prohibited by agreement with the owners/suppliers of the price
