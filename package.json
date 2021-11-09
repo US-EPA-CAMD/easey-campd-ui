@@ -35,8 +35,13 @@
     "styled-components": "^5.3.0",
     "uswds": "^2.12.1"
   },
+  "resolutions": {
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  },
   "scripts": {
     "start": "react-scripts start",
+    "update": "yarn --ignore-engines",
     "build": "react-scripts build",
     "test": "react-scripts test --coverage --watchAll=false --testResultsProcessor=jest-sonar-reporter"
   },
