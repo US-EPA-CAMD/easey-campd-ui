@@ -63,7 +63,7 @@ const RelatedResources = () => {
       emissions from point, nonpoint, and mobile sources in the 50 States, the District of Columbia, Puerto Rico, and the Virgin Islands.`,
     },
     {
-      name: 'Reports',
+      name: 'Progress Reports',
       url: 'https://www3.epa.gov/airmarkets/progress/reports/index.html',
       description: `Current and historical EPA reports covering progress under air market programs including the Cross-State Air 
         Pollution Rule, Clean Air Interstate Rule, the Acid Rain Program, and the former NOx Budget Trading Program.`,

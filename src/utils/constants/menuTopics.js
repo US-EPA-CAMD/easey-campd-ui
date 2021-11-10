@@ -181,7 +181,7 @@ export const subHeaderUtilityList = [
     label: 'Resources',
     items: [
       { menu: 'Glossary', link: '#' },
-      { menu: 'Related Resources', link: 'resources/related-resources' },
+      { menu: 'Related Resources', link: '/resources/related-resources' },
     ],
   },
   {
@@ -189,7 +189,7 @@ export const subHeaderUtilityList = [
     items: [
       { menu: 'About CAMPD', link: '#' },
       { menu: 'Tutorials', link: '/help-support/tutorials' },
-      { menu: 'FAQs', link: '#' },
+      { menu: 'FAQs', link: '/help-support/faqs' },
       { menu: 'Contact Us', link: '#' },
     ],
   },
