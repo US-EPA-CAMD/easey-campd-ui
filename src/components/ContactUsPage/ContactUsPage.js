@@ -24,7 +24,7 @@ const ContactUsPage = () => {
     },
     {
       id: 2,
-      comment: "Two",      
+      comment: "Two",
     },
     {
       id: 3,

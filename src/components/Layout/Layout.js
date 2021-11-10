@@ -20,7 +20,7 @@ const Layout = (props) => {
         Skip to Content
       </a>
       <div className="topHeader">
-        <Header />
+        <Header environment={config.app.env} />
         <SubHeader />
       </div>
       <div className="mainContent" role="main">
