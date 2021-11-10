@@ -10,7 +10,7 @@
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
     "@trussworks/react-uswds": "^2.3.0",
-    "@us-epa-camd/easey-design-system": "^1.0.2",
+    "@us-epa-camd/easey-design-system": "1.7.0",
     "@welldone-software/why-did-you-render": "^6.2.0",
     "axios": "^0.21.1",
     "axios-mock-adapter": "^1.18.2",
@@ -41,7 +41,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "update": "yarn --ignore-engines",
+    "up": "yarn --ignore-engines && yarn start",
     "build": "react-scripts build",
     "test": "react-scripts test --coverage --watchAll=false --testResultsProcessor=jest-sonar-reporter"
   },
