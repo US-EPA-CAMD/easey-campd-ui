@@ -11,19 +11,22 @@ const selection = {
   years : [],
   states : [],
   programs : [],
+  fuelTypes: []
 }
 
 const populateSelections = (filterCriteria) =>{
   selection.years = getSelectedYrs(filterCriteria);
   selection.states = getComboboxSelectedItems(filterCriteria.stateTerritory);
   selection.programs = getCheckBoxSelectedItems(filterCriteria.program);
+  selection.fuelTypes = getCheckBoxSelectedItems(filterCriteria.fuelType);
 };
 
 export const filterEmissionsProgram = (filterCriteria) =>{
   const filteredSet = [...new Set(
     filterCriteria.filterMapping.filter(x => {
       return (selection.years.length === 0 || selection.years.includes(x.year)) &&
-      (selection.states.length === 0 || selection.states.includes(x.state))
+      (selection.states.length === 0 || selection.states.includes(x.state)) && 
+      (selection.fuelTypes.length === 0 || selection.fuelTypes.includes(x.fuelTypeCode))
     }).map(i => i.programCode)
   )];
   updateEnabledStatusCheckBox(filterCriteria.program, filteredSet);
@@ -33,7 +36,8 @@ export const filterEmissionsStateTerritory = (filterCriteria) =>{
   const filteredSet = [...new Set(
     filterCriteria.filterMapping.filter(x => {
       return (selection.years.length === 0 || selection.years.includes(x.year)) &&
-      (selection.programs.length === 0 || selection.programs.includes(x.programCode))
+      (selection.programs.length === 0 || selection.programs.includes(x.programCode)) &&
+      (selection.fuelTypes.length === 0 || selection.fuelTypes.includes(x.fuelTypeCode))
     }).map(i => i.state)
   )];
   updateEnabledStatusComboBox(filterCriteria.stateTerritory, filteredSet);
@@ -44,7 +48,8 @@ export const filterEmissionsFacility = (filterCriteria) =>{
     filterCriteria.filterMapping.filter(x => {
       return (selection.years.length === 0 || selection.years.includes(x.year)) &&
       (selection.states.length === 0 || selection.states.includes(x.state)) &&
-      (selection.programs.length === 0 || selection.programs.includes(x.programCode))
+      (selection.programs.length === 0 || selection.programs.includes(x.programCode)) &&
+      (selection.fuelTypes.length === 0 || selection.fuelTypes.includes(x.fuelTypeCode))
     }).map(i => String(i.facilityId))
   )];
   updateEnabledStatusComboBox(filterCriteria.facility, filteredSet);
@@ -55,7 +60,8 @@ export const filterEmissionsUnitType = (filterCriteria) =>{
     filterCriteria.filterMapping.filter(x => {
       return (selection.years.length === 0 || selection.years.includes(x.year)) &&
       (selection.states.length === 0 || selection.states.includes(x.state)) &&
-      (selection.programs.length === 0 || selection.programs.includes(x.programCode))
+      (selection.programs.length === 0 || selection.programs.includes(x.programCode)) &&
+      (selection.fuelTypes.length === 0 || selection.fuelTypes.includes(x.fuelTypeCode))
     }).map(i => i.unitTypeCode)
   )];
   updateEnabledStatusCheckBox(filterCriteria.unitType, filteredSet);
@@ -77,7 +83,8 @@ export const filterEmissionsControlTechnology = (filterCriteria) =>{
     filterCriteria.filterMapping.filter(x => {
       return (selection.years.length === 0 || selection.years.includes(x.year)) &&
       (selection.states.length === 0 || selection.states.includes(x.state)) &&
-      (selection.programs.length === 0 || selection.programs.includes(x.programCode))
+      (selection.programs.length === 0 || selection.programs.includes(x.programCode)) &&
+      (selection.fuelTypes.length === 0 || selection.fuelTypes.includes(x.fuelTypeCode))
     }).map(i => i.controlCode)
   )];
   updateEnabledStatusCheckBox(filterCriteria.controlTechnology, filteredSet);
@@ -88,7 +95,8 @@ export const filterEmissionsSourceCategory = (filterCriteria) =>{
     filterCriteria.filterMapping.filter(x => {
       return (selection.years.length === 0 || selection.years.includes(x.year)) &&
       (selection.states.length === 0 || selection.states.includes(x.state)) &&
-      (selection.programs.length === 0 || selection.programs.includes(x.programCode))
+      (selection.programs.length === 0 || selection.programs.includes(x.programCode)) && 
+      (selection.fuelTypes.length === 0 || selection.fuelTypes.includes(x.fuelTypeCode))
     }).map(i => String(i.sourceCategoryDescription))
   )];
   updateEnabledStatusComboBox(filterCriteria.sourceCategory, filteredSet);

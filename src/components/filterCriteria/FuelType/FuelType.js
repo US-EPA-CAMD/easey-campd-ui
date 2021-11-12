@@ -5,33 +5,45 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 
 import CheckboxGroupRenderer from '../../CheckboxGroupRenderer/CheckboxGroupRenderer';
-import {
-  loadFuelTypes,
-  updateFuelTypeSelection,
-} from '../../../store/actions/customDataDownload/filterCriteria';
-import {
-  addAppliedFilter,
-  removeAppliedFilter,
-} from '../../../store/actions/customDataDownload/customDataDownload';
+import { updateFuelTypeSelection, updateFilterCriteria } from '../../../store/actions/customDataDownload/filterCriteria';
+import { addAppliedFilter, removeAppliedFilter} from '../../../store/actions/customDataDownload/customDataDownload';
 import { getSelectedIds } from '../../../utils/selectors/filterCriteria';
 import { isAddedToFilters } from '../../../utils/selectors/general';
+import { engageFilterLogic } from "../../../utils/selectors/filterLogic";
 
 const FuelType = ({
   storeFuelType,
   appliedFilters,
-  loadFuelTypesDispatcher,
   updateFuelTypeSelectionDispatcher,
+  updateFilterCriteriaDispacher,
   addAppliedFilterDispatcher,
   removeAppliedFilterDispatcher,
-  loading,
   closeFlyOutHandler,
-  renderedHandler
+  renderedHandler,
+  dataType,
+  dataSubType,
+  filterCriteria
 }) => {
-  const [fuelType, setFuelTypes] = useState(
-    JSON.parse(JSON.stringify(storeFuelType))
-  );
-
+  const [fuelType, setFuelTypes] = useState(JSON.parse(JSON.stringify(storeFuelType)));
+  const [applyFilterClicked, setApplyFilterClicked] = useState(false);
   const filterToApply = 'Unit Fuel Type';
+
+  useEffect(() => {
+    if(fuelType.length > 0){
+      renderedHandler();
+    }// eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fuelType]);
+
+  useEffect(()=>{
+    if(applyFilterClicked){
+      if(dataType === "EMISSIONS"){
+        if(filterCriteria.filterMapping.length>0){
+          engageFilterLogic(dataType, dataSubType, filterToApply, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispacher);
+        }
+      }
+      closeFlyOutHandler();
+    }// eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [storeFuelType]);
 
   const onSelectAllFuelTypesHandler = (e) => {
     const newFuelTypes = [...fuelType];
@@ -58,22 +70,6 @@ const FuelType = ({
     }
   };
 
-  useEffect(() => {
-    if (storeFuelType.length === 0) {
-      loadFuelTypesDispatcher();
-    } // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    setFuelTypes(JSON.parse(JSON.stringify(storeFuelType)));
-  }, [storeFuelType]);
-
-  useEffect(() => {
-    if(fuelType.length > 0 && loading === 0){
-      renderedHandler();
-    }// eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [fuelType, loading]);
-
   const handleApplyFilter = () => {
     updateFuelTypeSelectionDispatcher(fuelType);
     if (isAddedToFilters(filterToApply, appliedFilters)) {
@@ -83,7 +79,7 @@ const FuelType = ({
     if (selection.length > 0) {
       addAppliedFilterDispatcher({ key: filterToApply, values: selection });
     }
-    closeFlyOutHandler();
+    setApplyFilterClicked(true);
   };
 
   return (
@@ -96,7 +92,7 @@ const FuelType = ({
         />
         <hr />
       </div>
-      {fuelType.length > 0 && loading === 0 && (
+      {fuelType.length > 0 && (
         <>
           <div className="display-block maxh-mobile-lg overflow-y-scroll overflow-x-hidden">
             <CheckboxGroupRenderer
@@ -122,9 +118,6 @@ const FuelType = ({
           </div>
         </>
       )}
-      {loading > 0 && fuelType.length === 0 && (
-        <span className="font-alt-sm text-bold margin-x-2">Loading...</span>
-      )}
     </>
   );
 };
@@ -132,20 +125,23 @@ const FuelType = ({
 const mapStateToProps = (state) => {
   return {
     storeFuelType: state.filterCriteria.fuelType,
+    filterCriteria: state.filterCriteria,
     appliedFilters: state.customDataDownload.appliedFilters,
-    loading: state.apiCallsInProgress,
+    dataType: state.customDataDownload.dataType,
+    dataSubType: state.customDataDownload.dataSubType,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loadFuelTypesDispatcher: () => dispatch(loadFuelTypes()),
     updateFuelTypeSelectionDispatcher: (fuelType) =>
       dispatch(updateFuelTypeSelection(fuelType)),
     addAppliedFilterDispatcher: (filterToApply) =>
       dispatch(addAppliedFilter(filterToApply)),
     removeAppliedFilterDispatcher: (removedFilter) =>
       dispatch(removeAppliedFilter(removedFilter)),
+    updateFilterCriteriaDispacher: (filterCriteria) => 
+      dispatch(updateFilterCriteria(filterCriteria)),
   };
 };
 
