@@ -20,7 +20,7 @@ jobs:
       - name: Setup & Configure Node
         uses: actions/setup-node@v1
         with:
-          node-version: 13
+          node-version: 16
           registry-url: https://npm.pkg.github.com/
           scope: '@us-epa-camd'
       - name: Configure Env Vars
@@ -28,11 +28,11 @@ jobs:
         env:
           ENV_VAR_PREFIX: REACT_APP_EASEY
       - name: Build
-        run: devops/scripts/build.sh
+        run: devops/scripts/yarn/build.sh
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Run Unit Tests
-        run: devops/scripts/unit-tests.sh
+        run: devops/scripts/yarn/unit-tests.sh
       - name: SonarCloud Scan
         uses: sonarsource/sonarcloud-github-action@master
         env:
@@ -43,12 +43,12 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.ARTIFACTS_STORAGE_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.ARTIFACTS_STORAGE_SECRET_ACCESS_KEY }}
-  Test-Deploynent:
+  Test-Deployment:
     needs: Build-Test-Package
     runs-on: ubuntu-latest
     environment:
       name: Test
-      url: 'https://campd-tst.app.cloud.gov'
+      url: https://campd-tst.app.cloud.gov
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
@@ -79,11 +79,11 @@ jobs:
         run: |
           devops/scripts/deploy.sh
   Stage-Deployment:
-    needs: Test-Deploynent
+    needs: Test-Deployment
     runs-on: ubuntu-latest
     environment:
       name: Staging
-      url: 'https://campd-stg.app.cloud.gov'
+      url: https://campd-stg.app.cloud.gov
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
