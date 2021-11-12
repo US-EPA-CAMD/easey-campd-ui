@@ -190,7 +190,7 @@ export const subHeaderUtilityList = [
       { menu: 'About CAMPD', link: '#' },
       { menu: 'Tutorials', link: '/help-support/tutorials' },
       { menu: 'FAQs', link: '/help-support/faqs' },
-      { menu: 'Contact Us', link: '#' },
+      { menu: 'Contact Us', link: '/help-support/contact-us' },
     ],
   },
   {
