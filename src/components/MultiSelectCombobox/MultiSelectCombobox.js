@@ -155,17 +155,14 @@ const MultiSelectCombobox = ({
         </ul>
         }
       </div>
-      {window.addEventListener('click', function(e){
-        // cross origin check compliant
-        if (e.origin !== undefined && !e.origin.endsWith('epa.gov')) {
-          return;
-        }
-
-        const multiSelectComboboxDiv = document.getElementById('multi-select-combobox');
-        if (multiSelectComboboxDiv && !multiSelectComboboxDiv.contains(e.target)){
-          setShowListBox(false);
-        }
-      })}
+      {
+        window.addEventListener('click', function(e) {
+          const multiSelectComboboxDiv = document.getElementById('multi-select-combobox');
+          if (multiSelectComboboxDiv && !multiSelectComboboxDiv.contains(e.target)){
+            setShowListBox(false);
+          }
+        })
+      }
     </>
   )
 };
