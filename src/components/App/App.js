@@ -10,6 +10,7 @@ import HomePage from "../HomePage/HomePage";
 import DataLandingPage from "../DataLandingPage/DataLandingPage";
 import BulkDataFiles from "../BulkDataFiles/BulkDataFiles";
 import TutorialsPage from "../TutorialsPage/TutorialsPage";
+import ContactUsPage from "../ContactUsPage/ContactUsPage";
 import RelatedResources from "../RelatedResources/RelatedResources";
 import FaqsPage from "../FaqPage/FaqsPage";
 import config from "../../config";
@@ -41,6 +42,7 @@ function App() {
           <Route path="/resources/related-resources" exact component={RelatedResources} />
           <Route path="/help-support/tutorials" exact component={TutorialsPage} />
           <Route path="/help-support/faqs" exact component={FaqsPage} />
+          <Route path="/help-support/contact-us" exact component={ContactUsPage} />
           <ManageDataDownloadRoute path='/manage-data-download' exact component={ManageDataDownload} />
           <Route path="/*" component={NotFound} />
         </Switch>
