@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Button, Tag } from '@trussworks/react-uswds';
+import { Button, Link, Tag } from '@trussworks/react-uswds';
 import { useHistory } from 'react-router-dom';
 
 import './HomePage.scss';
@@ -20,6 +20,7 @@ const HomePage = () => {
         />
       ),
       url: () => history.push('/select-data-type'),
+      link: '/data',
       button: 'Start your data query',
     },
     {
@@ -32,6 +33,7 @@ const HomePage = () => {
         />
       ),
       url: null,
+      link: null,
       button: null,
     },
     {
@@ -44,6 +46,7 @@ const HomePage = () => {
         />
       ),
       url: null,
+      link: null,
       button: null,
     },
   ];
@@ -60,9 +63,14 @@ const HomePage = () => {
           >
             {topic.img}
             <div className="margin-left-2 desktop:margin-left-1">
-              <h2 className="font-heading-xl text-bold margin-y-2">
-                {topic.name}
-              </h2>
+              <Link
+                href={topic.link ? topic.link : '#0'}
+                style={{ 'text-decoration': 'none' }}
+              >
+                <h2 className="font-heading-xl text-bold margin-y-2">
+                  {topic.name}
+                </h2>
+              </Link>
               {hasButton ? null : (
                 <div className="margin-top-3">
                   <Tag className="radius-md padding-y-05 font-sans-3xs text-semibold text-ls-2">
