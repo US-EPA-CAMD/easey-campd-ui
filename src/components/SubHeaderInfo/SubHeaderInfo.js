@@ -9,7 +9,7 @@ const SubHeaderInfo = () =>{
         </h2>
         <div className="margin-left-4 width-15 height-05 bg-accent-cool" />
         <p className="font-sans-md text-white text-wrap padding-4 margin-0 text-accent-cool-lighter text-ls-1 line-height-sans-6">
-          The EPA collects CO2, NOX, SO2, and mercury emissions data from electricity generating units (EGUs)
+          The EPA collects CO{'\u2082'}, NO{'\u2093'}, SO{'\u2082'}, and mercury emissions data from electricity generating units (EGUs)
           to ensure compliance with a variety of federal air quality programs. CAMPD is your one-stop shop for
           the emissions, compliance, allowance, and facility attributes data that is gathered under these programs.
         </p>
