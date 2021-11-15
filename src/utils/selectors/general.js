@@ -1,7 +1,4 @@
-import {
-  constructComboBoxQuery,
-  constructQuery,
-} from './filterCriteria';
+import { constructComboBoxQuery, constructQuery, filterAmpersand } from './filterCriteria';
 import config from '../../config';
 import { constructTimePeriodQuery } from './timePeriodQuery';
 import * as constants from '../constants/customDataDownload';
@@ -75,23 +72,27 @@ export const formatYearsToArray = (multiSelectDateString) => {
   return numberArray?.sort();
 };
 
-export const formatMonthsToApiOrString = (monthArray, string=false) => {
+export const formatMonthsToApiOrString = (monthArray, string = false) => {
   // param = [{id: 1, label: 'January', selected: true}] return=[1] OR 'January'
   const apiMonthArrayOrString = [];
   monthArray.forEach((month) => {
     if (month.selected) {
-      string ? apiMonthArrayOrString.push(month.label) : apiMonthArrayOrString.push(month.id);
+      string
+        ? apiMonthArrayOrString.push(month.label)
+        : apiMonthArrayOrString.push(month.id);
     }
   });
   return apiMonthArrayOrString;
 };
 
-export const formatQuartersToApiOrString = (quarterArray, string=false) => {
-    // param = [{id: 1, label: 'Q1', selected: true}] return=[1] OR 'Q1'
+export const formatQuartersToApiOrString = (quarterArray, string = false) => {
+  // param = [{id: 1, label: 'Q1', selected: true}] return=[1] OR 'Q1'
   const apiQuarterArrayOrString = [];
   quarterArray.forEach((quarter) => {
     if (quarter.selected) {
-      string ? apiQuarterArrayOrString.push(quarter.label) : apiQuarterArrayOrString.push(quarter.id);
+      string
+        ? apiQuarterArrayOrString.push(quarter.label)
+        : apiQuarterArrayOrString.push(quarter.id);
     }
   });
   return apiQuarterArrayOrString;
@@ -113,7 +114,7 @@ export const reportingQuarter = () => {
     quarter = `12/31/${curYear}`;
   }
   return quarter;
-}
+};
 
 const getServiceSubtype = (options, dataSubType) => {
   const entry = options.find(
@@ -121,6 +122,7 @@ const getServiceSubtype = (options, dataSubType) => {
   );
   return entry ? entry.service : '';
 };
+
 
 export const constructRequestUrl = (
   dataType,
@@ -147,20 +149,22 @@ export const constructRequestUrl = (
     ? constructQuery(filterCriteria.controlTechnology, 'controlTechnologies')
     : '';
   const accountNameNumberQuery = filterCriteria.accountNameNumber
-  ? constructComboBoxQuery(filterCriteria.accountNameNumber, 'accountNumber')
-  : '';
+    ? constructComboBoxQuery(filterCriteria.accountNameNumber, 'accountNumber')
+    : '';
   const accountTypeQuery = filterCriteria.accountType
-  ? constructQuery(filterCriteria.accountType, 'accountType')
-  : '';
+    ? constructQuery(filterCriteria.accountType, 'accountType')
+    : '';
   const ownerOperatorQuery = filterCriteria.ownerOperator
-  ? constructComboBoxQuery(filterCriteria.ownerOperator, 'ownerOperator')
-  : '';
+    ? constructComboBoxQuery(filterCriteria.ownerOperator, 'ownerOperator')
+    : '';
   const transactionTypeQuery = filterCriteria.transactionType
-  ? constructComboBoxQuery(filterCriteria.transactionType, 'transactionType')
-  : '';
+    ? constructComboBoxQuery(filterCriteria.transactionType, 'transactionType')
+    : '';
   const sourceCategoryQuery = filterCriteria.sourceCategory
-  ? constructComboBoxQuery(filterCriteria.sourceCategory, 'sourceCategory')
-  : '';
+    ? filterAmpersand(
+        constructComboBoxQuery(filterCriteria.sourceCategory, 'sourceCategory')
+      )
+    : '';
 
   const pagination = download ? '' : 'page=1&perPage=100';
   const attachFile = download ? '&attachFile=true' : '&attachFile=false';
@@ -168,9 +172,9 @@ export const constructRequestUrl = (
   let apiService;
   switch (dataType.toLowerCase()) {
     case 'emissions':
-      if(dataSubType==="Facility/Unit Attributes"){
+      if (dataSubType === 'Facility/Unit Attributes') {
         apiService = `${config.services.facilities.uri}/facilities/`;
-      }else{
+      } else {
         apiService = `${config.services.emissions.uri}/apportioned/`;
       }
       break;
@@ -196,4 +200,3 @@ ${accountNameNumberQuery}${accountTypeQuery}${ownerOperatorQuery}${transactionTy
 
   return url.replace(/\r?\n|\r/g, '');
 };
-

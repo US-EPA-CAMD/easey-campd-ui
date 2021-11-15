@@ -227,6 +227,18 @@ export const constructComboBoxQuery = (filterState, queryString) =>{
   return query.length > 0 ? `&${queryString}=${query}` : '';
 }
 
+export const filterAmpersand = (string) => {
+  let query = '';
+  string.split('').forEach((s, i) => {
+    if (i > 0 && s === '&') {
+      query += '%26';
+    } else {
+      query += s;
+    }
+  });
+  return query;
+};
+
 /* ---------UNIT TYPE----------- */
 const unitTypeGroups = (unitTypes) => {
   const unique = [];
