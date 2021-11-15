@@ -39,7 +39,7 @@ const ControlTechnology = ({
       (group) => group.name === e.target.id
     );
     newControlTechnologies[groupIndex].items.forEach((i) => {
-      i.selected = e.target.checked;
+      i.selected = i.enabled && e.target.checked;
     });
     setControlTechnologies(newControlTechnologies);
   };

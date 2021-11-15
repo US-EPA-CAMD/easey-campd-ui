@@ -51,7 +51,7 @@ const FuelType = ({
       (group) => group.name === e.target.id
     );
     newFuelTypes[groupIndex].items.forEach((i) => {
-      i.selected = e.target.checked;
+      i.selected = i.enabled && e.target.checked;
     });
     setFuelTypes(newFuelTypes);
   };

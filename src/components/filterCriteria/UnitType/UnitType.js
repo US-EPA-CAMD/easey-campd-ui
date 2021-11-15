@@ -39,7 +39,7 @@ const UnitType = ({
       (group) => group.name === e.target.id
     );
     newUnitTypes[groupIndex].items.forEach((i) => {
-      i.selected = e.target.checked;
+      i.selected = i.enabled && e.target.checked;
     });
     setUnitTypes(newUnitTypes);
   };
