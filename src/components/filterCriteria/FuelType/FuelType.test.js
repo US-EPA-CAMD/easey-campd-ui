@@ -124,8 +124,8 @@ describe('Fuel Type', () => {
       <Provider store={store}>
         <FuelType
           closeFlyOutHandler={jest.fn()}
-          loadEmissionsProgramsDispatcher={jest.fn()}
-          updateProgramSelectionDispatcher={jest.fn()}
+          updateFuelTypeSelectionDispatcher={jest.fn()}
+          updateFilterCriteriaDispacher={jest.fn()}
           addAppliedFilterDispatcher={jest.fn()}
           removeAppliedFilterDispatcher={jest.fn()}
           renderedHandler ={jest.fn()}
@@ -169,15 +169,5 @@ describe('Fuel Type', () => {
     });
     fireEvent.click(selectAllGas);
     expect(selectAllGas.checked).toEqual(true);
-
-    const applyButton = getByRole('button', {
-      name: 'Apply Filter',
-    });
-    fireEvent.click(applyButton);
-
-    fireEvent.click(coalCheckbox);
-    expect(coalCheckbox.checked).toEqual(false);
-
-    fireEvent.click(applyButton);
   });
 });
