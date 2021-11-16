@@ -1,39 +1,48 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from "react-redux";
 import MultiSelectCombobox from '../../MultiSelectCombobox/MultiSelectCombobox';
-import {loadFacilities, updateFacilitySelection} from "../../../store/actions/customDataDownload/filterCriteria";
+import { updateFilterCriteria, updateFacilitySelection} from "../../../store/actions/customDataDownload/filterCriteria";
 import { addAppliedFilter, removeAppliedFilter } from "../../../store/actions/customDataDownload/customDataDownload";
 import {isAddedToFilters} from "../../../utils/selectors/general";
 import {Button} from "@trussworks/react-uswds";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
+import { engageFilterLogic } from "../../../utils/selectors/filterLogic";
 
 const Facility = ({
   facility,
   appliedFilters,
-  loadFacilitiesDispatcher,
   updateFacilitySelectionDispacher,
   addAppliedFilterDispatcher,
   removeAppliedFilterDispatcher,
-  loading,
   closeFlyOutHandler,
-  renderedHandler}) => {
+  renderedHandler,
+  dataType,
+  dataSubType,
+  filterCriteria,
+  updateFilterCriteriaDispacher
+  }) => {
 
   const [stateFacility, setStateFacility] = useState(JSON.parse(JSON.stringify(facility)));
-
+  const [applyFilterClicked, setApplyFilterClicked] = useState(false);
   const filterToApply = "Facility";
 
   useEffect(()=>{
-    if(facility.length===0){
-      loadFacilitiesDispatcher();
-    }else{
-      if(stateFacility.length===0){
-        setStateFacility(JSON.parse(JSON.stringify(facility)));
-      }
+    if(stateFacility.length > 0){
       renderedHandler();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[facility]);
+    }// eslint-disable-next-line react-hooks/exhaustive-deps
+  },[stateFacility]);
+
+  useEffect(()=>{
+    if(applyFilterClicked){
+      if(dataType === "EMISSIONS"){
+        if(filterCriteria.filterMapping.length>0){
+          engageFilterLogic(dataType, dataSubType, filterToApply, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispacher);
+        }
+      }
+      closeFlyOutHandler();
+    }// eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [facility]);
 
   const handleApplyFilter = () =>{
     updateFacilitySelectionDispacher(stateFacility);
@@ -44,7 +53,7 @@ const Facility = ({
     if(selection.length>0){
       addAppliedFilterDispatcher({key:filterToApply, values:selection.map(e=>e.label)});
     }
-    closeFlyOutHandler();
+    setApplyFilterClicked(true);
   };
 
   const onChangeUpdate = (id, updateType) =>{
@@ -67,7 +76,7 @@ const Facility = ({
         <hr />
       </div>
       {
-        facility.length > 0 && loading===0 &&
+        facility.length > 0 &&
         <>
           <div className="margin-x-2">
             <MultiSelectCombobox
@@ -93,10 +102,6 @@ const Facility = ({
           </div>
         </>
       }
-      {
-        loading>0 && facility.length===0 &&
-        <span className="font-alt-sm text-bold margin-x-2">Loading...</span>
-      }
     </>
   );
 }
@@ -106,13 +111,15 @@ const mapStateToProps = (state) => {
   return {
     facility: state.filterCriteria.facility,
     appliedFilters: state.customDataDownload.appliedFilters,
-    loading: state.apiCallsInProgress
+    dataType: state.customDataDownload.dataType,
+    dataSubType: state.customDataDownload.dataSubType,
+    filterCriteria: state.filterCriteria,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loadFacilitiesDispatcher: () => dispatch(loadFacilities()),
+    updateFilterCriteriaDispacher: (filterCriteria) => dispatch(updateFilterCriteria(filterCriteria)),
     updateFacilitySelectionDispacher: (facility) => dispatch(updateFacilitySelection(facility)),
     addAppliedFilterDispatcher: (filterToApply) => dispatch(addAppliedFilter(filterToApply)),
     removeAppliedFilterDispatcher: (removedFilter) => dispatch(removeAppliedFilter(removedFilter))
