@@ -2,27 +2,39 @@ import React from 'react';
 import { Checkbox } from '@trussworks/react-uswds';
 
 const CheckboxGroup = (props) => {
-  const evaluateSelectAll = () =>{
-    let result = true
-    if(props.showActiveRetired){
-      props.items.forEach(i=>{
-        if(i.active === props.showActive && i.selected===false){
+  const selectAllDisabled =
+    props.items.filter((item) =>
+      item.hasOwnProperty('enabled') ? item.enabled : true
+    ).length === 0;
+
+  const evaluateSelectAll = () => {
+    let result = true;
+    if (props.showActiveRetired) {
+      props.items.forEach((i) => {
+        if (i.active === props.showActive && i.selected === false) {
           result = false;
         }
       });
-    }else{
-      props.items.forEach(i=>{
-        if(i.selected===false){
-          result=false;
+    } else if (selectAllDisabled) {
+      result = false;
+    } else {
+      props.items.forEach((i) => {
+        if (
+          (i.enabled && i.selected === false) ||
+          (!i.hasOwnProperty('enabled') && i.selected === false)
+        ) {
+          result = false;
         }
-      })
+      });
     }
     return result;
   };
 
   const showActiveInId = props.showActiveRetired ? `-${props.showActive}` : '';
-  const containerSize = props.smallLabel ? 'margin-bottom-2' : 'margin-bottom-5 margin-x-2 margin-top-2'
-  const labelSize = props.smallLabel ? '' : 'font-sans-lg text-semibold'
+  const containerSize = props.smallLabel
+    ? 'margin-bottom-2'
+    : 'margin-bottom-5 margin-x-2 margin-top-2';
+  const labelSize = props.smallLabel ? '' : 'font-sans-lg text-semibold';
 
   return (
     <div className={`${containerSize} position-relative`}>
@@ -39,9 +51,12 @@ const CheckboxGroup = (props) => {
             onChange={props.onSelectAll}
             data-testid="select-all"
             aria-label={`All ${props.description}`}
+            disabled={props.isTimePeriod ? false : selectAllDisabled}
           />
         ) : (
-          <h5 className="font-sans-md text-bold margin-0">{props.description}</h5>
+          <h5 className="font-sans-md text-bold margin-0">
+            {props.description}
+          </h5>
         )}
       </div>
       {!props.showActiveRetired && (
@@ -58,7 +73,9 @@ const CheckboxGroup = (props) => {
                   label={item.label}
                   checked={item.selected}
                   onChange={props.onSelectItem}
-                  disabled={item.hasOwnProperty("enabled")? !item.enabled : false}
+                  disabled={
+                    item.hasOwnProperty('enabled') ? !item.enabled : false
+                  }
                 />
               </div>
             ))
@@ -70,12 +87,14 @@ const CheckboxGroup = (props) => {
                 label={item.label}
                 checked={item.selected}
                 onChange={props.onSelectItem}
-                disabled={item.hasOwnProperty("enabled")? !item.enabled : false}
+                disabled={
+                  item.hasOwnProperty('enabled') ? !item.enabled : false
+                }
               />
             </div>
           ))}
     </div>
   );
-}
+};
 
 export default CheckboxGroup;

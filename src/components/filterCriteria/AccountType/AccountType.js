@@ -39,7 +39,7 @@ const AccountType = ({
       (group) => group.name === e.target.id
     );
     newAccountTypes[groupIndex].items.forEach((i) => {
-      i.selected = e.target.checked;
+      i.selected = i.enabled && e.target.checked;
     });
     setAccountTypes(newAccountTypes);
   };
