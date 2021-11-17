@@ -6,32 +6,58 @@ import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 
 import CheckboxGroupRenderer from '../../CheckboxGroupRenderer/CheckboxGroupRenderer';
 import {
-  loadUnitTypes,
   updateUnitTypeSelection,
+  updateFilterCriteria,
 } from '../../../store/actions/customDataDownload/filterCriteria';
 import {
   addAppliedFilter,
   removeAppliedFilter,
 } from '../../../store/actions/customDataDownload/customDataDownload';
+import { engageFilterLogic } from '../../../utils/selectors/filterLogic';
 import { getSelectedIds } from '../../../utils/selectors/filterCriteria';
 import { isAddedToFilters } from '../../../utils/selectors/general';
 
 const UnitType = ({
   storeUnitType,
   appliedFilters,
-  loadUnitTypesDispatcher,
+  updateFilterCriteriaDispacher,
   updateUnitTypeSelectionDispatcher,
   addAppliedFilterDispatcher,
   removeAppliedFilterDispatcher,
-  loading,
   closeFlyOutHandler,
-  renderedHandler
+  renderedHandler,
+  dataType,
+  dataSubType,
+  filterCriteria,
 }) => {
   const [unitType, setUnitTypes] = useState(
     JSON.parse(JSON.stringify(storeUnitType))
   );
-
+  const [applyFilterClicked, setApplyFilterClicked] = useState(false);
   const filterToApply = 'Unit Type';
+
+  useEffect(() => {
+    if (unitType.length > 0) {
+      renderedHandler();
+    } // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [unitType]);
+
+  useEffect(() => {
+    if (applyFilterClicked) {
+      if (dataType === 'EMISSIONS') {
+        if (filterCriteria.filterMapping.length > 0) {
+          engageFilterLogic(
+            dataType,
+            dataSubType,
+            filterToApply,
+            JSON.parse(JSON.stringify(filterCriteria)),
+            updateFilterCriteriaDispacher
+          );
+        }
+      }
+      closeFlyOutHandler();
+    } // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [storeUnitType]);
 
   const onSelectAllUnitTypesHandler = (e) => {
     const newUnitTypes = [...unitType];
@@ -58,22 +84,6 @@ const UnitType = ({
     }
   };
 
-  useEffect(() => {
-    if (storeUnitType.length === 0) {
-      loadUnitTypesDispatcher();
-    } // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    setUnitTypes(JSON.parse(JSON.stringify(storeUnitType)));
-  }, [storeUnitType]);
-
-  useEffect(() => {
-    if(unitType.length > 0 && loading === 0){
-      renderedHandler();
-    }// eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [unitType, loading]);
-
   const handleApplyFilter = () => {
     updateUnitTypeSelectionDispatcher(unitType);
     if (isAddedToFilters(filterToApply, appliedFilters)) {
@@ -83,7 +93,7 @@ const UnitType = ({
     if (selection.length > 0) {
       addAppliedFilterDispatcher({ key: filterToApply, values: selection });
     }
-    closeFlyOutHandler();
+    setApplyFilterClicked(true);
   };
 
   return (
@@ -96,7 +106,7 @@ const UnitType = ({
         />
         <hr />
       </div>
-      {unitType.length > 0 && loading === 0 && (
+      {unitType.length > 0 && (
         <>
           <div className="display-block maxh-mobile-lg overflow-y-scroll overflow-x-hidden">
             <CheckboxGroupRenderer
@@ -122,9 +132,6 @@ const UnitType = ({
           </div>
         </>
       )}
-      {loading > 0 && unitType.length === 0 && (
-        <span className="font-alt-sm text-bold margin-x-2">Loading...</span>
-      )}
     </>
   );
 };
@@ -132,20 +139,23 @@ const UnitType = ({
 const mapStateToProps = (state) => {
   return {
     storeUnitType: state.filterCriteria.unitType,
+    filterCriteria: state.filterCriteria,
     appliedFilters: state.customDataDownload.appliedFilters,
-    loading: state.apiCallsInProgress,
+    dataType: state.customDataDownload.dataType,
+    dataSubType: state.customDataDownload.dataSubType,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loadUnitTypesDispatcher: () => dispatch(loadUnitTypes()),
     updateUnitTypeSelectionDispatcher: (unitType) =>
       dispatch(updateUnitTypeSelection(unitType)),
     addAppliedFilterDispatcher: (filterToApply) =>
       dispatch(addAppliedFilter(filterToApply)),
     removeAppliedFilterDispatcher: (removedFilter) =>
       dispatch(removeAppliedFilter(removedFilter)),
+    updateFilterCriteriaDispacher: (filterCriteria) =>
+      dispatch(updateFilterCriteria(filterCriteria)),
   };
 };
 

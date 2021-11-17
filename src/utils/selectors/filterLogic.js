@@ -11,7 +11,8 @@ const selection = {
   years : [],
   states : [],
   programs : [],
-  fuelTypes: []
+  unitTypes: [],
+  fuelTypes: [],
 }
 
 const populateSelections = (filterCriteria) =>{
@@ -19,6 +20,7 @@ const populateSelections = (filterCriteria) =>{
   selection.states = getComboboxSelectedItems(filterCriteria.stateTerritory);
   selection.programs = getCheckBoxSelectedItems(filterCriteria.program);
   selection.fuelTypes = getCheckBoxSelectedItems(filterCriteria.fuelType);
+  selection.unitTypes = getCheckBoxSelectedItems(filterCriteria.unitType);
 };
 
 export const filterEmissionsProgram = (filterCriteria) =>{
@@ -26,7 +28,8 @@ export const filterEmissionsProgram = (filterCriteria) =>{
     filterCriteria.filterMapping.filter(x => {
       return (selection.years.length === 0 || selection.years.includes(x.year)) &&
       (selection.states.length === 0 || selection.states.includes(x.state)) && 
-      (selection.fuelTypes.length === 0 || selection.fuelTypes.includes(x.fuelTypeCode))
+      (selection.fuelTypes.length === 0 || selection.fuelTypes.includes(x.fuelTypeCode)) && 
+      (selection.unitTypes.length === 0 || selection.unitTypes.includes(x.unitTypeCode))
     }).map(i => i.programCode)
   )];
   updateEnabledStatusCheckBox(filterCriteria.program, filteredSet);
@@ -37,7 +40,8 @@ export const filterEmissionsStateTerritory = (filterCriteria) =>{
     filterCriteria.filterMapping.filter(x => {
       return (selection.years.length === 0 || selection.years.includes(x.year)) &&
       (selection.programs.length === 0 || selection.programs.includes(x.programCode)) &&
-      (selection.fuelTypes.length === 0 || selection.fuelTypes.includes(x.fuelTypeCode))
+      (selection.fuelTypes.length === 0 || selection.fuelTypes.includes(x.fuelTypeCode)) && 
+      (selection.unitTypes.length === 0 || selection.unitTypes.includes(x.unitTypeCode))
     }).map(i => i.state)
   )];
   updateEnabledStatusComboBox(filterCriteria.stateTerritory, filteredSet);
@@ -49,7 +53,8 @@ export const filterEmissionsFacility = (filterCriteria) =>{
       return (selection.years.length === 0 || selection.years.includes(x.year)) &&
       (selection.states.length === 0 || selection.states.includes(x.state)) &&
       (selection.programs.length === 0 || selection.programs.includes(x.programCode)) &&
-      (selection.fuelTypes.length === 0 || selection.fuelTypes.includes(x.fuelTypeCode))
+      (selection.fuelTypes.length === 0 || selection.fuelTypes.includes(x.fuelTypeCode)) && 
+      (selection.unitTypes.length === 0 || selection.unitTypes.includes(x.unitTypeCode))
     }).map(i => String(i.facilityId))
   )];
   updateEnabledStatusComboBox(filterCriteria.facility, filteredSet);
@@ -72,7 +77,8 @@ export const filterEmissionsFuelType = (filterCriteria) =>{
     filterCriteria.filterMapping.filter(x => {
       return (selection.years.length === 0 || selection.years.includes(x.year)) &&
       (selection.states.length === 0 || selection.states.includes(x.state)) &&
-      (selection.programs.length === 0 || selection.programs.includes(x.programCode))
+      (selection.programs.length === 0 || selection.programs.includes(x.programCode)) && 
+      (selection.unitTypes.length === 0 || selection.unitTypes.includes(x.unitTypeCode))
     }).map(i => i.fuelTypeCode)
   )];
   updateEnabledStatusCheckBox(filterCriteria.fuelType, filteredSet);
@@ -84,7 +90,8 @@ export const filterEmissionsControlTechnology = (filterCriteria) =>{
       return (selection.years.length === 0 || selection.years.includes(x.year)) &&
       (selection.states.length === 0 || selection.states.includes(x.state)) &&
       (selection.programs.length === 0 || selection.programs.includes(x.programCode)) &&
-      (selection.fuelTypes.length === 0 || selection.fuelTypes.includes(x.fuelTypeCode))
+      (selection.fuelTypes.length === 0 || selection.fuelTypes.includes(x.fuelTypeCode)) && 
+      (selection.unitTypes.length === 0 || selection.unitTypes.includes(x.unitTypeCode))
     }).map(i => i.controlCode)
   )];
   updateEnabledStatusCheckBox(filterCriteria.controlTechnology, filteredSet);
@@ -96,7 +103,8 @@ export const filterEmissionsSourceCategory = (filterCriteria) =>{
       return (selection.years.length === 0 || selection.years.includes(x.year)) &&
       (selection.states.length === 0 || selection.states.includes(x.state)) &&
       (selection.programs.length === 0 || selection.programs.includes(x.programCode)) && 
-      (selection.fuelTypes.length === 0 || selection.fuelTypes.includes(x.fuelTypeCode))
+      (selection.fuelTypes.length === 0 || selection.fuelTypes.includes(x.fuelTypeCode)) && 
+      (selection.unitTypes.length === 0 || selection.unitTypes.includes(x.unitTypeCode))
     }).map(i => String(i.sourceCategoryDescription))
   )];
   updateEnabledStatusComboBox(filterCriteria.sourceCategory, filteredSet);
