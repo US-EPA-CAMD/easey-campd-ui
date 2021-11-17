@@ -31,7 +31,7 @@ export const filterEmissionsProgram = (filterCriteria) =>{
       return (selection.years.length === 0 || selection.years.includes(x.year)) &&
       (selection.states.length === 0 || selection.states.includes(x.state)) && 
       (selection.fuelTypes.length === 0 || selection.fuelTypes.includes(x.fuelTypeCode)) &&
-      (selection.facilities.length === 0 || selection.facilities.includes(x.facilityId)) && 
+      (selection.facilities.length === 0 || selection.facilities.includes(x.facilityId)) &&
       (selection.unitTypes.length === 0 || selection.unitTypes.includes(x.unitTypeCode))
     }).map(i => i.programCode)
   )];
@@ -44,7 +44,7 @@ export const filterEmissionsStateTerritory = (filterCriteria) =>{
       return (selection.years.length === 0 || selection.years.includes(x.year)) &&
       (selection.programs.length === 0 || selection.programs.includes(x.programCode)) &&
       (selection.fuelTypes.length === 0 || selection.fuelTypes.includes(x.fuelTypeCode)) &&
-      (selection.facilities.length === 0 || selection.facilities.includes(x.facilityId)) && 
+      (selection.facilities.length === 0 || selection.facilities.includes(x.facilityId)) &&
       (selection.unitTypes.length === 0 || selection.unitTypes.includes(x.unitTypeCode))
     }).map(i => i.state)
   )];
@@ -57,7 +57,7 @@ export const filterEmissionsFacility = (filterCriteria) =>{
       return (selection.years.length === 0 || selection.years.includes(x.year)) &&
       (selection.states.length === 0 || selection.states.includes(x.state)) &&
       (selection.programs.length === 0 || selection.programs.includes(x.programCode)) &&
-      (selection.fuelTypes.length === 0 || selection.fuelTypes.includes(x.fuelTypeCode)) && 
+      (selection.fuelTypes.length === 0 || selection.fuelTypes.includes(x.fuelTypeCode)) &&
       (selection.unitTypes.length === 0 || selection.unitTypes.includes(x.unitTypeCode))
     }).map(i => String(i.facilityId))
   )];
@@ -71,7 +71,7 @@ export const filterEmissionsUnitType = (filterCriteria) =>{
       (selection.states.length === 0 || selection.states.includes(x.state)) &&
       (selection.programs.length === 0 || selection.programs.includes(x.programCode)) &&
       (selection.fuelTypes.length === 0 || selection.fuelTypes.includes(x.fuelTypeCode)) &&
-      (selection.facilities.length === 0 || selection.facilities.includes(x.facilityId)) && 
+      (selection.facilities.length === 0 || selection.facilities.includes(x.facilityId)) &&
       (selection.unitTypes.length === 0 || selection.unitTypes.includes(x.unitTypeCode))
     }).map(i => i.unitTypeCode)
   )];
@@ -84,7 +84,7 @@ export const filterEmissionsFuelType = (filterCriteria) =>{
       return (selection.years.length === 0 || selection.years.includes(x.year)) &&
       (selection.states.length === 0 || selection.states.includes(x.state)) &&
       (selection.programs.length === 0 || selection.programs.includes(x.programCode)) &&
-      (selection.facilities.length === 0 || selection.facilities.includes(x.facilityId)) && 
+      (selection.facilities.length === 0 || selection.facilities.includes(x.facilityId)) &&
       (selection.unitTypes.length === 0 || selection.unitTypes.includes(x.unitTypeCode))
     }).map(i => i.fuelTypeCode)
   )];
@@ -98,7 +98,7 @@ export const filterEmissionsControlTechnology = (filterCriteria) =>{
       (selection.states.length === 0 || selection.states.includes(x.state)) &&
       (selection.programs.length === 0 || selection.programs.includes(x.programCode)) &&
       (selection.fuelTypes.length === 0 || selection.fuelTypes.includes(x.fuelTypeCode)) &&
-      (selection.facilities.length === 0 || selection.facilities.includes(x.facilityId)) && 
+      (selection.facilities.length === 0 || selection.facilities.includes(x.facilityId)) &&
       (selection.unitTypes.length === 0 || selection.unitTypes.includes(x.unitTypeCode))
     }).map(i => i.controlCode)
   )];
@@ -112,7 +112,7 @@ export const filterEmissionsSourceCategory = (filterCriteria) =>{
       (selection.states.length === 0 || selection.states.includes(x.state)) &&
       (selection.programs.length === 0 || selection.programs.includes(x.programCode)) &&
       (selection.fuelTypes.length === 0 || selection.fuelTypes.includes(x.fuelTypeCode)) &&
-      (selection.facilities.length === 0 || selection.facilities.includes(x.facilityId)) && 
+      (selection.facilities.length === 0 || selection.facilities.includes(x.facilityId)) &&
       (selection.unitTypes.length === 0 || selection.unitTypes.includes(x.unitTypeCode))
     }).map(i => String(i.sourceCategoryDescription))
   )];
