@@ -81,7 +81,7 @@ export const TimePeriod = ({
   useEffect(()=>{
     if(applyFilterClicked && loading === 0){
       if(dataType === "EMISSIONS"){
-        if(filterCriteria.filterMapping.length>0){
+        if(filterCriteria.filterMapping && filterCriteria.filterMapping.length>0){
           engageFilterLogic(dataType, dataSubType, filterToApply, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispacher);
         }else{
           window.alert("Data is not available for the selected time period. Enter a new time period.");
