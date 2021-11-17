@@ -3,7 +3,9 @@ import { Checkbox } from '@trussworks/react-uswds';
 
 const CheckboxGroup = (props) => {
   const selectAllDisabled =
-    props.items.filter((item) => item.enabled).length === 0;
+    props.items.filter((item) =>
+      item.hasOwnProperty('enabled') ? item.enabled : true
+    ).length === 0;
 
   const evaluateSelectAll = () => {
     let result = true;
@@ -17,7 +19,10 @@ const CheckboxGroup = (props) => {
       result = false;
     } else {
       props.items.forEach((i) => {
-        if (i.enabled && i.selected === false) {
+        if (
+          (i.enabled && i.selected === false) ||
+          (!i.hasOwnProperty('enabled') && i.selected === false)
+        ) {
           result = false;
         }
       });
@@ -46,7 +51,7 @@ const CheckboxGroup = (props) => {
             onChange={props.onSelectAll}
             data-testid="select-all"
             aria-label={`All ${props.description}`}
-            disabled={selectAllDisabled}
+            disabled={props.isTimePeriod ? false : selectAllDisabled}
           />
         ) : (
           <h5 className="font-sans-md text-bold margin-0">

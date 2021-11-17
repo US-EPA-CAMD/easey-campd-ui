@@ -92,6 +92,7 @@ const TimePeriodYear = ({
         <div className="">
           <CheckboxGroup
             enableSelectAll={true}
+            isTimePeriod={true}
             getFocus={true}
             name="month"
             description="Month(s) (Required)"
@@ -106,6 +107,7 @@ const TimePeriodYear = ({
         <div className="">
           <CheckboxGroup
             enableSelectAll={true}
+            isTimePeriod={true}
             getFocus={true}
             name="quarter"
             description="Quarter(s) (Required)"
