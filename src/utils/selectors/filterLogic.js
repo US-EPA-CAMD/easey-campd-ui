@@ -71,8 +71,7 @@ export const filterEmissionsUnitType = (filterCriteria) =>{
       (selection.states.length === 0 || selection.states.includes(x.state)) &&
       (selection.programs.length === 0 || selection.programs.includes(x.programCode)) &&
       (selection.fuelTypes.length === 0 || selection.fuelTypes.includes(x.fuelTypeCode)) &&
-      (selection.facilities.length === 0 || selection.facilities.includes(x.facilityId)) &&
-      (selection.unitTypes.length === 0 || selection.unitTypes.includes(x.unitTypeCode))
+      (selection.facilities.length === 0 || selection.facilities.includes(x.facilityId))
     }).map(i => i.unitTypeCode)
   )];
   updateEnabledStatusCheckBox(filterCriteria.unitType, filteredSet);
