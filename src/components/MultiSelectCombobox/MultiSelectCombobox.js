@@ -37,6 +37,7 @@ const MultiSelectCombobox = ({
     }
     setFilter(value);
     setData([...filteredData]);
+    setShowListBox(true)
   }
 
   const onRemoveHanlder = (id) =>{
@@ -134,7 +135,7 @@ const MultiSelectCombobox = ({
         <div className="margin-x-05 margin-top-05 display-block maxh-card overflow-y-scroll">
           {selectedItems.length>0 && selectedItems.map(i=>i.component)}
         </div>
-        <input id={`${entity}-searchbox`} type="text" aria-labelledby={`${entity}-label`} aria-autocomplete="list" aria-controls="listbox" aria-activedescendant="listbox"
+        <input autoFocus id={`${entity}-searchbox`} type="text" aria-labelledby={`${entity}-label`} autoComplete="off" aria-autocomplete="list" aria-controls="listbox" aria-activedescendant="listbox"
           className="search position-static bg-white border-0 width-full height-4 padding-x-1" data-testid="input-search"
           value={filter} onChange={(e)=>onSearchHanlder(e.target.value)} onClick={()=>setShowListBox(true)} onKeyDown={(e)=>handleKeyDown(e)}/>
           <FontAwesomeIcon icon={faCaretDown} className="pin-right margin-right-4 padding-top-05" onClick={()=>setShowListBox(true)}/>
