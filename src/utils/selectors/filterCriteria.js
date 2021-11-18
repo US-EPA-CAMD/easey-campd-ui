@@ -62,7 +62,7 @@ export const getCheckBoxSelectedItems = (arr) =>{
   const result = [];
   arr.forEach(entry =>{
     entry.items.forEach(item =>{
-      if(item.selected){
+      if(item.selected && item.enabled){
         result.push(item.id);
       }
     });
