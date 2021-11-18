@@ -16,21 +16,21 @@ export const EMISSIONS_DATA_SUBTYPES = [
 export const EMISSIONS_FILTERS = [
   { value: timePeriodLabel, stateVar: 'timePeriod', label: 'TIME PERIOD (Required)' },
   { value: 'Program', stateVar: 'program', label: 'PROGRAM (Optional)',
-    updateFilter: (filterCriteria) =>  filterLogic.filterEmissionsProgram(filterCriteria)},
+    updateFilter: (filterCriteria) =>  filterLogic.filterProgram(filterCriteria)},
   { value: 'State/Territory', stateVar: 'stateTerritory', label: 'STATE/TERRITORY (Optional)',
-    updateFilter: (filterCriteria) =>  filterLogic.filterEmissionsStateTerritory(filterCriteria) },
+    updateFilter: (filterCriteria) =>  filterLogic.filterStateTerritory(filterCriteria) },
   { value: 'Facility', stateVar: 'facility', label: 'FACILITY (Optional)',
-    updateFilter: (filterCriteria) =>  filterLogic.filterEmissionsFacility(filterCriteria) },
+    updateFilter: (filterCriteria) =>  filterLogic.filterFacility(filterCriteria) },
   { value: 'Unit Type', stateVar: 'unitType', label: 'UNIT TYPE (Optional)',
-    updateFilter: (filterCriteria) =>  filterLogic.filterEmissionsUnitType(filterCriteria) },
+    updateFilter: (filterCriteria) =>  filterLogic.filterUnitType(filterCriteria) },
   { value: 'Unit Fuel Type', stateVar: 'fuelType', label: 'UNIT FUEL TYPE (Optional)',
-    updateFilter: (filterCriteria) =>  filterLogic.filterEmissionsFuelType(filterCriteria) },
+    updateFilter: (filterCriteria) =>  filterLogic.filterFuelType(filterCriteria) },
   { value: 'Control Technology', stateVar: 'controlTechnology', label: 'CONTROL TECHNOLOGY (Optional)',
-    updateFilter: (filterCriteria) =>  filterLogic.filterEmissionsControlTechnology(filterCriteria)  },
+    updateFilter: (filterCriteria) =>  filterLogic.filterControlTechnology(filterCriteria)  },
 ];
 
 export const FACILITY_UNIT_FILTERS = [
     ...EMISSIONS_FILTERS,
     { value: 'Source Category', stateVar: 'sourceCategory', label: 'SOURCE CATEGORY (Optional)',
-      updateFilter: (filterCriteria) =>  filterLogic.filterEmissionsSourceCategory(filterCriteria) },
+      updateFilter: (filterCriteria) =>  filterLogic.filterSourceCategory(filterCriteria) },
 ]

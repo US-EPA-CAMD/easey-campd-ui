@@ -5,33 +5,47 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 
 import CheckboxGroupRenderer from '../../CheckboxGroupRenderer/CheckboxGroupRenderer';
-import {
-  loadControlTechnologies,
-  updateControlTechnologySelection,
-} from '../../../store/actions/customDataDownload/filterCriteria';
-import {
-  addAppliedFilter,
-  removeAppliedFilter,
-} from '../../../store/actions/customDataDownload/customDataDownload';
+import { updateFilterCriteria, updateControlTechnologySelection} from '../../../store/actions/customDataDownload/filterCriteria';
+import { addAppliedFilter, removeAppliedFilter } from '../../../store/actions/customDataDownload/customDataDownload';
 import { getSelectedIds } from '../../../utils/selectors/filterCriteria';
 import { isAddedToFilters } from '../../../utils/selectors/general';
+import { engageFilterLogic } from "../../../utils/selectors/filterLogic";
 
 const ControlTechnology = ({
   storeControlTechnology,
   appliedFilters,
-  loadControlTechnologiesDispatcher,
+  updateFilterCriteriaDispacher,
   updateControlTechnologySelectionDispatcher,
   addAppliedFilterDispatcher,
   removeAppliedFilterDispatcher,
-  loading,
   closeFlyOutHandler,
-  renderedHandler
+  renderedHandler,
+  dataType,
+  dataSubType,
+  filterCriteria
 }) => {
   const [controlTechnology, setControlTechnologies] = useState(
     JSON.parse(JSON.stringify(storeControlTechnology))
   );
-
+  const [applyFilterClicked, setApplyFilterClicked] = useState(false);
   const filterToApply = 'Control Technology';
+
+  useEffect(() => {
+    if(controlTechnology.length > 0){
+      renderedHandler();
+    }// eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [controlTechnology]);
+
+  useEffect(()=>{
+    if(applyFilterClicked){
+      if(dataType === "EMISSIONS"){
+        if(filterCriteria.filterMapping.length>0){
+          engageFilterLogic(dataType, dataSubType, filterToApply, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispacher);
+        }
+      }
+      closeFlyOutHandler();
+    }// eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [storeControlTechnology]);
 
   const onSelectAllControlTechnologiesHandler = (e) => {
     const newControlTechnologies = [...controlTechnology];
@@ -58,22 +72,6 @@ const ControlTechnology = ({
     }
   };
 
-  useEffect(() => {
-    if (storeControlTechnology.length === 0) {
-      loadControlTechnologiesDispatcher();
-    } // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    setControlTechnologies(JSON.parse(JSON.stringify(storeControlTechnology)));
-  }, [storeControlTechnology]);
-
-  useEffect(() => {
-    if(controlTechnology.length > 0 && loading === 0){
-      renderedHandler();
-    }// eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [controlTechnology, loading]);
-
   const handleApplyFilter = () => {
     updateControlTechnologySelectionDispatcher(controlTechnology);
     if (isAddedToFilters(filterToApply, appliedFilters)) {
@@ -83,7 +81,7 @@ const ControlTechnology = ({
     if (selection.length > 0) {
       addAppliedFilterDispatcher({ key: filterToApply, values: selection });
     }
-    closeFlyOutHandler();
+    setApplyFilterClicked(true);
   };
 
   return (
@@ -96,7 +94,7 @@ const ControlTechnology = ({
         />
         <hr />
       </div>
-      {controlTechnology.length > 0 && loading === 0 && (
+      {controlTechnology.length > 0 && (
         <>
           <div className="display-block maxh-mobile-lg overflow-y-scroll overflow-x-hidden">
             <CheckboxGroupRenderer
@@ -122,9 +120,6 @@ const ControlTechnology = ({
           </div>
         </>
       )}
-      {loading > 0 && controlTechnology.length === 0 && (
-        <span className="font-alt-sm text-bold margin-x-2">Loading...</span>
-      )}
     </>
   );
 };
@@ -132,14 +127,17 @@ const ControlTechnology = ({
 const mapStateToProps = (state) => {
   return {
     storeControlTechnology: state.filterCriteria.controlTechnology,
+    filterCriteria: state.filterCriteria,
     appliedFilters: state.customDataDownload.appliedFilters,
-    loading: state.apiCallsInProgress,
+    dataType: state.customDataDownload.dataType,
+    dataSubType: state.customDataDownload.dataSubType,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loadControlTechnologiesDispatcher: () => dispatch(loadControlTechnologies()),
+    updateFilterCriteriaDispacher: (filterCriteria) => 
+      dispatch(updateFilterCriteria(filterCriteria)),
     updateControlTechnologySelectionDispatcher: (controlTechnology) =>
       dispatch(updateControlTechnologySelection(controlTechnology)),
     addAppliedFilterDispatcher: (filterToApply) =>
