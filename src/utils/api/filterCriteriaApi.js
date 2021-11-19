@@ -2,6 +2,10 @@ import axios from 'axios';
 import { handleResponse, handleError } from './apiUtils';
 import config from '../../config';
 
+axios.defaults.headers.common = {
+  "x-api-key": config.app.apiKey,
+};
+
 export async function getDataFromMDM(endpoint) {
   const url = `${config.services.mdm.uri}/${endpoint}`;
   console.log(url);

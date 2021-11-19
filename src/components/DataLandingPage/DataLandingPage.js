@@ -2,11 +2,22 @@ import React, { useEffect } from 'react';
 import { Button } from '@trussworks/react-uswds';
 import { useHistory } from 'react-router-dom';
 
+import { metaAdder } from '../../utils/document/metaAdder';
+
 
 const DataLandingPage = () => {
   useEffect(() => {
-    document.title = 'CAMPD - Data Landing Page';
+    document.title = 'Data | CAMPD | US EPA';
   }, []);
+
+  metaAdder(
+    'description',
+    'Custom data download, bulk data files, and CAM API provide apportioned emissions, monitoring plan, QA, allowance, compliance and facility/unit data.'
+  );
+  metaAdder(
+    'keywords',
+    'Clean air markets program data, EPA, emissions, allowance, compliance, custom data download, CAM API, bulk data files, CAMPD, CAMD, FTP, AMPD'
+  );
 
   const history = useHistory();
 
