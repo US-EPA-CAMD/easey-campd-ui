@@ -17,7 +17,7 @@ import { engageFilterLogic } from '../../../utils/selectors/filterLogic';
 import { getSelectedIds } from '../../../utils/selectors/filterCriteria';
 import { isAddedToFilters } from '../../../utils/selectors/general';
 
-const UnitType = ({
+export const UnitType = ({
   storeUnitType,
   appliedFilters,
   updateFilterCriteriaDispacher,
@@ -57,7 +57,7 @@ const UnitType = ({
       }
       closeFlyOutHandler();
     } // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [storeUnitType]);
+  }, [applyFilterClicked]);
 
   const onSelectAllUnitTypesHandler = (e) => {
     const newUnitTypes = [...unitType];

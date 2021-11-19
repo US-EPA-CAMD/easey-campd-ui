@@ -11,7 +11,7 @@ import { getSelectedIds } from '../../../utils/selectors/filterCriteria';
 import { isAddedToFilters } from '../../../utils/selectors/general';
 import { engageFilterLogic } from "../../../utils/selectors/filterLogic";
 
-const ControlTechnology = ({
+export const ControlTechnology = ({
   storeControlTechnology,
   appliedFilters,
   updateFilterCriteriaDispacher,
@@ -45,7 +45,7 @@ const ControlTechnology = ({
       }
       closeFlyOutHandler();
     }// eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [storeControlTechnology]);
+  }, [applyFilterClicked]);
 
   const onSelectAllControlTechnologiesHandler = (e) => {
     const newControlTechnologies = [...controlTechnology];

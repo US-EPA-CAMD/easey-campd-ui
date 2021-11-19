@@ -1,12 +1,8 @@
 import React from 'react';
 import { render, fireEvent, cleanup } from '@testing-library/react';
-import { Provider } from 'react-redux';
-
-import ControlTechnology from './ControlTechnology';
+import { ControlTechnology } from './ControlTechnology';
 import { restructureControlTechnologies } from '../../../utils/selectors/filterCriteria';
-import configureStore from '../../../store/configureStore.dev';
 import initialState from '../../../store/reducers/initialState';
-
 const controlTechnology = [
   {
     controlCode: 'APAC',
@@ -225,24 +221,26 @@ const controlTechnology = [
 const storeControlTechnology = restructureControlTechnologies(
   controlTechnology
 );
-initialState.filterCriteria.controlTechnology = storeControlTechnology;
-const store = configureStore(initialState);
+let flyoutClosed = false;
 
 describe('Control technology', () => {
   let queries;
   beforeEach(() => {
     // setup a DOM element as a render target
     queries = render(
-      <Provider store={store}>
         <ControlTechnology
-          closeFlyOutHandler={jest.fn()}
-          loadEmissionsProgramsDispatcher={jest.fn()}
-          updateProgramSelectionDispatcher={jest.fn()}
+          storeControlTechnology={storeControlTechnology}
+          appliedFilters={[]}
+          closeFlyOutHandler={() => flyoutClosed = true}
+          updateFilterCriteriaDispacher={jest.fn()}
+          updateControlTechnologySelectionDispatcher={jest.fn()}
           addAppliedFilterDispatcher={jest.fn()}
           removeAppliedFilterDispatcher={jest.fn()}
           renderedHandler ={jest.fn()}
+          dataType="EMISSIONS"
+          dataSubType="Facility/Unit Attributes"
+          filterCriteria={initialState.filterCriteria}
         />
-      </Provider>
     );
   });
 
@@ -271,7 +269,7 @@ describe('Control technology', () => {
   });
 
   it('handles checkbox selection appropriately', () => {
-    const { getByRole } = queries;
+    const { getByRole, getByText } = queries;
     const wlCheckbox = getByRole('checkbox', {
       name: 'Wet Limestone (WLS)',
     });
@@ -283,15 +281,8 @@ describe('Control technology', () => {
     });
     fireEvent.click(selectAllNox);
     expect(selectAllNox.checked).toEqual(true);
-
-    const applyButton = getByRole('button', {
-      name: 'Apply Filter',
-    });
-    fireEvent.click(applyButton);
-
-    fireEvent.click(wlCheckbox);
-    expect(wlCheckbox.checked).toEqual(false);
-
-    fireEvent.click(applyButton);
+    const applyFilterButton = getByText('Apply Filter').closest('button');
+    fireEvent.click(applyFilterButton);
+    expect(flyoutClosed).toBe(true);
   });
 });

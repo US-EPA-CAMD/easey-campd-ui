@@ -1,12 +1,8 @@
 import React from 'react';
 import { render, fireEvent, cleanup } from '@testing-library/react';
-import { Provider } from 'react-redux';
-
-import FuelType from './FuelType';
+import { FuelType} from './FuelType';
 import { restructureFuelTypes } from '../../../utils/selectors/filterCriteria';
-import configureStore from '../../../store/configureStore.dev';
 import initialState from '../../../store/reducers/initialState';
-
 const fuelType = [
   {
     fuelTypeCode: 'C',
@@ -111,26 +107,27 @@ const fuelType = [
     fuelGroupDescription: 'All Other Fuels',
   },
 ];
-
+let flyoutClosed = false;
 const storeFuelType = restructureFuelTypes(fuelType);
-initialState.filterCriteria.fuelType = storeFuelType;
-const store = configureStore(initialState);
 
 describe('Fuel Type', () => {
   let queries;
   beforeEach(() => {
     // setup a DOM element as a render target
     queries = render(
-      <Provider store={store}>
         <FuelType
-          closeFlyOutHandler={jest.fn()}
+          closeFlyOutHandler={() => flyoutClosed = true}
+          storeFuelType={storeFuelType}
+          appliedFilters={[]}
           updateFuelTypeSelectionDispatcher={jest.fn()}
           updateFilterCriteriaDispacher={jest.fn()}
           addAppliedFilterDispatcher={jest.fn()}
           removeAppliedFilterDispatcher={jest.fn()}
           renderedHandler ={jest.fn()}
+          dataType="EMISSIONS"
+          dataSubType="Facility/Unit Attributes"
+          filterCriteria={initialState.filterCriteria}
         />
-      </Provider>
     );
   });
 
@@ -157,7 +154,7 @@ describe('Fuel Type', () => {
   });
 
   it('handles checkbox selection appropriately', () => {
-    const { getByRole } = queries;
+    const { getByRole, getByText } = queries;
     const coalCheckbox = getByRole('checkbox', {
       name: 'Coal (C)',
     });
@@ -169,5 +166,8 @@ describe('Fuel Type', () => {
     });
     fireEvent.click(selectAllGas);
     expect(selectAllGas.checked).toEqual(true);
+    const applyFilterButton = getByText('Apply Filter').closest('button');
+    fireEvent.click(applyFilterButton);
+    expect(flyoutClosed).toBe(true);
   });
 });

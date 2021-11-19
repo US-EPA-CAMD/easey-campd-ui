@@ -11,7 +11,7 @@ import { getSelectedIds } from '../../../utils/selectors/filterCriteria';
 import { isAddedToFilters } from '../../../utils/selectors/general';
 import { engageFilterLogic } from "../../../utils/selectors/filterLogic";
 
-const FuelType = ({
+export const FuelType = ({
   storeFuelType,
   appliedFilters,
   updateFuelTypeSelectionDispatcher,
@@ -43,7 +43,7 @@ const FuelType = ({
       }
       closeFlyOutHandler();
     }// eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [storeFuelType]);
+  }, [applyFilterClicked]);
 
   const onSelectAllFuelTypesHandler = (e) => {
     const newFuelTypes = [...fuelType];
