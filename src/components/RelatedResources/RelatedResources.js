@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Link } from '@trussworks/react-uswds';
+import { Link, Tag } from '@trussworks/react-uswds';
 
 import { metaAdder } from '../../utils/document/metaAdder';
 
@@ -54,6 +54,7 @@ const RelatedResources = () => {
       url: 'https://nadp.slh.wisc.edu/',
       description:
         'Access data from the national network of precipitation monitoring sites.',
+      hasExit: true,
     },
     {
       name: 'National Emissions Inventory',
@@ -97,13 +98,18 @@ const RelatedResources = () => {
               </h2>
               <p>{topic.description}</p>
               <Link
-                variant="external"
+                variant={topic.hasOwnProperty('hasExit') ? '' : 'external'}
                 target="_blank"
                 rel="noopener noreferrer"
                 href={topic.url}
               >
                 {topic.name}
               </Link>
+              {topic.hasOwnProperty('hasExit') && (
+                <Tag className="radius-md padding-y-05 margin-left-1 font-sans-3xs text-semibold text-ls-2">
+                  EXIT
+                </Tag>
+              )}
             </div>
           );
         })}
