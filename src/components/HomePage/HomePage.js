@@ -2,12 +2,22 @@ import React, { useEffect } from 'react';
 import { Button, Link, Tag } from '@trussworks/react-uswds';
 import { useHistory } from 'react-router-dom';
 
+import { metaAdder } from '../../utils/document/metaAdder';
 import './HomePage.scss';
 
 const HomePage = () => {
   useEffect(() => {
-    document.title = 'CAMPD - Home';
+    document.title = 'Clean Air Markets Program Data (CAMPD) | US EPA';
   }, []);
+
+  metaAdder(
+    'description',
+    'CAMPD is your one-stop shop for the emissions, compliance, allowance, and facility attributes data that is gathered under these programs.'
+  );
+  metaAdder(
+    'keywords',
+    'Clean air markets program data, EPA, emissions, analysis, data, visualization, allowance, compliance, custom data download, CAM API, bulk data files, CAMPD, AMPD, ECMPS, CAMD, FTP'
+  );
 
   const topics = [
     {
