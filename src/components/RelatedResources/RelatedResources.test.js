@@ -40,6 +40,7 @@ const topics = [
     url: 'http://nadp.slh.wisc.edu/',
     description:
       'Access data from the national network of precipitation monitoring sites.',
+    hasExit: true,
   },
   {
     name: 'National Emissions Inventory',
