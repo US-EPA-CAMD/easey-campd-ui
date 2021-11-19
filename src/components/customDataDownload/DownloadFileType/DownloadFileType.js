@@ -6,6 +6,10 @@ import { connect } from 'react-redux';
 import { constructRequestUrl } from '../../../utils/selectors/general';
 import LoadingModal from '../../LoadingModal/LoadingModal';
 
+axios.defaults.headers.common = {
+  "x-api-key": config.app.apiKey
+};
+
 const DownloadFileType = ({ dataType, dataSubType, filterCriteria }) => {
   const [fileType, setFileType] = useState('text/csv');
   const [loading, setLoading] = useState(false);
