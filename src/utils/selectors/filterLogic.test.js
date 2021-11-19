@@ -2,7 +2,7 @@ import React from 'react';
 import initialState from "../../store/reducers/initialState";
 import { updateFilterCriteria } from "../../store/actions/customDataDownload/filterCriteria";
 import { engageFilterLogic } from "./filterLogic";
-import { restructurePrograms } from './filterCriteria';
+import { restructurePrograms, restructureUnitTypes, restructureControlTechnologies } from './filterCriteria';
 
 const program = [
   {
@@ -794,10 +794,426 @@ const states = [
     "epaRegion": "8"
   }
 ];
+const controlTechnology = [
+  {
+    controlCode: 'APAC',
+    controlDescription:
+      'Additives to Enhance PAC and Existing Equipment Performance',
+    controlEquipParamCode: 'HG',
+    controlEquipParamDescription: 'Mercury',
+  },
+  {
+    controlCode: 'B',
+    controlDescription: 'Baghouse',
+    controlEquipParamCode: 'PART',
+    controlEquipParamDescription: 'Particulates (Opacity)',
+  },
+  {
+    controlCode: 'C',
+    controlDescription: 'Cyclone',
+    controlEquipParamCode: 'PART',
+    controlEquipParamDescription: 'Particulates (Opacity)',
+  },
+  {
+    controlCode: 'CAT',
+    controlDescription:
+      'Catalyst (gold, palladium, or other) used to oxidize mercury',
+    controlEquipParamCode: 'HG',
+    controlEquipParamDescription: 'Mercury',
+  },
+  {
+    controlCode: 'CM',
+    controlDescription: 'Combustion Modification/Fuel Reburning',
+    controlEquipParamCode: 'NOX',
+    controlEquipParamDescription: 'Nitrogen Oxides',
+  },
+  {
+    controlCode: 'DA',
+    controlDescription: 'Dual Alkali',
+    controlEquipParamCode: 'SO2',
+    controlEquipParamDescription: 'Sulfur Dioxide',
+  },
+  {
+    controlCode: 'DL',
+    controlDescription: 'Dry Lime FGD',
+    controlEquipParamCode: 'SO2',
+    controlEquipParamDescription: 'Sulfur Dioxide',
+  },
+  {
+    controlCode: 'DLNB',
+    controlDescription: 'Dry Low NOx Burners',
+    controlEquipParamCode: 'NOX',
+    controlEquipParamDescription: 'Nitrogen Oxides',
+  },
+  {
+    controlCode: 'DSI',
+    controlDescription: 'Dry Sorbent Injection',
+    controlEquipParamCode: null,
+    controlEquipParamDescription: null,
+  },
+  {
+    controlCode: 'ESP',
+    controlDescription: 'Electrostatic Precipitator',
+    controlEquipParamCode: 'PART',
+    controlEquipParamDescription: 'Particulates (Opacity)',
+  },
+  {
+    controlCode: 'FBL',
+    controlDescription: 'Fluidized Bed Limestone Injection',
+    controlEquipParamCode: 'SO2',
+    controlEquipParamDescription: 'Sulfur Dioxide',
+  },
+  {
+    controlCode: 'H2O',
+    controlDescription: 'Water Injection',
+    controlEquipParamCode: 'NOX',
+    controlEquipParamDescription: 'Nitrogen Oxides',
+  },
+  {
+    controlCode: 'HESP',
+    controlDescription: 'Hybrid ESP',
+    controlEquipParamCode: 'PART',
+    controlEquipParamDescription: 'Particulates (Opacity)',
+  },
+  {
+    controlCode: 'HPAC',
+    controlDescription: 'Halogenated PAC Sorbent Injection',
+    controlEquipParamCode: 'HG',
+    controlEquipParamDescription: 'Mercury',
+  },
+  {
+    controlCode: 'LNB',
+    controlDescription: 'Low NOx Burner Technology (Dry Bottom only)',
+    controlEquipParamCode: 'NOX',
+    controlEquipParamDescription: 'Nitrogen Oxides',
+  },
+  {
+    controlCode: 'LNBO',
+    controlDescription: 'Low NOx Burner Technology w/ Overfire Air',
+    controlEquipParamCode: 'NOX',
+    controlEquipParamDescription: 'Nitrogen Oxides',
+  },
+  {
+    controlCode: 'LNC1',
+    controlDescription: 'Low NOx Burner Technology w/ Closed-coupled OFA',
+    controlEquipParamCode: 'NOX',
+    controlEquipParamDescription: 'Nitrogen Oxides',
+  },
+  {
+    controlCode: 'LNC2',
+    controlDescription: 'Low NOx Burner Technology w/ Separated OFA',
+    controlEquipParamCode: 'NOX',
+    controlEquipParamDescription: 'Nitrogen Oxides',
+  },
+  {
+    controlCode: 'LNC3',
+    controlDescription:
+      'Low NOx Burner Technology w/ Closed-coupled/Separated OFA',
+    controlEquipParamCode: 'NOX',
+    controlEquipParamDescription: 'Nitrogen Oxides',
+  },
+  {
+    controlCode: 'LNCB',
+    controlDescription: 'Low NOx Cell Burner',
+    controlEquipParamCode: 'NOX',
+    controlEquipParamDescription: 'Nitrogen Oxides',
+  },
+  {
+    controlCode: 'MO',
+    controlDescription: 'Magnesium Oxide',
+    controlEquipParamCode: 'SO2',
+    controlEquipParamDescription: 'Sulfur Dioxide',
+  },
+  {
+    controlCode: 'NH3',
+    controlDescription: 'Ammonia Injection',
+    controlEquipParamCode: 'NOX',
+    controlEquipParamDescription: 'Nitrogen Oxides',
+  },
+  {
+    controlCode: 'O',
+    controlDescription: 'Other',
+    controlEquipParamCode: null,
+    controlEquipParamDescription: null,
+  },
+  {
+    controlCode: 'OFA',
+    controlDescription: 'Overfire Air',
+    controlEquipParamCode: 'NOX',
+    controlEquipParamDescription: 'Nitrogen Oxides',
+  },
+  {
+    controlCode: 'REAC',
+    controlDescription: 'Regenerative Activated Coke Technology',
+    controlEquipParamCode: 'HG',
+    controlEquipParamDescription: 'Mercury',
+  },
+  {
+    controlCode: 'SB',
+    controlDescription: 'Sodium Based',
+    controlEquipParamCode: 'SO2',
+    controlEquipParamDescription: 'Sulfur Dioxide',
+  },
+  {
+    controlCode: 'SCR',
+    controlDescription: 'Selective Catalytic Reduction',
+    controlEquipParamCode: 'NOX',
+    controlEquipParamDescription: 'Nitrogen Oxides',
+  },
+  {
+    controlCode: 'SNCR',
+    controlDescription: 'Selective Non-catalytic Reduction',
+    controlEquipParamCode: 'NOX',
+    controlEquipParamDescription: 'Nitrogen Oxides',
+  },
+  {
+    controlCode: 'SORB',
+    controlDescription: 'Other (Non PAC) Sorbent Injection',
+    controlEquipParamCode: 'HG',
+    controlEquipParamDescription: 'Mercury',
+  },
+  {
+    controlCode: 'STM',
+    controlDescription: 'Steam Injection',
+    controlEquipParamCode: 'NOX',
+    controlEquipParamDescription: 'Nitrogen Oxides',
+  },
+  {
+    controlCode: 'UPAC',
+    controlDescription: 'Untreated PAC Sorbent Injection',
+    controlEquipParamCode: 'HG',
+    controlEquipParamDescription: 'Mercury',
+  },
+  {
+    controlCode: 'WESP',
+    controlDescription: 'Wet ESP',
+    controlEquipParamCode: 'PART',
+    controlEquipParamDescription: 'Particulates (Opacity)',
+  },
+  {
+    controlCode: 'WL',
+    controlDescription: 'Wet Lime FGD',
+    controlEquipParamCode: 'SO2',
+    controlEquipParamDescription: 'Sulfur Dioxide',
+  },
+  {
+    controlCode: 'WLS',
+    controlDescription: 'Wet Limestone',
+    controlEquipParamCode: 'SO2',
+    controlEquipParamDescription: 'Sulfur Dioxide',
+  },
+  {
+    controlCode: 'WS',
+    controlDescription: 'Wet Scrubber',
+    controlEquipParamCode: 'PART',
+    controlEquipParamDescription: 'Particulates (Opacity)',
+  },
+];
+const unitType = [
+  {
+    unitTypeCode: 'AF',
+    unitTypeDescription: 'Arch-fired boiler',
+    sortOrder: null,
+    unitTypeGroupCode: 'B',
+    unitTypeGroupDescription: 'Boilers',
+  },
+  {
+    unitTypeCode: 'BFB',
+    unitTypeDescription: 'Bubbling fluidized bed boiler',
+    sortOrder: null,
+    unitTypeGroupCode: 'B',
+    unitTypeGroupDescription: 'Boilers',
+  },
+  {
+    unitTypeCode: 'C',
+    unitTypeDescription: 'Cyclone boiler',
+    sortOrder: null,
+    unitTypeGroupCode: 'B',
+    unitTypeGroupDescription: 'Boilers',
+  },
+  {
+    unitTypeCode: 'CB',
+    unitTypeDescription: 'Cell burner boiler',
+    sortOrder: null,
+    unitTypeGroupCode: 'B',
+    unitTypeGroupDescription: 'Boilers',
+  },
+  {
+    unitTypeCode: 'CC',
+    unitTypeDescription: 'Combined cycle',
+    sortOrder: null,
+    unitTypeGroupCode: 'T',
+    unitTypeGroupDescription: 'Turbines',
+  },
+  {
+    unitTypeCode: 'CFB',
+    unitTypeDescription: 'Circulating fluidized bed boiler',
+    sortOrder: null,
+    unitTypeGroupCode: 'B',
+    unitTypeGroupDescription: 'Boilers',
+  },
+  {
+    unitTypeCode: 'CT',
+    unitTypeDescription: 'Combustion turbine',
+    sortOrder: null,
+    unitTypeGroupCode: 'T',
+    unitTypeGroupDescription: 'Turbines',
+  },
+  {
+    unitTypeCode: 'DB',
+    unitTypeDescription: 'Dry bottom wall-fired boiler',
+    sortOrder: null,
+    unitTypeGroupCode: 'B',
+    unitTypeGroupDescription: 'Boilers',
+  },
+  {
+    unitTypeCode: 'DTF',
+    unitTypeDescription: 'Dry bottom turbo-fired boiler',
+    sortOrder: null,
+    unitTypeGroupCode: 'B',
+    unitTypeGroupDescription: 'Boilers',
+  },
+  {
+    unitTypeCode: 'DVF',
+    unitTypeDescription: 'Dry bottom vertically-fired boiler',
+    sortOrder: null,
+    unitTypeGroupCode: 'B',
+    unitTypeGroupDescription: 'Boilers',
+  },
+  {
+    unitTypeCode: 'ICE',
+    unitTypeDescription: 'Internal combustion engine',
+    sortOrder: null,
+    unitTypeGroupCode: 'T',
+    unitTypeGroupDescription: 'Turbines',
+  },
+  {
+    unitTypeCode: 'IGC',
+    unitTypeDescription: 'Integrated gasification combined cycle',
+    sortOrder: null,
+    unitTypeGroupCode: 'T',
+    unitTypeGroupDescription: 'Turbines',
+  },
+  {
+    unitTypeCode: 'KLN',
+    unitTypeDescription: 'Cement Kiln',
+    sortOrder: null,
+    unitTypeGroupCode: 'F',
+    unitTypeGroupDescription: 'Furnaces',
+  },
+  {
+    unitTypeCode: 'OB',
+    unitTypeDescription: 'Other boiler',
+    sortOrder: null,
+    unitTypeGroupCode: 'B',
+    unitTypeGroupDescription: 'Boilers',
+  },
+  {
+    unitTypeCode: 'OT',
+    unitTypeDescription: 'Other turbine',
+    sortOrder: null,
+    unitTypeGroupCode: 'T',
+    unitTypeGroupDescription: 'Turbines',
+  },
+  {
+    unitTypeCode: 'PFB',
+    unitTypeDescription: 'Pressurized fluidized bed boiler',
+    sortOrder: null,
+    unitTypeGroupCode: 'B',
+    unitTypeGroupDescription: 'Boilers',
+  },
+  {
+    unitTypeCode: 'PRH',
+    unitTypeDescription: 'Process Heater',
+    sortOrder: null,
+    unitTypeGroupCode: 'F',
+    unitTypeGroupDescription: 'Furnaces',
+  },
+  {
+    unitTypeCode: 'S',
+    unitTypeDescription: 'Stoker',
+    sortOrder: null,
+    unitTypeGroupCode: 'B',
+    unitTypeGroupDescription: 'Boilers',
+  },
+  {
+    unitTypeCode: 'T',
+    unitTypeDescription: 'Tangentially-fired',
+    sortOrder: null,
+    unitTypeGroupCode: 'B',
+    unitTypeGroupDescription: 'Boilers',
+  },
+  {
+    unitTypeCode: 'WBF',
+    unitTypeDescription: 'Wet bottom wall-fired boiler',
+    sortOrder: null,
+    unitTypeGroupCode: 'B',
+    unitTypeGroupDescription: 'Boilers',
+  },
+  {
+    unitTypeCode: 'WBT',
+    unitTypeDescription: 'Wet bottom turbo-fired boiler',
+    sortOrder: null,
+    unitTypeGroupCode: 'B',
+    unitTypeGroupDescription: 'Boilers',
+  },
+  {
+    unitTypeCode: 'WVF',
+    unitTypeDescription: 'Wet bottom vertically-fired boiler',
+    sortOrder: null,
+    unitTypeGroupCode: 'B',
+    unitTypeGroupDescription: 'Boilers',
+  },
+];
+const sourceCategories = [
+  {
+    "sourceCategoryCode": "AUTSTMP",
+    "sourceCategoryDescription": "Automotive Stampings"
+  },
+  {
+    "sourceCategoryCode": "BKINCHM",
+    "sourceCategoryDescription": "Bulk Industrial Chemical"
+  },
+  {
+    "sourceCategoryCode": "CEMENTM",
+    "sourceCategoryDescription": "Cement Manufacturing"
+  },
+  {
+    "sourceCategoryCode": "COGEN",
+    "sourceCategoryDescription": "Cogeneration"
+  },
+  {
+    "sourceCategoryCode": "ELECTRC",
+    "sourceCategoryDescription": "Electric Utility"
+  },
+  {
+    "sourceCategoryCode": "INDBLR",
+    "sourceCategoryDescription": "Industrial Boiler"
+  },
+  {
+    "sourceCategoryCode": "INDTUR",
+    "sourceCategoryDescription": "Industrial Turbine"
+  },
+  {
+    "sourceCategoryCode": "INSTITU",
+    "sourceCategoryDescription": "Institutional"
+  },
+  {
+    "sourceCategoryCode": "IRONSTL",
+    "sourceCategoryDescription": "Iron & Steel"
+  },
+  {
+    "sourceCategoryCode": "MUNWAST",
+    "sourceCategoryDescription": "Municipal Waste Combustor"
+  },
+];
 initialState.filterCriteria.timePeriod.year.yearArray = ["2019"];
 initialState.filterCriteria.program = restructurePrograms(program);
 initialState.filterCriteria.facility = facilities.map(f=> ({id: f.facilityId, label:`${f.facilityName} (${f.facilityId})`, selected:false, enabled:true}));
 initialState.filterCriteria.stateTerritory = states.map(s=> ({id: s.stateCode, label:s.stateName, selected:false, enabled:true}));
+initialState.filterCriteria.controlTechnology = restructureControlTechnologies(controlTechnology);
+initialState.filterCriteria.unitType = restructureUnitTypes(unitType);
+initialState.filterCriteria.sourceCategory = sourceCategories.map(f=> ({id: f.sourceCategoryCode, label:f.sourceCategoryDescription, selected:false, enabled:true}));
 initialState.filterCriteria.filterMapping = [{"year":2019,"programCode":"ARP","facilityId":3,"state":"AL","unitTypeCode":"CC","fuelTypeCode":"PNG","controlCode":"DLNB"},
 {"year":2019,"programCode":"ARP","facilityId":3,"state":"AL","unitTypeCode":"CC","fuelTypeCode":"PNG","controlCode":"SCR"},
 {"year":2019,"programCode":"ARP","facilityId":3,"state":"AL","unitTypeCode":"T","fuelTypeCode":"C","controlCode":"CAT"},
@@ -814,7 +1230,7 @@ initialState.filterCriteria.filterMapping = [{"year":2019,"programCode":"ARP","f
 describe('Emissions Filter logic functions', () => {
   it('engages filter logic for the specified parameters', () => {
     const clonedFilterCritera = JSON.parse(JSON.stringify(initialState.filterCriteria));
-    engageFilterLogic("EMISSIONS", "Annual Emissions", "Time Period", clonedFilterCritera, updateFilterCriteria);
+    engageFilterLogic("EMISSIONS", "Facility/Unit Attributes", "Time Period", clonedFilterCritera, updateFilterCriteria);
     expect(clonedFilterCritera).not.toBe(initialState.filterCriteria);
   });
 

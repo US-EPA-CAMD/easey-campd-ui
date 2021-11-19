@@ -1,12 +1,8 @@
 import React from 'react';
 import { render, fireEvent, cleanup } from '@testing-library/react';
-import { Provider } from 'react-redux';
-
-import UnitType from './UnitType';
+import { UnitType } from './UnitType';
 import { restructureUnitTypes } from '../../../utils/selectors/filterCriteria';
-import configureStore from '../../../store/configureStore.dev';
 import initialState from '../../../store/reducers/initialState';
-
 const unitType = [
   {
     unitTypeCode: 'AF',
@@ -164,24 +160,25 @@ const unitType = [
   },
 ];
 const storeUnitType = restructureUnitTypes(unitType);
-initialState.filterCriteria.unitType = storeUnitType;
-const store = configureStore(initialState);
-
+let flyoutClosed = false;
 describe('Unit Type', () => {
   let queries;
   beforeEach(() => {
     // setup a DOM element as a render target
     queries = render(
-      <Provider store={store}>
-        <UnitType
-          closeFlyOutHandler={jest.fn()}
-          loadUnitTypesDispatcher={jest.fn()}
-          updateUnitTypeSelectionDispatcher={jest.fn()}
-          addAppliedFilterDispatcher={jest.fn()}
-          removeAppliedFilterDispatcher={jest.fn()}
-          renderedHandler={jest.fn()}
-        />
-      </Provider>
+      <UnitType
+        storeUnitType={storeUnitType}
+        appliedFilters={[]}
+        closeFlyOutHandler={() => flyoutClosed = true}
+        updateFilterCriteriaDispacher={jest.fn()}
+        updateUnitTypeSelectionDispatcher={jest.fn()}
+        addAppliedFilterDispatcher={jest.fn()}
+        removeAppliedFilterDispatcher={jest.fn()}
+        renderedHandler={jest.fn()}
+        dataType="EMISSIONS"
+        dataSubType="Facility/Unit Attributes"
+        filterCriteria={initialState.filterCriteria}
+      />
     );
   });
 
@@ -206,7 +203,7 @@ describe('Unit Type', () => {
   });
 
   it('handles checkbox selection appropriately and applies them', () => {
-    const { getByRole } = queries;
+    const { getByRole, getByText } = queries;
     const afbCheckbox = getByRole('checkbox', {
       name: 'Arch-fired boiler (AF)',
     });
@@ -218,18 +215,8 @@ describe('Unit Type', () => {
     });
     fireEvent.click(selectAllBoilers);
     expect(selectAllBoilers.checked).toEqual(true);
-
-    const applyButton = getByRole('button', {
-      name: 'Apply Filter',
-    });
-    fireEvent.click(applyButton);
-
-    const klnCheckbox = getByRole('checkbox', {
-      name: 'Cement Kiln (KLN)',
-    });
-    fireEvent.click(klnCheckbox);
-    expect(klnCheckbox.checked).toEqual(true);
-
-    fireEvent.click(applyButton);
+    const applyFilterButton = getByText('Apply Filter').closest('button');
+    fireEvent.click(applyFilterButton);
+    expect(flyoutClosed).toBe(true);
   });
 });

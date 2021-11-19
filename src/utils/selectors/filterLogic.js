@@ -15,6 +15,7 @@ const selection = {
   facilities: [],
   controlTechnologies: [],
   unitTypes: [],
+  sourceCategories: []
 }
 
 const populateSelections = (filterCriteria) =>{
@@ -25,6 +26,7 @@ const populateSelections = (filterCriteria) =>{
   selection.facilities = getComboboxSelectedItems(filterCriteria.facility, true);
   selection.controlTechnologies = getCheckBoxSelectedItems(filterCriteria.controlTechnology);
   selection.unitTypes = getCheckBoxSelectedItems(filterCriteria.unitType);
+  selection.sourceCategories = getComboboxSelectedItems(filterCriteria.sourceCategory);
 };
 
 export const filterProgram = (filterCriteria) =>{
@@ -35,7 +37,8 @@ export const filterProgram = (filterCriteria) =>{
       (selection.fuelTypes.length === 0 || selection.fuelTypes.includes(x.fuelTypeCode)) &&
       (selection.facilities.length === 0 || selection.facilities.includes(x.facilityId)) &&
       (selection.controlTechnologies.length === 0 || selection.controlTechnologies.includes(x.controlCode)) &&
-      (selection.unitTypes.length === 0 || selection.unitTypes.includes(x.unitTypeCode))
+      (selection.unitTypes.length === 0 || selection.unitTypes.includes(x.unitTypeCode)) &&
+      (selection.sourceCategories.length === 0 || selection.sourceCategories.includes(x.sourceCategoryDescription))
     }).map(i => i.programCode)
   )];
   updateEnabledStatusCheckBox(filterCriteria.program, filteredSet);
@@ -49,7 +52,8 @@ export const filterStateTerritory = (filterCriteria) =>{
       (selection.fuelTypes.length === 0 || selection.fuelTypes.includes(x.fuelTypeCode)) &&
       (selection.facilities.length === 0 || selection.facilities.includes(x.facilityId)) &&
       (selection.controlTechnologies.length === 0 || selection.controlTechnologies.includes(x.controlCode)) &&
-      (selection.unitTypes.length === 0 || selection.unitTypes.includes(x.unitTypeCode))
+      (selection.unitTypes.length === 0 || selection.unitTypes.includes(x.unitTypeCode)) &&
+      (selection.sourceCategories.length === 0 || selection.sourceCategories.includes(x.sourceCategoryDescription))
     }).map(i => i.state)
   )];
   updateEnabledStatusComboBox(filterCriteria.stateTerritory, filteredSet);
@@ -63,7 +67,8 @@ export const filterFacility = (filterCriteria) =>{
       (selection.programs.length === 0 || selection.programs.includes(x.programCode)) &&
       (selection.fuelTypes.length === 0 || selection.fuelTypes.includes(x.fuelTypeCode)) &&
       (selection.controlTechnologies.length === 0 || selection.controlTechnologies.includes(x.controlCode)) &&
-      (selection.unitTypes.length === 0 || selection.unitTypes.includes(x.unitTypeCode))
+      (selection.unitTypes.length === 0 || selection.unitTypes.includes(x.unitTypeCode)) &&
+      (selection.sourceCategories.length === 0 || selection.sourceCategories.includes(x.sourceCategoryDescription))
     }).map(i => String(i.facilityId))
   )];
   updateEnabledStatusComboBox(filterCriteria.facility, filteredSet);
@@ -77,7 +82,8 @@ export const filterUnitType = (filterCriteria) =>{
       (selection.programs.length === 0 || selection.programs.includes(x.programCode)) &&
       (selection.fuelTypes.length === 0 || selection.fuelTypes.includes(x.fuelTypeCode)) &&
       (selection.facilities.length === 0 || selection.facilities.includes(x.facilityId)) &&
-      (selection.controlTechnologies.length === 0 || selection.controlTechnologies.includes(x.controlCode))
+      (selection.controlTechnologies.length === 0 || selection.controlTechnologies.includes(x.controlCode)) &&
+      (selection.sourceCategories.length === 0 || selection.sourceCategories.includes(x.sourceCategoryDescription))
     }).map(i => i.unitTypeCode)
   )];
   updateEnabledStatusCheckBox(filterCriteria.unitType, filteredSet);
@@ -91,7 +97,8 @@ export const filterFuelType = (filterCriteria) =>{
       (selection.programs.length === 0 || selection.programs.includes(x.programCode)) &&
       (selection.facilities.length === 0 || selection.facilities.includes(x.facilityId)) &&
       (selection.controlTechnologies.length === 0 || selection.controlTechnologies.includes(x.controlCode)) &&
-      (selection.unitTypes.length === 0 || selection.unitTypes.includes(x.unitTypeCode))
+      (selection.unitTypes.length === 0 || selection.unitTypes.includes(x.unitTypeCode)) &&
+      (selection.sourceCategories.length === 0 || selection.sourceCategories.includes(x.sourceCategoryDescription))
     }).map(i => i.fuelTypeCode)
   )];
   updateEnabledStatusCheckBox(filterCriteria.fuelType, filteredSet);
@@ -105,7 +112,8 @@ export const filterControlTechnology = (filterCriteria) =>{
       (selection.programs.length === 0 || selection.programs.includes(x.programCode)) &&
       (selection.fuelTypes.length === 0 || selection.fuelTypes.includes(x.fuelTypeCode)) &&
       (selection.facilities.length === 0 || selection.facilities.includes(x.facilityId)) &&
-      (selection.unitTypes.length === 0 || selection.unitTypes.includes(x.unitTypeCode))
+      (selection.unitTypes.length === 0 || selection.unitTypes.includes(x.unitTypeCode)) &&
+      (selection.sourceCategories.length === 0 || selection.sourceCategories.includes(x.sourceCategoryDescription))
     }).map(i => i.controlCode)
   )];
   updateEnabledStatusCheckBox(filterCriteria.controlTechnology, filteredSet);

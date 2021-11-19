@@ -1,39 +1,48 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from "react-redux";
 import MultiSelectCombobox from '../../MultiSelectCombobox/MultiSelectCombobox';
-import {loadSourceCategories, updateSourceCategorySelection} from "../../../store/actions/customDataDownload/filterCriteria";
+import { updateFilterCriteria, updateSourceCategorySelection} from "../../../store/actions/customDataDownload/filterCriteria";
 import { addAppliedFilter, removeAppliedFilter } from "../../../store/actions/customDataDownload/customDataDownload";
-import {isAddedToFilters} from "../../../utils/selectors/general";
+import { isAddedToFilters } from "../../../utils/selectors/general";
 import {Button} from "@trussworks/react-uswds";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
+import { engageFilterLogic } from "../../../utils/selectors/filterLogic";
 
 const SourceCategory = ({
   sourceCategory,
   appliedFilters,
-  loadSourceCategoriesDispatcher,
+  updateFilterCriteriaDispacher,
   updateSourceCategorySelectionDispacher,
   addAppliedFilterDispatcher,
   removeAppliedFilterDispatcher,
-  loading,
   closeFlyOutHandler,
-  renderedHandler}) => {
+  renderedHandler,
+  dataType,
+  dataSubType,
+  filterCriteria
+  }) => {
 
   const [_sourceCategory, setSourceCategory] = useState(JSON.parse(JSON.stringify(sourceCategory)));
-
+  const [applyFilterClicked, setApplyFilterClicked] = useState(false);
   const filterToApply = "Source Category";
 
   useEffect(()=>{
-    if(sourceCategory.length===0){
-      loadSourceCategoriesDispatcher();
-    }else{
-      if(_sourceCategory.length===0){
-        setSourceCategory(JSON.parse(JSON.stringify(sourceCategory)));
-      }
+    if(_sourceCategory.length > 0){
       renderedHandler();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[sourceCategory]);
+    }// eslint-disable-next-line react-hooks/exhaustive-deps
+  },[_sourceCategory]);
+
+  useEffect(()=>{
+    if(applyFilterClicked){
+      if(dataType === "EMISSIONS"){
+        if(filterCriteria.filterMapping.length>0){
+          engageFilterLogic(dataType, dataSubType, filterToApply, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispacher);
+        }
+      }
+      closeFlyOutHandler();
+    }// eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sourceCategory]);
 
   const handleApplyFilter = () =>{
     updateSourceCategorySelectionDispacher(_sourceCategory);
@@ -44,7 +53,7 @@ const SourceCategory = ({
     if(selection.length>0){
       addAppliedFilterDispatcher({key:filterToApply, values:selection.map(e=>e.label)});
     }
-    closeFlyOutHandler();
+    setApplyFilterClicked(true);
   };
 
   const onChangeUpdate = (id, updateType) =>{
@@ -67,7 +76,7 @@ const SourceCategory = ({
         <hr />
       </div>
       {
-        _sourceCategory.length > 0 && loading===0 &&
+        _sourceCategory.length > 0 &&
         <>
           <div className="margin-x-2">
             <MultiSelectCombobox
@@ -93,10 +102,6 @@ const SourceCategory = ({
           </div>
         </>
       }
-      {
-        loading>0 && _sourceCategory.length===0 &&
-        <span className="font-alt-sm text-bold margin-x-2">Loading...</span>
-      }
     </>
   );
 }
@@ -106,13 +111,15 @@ const mapStateToProps = (state) => {
   return {
     sourceCategory: state.filterCriteria.sourceCategory,
     appliedFilters: state.customDataDownload.appliedFilters,
-    loading: state.apiCallsInProgress
+    dataType: state.customDataDownload.dataType,
+    dataSubType: state.customDataDownload.dataSubType,
+    filterCriteria: state.filterCriteria,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loadSourceCategoriesDispatcher: () => dispatch(loadSourceCategories()),
+    updateFilterCriteriaDispacher: (filterCriteria) => dispatch(updateFilterCriteria(filterCriteria)),
     updateSourceCategorySelectionDispacher: (sourceCategory) => dispatch(updateSourceCategorySelection(sourceCategory)),
     addAppliedFilterDispatcher: (filterToApply) => dispatch(addAppliedFilter(filterToApply)),
     removeAppliedFilterDispatcher: (removedFilter) => dispatch(removeAppliedFilter(removedFilter))

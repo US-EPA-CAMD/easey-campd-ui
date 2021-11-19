@@ -10,7 +10,7 @@ import {Button} from "@trussworks/react-uswds";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
 
-const Program = ({
+export const Program = ({
   storeProgram,
   appliedFilters,
   updateFilterCriteriaDispacher,
@@ -43,7 +43,7 @@ const Program = ({
       }
       closeFlyOutHandler();
     }// eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [storeProgram]);
+  }, [applyFilterClicked]);
 
 
   const onSelectProgramHandler = (e) =>{
