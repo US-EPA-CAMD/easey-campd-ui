@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button, Radio, Fieldset } from '@trussworks/react-uswds';
 import axios from 'axios';
 import { connect } from 'react-redux';
-import {config} from '../../../config';
+import config from '../../../config';
 
 import { constructRequestUrl } from '../../../utils/selectors/general';
 import LoadingModal from '../../LoadingModal/LoadingModal';
