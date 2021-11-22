@@ -3,7 +3,9 @@ import { render } from '@testing-library/react';
 import FilterCriteriaPanel from "./FilterCriteriaPanel";
 import { Provider } from "react-redux";
 import configureStore from "../../../store/configureStore.dev";
-const store = configureStore();
+import initialState from '../../../store/reducers/initialState';
+initialState.customDataDownload.dataType="EMISSIONS";
+const store = configureStore(initialState);
 
 describe('filterCriteriaPanel Component', () => {
   it('renders time period child component without errors', () => {
