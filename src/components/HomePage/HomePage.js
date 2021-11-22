@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Button, Link, Tag } from '@trussworks/react-uswds';
+import { Button, Tag } from '@trussworks/react-uswds';
 import { useHistory } from 'react-router-dom';
 
 import './HomePage.scss';
@@ -33,7 +33,7 @@ const HomePage = () => {
         />
       ),
       url: null,
-      link: null,
+      link: '#0',
       button: null,
     },
     {
@@ -46,7 +46,7 @@ const HomePage = () => {
         />
       ),
       url: null,
-      link: null,
+      link: '#0',
       button: null,
     },
   ];
@@ -63,14 +63,15 @@ const HomePage = () => {
           >
             {topic.img}
             <div className="margin-left-2 desktop:margin-left-1">
-              <Link
-                href={topic.link ? topic.link : '#0'}
-                style={{ 'text-decoration': 'none' }}
+              <Button
+                className="font-heading-xl text-bold margin-y-2"
+                unstyled="true"
+                onClick={() => history.push(topic.link)}
+                style={{ textDecoration: 'none' }}
+                key={topic.name}
               >
-                <h2 className="font-heading-xl text-bold margin-y-2">
-                  {topic.name}
-                </h2>
-              </Link>
+                {topic.name}
+              </Button>
               {hasButton ? null : (
                 <div className="margin-top-3">
                   <Tag className="radius-md padding-y-05 font-sans-3xs text-semibold text-ls-2">
