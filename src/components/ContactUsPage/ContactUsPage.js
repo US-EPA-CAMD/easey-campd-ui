@@ -14,7 +14,9 @@ const ContactUsPage = () => {
 
   useEffect(() => {
     document.title = 'Contact Us | CAMPD | US EPA';
-    var el = document.querySelector('h3');
+    
+    // This is done to have the page structure 508 compliant
+    const el = document.querySelector('h3');
     el.outerHTML = '<h1>' + el.innerHTML + '</h1>';
   }, []);
 
