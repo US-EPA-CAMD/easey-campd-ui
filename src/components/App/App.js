@@ -41,7 +41,7 @@ function App() {
           <Route path="/data" exact component={DataLandingPage} />
           <Route path="/data/bulk-data-files" exact component={BulkDataFiles} />
           <Route path="/resources/related-resources" exact component={RelatedResources} />
-          <Route path="/help-support/about" exact component={AboutPage} />
+          <Route path="/help-support/about-campd" exact component={AboutPage} />
           <Route path="/help-support/tutorials" exact component={TutorialsPage} />
           <Route path="/help-support/faqs" exact component={FaqsPage} />
           <Route path="/help-support/contact-us" exact component={ContactUsPage} />

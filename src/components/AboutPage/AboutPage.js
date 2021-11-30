@@ -2,6 +2,298 @@ import React, { useEffect } from 'react';
 import { Accordion } from '@trussworks/react-uswds';
 import { metaAdder } from '../../utils/document/metaAdder';
 
+export const releases = [
+  {
+    title: 'Beta 0.1',
+    date: 'August 11, 2021',
+    features: [
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
+      'Proin porttitor tellus vel justo faucibus, egit interdum mi consequat',
+      'Morbi et fermentum ante. Nunc iaculis ultricies mauris, nec ullamcorper orci blandit quis',
+    ],
+    bugFixes: [
+      'Lorem ipsum dolor sit amet',
+      'Consectetur adipiscing elit',
+      'Proin porttitor tellus vel justo faucibus',
+      'Egit interdum mi consequat',
+      'Morbi et fermentum ante',
+      'Nunc iaculis ultricies mauris',
+      'Nec ullamcorper orci blandit quis',
+      'Nam eros lectus',
+    ],
+    upcomingFeatures: [
+      'Lorem ipsum dolor sit amet',
+      'Consectetur adipiscing elit',
+      'Proin porttitor tellus vel justo faucibus',
+      'Egit interdum mi consequat',
+      'Morbi et fermentum ante',
+      'Nunc iaculis ultricies mauris',
+      'Nec ullamcorper orci blandit quis',
+      'Nam eros lectus',
+    ],
+  },
+  {
+    title: 'Beta 0.0.9',
+    date: 'July 26, 2021',
+    features: [
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
+      'Proin porttitor tellus vel justo faucibus, egit interdum mi consequat',
+      'Morbi et fermentum ante. Nunc iaculis ultricies mauris, nec ullamcorper orci blandit quis',
+    ],
+    bugFixes: [
+      'Lorem ipsum dolor sit amet',
+      'Consectetur adipiscing elit',
+      'Proin porttitor tellus vel justo faucibus',
+      'Egit interdum mi consequat',
+      'Morbi et fermentum ante',
+      'Nunc iaculis ultricies mauris',
+      'Nec ullamcorper orci blandit quis',
+      'Nam eros lectus',
+    ],
+    upcomingFeatures: [
+      'Lorem ipsum dolor sit amet',
+      'Consectetur adipiscing elit',
+      'Proin porttitor tellus vel justo faucibus',
+      'Egit interdum mi consequat',
+      'Morbi et fermentum ante',
+      'Nunc iaculis ultricies mauris',
+      'Nec ullamcorper orci blandit quis',
+      'Nam eros lectus',
+    ],
+  },
+  {
+    title: 'Beta 0.0.8',
+    date: 'June 2, 2021',
+    features: [
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
+      'Proin porttitor tellus vel justo faucibus, egit interdum mi consequat',
+      'Morbi et fermentum ante. Nunc iaculis ultricies mauris, nec ullamcorper orci blandit quis',
+    ],
+    bugFixes: [
+      'Lorem ipsum dolor sit amet',
+      'Consectetur adipiscing elit',
+      'Proin porttitor tellus vel justo faucibus',
+      'Egit interdum mi consequat',
+      'Morbi et fermentum ante',
+      'Nunc iaculis ultricies mauris',
+      'Nec ullamcorper orci blandit quis',
+      'Nam eros lectus',
+    ],
+    upcomingFeatures: [
+      'Lorem ipsum dolor sit amet',
+      'Consectetur adipiscing elit',
+      'Proin porttitor tellus vel justo faucibus',
+      'Egit interdum mi consequat',
+      'Morbi et fermentum ante',
+      'Nunc iaculis ultricies mauris',
+      'Nec ullamcorper orci blandit quis',
+      'Nam eros lectus',
+    ],
+  },
+  {
+    title: 'Beta 0.0.7',
+    date: 'May 14, 2021',
+    features: [
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
+      'Proin porttitor tellus vel justo faucibus, egit interdum mi consequat',
+      'Morbi et fermentum ante. Nunc iaculis ultricies mauris, nec ullamcorper orci blandit quis',
+    ],
+    bugFixes: [
+      'Lorem ipsum dolor sit amet',
+      'Consectetur adipiscing elit',
+      'Proin porttitor tellus vel justo faucibus',
+      'Egit interdum mi consequat',
+      'Morbi et fermentum ante',
+      'Nunc iaculis ultricies mauris',
+      'Nec ullamcorper orci blandit quis',
+      'Nam eros lectus',
+    ],
+    upcomingFeatures: [
+      'Lorem ipsum dolor sit amet',
+      'Consectetur adipiscing elit',
+      'Proin porttitor tellus vel justo faucibus',
+      'Egit interdum mi consequat',
+      'Morbi et fermentum ante',
+      'Nunc iaculis ultricies mauris',
+      'Nec ullamcorper orci blandit quis',
+      'Nam eros lectus',
+    ],
+  },
+  {
+    title: 'Beta 0.0.6',
+    date: 'May 1, 2021',
+    features: [
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
+      'Proin porttitor tellus vel justo faucibus, egit interdum mi consequat',
+      'Morbi et fermentum ante. Nunc iaculis ultricies mauris, nec ullamcorper orci blandit quis',
+    ],
+    bugFixes: [
+      'Lorem ipsum dolor sit amet',
+      'Consectetur adipiscing elit',
+      'Proin porttitor tellus vel justo faucibus',
+      'Egit interdum mi consequat',
+      'Morbi et fermentum ante',
+      'Nunc iaculis ultricies mauris',
+      'Nec ullamcorper orci blandit quis',
+      'Nam eros lectus',
+    ],
+    upcomingFeatures: [
+      'Lorem ipsum dolor sit amet',
+      'Consectetur adipiscing elit',
+      'Proin porttitor tellus vel justo faucibus',
+      'Egit interdum mi consequat',
+      'Morbi et fermentum ante',
+      'Nunc iaculis ultricies mauris',
+      'Nec ullamcorper orci blandit quis',
+      'Nam eros lectus',
+    ],
+  },
+  {
+    title: 'Beta 0.0.5',
+    date: 'April 23, 2021',
+    features: [
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
+      'Proin porttitor tellus vel justo faucibus, egit interdum mi consequat',
+      'Morbi et fermentum ante. Nunc iaculis ultricies mauris, nec ullamcorper orci blandit quis',
+    ],
+    bugFixes: [
+      'Lorem ipsum dolor sit amet',
+      'Consectetur adipiscing elit',
+      'Proin porttitor tellus vel justo faucibus',
+      'Egit interdum mi consequat',
+      'Morbi et fermentum ante',
+      'Nunc iaculis ultricies mauris',
+      'Nec ullamcorper orci blandit quis',
+      'Nam eros lectus',
+    ],
+    upcomingFeatures: [
+      'Lorem ipsum dolor sit amet',
+      'Consectetur adipiscing elit',
+      'Proin porttitor tellus vel justo faucibus',
+      'Egit interdum mi consequat',
+      'Morbi et fermentum ante',
+      'Nunc iaculis ultricies mauris',
+      'Nec ullamcorper orci blandit quis',
+      'Nam eros lectus',
+    ],
+  },
+  {
+    title: 'Beta 0.0.4',
+    date: 'February 28, 2021',
+    features: [
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
+      'Proin porttitor tellus vel justo faucibus, egit interdum mi consequat',
+      'Morbi et fermentum ante. Nunc iaculis ultricies mauris, nec ullamcorper orci blandit quis',
+    ],
+    bugFixes: [
+      'Lorem ipsum dolor sit amet',
+      'Consectetur adipiscing elit',
+      'Proin porttitor tellus vel justo faucibus',
+      'Egit interdum mi consequat',
+      'Morbi et fermentum ante',
+      'Nunc iaculis ultricies mauris',
+      'Nec ullamcorper orci blandit quis',
+      'Nam eros lectus',
+    ],
+    upcomingFeatures: [
+      'Lorem ipsum dolor sit amet',
+      'Consectetur adipiscing elit',
+      'Proin porttitor tellus vel justo faucibus',
+      'Egit interdum mi consequat',
+      'Morbi et fermentum ante',
+      'Nunc iaculis ultricies mauris',
+      'Nec ullamcorper orci blandit quis',
+      'Nam eros lectus',
+    ],
+  },
+  {
+    title: 'Beta 0.0.3',
+    date: 'February 3, 2021',
+    features: [
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
+      'Proin porttitor tellus vel justo faucibus, egit interdum mi consequat',
+      'Morbi et fermentum ante. Nunc iaculis ultricies mauris, nec ullamcorper orci blandit quis',
+    ],
+    bugFixes: [
+      'Lorem ipsum dolor sit amet',
+      'Consectetur adipiscing elit',
+      'Proin porttitor tellus vel justo faucibus',
+      'Egit interdum mi consequat',
+      'Morbi et fermentum ante',
+      'Nunc iaculis ultricies mauris',
+      'Nec ullamcorper orci blandit quis',
+      'Nam eros lectus',
+    ],
+    upcomingFeatures: [
+      'Lorem ipsum dolor sit amet',
+      'Consectetur adipiscing elit',
+      'Proin porttitor tellus vel justo faucibus',
+      'Egit interdum mi consequat',
+      'Morbi et fermentum ante',
+      'Nunc iaculis ultricies mauris',
+      'Nec ullamcorper orci blandit quis',
+      'Nam eros lectus',
+    ],
+  },
+  {
+    title: 'Beta 0.0.2',
+    date: 'December 20, 2020',
+    features: [
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
+      'Proin porttitor tellus vel justo faucibus, egit interdum mi consequat',
+      'Morbi et fermentum ante. Nunc iaculis ultricies mauris, nec ullamcorper orci blandit quis',
+    ],
+    bugFixes: [
+      'Lorem ipsum dolor sit amet',
+      'Consectetur adipiscing elit',
+      'Proin porttitor tellus vel justo faucibus',
+      'Egit interdum mi consequat',
+      'Morbi et fermentum ante',
+      'Nunc iaculis ultricies mauris',
+      'Nec ullamcorper orci blandit quis',
+      'Nam eros lectus',
+    ],
+    upcomingFeatures: [
+      'Lorem ipsum dolor sit amet',
+      'Consectetur adipiscing elit',
+      'Proin porttitor tellus vel justo faucibus',
+      'Egit interdum mi consequat',
+      'Morbi et fermentum ante',
+      'Nunc iaculis ultricies mauris',
+      'Nec ullamcorper orci blandit quis',
+      'Nam eros lectus',
+    ],
+  },
+  {
+    title: 'Beta 0.0.1',
+    date: 'November 04, 2020',
+    features: [
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
+      'Proin porttitor tellus vel justo faucibus, egit interdum mi consequat',
+      'Morbi et fermentum ante. Nunc iaculis ultricies mauris, nec ullamcorper orci blandit quis',
+    ],
+    bugFixes: [
+      'Lorem ipsum dolor sit amet',
+      'Consectetur adipiscing elit',
+      'Proin porttitor tellus vel justo faucibus',
+      'Egit interdum mi consequat',
+      'Morbi et fermentum ante',
+      'Nunc iaculis ultricies mauris',
+      'Nec ullamcorper orci blandit quis',
+      'Nam eros lectus',
+    ],
+    upcomingFeatures: [
+      'Lorem ipsum dolor sit amet',
+      'Consectetur adipiscing elit',
+      'Proin porttitor tellus vel justo faucibus',
+      'Egit interdum mi consequat',
+      'Morbi et fermentum ante',
+      'Nunc iaculis ultricies mauris',
+      'Nec ullamcorper orci blandit quis',
+      'Nam eros lectus',
+    ],
+  },
+];
 const ProductUpdate = ({ release }) => {
   return (
     <div key={release.title}>
@@ -18,13 +310,19 @@ const ProductUpdate = ({ release }) => {
           <li key={i + bug}>{bug}</li>
         ))}
       </ul>
+      <h3>Upcoming Features</h3>
+      <ul>
+        {release.upcomingFeatures.map((feature, i) => (
+          <li key={i + feature}>{feature}</li>
+        ))}
+      </ul>
     </div>
   );
 };
 
 const AboutPage = () => {
   useEffect(() => {
-    document.title = 'About | CAMPD | US EPA';
+    document.title = 'About CAMPD | CAMPD | US EPA';
   }, []);
 
   metaAdder(
@@ -35,209 +333,6 @@ const AboutPage = () => {
     'keywords',
     'Clean air markets division, EPA, what is, CAMPD, about, allowance, compliance, emissions, facility, data,  CAM API, releases, updates, versions'
   );
-
-  const releases = [
-    {
-      title: 'Beta 0.1',
-      date: 'August 11, 2021',
-      features: [
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-      ],
-      bugFixes: [
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-      ],
-    },
-    {
-      title: 'Beta 0.0.9',
-      date: 'August 11, 2021',
-      features: [
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-      ],
-      bugFixes: [
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-      ],
-    },
-    {
-      title: 'Beta 0.0.8',
-      date: 'August 11, 2021',
-      features: [
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-      ],
-      bugFixes: [
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-      ],
-    },
-    {
-      title: 'Beta 0.0.7',
-      date: 'August 11, 2021',
-      features: [
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-      ],
-      bugFixes: [
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-      ],
-    },
-    {
-      title: 'Beta 0.0.6',
-      date: 'August 11, 2021',
-      features: [
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-      ],
-      bugFixes: [
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-      ],
-    },
-    {
-      title: 'Beta 0.0.5',
-      date: 'August 11, 2021',
-      features: [
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-      ],
-      bugFixes: [
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-      ],
-    },
-    {
-      title: 'Beta 0.0.4',
-      date: 'August 11, 2021',
-      features: [
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-      ],
-      bugFixes: [
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-      ],
-    },
-    {
-      title: 'Beta 0.0.3',
-      date: 'August 11, 2021',
-      features: [
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-      ],
-      bugFixes: [
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-      ],
-    },
-    {
-      title: 'Beta 0.0.2',
-      date: 'August 11, 2021',
-      features: [
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-      ],
-      bugFixes: [
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-      ],
-    },
-    {
-      title: 'Beta 0.0.1',
-      date: 'August 11, 2021',
-      features: [
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-      ],
-      bugFixes: [
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-        'lorem ipsum dolor sit amet',
-      ],
-    },
-  ];
 
   const latestRelease = releases[0];
   const subTitle =
@@ -252,10 +347,22 @@ const AboutPage = () => {
         facility/unit attributes data collected under EPA’s federal market-based
         trading programs: Cross-State Air Pollution Rule (CSAPR), CSAPR Update,
         Revised CSAPR Update, Acid Rain Program (ARP), and other retired
-        programs. CAMPD provides current and historical data using REST APIs
-        which are directly will be accessible via the Clean Air Markets (CAM)
-        API portal (link) in a future release.
+        programs.
       </p>
+
+      <p>
+        CAMPD provides current and historical data using REST APIs which are
+        directly will be accessible via the Clean Air Markets (CAM) API portal
+        in a future release.
+      </p>
+
+      <p>
+        The Clean Air Markets Division welcomes all feedback, comments and/or
+        suggestions via our Contact Page, to ensure we maintain user friendly
+        and intuitive products for our diverse community of users.
+      </p>
+
+      <p>Stay up to date on CAMPD releases and features below. </p>
       <h2 className={subTitle}>Product updates</h2>
       <ProductUpdate release={latestRelease} />
 
