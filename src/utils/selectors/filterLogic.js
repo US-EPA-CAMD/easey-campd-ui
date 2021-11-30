@@ -58,8 +58,8 @@ export const filterStateTerritory = (filterCriteria) =>{
       (selection.unitTypes.length === 0 || selection.unitTypes.includes(x.unitTypeCode)) &&
       (selection.sourceCategories.length === 0 || selection.sourceCategories.includes(x.sourceCategoryDescription))
     }).map(i => i.state)
-  )];//console.log(filteredSet);
-  updateEnabledStatusComboBox(filterCriteria.stateTerritory, filteredSet);//console.log(filterCriteria.stateTerritory);
+  )];
+  updateEnabledStatusComboBox(filterCriteria.stateTerritory, filteredSet);
 };
 
 export const filterFacility = (filterCriteria) =>{
@@ -73,8 +73,8 @@ export const filterFacility = (filterCriteria) =>{
       (selection.unitTypes.length === 0 || selection.unitTypes.includes(x.unitTypeCode)) &&
       (selection.sourceCategories.length === 0 || selection.sourceCategories.includes(x.sourceCategoryDescription))
     }).map(i => String(i.facilityId))
-  )];//console.log(filteredSet);
-  updateEnabledStatusComboBox(filterCriteria.facility, filteredSet);//console.log(filterCriteria.facility);
+  )];
+  updateEnabledStatusComboBox(filterCriteria.facility, filteredSet);
 };
 
 export const filterUnitType = (filterCriteria) =>{
@@ -151,8 +151,8 @@ export const filterAccountType = (filterCriteria) =>{
     filterCriteria.filterMapping.filter(x => {
       return (selection.programs.length === 0 || (selection.programs.includes(x.programCode) && x.accountType !== null))
     }).map(i => i.accountType)
-  )];console.log(filteredSet);
-  updateEnabledStatusCheckBox(filterCriteria.accountType, filteredSet, true);console.log(filterCriteria.accountType);
+  )];
+  updateEnabledStatusCheckBox(filterCriteria.accountType, filteredSet, true);
 };
 
 export const filterOwnerOperator = (filterCriteria) =>{
@@ -164,11 +164,11 @@ export const filterOwnerOperator = (filterCriteria) =>{
   updateEnabledStatusComboBox(filterCriteria.ownerOperator, filteredSet);
 };
 
-export const engageFilterLogic = (dataType, dataSubType, affectedFilter, filterCriteriaCloned, updateFilterCriteriaDispacher, removedFilter=false) =>{
+export const engageFilterLogic = (dataType, dataSubType, affectedFilter, filterCriteriaCloned, updateFilterCriteriaDispacher, allFilters=false) =>{
   const filters = FILTERS_MAP[dataType][dataSubType];
   populateSelections(filterCriteriaCloned);
   filters.forEach(obj =>{
-    if(removedFilter){
+    if(allFilters){
       if(obj.hasOwnProperty("updateFilter")){
         obj.updateFilter(filterCriteriaCloned);
       }
