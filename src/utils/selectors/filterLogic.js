@@ -15,7 +15,10 @@ const selection = {
   facilities: [],
   controlTechnologies: [],
   unitTypes: [],
-  sourceCategories: []
+  sourceCategories: [],
+  // acctNames: [],
+  // acctTypes: [],
+  // ownerOperator: []
 }
 
 const populateSelections = (filterCriteria) =>{
@@ -134,11 +137,38 @@ export const filterSourceCategory = (filterCriteria) =>{
   updateEnabledStatusComboBox(filterCriteria.sourceCategory, filteredSet);
 };
 
-export const engageFilterLogic = (dataType, dataSubType, affectedFilter, filterCriteriaCloned, updateFilterCriteriaDispacher, removedFilter=false) =>{
+export const filterAccountNameNumber = (filterCriteria) =>{
+  const filteredSet = [...new Set(
+    filterCriteria.filterMapping.filter(x => {
+      return (selection.programs.length === 0 || (selection.programs.includes(x.programCode) && x.accountNumber !== null))
+    }).map(i => i.accountNumber)
+  )];
+  updateEnabledStatusComboBox(filterCriteria.accountNameNumber, filteredSet);
+};
+
+export const filterAccountType = (filterCriteria) =>{
+  const filteredSet = [...new Set(
+    filterCriteria.filterMapping.filter(x => {
+      return (selection.programs.length === 0 || (selection.programs.includes(x.programCode) && x.accountType !== null))
+    }).map(i => i.accountType)
+  )];
+  updateEnabledStatusCheckBox(filterCriteria.accountType, filteredSet, true);
+};
+
+export const filterOwnerOperator = (filterCriteria) =>{
+  const filteredSet = [...new Set(
+    filterCriteria.filterMapping.filter(x => {
+      return (selection.programs.length === 0 || (selection.programs.includes(x.programCode) && x.ownerOperator !== null))
+    }).map(i => i.ownerOperator)
+  )];
+  updateEnabledStatusComboBox(filterCriteria.ownerOperator, filteredSet);
+};
+
+export const engageFilterLogic = (dataType, dataSubType, affectedFilter, filterCriteriaCloned, updateFilterCriteriaDispacher, allFilters=false) =>{
   const filters = FILTERS_MAP[dataType][dataSubType];
   populateSelections(filterCriteriaCloned);
   filters.forEach(obj =>{
-    if(removedFilter){
+    if(allFilters){
       if(obj.hasOwnProperty("updateFilter")){
         obj.updateFilter(filterCriteriaCloned);
       }

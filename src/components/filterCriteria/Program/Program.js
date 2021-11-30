@@ -36,7 +36,7 @@ export const Program = ({
 
   useEffect(()=>{
     if(applyFilterClicked){
-      if(dataType === "EMISSIONS"){
+      if(dataType === "EMISSIONS" || dataSubType === "Account Information" || dataSubType === "Holdings"){
         if(filterCriteria.filterMapping.length>0){
           engageFilterLogic(dataType, dataSubType, filterToApply, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispacher);
         }

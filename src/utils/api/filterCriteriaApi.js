@@ -66,8 +66,17 @@ export function getOwnerOperators(dataSubType) {
   }
 }
 
-export async function getFilterMapping(yearSet) {
-  const url = `${config.services.facilities.uri}/facilities/attributes/applicable?year=${yearSet}`;
+export async function getFilterMapping(dataType, dataSubType, yearSet=[]) {
+  let url;
+  if(dataType === "EMISSIONS"){
+    url = `${config.services.facilities.uri}/facilities/attributes/applicable?year=${yearSet}`;
+  }else if(dataType === "ALLOWANCE"){
+    if(dataSubType === "Holdings"){
+      url = `${config.services.account.uri}/allowance-holdings/attributes/applicable`;
+    }else if(dataSubType === "Account Information"){
+      url = `${config.services.account.uri}/accounts/attributes/applicable`;
+    }
+  }
   console.log(url);
   return axios
     .get(url)
