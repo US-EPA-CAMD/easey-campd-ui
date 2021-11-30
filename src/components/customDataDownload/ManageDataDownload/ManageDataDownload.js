@@ -16,13 +16,14 @@ import LoadingModal from '../../LoadingModal/LoadingModal';
 
 // *** STYLES (individual component)
 import './ManageDataDownload.scss';
-import { loadAllFilters, resetFilter } from '../../../store/actions/customDataDownload/filterCriteria';
+import { loadAllFilters, resetFilter, loadFilterMapping } from '../../../store/actions/customDataDownload/filterCriteria';
 
 const ManageDataDownload = ({
   selectedDataType,
   updateSelectedDataTypeDispatcher,
   updateSelectedDataSubTypeDispatcher,
   removeAppliedFiltersDispatcher,
+  loadFilterMappingDispatcher,
   resetFilterDispatcher,
   appliedFilters,
   loadAllFiltersDispatcher,
@@ -107,8 +108,12 @@ const ManageDataDownload = ({
   };
 
   const handleApplyButtonClick = () => {
+    const dataSubType = getSelectedDataSubType(constants.DATA_SUBTYPES_MAP[selectedDataType]);
     if (selectedDataType !== '' && selectedDataSubtype !== '') {
-      loadAllFiltersDispatcher(selectedDataType, getSelectedDataSubType(constants.DATA_SUBTYPES_MAP[selectedDataType]), filterCriteria);
+      if(selectedDataType !== "EMISSIONS" && selectedDataType !== "COMPLIANCE" && dataSubType !== "Transactions"){
+        loadFilterMappingDispatcher(selectedDataType, dataSubType);
+      }
+      loadAllFiltersDispatcher(selectedDataType, dataSubType, filterCriteria);
       setDataTypeApplied(true);
       setDataSubtypeApplied(true);
       setAppliedDataType({
@@ -230,6 +235,8 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(loadAllFilters(dataType, dataSubType, filterCriteria)),
     resetFilterDispatcher: (filterToReset, resetAll) =>
       dispatch(resetFilter(filterToReset, resetAll)),
+    loadFilterMappingDispatcher: (dataType, dataSubType, years) =>
+      dispatch(loadFilterMapping(dataType, dataSubType, years)),
   };
 };
 
