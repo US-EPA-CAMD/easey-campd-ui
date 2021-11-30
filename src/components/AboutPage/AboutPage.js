@@ -322,7 +322,7 @@ const ProductUpdate = ({ release }) => {
 
 const AboutPage = () => {
   useEffect(() => {
-    document.title = 'About | CAMPD | US EPA';
+    document.title = 'About CAMPD | CAMPD | US EPA';
   }, []);
 
   metaAdder(
