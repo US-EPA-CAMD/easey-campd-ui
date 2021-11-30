@@ -351,9 +351,9 @@ const AboutPage = () => {
       </p>
 
       <p>
-        CAMPD provides current and historical data using REST APIs which are
-        directly will be accessible via the Clean Air Markets (CAM) API portal
-        in a future release.
+        CAMPD provides current and historical data using REST APIs which will be
+        accessible via the Clean Air Markets (CAM) API portal in a future
+        release.
       </p>
 
       <p>
