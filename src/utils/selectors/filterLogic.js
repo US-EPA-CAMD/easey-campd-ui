@@ -15,7 +15,10 @@ const selection = {
   facilities: [],
   controlTechnologies: [],
   unitTypes: [],
-  sourceCategories: []
+  sourceCategories: [],
+  // acctNames: [],
+  // acctTypes: [],
+  // ownerOperator: []
 }
 
 const populateSelections = (filterCriteria) =>{
@@ -55,8 +58,8 @@ export const filterStateTerritory = (filterCriteria) =>{
       (selection.unitTypes.length === 0 || selection.unitTypes.includes(x.unitTypeCode)) &&
       (selection.sourceCategories.length === 0 || selection.sourceCategories.includes(x.sourceCategoryDescription))
     }).map(i => i.state)
-  )];
-  updateEnabledStatusComboBox(filterCriteria.stateTerritory, filteredSet);
+  )];//console.log(filteredSet);
+  updateEnabledStatusComboBox(filterCriteria.stateTerritory, filteredSet);//console.log(filterCriteria.stateTerritory);
 };
 
 export const filterFacility = (filterCriteria) =>{
@@ -70,8 +73,8 @@ export const filterFacility = (filterCriteria) =>{
       (selection.unitTypes.length === 0 || selection.unitTypes.includes(x.unitTypeCode)) &&
       (selection.sourceCategories.length === 0 || selection.sourceCategories.includes(x.sourceCategoryDescription))
     }).map(i => String(i.facilityId))
-  )];
-  updateEnabledStatusComboBox(filterCriteria.facility, filteredSet);
+  )];//console.log(filteredSet);
+  updateEnabledStatusComboBox(filterCriteria.facility, filteredSet);//console.log(filterCriteria.facility);
 };
 
 export const filterUnitType = (filterCriteria) =>{
@@ -132,6 +135,33 @@ export const filterSourceCategory = (filterCriteria) =>{
     }).map(i => String(i.sourceCategoryDescription))
   )];
   updateEnabledStatusComboBox(filterCriteria.sourceCategory, filteredSet);
+};
+
+export const filterAccountNameNumber = (filterCriteria) =>{
+  const filteredSet = [...new Set(
+    filterCriteria.filterMapping.filter(x => {
+      return (selection.programs.length === 0 || (selection.programs.includes(x.programCode) && x.accountNumber !== null))
+    }).map(i => i.accountNumber)
+  )];
+  updateEnabledStatusComboBox(filterCriteria.accountNameNumber, filteredSet);
+};
+
+export const filterAccountType = (filterCriteria) =>{
+  const filteredSet = [...new Set(
+    filterCriteria.filterMapping.filter(x => {
+      return (selection.programs.length === 0 || (selection.programs.includes(x.programCode) && x.accountType !== null))
+    }).map(i => i.accountType)
+  )];console.log(filteredSet);
+  updateEnabledStatusCheckBox(filterCriteria.accountType, filteredSet, true);console.log(filterCriteria.accountType);
+};
+
+export const filterOwnerOperator = (filterCriteria) =>{
+  const filteredSet = [...new Set(
+    filterCriteria.filterMapping.filter(x => {
+      return (selection.programs.length === 0 || (selection.programs.includes(x.programCode) && x.ownerOperator !== null))
+    }).map(i => i.ownerOperator)
+  )];
+  updateEnabledStatusComboBox(filterCriteria.ownerOperator, filteredSet);
 };
 
 export const engageFilterLogic = (dataType, dataSubType, affectedFilter, filterCriteriaCloned, updateFilterCriteriaDispacher, removedFilter=false) =>{
