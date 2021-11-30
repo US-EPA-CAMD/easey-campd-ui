@@ -16,12 +16,14 @@ import LoadingModal from '../../LoadingModal/LoadingModal';
 
 // *** STYLES (individual component)
 import './ManageDataDownload.scss';
-import { loadAllFilters, resetFilter, loadFilterMapping } from '../../../store/actions/customDataDownload/filterCriteria';
+import { loadAllFilters, resetFilter, loadFilterMapping, updateFilterCriteria } from '../../../store/actions/customDataDownload/filterCriteria';
+import { engageFilterLogic } from '../../../utils/selectors/filterLogic';
 
 const ManageDataDownload = ({
   selectedDataType,
   updateSelectedDataTypeDispatcher,
   updateSelectedDataSubTypeDispatcher,
+  updateFilterCriteriaDispacher,
   removeAppliedFiltersDispatcher,
   loadFilterMappingDispatcher,
   resetFilterDispatcher,
@@ -50,6 +52,17 @@ const ManageDataDownload = ({
   const [selectedFilter, setSelectedFilter] = useState('');
   const [activeFilter, setActiveFilter] = useState(null);
   const [filterClickRef, setFilterClickRef] = useState(null);
+  const [applyClicked, setApplyClicked] = useState(false);
+
+  useEffect(()=>{
+    const dataSubType = getSelectedDataSubType(constants.DATA_SUBTYPES_MAP[selectedDataType]);
+    if(applyClicked && loading === 0){
+      if(selectedDataType !== "EMISSIONS" && (dataSubType === "Account Information" || dataSubType === "Holdings")){
+        engageFilterLogic(selectedDataType, dataSubType, null, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispacher, true);
+      }
+      setApplyClicked(false);
+    }// eslint-disable-next-line react-hooks/exhaustive-deps
+  },[applyClicked, loading])
 
   useEffect(() => {
     if (
@@ -108,6 +121,7 @@ const ManageDataDownload = ({
   };
 
   const handleApplyButtonClick = () => {
+    setApplyClicked(true);
     const dataSubType = getSelectedDataSubType(constants.DATA_SUBTYPES_MAP[selectedDataType]);
     if (selectedDataType !== '' && selectedDataSubtype !== '') {
       if(selectedDataType !== "EMISSIONS" && selectedDataType !== "COMPLIANCE" && dataSubType !== "Transactions"){
@@ -229,6 +243,8 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(updateSelectedDataType(dataType)),
     updateSelectedDataSubTypeDispatcher: (dataSubType) =>
       dispatch(updateSelectedDataSubType(dataSubType)),
+    updateFilterCriteriaDispacher: (filterCriteria) => 
+      dispatch(updateFilterCriteria(filterCriteria)),
     removeAppliedFiltersDispatcher: (removedFilter, removeAll) =>
       dispatch(removeAppliedFilter(removedFilter, removeAll)),
     loadAllFiltersDispatcher: (dataType, dataSubType, filterCriteria) =>
