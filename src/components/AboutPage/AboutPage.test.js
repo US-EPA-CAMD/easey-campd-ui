@@ -1,10 +1,8 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 
-import AboutPage, {releases} from './AboutPage';
-
-
+import AboutPage, { releases } from './AboutPage';
 
 describe('About Page Component', () => {
   test('should render content without error', () => {
