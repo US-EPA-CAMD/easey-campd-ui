@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 
 import {
-  loadAccountNameNumbers,
+  updateFilterCriteria,
   updateAccountNameNumberSelection,
 } from '../../../store/actions/customDataDownload/filterCriteria';
 import {
@@ -14,34 +14,40 @@ import {
 } from '../../../store/actions/customDataDownload/customDataDownload';
 import { isAddedToFilters } from '../../../utils/selectors/general';
 import MultiSelectCombobox from '../../MultiSelectCombobox/MultiSelectCombobox';
+import { engageFilterLogic } from "../../../utils/selectors/filterLogic";
 
 const AccountNameNumber = ({
   accountNameNumber,
   appliedFilters,
-  loadAccountNameNumbersDispatcher,
   updateAccountNameNumberSelectionDispacher,
   addAppliedFilterDispatcher,
   removeAppliedFilterDispatcher,
-  loading,
   closeFlyOutHandler,
-  renderedHandler
+  renderedHandler,
+  dataType,
+  dataSubType,
+  filterCriteria,
+  updateFilterCriteriaDispacher
 }) => {
-  const [_accountNameNumber, setAccountNameNumber] = useState(
-    JSON.parse(JSON.stringify(accountNameNumber))
-  );
-
+  const [_accountNameNumber, setAccountNameNumber] = useState(JSON.parse(JSON.stringify(accountNameNumber)));
+  const [applyFilterClicked, setApplyFilterClicked] = useState(false);
   const filterToApply = 'Account Name/Number';
 
-  useEffect(() => {
-    if (accountNameNumber.length === 0) {
-      loadAccountNameNumbersDispatcher();
-    }else{
-      if(_accountNameNumber.length===0){
-        setAccountNameNumber(JSON.parse(JSON.stringify(accountNameNumber)));
-      }
+  useEffect(()=>{
+    if(_accountNameNumber.length > 0){
       renderedHandler();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }// eslint-disable-next-line react-hooks/exhaustive-deps
+  },[_accountNameNumber]);
+
+  useEffect(()=>{
+    if(applyFilterClicked){
+      if(dataSubType === "Account Information" || dataSubType === "Holdings"){
+        if(filterCriteria.filterMapping.length>0){
+          engageFilterLogic(dataType, dataSubType, filterToApply, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispacher);
+        }
+      }
+      closeFlyOutHandler();
+    }// eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accountNameNumber]);
 
   const handleApplyFilter = () => {
@@ -56,7 +62,7 @@ const AccountNameNumber = ({
         values: selection.map((e) => e.label),
       });
     }
-    closeFlyOutHandler();
+    setApplyFilterClicked(true);
   };
 
   const onChangeUpdate = (id, updateType) => {
@@ -78,7 +84,7 @@ const AccountNameNumber = ({
         />
         <hr />
       </div>
-      {accountNameNumber.length > 0 && loading === 0 && (
+      {accountNameNumber.length > 0 && (
         <>
           <div className="margin-x-2">
             <MultiSelectCombobox
@@ -104,9 +110,6 @@ const AccountNameNumber = ({
           </div>
         </>
       )}
-      {loading > 0 && accountNameNumber.length === 0 && (
-        <span className="font-alt-sm text-bold margin-x-2">Loading...</span>
-      )}
     </>
   );
 };
@@ -115,19 +118,19 @@ const mapStateToProps = (state) => {
   return {
     accountNameNumber: state.filterCriteria.accountNameNumber,
     appliedFilters: state.customDataDownload.appliedFilters,
-    loading: state.apiCallsInProgress,
+    dataType: state.customDataDownload.dataType,
+    dataSubType: state.customDataDownload.dataSubType,
+    filterCriteria: state.filterCriteria,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loadAccountNameNumbersDispatcher: () => dispatch(loadAccountNameNumbers()),
-    updateAccountNameNumberSelectionDispacher: (accountNameNumberSelection) =>
+    updateAccountNameNumberSelectionDispacher: (accountNameNumberSelection) => 
       dispatch(updateAccountNameNumberSelection(accountNameNumberSelection)),
-    addAppliedFilterDispatcher: (filterToApply) =>
-      dispatch(addAppliedFilter(filterToApply)),
-    removeAppliedFilterDispatcher: (removedFilter) =>
-      dispatch(removeAppliedFilter(removedFilter)),
+    addAppliedFilterDispatcher: (filterToApply) => dispatch(addAppliedFilter(filterToApply)),
+    removeAppliedFilterDispatcher: (removedFilter) =>dispatch(removeAppliedFilter(removedFilter)),
+    updateFilterCriteriaDispacher: (filterCriteria) => dispatch(updateFilterCriteria(filterCriteria)),
   };
 };
 
