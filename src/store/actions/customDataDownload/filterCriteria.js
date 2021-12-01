@@ -327,11 +327,11 @@ export function loadFilterMappingSuccess(filterMapping) {
   };
 }
 
-export function loadFilterMapping(yearsArray) {
+export function loadFilterMapping(dataType, dataSubType, yearsArray=[]) {
   return (dispatch) => {
     dispatch(beginApiCall());
     return filterCriteriaApi
-      .getFilterMapping(getPipeDelimitedYears(yearsArray))
+      .getFilterMapping(dataType, dataSubType, getPipeDelimitedYears(yearsArray))
       .then((res) => {
         dispatch(loadFilterMappingSuccess(res.data));
       })

@@ -1,3 +1,5 @@
+import * as filterLogic from "../selectors/filterLogic";
+
 export const ALLOWANCES_DATA_SUBTYPES = [
   { value: '', label: '- Select -' },
   { value: 1, label: 'Account Information', service: 'accounts/attributes', required: ['none'] },
@@ -6,12 +8,18 @@ export const ALLOWANCES_DATA_SUBTYPES = [
 ];
 
 export const ACCOUNT_INFO_FILTERS = [
-  { value: 'Program', stateVar: 'program', label: 'PROGRAM (Optional)' },
-  { value: 'Account Type', stateVar:'accountType', label: 'ACCOUNT TYPE (Optional)' },
-  { value: 'Account Name/Number', stateVar: 'accountNameNumber', label: 'ACCOUNT NAME/NUMBER (Optional)' },
-  { value: 'Facility', stateVar: 'facility', label: 'FACILITY (Optional)' },
-  { value: 'Owner/Operator', stateVar:'ownerOperator', label: 'OWNER/OPERATOR (Optional)' },
-  { value: 'State/Territory', stateVar: 'stateTerritory', label: 'STATE/TERRITORY (Optional)' },
+  { value: 'Program', stateVar: 'program', label: 'PROGRAM (Optional)',
+    updateFilter: (filterCriteria) =>  filterLogic.filterProgram(filterCriteria) },
+  { value: 'Account Type', stateVar:'accountType', label: 'ACCOUNT TYPE (Optional)',
+    updateFilter: (filterCriteria) =>  filterLogic.filterAccountType(filterCriteria) },
+  { value: 'Account Name/Number', stateVar: 'accountNameNumber', label: 'ACCOUNT NAME/NUMBER (Optional)',
+    updateFilter: (filterCriteria) =>  filterLogic.filterAccountNameNumber(filterCriteria) },
+  { value: 'Facility', stateVar: 'facility', label: 'FACILITY (Optional)', 
+    updateFilter: (filterCriteria) =>  filterLogic.filterFacility(filterCriteria) },
+  { value: 'Owner/Operator', stateVar:'ownerOperator', label: 'OWNER/OPERATOR (Optional)',
+    updateFilter: (filterCriteria) =>  filterLogic.filterOwnerOperator(filterCriteria) },
+  { value: 'State/Territory', stateVar: 'stateTerritory', label: 'STATE/TERRITORY (Optional)',
+    updateFilter: (filterCriteria) =>  filterLogic.filterStateTerritory(filterCriteria) },
 ];
 
 export const ALLOWANCE_HOLDINGS_FILTERS = [

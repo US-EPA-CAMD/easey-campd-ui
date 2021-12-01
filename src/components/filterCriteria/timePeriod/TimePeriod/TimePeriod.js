@@ -185,8 +185,8 @@ export const TimePeriod = ({
   };
 
   const updateFilterMapping = () =>{
-    showYear? loadFilterMappingDispatcher(getTimePeriodYears(null, null, formState.year)) :
-      loadFilterMappingDispatcher(getTimePeriodYears(formatDateToApi(formState.startDate), formatDateToApi(formState.endDate)));
+    showYear? loadFilterMappingDispatcher(dataType, dataSubType, getTimePeriodYears(null, null, formState.year)) :
+      loadFilterMappingDispatcher(dataType, dataSubType, getTimePeriodYears(formatDateToApi(formState.startDate), formatDateToApi(formState.endDate)));
   }
 
   const verifyFilterLogic = () =>{
@@ -385,8 +385,8 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(addAppliedFilter(filterToApply)),
     removeAppliedFiltersDispatcher: (removedFilter, removeAll) =>
       dispatch(removeAppliedFilter(removedFilter, removeAll)),
-    loadFilterMappingDispatcher: (years) =>
-      dispatch(loadFilterMapping(years)),
+    loadFilterMappingDispatcher: (dataType, dataSubType, years) =>
+      dispatch(loadFilterMapping(dataType, dataSubType, years)),
     resetFilterDispacher: (filter, resetAll) =>
       dispatch(resetFilter(filter, resetAll)),
   };
