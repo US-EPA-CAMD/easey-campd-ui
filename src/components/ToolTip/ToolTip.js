@@ -1,8 +1,20 @@
 import React from "react";
-import "./ToolTip.scss";
+import "./Tooltip.scss";
 
-const ToolTip = (props) => {
+const Tooltip = (props) => {
+  let timeout;
   const [show, setShow] = React.useState(false);
+
+  const showTooltip = () => {
+    timeout = setTimeout(() => {
+      setShow(true);
+    }, 500);
+  };
+
+  const hideTooltip = () => {
+    clearInterval(timeout);
+    setShow(false);
+  };
 
   return (
     <div
@@ -11,10 +23,10 @@ const ToolTip = (props) => {
       aria-live="assertive"
       tabIndex="0"
       aria-label={props.content}
-      onMouseEnter={() => setShow(true)}
-      onMouseLeave={() => setShow(false)}
-      onFocus={() => setShow(true)}
-      onBlur={() => setShow(false)}
+      onMouseEnter={showTooltip}
+      onMouseLeave={hideTooltip}
+      onFocus={showTooltip}
+      onBlur={hideTooltip}
     >
       {props.children}
       {show && (
@@ -26,4 +38,4 @@ const ToolTip = (props) => {
   );
 };
 
-export default ToolTip;
+export default Tooltip;

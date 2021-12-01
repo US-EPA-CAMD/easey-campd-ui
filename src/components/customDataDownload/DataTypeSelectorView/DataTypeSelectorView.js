@@ -5,7 +5,7 @@ import { Help } from '@material-ui/icons';
 
 import * as constants from '../../../utils/constants/customDataDownload';
 import { initcap } from '../../../utils/selectors/general'
-import ToolTip from '../../ToolTip/ToolTip';
+import Tooltip from '../../Tooltip/Tooltip';
 
 const DataTypeSelectorView = ({
   selectedDataType,
@@ -25,9 +25,9 @@ const DataTypeSelectorView = ({
     <>
       <div className="panel-header padding-top-3 padding-bottom-3 padding-left-2">
         <h2>Data Type</h2>
-        <ToolTip content="Data type and subtype can be changed at any time.">
+        <Tooltip content="Data type and subtype can be changed at any time.">
           <Help className=" text-primary margin-left-1" />
-        </ToolTip>
+        </Tooltip>
       </div>
       <div className="border-bottom-1px border-base-light clearfix padding-y-1 padding-x-2">
         <div className="grid-row display-flex flex-align-center">
