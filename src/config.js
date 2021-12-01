@@ -1,6 +1,6 @@
 const config = {
   app: {
-    apiKey: process.env.API_KEY || "TFarSUr2fc0OhhOyEmmOSU595tCQGhj1hoTFhNHb",
+    apiKey: process.env.API_KEY || "PXPWlQGB3wKXotkWN1PbSwbSoM7CoWW0ZMPWYtfc",
     path: process.env.REACT_APP_EASEY_CAMPD_UI_PATH || "/",
     env: process.env.REACT_APP_EASEY_CAMPD_UI_ENV || "local-dev",
     version: process.env.REACT_APP_EASEY_CAMPD_UI_VERSION || "v0.0.0",
