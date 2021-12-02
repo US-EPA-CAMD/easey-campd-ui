@@ -15,17 +15,17 @@ const Layout = (props) => {
   );
 
   return (
-    <div className="react-transition fade-in">
-      <a id="skip-nav" className="skip-to-content-anchor" href="#main-content">
+    <div className="react-transition fade-in padding-bottom-5">
+      <a id="skip-nav" className="skip-to-content-anchor" href={"#main"}>
         Skip to Content
       </a>
       <div className="topHeader">
         <Header environment={config.app.env} />
         <SubHeader />
       </div>
-      <div className="mainContent" role="main">
+      <main className="mainContent" id="main" role="main">
         {childrenWithProps}
-      </div>
+      </main>
       <div className="position-fixed bottom-0 width-full">
         <AppVersion
           version={config.app.version}
