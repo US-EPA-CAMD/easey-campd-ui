@@ -144,7 +144,8 @@ export const filterSourceCategory = (filterCriteria) =>{
 export const filterAccountNameNumber = (filterCriteria) =>{
   const filteredSet = [...new Set(
     filterCriteria.filterMapping.filter(x => {
-      return (selection.programs.length === 0 || (selection.programs.includes(x.programCode) && x.accountNumber !== null))
+      return (selection.programs.length === 0 || (selection.programs.includes(x.programCode) && x.accountNumber !== null)) &&
+      (selection.facilities.length === 0 || selection.facilities.includes(x.facilityId))
     }).map(i => i.accountNumber)
   )];
   updateEnabledStatusComboBox(filterCriteria.accountNameNumber, filteredSet);
@@ -154,7 +155,8 @@ export const filterAccountType = (filterCriteria) =>{
   const filteredSet = [...new Set(
     filterCriteria.filterMapping.filter(x => {
       return (selection.programs.length === 0 || (selection.programs.includes(x.programCode) && x.accountType !== null)) &&
-      (selection.acctNumbers.length === 0 || selection.acctNumbers.includes(x.accountNumber))
+      (selection.acctNumbers.length === 0 || selection.acctNumbers.includes(x.accountNumber)) &&
+      (selection.facilities.length === 0 || selection.facilities.includes(x.facilityId))
     }).map(i => i.accountType)
   )];
   updateEnabledStatusCheckBox(filterCriteria.accountType, filteredSet, true);
@@ -164,7 +166,8 @@ export const filterOwnerOperator = (filterCriteria) =>{
   const filteredSet = [...new Set(
     filterCriteria.filterMapping.filter(x => {
       return (selection.programs.length === 0 || (selection.programs.includes(x.programCode) && x.ownerOperator !== null)) &&
-      (selection.acctNumbers.length === 0 || selection.acctNumbers.includes(x.accountNumber))
+      (selection.acctNumbers.length === 0 || selection.acctNumbers.includes(x.accountNumber)) &&
+      (selection.facilities.length === 0 || selection.facilities.includes(x.facilityId))
     }).map(i => i.ownerOperator)
   )];
   updateEnabledStatusComboBox(filterCriteria.ownerOperator, filteredSet);
