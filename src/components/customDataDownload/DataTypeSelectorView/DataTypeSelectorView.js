@@ -1,10 +1,11 @@
 import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, Dropdown, Label } from '@trussworks/react-uswds';
-import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
+import { Help } from '@material-ui/icons';
+
 
 import * as constants from '../../../utils/constants/customDataDownload';
 import { initcap } from '../../../utils/selectors/general'
+import Tooltip from '../../Tooltip/Tooltip';
 
 const DataTypeSelectorView = ({
   selectedDataType,
@@ -24,11 +25,9 @@ const DataTypeSelectorView = ({
     <>
       <div className="panel-header padding-top-3 padding-bottom-3 padding-left-2">
         <h2>Data Type</h2>
-        <FontAwesomeIcon
-          icon={faQuestionCircle}
-          className="text-primary font-body-md question-icon"
-          title="Data type and subtype can be changed at any time"
-        />
+        <Tooltip content="Data type and subtype can be changed at any time.">
+          <Help className=" text-primary margin-left-1" />
+        </Tooltip>
       </div>
       <div className="border-bottom-1px border-base-light clearfix padding-y-1 padding-x-2">
         <div className="grid-row display-flex flex-align-center">
