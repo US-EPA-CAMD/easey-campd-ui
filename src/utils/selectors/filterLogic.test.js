@@ -1228,9 +1228,302 @@ initialState.filterCriteria.filterMapping = [{"year":2019,"programCode":"ARP","f
 {"year":2019,"programCode":"ARP","facilityId":3,"state":"AL","unitTypeCode":"T","fuelTypeCode":"PNG","controlCode":"DSI"}];
 
 describe('Emissions Filter logic functions', () => {
-  it('engages filter logic for the specified parameters', () => {
+  it('engages filter logic for emissions Facility/Unit Attributes', () => {
     const clonedFilterCritera = JSON.parse(JSON.stringify(initialState.filterCriteria));
     engageFilterLogic("EMISSIONS", "Facility/Unit Attributes", "Time Period", clonedFilterCritera, updateFilterCriteria);
+    expect(clonedFilterCritera).not.toBe(initialState.filterCriteria);
+  });
+  it('engages filter logic for allowance holdings', () => {
+    initialState.filterCriteria.filterMapping = [
+  {
+    "vintageYear": "1995",
+    "programCode": "ARP",
+    "accountNumber": "000000000030",
+    "accountType": "EPA Reserve Account",
+    "facilityId": null,
+    "state": null,
+    "ownerOperator": null
+  },
+  {
+    "vintageYear": "1995",
+    "programCode": "ARP",
+    "accountNumber": "000000000031",
+    "accountType": "EPA Reserve Account",
+    "facilityId": null,
+    "state": null,
+    "ownerOperator": null
+  },
+  {
+    "vintageYear": "1995",
+    "programCode": "ARP",
+    "accountNumber": "000000000032",
+    "accountType": "EPA Reserve Account",
+    "facilityId": null,
+    "state": null,
+    "ownerOperator": null
+  },
+  {
+    "vintageYear": "1995",
+    "programCode": "ARP",
+    "accountNumber": "000000000033",
+    "accountType": "EPA Reserve Account",
+    "facilityId": null,
+    "state": null,
+    "ownerOperator": null
+  },
+  {
+    "vintageYear": "1995",
+    "programCode": "ARP",
+    "accountNumber": "000000000034",
+    "accountType": "EPA Reserve Account",
+    "facilityId": null,
+    "state": null,
+    "ownerOperator": null
+  },
+  {
+    "vintageYear": "1995",
+    "programCode": "ARP",
+    "accountNumber": "000000000039",
+    "accountType": "EPA Reserve Account",
+    "facilityId": null,
+    "state": null,
+    "ownerOperator": null
+  },
+  {
+    "vintageYear": "1995",
+    "programCode": "ARP",
+    "accountNumber": "000000000043",
+    "accountType": "Surrender Account",
+    "facilityId": null,
+    "state": null,
+    "ownerOperator": null
+  },
+  {
+    "vintageYear": "1995",
+    "programCode": "ARP",
+    "accountNumber": "000054FACLTY",
+    "accountType": "Facility Account",
+    "facilityId": 54,
+    "state": "KY",
+    "ownerOperator": "East Kentucky Power Cooperative"
+  },
+  {
+    "vintageYear": "1995",
+    "programCode": "ARP",
+    "accountNumber": "002330FACLTY",
+    "accountType": "Facility Account",
+    "facilityId": 2330,
+    "state": "NV",
+    "ownerOperator": "Sierra Pacific Power Company"
+  },
+  {
+    "vintageYear": "1995",
+    "programCode": "ARP",
+    "accountNumber": "002336FACLTY",
+    "accountType": "Facility Account",
+    "facilityId": 2336,
+    "state": "NV",
+    "ownerOperator": "Sierra Pacific Power Company"
+  },
+  {
+    "vintageYear": "1995",
+    "programCode": "ARP",
+    "accountNumber": "004050FACLTY",
+    "accountType": "Facility Account",
+    "facilityId": 4050,
+    "state": "WI",
+    "ownerOperator": "Wisconsin Power & Light Company"
+  },
+  {
+    "vintageYear": "1995",
+    "programCode": "ARP",
+    "accountNumber": "006213FACLTY",
+    "accountType": "Facility Account",
+    "facilityId": 6213,
+    "state": "IN",
+    "ownerOperator": "Hoosier Energy REC, Inc."
+  },
+  {
+    "vintageYear": "1995",
+    "programCode": "ARP",
+    "accountNumber": "007335FACLTY",
+    "accountType": "Facility Account",
+    "facilityId": 7335,
+    "state": "IN",
+    "ownerOperator": "Indiana Municipal Power Agency"
+  },
+  {
+    "vintageYear": "1995",
+    "programCode": "ARP",
+    "accountNumber": "007336FACLTY",
+    "accountType": "Facility Account",
+    "facilityId": 7336,
+    "state": "IN",
+    "ownerOperator": "Indiana Municipal Power Agency"
+  },
+  {
+    "vintageYear": "1995",
+    "programCode": "ARP",
+    "accountNumber": "007782FACLTY",
+    "accountType": "Facility Account",
+    "facilityId": 7782,
+    "state": "OH",
+    "ownerOperator": "American Municipal Power - Ohio"
+  },
+  {
+    "vintageYear": "1995",
+    "programCode": "ARP",
+    "accountNumber": "007783FACLTY",
+    "accountType": "Facility Account",
+    "facilityId": 7783,
+    "state": "OH",
+    "ownerOperator": "American Municipal Power - Ohio"
+  },
+  {
+    "vintageYear": "1995",
+    "programCode": "ARP",
+    "accountNumber": "007829FACLTY",
+    "accountType": "Facility Account",
+    "facilityId": 7829,
+    "state": "GA",
+    "ownerOperator": "Oglethorpe Power Corporation"
+  },
+  {
+    "vintageYear": "1995",
+    "programCode": "ARP",
+    "accountNumber": "007916FACLTY",
+    "accountType": "Facility Account",
+    "facilityId": 7916,
+    "state": "GA",
+    "ownerOperator": "Oglethorpe Power Corporation"
+  },
+  {
+    "vintageYear": "1995",
+    "programCode": "ARP",
+    "accountNumber": "055015FACLTY",
+    "accountType": "Facility Account",
+    "facilityId": 55015,
+    "state": "TX",
+    "ownerOperator": "Phillips 66 Company"
+  },
+  {
+    "vintageYear": "1995",
+    "programCode": "ARP",
+    "accountNumber": "055540FACLTY",
+    "accountType": "Facility Account",
+    "facilityId": 55540,
+    "state": "CA",
+    "ownerOperator": "Chula Vista Energy Center, LLC"
+  },
+  {
+    "vintageYear": "1995",
+    "programCode": "ARP",
+    "accountNumber": "999900000001",
+    "accountType": "General Account",
+    "facilityId": null,
+    "state": null,
+    "ownerOperator": "Babcock & Wilcox"
+  },
+  {
+    "vintageYear": "1995",
+    "programCode": "ARP",
+    "accountNumber": "999900000004",
+    "accountType": "General Account",
+    "facilityId": null,
+    "state": null,
+    "ownerOperator": "Ralston, Paul E"
+  },
+  {
+    "vintageYear": "1995",
+    "programCode": "ARP",
+    "accountNumber": "999900000012",
+    "accountType": "General Account",
+    "facilityId": null,
+    "state": null,
+    "ownerOperator": "Morrison, Marks O"
+  },
+  {
+    "vintageYear": "1995",
+    "programCode": "ARP",
+    "accountNumber": "999900000018",
+    "accountType": "General Account",
+    "facilityId": null,
+    "state": null,
+    "ownerOperator": "Heller, James"
+  },
+  {
+    "vintageYear": "1995",
+    "programCode": "ARP",
+    "accountNumber": "999900000028",
+    "accountType": "General Account",
+    "facilityId": null,
+    "state": null,
+    "ownerOperator": "Brady, Nancylee"
+  },
+  {
+    "vintageYear": "1995",
+    "programCode": "ARP",
+    "accountNumber": "999900000034",
+    "accountType": "General Account",
+    "facilityId": null,
+    "state": null,
+    "ownerOperator": "Hoosier Energy REC, Inc."
+  },
+  {
+    "vintageYear": "1995",
+    "programCode": "ARP",
+    "accountNumber": "999900000036",
+    "accountType": "General Account",
+    "facilityId": null,
+    "state": null,
+    "ownerOperator": "Devlin, Theodore E"
+  },
+  {
+    "vintageYear": "1995",
+    "programCode": "ARP",
+    "accountNumber": "999900000038",
+    "accountType": "General Account",
+    "facilityId": null,
+    "state": null,
+    "ownerOperator": "Van Horn, Andrew J"
+  },
+  {
+    "vintageYear": "1995",
+    "programCode": "ARP",
+    "accountNumber": "999900000041",
+    "accountType": "General Account",
+    "facilityId": null,
+    "state": null,
+    "ownerOperator": "Niemeyer, Victor"
+  },
+  {
+    "vintageYear": "1995",
+    "programCode": "ARP",
+    "accountNumber": "999900000044",
+    "accountType": "General Account",
+    "facilityId": null,
+    "state": null,
+    "ownerOperator": "BGC Environmental Brokerage Services, L.P."
+  }
+    ];
+    initialState.filterCriteria.timePeriod.year.yearArray = [];
+    initialState.filterCriteria.ownerOperator = [{"ownerOperator":"21st Securities","ownType":"OWN"},{"ownerOperator":"5380 Frontier Ave Energy Company LLC","ownType":"OPR"},
+    {"ownerOperator":"5380 Frontier Ave Energy Company LLC","ownType":"OWN"},{"ownerOperator":"A-55, Inc.","ownType":"OWN"},
+    {"ownerOperator":"ABB Energy Ventures, Inc.","ownType":"OPR"},{"ownerOperator":"ABB Energy Ventures, Inc.","ownType":"OWN"},{"ownerOperator":"Abbott, Martha","ownType":"OWN"},
+    {"ownerOperator":"Abraczinskas, Michael","ownType":"OWN"},{"ownerOperator":"ACT Commodities Inc.","ownType":"OWN"},{"ownerOperator":"AG Energy, LP","ownType":"OPR"},
+    {"ownerOperator":"Adirondack Council","ownType":"OWN"},{"ownerOperator":"ADM Company","ownType":"OWN"},{"ownerOperator":"AdvanSix Resins and Chemicals, LLC","ownType":"OPR"},
+    {"ownerOperator":"AdvanSix Resins and Chemicals, LLC","ownType":"OWN"},{"ownerOperator":"AEP Generation Resources, Inc.","ownType":"OPR"},
+    {"ownerOperator":"AEP Generation Resources, Inc.","ownType":"OWN"},    {"ownerOperator":"Abby Ingram","ownType":"OWN"},{"ownerOperator":"Adams-Columbia Electric Cooperative","ownType":"OWN"},
+    {"ownerOperator":"AEP Texas Inc","ownType":"OWN"},{"ownerOperator":"AER NY-GEN, LLC","ownType":"OPR"},{"ownerOperator":"AER NY-GEN, LLC","ownType":"OWN"},
+    {"ownerOperator":"AES Corporation","ownType":"OPR"},{"ownerOperator":"AES Corporation","ownType":"OWN"},{"ownerOperator":"AES Ohio Generation, LLC","ownType":"OPR"},
+    {"ownerOperator":"AES Ohio Generation, LLC","ownType":"OWN"},{"ownerOperator":"African American Environmentalist Assoc","ownType":"OWN"}];
+    initialState.filterCriteria.facility.forEach((e)=>{
+      if(e.id==="3"){
+        e.selected = true;
+      }
+    });
+    const clonedFilterCritera = JSON.parse(JSON.stringify(initialState.filterCriteria));
+    engageFilterLogic("ALLOWANCE", "Holdings", "Facility", clonedFilterCritera, updateFilterCriteria);
     expect(clonedFilterCritera).not.toBe(initialState.filterCriteria);
   });
 
