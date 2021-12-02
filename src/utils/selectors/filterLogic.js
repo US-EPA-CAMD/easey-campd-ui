@@ -144,8 +144,7 @@ export const filterSourceCategory = (filterCriteria) =>{
 export const filterAccountNameNumber = (filterCriteria) =>{
   const filteredSet = [...new Set(
     filterCriteria.filterMapping.filter(x => {
-      return (selection.programs.length === 0 || (selection.programs.includes(x.programCode) && x.accountNumber !== null)) &&
-      (selection.acctNumbers.length === 0 || selection.acctNumbers.includes(x.accountNumber))
+      return (selection.programs.length === 0 || (selection.programs.includes(x.programCode) && x.accountNumber !== null))
     }).map(i => i.accountNumber)
   )];
   updateEnabledStatusComboBox(filterCriteria.accountNameNumber, filteredSet);
