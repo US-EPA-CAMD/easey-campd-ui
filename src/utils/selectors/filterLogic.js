@@ -154,10 +154,10 @@ export const filterAccountNameNumber = (filterCriteria) =>{
 export const filterAccountType = (filterCriteria) =>{
   const filteredSet = [...new Set(
     filterCriteria.filterMapping.filter(x => {
-      return (selection.programs.length === 0 || (selection.programs.includes(x.programCode) && x.accountType !== null)) &&
+      return (selection.programs.length === 0 || (selection.programs.includes(x.programCode) && x.accountTypeCode !== null)) &&
       (selection.acctNumbers.length === 0 || selection.acctNumbers.includes(x.accountNumber)) &&
       (selection.facilities.length === 0 || selection.facilities.includes(x.facilityId))
-    }).map(i => i.accountType)
+    }).map(i => i.accountTypeCode)
   )];
   updateEnabledStatusCheckBox(filterCriteria.accountType, filteredSet, true);
 };
