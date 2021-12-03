@@ -163,15 +163,11 @@ export const subHeaderMenuList = [
       { menu: 'Bulk Data Files', link: '/data/bulk-data-files' },
       { menu: 'CAM API', link: '#' },
     ],
-  },
+  },  
   {
-    label: 'ANALYSIS',
-    items: [{ menu: 'Coming Soon – View and download analyses', link: '#' }],
-  },
-  {
-    label: 'VISUALIZATION',
+    label: 'VISUALIZATION & ANALYSIS',
     items: [
-      { menu: 'Coming Soon – Visualize and interact with data', link: '#' },
+      { menu: 'Coming Soon', link: '#' },
     ],
   },
 ];
@@ -201,9 +197,5 @@ export const subHeaderUtilityList = [
         link: '#',
       },
     ],
-  },
-  {
-    label: 'Site Map',
-    items: [{ menu: 'notMenu', link: '#' }],
   },
 ];

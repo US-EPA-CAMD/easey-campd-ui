@@ -44,9 +44,10 @@ const SubHeader = () => {
       <Header
         className="padding-y-2 mobile-lg:padding-x-2 tablet:padding-x-4 widescreen:padding-x-10"
         style={{
-          backgroundImage: `url(${
-            process.env.PUBLIC_URL + '/images/header-bg.png'
-          })`,
+          backgroundImage:
+            pathname === '/'
+              ? `url(${process.env.PUBLIC_URL + '/images/header-bg.png'})`
+              : null,
           backgroundSize: 'cover',
           backgroundPosition: 'center top',
           alignSelf: 'top center',
@@ -57,7 +58,7 @@ const SubHeader = () => {
             <h1 className="display-inline-block text-white text-heavy desktop-lg:font-sans-3xl desktop:font-sans-2xl mobile-lg:font-sans-xl margin-0">
               CAMPD
             </h1>
-            <span className="display-none desktop:display-block desktop-lg:display-inline-block desktop-lg:margin-left-1 text-white text-normal font-sans-md width-card text-wrap">
+            <span className="display-none tablet:display-inline-block desktop:display-block desktop-lg:display-inline-block desktop-lg:margin-left-1 text-white text-normal font-sans-md width-card text-wrap">
               Clean Air Markets Program Data
             </span>
           </Title>

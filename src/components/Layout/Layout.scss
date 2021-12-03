@@ -36,3 +36,10 @@ div.row.column1 {
     margin: auto;
   }
 }
+
+.epa-header img {
+  @media (min-width: 87em) {
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
+}
