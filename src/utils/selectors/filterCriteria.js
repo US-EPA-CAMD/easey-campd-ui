@@ -85,11 +85,11 @@ export const getComboboxSelectedItems = (arr, number=false) =>{
   return arr.filter(e=>e.selected && e.enabled).map(el => number? Number(el.id) : el.id);
 };
 
-export const updateEnabledStatusCheckBox = (arry, filteredSet, description=false) =>{
+export const updateEnabledStatusCheckBox = (arry, filteredSet) =>{
   arry.forEach(el => {
     el.items.forEach(obj =>{
-      obj.enabled = description? filteredSet.map(i=>obj.description.toUpperCase().startsWith(i.toUpperCase())).includes(true) : filteredSet.includes(obj.id);
-      //obj.enabled = description? filteredSet.includes(obj.description) : filteredSet.includes(obj.id);
+      // obj.enabled = description? filteredSet.map(i=>obj.description.toUpperCase().startsWith(i.toUpperCase())).includes(true) : filteredSet.includes(obj.id);
+      obj.enabled = filteredSet.includes(obj.id);
     });
   });
 };
