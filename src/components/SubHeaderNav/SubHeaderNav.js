@@ -30,7 +30,7 @@ const SubHeaderNav = ({
     setCategorySelected(initialCategorySelected);
   };
 
-  const utilityStyle = isUtility ? { fontSize: '11px'} : null
+  const utilityStyle = isUtility ? { fontSize: '11px' } : { fontSize: '24px' };
 
   return (
     <PrimaryNav
@@ -81,9 +81,9 @@ const SubHeaderNav = ({
                 ))}
                 isOpen={navDropdownOpen[i]}
               />
-              {isUtility && (
+              {isUtility & (i !== menuList.length - 1) ? (
                 <span className="utility-divider" />
-              )}
+              ) : null}
               {categorySelected[i] === true && !isUtility ? (
                 <div className="menu-underline" />
               ) : null}
