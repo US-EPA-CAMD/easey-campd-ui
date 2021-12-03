@@ -1,6 +1,8 @@
 const config = {
   app: {
     apiKey: process.env.API_KEY || "PXPWlQGB3wKXotkWN1PbSwbSoM7CoWW0ZMPWYtfc",
+    googleAnalyticsEnabled: process.env.REACT_APP_GOOGLE_ANALYTICS_ENABLED || 'false',
+    googleAnalyticsContainerId: process.env.REACT_APP_GOOGLE_ANALYTICS_CONTAINER_ID || 'GTM-L8ZB',
     path: process.env.REACT_APP_EASEY_CAMPD_UI_PATH || "/",
     env: process.env.REACT_APP_EASEY_CAMPD_UI_ENV || "local-dev",
     version: process.env.REACT_APP_EASEY_CAMPD_UI_VERSION || "v0.0.0",
