@@ -113,7 +113,7 @@ const ContactUsPage = () => {
   );
 
   return (
-    <div className="contact-us-header margin-top-neg-3 desktop:margin-top-neg-4 widescreen:margin-top-neg-8 margin-bottom-9 mobile-lg:padding-x-2 tablet:padding-x-4 widescreen:padding-x-10 font-sans-sm text-base-darkest text-ls-1 line-height-sans-5">
+    <div className="contact-us-header padding-y-2 desktop:margin-top-neg-4 widescreen:margin-top-neg-8 mobile-lg:padding-x-2 tablet:padding-x-4 widescreen:padding-x-10 font-sans-sm text-base-darkest text-ls-1 line-height-sans-5">
       <ContactForm
         summary={summaryText}
         subjects={commentTypes}

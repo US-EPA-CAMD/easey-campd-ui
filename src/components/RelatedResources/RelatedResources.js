@@ -78,7 +78,7 @@ const RelatedResources = () => {
   ];
 
   return (
-    <div className="padding-top-2 padding-bottom-5 mobile-lg:padding-x-2 tablet:padding-x-4 widescreen:padding-x-10 font-sans-sm text-base-darkest text-ls-1 line-height-sans-5">
+    <div className="padding-y-2 mobile-lg:padding-x-2 tablet:padding-x-4 widescreen:padding-x-10 font-sans-sm text-base-darkest text-ls-1 line-height-sans-5">
       <h1 className="font-sans-2xl text-bold">Related Resources</h1>
       <p>
         EPA along with other federal agencies, provide additional data tools and
