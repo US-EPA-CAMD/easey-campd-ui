@@ -81,7 +81,7 @@ const SubHeaderNav = ({
                 ))}
                 isOpen={navDropdownOpen[i]}
               />
-              {isUtility & (i !== menuList.length - 1) ? (
+              {isUtility && (i !== menuList.length - 1) ? (
                 <span className="utility-divider" />
               ) : null}
               {categorySelected[i] === true && !isUtility ? (
