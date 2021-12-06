@@ -297,20 +297,20 @@ export const releases = [
 const ProductUpdate = ({ release }) => {
   return (
     <div key={release.title}>
-      <h3>What's new in {release.title}</h3>
+      <h4>What's new in {release.title}</h4>
       <p>{release.date}</p>
       <ul>
         {release.features.map((feature, i) => (
           <li key={i + feature}>{feature}</li>
         ))}
       </ul>
-      <h3>Bug fixes</h3>
+      <h4>Bug fixes</h4>
       <ul>
         {release.bugFixes.map((bug, i) => (
           <li key={i + bug}>{bug}</li>
         ))}
       </ul>
-      <h3>Upcoming Features</h3>
+      <h4>Upcoming Features</h4>
       <ul>
         {release.upcomingFeatures.map((feature, i) => (
           <li key={i + feature}>{feature}</li>
@@ -329,7 +329,7 @@ const AboutPage = () => {
     const accordionTitles = document.getElementsByClassName(
       'usa-accordion__heading'
     );
-    for (let el of accordionTitles) {
+    for (const el of accordionTitles) {
       const newTag = document.createElement('h3');
       const button = el.firstChild;
       newTag.append(button);
