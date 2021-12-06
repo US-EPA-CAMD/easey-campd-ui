@@ -11,5 +11,7 @@ applications:
       REACT_APP_EASEY_FACILITIES_API: https://((apiHost))/facility-mgmt
       REACT_APP_EASEY_EMISSIONS_API: https://((apiHost))/emissions-mgmt
       REACT_APP_EASEY_ACCOUNT_API: https://((apiHost))/account-mgmt
+      REACT_APP_GOOGLE_ANALYTICS_CONTAINER_ID: ((googleAnalyticsContainerId))
+      REACT_APP_GOOGLE_ANALYTICS_ENABLED: ((googleAnalyticsEnabled))
     routes:
       - route: ((host))
