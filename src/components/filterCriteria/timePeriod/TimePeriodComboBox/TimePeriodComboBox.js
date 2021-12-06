@@ -37,11 +37,7 @@ const TimePeriodComboBox = ({
     }
     const selection = yearsArray.filter(e=>e.selected)
     if(selection.length>0){
-      addAppliedFilterDispatcher({key:filterToApply, values: [
-        selection.map(e=>e.label).toString(),
-        'filter tag year value',
-      ]
-    })
+      addAppliedFilterDispatcher({key:filterToApply, values: selection.map(e=>e.label)})
     }
     closeFlyOutHandler();
   };

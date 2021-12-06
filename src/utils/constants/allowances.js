@@ -24,7 +24,8 @@ export const ACCOUNT_INFO_FILTERS = [
 
 export const ALLOWANCE_HOLDINGS_FILTERS = [
   ...ACCOUNT_INFO_FILTERS,
-  { value: 'Vintage Year', stateVar: 'vintageYear', label: 'VINTAGE YEAR (Optional)' },
+  { value: 'Vintage Year', stateVar: 'vintageYear', label: 'VINTAGE YEAR (Optional)',
+    updateFilter: (filterCriteria) =>  filterLogic.filterComboBoxYear(filterCriteria) },
 ];
 
 export const ALLOWANCE_TRANSACTIONS_FILTERS = [
