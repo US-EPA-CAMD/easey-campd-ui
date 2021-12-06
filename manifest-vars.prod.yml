@@ -2,4 +2,4 @@ host: campd.epa.gov
 apiHost: api.epa.gov/easey
 environment: production
 memory: 2048M
-googleAnalyticsEnabled: "true"Added API key, and Google Analytics to devops
+googleAnalyticsEnabled: "true"
