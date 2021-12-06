@@ -173,6 +173,17 @@ export const filterOwnerOperator = (filterCriteria) =>{
   updateEnabledStatusComboBox(filterCriteria.ownerOperator, filteredSet);
 };
 
+export const filterComboBoxYear = (filterCriteria) =>{
+  const filteredSet = [...new Set(
+    filterCriteria.filterMapping.filter(x => {
+      return (selection.programs.length === 0 || selection.programs.includes(x.programCode)) &&
+      (selection.acctNumbers.length === 0 || selection.acctNumbers.includes(x.accountNumber)) &&
+      (selection.facilities.length === 0 || selection.facilities.includes(x.facilityId))
+    }).map(i => i.vintageYear)
+  )];
+  updateEnabledStatusComboBox(filterCriteria.timePeriod.comboBoxYear, filteredSet);
+};
+
 export const engageFilterLogic = (dataType, dataSubType, affectedFilter, filterCriteriaCloned, updateFilterCriteriaDispacher, removedFilter=false) =>{
   const filters = FILTERS_MAP[dataType][dataSubType];
   populateSelections(filterCriteriaCloned);
