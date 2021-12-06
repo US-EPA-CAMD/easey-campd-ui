@@ -4,3 +4,5 @@ host: campd-dev.app.cloud.gov
 apiHost: api.epa.gov/easey/dev
 environment: development
 memory: 1024M
+googleAnalyticsContainerId: "GTM-L8ZB"
+googleAnalyticsEnabled: "false"
