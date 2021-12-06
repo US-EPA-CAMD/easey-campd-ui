@@ -55,17 +55,17 @@ const ManageDataDownload = ({
   const [filterClickRef, setFilterClickRef] = useState(null);
   const [applyClicked, setApplyClicked] = useState(false);
 
-  useEffect(()=>{console.log(filterCriteria.timePeriod.comboBoxYear); console.log("called");
+  useEffect(()=>{//console.log(filterCriteria.timePeriod.comboBoxYear); console.log("called");
     const dataSubType = getSelectedDataSubType(constants.DATA_SUBTYPES_MAP[selectedDataType]);
     if(applyClicked && loading === 0){
-      if(dataSubType === "Holdings" && filterCriteria.timePeriod.comboBoxYear.length === 0){console.log("updatetime");
+      if(dataSubType === "Holdings" && filterCriteria.timePeriod.comboBoxYear.length === 0){//console.log("updatetime");
         const distinctYears = [...new Set(filterCriteria.filterMapping.map(e=>e.vintageYear))];
         updateTimePeriodDispatcher({
           ...filterCriteria.timePeriod,
           comboBoxYear: distinctYears.map(year => {return {id:year, label:year, selected:false, enabled:true}})
         });
       }
-      else if(selectedDataType !== "EMISSIONS" && (dataSubType === "Account Information" || dataSubType === "Holdings")){console.log("engagedLogic");
+      else if(selectedDataType !== "EMISSIONS" && (dataSubType === "Account Information" || dataSubType === "Holdings")){//console.log("engagedLogic");
         engageFilterLogic(selectedDataType, dataSubType, null, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispacher, true);
         setApplyClicked(false);
       }
