@@ -324,6 +324,19 @@ const AboutPage = () => {
   useEffect(() => {
     document.title = 'About CAMPD | CAMPD | US EPA';
   }, []);
+  // ***replace h4 tags in accordions with h3 tags for 508
+  useEffect(() => {
+    const accordionTitles = document.getElementsByClassName(
+      'usa-accordion__heading'
+    );
+    for (let el of accordionTitles) {
+      const newTag = document.createElement('h3');
+      const button = el.firstChild;
+      newTag.append(button);
+      newTag.className = 'usa-accordion__heading';
+      el.parentNode.replaceChild(newTag, el);
+    }
+  }, []);
 
   metaAdder(
     'description',
@@ -337,6 +350,7 @@ const AboutPage = () => {
   const latestRelease = releases[0];
   const subTitle =
     'text-bold font-heading-xl line-height-sans-3 margin-bottom-1';
+
   return (
     <div className="padding-y-2 mobile-lg:padding-x-2 tablet:padding-x-4 widescreen:padding-x-10 font-sans-sm text-base-darkest text-ls-1 line-height-sans-5">
       <h1 className="font-sans-2xl text-bold">About CAMPD</h1>
