@@ -16,7 +16,7 @@ import LoadingModal from '../../LoadingModal/LoadingModal';
 
 // *** STYLES (individual component)
 import './ManageDataDownload.scss';
-import { loadAllFilters, resetFilter, loadFilterMapping, updateFilterCriteria } from '../../../store/actions/customDataDownload/filterCriteria';
+import { loadAllFilters, resetFilter, loadFilterMapping, updateFilterCriteria, updateTimePeriod } from '../../../store/actions/customDataDownload/filterCriteria';
 import { engageFilterLogic } from '../../../utils/selectors/filterLogic';
 
 const ManageDataDownload = ({
@@ -24,6 +24,7 @@ const ManageDataDownload = ({
   updateSelectedDataTypeDispatcher,
   updateSelectedDataSubTypeDispatcher,
   updateFilterCriteriaDispacher,
+  updateTimePeriodDispatcher,
   removeAppliedFiltersDispatcher,
   loadFilterMappingDispatcher,
   resetFilterDispatcher,
@@ -54,15 +55,22 @@ const ManageDataDownload = ({
   const [filterClickRef, setFilterClickRef] = useState(null);
   const [applyClicked, setApplyClicked] = useState(false);
 
-  useEffect(()=>{
+  useEffect(()=>{//console.log(filterCriteria.timePeriod.comboBoxYear); console.log("called");
     const dataSubType = getSelectedDataSubType(constants.DATA_SUBTYPES_MAP[selectedDataType]);
     if(applyClicked && loading === 0){
-      if(selectedDataType !== "EMISSIONS" && (dataSubType === "Account Information" || dataSubType === "Holdings")){
-        engageFilterLogic(selectedDataType, dataSubType, null, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispacher, true);
+      if(dataSubType === "Holdings" && filterCriteria.timePeriod.comboBoxYear.length === 0){//console.log("updatetime");
+        const distinctYears = [...new Set(filterCriteria.filterMapping.map(e=>e.vintageYear))];
+        updateTimePeriodDispatcher({
+          ...filterCriteria.timePeriod,
+          comboBoxYear: distinctYears.map(year => {return {id:year, label:year, selected:false, enabled:true}})
+        });
       }
-      setApplyClicked(false);
+      else if(selectedDataType !== "EMISSIONS" && (dataSubType === "Account Information" || dataSubType === "Holdings")){//console.log("engagedLogic");
+        engageFilterLogic(selectedDataType, dataSubType, null, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispacher, true);
+        setApplyClicked(false);
+      }
     }// eslint-disable-next-line react-hooks/exhaustive-deps
-  },[applyClicked, loading])
+  },[applyClicked, loading, filterCriteria.timePeriod.comboBoxYear])
 
   useEffect(() => {
     if (
@@ -253,6 +261,8 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(resetFilter(filterToReset, resetAll)),
     loadFilterMappingDispatcher: (dataType, dataSubType, years) =>
       dispatch(loadFilterMapping(dataType, dataSubType, years)),
+    updateTimePeriodDispatcher: (timePeriod) =>
+      dispatch(updateTimePeriod(timePeriod))
   };
 };
 

@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
 import TimePeriod from "../timePeriod/TimePeriod/TimePeriod";
+import TimePeriodComboBox from "../timePeriod/TimePeriodComboBox/TimePeriodComboBox";
 import Program from "../Program/Program";
 import Facility from "../Facility/Facility";
 import UnitType from "../UnitType/UnitType";
@@ -116,7 +117,7 @@ const FilterCriteriaPanel = ({
   const allowanceHoldings = {
     ...allowances,
     program: <Program closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} showActiveOnly={true}/>,
-    vintageYear: <TimePeriod closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} showYear={true} isAllowance={true} filterToApply={'Vintage Year'}/>
+    vintageYear: <TimePeriodComboBox closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} filterToApply={'Vintage Year'}/>
   };
 
   const allownaceTransactions = {

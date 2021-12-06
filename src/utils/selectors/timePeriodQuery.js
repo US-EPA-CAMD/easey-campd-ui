@@ -1,4 +1,4 @@
-import { constructQuery } from './filterCriteria';
+import { constructQuery, constructComboBoxQuery } from './filterCriteria';
 import {
   formatMonthsToApiOrString,
   formatQuartersToApiOrString,
@@ -41,6 +41,7 @@ export const constructTimePeriodQuery = (dataSubType, filterCriteria) => {
         true
       )}`;
     case 'holdings':
+      return `&${constructComboBoxQuery(filterCriteria.timePeriod.comboBoxYear, 'vintageYear')}`
     case 'transactions':
       let timePeriodQuery = '&';
       if (

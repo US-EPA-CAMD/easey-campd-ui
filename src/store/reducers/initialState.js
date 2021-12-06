@@ -16,6 +16,7 @@ export default {
         yearArray: [],
         yearString: '',
       },
+      comboBoxYear: [],
       month: [],
       quarter: [],
     },

@@ -5,7 +5,14 @@ export const resetFilterHelper = (state, filterToReset, resetAll = false) => {
   const clonedFilterCriteria = JSON.parse(JSON.stringify(state));
 
   if (resetAll || filterToReset === "Time Period") {
-    clonedFilterCriteria.timePeriod = initialState.filterCriteria.timePeriod;
+    clonedFilterCriteria.timePeriod = {...clonedFilterCriteria.timePeriod, startDate: null, endDate: null, opHrsOnly: true,
+      year: {
+        yearArray: [],
+        yearString: '',
+      },
+      month: [],
+      quarter: []
+    }
   }
   if (resetAll || filterToReset === "Program") {
     resetCheckBoxItems(clonedFilterCriteria.program);
@@ -31,8 +38,11 @@ export const resetFilterHelper = (state, filterToReset, resetAll = false) => {
   if (resetAll || filterToReset === "Account Name/Number") {
     resetComboBoxItems(clonedFilterCriteria.accountNameNumber);
   }
-  if (resetAll || filterToReset === "Year" || filterToReset === "Vintage Year") {
+  if (resetAll || filterToReset === "Year") {
     clonedFilterCriteria.timePeriod = {...clonedFilterCriteria.timePeriod, year: initialState.filterCriteria.timePeriod.year};
+  }
+  if (resetAll || filterToReset === "Vintage Year") {
+    resetComboBoxItems(clonedFilterCriteria.timePeriod.comboBoxYear);
   }
   if (resetAll || filterToReset === "Transaction Date") {
     clonedFilterCriteria.timePeriod = {...clonedFilterCriteria.timePeriod, startDate: null, endDate: null};

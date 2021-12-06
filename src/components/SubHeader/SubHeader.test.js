@@ -28,19 +28,16 @@ describe('SubHeader', () => {
     const header = getByText('Clean Air Markets Program Data');
     const home = getByText('HOME');
     const data = getByText('DATA');
-    const analysis = getByText('ANALYSIS');
-    const visualization = getByText('VISUALIZATION');
+    const analysis = getByText('VISUALIZATION & ANALYSIS');
 
     expect(header).toBeTruthy();
     expect(home).toBeTruthy();
     expect(data).toBeTruthy();
     expect(analysis).toBeTruthy();
-    expect(visualization).toBeTruthy();
 
     fireEvent.click(data);
     fireEvent.click(getByText('Custom Data Download'));
     fireEvent.click(analysis);
-    fireEvent.click(visualization);
 
     expect(container.querySelector('.usa-nav__submenu')).toBeInTheDocument();
   });
