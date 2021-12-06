@@ -1,7 +1,6 @@
 import React from 'react';
 import { sendNotificationEmail }  from './quartzApi'
 import '@testing-library/jest-dom/extend-expect';
-import { ExpansionPanelActions } from '@material-ui/core';
 import * as axios from "axios";
 
 jest.mock("axios");
