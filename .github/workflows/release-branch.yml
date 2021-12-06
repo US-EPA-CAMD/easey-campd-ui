@@ -81,7 +81,7 @@ jobs:
         run: |
           cf set-env $APP_NAME REACT_APP_CAMPD_API_KEY $REACT_APP_CAMPD_API_KEY
         env:
-          REACT_APP_CAMPD_API_KEY: ${{ secrets.CAMPD_API_KEY }}
+          REACT_APP_CAMPD_API_KEY: ${{ secrets.CAMPD_NON_PROD_API_KEY }}
       - name: Deployment
         run: |
           devops/scripts/deploy.sh
@@ -123,7 +123,7 @@ jobs:
         run: |
           cf set-env $APP_NAME REACT_APP_CAMPD_API_KEY $REACT_APP_CAMPD_API_KEY
         env:
-          REACT_APP_CAMPD_API_KEY: ${{ secrets.CAMPD_API_KEY }}
+          REACT_APP_CAMPD_API_KEY: ${{ secrets.CAMPD_NON_PROD_API_KEY }}
       - name: Deployment
         run: |
           devops/scripts/deploy.sh
