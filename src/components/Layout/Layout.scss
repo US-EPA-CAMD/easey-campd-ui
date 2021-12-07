@@ -37,9 +37,40 @@ div.row.column1 {
   }
 }
 
-.epa-header img {
-  @media (min-width: 87em) {
-    padding-left: 3rem;
-    padding-right: 3rem;
+@media screen and (min-width: 480px) {
+  .epa-header img[title="Official EPA Logo"] {
+    margin-left: 1em;
+  }
+}
+
+@media screen and (min-width: 640px) {
+  .epa-header img[title="Official EPA Logo"] {
+    margin-left: 2em;
+  }
+}
+
+@media screen and (min-width: 1400px) {
+  .epa-header img[title="Official EPA Logo"] {
+    margin-left: 5em;
+  }
+}
+
+@media screen and (min-width: 480px) {
+  .epa-header button[data-testid="navMenuButton"] {
+    display: none;
+  }
+}
+
+@media screen and (min-width: 640px) {
+  .epa-header button[data-testid="navMenuButton"] {
+    margin-right: 1em;
+    display: initial;
+  }
+}
+
+@media screen and (min-width: 1400px) {
+  .epa-header button[data-testid="navMenuButton"] {
+    margin-right: 4em;
+    display: inline;
   }
 }
