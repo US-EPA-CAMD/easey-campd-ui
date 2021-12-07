@@ -18,6 +18,7 @@ initialState.filterCriteria.timePeriod = {
     yearArray: [2019,2020],
     yearString: '2019,2020',
   },
+  comboBoxYear:[],
   month: [1,3,5],
   quarter: [],
 };
@@ -27,7 +28,7 @@ describe('ManageDataPreview', () => {
   test('Check that the  component properly renders', () => {
     const { getByRole } = render(
       <Provider store={store}>
-        <ManageDataPreview dataType="EMISSIONS" />
+        <ManageDataPreview />
       </Provider>
     );
     const previewButton = getByRole('button', { name: 'Preview Data' });
@@ -42,7 +43,7 @@ describe('ManageDataPreview', () => {
     store = configureStore(initialState);
     const { getByRole } = render(
       <Provider store={store}>
-        <ManageDataPreview dataType="EMISSIONS" />
+        <ManageDataPreview />
       </Provider>
     );
     const previewButton = getByRole('button', { name: 'Preview Data' });
@@ -57,7 +58,7 @@ describe('ManageDataPreview', () => {
     store = configureStore(initialState);
     const { getByRole } = render(
       <Provider store={store}>
-        <ManageDataPreview dataType="EMISSIONS" />
+        <ManageDataPreview/>
       </Provider>
     );
     const previewButton = getByRole('button', { name: 'Preview Data' });
@@ -72,7 +73,7 @@ describe('ManageDataPreview', () => {
     store = configureStore(initialState);
     const { getByRole } = render(
       <Provider store={store}>
-        <ManageDataPreview dataType="EMISSIONS" />
+        <ManageDataPreview/>
       </Provider>
     );
     const previewButton = getByRole('button', { name: 'Preview Data' });
@@ -85,9 +86,9 @@ describe('ManageDataPreview', () => {
   test('Annual Emissions', () => {
     initialState.customDataDownload.dataSubType = 'Annual Emissions';
     store = configureStore(initialState);
-    const { getByRole } = render(
+    const { getByRole, getByTestId } = render(
       <Provider store={store}>
-        <ManageDataPreview dataType="EMISSIONS" />
+        <ManageDataPreview />
       </Provider>
     );
     const previewButton = getByRole('button', { name: 'Preview Data' });
@@ -95,6 +96,8 @@ describe('ManageDataPreview', () => {
     fireEvent.click(previewButton);
     const dataPreviewHeader = getByRole('alert');
     expect(dataPreviewHeader).toBeDefined();
+    fireEvent.click(getByTestId('remove'));
+    expect(previewButton).toBeEnabled();
   });
 
   test('Ozone Emissions', () => {
@@ -102,7 +105,7 @@ describe('ManageDataPreview', () => {
     store = configureStore(initialState);
     const { getByRole } = render(
       <Provider store={store}>
-        <ManageDataPreview dataType="EMISSIONS" />
+        <ManageDataPreview />
       </Provider>
     );
     const previewButton = getByRole('button', { name: 'Preview Data' });
@@ -110,5 +113,7 @@ describe('ManageDataPreview', () => {
     fireEvent.click(previewButton);
     const dataPreviewHeader = getByRole('alert');
     expect(dataPreviewHeader).toBeDefined();
+    fireEvent.click(getByRole('button', { name: 'Clear All' }));
+    expect(previewButton).toBeDisabled();
   });
 });
