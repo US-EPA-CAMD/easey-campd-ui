@@ -55,19 +55,6 @@ div.row.column1 {
   }
 }
 
-@media screen and (min-width: 480px) {
-  .epa-header button[data-testid="navMenuButton"] {
-    display: none;
-  }
-}
-
-@media screen and (min-width: 640px) {
-  .epa-header button[data-testid="navMenuButton"] {
-    margin-right: 1em;
-    display: initial;
-  }
-}
-
 @media screen and (min-width: 1400px) {
   .epa-header button[data-testid="navMenuButton"] {
     margin-right: 4em;
