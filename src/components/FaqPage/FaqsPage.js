@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Accordion, Link } from '@trussworks/react-uswds';
-
+import formatAccordionTitles from '../../utils/ensure-508/formatAccordionTitles';
 import { metaAdder } from '../../utils/document/metaAdder';
 
 const FaqsPage = () => {
@@ -8,6 +8,9 @@ const FaqsPage = () => {
     document.title = 'FAQs | CAMPD | US EPA';
   }, []);
 
+  useEffect(() => {
+    formatAccordionTitles()
+  }, [])
   metaAdder(
     'description',
     'Find answers to some common questions regarding data available in CAMPD.'
