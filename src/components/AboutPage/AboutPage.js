@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Accordion } from '@trussworks/react-uswds';
 import { metaAdder } from '../../utils/document/metaAdder';
-
+import formatAccordionTitles from '../../utils/ensure-508/formatAccordionTitles';
 export const releases = [
   {
     title: 'Beta 0.1',
@@ -326,16 +326,7 @@ const AboutPage = () => {
   }, []);
   // ***replace h4 tags in accordions with h3 tags for 508
   useEffect(() => {
-    const accordionTitles = document.getElementsByClassName(
-      'usa-accordion__heading'
-    );
-    for (const el of accordionTitles) {
-      const newTag = document.createElement('h3');
-      const button = el.firstChild;
-      newTag.append(button);
-      newTag.className = 'usa-accordion__heading';
-      el.parentNode.replaceChild(newTag, el);
-    }
+    formatAccordionTitles();
   }, []);
 
   metaAdder(
