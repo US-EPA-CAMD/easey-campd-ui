@@ -17,6 +17,7 @@ const selection = {
   unitTypes: [],
   sourceCategories: [],
   acctNumbers: [],
+  comboBoxYears: [],
   // acctTypes: [],
   // ownerOperator: []
 }
@@ -31,6 +32,7 @@ const populateSelections = (filterCriteria) =>{
   selection.unitTypes = getCheckBoxSelectedItems(filterCriteria.unitType);
   selection.sourceCategories = getComboboxSelectedItems(filterCriteria.sourceCategory);
   selection.acctNumbers = getComboboxSelectedItems(filterCriteria.accountNameNumber);
+  selection.comboBoxYears = getComboboxSelectedItems(filterCriteria.timePeriod.comboBoxYear);
 };
 
 export const filterProgram = (filterCriteria) =>{
@@ -43,7 +45,8 @@ export const filterProgram = (filterCriteria) =>{
       (selection.controlTechnologies.length === 0 || selection.controlTechnologies.includes(x.controlCode)) &&
       (selection.unitTypes.length === 0 || selection.unitTypes.includes(x.unitTypeCode)) &&
       (selection.sourceCategories.length === 0 || selection.sourceCategories.includes(x.sourceCategoryDescription)) &&
-      (selection.acctNumbers.length === 0 || selection.acctNumbers.includes(x.accountNumber))
+      (selection.acctNumbers.length === 0 || selection.acctNumbers.includes(x.accountNumber))&&
+      (selection.comboBoxYears.length === 0 || selection.comboBoxYears.includes(x.vintageYear))
     }).map(i => i.programCode)
   )];
   updateEnabledStatusCheckBox(filterCriteria.program, filteredSet);
@@ -59,7 +62,9 @@ export const filterStateTerritory = (filterCriteria) =>{
       (selection.controlTechnologies.length === 0 || selection.controlTechnologies.includes(x.controlCode)) &&
       (selection.unitTypes.length === 0 || selection.unitTypes.includes(x.unitTypeCode)) &&
       (selection.sourceCategories.length === 0 || selection.sourceCategories.includes(x.sourceCategoryDescription)) &&
-      (selection.acctNumbers.length === 0 || selection.acctNumbers.includes(x.accountNumber))
+      (selection.acctNumbers.length === 0 || selection.acctNumbers.includes(x.accountNumber))&&
+      (selection.comboBoxYears.length === 0 || selection.comboBoxYears.includes(x.vintageYear))
+
     }).map(i => i.state)
   )];
   updateEnabledStatusComboBox(filterCriteria.stateTerritory, filteredSet);
@@ -75,7 +80,8 @@ export const filterFacility = (filterCriteria) =>{
       (selection.controlTechnologies.length === 0 || selection.controlTechnologies.includes(x.controlCode)) &&
       (selection.unitTypes.length === 0 || selection.unitTypes.includes(x.unitTypeCode)) &&
       (selection.sourceCategories.length === 0 || selection.sourceCategories.includes(x.sourceCategoryDescription)) &&
-      (selection.acctNumbers.length === 0 || selection.acctNumbers.includes(x.accountNumber))
+      (selection.acctNumbers.length === 0 || selection.acctNumbers.includes(x.accountNumber)) &&
+      (selection.comboBoxYears.length === 0 || selection.comboBoxYears.includes(x.vintageYear))
     }).map(i => String(i.facilityId))
   )];
   updateEnabledStatusComboBox(filterCriteria.facility, filteredSet);
@@ -145,7 +151,8 @@ export const filterAccountNameNumber = (filterCriteria) =>{
   const filteredSet = [...new Set(
     filterCriteria.filterMapping.filter(x => {
       return (selection.programs.length === 0 || (selection.programs.includes(x.programCode) && x.accountNumber !== null)) &&
-      (selection.facilities.length === 0 || selection.facilities.includes(x.facilityId))
+      (selection.facilities.length === 0 || selection.facilities.includes(x.facilityId)) &&
+      (selection.comboBoxYears.length === 0 || selection.comboBoxYears.includes(x.vintageYear))
     }).map(i => i.accountNumber)
   )];
   updateEnabledStatusComboBox(filterCriteria.accountNameNumber, filteredSet);
@@ -156,7 +163,8 @@ export const filterAccountType = (filterCriteria) =>{
     filterCriteria.filterMapping.filter(x => {
       return (selection.programs.length === 0 || (selection.programs.includes(x.programCode) && x.accountTypeCode !== null)) &&
       (selection.acctNumbers.length === 0 || selection.acctNumbers.includes(x.accountNumber)) &&
-      (selection.facilities.length === 0 || selection.facilities.includes(x.facilityId))
+      (selection.facilities.length === 0 || selection.facilities.includes(x.facilityId)) &&
+      (selection.comboBoxYears.length === 0 || selection.comboBoxYears.includes(x.vintageYear))
     }).map(i => i.accountTypeCode)
   )];
   updateEnabledStatusCheckBox(filterCriteria.accountType, filteredSet, true);
@@ -167,7 +175,9 @@ export const filterOwnerOperator = (filterCriteria) =>{
     filterCriteria.filterMapping.filter(x => {
       return (selection.programs.length === 0 || (selection.programs.includes(x.programCode) && x.ownerOperator !== null)) &&
       (selection.acctNumbers.length === 0 || selection.acctNumbers.includes(x.accountNumber)) &&
-      (selection.facilities.length === 0 || selection.facilities.includes(x.facilityId))
+      (selection.facilities.length === 0 || selection.facilities.includes(x.facilityId)) &&
+      (selection.comboBoxYears.length === 0 || selection.comboBoxYears.includes(x.vintageYear))
+
     }).map(i => i.ownerOperator)
   )];
   updateEnabledStatusComboBox(filterCriteria.ownerOperator, filteredSet);
