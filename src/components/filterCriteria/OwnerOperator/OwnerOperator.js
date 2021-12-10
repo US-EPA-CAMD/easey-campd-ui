@@ -3,38 +3,48 @@ import { connect } from "react-redux";
 import MultiSelectCombobox from '../../MultiSelectCombobox/MultiSelectCombobox';
 import { loadOwnerOperators, updateOwnerOperatorSelection } from "../../../store/actions/customDataDownload/filterCriteria";
 import { addAppliedFilter, removeAppliedFilter } from "../../../store/actions/customDataDownload/customDataDownload";
+import { updateFilterCriteria } from '../../../store/actions/customDataDownload/filterCriteria';
 import { isAddedToFilters } from "../../../utils/selectors/general";
 import {Button} from "@trussworks/react-uswds";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
+import { engageFilterLogic } from "../../../utils/selectors/filterLogic";
 
 const OwnerOperator = ({
   ownerOperator,
+  dataType,
   dataSubType,
+  filterCriteria,
   appliedFilters,
-  loadownerOperatorsDispatcher,
   updateOwnerOperatorDispacher,
   addAppliedFilterDispatcher,
   removeAppliedFilterDispatcher,
   loading,
+  updateFilterCriteriaDispacher,
   closeFlyOutHandler,
   renderedHandler}) => {
 
   const [_ownerOperator, setOwnerOperator] = useState(JSON.parse(JSON.stringify(ownerOperator)));
+  const [applyFilterClicked, setApplyFilterClicked] = useState(false);
 
   const filterToApply = "Owner/Operator";
 
   useEffect(()=>{
-    if(ownerOperator.length===0){
-      loadownerOperatorsDispatcher(dataSubType);
-    }else{
-      if(_ownerOperator.length===0){
-        setOwnerOperator(JSON.parse(JSON.stringify(ownerOperator)));
-      }
+    if(_ownerOperator.length > 0){
       renderedHandler();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[ownerOperator]);
+    }// eslint-disable-next-line react-hooks/exhaustive-deps
+  },[_ownerOperator]);
+
+  useEffect(()=>{
+    if(applyFilterClicked){
+      if(dataType === "ALLOWANCE"){
+        if(filterCriteria.filterMapping.length>0){
+          engageFilterLogic(dataType, dataSubType, filterToApply, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispacher);
+        }
+      }
+      closeFlyOutHandler();
+    }// eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ownerOperator]);
 
   const handleApplyFilter = () =>{
     updateOwnerOperatorDispacher(_ownerOperator);
@@ -45,7 +55,7 @@ const OwnerOperator = ({
     if(selection.length>0){
       addAppliedFilterDispatcher({key:filterToApply, values:selection.map(e=>e.label)});
     }
-    closeFlyOutHandler();
+    setApplyFilterClicked(true);
   };
 
   const onChangeUpdate = (id, updateType) =>{
@@ -108,7 +118,9 @@ const mapStateToProps = (state) => {
     dataSubType: state.customDataDownload.dataSubType,
     ownerOperator: state.filterCriteria.ownerOperator,
     appliedFilters: state.customDataDownload.appliedFilters,
-    loading: state.apiCallsInProgress
+    dataType: state.customDataDownload.dataType,
+    loading: state.apiCallsInProgress,
+    filterCriteria: state.filterCriteria
   };
 };
 
@@ -117,7 +129,8 @@ const mapDispatchToProps = (dispatch) => {
     loadownerOperatorsDispatcher: (dataSubType) => dispatch(loadOwnerOperators(dataSubType)),
     updateOwnerOperatorDispacher: (ownerOperator) => dispatch(updateOwnerOperatorSelection(ownerOperator)),
     addAppliedFilterDispatcher: (filterToApply) => dispatch(addAppliedFilter(filterToApply)),
-    removeAppliedFilterDispatcher: (removedFilter) => dispatch(removeAppliedFilter(removedFilter))
+    removeAppliedFilterDispatcher: (removedFilter) => dispatch(removeAppliedFilter(removedFilter)),
+    updateFilterCriteriaDispacher: (filterCriteria) => dispatch(updateFilterCriteria(filterCriteria)),
   };
 };
 
