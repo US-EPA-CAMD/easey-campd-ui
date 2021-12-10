@@ -46,8 +46,7 @@ export const filterProgram = (filterCriteria) =>{
       (selection.controlTechnologies.length === 0 || selection.controlTechnologies.includes(x.controlCode)) &&
       (selection.unitTypes.length === 0 || selection.unitTypes.includes(x.unitTypeCode)) &&
       (selection.sourceCategories.length === 0 || selection.sourceCategories.includes(x.sourceCategoryDescription)) &&
-      (selection.acctNumbers.length === 0 || selection.acctNumbers.includes(x.accountNumber)) && 
-      (selection.ownerOperator.length === 0 || selection.ownerOperator.includes(x.ownerOperator))
+      (selection.ownerOperator.length === 0 || selection.ownerOperator.includes(x.ownerOperator)) &&
       (selection.acctNumbers.length === 0 || selection.acctNumbers.includes(x.accountNumber))&&
       (selection.comboBoxYears.length === 0 || selection.comboBoxYears.includes(x.vintageYear))
     }).map(i => i.programCode)
@@ -65,8 +64,7 @@ export const filterStateTerritory = (filterCriteria) =>{
       (selection.controlTechnologies.length === 0 || selection.controlTechnologies.includes(x.controlCode)) &&
       (selection.unitTypes.length === 0 || selection.unitTypes.includes(x.unitTypeCode)) &&
       (selection.sourceCategories.length === 0 || selection.sourceCategories.includes(x.sourceCategoryDescription)) &&
-      (selection.acctNumbers.length === 0 || selection.acctNumbers.includes(x.accountNumber)) &&
-      (selection.ownerOperator.length === 0 || selection.ownerOperator.includes(x.ownerOperator))
+      (selection.ownerOperator.length === 0 || selection.ownerOperator.includes(x.ownerOperator)) &&
       (selection.acctNumbers.length === 0 || selection.acctNumbers.includes(x.accountNumber))&&
       (selection.comboBoxYears.length === 0 || selection.comboBoxYears.includes(x.vintageYear))
 
@@ -86,7 +84,7 @@ export const filterFacility = (filterCriteria) =>{
       (selection.unitTypes.length === 0 || selection.unitTypes.includes(x.unitTypeCode)) &&
       (selection.sourceCategories.length === 0 || selection.sourceCategories.includes(x.sourceCategoryDescription)) &&
       (selection.acctNumbers.length === 0 || selection.acctNumbers.includes(x.accountNumber)) &&
-      (selection.ownerOperator.length === 0 || selection.ownerOperator.includes(x.ownerOperator))
+      (selection.ownerOperator.length === 0 || selection.ownerOperator.includes(x.ownerOperator)) &&
       (selection.comboBoxYears.length === 0 || selection.comboBoxYears.includes(x.vintageYear))
     }).map(i => String(i.facilityId))
   )];
@@ -158,7 +156,7 @@ export const filterAccountNameNumber = (filterCriteria) =>{
     filterCriteria.filterMapping.filter(x => {
       return (selection.programs.length === 0 || (selection.programs.includes(x.programCode) && x.accountNumber !== null)) &&
       (selection.facilities.length === 0 || selection.facilities.includes(x.facilityId)) &&
-      (selection.ownerOperator.length === 0 || selection.ownerOperator.includes(x.ownerOperator))
+      (selection.ownerOperator.length === 0 || selection.ownerOperator.includes(x.ownerOperator)) &&
       (selection.comboBoxYears.length === 0 || selection.comboBoxYears.includes(x.vintageYear))
     }).map(i => i.accountNumber)
   )];
@@ -171,7 +169,7 @@ export const filterAccountType = (filterCriteria) =>{
       return (selection.programs.length === 0 || (selection.programs.includes(x.programCode) && x.accountTypeCode !== null)) &&
       (selection.acctNumbers.length === 0 || selection.acctNumbers.includes(x.accountNumber)) &&
       (selection.facilities.length === 0 || selection.facilities.includes(x.facilityId)) &&
-      (selection.ownerOperator.length === 0 || selection.ownerOperator.includes(x.ownerOperator))
+      (selection.ownerOperator.length === 0 || selection.ownerOperator.includes(x.ownerOperator)) &&
       (selection.comboBoxYears.length === 0 || selection.comboBoxYears.includes(x.vintageYear))
     }).map(i => i.accountTypeCode)
   )];
