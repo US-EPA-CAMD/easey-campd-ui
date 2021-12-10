@@ -7,6 +7,7 @@ import { isAddedToFilters } from "../../../../utils/selectors/general";
 import {Button} from "@trussworks/react-uswds";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
+import { engageFilterLogic } from "../../../../utils/selectors/filterLogic";
 
 const TimePeriodComboBox = ({
   timePeriod,
@@ -16,16 +17,32 @@ const TimePeriodComboBox = ({
   removeAppliedFilterDispatcher,
   closeFlyOutHandler,
   renderedHandler,
-  filterToApply
+  filterToApply,
+  dataType,
+  dataSubType,
+  filterCriteria,
+  updateFilterCriteriaDispacher
   }) => {
 
   const [yearsArray, setYearsArray] = useState(JSON.parse(JSON.stringify(timePeriod.comboBoxYear)));
+  const [applyFilterClicked, setApplyFilterClicked] = useState(false);
 
   useEffect(()=>{
     if(yearsArray.length > 0){
       renderedHandler();
     }// eslint-disable-next-line react-hooks/exhaustive-deps
   },[yearsArray]);
+
+  useEffect(()=>{
+    if(applyFilterClicked){
+      if(dataSubType === "Holdings"){
+        if(filterCriteria.filterMapping.length>0){
+          engageFilterLogic(dataType, dataSubType, filterToApply, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispacher);
+        }
+      }
+      closeFlyOutHandler();
+    }// eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [timePeriod.comboBoxYear]);
 
   const handleApplyFilter = () =>{
     updateTimePeriodDispacher({
@@ -39,7 +56,7 @@ const TimePeriodComboBox = ({
     if(selection.length>0){
       addAppliedFilterDispatcher({key:filterToApply, values: selection.map(e=>e.label)})
     }
-    closeFlyOutHandler();
+    setApplyFilterClicked(true);
   };
 
   const onChangeUpdate = (id, updateType) =>{
@@ -97,6 +114,9 @@ const mapStateToProps = (state) => {
   return {
     timePeriod: state.filterCriteria.timePeriod,
     appliedFilters: state.customDataDownload.appliedFilters,
+    dataType: state.customDataDownload.dataType,
+    dataSubType: state.customDataDownload.dataSubType,
+    filterCriteria: state.filterCriteria,
   };
 };
 
