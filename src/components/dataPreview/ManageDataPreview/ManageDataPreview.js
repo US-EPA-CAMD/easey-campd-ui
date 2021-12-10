@@ -52,7 +52,7 @@ const ManageDataPreview = ({
 
   useEffect(()=>{
     if(removedAppliedFilter !== null){
-      if(dataType === "EMISSIONS" || dataSubType === "Account Information" || dataSubType === "Holdings"){
+      if(dataSubType !== "Transactions"){
         if(filterCriteria.filterMapping.length>0){
           engageFilterLogic(dataType, dataSubType, removedAppliedFilter, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispacher, true);
         }
@@ -144,6 +144,7 @@ const ManageDataPreview = ({
         <div className="display-none desktop:display-block">
           <div className="bg-base-lightest padding-left-3 padding-right-3 padding-bottom-2 font-sans-sm">
             <FilterTags
+              dataType={dataType}
               items={appliedFilters}
               onClick={(filterType, evtTarget) =>
                 handleFilterButtonClick(filterType, evtTarget)

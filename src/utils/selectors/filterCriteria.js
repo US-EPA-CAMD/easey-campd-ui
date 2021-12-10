@@ -39,7 +39,11 @@ export const resetFilterHelper = (state, filterToReset, resetAll = false) => {
     resetComboBoxItems(clonedFilterCriteria.accountNameNumber);
   }
   if (resetAll || filterToReset === "Year") {
-    clonedFilterCriteria.timePeriod = {...clonedFilterCriteria.timePeriod, year: initialState.filterCriteria.timePeriod.year};
+    if(clonedFilterCriteria.timePeriod.year.yearArray.length > 0){
+      clonedFilterCriteria.timePeriod = {...clonedFilterCriteria.timePeriod, year: initialState.filterCriteria.timePeriod.year};
+    }else{
+      resetComboBoxItems(clonedFilterCriteria.timePeriod.comboBoxYear);
+    }
   }
   if (resetAll || filterToReset === "Vintage Year") {
     resetComboBoxItems(clonedFilterCriteria.timePeriod.comboBoxYear);

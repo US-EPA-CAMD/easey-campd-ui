@@ -54,7 +54,7 @@ const TimePeriodComboBox = ({
   return (
     <>
       <div className="panel-header padding-top-2 margin-x-2">
-        <h3>Vintage Year</h3>
+        <h3>{filterToApply}</h3>
         <FontAwesomeIcon
           icon={faQuestionCircle}
           className="text-gray-30 font-body-md question-icon"
@@ -67,8 +67,8 @@ const TimePeriodComboBox = ({
           <div className="margin-x-2">
             <MultiSelectCombobox
               items={JSON.parse(JSON.stringify(timePeriod.comboBoxYear))}
-              label="Select or Search Vintage Years"
-              entity={"vintage-years"}
+              label={`Select or Search ${filterToApply}`}
+              entity={`${filterToApply.toLowerCase()}s`}
               onChangeUpdate={onChangeUpdate}
               searchBy="beginsWith"
             />

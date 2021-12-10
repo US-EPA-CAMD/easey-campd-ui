@@ -18,7 +18,7 @@ const selection = {
   sourceCategories: [],
   acctNumbers: [],
   // acctTypes: [],
-  // ownerOperator: []
+  //ownerOperator: []
 }
 
 const populateSelections = (filterCriteria) =>{
@@ -179,7 +179,7 @@ export const filterComboBoxYear = (filterCriteria) =>{
       return (selection.programs.length === 0 || selection.programs.includes(x.programCode)) &&
       (selection.acctNumbers.length === 0 || selection.acctNumbers.includes(x.accountNumber)) &&
       (selection.facilities.length === 0 || selection.facilities.includes(x.facilityId))
-    }).map(i => i.vintageYear)
+    }).map(i => i.hasOwnProperty("vintageYear") ? i.vintageYear : i.year)
   )];
   updateEnabledStatusComboBox(filterCriteria.timePeriod.comboBoxYear, filteredSet);
 };

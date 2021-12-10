@@ -54,23 +54,29 @@ const ManageDataDownload = ({
   const [activeFilter, setActiveFilter] = useState(null);
   const [filterClickRef, setFilterClickRef] = useState(null);
   const [applyClicked, setApplyClicked] = useState(false);
+  const [comboBoxYearUpdated, setComboBoxYearUpdated] = useState(false);
 
   useEffect(()=>{//console.log(filterCriteria.timePeriod.comboBoxYear); console.log("called");
     const dataSubType = getSelectedDataSubType(constants.DATA_SUBTYPES_MAP[selectedDataType]);
-    if(applyClicked && loading === 0){
-      if(dataSubType === "Holdings" && filterCriteria.timePeriod.comboBoxYear.length === 0){//console.log("updatetime");
-        const distinctYears = [...new Set(filterCriteria.filterMapping.map(e=>e.vintageYear))];
+    if(applyClicked && loading === 0 && selectedDataType !== "EMISSIONS" && dataSubType !== "Transactions"){
+      if((selectedDataType === "COMPLIANCE" || dataSubType === "Holdings") && comboBoxYearUpdated === false){//console.log("updatetime");
+        const distinctYears = [...new Set(filterCriteria.filterMapping.map(e=>selectedDataType === "COMPLIANCE" ? e.year : e.vintageYear))];
         updateTimePeriodDispatcher({
           ...filterCriteria.timePeriod,
           comboBoxYear: distinctYears.map(year => {return {id:year, label:year, selected:false, enabled:true}})
         });
+        setComboBoxYearUpdated(true);
       }
-      else if(selectedDataType !== "EMISSIONS" && (dataSubType === "Account Information" || dataSubType === "Holdings")){//console.log("engagedLogic");
+      if(dataSubType === "Account Information"){
+        setComboBoxYearUpdated(true);
+      }
+      if(comboBoxYearUpdated){//console.log("engagedLogic");
         engageFilterLogic(selectedDataType, dataSubType, null, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispacher, true);
         setApplyClicked(false);
+        setComboBoxYearUpdated(false);
       }
     }// eslint-disable-next-line react-hooks/exhaustive-deps
-  },[applyClicked, loading, filterCriteria.timePeriod.comboBoxYear])
+  },[applyClicked, loading, comboBoxYearUpdated])
 
   useEffect(() => {
     if (
@@ -132,7 +138,7 @@ const ManageDataDownload = ({
     setApplyClicked(true);
     const dataSubType = getSelectedDataSubType(constants.DATA_SUBTYPES_MAP[selectedDataType]);
     if (selectedDataType !== '' && selectedDataSubtype !== '') {
-      if(selectedDataType !== "EMISSIONS" && selectedDataType !== "COMPLIANCE" && dataSubType !== "Transactions"){
+      if(selectedDataType !== "EMISSIONS" && dataSubType !== "Transactions"){
         loadFilterMappingDispatcher(selectedDataType, dataSubType);
       }
       loadAllFiltersDispatcher(selectedDataType, dataSubType, filterCriteria);
