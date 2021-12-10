@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from "react-redux";
 import MultiSelectCombobox from '../../MultiSelectCombobox/MultiSelectCombobox';
-import { loadOwnerOperators, updateOwnerOperatorSelection } from "../../../store/actions/customDataDownload/filterCriteria";
+import { loadOwnerOperators, updateOwnerOperatorSelection, updateFilterCriteria } from "../../../store/actions/customDataDownload/filterCriteria";
 import { addAppliedFilter, removeAppliedFilter } from "../../../store/actions/customDataDownload/customDataDownload";
-import { updateFilterCriteria } from '../../../store/actions/customDataDownload/filterCriteria';
 import { isAddedToFilters } from "../../../utils/selectors/general";
 import {Button} from "@trussworks/react-uswds";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
