@@ -59,7 +59,7 @@ const ManageDataDownload = ({
   useEffect(()=>{//console.log(filterCriteria.timePeriod.comboBoxYear); console.log("called");
     const dataSubType = getSelectedDataSubType(constants.DATA_SUBTYPES_MAP[selectedDataType]);
     if(applyClicked && loading === 0 && selectedDataType !== "EMISSIONS" && dataSubType !== "Transactions"){
-      if((selectedDataType === "COMPLIANCE" || dataSubType === "Holdings") && comboBoxYearUpdated === false){//console.log("updatetime");
+      if((dataSubType === "Allowance Based" || dataSubType === "Holdings") && comboBoxYearUpdated === false){//console.log("updatetime");
         const distinctYears = [...new Set(filterCriteria.filterMapping.map(e=>selectedDataType === "COMPLIANCE" ? e.year : e.vintageYear))];
         updateTimePeriodDispatcher({
           ...filterCriteria.timePeriod,

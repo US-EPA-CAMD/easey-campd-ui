@@ -193,14 +193,9 @@ export const filterComboBoxYear = (filterCriteria) =>{
     filterCriteria.filterMapping.filter(x => {
       return (selection.programs.length === 0 || selection.programs.includes(x.programCode)) &&
       (selection.acctNumbers.length === 0 || selection.acctNumbers.includes(x.accountNumber)) &&
-<<<<<<< HEAD
-      (selection.facilities.length === 0 || selection.facilities.includes(x.facilityId))
-    }).map(i => i.hasOwnProperty("vintageYear") ? i.vintageYear : i.year)
-=======
       (selection.facilities.length === 0 || selection.facilities.includes(x.facilityId)) &&
       (selection.ownerOperator.length === 0 || selection.ownerOperator.includes(x.ownerOperator))
-    }).map(i => i.vintageYear)
->>>>>>> a933fbea745f62236cc231decebf819306ae6509
+    }).map(i => i.hasOwnProperty("vintageYear") ? i.vintageYear : i.year)
   )];
   updateEnabledStatusComboBox(filterCriteria.timePeriod.comboBoxYear, filteredSet);
 };

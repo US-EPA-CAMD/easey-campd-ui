@@ -52,7 +52,7 @@ const ManageDataPreview = ({
 
   useEffect(()=>{
     if(removedAppliedFilter !== null){
-      if(dataSubType !== "Transactions"){
+      if(dataSubType !== "Transactions" || dataSubType !== "Emissions Based"){
         if(filterCriteria.filterMapping.length>0){
           engageFilterLogic(dataType, dataSubType, removedAppliedFilter, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispacher, true);
         }
