@@ -16,9 +16,21 @@ const ContactUsPage = () => {
     document.title = 'Contact Us | CAMPD | US EPA';
 
     // This is done to have the page structure 508 compliant
-    const el = document.querySelector('h3');
-    el.outerHTML = `<h1> ${el.innerHTML} </h1>`;
+    const h3Tag = document.querySelector('h3');
+    h3Tag.outerHTML = `<h1> ${h3Tag.innerHTML} </h1>`;
   }, []);
+
+  useEffect(() => {
+    const h4Tag = document.querySelector('h4');
+    if (h4Tag) {
+      window.scrollTo(0,document.body.scrollHeight);
+      h4Tag.outerHTML = `<h2> ${h4Tag.innerHTML} </h2>`;
+      const usaAlert = document.querySelector('.usa-alert');
+      usaAlert.setAttribute('tabIndex', 0);
+      usaAlert.focus();
+      
+    }
+  }, [submitted]);
 
   metaAdder(
     'description',
