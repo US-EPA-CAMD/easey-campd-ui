@@ -213,5 +213,5 @@ export const engageFilterLogic = (dataType, dataSubType, affectedFilter, filterC
       obj.updateFilter(filterCriteriaCloned);
     }
   });
-  updateFilterCriteriaDispacher(filterCriteriaCloned);
+  updateFilterCriteriaDispacher(filterCriteriaCloned);//console.log("filter logic engaged");
 };

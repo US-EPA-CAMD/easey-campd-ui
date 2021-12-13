@@ -35,7 +35,7 @@ const Facility = ({
 
   useEffect(()=>{
     if(applyFilterClicked){
-      if(dataType === "EMISSIONS" || (dataSubType === "Account Information" || dataSubType === "Holdings")){
+      if(dataSubType !== "Transactions"){
         if(filterCriteria.filterMapping.length>0){
           engageFilterLogic(dataType, dataSubType, filterToApply, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispacher);
         }
