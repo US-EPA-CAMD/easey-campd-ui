@@ -23,10 +23,12 @@ const ContactUsPage = () => {
   useEffect(() => {
     const h4Tag = document.querySelector('h4');
     if (h4Tag) {
+      window.scrollTo(0,document.body.scrollHeight);
       h4Tag.outerHTML = `<h2> ${h4Tag.innerHTML} </h2>`;
       const usaAlert = document.querySelector('.usa-alert');
       usaAlert.setAttribute('tabIndex', 0);
       usaAlert.focus();
+      
     }
   }, [submitted]);
 
