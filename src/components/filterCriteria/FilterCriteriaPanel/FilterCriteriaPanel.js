@@ -71,6 +71,7 @@ const FilterCriteriaPanel = ({
     facility: <Facility closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
     stateTerritory: <StateTerritory closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
     ownerOperator: <OwnerOperator closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
+    comboBoxYear: <TimePeriodComboBox closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} filterToApply={'Year'}/>,
   }
 
   const hourlyEmissions = {
@@ -117,7 +118,7 @@ const FilterCriteriaPanel = ({
   const allowanceHoldings = {
     ...allowances,
     program: <Program closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} showActiveOnly={true}/>,
-    vintageYear: <TimePeriodComboBox closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} filterToApply={'Vintage Year'}/>
+    comboBoxYear: <TimePeriodComboBox closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} filterToApply={'Vintage Year'}/>
   };
 
   const allownaceTransactions = {
@@ -137,13 +138,11 @@ const FilterCriteriaPanel = ({
 
   const complianceAllownaceBased = {
     program: <Program closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
-    ...compliances,
-    timePeriod: <TimePeriod closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} showYear={true} filterToApply={'Year'}/>,
+    ...compliances
   };
 
   const complianceEmissionsBased = {
     ...compliances,
-    timePeriod: <TimePeriod closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} showYear={true} filterToApply={'Year'} minYear={1996}/>,
   }
 
   const emissionsSubTypes = Object.keys(FILTERS_MAP.EMISSIONS);

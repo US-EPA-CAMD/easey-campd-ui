@@ -76,6 +76,12 @@ export async function getFilterMapping(dataType, dataSubType, yearSet=[]) {
     }else if(dataSubType === "Account Information"){
       url = `${config.services.account.uri}/accounts/attributes/applicable`;
     }
+  }else if(dataType === "COMPLIANCE"){
+    if(dataSubType === "Allowance Based"){
+      url = `${config.services.account.uri}/allowance-compliance/attributes/applicable`;
+    }else if(dataSubType === "Emissions Based"){
+      url = `${config.services.account.uri}/emissions-compliance/attributes/applicable`;
+    }
   }
   console.log(url);
   return axios
