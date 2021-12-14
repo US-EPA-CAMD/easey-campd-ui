@@ -19,36 +19,48 @@ const FilterCriteriaMenu = ({
     appliedFilters,
     filterCriteria
   }) => {
-    
     const checkSelectableData = (list, item) => {
-      if (!item || !list) return false;
+      if (!item || !list) {
+        return false;
+      }
       let enabled = 0,
         listItem = list[item];
-      if (item === 'timePeriod' || !listItem) return false;
-      if (item === 'comboBoxYear') listItem = list.timePeriod.comboBoxYear;
+      if (item === 'timePeriod' || !listItem) {
+        return false;
+      }
+      if (item === 'comboBoxYear') {
+        listItem = list.timePeriod.comboBoxYear;
+      }
       listItem.forEach((el) => {
-        if (el.items)
-          el.items.forEach((item) => {
-            if (item.enabled) enabled++;
+        if (el.items) {
+          el.items.forEach((filterItem) => {
+            if (filterItem.enabled) {
+              enabled++;
+            }
           });
-
-        if (el.enabled) enabled++;
+        }
+        if (el.enabled) {
+          enabled++;
+        }
       });
       return enabled === 0;
     };
 
     const checkDisabled = (filter) => {
-      const noTimePeriodSelected =
-        selectedDataType === 'EMISSIONS'
-          ? filter.value === 'Time Period'
-            ? false
-            : !isAddedToFilters('Time Period', appliedFilters)
-          : false;
-      const hasNoSelectableData = checkSelectableData(
-        filterCriteria,
-        filter.stateVar
-      );
-      return noTimePeriodSelected === true || hasNoSelectableData === true;
+      let noTimePeriodSelected = false;
+      if (selectedDataType === 'EMISSIONS') {
+        if (
+          filter.value === 'Time Period' ||
+          isAddedToFilters('Time Period', appliedFilters)
+        ) {
+          noTimePeriodSelected = false;
+        } else {
+          noTimePeriodSelected = true;
+        }
+      }
+      if (noTimePeriodSelected) {
+        return true;
+      } else return checkSelectableData(filterCriteria, filter.stateVar);
     };
   return (
     <>
