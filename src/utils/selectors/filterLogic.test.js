@@ -1686,4 +1686,51 @@ describe('Emissions Filter logic functions', () => {
     );
     expect(clonedFilterCritera).not.toBe(initialState.filterCriteria);
   });
+  it('engages filter logic for allowance based compliance', () => {
+    initialState.filterCriteria.filterMapping = [
+      {"year":"1995","programCode":"ARP","facilityId":7,"state":"AL","ownerOperator":null},{"year":"1995","programCode":"ARP","facilityId":26,"state":"AL","ownerOperator":null},
+      {"year":"1995","programCode":"ARP","facilityId":47,"state":"AL","ownerOperator":null},{"year":"1995","programCode":"ARP","facilityId":56,"state":"AL","ownerOperator":null},
+      {"year":"1995","programCode":"ARP","facilityId":641,"state":"FL","ownerOperator":null},{"year":"1995","programCode":"ARP","facilityId":642,"state":"FL","ownerOperator":null},
+      {"year":"1995","programCode":"ARP","facilityId":645,"state":"FL","ownerOperator":null},{"year":"1995","programCode":"ARP","facilityId":699,"state":"GA","ownerOperator":null},
+      {"year":"2000","programCode":"ARP","facilityId":703,"state":"GA","ownerOperator":null},{"year":"1995","programCode":"ARP","facilityId":708,"state":"GA","ownerOperator":null},
+      {"year":"2000","programCode":"ARP","facilityId":709,"state":"GA","ownerOperator":null},{"year":"1995","programCode":"ARP","facilityId":710,"state":"GA","ownerOperator":null},
+      {"year":"1995","programCode":"ARP","facilityId":727,"state":"GA","ownerOperator":null},{"year":"1995","programCode":"ARP","facilityId":728,"state":"GA","ownerOperator":null},
+      {"year":"1995","programCode":"ARP","facilityId":733,"state":"GA","ownerOperator":null},{"year":"1995","programCode":"ARP","facilityId":861,"state":"IL","ownerOperator":null},
+      {"year":"1995","programCode":"ARP","facilityId":862,"state":"IL","ownerOperator":null},{"year":"1995","programCode":"ARP","facilityId":863,"state":"IL","ownerOperator":null},
+      {"year":"1995","programCode":"ARP","facilityId":864,"state":"IL","ownerOperator":null},{"year":"1995","programCode":"ARP","facilityId":876,"state":"IL","ownerOperator":null},
+      {"year":"1995","programCode":"ARP","facilityId":887,"state":"IL","ownerOperator":null},{"year":"1995","programCode":"ARP","facilityId":889,"state":"IL","ownerOperator":null},
+      {"year":"1997","programCode":"ARP","facilityId":891,"state":"IL","ownerOperator":null},{"year":"1995","programCode":"ARP","facilityId":892,"state":"IL","ownerOperator":null},
+      {"year":"1995","programCode":"ARP","facilityId":897,"state":"IL","ownerOperator":null},{"year":"1995","programCode":"ARP","facilityId":898,"state":"IL","ownerOperator":null},
+      {"year":"1997","programCode":"ARP","facilityId":983,"state":"IN","ownerOperator":null},{"year":"1995","programCode":"ARP","facilityId":988,"state":"IN","ownerOperator":null},
+      {"year":"1995","programCode":"ARP","facilityId":990,"state":"IN","ownerOperator":null},{"year":"1995","programCode":"ARP","facilityId":991,"state":"IN","ownerOperator":null},
+      {"year":"1997","programCode":"ARP","facilityId":994,"state":"IN","ownerOperator":null},{"year":"1995","programCode":"ARP","facilityId":995,"state":"IN","ownerOperator":null},
+      {"year":"1995","programCode":"ARP","facilityId":997,"state":"IN","ownerOperator":null}
+    ];
+    initialState.filterCriteria.timePeriod.year.yearArray = [];
+    initialState.filterCriteria.ownerOperator = [
+      {"ownerOperator":"5380 Frontier Ave Energy Company LLC","ownType":"OPR"},{"ownerOperator":"5380 Frontier Ave Energy Company LLC","ownType":"OWN"},
+      {"ownerOperator":"ABB Energy Ventures, Inc.","ownType":"OPR"},{"ownerOperator":"Acadia Power Partners, LLC","ownType":"OWN"},
+      {"ownerOperator":"A/C Power - Colver Operations","ownType":"OPR"},{"ownerOperator":"Adams-Columbia Electric Cooperative","ownType":"OWN"},
+      {"ownerOperator":"AdvanSix Resins and Chemicals, LLC","ownType":"OPR"},{"ownerOperator":"AdvanSix Resins and Chemicals, LLC","ownType":"OWN"},
+      {"ownerOperator":"AEE 2, LLC","ownType":"OWN"},{"ownerOperator":"AEP Energy Partners Inc","ownType":"OWN"},{"ownerOperator":"AEP Generation Resources, Inc.","ownType":"BTH"},
+      {"ownerOperator":"AEP Generation Resources, Inc.","ownType":"OPR"},{"ownerOperator":"AEP Generation Resources, Inc.","ownType":"OWN"},
+      {"ownerOperator":"AEP Pro Serv, Inc","ownType":"OPR"},{"ownerOperator":"AEP Texas Inc","ownType":"OWN"},{"ownerOperator":"AER NY-GEN, LLC","ownType":"OPR"},
+    ];
+    initialState.filterCriteria.facility.forEach((e) => {
+      if (e.id === '3') {
+        e.selected = true;
+      }
+    });
+    const clonedFilterCritera = JSON.parse(
+      JSON.stringify(initialState.filterCriteria)
+    );
+    engageFilterLogic(
+      'COMPLIANCE',
+      'Allowance Based',
+      'Facility',
+      clonedFilterCritera,
+      updateFilterCriteria
+    );
+    expect(clonedFilterCritera).not.toBe(initialState.filterCriteria);
+  });
 });
