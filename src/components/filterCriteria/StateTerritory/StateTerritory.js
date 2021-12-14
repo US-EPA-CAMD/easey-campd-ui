@@ -35,7 +35,7 @@ const StateTerritory = ({
 
   useEffect(()=>{
     if(applyFilterClicked){
-      if(dataType === "EMISSIONS" || dataType === "COMPLIANCE" || dataSubType === "Holdings" || dataSubType === "Account Information"){
+      if(dataSubType !== "Transactions"){
         if(filterCriteria.filterMapping.length>0){
           engageFilterLogic(dataType, dataSubType, filterToApply, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispacher);
         }
