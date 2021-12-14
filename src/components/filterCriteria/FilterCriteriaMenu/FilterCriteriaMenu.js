@@ -47,7 +47,7 @@ const FilterCriteriaMenu = ({
     };
 
     const checkDisabled = (filter) => {
-      let noTimePeriodSelected = false;
+      let noTimePeriodSelected;
       if (selectedDataType === 'EMISSIONS') {
         if (
           filter.value === 'Time Period' ||
@@ -60,7 +60,9 @@ const FilterCriteriaMenu = ({
       }
       if (noTimePeriodSelected) {
         return true;
-      } else return checkSelectableData(filterCriteria, filter.stateVar);
+      } else {
+        return checkSelectableData(filterCriteria, filter.stateVar);
+      }
     };
   return (
     <>
