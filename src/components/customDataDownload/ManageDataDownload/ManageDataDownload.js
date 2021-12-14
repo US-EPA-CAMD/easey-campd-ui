@@ -220,6 +220,7 @@ const ManageDataDownload = ({
             handleFilterButtonClick={handleFilterButtonClick}
             appliedFilters={appliedFilters}
             activeFilter={activeFilter}
+            filterCriteria={filterCriteria}
           />
         </div>
         <FilterCriteriaPanel
