@@ -19,10 +19,13 @@ const Tooltip = (props) => {
   return (
     <div
       className=" display-inline-block position-relative"
-      role="tooltip"
-      aria-live="assertive"
+      role="img"
       tabIndex="0"
-      aria-label={props.content}
+      aria-label={
+        props.field
+          ? `Tooltip for ${props.field}: ${props.content}`
+          : `Tooltip: ${props.content}`
+      }
       onMouseEnter={showTooltip}
       onMouseLeave={hideTooltip}
       onFocus={showTooltip}
