@@ -32,14 +32,13 @@ const FilterCriteriaMenu = ({
       if (!listItem) {
         return false;
       }
-      for (let i = 0; i < listItem.length; i++) {
-        let el = listItem[i];
+      for (const el of listItem) {
         if (enabled) {
           break;
         }
         if (el.items) {
-          for (let i = 0; i < el.items.length; i++) {
-            if (el.items[i].enabled) {
+          for (const filterItem of el.items) {
+            if (filterItem.enabled) {
               enabled++;
               break;
             }
