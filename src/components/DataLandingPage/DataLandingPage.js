@@ -74,7 +74,6 @@ const DataLandingPage = () => {
               <Button
                 className="margin-top-1"
                 type="button"
-                to={topic.url}
                 onClick={topic.url}
                 role="link"
                 rel={topic.name}
