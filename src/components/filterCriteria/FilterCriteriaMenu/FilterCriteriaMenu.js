@@ -25,45 +25,46 @@ const FilterCriteriaMenu = ({
       }
       let enabled = 0,
         listItem = list[item];
-      if (item === 'timePeriod' || !listItem) {
-        return false;
-      }
+
       if (item === 'comboBoxYear') {
         listItem = list.timePeriod.comboBoxYear;
       }
-      listItem.forEach((el) => {
+      if (!listItem) {
+        return false;
+      }
+      for (let i = 0; i < listItem.length; i++) {
+        let el = listItem[i];
+        if (enabled) {
+          break;
+        }
         if (el.items) {
-          el.items.forEach((filterItem) => {
-            if (filterItem.enabled) {
+          for (let i = 0; i < el.items.length; i++) {
+            if (el.items[i].enabled) {
               enabled++;
+              break;
             }
-          });
+          }
         }
         if (el.enabled) {
           enabled++;
+          break;
         }
-      });
+      }
       return enabled === 0;
     };
 
     const checkDisabled = (filter) => {
-      let noTimePeriodSelected;
       if (selectedDataType === 'EMISSIONS') {
-        if (
-          filter.value === 'Time Period' ||
-          isAddedToFilters('Time Period', appliedFilters)
-        ) {
-          noTimePeriodSelected = false;
-        } else {
-          noTimePeriodSelected = true;
+        if (filter.value === 'Time Period') {
+          return false;
+        } else if (!isAddedToFilters('Time Period', appliedFilters)) {
+          return true;
         }
       }
-      if (noTimePeriodSelected) {
-        return true;
-      } else {
-        return checkSelectableData(filterCriteria, filter.stateVar);
-      }
+
+      return checkSelectableData(filterCriteria, filter.stateVar);
     };
+
   return (
     <>
       {dataSubtypeApplied === true && (
