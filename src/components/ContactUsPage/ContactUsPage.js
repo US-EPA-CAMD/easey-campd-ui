@@ -21,16 +21,21 @@ const ContactUsPage = () => {
   }, []);
 
   useEffect(() => {
-    const h4Tag = document.querySelector('h4');
-    if (h4Tag) {
-      window.scrollTo(0,document.body.scrollHeight);
-      h4Tag.outerHTML = `<h2> ${h4Tag.innerHTML} </h2>`;
-      const usaAlert = document.querySelector('.usa-alert');
+    const usaAlert = document.querySelector('.usa-alert');
+    if (usaAlert) {
+      window.scrollTo(0, document.body.scrollHeight);
       usaAlert.setAttribute('tabIndex', 0);
       usaAlert.focus();
-      
+
+      const h4Tag = document.querySelector('h4');
+      if (h4Tag) {
+        h4Tag.outerHTML = `<h2> ${h4Tag.innerHTML} </h2>`;
+      } else {
+        const h2Tag = document.querySelector('h2');
+        h2Tag.outerHTML = `<h2> ${submitStatus ? 'Success' : 'Error'} </h2>`;
+      }
     }
-  }, [submitted]);
+  }, [submitted, submitStatus]);
 
   metaAdder(
     'description',

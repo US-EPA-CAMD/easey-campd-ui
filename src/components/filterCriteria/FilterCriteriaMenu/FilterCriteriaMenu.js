@@ -16,8 +16,54 @@ const FilterCriteriaMenu = ({
     getSelectedDataSubType,
     handleFilterButtonClick,
     activeFilter,
-    appliedFilters
+    appliedFilters,
+    filterCriteria
   }) => {
+    const checkSelectableData = (list, item) => {
+      if (!item || !list) {
+        return false;
+      }
+      let enabled = 0,
+        listItem = list[item];
+      if (item === 'timePeriod' || !listItem) {
+        return false;
+      }
+      if (item === 'comboBoxYear') {
+        listItem = list.timePeriod.comboBoxYear;
+      }
+      listItem.forEach((el) => {
+        if (el.items) {
+          el.items.forEach((filterItem) => {
+            if (filterItem.enabled) {
+              enabled++;
+            }
+          });
+        }
+        if (el.enabled) {
+          enabled++;
+        }
+      });
+      return enabled === 0;
+    };
+
+    const checkDisabled = (filter) => {
+      let noTimePeriodSelected;
+      if (selectedDataType === 'EMISSIONS') {
+        if (
+          filter.value === 'Time Period' ||
+          isAddedToFilters('Time Period', appliedFilters)
+        ) {
+          noTimePeriodSelected = false;
+        } else {
+          noTimePeriodSelected = true;
+        }
+      }
+      if (noTimePeriodSelected) {
+        return true;
+      } else {
+        return checkSelectableData(filterCriteria, filter.stateVar);
+      }
+    };
   return (
     <>
       {dataSubtypeApplied === true && (
@@ -51,7 +97,7 @@ const FilterCriteriaMenu = ({
                           ? "filter-button applied-filter"
                           : "filter-button"
                       }
-                      disabled={selectedDataType === "EMISSIONS" ? el.value === "Time Period"? false : !isAddedToFilters("Time Period", appliedFilters) : false}
+                      disabled={checkDisabled(el)}
                     >
                       {el.label}
                       <FontAwesomeIcon

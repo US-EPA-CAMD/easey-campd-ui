@@ -59,7 +59,7 @@ const ManageDataDownload = ({
   useEffect(()=>{//console.log(filterCriteria.timePeriod.comboBoxYear); console.log("called");
     const dataSubType = getSelectedDataSubType(constants.DATA_SUBTYPES_MAP[selectedDataType]);
     if(applyClicked && loading === 0 && selectedDataType !== "EMISSIONS" && dataSubType !== "Transactions"){
-      if((dataSubType === "Allowance Based" || dataSubType === "Holdings") && comboBoxYearUpdated === false){//console.log("updatetime");
+      if((selectedDataType === "COMPLIANCE" || dataSubType === "Holdings") && comboBoxYearUpdated === false){//console.log("updatetime");
         const distinctYears = [...new Set(filterCriteria.filterMapping.map(e=>selectedDataType === "COMPLIANCE" ? e.year : e.vintageYear))];
         updateTimePeriodDispatcher({
           ...filterCriteria.timePeriod,
@@ -70,7 +70,7 @@ const ManageDataDownload = ({
       if(dataSubType === "Account Information"){
         setComboBoxYearUpdated(true);
       }
-      if(comboBoxYearUpdated){//console.log("engagedLogic");
+      if(comboBoxYearUpdated){
         engageFilterLogic(selectedDataType, dataSubType, null, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispacher, true);
         setApplyClicked(false);
         setComboBoxYearUpdated(false);
@@ -220,6 +220,7 @@ const ManageDataDownload = ({
             handleFilterButtonClick={handleFilterButtonClick}
             appliedFilters={appliedFilters}
             activeFilter={activeFilter}
+            filterCriteria={filterCriteria}
           />
         </div>
         <FilterCriteriaPanel
