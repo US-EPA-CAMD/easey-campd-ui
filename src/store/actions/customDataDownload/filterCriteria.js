@@ -7,7 +7,6 @@ import {
   restructureFuelTypes,
   restructureControlTechnologies,
   restructureAccountTypes,
-  getPipeDelimitedYears,
 } from '../../../utils/selectors/filterCriteria';
 import {FILTERS_MAP, API_CALLING_FILTERS} from "../../../utils/constants/customDataDownload";
 
@@ -294,7 +293,7 @@ export function updateOwnerOperatorSelection(ownerOperator){
 export function loadTransactionTypesSuccess(transactionType) {
   return {
     type: types.LOAD_TRANSACTION_TYPE_SUCCESS,
-    transactionType: transactionType.map(t=> ({id: t.transactionTypeDescription, label: t.transactionTypeDescription, selected:false, enabled:true}))
+    transactionType: transactionType.map(t=> ({id: t.transactionTypeDescription, label: t.transactionTypeDescription, code: t.transactionTypeCode, selected:false, enabled:true}))
   };
 }
 
@@ -331,7 +330,7 @@ export function loadFilterMapping(dataType, dataSubType, yearsArray=[]) {
   return (dispatch) => {
     dispatch(beginApiCall());
     return filterCriteriaApi
-      .getFilterMapping(dataType, dataSubType, getPipeDelimitedYears(yearsArray))
+      .getFilterMapping(dataType, dataSubType, yearsArray)
       .then((res) => {
         dispatch(loadFilterMappingSuccess(res.data));
       })

@@ -124,7 +124,7 @@ const FilterCriteriaPanel = ({
   const allownaceTransactions = {
     ...allowances,
     program: <Program closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
-    vintageYear: <TimePeriod closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} showYear={true} isAllowance={true} filterToApply={'Vintage Year'}/>,
+    comboBoxYear: <TimePeriodComboBox closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} filterToApply={'Vintage Year'}/>,
     transactionDate:
       <TimePeriod
         closeFlyOutHandler={closeFlyOutHandler}
