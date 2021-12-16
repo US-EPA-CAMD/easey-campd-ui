@@ -56,14 +56,15 @@ const FilterCriteriaMenu = ({
     };
 
     const checkDisabled = (filter) => {
-      if (selectedDataType === 'EMISSIONS') {
-        if (filter.value === 'Time Period') {
+      if (selectedDataType === 'EMISSIONS' || getSelectedDataSubType(constants.DATA_SUBTYPES_MAP[selectedDataType]) === "Transactions") {
+        if (filter.value === 'Time Period' || filter.value === "Transaction Date") {
           return false;
-        } else if (!isAddedToFilters('Time Period', appliedFilters)) {
+        } else if(getSelectedDataSubType(constants.DATA_SUBTYPES_MAP[selectedDataType]) === "Transactions") {
+          return !isAddedToFilters('Transaction Date', appliedFilters);
+        }else if (!isAddedToFilters('Time Period', appliedFilters)) {
           return true;
         }
       }
-
       return validateInput(filterCriteria, filter.stateVar);
     };
 
