@@ -18,7 +18,8 @@ const selection = {
   sourceCategories: [],
   acctNumbers: [],
   comboBoxYears: [],
-  ownerOperator: []
+  ownerOperator: [],
+  transactionTypes: []
 }
 
 const populateSelections = (filterCriteria, dataSubType) =>{
@@ -33,6 +34,7 @@ const populateSelections = (filterCriteria, dataSubType) =>{
   selection.acctNumbers = getComboboxSelectedItems(filterCriteria.accountNameNumber);
   selection.ownerOperator = getComboboxSelectedItems(filterCriteria.ownerOperator);
   selection.comboBoxYears = getComboboxSelectedItems(filterCriteria.timePeriod.comboBoxYear);
+  selection.transactionTypes = getComboboxSelectedItems(filterCriteria.transactionType, false, true);
 };
 
 export const filterProgram = (filterCriteria) =>{
@@ -50,7 +52,8 @@ export const filterProgram = (filterCriteria) =>{
       (selection.ownerOperator.length === 0 || selection.ownerOperator.includes(x.ownerOperator)) &&
       (selection.acctNumbers.length === 0 || selection.acctNumbers.includes(x.accountNumber)
       || selection.acctNumbers.includes(x?.buyAccountNumber) || selection.acctNumbers.includes(x?.sellAccountNumber))&&
-      (selection.comboBoxYears.length === 0 || selection.comboBoxYears.includes(x.vintageYear))
+      (selection.comboBoxYears.length === 0 || selection.comboBoxYears.includes(x.vintageYear)) &&
+      (selection.transactionTypes.length === 0 || selection.transactionTypes.includes(x.transactionTypeCode))
     }).map(i => i.programCode)
   )];
   updateEnabledStatusCheckBox(filterCriteria.program, filteredSet);
@@ -70,7 +73,8 @@ export const filterStateTerritory = (filterCriteria) =>{
       (selection.ownerOperator.length === 0 || selection.ownerOperator.includes(x.ownerOperator)) &&
       (selection.acctNumbers.length === 0 || selection.acctNumbers.includes(x?.accountNumber)
       || selection.acctNumbers.includes(x?.buyAccountNumber) || selection.acctNumbers.includes(x?.sellAccountNumber))&&
-      (selection.comboBoxYears.length === 0 || selection.comboBoxYears.includes(x.vintageYear))
+      (selection.comboBoxYears.length === 0 || selection.comboBoxYears.includes(x.vintageYear))&&
+      (selection.transactionTypes.length === 0 || selection.transactionTypes.includes(x.transactionTypeCode))
     }).map(i => {
       if(i.hasOwnProperty("state")){
         return i.state;
@@ -96,7 +100,8 @@ export const filterFacility = (filterCriteria) =>{
       (selection.acctNumbers.length === 0 || selection.acctNumbers.includes(x?.accountNumber)
       || selection.acctNumbers.includes(x?.buyAccountNumber) || selection.acctNumbers.includes(x?.sellAccountNumber)) &&
       (selection.ownerOperator.length === 0 || selection.ownerOperator.includes(x.ownerOperator)) &&
-      (selection.comboBoxYears.length === 0 || selection.comboBoxYears.includes(x.vintageYear))
+      (selection.comboBoxYears.length === 0 || selection.comboBoxYears.includes(x.vintageYear))&&
+      (selection.transactionTypes.length === 0 || selection.transactionTypes.includes(x.transactionTypeCode))
     }).map(i => {
       if(i.hasOwnProperty("facilityId")){
         return String(i.facilityId);
@@ -177,7 +182,8 @@ export const filterAccountNameNumber = (filterCriteria) =>{
       (selection.ownerOperator.length === 0 || selection.ownerOperator.includes(x.ownerOperator)) &&
       (selection.comboBoxYears.length === 0 || selection.comboBoxYears.includes(x.vintageYear)) &&
       (selection.states.length === 0 || selection.states.includes(x?.state)
-      || selection.states.includes(x?.buyState) || selection.states.includes(x?.sellState))
+      || selection.states.includes(x?.buyState) || selection.states.includes(x?.sellState))&&
+      (selection.transactionTypes.length === 0 || selection.transactionTypes.includes(x.transactionTypeCode))
     }).map(i => {
       if(i.hasOwnProperty("accountNumber")){
         return i.accountNumber;
@@ -200,7 +206,8 @@ export const filterAccountType = (filterCriteria) =>{
       (selection.ownerOperator.length === 0 || selection.ownerOperator.includes(x.ownerOperator)) &&
       (selection.comboBoxYears.length === 0 || selection.comboBoxYears.includes(x.vintageYear)) &&
       (selection.states.length === 0 || selection.states.includes(x?.state)
-      || selection.states.includes(x?.buyState) || selection.states.includes(x?.sellState))
+      || selection.states.includes(x?.buyState) || selection.states.includes(x?.sellState))&&
+      (selection.transactionTypes.length === 0 || selection.transactionTypes.includes(x.transactionTypeCode))
     }).map(i => {
       if(i.hasOwnProperty("accountTypeCode")){
         return i.accountTypeCode;
@@ -222,7 +229,8 @@ export const filterOwnerOperator = (filterCriteria) =>{
       || selection.facilities.includes(x?.buyFacilityId) || selection.facilities.includes(x?.sellFacilityId)) &&
       (selection.comboBoxYears.length === 0 || selection.comboBoxYears.includes(x.vintageYear)) &&
       (selection.states.length === 0 || selection.states.includes(x?.state)
-      || selection.states.includes(x?.buyState) || selection.states.includes(x?.sellState))
+      || selection.states.includes(x?.buyState) || selection.states.includes(x?.sellState))&&
+      (selection.transactionTypes.length === 0 || selection.transactionTypes.includes(x.transactionTypeCode))
     }).map(i => i.ownerOperator)
   )];
   updateEnabledStatusComboBox(filterCriteria.ownerOperator, filteredSet);
@@ -238,7 +246,8 @@ export const filterComboBoxYear = (filterCriteria) =>{
       || selection.facilities.includes(x?.buyFacilityId) || selection.facilities.includes(x?.sellFacilityId)) &&
       (selection.ownerOperator.length === 0 || selection.ownerOperator.includes(x.ownerOperator)) &&
       (selection.states.length === 0 || selection.states.includes(x?.state)
-      || selection.states.includes(x?.buyState) || selection.states.includes(x?.sellState))
+      || selection.states.includes(x?.buyState) || selection.states.includes(x?.sellState))&&
+      (selection.transactionTypes.length === 0 || selection.transactionTypes.includes(x.transactionTypeCode))
     }).map(i => i.hasOwnProperty("vintageYear") ? i.vintageYear : i.year)
   )];
   updateEnabledStatusComboBox(filterCriteria.timePeriod.comboBoxYear, filteredSet);
