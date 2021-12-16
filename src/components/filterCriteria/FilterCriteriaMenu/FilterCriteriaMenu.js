@@ -19,19 +19,8 @@ const FilterCriteriaMenu = ({
     appliedFilters,
     filterCriteria
   }) => {
-    const checkSelectableData = (list, item) => {
-      if (!item || !list) {
-        return false;
-      }
-      let enabled = 0,
-        listItem = list[item];
-
-      if (item === 'comboBoxYear') {
-        listItem = list.timePeriod.comboBoxYear;
-      }
-      if (!listItem) {
-        return false;
-      }
+    const checkSelectableData = (listItem) => {
+      let enabled = 0;
       for (const el of listItem) {
         if (enabled) {
           break;
@@ -51,6 +40,20 @@ const FilterCriteriaMenu = ({
       }
       return enabled === 0;
     };
+    const validateInput = (list, item) => {
+      if (!item || !list) {
+        return false;
+      }
+      let listItem = list[item];
+
+      if (item === 'comboBoxYear') {
+        listItem = list.timePeriod.comboBoxYear;
+      }
+      if (!listItem) {
+        return false;
+      }
+      return checkSelectableData(listItem);
+    };
 
     const checkDisabled = (filter) => {
       if (selectedDataType === 'EMISSIONS') {
@@ -61,7 +64,7 @@ const FilterCriteriaMenu = ({
         }
       }
 
-      return checkSelectableData(filterCriteria, filter.stateVar);
+      return validateInput(filterCriteria, filter.stateVar);
     };
 
   return (
