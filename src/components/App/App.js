@@ -2,8 +2,6 @@ import React, { useEffect } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 import Layout from "../Layout/Layout";
-import SelectDataType from "../SelectDataType/SelectDataType";
-import ManageDataDownloadRoute from "../protectedRoutes/ManageDataDownloadRoute/ManageDataDownloadRoute";
 import ManageDataDownload from "../customDataDownload/ManageDataDownload/ManageDataDownload";
 import NotFound from "../NotFound/NotFound";
 import HomePage from "../HomePage/HomePage";
