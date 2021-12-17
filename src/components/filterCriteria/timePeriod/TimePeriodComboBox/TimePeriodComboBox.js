@@ -35,7 +35,7 @@ const TimePeriodComboBox = ({
 
   useEffect(()=>{
     if(applyFilterClicked){
-      if(dataSubType === "Holdings" || dataSubType === "Transactions"){
+      if(dataSubType === "Holdings" || dataSubType === "Transactions" || dataType === "COMPLIANCE"){
         if(filterCriteria.filterMapping.length>0){
           engageFilterLogic(dataType, dataSubType, filterToApply, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispacher);
         }
