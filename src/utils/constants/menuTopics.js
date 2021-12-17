@@ -7,7 +7,7 @@ export const subHeaderMenuList = [
     label: 'DATA',
     items: [
       { menu: 'Data Home', link: '/data' },
-      { menu: 'Custom Data Download', link: '/select-data-type' },
+      { menu: 'Custom Data Download', link: '/data/custom-data-download' },
       { menu: 'Bulk Data Files', link: '/data/bulk-data-files' },
       { menu: 'CAM API', link: '#' },
     ],

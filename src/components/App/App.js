@@ -37,15 +37,14 @@ function App() {
       <Layout>
         <Switch>
           <Route path="/" exact component={HomePage}/>
-          <Route path="/select-data-type" exact component={SelectDataType} />
           <Route path="/data" exact component={DataLandingPage} />
+          <Route path='/data/custom-data-download' exact component={ManageDataDownload} />
           <Route path="/data/bulk-data-files" exact component={BulkDataFiles} />
           <Route path="/resources/related-resources" exact component={RelatedResources} />
           <Route path="/help-support/about-campd" exact component={AboutPage} />
           <Route path="/help-support/tutorials" exact component={TutorialsPage} />
           <Route path="/help-support/faqs" exact component={FaqsPage} />
           <Route path="/help-support/contact-us" exact component={ContactUsPage} />
-          <ManageDataDownloadRoute path='/manage-data-download' exact component={ManageDataDownload} />
           <Route path="/*" component={NotFound} />
         </Switch>
       </Layout>

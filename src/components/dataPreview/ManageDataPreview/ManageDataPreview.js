@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { Button } from '@trussworks/react-uswds';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
+import { Help } from '@material-ui/icons';
+
 import DataPreview from '../DataPreview/DataPreview';
 import FilterTags from '../../FilterTags/FilterTags';
 import { isAddedToFilters } from '../../../utils/selectors/general';
@@ -122,7 +124,7 @@ const ManageDataPreview = ({
         <h2 className="flex-align-self-center font-sans-xl text-bold margin-0">
           Custom Data Download
         </h2>
-        <div className="flex-align-self-center">
+        <div className="flex-align-self-center mobile-lg:padding-right-2 tablet:padding-right-4 widescreen:padding-right-10">
           <FontAwesomeIcon
             icon={faQuestionCircle}
             className="text-primary font-sans-md question-icon"
@@ -155,10 +157,29 @@ const ManageDataPreview = ({
           </div>
         </div>
       )}
-      {renderPreviewData && (
+      {renderPreviewData ? (
         <DataPreview
           handleUpdateInAppliedFilters={handleUpdateInAppliedFilters}
         />
+      ) : (
+        <div className="margin-3 flex-justify-center padding-3 border width-mobile-lg line-height-sans-5">
+          <h3 className="font-sans-lg margin-top-0">To get started:</h3>
+          <ul>
+            <li>
+              Build a query by choosing a data type and subtype. Click Apply.
+            </li>
+            <li>
+              Refine query by using available filters. Selection must be made
+              for required filter.
+            </li>
+            <li>Click Preview Data to view data selection.</li>
+            <li>
+              Activate the tool tips{' '}
+              <Help className="text-primary padding-top-1" aria-label="Tooltip image" /> to
+              reveal helpful tips and info.{' '}
+            </li>
+          </ul>
+        </div>
       )}
     </div>
   );
