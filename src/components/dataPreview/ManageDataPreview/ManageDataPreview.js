@@ -52,10 +52,8 @@ const ManageDataPreview = ({
 
   useEffect(()=>{
     if(removedAppliedFilter !== null){
-      if(dataSubType !== "Transactions"){
-        if(filterCriteria.filterMapping.length>0){
-          engageFilterLogic(dataType, dataSubType, removedAppliedFilter, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispacher, true);
-        }
+      if(filterCriteria.filterMapping.length>0){
+        engageFilterLogic(dataType, dataSubType, removedAppliedFilter, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispacher, true);
       }
     }// eslint-disable-next-line react-hooks/exhaustive-deps
   },[appliedFilters]);
@@ -66,7 +64,7 @@ const ManageDataPreview = ({
   };
 
   const onFilterTagRemovedHandler = (filterType, label) => {
-    if (filterType === 'Time Period') {
+    if (filterType === 'Time Period' || filterType === "Transaction Date") {
       if(label === "Operating Hours Only"){
         updateTimePeriodDispatcher({
           startDate: timePeriod.startDate,

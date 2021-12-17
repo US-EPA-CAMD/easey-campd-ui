@@ -95,8 +95,8 @@ export const getComboboxEnabledItems = (arr) =>{
   return arr.filter(e=>e.enabled);
 };
 
-export const getComboboxSelectedItems = (arr, number=false) =>{
-  return arr.filter(e=>e.selected && e.enabled).map(el => number? Number(el.id) : el.id);
+export const getComboboxSelectedItems = (arr, number=false, useCode=false) =>{
+  return arr.filter(e=>e.selected && e.enabled).map(el => useCode? el.code : number? Number(el.id) : el.id);
 };
 
 export const updateEnabledStatusCheckBox = (arry, filteredSet) => {
@@ -107,9 +107,9 @@ export const updateEnabledStatusCheckBox = (arry, filteredSet) => {
   });
 };
 
-export const updateEnabledStatusComboBox = (arry, filteredSet) => {
+export const updateEnabledStatusComboBox = (arry, filteredSet, transactions = false) => {
   arry.forEach((obj) => {
-    obj.enabled = filteredSet.includes(obj.id);
+    obj.enabled = filteredSet.includes(transactions? obj.code : obj.id);
   });
 };
 
@@ -131,15 +131,19 @@ export const getTimePeriodYears = (start, end, years=null) =>{
   }
 };
 
-export const verifyTimePeriodChange = (formState, timePeriod, showYear) =>{
+export const verifyTimePeriodChange = (formState, timePeriod, showYear, transactions=false) =>{
   let result = false;
   if(showYear && timePeriod.year?.yearArray.length > 0){
     result = JSON.stringify(timePeriod.year.yearArray) !== JSON.stringify(getTimePeriodYears(null, null, formState.year));
   }
   if(timePeriod.startDate !== null && timePeriod.endDate !== null){
-    const storeTimePeriod = getTimePeriodYears(timePeriod.startDate, timePeriod.endDate);
-    const formTimePeriod = getTimePeriodYears(formatDateToApi(formState.startDate), formatDateToApi(formState.endDate));
-    result = JSON.stringify(storeTimePeriod) !== JSON.stringify(formTimePeriod);
+    if(transactions){
+      result = (timePeriod.startDate !== formState.startDate || timePeriod.endDate !== formState.endDate);
+    }else{
+      const storeTimePeriod = getTimePeriodYears(timePeriod.startDate, timePeriod.endDate);
+      const formTimePeriod = getTimePeriodYears(formatDateToApi(formState.startDate), formatDateToApi(formState.endDate));
+      result = JSON.stringify(storeTimePeriod) !== JSON.stringify(formTimePeriod);
+    }
   }
   return result;
 }
