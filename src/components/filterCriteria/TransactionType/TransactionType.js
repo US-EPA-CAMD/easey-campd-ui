@@ -8,6 +8,7 @@ import {updateFilterCriteria, updateTransactionTypeSelection} from "../../../sto
 import { addAppliedFilter, removeAppliedFilter } from "../../../store/actions/customDataDownload/customDataDownload";
 import {isAddedToFilters} from "../../../utils/selectors/general";
 import Tooltip from '../../Tooltip/Tooltip';
+import { engageFilterLogic } from '../../../utils/selectors/filterLogic';
 
 const TransactionType = ({
   transactionType,
