@@ -52,7 +52,7 @@ export const filterProgram = (filterCriteria) =>{
       (selection.ownerOperator.length === 0 || selection.ownerOperator.includes(x.ownerOperator)) &&
       (selection.acctNumbers.length === 0 || selection.acctNumbers.includes(x.accountNumber)
       || selection.acctNumbers.includes(x?.buyAccountNumber) || selection.acctNumbers.includes(x?.sellAccountNumber))&&
-      (selection.comboBoxYears.length === 0 || selection.comboBoxYears.includes(x.vintageYear)) &&
+      (selection.comboBoxYears.length === 0 || selection.comboBoxYears.includes(x.vintageYear? x.vintageYear : x.year)) &&
       (selection.transactionTypes.length === 0 || selection.transactionTypes.includes(x.transactionTypeCode))
     }).map(i => i.programCode)
   )];
@@ -73,7 +73,7 @@ export const filterStateTerritory = (filterCriteria) =>{
       (selection.ownerOperator.length === 0 || selection.ownerOperator.includes(x.ownerOperator)) &&
       (selection.acctNumbers.length === 0 || selection.acctNumbers.includes(x?.accountNumber)
       || selection.acctNumbers.includes(x?.buyAccountNumber) || selection.acctNumbers.includes(x?.sellAccountNumber))&&
-      (selection.comboBoxYears.length === 0 || selection.comboBoxYears.includes(x.vintageYear))&&
+      (selection.comboBoxYears.length === 0 || selection.comboBoxYears.includes(x.vintageYear? x.vintageYear : x.year))&&
       (selection.transactionTypes.length === 0 || selection.transactionTypes.includes(x.transactionTypeCode))
     }).map(i => {
       if(i.hasOwnProperty("state")){
@@ -100,7 +100,7 @@ export const filterFacility = (filterCriteria) =>{
       (selection.acctNumbers.length === 0 || selection.acctNumbers.includes(x?.accountNumber)
       || selection.acctNumbers.includes(x?.buyAccountNumber) || selection.acctNumbers.includes(x?.sellAccountNumber)) &&
       (selection.ownerOperator.length === 0 || selection.ownerOperator.includes(x.ownerOperator)) &&
-      (selection.comboBoxYears.length === 0 || selection.comboBoxYears.includes(x.vintageYear))&&
+      (selection.comboBoxYears.length === 0 || selection.comboBoxYears.includes(x.vintageYear? x.vintageYear : x.year))&&
       (selection.transactionTypes.length === 0 || selection.transactionTypes.includes(x.transactionTypeCode))
     }).map(i => {
       if(i.hasOwnProperty("facilityId")){
@@ -227,7 +227,7 @@ export const filterOwnerOperator = (filterCriteria) =>{
       || selection.acctNumbers.includes(x?.buyAccountNumber) || selection.acctNumbers.includes(x?.sellAccountNumber)) &&
       (selection.facilities.length === 0 || selection.facilities.includes(x?.facilityId)
       || selection.facilities.includes(x?.buyFacilityId) || selection.facilities.includes(x?.sellFacilityId)) &&
-      (selection.comboBoxYears.length === 0 || selection.comboBoxYears.includes(x.vintageYear)) &&
+      (selection.comboBoxYears.length === 0 || selection.comboBoxYears.includes(x.vintageYear? x.vintageYear : x.year)) &&
       (selection.states.length === 0 || selection.states.includes(x?.state)
       || selection.states.includes(x?.buyState) || selection.states.includes(x?.sellState))&&
       (selection.transactionTypes.length === 0 || selection.transactionTypes.includes(x.transactionTypeCode))
