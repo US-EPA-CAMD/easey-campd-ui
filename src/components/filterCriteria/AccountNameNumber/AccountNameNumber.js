@@ -93,7 +93,7 @@ const AccountNameNumber = ({
             <MultiSelectCombobox
               items={JSON.parse(JSON.stringify(accountNameNumber))}
               label="Select or Search Account Names/Numbers"
-              entity={"accounts"}
+              entity={'accounts'}
               onChangeUpdate={onChangeUpdate}
               searchBy="contains"
             />

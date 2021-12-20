@@ -94,18 +94,13 @@ const FilterCriteriaMenu = ({
                   <p key={i} className="padding-y-0">
                     <Button
                       outline="true"
-                      onClick={(evt) =>
-                        handleFilterButtonClick(el.value, evt.target)
-                      }
+                      onClick={(evt) => handleFilterButtonClick(el.value, evt.target)}
                       aria-selected={
-                        isAddedToFilters(el.value, appliedFilters) ||
-                        activeFilter === el.value
-                          ? true
-                          : false
+                        isAddedToFilters(el.value, appliedFilters) || activeFilter===el.value
+                          ? true : false
                       }
                       className={
-                        isAddedToFilters(el.value, appliedFilters) ||
-                        activeFilter === el.value
+                        isAddedToFilters(el.value, appliedFilters) || activeFilter===el.value
                           ? "filter-button applied-filter"
                           : "filter-button"
                       }

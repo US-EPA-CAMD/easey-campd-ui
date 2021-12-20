@@ -79,7 +79,8 @@ const Facility = ({
         </Tooltip>
         <hr />
       </div>
-      {facility.length > 0 && (
+      {
+        facility.length > 0 &&
         <>
           <div className="margin-x-2">
             <MultiSelectCombobox
@@ -104,7 +105,7 @@ const Facility = ({
             </Button>
           </div>
         </>
-      )}
+      }
     </>
   );
 }

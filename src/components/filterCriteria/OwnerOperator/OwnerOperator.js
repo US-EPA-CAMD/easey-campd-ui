@@ -87,7 +87,8 @@ const OwnerOperator = ({
         </Tooltip>
         <hr />
       </div>
-      {_ownerOperator.length > 0 && loading === 0 && (
+      {
+        _ownerOperator.length > 0 && loading===0 &&
         <>
           <div className="margin-x-2">
             <MultiSelectCombobox
@@ -112,10 +113,11 @@ const OwnerOperator = ({
             </Button>
           </div>
         </>
-      )}
-      {loading > 0 && ownerOperator.length === 0 && (
+      }
+      {
+        loading > 0 && ownerOperator.length === 0 && 
         <span className="font-alt-sm text-bold margin-x-2">Loading...</span>
-      )}
+      }
     </>
   );
 }
