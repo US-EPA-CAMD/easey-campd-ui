@@ -18,51 +18,55 @@ const FilterCriteriaMenu = ({
     appliedFilters,
     filterCriteria
   }) => {
-    const checkSelectableData = (list, item) => {
-      if (!item || !list) {
-        return false;
-      }
-      let enabled = 0,
-        listItem = list[item];
-      if (item === 'timePeriod' || !listItem) {
-        return false;
-      }
-      if (item === 'comboBoxYear') {
-        listItem = list.timePeriod.comboBoxYear;
-      }
-      listItem.forEach((el) => {
+    const checkSelectableData = (listItem) => {
+      let enabled = 0;
+      for (const el of listItem) {
+        if (enabled) {
+          break;
+        }
         if (el.items) {
-          el.items.forEach((filterItem) => {
+          for (const filterItem of el.items) {
             if (filterItem.enabled) {
               enabled++;
+              break;
             }
-          });
+          }
         }
         if (el.enabled) {
           enabled++;
+          break;
         }
-      });
+      }
       return enabled === 0;
+    };
+    const validateInput = (list, item) => {
+      if (!item || !list) {
+        return false;
+      }
+      let listItem = list[item];
+
+      if (item === 'comboBoxYear') {
+        listItem = list.timePeriod.comboBoxYear;
+      }
+      if (!listItem) {
+        return false;
+      }
+      return checkSelectableData(listItem);
     };
 
     const checkDisabled = (filter) => {
-      let noTimePeriodSelected;
-      if (selectedDataType === 'EMISSIONS') {
-        if (
-          filter.value === 'Time Period' ||
-          isAddedToFilters('Time Period', appliedFilters)
-        ) {
-          noTimePeriodSelected = false;
-        } else {
-          noTimePeriodSelected = true;
+      if (selectedDataType === 'EMISSIONS' || getSelectedDataSubType(constants.DATA_SUBTYPES_MAP[selectedDataType]) === "Transactions") {
+        if (filter.value === 'Time Period' || filter.value === "Transaction Date") {
+          return false;
+        } else if(getSelectedDataSubType(constants.DATA_SUBTYPES_MAP[selectedDataType]) === "Transactions") {
+          return !isAddedToFilters('Transaction Date', appliedFilters);
+        }else if (!isAddedToFilters('Time Period', appliedFilters)) {
+          return true;
         }
       }
-      if (noTimePeriodSelected) {
-        return true;
-      } else {
-        return checkSelectableData(filterCriteria, filter.stateVar);
-      }
+      return validateInput(filterCriteria, filter.stateVar);
     };
+
   return (
     <>
       {dataSubtypeApplied === true && (

@@ -80,9 +80,18 @@ export const TimePeriod = ({
 
   useEffect(()=>{
     if(applyFilterClicked && loading === 0){
-      if(dataType === "EMISSIONS"){
+      if(dataType === "EMISSIONS" || dataSubType === "Transactions"){
         if(filterCriteria.filterMapping && filterCriteria.filterMapping.length>0){
-          engageFilterLogic(dataType, dataSubType, filterToApply, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispacher);
+          const filterCriteriaCloned = JSON.parse(JSON.stringify(filterCriteria));
+          if(dataSubType === "Transactions"){
+            const distinctYears = [...new Set(filterCriteria.filterMapping.map(e=>e.vintageYear))];
+            updateTimePeriodDispatcher({
+              ...filterCriteria.timePeriod,
+              comboBoxYear: distinctYears.map(year => {return {id:year, label:year, selected:false, enabled:true}})
+            });
+            filterCriteriaCloned.timePeriod.comboBoxYear = distinctYears.map(year => {return {id:year, label:year, selected:false, enabled:true}});
+          }
+          engageFilterLogic(dataType, dataSubType, filterToApply, filterCriteriaCloned, updateFilterCriteriaDispacher);
         }else{
           window.alert("Data is not available for the selected time period. Enter a new time period.");
           removeAppliedFiltersDispatcher(filterToApply);
@@ -185,16 +194,23 @@ export const TimePeriod = ({
   };
 
   const updateFilterMapping = () =>{
-    showYear? loadFilterMappingDispatcher(dataType, dataSubType, getTimePeriodYears(null, null, formState.year)) :
-      loadFilterMappingDispatcher(dataType, dataSubType, getTimePeriodYears(formatDateToApi(formState.startDate), formatDateToApi(formState.endDate)));
+    if(showYear){
+      loadFilterMappingDispatcher(dataType, dataSubType, getTimePeriodYears(null, null, formState.year));
+    }
+    else
+      if(dataSubType === "Transactions"){
+        loadFilterMappingDispatcher(dataType, dataSubType, [formatDateToApi(formState.startDate), formatDateToApi(formState.endDate)]);
+      }else{
+        loadFilterMappingDispatcher(dataType, dataSubType, getTimePeriodYears(formatDateToApi(formState.startDate), formatDateToApi(formState.endDate)));
+      }
   }
 
   const verifyFilterLogic = () =>{
     let result = true;
-    if(dataType === "EMISSIONS"){
+    if(dataType === "EMISSIONS" || dataSubType === "Transactions"){
       if(!isAddedToFilters(filterToApply, appliedFilters)){
         updateFilterMapping();
-      }else if(verifyTimePeriodChange(formState, timePeriod, showYear)){
+      }else if(verifyTimePeriodChange(formState, timePeriod, showYear, dataSubType === "Transactions")){
         if(window.confirm("Changing the year will clear out previously selected criteria. Do you want to proceed?")){
           resetFilterDispacher(null, true);
           removeAppliedFiltersDispatcher(null, true);

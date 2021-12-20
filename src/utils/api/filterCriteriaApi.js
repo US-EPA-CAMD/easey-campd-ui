@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { handleResponse, handleError } from './apiUtils';
+import {getPipeDelimitedYears} from "../selectors/filterCriteria";
 import config from '../../config';
 
 axios.defaults.headers.common = {
@@ -69,12 +70,14 @@ export function getOwnerOperators(dataSubType) {
 export async function getFilterMapping(dataType, dataSubType, yearSet=[]) {
   let url;
   if(dataType === "EMISSIONS"){
-    url = `${config.services.facilities.uri}/facilities/attributes/applicable?year=${yearSet}`;
+    url = `${config.services.facilities.uri}/facilities/attributes/applicable?year=${getPipeDelimitedYears(yearSet)}`;
   }else if(dataType === "ALLOWANCE"){
     if(dataSubType === "Holdings"){
       url = `${config.services.account.uri}/allowance-holdings/attributes/applicable`;
     }else if(dataSubType === "Account Information"){
       url = `${config.services.account.uri}/accounts/attributes/applicable`;
+    }else if(dataSubType === "Transactions"){
+      url = `${config.services.account.uri}/allowance-transactions/attributes/applicable?transactionBeginDate=${yearSet[0]}&transactionEndDate=${yearSet[1]}`;
     }
   }else if(dataType === "COMPLIANCE"){
     if(dataSubType === "Allowance Based"){

@@ -41,10 +41,8 @@ const AccountNameNumber = ({
 
   useEffect(()=>{
     if(applyFilterClicked){
-      if(dataSubType === "Account Information" || dataSubType === "Holdings"){
-        if(filterCriteria.filterMapping.length>0){
-          engageFilterLogic(dataType, dataSubType, filterToApply, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispacher);
-        }
+      if(filterCriteria.filterMapping.length>0){
+        engageFilterLogic(dataType, dataSubType, filterToApply, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispacher);
       }
       closeFlyOutHandler();
     }// eslint-disable-next-line react-hooks/exhaustive-deps

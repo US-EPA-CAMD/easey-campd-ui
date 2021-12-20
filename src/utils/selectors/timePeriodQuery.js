@@ -50,11 +50,7 @@ export const constructTimePeriodQuery = (dataSubType, filterCriteria) => {
       ) {
         timePeriodQuery += `transactionBeginDate=${filterCriteria.timePeriod.startDate}&transactionEndDate=${filterCriteria.timePeriod.endDate}`;
       }
-      return `${timePeriodQuery}${constructQuery(
-        filterCriteria.timePeriod.year.yearArray,
-        'vintageYear',
-        true
-      )}`;
+      return `${timePeriodQuery}${constructComboBoxQuery(filterCriteria.timePeriod.comboBoxYear, 'vintageYear')}`;
     default:
       return '';
   }

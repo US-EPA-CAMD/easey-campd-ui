@@ -46,7 +46,7 @@ const TimePeriodComboBox = ({
 
   useEffect(()=>{
     if(applyFilterClicked){
-      if(dataSubType === "Holdings"){
+      if(dataSubType === "Holdings" || dataSubType === "Transactions" || dataType === "COMPLIANCE"){
         if(filterCriteria.filterMapping.length>0){
           engageFilterLogic(dataType, dataSubType, filterToApply, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispacher);
         }
@@ -96,7 +96,7 @@ const TimePeriodComboBox = ({
           <div className="margin-x-2">
             <MultiSelectCombobox
               items={JSON.parse(JSON.stringify(timePeriod.comboBoxYear))}
-              label={`Select or Search ${filterToApply}`}
+              label={`Select or Search ${filterToApply}s`}
               entity={`${filterToApply.toLowerCase()}s`}
               onChangeUpdate={onChangeUpdate}
               searchBy="beginsWith"

@@ -26,7 +26,7 @@ const DataLandingPage = () => {
       name: 'Custom Data Download Tool',
       description: `Users looking to build a custom query for a particular data type will find this tool flexible, fast, and easy to use. Apportioned emissions,
       allowance, compliance and facility/unit attributes data are available for filtering and querying to the user’s desired parameters.`,
-      url: () => history.push('/select-data-type'),
+      url: () => history.push('/data/custom-data-download'),
       button: 'Start your data query',
     },
     {
