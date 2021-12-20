@@ -2,9 +2,8 @@ import React from 'react';
 import { Button, Dropdown, Label } from '@trussworks/react-uswds';
 import { Help } from '@material-ui/icons';
 
-
 import * as constants from '../../../utils/constants/customDataDownload';
-import { initcap } from '../../../utils/selectors/general'
+import { initcap } from '../../../utils/selectors/general';
 import Tooltip from '../../Tooltip/Tooltip';
 
 const DataTypeSelectorView = ({
@@ -91,14 +90,22 @@ const DataTypeSelectorView = ({
             <div className="padding-y-1">
               <Dropdown
                 id="data-sub-type"
+                className={!selectedDataType ? 'bg-transparent' : ''}
                 onChange={changeDataSubtype}
                 value={selectedDataSubtype}
+                disabled={selectedDataType ? false : true}
               >
-                {constants.DATA_SUBTYPES_MAP[selectedDataType].map((el, i) => (
-                  <option key={i} value={el.value}>
-                    {el.label}
+                {selectedDataType ? (
+                  constants.DATA_SUBTYPES_MAP[selectedDataType].map((el, i) => (
+                    <option key={i} value={el.value}>
+                      {el.label}
+                    </option>
+                  ))
+                ) : (
+                  <option key="" value="">
+                    - Select -
                   </option>
-                ))}
+                )}
               </Dropdown>
             </div>
           </>

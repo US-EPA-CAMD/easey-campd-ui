@@ -29,7 +29,7 @@ const HomePage = () => {
           alt=""
         />
       ),
-      url: () => history.push('/select-data-type'),
+      url: () => history.push('/data/custom-data-download'),
       link: '/data',
       button: 'Start your data query',
     },

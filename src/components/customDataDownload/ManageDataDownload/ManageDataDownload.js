@@ -18,6 +18,7 @@ import LoadingModal from '../../LoadingModal/LoadingModal';
 import './ManageDataDownload.scss';
 import { loadAllFilters, resetFilter, loadFilterMapping, updateFilterCriteria, updateTimePeriod } from '../../../store/actions/customDataDownload/filterCriteria';
 import { engageFilterLogic } from '../../../utils/selectors/filterLogic';
+import { metaAdder } from '../../../utils/document/metaAdder';
 
 const ManageDataDownload = ({
   selectedDataType,
@@ -34,14 +35,23 @@ const ManageDataDownload = ({
   loading,
 }) => {
   useEffect(() => {
-    document.title = "CAMPD - Manage Data Download";
+    document.title = 'Custom Data Download | CAMPD | US EPA';
   }, []);
+
+  metaAdder(
+    'description',
+    'The custom data download tool allows users to create custom queries of emissions, allowance, compliance and/or facility information.'
+  );
+  metaAdder(
+    'keywords',
+    'EPA, AMPD, emissions data, customized dataset, allowance compliance, Clean air markets program data, analysis, data, facility information, custom data download, CAMPD, CAMD'
+  );
 
   // *** HOOKS
   const [dataTypeApplied, setDataTypeApplied] = useState(false);
   const [dataSubtypeApplied, setDataSubtypeApplied] = useState(false);
   const [appliedDataType, setAppliedDataType] = useState({
-    dataType: selectedDataType,
+    dataType: '',
     dataSubType: '',
   });
 
@@ -107,6 +117,7 @@ const ManageDataDownload = ({
   };
 
   const handleDataTypeDropdown = (event) => {
+    console.log(event.target.value);
     if (event.target.value !== '') {
       setSelectedDataSubtype('');
       updateSelectedDataTypeDispatcher(event.target.value);
@@ -175,14 +186,14 @@ const ManageDataDownload = ({
 
   // *** UTILITY FUNCTION
   const getSelectedDataSubType = (options) => {
-    const entry = options.find(
+    const entry = options?.find(
       (list) => list.value === parseFloat(selectedDataSubtype)
     );
     return entry ? entry.label : '';
   };
 
   const getFilterVariable = (selectedFilter) => {
-    if (selectedDataSubtype) {
+    if (selectedDataSubtype !== '') {
       const filters =
         constants.FILTERS_MAP[selectedDataType][
           getSelectedDataSubType(constants.DATA_SUBTYPES_MAP[selectedDataType])
