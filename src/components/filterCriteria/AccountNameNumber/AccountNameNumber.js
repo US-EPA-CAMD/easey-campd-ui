@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Button } from '@trussworks/react-uswds';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
+import { Help } from '@material-ui/icons';
 
 import {
   updateFilterCriteria,
@@ -15,6 +14,7 @@ import {
 import { isAddedToFilters } from '../../../utils/selectors/general';
 import MultiSelectCombobox from '../../MultiSelectCombobox/MultiSelectCombobox';
 import { engageFilterLogic } from "../../../utils/selectors/filterLogic";
+import Tooltip from '../../Tooltip/Tooltip';
 
 const AccountNameNumber = ({
   accountNameNumber,
@@ -78,10 +78,15 @@ const AccountNameNumber = ({
     <>
       <div className="panel-header padding-top-2 margin-x-2">
         <h3>Account Name/Number</h3>
-        <FontAwesomeIcon
-          icon={faQuestionCircle}
-          className="text-gray-30 font-body-md question-icon"
-        />
+        <Tooltip
+          content="For more information on account numbers, use the Allowance Data Guide in the Tutorials section."
+          field="Account Name/Number"
+        >
+          <Help
+            className="text-primary margin-left-1 margin-bottom-1"
+            fontSize="small"
+          />
+        </Tooltip>
         <hr />
       </div>
       {accountNameNumber.length > 0 && (
@@ -90,7 +95,7 @@ const AccountNameNumber = ({
             <MultiSelectCombobox
               items={JSON.parse(JSON.stringify(accountNameNumber))}
               label="Select or Search Account Names/Numbers"
-              entity={'accounts'}
+              entity={"accounts"}
               onChangeUpdate={onChangeUpdate}
               searchBy="contains"
             />

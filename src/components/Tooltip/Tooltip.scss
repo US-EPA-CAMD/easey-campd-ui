@@ -2,7 +2,9 @@
   position: absolute;
   padding: 6px;
   color: black;
+  white-space: normal;
+  width: 200px;
   background: white;
-  white-space: nowrap;
   font-size: small;
+  z-index: 3;
 }

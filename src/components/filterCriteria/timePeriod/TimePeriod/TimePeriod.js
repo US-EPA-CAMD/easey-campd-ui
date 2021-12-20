@@ -360,6 +360,8 @@ export const TimePeriod = ({
       isAnnual={isAnnual}
       isAllowance={isAllowance}
       minYear={minYear}
+      dataType={dataType}
+      dataSubType={dataSubType}
     />
   );
 };

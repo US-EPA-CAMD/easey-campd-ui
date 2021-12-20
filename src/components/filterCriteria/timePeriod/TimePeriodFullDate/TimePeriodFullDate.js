@@ -6,8 +6,11 @@ import {
   DateRangePicker,
   Checkbox,
 } from '@trussworks/react-uswds';
+import { Help } from '@material-ui/icons';
+
 import { formatDateToApi, reportingQuarter } from '../../../../utils/selectors/general';
 import { fullDateEnsure508 } from '../../../../utils/ensure-508/time-period';
+import Tooltip from '../../../Tooltip/Tooltip';
 
 const TimePeriodFullDate = ({
   formState,
@@ -99,13 +102,21 @@ const TimePeriodFullDate = ({
       />
       <br />
       {showOpHrsOnly && (
-        <Checkbox
-          id="opHrsonly"
-          name="opHrsonly"
-          label="Operating hours only"
-          checked={formState.opHrsOnly}
-          onChange={handleOptHrsOnlyUpdate}
-        />
+        <div className="display-inline-flex ">
+          <Checkbox
+            id="opHrsonly"
+            name="opHrsonly"
+            label="Operating hours only"
+            checked={formState.opHrsOnly}
+            onChange={handleOptHrsOnlyUpdate}
+          />
+          <Tooltip content="When checked, only hours in a day during which a unit is operational are included in the data output.">
+            <Help
+              className="text-primary margin-left-1 margin-bottom-1"
+              fontSize="small"
+            />
+          </Tooltip>
+        </div>
       )}
     </>
   );

@@ -2,13 +2,12 @@ import * as React from "react";
 import * as constants from "../../../utils/constants/customDataDownload";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button } from "@trussworks/react-uswds";
-import {
-  faQuestionCircle,
-  faSlidersH,
-} from "@fortawesome/free-solid-svg-icons";
+import { faSlidersH } from "@fortawesome/free-solid-svg-icons";
+import { Help } from '@material-ui/icons';
 
 import "./FilterCriteriaMenu.scss";
 import { isAddedToFilters } from "../../../utils/selectors/general";
+import Tooltip from '../../Tooltip/Tooltip';
 
 const FilterCriteriaMenu = ({
     dataSubtypeApplied,
@@ -70,11 +69,15 @@ const FilterCriteriaMenu = ({
         <>
           <div className="panel-header padding-top-3 padding-left-2">
             <h2>Filters</h2>
-            <FontAwesomeIcon
-              icon={faQuestionCircle}
-              className="text-primary font-body-md question-icon"
-              title="Use the filters below to refine your query. The filter criteria will not update based on other criteria selections. If no selections are made in a filter, all data related to that filter will be returned."
-            />
+            <Tooltip
+              content="Use the filters below to refine your query. Filter options will update based on previously applied filters. If no selections are made in a filter, all data related to that filter will be returned."
+              field="Filters"
+            >
+              <Help
+                className="text-primary margin-left-1 margin-bottom-1"
+                fontSize="small"
+              />
+            </Tooltip>
           </div>
           <div className="clearfix padding-y-1 padding-x-2">
             <div className="filter-container">
@@ -87,13 +90,18 @@ const FilterCriteriaMenu = ({
                   <p key={i} className="padding-y-0">
                     <Button
                       outline="true"
-                      onClick={(evt) => handleFilterButtonClick(el.value, evt.target)}
+                      onClick={(evt) =>
+                        handleFilterButtonClick(el.value, evt.target)
+                      }
                       aria-selected={
-                        isAddedToFilters(el.value, appliedFilters) || activeFilter===el.value
-                          ? true : false
+                        isAddedToFilters(el.value, appliedFilters) ||
+                        activeFilter === el.value
+                          ? true
+                          : false
                       }
                       className={
-                        isAddedToFilters(el.value, appliedFilters) || activeFilter===el.value
+                        isAddedToFilters(el.value, appliedFilters) ||
+                        activeFilter === el.value
                           ? "filter-button applied-filter"
                           : "filter-button"
                       }

@@ -3,12 +3,12 @@ import {
   Form,
   Button,
 } from "@trussworks/react-uswds";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
+import { Help } from '@material-ui/icons';
 
 import TimePeriodYear from "../TimePeriodYear/TimePeriodYear";
 import TimePeriodFullDate from "../TimePeriodFullDate/TimePeriodFullDate";
 import { formatMonthsToApiOrString, formatQuartersToApiOrString } from "../../../../utils/selectors/general";
+import Tooltip from '../../../Tooltip/Tooltip';
 
 const TimePeriodRender = ({
   applyFilterHandler,
@@ -32,6 +32,7 @@ const TimePeriodRender = ({
   isAnnual,
   isAllowance,
   minYear,
+  dataSubType
 }) => {
 
   const isApplyFilterDisabled = () => {
@@ -48,14 +49,34 @@ const TimePeriodRender = ({
     }
   };
 
+  let tooltip;
+  if (
+    dataSubType === "Hourly Emissions" ||
+    dataSubType === "Daily Emissions" ||
+    dataSubType === "Transactions"
+  ) {
+    tooltip =
+      "If using the keyboard to navigate the date picker and the escape key does not work, try using the tab key then escape key.";
+  }
+  if (dataSubType === "Ozone Season Emissions") {
+    tooltip = "The Ozone Season is from May 1st – September 30th.";
+  }
+
   return (
     <Form onSubmit={applyFilterHandler} className="maxw-mobile-lg padding-x-3">
-      <div className="panel-header text-bold padding-top-2">
+      <div className="panel-header padding-top-2">
         <h3>{filterToApply}</h3>
-        <FontAwesomeIcon
-          icon={faQuestionCircle}
-          className="text-gray-30 font-body-md question-icon"
-        />
+        {(dataSubType === "Hourly Emissions" ||
+          dataSubType === "Daily Emissions" ||
+          dataSubType === "Ozone Season Emissions" ||
+          dataSubType === "Transactions") && (
+          <Tooltip content={tooltip} field={filterToApply}>
+            <Help
+              className=" text-primary margin-left-1 margin-bottom-1"
+              fontSize="small"
+            />
+          </Tooltip>
+        )}
       </div>
       <hr />
       {showYear ? (

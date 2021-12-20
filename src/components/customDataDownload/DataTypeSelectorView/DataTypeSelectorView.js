@@ -29,7 +29,10 @@ const DataTypeSelectorView = ({
           content="Data type and subtype can be changed at any time."
           field="Data Type"
         >
-          <Help className=" text-primary margin-left-1" />
+          <Help
+            className="text-primary margin-left-1 margin-bottom-1"
+            fontSize="small"
+          />
         </Tooltip>
       </div>
       <div className="border-bottom-1px border-base-light clearfix padding-y-1 padding-x-2">
