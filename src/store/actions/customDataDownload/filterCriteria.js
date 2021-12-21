@@ -293,7 +293,7 @@ export function updateOwnerOperatorSelection(ownerOperator){
 export function loadTransactionTypesSuccess(transactionType) {
   return {
     type: types.LOAD_TRANSACTION_TYPE_SUCCESS,
-    transactionType: transactionType.map(t=> ({id: t.transactionTypeDescription, label: t.transactionTypeDescription, code: t.transactionTypeCode, selected:false, enabled:true}))
+    transactionType: transactionType.map(t=> ({id: t.transactionTypeCode, label: t.transactionTypeDescription, selected:false, enabled:true}))
   };
 }
 
