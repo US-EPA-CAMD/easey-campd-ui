@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Button } from '@trussworks/react-uswds';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 import { Help } from '@material-ui/icons';
 
 import DataPreview from '../DataPreview/DataPreview';
@@ -21,6 +19,7 @@ import {
 import { EMISSIONS_DATA_SUBTYPES } from '../../../utils/constants/emissions';
 import { ALLOWANCES_DATA_SUBTYPES } from '../../../utils/constants/allowances';
 import { COMPLIANCES_DATA_SUBTYPES } from '../../../utils/constants/compliances';
+import Tooltip from '../../Tooltip/Tooltip';
 
 const ManageDataPreview = ({
   dataType,
@@ -125,14 +124,15 @@ const ManageDataPreview = ({
           Custom Data Download
         </h2>
         <div className="flex-align-self-center mobile-lg:padding-right-2 tablet:padding-right-4 widescreen:padding-right-10">
-          <FontAwesomeIcon
-            icon={faQuestionCircle}
-            className="text-primary font-sans-md question-icon"
-            title="Preview the first 100 rows of your query here."
-          />
+          <Tooltip
+            content="Preview the first 100 rows of your query here."
+            field="Preview Data"
+          >
+            <Help className="text-primary margin-bottom-2" fontSize="small" />
+          </Tooltip>
           <Button
             type="button"
-            className="clearfix width-card height-6 font-sans-md margin-left-3"
+            className="clearfix width-card height-6 font-sans-md margin-left-1"
             disabled={!requirementsMet}
             onClick={() => setRenderPreviewData(true)}
           >

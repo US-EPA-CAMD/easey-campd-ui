@@ -47,10 +47,10 @@ export const MONTHS = [
 ];
 
 export const QUARTERS = [
-  { id: 1, label: 'Q1', selected: false },
-  { id: 2, label: 'Q2', selected: false },
-  { id: 3, label: 'Q3', selected: false },
-  { id: 4, label: 'Q4', selected: false },
+  { id: 1, label: "Q1: January 1 – March 31", selected: false },
+  { id: 2, label: "Q2: April 1 – June 30 ", selected: false },
+  { id: 3, label: "Q3: July 1 – September 30 ", selected: false },
+  { id: 4, label: "Q4: October 1 – December 31 ", selected: false },
 ];
 
 export const API_CALLING_FILTERS = [

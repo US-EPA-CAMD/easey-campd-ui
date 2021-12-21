@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from "react-redux";
+import {Button} from "@trussworks/react-uswds";
+import { Help } from '@material-ui/icons';
+
 import MultiSelectCombobox from '../../MultiSelectCombobox/MultiSelectCombobox';
 import { loadOwnerOperators, updateOwnerOperatorSelection, updateFilterCriteria } from "../../../store/actions/customDataDownload/filterCriteria";
 import { addAppliedFilter, removeAppliedFilter } from "../../../store/actions/customDataDownload/customDataDownload";
 import { isAddedToFilters } from "../../../utils/selectors/general";
-import {Button} from "@trussworks/react-uswds";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
 import { engageFilterLogic } from "../../../utils/selectors/filterLogic";
+import Tooltip from '../../Tooltip/Tooltip';
 
 const OwnerOperator = ({
   ownerOperator,
@@ -27,6 +28,14 @@ const OwnerOperator = ({
   const [applyFilterClicked, setApplyFilterClicked] = useState(false);
 
   const filterToApply = "Owner/Operator";
+  let tooltip ="";
+
+  if (dataType === "COMPLIANCE"){
+     tooltip = "Select one or more companies that own and/or operate a unit using the drop down."
+  }
+  else {
+    tooltip = "Search for one or more individuals/companies that own an allowance account."
+  }
 
   useEffect(()=>{
     if(_ownerOperator.length > 0){
@@ -70,10 +79,12 @@ const OwnerOperator = ({
     <>
       <div className="panel-header padding-top-2 margin-x-2">
         <h3>{filterToApply}</h3>
-        <FontAwesomeIcon
-          icon={faQuestionCircle}
-          className="text-gray-30 font-body-md question-icon"
-        />
+        <Tooltip content={tooltip} field={filterToApply}>
+          <Help
+            className="text-primary margin-left-1 margin-bottom-1"
+            fontSize="small"
+          />
+        </Tooltip>
         <hr />
       </div>
       {
@@ -104,7 +115,7 @@ const OwnerOperator = ({
         </>
       }
       {
-        loading>0 && ownerOperator.length===0 &&
+        loading > 0 && ownerOperator.length === 0 && 
         <span className="font-alt-sm text-bold margin-x-2">Loading...</span>
       }
     </>

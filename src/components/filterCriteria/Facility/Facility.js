@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from "react-redux";
+import {Button} from "@trussworks/react-uswds";
+import { Help } from '@material-ui/icons';
+
 import MultiSelectCombobox from '../../MultiSelectCombobox/MultiSelectCombobox';
 import { updateFilterCriteria, updateFacilitySelection} from "../../../store/actions/customDataDownload/filterCriteria";
 import { addAppliedFilter, removeAppliedFilter } from "../../../store/actions/customDataDownload/customDataDownload";
 import {isAddedToFilters} from "../../../utils/selectors/general";
-import {Button} from "@trussworks/react-uswds";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
 import { engageFilterLogic } from "../../../utils/selectors/filterLogic";
+import Tooltip from '../../Tooltip/Tooltip';
 
 const Facility = ({
   facility,
@@ -67,10 +68,15 @@ const Facility = ({
     <>
       <div className="panel-header padding-top-2 margin-x-2">
         <h3>Facility</h3>
-        <FontAwesomeIcon
-          icon={faQuestionCircle}
-          className="text-gray-30 font-body-md question-icon"
-        />
+        <Tooltip
+          content="ORIS Code: Facility ID Code assigned by the U.S. Energy Information Administration. Also known as ORISPL or Plant ID Code."
+          field="Facility"
+        >
+          <Help
+            className="text-primary margin-left-1 margin-bottom-1"
+            fontSize="small"
+          />
+        </Tooltip>
         <hr />
       </div>
       {

@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from "react-redux";
+import {Button} from "@trussworks/react-uswds";
+
 import MultiSelectCombobox from '../../MultiSelectCombobox/MultiSelectCombobox';
 import { updateFilterCriteria, updateStateSelection } from "../../../store/actions/customDataDownload/filterCriteria";
 import { addAppliedFilter, removeAppliedFilter } from "../../../store/actions/customDataDownload/customDataDownload";
 import { isAddedToFilters } from "../../../utils/selectors/general";
-import {Button} from "@trussworks/react-uswds";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
 import { engageFilterLogic } from "../../../utils/selectors/filterLogic";
 
 const StateTerritory = ({
@@ -67,10 +66,6 @@ const StateTerritory = ({
     <>
       <div className="panel-header padding-top-2 margin-x-2">
         <h3>State/Territory</h3>
-        <FontAwesomeIcon
-          icon={faQuestionCircle}
-          className="text-gray-30 font-body-md question-icon"
-        />
         <hr />
       </div>
       {

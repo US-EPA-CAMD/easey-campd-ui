@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Button } from '@trussworks/react-uswds';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
+import { Help } from '@material-ui/icons';
 
 import CheckboxGroupRenderer from '../../CheckboxGroupRenderer/CheckboxGroupRenderer';
 import {
@@ -15,6 +14,7 @@ import {
 } from '../../../store/actions/customDataDownload/customDataDownload';
 import { getSelectedIds } from '../../../utils/selectors/filterCriteria';
 import { isAddedToFilters } from '../../../utils/selectors/general';
+import Tooltip from '../../Tooltip/Tooltip';
 
 const AccountType = ({
   storeAccountType,
@@ -90,10 +90,15 @@ const AccountType = ({
     <>
       <div className="panel-header padding-top-2 margin-x-2">
         <h3>Account Type</h3>
-        <FontAwesomeIcon
-          icon={faQuestionCircle}
-          className="text-gray-30 font-body-md question-icon"
-        />
+        <Tooltip
+          content="For more information on account types, use the Allowance Data Guide in the Tutorials section."
+          field="Account Type"
+        >
+          <Help
+            className="text-primary margin-left-1 margin-bottom-1"
+            fontSize="small"
+          />
+        </Tooltip>
         <hr />
       </div>
       {accountType.length > 0 && loading === 0 && (

@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from "react-redux";
+import {Button} from "@trussworks/react-uswds";
+import { Help } from '@material-ui/icons';
+
 import MultiSelectCombobox from '../../../MultiSelectCombobox/MultiSelectCombobox';
 import { updateFilterCriteria, updateTimePeriod } from "../../../../store/actions/customDataDownload/filterCriteria";
 import { addAppliedFilter, removeAppliedFilter } from "../../../../store/actions/customDataDownload/customDataDownload";
 import { isAddedToFilters } from "../../../../utils/selectors/general";
-import {Button} from "@trussworks/react-uswds";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
 import { engageFilterLogic } from "../../../../utils/selectors/filterLogic";
+import Tooltip from '../../../Tooltip/Tooltip';
 
 const TimePeriodComboBox = ({
   timePeriod,
@@ -26,6 +27,16 @@ const TimePeriodComboBox = ({
 
   const [yearsArray, setYearsArray] = useState(JSON.parse(JSON.stringify(timePeriod.comboBoxYear)));
   const [applyFilterClicked, setApplyFilterClicked] = useState(false);
+
+  let tooltip;
+
+  if (dataType === "ALLOWANCE") {
+    tooltip =
+      "All allowances have an associated vintage year.  This is the first year an allowance may be used in compliance. For more information on vintage years, use the Allowance Data Guide in the Tutorials section.";
+  }
+  if (dataType === "COMPLIANCE") {
+    tooltip = "Compliance is assessed on an annual basis.";
+  }
 
   useEffect(()=>{
     if(yearsArray.length > 0){
@@ -72,11 +83,12 @@ const TimePeriodComboBox = ({
     <>
       <div className="panel-header padding-top-2 margin-x-2">
         <h3>{filterToApply}</h3>
-        <FontAwesomeIcon
-          icon={faQuestionCircle}
-          className="text-gray-30 font-body-md question-icon"
-        />
-        <hr />
+        <Tooltip content={tooltip} field={filterToApply}>
+          <Help
+            className=" text-primary margin-left-1 margin-bottom-1"
+            fontSize="small"
+          />
+        </Tooltip>
       </div>
       {
         timePeriod.comboBoxYear.length > 0 &&

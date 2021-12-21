@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Button } from '@trussworks/react-uswds';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
+import { Help } from '@material-ui/icons';
 
 import CheckboxGroupRenderer from '../../CheckboxGroupRenderer/CheckboxGroupRenderer';
 import { updateFuelTypeSelection, updateFilterCriteria } from '../../../store/actions/customDataDownload/filterCriteria';
@@ -10,6 +9,7 @@ import { addAppliedFilter, removeAppliedFilter} from '../../../store/actions/cus
 import { getSelectedIds } from '../../../utils/selectors/filterCriteria';
 import { isAddedToFilters } from '../../../utils/selectors/general';
 import { engageFilterLogic } from "../../../utils/selectors/filterLogic";
+import Tooltip from '../../Tooltip/Tooltip';
 
 export const FuelType = ({
   storeFuelType,
@@ -86,10 +86,15 @@ export const FuelType = ({
     <>
       <div className="panel-header padding-top-2 margin-x-2">
         <h3>Unit Fuel Type</h3>
-        <FontAwesomeIcon
-          icon={faQuestionCircle}
-          className="text-gray-30 font-body-md question-icon"
-        />
+        <Tooltip
+          content="Selections made will filter on both primary and secondary fuel types."
+          field="Unit Fuel Type"
+        >
+          <Help
+            className="text-primary margin-left-1 margin-bottom-1"
+            fontSize="small"
+          />
+        </Tooltip>
         <hr />
       </div>
       {fuelType.length > 0 && (
