@@ -56,7 +56,7 @@ const TimePeriodRender = ({
     dataSubType === "Transactions"
   ) {
     tooltip =
-      "If using the keyboard to navigate the date picker and the escape key does not work, try using the tab key then escape key.";
+      "If using the keyboard to navigate the date picker and the escape key does not work, try using the Shift + Tab keys then the escape key.";
   }
   if (dataSubType === "Ozone Season Emissions") {
     tooltip = "The Ozone Season is from May 1st – September 30th.";
