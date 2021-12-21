@@ -74,7 +74,7 @@ const ManageDataPreview = ({
         });
         removeAppliedFiltersDispatcher(filterType, false, true);
       }else{
-        if(window.confirm("Removing time period will clear out previously selected criteria. Do you want to proceed?")){
+        if(window.confirm(`Removing ${dataSubType==="Transactions"? "transaction date":"time period"} will clear out previously selected criteria. Do you want to proceed?`)){
           resetFiltersDispatcher(null, true);
           removeAppliedFiltersDispatcher(null, true);
         }

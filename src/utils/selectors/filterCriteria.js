@@ -95,8 +95,8 @@ export const getComboboxEnabledItems = (arr) =>{
   return arr.filter(e=>e.enabled);
 };
 
-export const getComboboxSelectedItems = (arr, number=false, useCode=false) =>{
-  return arr.filter(e=>e.selected && e.enabled).map(el => useCode? el.code : number? Number(el.id) : el.id);
+export const getComboboxSelectedItems = (arr, number=false) =>{
+  return arr.filter(e=>e.selected && e.enabled).map(el => number? Number(el.id) : el.id);
 };
 
 export const updateEnabledStatusCheckBox = (arry, filteredSet) => {
@@ -107,9 +107,9 @@ export const updateEnabledStatusCheckBox = (arry, filteredSet) => {
   });
 };
 
-export const updateEnabledStatusComboBox = (arry, filteredSet, transactions = false) => {
+export const updateEnabledStatusComboBox = (arry, filteredSet) => {
   arry.forEach((obj) => {
-    obj.enabled = filteredSet.includes(transactions? obj.code : obj.id);
+    obj.enabled = filteredSet.includes(obj.id);
   });
 };
 
@@ -232,14 +232,14 @@ export const restructurePrograms = (programs) => {
 };
 
 /* ---------FACILITY / STATE / ACCOUNT NAME NUMBER----------- */
-export const constructComboBoxQuery = (filterState, queryString) =>{
+export const constructComboBoxQuery = (filterState, queryString, transactions=false) =>{
   const selection = filterState.filter(f=> f.selected);
   let query='';
   selection.forEach((f,i)=>{
     if(i===selection.length-1){
-      query = `${query}${f.id}`;
+      query = transactions?`${query}${f.label}` : `${query}${f.id}`;
     }else{
-      query = `${query}${f.id}|`;
+      query = transactions?`${query}${f.label}` : `${query}${f.id}|`;
     }
   });
   return query.length > 0 ? `&${queryString}=${query}` : '';

@@ -34,7 +34,7 @@ const populateSelections = (filterCriteria, dataSubType) =>{
   selection.acctNumbers = getComboboxSelectedItems(filterCriteria.accountNameNumber);
   selection.ownerOperator = getComboboxSelectedItems(filterCriteria.ownerOperator);
   selection.comboBoxYears = getComboboxSelectedItems(filterCriteria.timePeriod.comboBoxYear);
-  selection.transactionTypes = getComboboxSelectedItems(filterCriteria.transactionType, false, true);
+  selection.transactionTypes = getComboboxSelectedItems(filterCriteria.transactionType);
 };
 
 export const filterProgram = (filterCriteria) =>{
@@ -267,7 +267,7 @@ export const filterTransactionType = (filterCriteria) =>{
       (selection.comboBoxYears.length === 0 || selection.comboBoxYears.includes(x.vintageYear))
     }).map(i => i.transactionTypeCode)
   )];
-  updateEnabledStatusComboBox(filterCriteria.transactionType, filteredSet, true);
+  updateEnabledStatusComboBox(filterCriteria.transactionType, filteredSet);
 };
 
 export const engageFilterLogic = (dataType, dataSubType, affectedFilter, filterCriteriaCloned, updateFilterCriteriaDispacher, removedFilter=false) =>{

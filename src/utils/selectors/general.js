@@ -158,7 +158,7 @@ export const constructRequestUrl = (
     ? constructComboBoxQuery(filterCriteria.ownerOperator, 'ownerOperator')
     : '';
   const transactionTypeQuery = filterCriteria.transactionType
-    ? constructComboBoxQuery(filterCriteria.transactionType, 'transactionType')
+    ? constructComboBoxQuery(filterCriteria.transactionType, 'transactionType', true)
     : '';
   const sourceCategoryQuery = filterCriteria.sourceCategory
     ? filterAmpersand(
