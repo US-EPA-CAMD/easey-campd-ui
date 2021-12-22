@@ -38,6 +38,16 @@ const ManageDataDownload = ({
     document.title = 'Custom Data Download | CAMPD | US EPA';
   }, []);
 
+  useEffect(() => {
+    const resetFilters = () => {
+      resetFilterDispatcher(null, true);
+      removeAppliedFiltersDispatcher(null, true);
+    };
+    return function cleanUp() {
+      return resetFilters();
+    };
+  }, []);
+
   metaAdder(
     'description',
     'The custom data download tool allows users to create custom queries of emissions, allowance, compliance and/or facility information.'
