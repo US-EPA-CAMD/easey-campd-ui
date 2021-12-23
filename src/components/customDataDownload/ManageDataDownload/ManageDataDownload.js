@@ -43,9 +43,9 @@ const ManageDataDownload = ({
       resetFilterDispatcher(null, true);
       removeAppliedFiltersDispatcher(null, true);
     };
-    return function cleanUp() {
+    return function cleanup() {
       return resetFilters();
-    };
+    };// eslint-disable-next-line
   }, []);
 
   metaAdder(
