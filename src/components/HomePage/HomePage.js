@@ -31,7 +31,7 @@ const HomePage = () => {
 
     const formattedDate = yyyy + "-" + mm + "-" + dd;
 
-    getSubmissionProgress(formattedDate)
+    getSubmissionProgress("2021-10-01")
       .then((res) => {
         if (res.data) {
           const data = res.data;
@@ -124,12 +124,14 @@ const HomePage = () => {
     <div>
       <div className="grid-row padding-y-4 mobile-lg:padding-x-2 desktop:padding-x-4 widescreen:padding-x-10">
         {showProgressBar ? (
-          <div className="grid-col-12 progressBar">
-            <TitledProgressBar
-              title={progressTitle}
-              percentage={percent}
-              lastUpdated={lastUpdated}
-            />
+          <div className="grid-col-12">
+            <div className="desktop:grid-col-6 mobile-lg:grid-col-12 margin-x-auto padding-x-2">
+              <TitledProgressBar
+                title={progressTitle}
+                percentage={percent}
+                lastUpdated={lastUpdated}
+              />
+            </div>
           </div>
         ) : null}
 
