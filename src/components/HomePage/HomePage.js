@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 import { TitledProgressBar } from "@us-epa-camd/easey-design-system";
 import moment from "moment-timezone";
 
-import getSubmissionProgress from "../../utils/api/emissionsApi";
+import getSubmissionProgress from "../../utils/api/getSubmissionProgress";
 import { metaAdder } from "../../utils/document/metaAdder";
 import "./HomePage.scss";
 
@@ -29,9 +29,9 @@ const HomePage = () => {
       .tz("America/New_York")
       .format("hh:mm a z");
 
-    const formattedDate = yyyy + "-" + mm + "-" + dd;
+    const formattedDate = `${yyyy}-${mm}-${dd}`
 
-    getSubmissionProgress(formattedDate)
+    getSubmissionProgress('2021-10-01')
       .then((res) => {
         if (res.data) {
           const data = res.data;
@@ -54,7 +54,7 @@ const HomePage = () => {
             `${data.calendarYear} ${quarterSpelledOut} Quarter Emission Files Received`
           );
           setLastUpdated(
-            `Last Updated ${monthName}, ${yyyy} at ${timeWithZone}`
+            `Last Updated ${monthName} ${dd}, ${yyyy} at ${timeWithZone}`
           );
           setPercent(parseInt(data.submittedPercentage));
           setShowProgressBar(true);

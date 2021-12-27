@@ -6,10 +6,7 @@ axios.defaults.headers.common = {
 };
 
 const getSubmissionProgress = async (submissionPeriod) => {
-  const url =
-    config.services.emissions.uri +
-    "/emissions/submission-progress?submissionPeriod=" +
-    submissionPeriod;
+  const url = `${config.services.emissions.uri}/emissions/submission-progress?submissionPeriod=${submissionPeriod}`;
 
   return axios.get(url);
 };
