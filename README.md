@@ -11,7 +11,7 @@ View the available scripts for this project [here](https://github.com/US-EPA-CAM
 
 ## Environment Variables
 
-Environment variables need to be prefixed by REACT*APP* in order for the variables to be accessible on the process.env object in JavaScript.
+Environment variables need to be prefixed by REACT_APP in order for the variables to be accessible on the process.env object in JavaScript.
 
 Environment Variable instructions found [here](https://github.com/US-EPA-CAMD/devops/blob/master/ENV_INSTRUCTIONS.md).
 
