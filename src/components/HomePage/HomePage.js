@@ -31,7 +31,7 @@ const HomePage = () => {
 
     const formattedDate = `${yyyy}-${mm}-${dd}`
 
-    getSubmissionProgress('2021-10-01')
+    getSubmissionProgress(formattedDate)
       .then((res) => {
         if (res.data) {
           const data = res.data;
