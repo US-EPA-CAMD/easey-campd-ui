@@ -6,7 +6,7 @@ import configureStore from '../../../store/configureStore.dev';
 import initialState from '../../../store/reducers/initialState';
 import DataPreviewRender from './DataPreviewRender';
 
-const fieldMappings = [{"label":"State","value":"state"},{"label":"Facility Name","value":"facilityName"},{"label":"Facility ID","value":"facilityId"},
+const fieldMappings = [{"label":"State","value":"stateCode"},{"label":"Facility Name","value":"facilityName"},{"label":"Facility ID","value":"facilityId"},
 {"label":"Unit ID","value":"unitId"},{"label":"Associated Stacks","value":"assocStacks"},{"label":"Date","value":"opDate"},{"label":"Hour","value":"opHour"},
 {"label":"Operating Time","value":"opTime"},{"label":"Gross Load (MW)","value":"gLoad"},{"label":"Steam Load (1000 lb/hr)","value":"sLoad"},
 {"label":"SO2 Mass (lbs)","value":"so2Mass"},{"label":"SO2 Mass Measure Indicator","value":"so2MassMeasureFlg"},{"label":"SO2 Rate (lbs/mmBtu)","value":"so2Rate"},
@@ -19,7 +19,7 @@ const fieldMappings = [{"label":"State","value":"state"},{"label":"Facility Name
 
 const dataPreview = [
   {
-    state: 'AL',
+    stateCode: 'AL',
     facilityName: 'Barry',
     facilityId: '3',
     unitId: '4',

@@ -68,7 +68,7 @@ describe("filterCriteria Reducer", () => {
         "id": "1",
         "facilityId": "3",
         "facilityName": "Barry",
-        "state": "AL",
+        "stateCode": "AL",
         "links": [
           {
             "rel": "self",
@@ -96,7 +96,7 @@ describe("filterCriteria Reducer", () => {
         "id": "2",
         "facilityId": "5",
         "facilityName": "Chickasaw",
-        "state": "AL",
+        "stateCode": "AL",
         "links": [
           {
             "rel": "self",
@@ -124,7 +124,7 @@ describe("filterCriteria Reducer", () => {
         "id": "3",
         "facilityId": "7",
         "facilityName": "Gadsden",
-        "state": "AL",
+        "stateCode": "AL",
         "links": [
           {
             "rel": "self",
@@ -152,7 +152,7 @@ describe("filterCriteria Reducer", () => {
         "id": "4",
         "facilityId": "8",
         "facilityName": "Gorgas",
-        "state": "AL",
+        "stateCode": "AL",
         "links": [
           {
             "rel": "self",
@@ -180,7 +180,7 @@ describe("filterCriteria Reducer", () => {
         "id": "5",
         "facilityId": "10",
         "facilityName": "Greene County",
-        "state": "AL",
+        "stateCode": "AL",
         "links": [
           {
             "rel": "self",
@@ -208,7 +208,7 @@ describe("filterCriteria Reducer", () => {
         "id": "6",
         "facilityId": "26",
         "facilityName": "E C Gaston",
-        "state": "AL",
+        "stateCode": "AL",
         "links": [
           {
             "rel": "self",
@@ -236,7 +236,7 @@ describe("filterCriteria Reducer", () => {
         "id": "7",
         "facilityId": "47",
         "facilityName": "Colbert",
-        "state": "AL",
+        "stateCode": "AL",
         "links": [
           {
             "rel": "self",
@@ -264,7 +264,7 @@ describe("filterCriteria Reducer", () => {
         "id": "8",
         "facilityId": "50",
         "facilityName": "Widows Creek",
-        "state": "AL",
+        "stateCode": "AL",
         "links": [
           {
             "rel": "self",
@@ -292,7 +292,7 @@ describe("filterCriteria Reducer", () => {
         "id": "9",
         "facilityId": "51",
         "facilityName": "Dolet Hills Power Station",
-        "state": "LA",
+        "stateCode": "LA",
         "links": [
           {
             "rel": "self",
@@ -320,7 +320,7 @@ describe("filterCriteria Reducer", () => {
         "id": "10",
         "facilityId": "54",
         "facilityName": "Smith Generating Facility",
-        "state": "KY",
+        "stateCode": "KY",
         "links": [
           {
             "rel": "self",
@@ -444,7 +444,7 @@ describe("filterCriteria Reducer", () => {
         year:2019,
         programCode:"ARP",
         facilityId:3,
-        state:"AL",
+        stateCode:"AL",
         unitTypeCode:"CC",
         fuelTypeCode:"PNG",
         controlCode:"DLNB",
@@ -454,7 +454,7 @@ describe("filterCriteria Reducer", () => {
         year:2019,
         programCode:"ARP",
         facilityId:3,
-        state:"AL",
+        stateCode:"AL",
         unitTypeCode:"CC",
         fuelTypeCode:"PNG",
         controlCode:"DLNB",

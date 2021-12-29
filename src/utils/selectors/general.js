@@ -137,7 +137,7 @@ export const constructRequestUrl = (
     ? constructComboBoxQuery(filterCriteria.facility, 'facilityId')
     : '';
   const stateTerritoryQuery = filterCriteria.stateTerritory
-    ? constructComboBoxQuery(filterCriteria.stateTerritory, 'state')
+    ? constructComboBoxQuery(filterCriteria.stateTerritory, 'stateCode')
     : '';
   const unitTypeQuery = filterCriteria.unitType
     ? constructQuery(filterCriteria.unitType, 'unitType')

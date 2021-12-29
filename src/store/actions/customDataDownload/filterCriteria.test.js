@@ -285,7 +285,7 @@ const facilities = [
     "id": "1",
     "facilityId": "3",
     "facilityName": "Barry",
-    "state": "AL",
+    "stateCode": "AL",
     "links": [
       {
         "rel": "self",
@@ -313,7 +313,7 @@ const facilities = [
     "id": "2",
     "facilityId": "5",
     "facilityName": "Chickasaw",
-    "state": "AL",
+    "stateCode": "AL",
     "links": [
       {
         "rel": "self",
@@ -341,7 +341,7 @@ const facilities = [
     "id": "3",
     "facilityId": "7",
     "facilityName": "Gadsden",
-    "state": "AL",
+    "stateCode": "AL",
     "links": [
       {
         "rel": "self",
@@ -369,7 +369,7 @@ const facilities = [
     "id": "4",
     "facilityId": "8",
     "facilityName": "Gorgas",
-    "state": "AL",
+    "stateCode": "AL",
     "links": [
       {
         "rel": "self",
@@ -397,7 +397,7 @@ const facilities = [
     "id": "5",
     "facilityId": "10",
     "facilityName": "Greene County",
-    "state": "AL",
+    "stateCode": "AL",
     "links": [
       {
         "rel": "self",
@@ -425,7 +425,7 @@ const facilities = [
     "id": "6",
     "facilityId": "26",
     "facilityName": "E C Gaston",
-    "state": "AL",
+    "stateCode": "AL",
     "links": [
       {
         "rel": "self",
@@ -453,7 +453,7 @@ const facilities = [
     "id": "7",
     "facilityId": "47",
     "facilityName": "Colbert",
-    "state": "AL",
+    "stateCode": "AL",
     "links": [
       {
         "rel": "self",
@@ -481,7 +481,7 @@ const facilities = [
     "id": "8",
     "facilityId": "50",
     "facilityName": "Widows Creek",
-    "state": "AL",
+    "stateCode": "AL",
     "links": [
       {
         "rel": "self",
@@ -509,7 +509,7 @@ const facilities = [
     "id": "9",
     "facilityId": "51",
     "facilityName": "Dolet Hills Power Station",
-    "state": "LA",
+    "stateCode": "LA",
     "links": [
       {
         "rel": "self",
@@ -537,7 +537,7 @@ const facilities = [
     "id": "10",
     "facilityId": "54",
     "facilityName": "Smith Generating Facility",
-    "state": "KY",
+    "stateCode": "KY",
     "links": [
       {
         "rel": "self",
