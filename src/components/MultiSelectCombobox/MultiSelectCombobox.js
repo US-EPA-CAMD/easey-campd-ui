@@ -94,22 +94,27 @@ const MultiSelectCombobox = ({
   const populateSelectedItems = () =>{
     const selection = items.filter(i=>i.selected);
     const _selectedItems= [];
-    for (const s of selection){
+    for (const s of selection) {
       if (stillMounted) {
         _selectedItems.push({
           id: s.id,
-          component:
-          <PillButton
-            key={s.id}
-            index={s.id}
-            label={s.label}
-            onRemove={onRemoveHanlder}
-            disableButton={true}
-          />
-        })
-      } else break
+          component: (
+            <PillButton
+              key={s.id}
+              index={s.id}
+              label={s.label}
+              onRemove={onRemoveHanlder}
+              disableButton={true}
+            />
+          ),
+        });
+      } else {
+        break;
+      }
     }
-    if (!stillMounted) return
+    if (!stillMounted) {
+      return;
+    }
     selectedItemsRef.current = _selectedItems;
     setSelectedItems(_selectedItems);
   }

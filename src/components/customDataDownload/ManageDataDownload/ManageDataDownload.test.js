@@ -1,13 +1,15 @@
 import React from "react";
 import ManageDataDownload from "./ManageDataDownload";
 import { render, fireEvent } from "@testing-library/react";
-import {within} from '@testing-library/dom'
+import { within } from '@testing-library/dom';
 import configureStore from "../../../store/configureStore.dev";
 import { Provider } from "react-redux";
 import initialState from "../../../store/reducers/initialState";
 
 initialState.customDataDownload.dataType= "COMPLIANCE";
-initialState.filterCriteria.stateTerritory = [{id: 'AK', label: 'Alaska', selected: false, enabled: true}]
+initialState.filterCriteria.stateTerritory = [
+  { id: 'AK', label: 'Alaska', selected: false, enabled: true },
+];
 const store = configureStore(initialState);
 
 // *** set up mocks
@@ -110,7 +112,7 @@ describe('filter selection functionality', () => {
     expect(previewDataButton).not.toBeDisabled();
   });
 
-  test('pill button remove removes filter selection ', () => {
+  test('pill button can remove filter selection ', () => {
     const { getByRole, getByText } = query;
 
     const stateTerritoryFilter = getByRole('button', {

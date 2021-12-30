@@ -10,8 +10,7 @@ const Tooltip = (props) => {
       setShow(true);
     }, 500);
     if (!stillMounted) {
-      clearInterval(timeout);
-      return
+      return clearInterval(timeout);
     }
   };
 
