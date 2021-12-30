@@ -19,11 +19,13 @@ const MultiSelectCombobox = ({
   const [ showListBox , setShowListBox ] = useState(false);
   const [ selectedItems, setSelectedItems ] = useState([]);
   const selectedItemsRef = useRef(selectedItems);
+  const [stillMounted, setStillMounted] = useState(true)
 
-  useEffect(()=>{
+  useEffect(() => {
     populateSelectedItems();
+    return () => setStillMounted(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[])
+  }, []);
 
   const onSearchHanlder =(value) =>{
     const lowercasedFilter = value.toLowerCase();
@@ -92,19 +94,22 @@ const MultiSelectCombobox = ({
   const populateSelectedItems = () =>{
     const selection = items.filter(i=>i.selected);
     const _selectedItems= [];
-    selection.forEach(s=>{
-      _selectedItems.push({
-        id: s.id,
-        component:
-        <PillButton
-          key={s.id}
-          index={s.id}
-          label={s.label}
-          onRemove={onRemoveHanlder}
-          disableButton={true}
-        />
-      })
-    })
+    for (const s of selection){
+      if (stillMounted) {
+        _selectedItems.push({
+          id: s.id,
+          component:
+          <PillButton
+            key={s.id}
+            index={s.id}
+            label={s.label}
+            onRemove={onRemoveHanlder}
+            disableButton={true}
+          />
+        })
+      } else break
+    }
+    if (!stillMounted) return
     selectedItemsRef.current = _selectedItems;
     setSelectedItems(_selectedItems);
   }
