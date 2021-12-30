@@ -29,7 +29,7 @@ const BulkDataFiles = () => {
       closeButton.children[0].removeAttribute("aria-hidden");
       const doneButton = document.getElementsByClassName("usa-modal__footer")[0].children[0];
       doneButton.addEventListener("click", ()=>setCloseFocused(false), false);
-    }
+    }// eslint-disable-next-line react-hooks/exhaustive-deps
   },[modalFocus]);
 
   metaAdder(
