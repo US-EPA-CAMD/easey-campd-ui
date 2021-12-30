@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   Button,
   Modal,
@@ -10,9 +10,27 @@ import {
 import { metaAdder } from '../../utils/document/metaAdder';
 
 const BulkDataFiles = () => {
+  const modalRef = useRef();
+  const [modalFocus, setModalFocus] = useState(false);
+  const [closeFocused, setCloseFocused] = useState(false);
+
   useEffect(() => {
     document.title = 'Bulk Data Files | CAMPD | US EPA';
   }, []);
+
+  useEffect(()=>{
+    if(modalRef.current.modalIsOpen){
+      const closeButton = document.getElementsByClassName("usa-button usa-modal__close")[0];
+      if(!closeFocused){
+        closeButton.focus();
+        setCloseFocused(true);
+        closeButton.addEventListener("click", ()=>setCloseFocused(false), false);
+      }
+      closeButton.children[0].removeAttribute("aria-hidden");
+      const doneButton = document.getElementsByClassName("usa-modal__footer")[0].children[0];
+      doneButton.addEventListener("click", ()=>setCloseFocused(false), false);
+    }// eslint-disable-next-line react-hooks/exhaustive-deps
+  },[modalFocus]);
 
   metaAdder(
     'description',
@@ -77,8 +95,6 @@ const BulkDataFiles = () => {
     },
   ];
 
-  const modalRef = useRef();
-
   return (
     <div className="padding-y-2 mobile-lg:padding-x-2 tablet:padding-x-4 widescreen:padding-x-10 font-sans-sm text-base-darkest text-ls-1 line-height-sans-6">
       <h1 className="font-sans-2xl text-bold">
@@ -100,13 +116,7 @@ const BulkDataFiles = () => {
         the links below.
       </p>
       <div className="display-flex">
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://gaftp.epa.gov/DMDnLoad/"
-        >
-          <Button className="tablet:margin-right-2">Access the FTP Site</Button>
-        </a>
+        <Button className="tablet:margin-right-2" onClick={()=>window.open("https://gaftp.epa.gov/DMDnLoad/", "_blank")}>Access the FTP Site</Button>
         <ModalToggleButton
           className="flex-align-self-center"
           style={{ fontSize: '15px' }}
@@ -118,6 +128,7 @@ const BulkDataFiles = () => {
         </ModalToggleButton>{' '}
         <>
           <Modal
+            onFocus={()=>setModalFocus(!modalFocus)}
             ref={modalRef}
             id="ftp-access-help-modal"
             aria-labelledby="ftp-access-help-modal"
@@ -174,7 +185,6 @@ const BulkDataFiles = () => {
               <div className="line-height-sans-6 margin-left-neg-3">
                 {topic.descriptions}
               </div>
-              <a target="_blank" rel="noopener noreferrer" href={topic.url}>
                 <Button
                   className="margin-top-1 margin-left-05"
                   outline="true"
@@ -185,6 +195,7 @@ const BulkDataFiles = () => {
                   title={`Go to ${topic.name} page`}
                   key={topic.url}
                   id={`${topic.name.split(' ').join('')}`}
+                  onClick={()=>window.open(topic.url, "_blank")}
                 >
                   {
                     (topic.name === 'Allowances'
@@ -192,7 +203,6 @@ const BulkDataFiles = () => {
                       : `Access ${topic.name} Data`)
                   }
                 </Button>
-              </a>
             </div>
           );
         })}
