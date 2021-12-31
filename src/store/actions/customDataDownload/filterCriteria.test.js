@@ -1804,7 +1804,7 @@ describe("Filter Criteria Async Actions", () => {
       .reply(200, transactionTypes);
     const expectedActions = [
       { type: types.BEGIN_API_CALL },
-      { type: types.LOAD_TRANSACTION_TYPE_SUCCESS, transactionType: transactionTypes.map(t=> ({id: t.transactionTypeDescription, label: t.transactionTypeDescription, selected:false, enabled:true}))},
+      { type: types.LOAD_TRANSACTION_TYPE_SUCCESS, transactionType: transactionTypes.map(t=> ({id: t.transactionTypeCode, label: t.transactionTypeDescription, selected:false, enabled:true}))},
     ];
 
     const store = mockStore(initState);

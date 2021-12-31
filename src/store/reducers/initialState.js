@@ -1,7 +1,7 @@
 export default {
   customDataDownload: {
-    dataType: null,
-    dataSubType: null,
+    dataType: '',
+    dataSubType: '',
     appliedFilters: [],
     dataPreview: null,
     totalCount: null,
