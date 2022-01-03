@@ -41,7 +41,7 @@ export const filterProgram = (filterCriteria) =>{
   const filteredSet = [...new Set(
     filterCriteria.filterMapping.filter(x => {
       return (selection.years.length === 0 || selection.years.includes(x?.year)) &&
-      (selection.states.length === 0 || selection.states.includes(x?.state)
+      (selection.states.length === 0 || selection.states.includes(x?.stateCode)
       || selection.states.includes(x?.buyState) || selection.states.includes(x?.sellState)) &&
       (selection.fuelTypes.length === 0 || selection.fuelTypes.includes(x.fuelTypeCode)) &&
       (selection.facilities.length === 0 || selection.facilities.includes(x?.facilityId)
@@ -76,8 +76,8 @@ export const filterStateTerritory = (filterCriteria) =>{
       (selection.comboBoxYears.length === 0 || selection.comboBoxYears.includes(x.vintageYear? x.vintageYear : x.year))&&
       (selection.transactionTypes.length === 0 || selection.transactionTypes.includes(x.transactionTypeCode))
     }).map(i => {
-      if(i.hasOwnProperty("state")){
-        return i.state;
+      if(i.hasOwnProperty("stateCode")){
+        return i.stateCode;
       }else{
         return [i.buyState, i.sellState];
       }
@@ -90,7 +90,7 @@ export const filterFacility = (filterCriteria) =>{
   const filteredSet = [...new Set(
     filterCriteria.filterMapping.filter(x => {
       return (selection.years.length === 0 || selection.years.includes(x?.year)) &&
-      (selection.states.length === 0 || selection.states.includes(x?.state)
+      (selection.states.length === 0 || selection.states.includes(x?.stateCode)
       || selection.states.includes(x?.buyState) || selection.states.includes(x?.sellState)) &&
       (selection.programs.length === 0 || selection.programs.includes(x.programCode)) &&
       (selection.fuelTypes.length === 0 || selection.fuelTypes.includes(x.fuelTypeCode)) &&
@@ -117,7 +117,7 @@ export const filterUnitType = (filterCriteria) =>{
   const filteredSet = [...new Set(
     filterCriteria.filterMapping.filter(x => {
       return (selection.years.length === 0 || selection.years.includes(x.year)) &&
-      (selection.states.length === 0 || selection.states.includes(x.state)) &&
+      (selection.states.length === 0 || selection.states.includes(x.stateCode)) &&
       (selection.programs.length === 0 || selection.programs.includes(x.programCode)) &&
       (selection.fuelTypes.length === 0 || selection.fuelTypes.includes(x.fuelTypeCode)) &&
       (selection.facilities.length === 0 || selection.facilities.includes(x.facilityId)) &&
@@ -132,7 +132,7 @@ export const filterFuelType = (filterCriteria) =>{
   const filteredSet = [...new Set(
     filterCriteria.filterMapping.filter(x => {
       return (selection.years.length === 0 || selection.years.includes(x.year)) &&
-      (selection.states.length === 0 || selection.states.includes(x.state)) &&
+      (selection.states.length === 0 || selection.states.includes(x.stateCode)) &&
       (selection.programs.length === 0 || selection.programs.includes(x.programCode)) &&
       (selection.facilities.length === 0 || selection.facilities.includes(x.facilityId)) &&
       (selection.controlTechnologies.length === 0 || selection.controlTechnologies.includes(x.controlCode)) &&
@@ -147,7 +147,7 @@ export const filterControlTechnology = (filterCriteria) =>{
   const filteredSet = [...new Set(
     filterCriteria.filterMapping.filter(x => {
       return (selection.years.length === 0 || selection.years.includes(x.year)) &&
-      (selection.states.length === 0 || selection.states.includes(x.state)) &&
+      (selection.states.length === 0 || selection.states.includes(x.stateCode)) &&
       (selection.programs.length === 0 || selection.programs.includes(x.programCode)) &&
       (selection.fuelTypes.length === 0 || selection.fuelTypes.includes(x.fuelTypeCode)) &&
       (selection.facilities.length === 0 || selection.facilities.includes(x.facilityId)) &&
@@ -162,7 +162,7 @@ export const filterSourceCategory = (filterCriteria) =>{
   const filteredSet = [...new Set(
     filterCriteria.filterMapping.filter(x => {
       return (selection.years.length === 0 || selection.years.includes(x.year)) &&
-      (selection.states.length === 0 || selection.states.includes(x.state)) &&
+      (selection.states.length === 0 || selection.states.includes(x.stateCode)) &&
       (selection.programs.length === 0 || selection.programs.includes(x.programCode)) &&
       (selection.fuelTypes.length === 0 || selection.fuelTypes.includes(x.fuelTypeCode)) &&
       (selection.facilities.length === 0 || selection.facilities.includes(x.facilityId)) &&
@@ -181,7 +181,7 @@ export const filterAccountNameNumber = (filterCriteria) =>{
       || selection.facilities.includes(x?.buyFacilityId) || selection.facilities.includes(x?.sellFacilityId)) &&
       (selection.ownerOperator.length === 0 || selection.ownerOperator.includes(x.ownerOperator)) &&
       (selection.comboBoxYears.length === 0 || selection.comboBoxYears.includes(x.vintageYear)) &&
-      (selection.states.length === 0 || selection.states.includes(x?.state)
+      (selection.states.length === 0 || selection.states.includes(x?.stateCode)
       || selection.states.includes(x?.buyState) || selection.states.includes(x?.sellState))&&
       (selection.transactionTypes.length === 0 || selection.transactionTypes.includes(x.transactionTypeCode))
     }).map(i => {
@@ -205,7 +205,7 @@ export const filterAccountType = (filterCriteria) =>{
       || selection.facilities.includes(x?.buyFacilityId) || selection.facilities.includes(x?.sellFacilityId)) &&
       (selection.ownerOperator.length === 0 || selection.ownerOperator.includes(x.ownerOperator)) &&
       (selection.comboBoxYears.length === 0 || selection.comboBoxYears.includes(x.vintageYear)) &&
-      (selection.states.length === 0 || selection.states.includes(x?.state)
+      (selection.states.length === 0 || selection.states.includes(x?.stateCode)
       || selection.states.includes(x?.buyState) || selection.states.includes(x?.sellState))&&
       (selection.transactionTypes.length === 0 || selection.transactionTypes.includes(x.transactionTypeCode))
     }).map(i => {
@@ -228,7 +228,7 @@ export const filterOwnerOperator = (filterCriteria) =>{
       (selection.facilities.length === 0 || selection.facilities.includes(x?.facilityId)
       || selection.facilities.includes(x?.buyFacilityId) || selection.facilities.includes(x?.sellFacilityId)) &&
       (selection.comboBoxYears.length === 0 || selection.comboBoxYears.includes(x.vintageYear? x.vintageYear : x.year)) &&
-      (selection.states.length === 0 || selection.states.includes(x?.state)
+      (selection.states.length === 0 || selection.states.includes(x?.stateCode)
       || selection.states.includes(x?.buyState) || selection.states.includes(x?.sellState))&&
       (selection.transactionTypes.length === 0 || selection.transactionTypes.includes(x.transactionTypeCode))
     }).map(i => i.ownerOperator)
@@ -245,7 +245,7 @@ export const filterComboBoxYear = (filterCriteria) =>{
       (selection.facilities.length === 0 || selection.facilities.includes(x?.facilityId)
       || selection.facilities.includes(x?.buyFacilityId) || selection.facilities.includes(x?.sellFacilityId)) &&
       (selection.ownerOperator.length === 0 || selection.ownerOperator.includes(x.ownerOperator)) &&
-      (selection.states.length === 0 || selection.states.includes(x?.state)
+      (selection.states.length === 0 || selection.states.includes(x?.stateCode)
       || selection.states.includes(x?.buyState) || selection.states.includes(x?.sellState))&&
       (selection.transactionTypes.length === 0 || selection.transactionTypes.includes(x.transactionTypeCode))
     }).map(i => i.hasOwnProperty("vintageYear") ? i.vintageYear : i.year)
@@ -262,7 +262,7 @@ export const filterTransactionType = (filterCriteria) =>{
       (selection.facilities.length === 0 || selection.facilities.includes(x?.facilityId)
       || selection.facilities.includes(x?.buyFacilityId) || selection.facilities.includes(x?.sellFacilityId)) &&
       (selection.ownerOperator.length === 0 || selection.ownerOperator.includes(x.ownerOperator)) &&
-      (selection.states.length === 0 || selection.states.includes(x?.state)
+      (selection.states.length === 0 || selection.states.includes(x?.stateCode)
       || selection.states.includes(x?.buyState) || selection.states.includes(x?.sellState)) &&
       (selection.comboBoxYears.length === 0 || selection.comboBoxYears.includes(x.vintageYear))
     }).map(i => i.transactionTypeCode)

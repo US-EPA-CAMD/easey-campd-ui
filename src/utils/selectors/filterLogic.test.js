@@ -224,7 +224,7 @@ const facilities = [
     id: '1',
     facilityId: '3',
     facilityName: 'Barry',
-    state: 'AL',
+    stateCode: 'AL',
     links: [
       {
         rel: 'self',
@@ -252,7 +252,7 @@ const facilities = [
     id: '2',
     facilityId: '5',
     facilityName: 'Chickasaw',
-    state: 'AL',
+    stateCode: 'AL',
     links: [
       {
         rel: 'self',
@@ -280,7 +280,7 @@ const facilities = [
     id: '3',
     facilityId: '7',
     facilityName: 'Gadsden',
-    state: 'AL',
+    stateCode: 'AL',
     links: [
       {
         rel: 'self',
@@ -308,7 +308,7 @@ const facilities = [
     id: '4',
     facilityId: '8',
     facilityName: 'Gorgas',
-    state: 'AL',
+    stateCode: 'AL',
     links: [
       {
         rel: 'self',
@@ -336,7 +336,7 @@ const facilities = [
     id: '5',
     facilityId: '10',
     facilityName: 'Greene County',
-    state: 'AL',
+    stateCode: 'AL',
     links: [
       {
         rel: 'self',
@@ -364,7 +364,7 @@ const facilities = [
     id: '6',
     facilityId: '26',
     facilityName: 'E C Gaston',
-    state: 'AL',
+    stateCode: 'AL',
     links: [
       {
         rel: 'self',
@@ -392,7 +392,7 @@ const facilities = [
     id: '7',
     facilityId: '47',
     facilityName: 'Colbert',
-    state: 'AL',
+    stateCode: 'AL',
     links: [
       {
         rel: 'self',
@@ -420,7 +420,7 @@ const facilities = [
     id: '8',
     facilityId: '50',
     facilityName: 'Widows Creek',
-    state: 'AL',
+    stateCode: 'AL',
     links: [
       {
         rel: 'self',
@@ -448,7 +448,7 @@ const facilities = [
     id: '9',
     facilityId: '51',
     facilityName: 'Dolet Hills Power Station',
-    state: 'LA',
+    stateCode: 'LA',
     links: [
       {
         rel: 'self',
@@ -476,7 +476,7 @@ const facilities = [
     id: '10',
     facilityId: '54',
     facilityName: 'Smith Generating Facility',
-    state: 'KY',
+    stateCode: 'KY',
     links: [
       {
         rel: 'self',
@@ -1244,7 +1244,7 @@ initialState.filterCriteria.filterMapping = [
     year: 2019,
     programCode: 'ARP',
     facilityId: 3,
-    state: 'AL',
+    stateCode: 'AL',
     unitTypeCode: 'CC',
     fuelTypeCode: 'PNG',
     controlCode: 'DLNB',
@@ -1253,7 +1253,7 @@ initialState.filterCriteria.filterMapping = [
     year: 2019,
     programCode: 'ARP',
     facilityId: 3,
-    state: 'AL',
+    stateCode: 'AL',
     unitTypeCode: 'CC',
     fuelTypeCode: 'PNG',
     controlCode: 'SCR',
@@ -1262,7 +1262,7 @@ initialState.filterCriteria.filterMapping = [
     year: 2019,
     programCode: 'ARP',
     facilityId: 3,
-    state: 'AL',
+    stateCode: 'AL',
     unitTypeCode: 'T',
     fuelTypeCode: 'C',
     controlCode: 'CAT',
@@ -1271,7 +1271,7 @@ initialState.filterCriteria.filterMapping = [
     year: 2019,
     programCode: 'ARP',
     facilityId: 3,
-    state: 'AL',
+    stateCode: 'AL',
     unitTypeCode: 'T',
     fuelTypeCode: 'C',
     controlCode: 'DSI',
@@ -1280,7 +1280,7 @@ initialState.filterCriteria.filterMapping = [
     year: 2019,
     programCode: 'ARP',
     facilityId: 3,
-    state: 'AL',
+    stateCode: 'AL',
     unitTypeCode: 'T',
     fuelTypeCode: 'C',
     controlCode: 'ESP',
@@ -1289,7 +1289,7 @@ initialState.filterCriteria.filterMapping = [
     year: 2019,
     programCode: 'ARP',
     facilityId: 3,
-    state: 'AL',
+    stateCode: 'AL',
     unitTypeCode: 'T',
     fuelTypeCode: 'C',
     controlCode: 'HPAC',
@@ -1298,7 +1298,7 @@ initialState.filterCriteria.filterMapping = [
     year: 2019,
     programCode: 'ARP',
     facilityId: 3,
-    state: 'AL',
+    stateCode: 'AL',
     unitTypeCode: 'T',
     fuelTypeCode: 'C',
     controlCode: 'LNC2',
@@ -1307,7 +1307,7 @@ initialState.filterCriteria.filterMapping = [
     year: 2019,
     programCode: 'ARP',
     facilityId: 3,
-    state: 'AL',
+    stateCode: 'AL',
     unitTypeCode: 'T',
     fuelTypeCode: 'C',
     controlCode: 'SCR',
@@ -1316,7 +1316,7 @@ initialState.filterCriteria.filterMapping = [
     year: 2019,
     programCode: 'ARP',
     facilityId: 3,
-    state: 'AL',
+    stateCode: 'AL',
     unitTypeCode: 'T',
     fuelTypeCode: 'C',
     controlCode: 'SNCR',
@@ -1325,7 +1325,7 @@ initialState.filterCriteria.filterMapping = [
     year: 2019,
     programCode: 'ARP',
     facilityId: 3,
-    state: 'AL',
+    stateCode: 'AL',
     unitTypeCode: 'T',
     fuelTypeCode: 'C',
     controlCode: 'WLS',
@@ -1334,7 +1334,7 @@ initialState.filterCriteria.filterMapping = [
     year: 2019,
     programCode: 'ARP',
     facilityId: 3,
-    state: 'AL',
+    stateCode: 'AL',
     unitTypeCode: 'T',
     fuelTypeCode: 'PNG',
     controlCode: 'CAT',
@@ -1343,7 +1343,7 @@ initialState.filterCriteria.filterMapping = [
     year: 2019,
     programCode: 'ARP',
     facilityId: 3,
-    state: 'AL',
+    stateCode: 'AL',
     unitTypeCode: 'T',
     fuelTypeCode: 'PNG',
     controlCode: 'DSI',
@@ -1372,7 +1372,7 @@ describe('Emissions Filter logic functions', () => {
         accountNumber: '000000000030',
         accountTypeCode: 'RESERVE',
         facilityId: null,
-        state: null,
+        stateCode: null,
         ownerOperator: null,
       },
       {
@@ -1381,7 +1381,7 @@ describe('Emissions Filter logic functions', () => {
         accountNumber: '000000000031',
         accountTypeCode: 'RESERVE',
         facilityId: null,
-        state: null,
+        stateCode: null,
         ownerOperator: null,
       },
       {
@@ -1390,7 +1390,7 @@ describe('Emissions Filter logic functions', () => {
         accountNumber: '000000000032',
         accountTypeCode: 'RESERVE',
         facilityId: null,
-        state: null,
+        stateCode: null,
         ownerOperator: null,
       },
       {
@@ -1399,7 +1399,7 @@ describe('Emissions Filter logic functions', () => {
         accountNumber: '000000000033',
         accountTypeCode: 'RESERVE',
         facilityId: null,
-        state: null,
+        stateCode: null,
         ownerOperator: null,
       },
       {
@@ -1408,7 +1408,7 @@ describe('Emissions Filter logic functions', () => {
         accountNumber: '000000000034',
         accountTypeCode: 'RESERVE',
         facilityId: null,
-        state: null,
+        stateCode: null,
         ownerOperator: null,
       },
       {
@@ -1417,7 +1417,7 @@ describe('Emissions Filter logic functions', () => {
         accountNumber: '000000000039',
         accountTypeCode: 'RESERVE',
         facilityId: null,
-        state: null,
+        stateCode: null,
         ownerOperator: null,
       },
       {
@@ -1426,7 +1426,7 @@ describe('Emissions Filter logic functions', () => {
         accountNumber: '000000000043',
         accountTypeCode: 'ENFSURR',
         facilityId: null,
-        state: null,
+        stateCode: null,
         ownerOperator: null,
       },
       {
@@ -1435,7 +1435,7 @@ describe('Emissions Filter logic functions', () => {
         accountNumber: '000054FACLTY',
         accountTypeCode: 'FACLTY',
         facilityId: 54,
-        state: 'KY',
+        stateCode: 'KY',
         ownerOperator: 'East Kentucky Power Cooperative',
       },
       {
@@ -1444,7 +1444,7 @@ describe('Emissions Filter logic functions', () => {
         accountNumber: '002330FACLTY',
         accountTypeCode: 'FACLTY',
         facilityId: 2330,
-        state: 'NV',
+        stateCode: 'NV',
         ownerOperator: 'Sierra Pacific Power Company',
       },
       {
@@ -1453,7 +1453,7 @@ describe('Emissions Filter logic functions', () => {
         accountNumber: '002336FACLTY',
         accountTypeCode: 'FACLTY',
         facilityId: 2336,
-        state: 'NV',
+        stateCode: 'NV',
         ownerOperator: 'Sierra Pacific Power Company',
       },
       {
@@ -1462,7 +1462,7 @@ describe('Emissions Filter logic functions', () => {
         accountNumber: '004050FACLTY',
         accountTypeCode: 'FACLTY',
         facilityId: 4050,
-        state: 'WI',
+        stateCode: 'WI',
         ownerOperator: 'Wisconsin Power & Light Company',
       },
       {
@@ -1471,7 +1471,7 @@ describe('Emissions Filter logic functions', () => {
         accountNumber: '006213FACLTY',
         accountTypeCode: 'FACLTY',
         facilityId: 6213,
-        state: 'IN',
+        stateCode: 'IN',
         ownerOperator: 'Hoosier Energy REC, Inc.',
       },
       {
@@ -1480,7 +1480,7 @@ describe('Emissions Filter logic functions', () => {
         accountNumber: '007335FACLTY',
         accountTypeCode: 'FACLTY',
         facilityId: 7335,
-        state: 'IN',
+        stateCode: 'IN',
         ownerOperator: 'Indiana Municipal Power Agency',
       },
       {
@@ -1489,7 +1489,7 @@ describe('Emissions Filter logic functions', () => {
         accountNumber: '007336FACLTY',
         accountTypeCode: 'FACLTY',
         facilityId: 7336,
-        state: 'IN',
+        stateCode: 'IN',
         ownerOperator: 'Indiana Municipal Power Agency',
       },
       {
@@ -1498,7 +1498,7 @@ describe('Emissions Filter logic functions', () => {
         accountNumber: '007782FACLTY',
         accountTypeCode: 'FACLTY',
         facilityId: 7782,
-        state: 'OH',
+        stateCode: 'OH',
         ownerOperator: 'American Municipal Power - Ohio',
       },
       {
@@ -1507,7 +1507,7 @@ describe('Emissions Filter logic functions', () => {
         accountNumber: '007783FACLTY',
         accountTypeCode: 'FACLTY',
         facilityId: 7783,
-        state: 'OH',
+        stateCode: 'OH',
         ownerOperator: 'American Municipal Power - Ohio',
       },
       {
@@ -1516,7 +1516,7 @@ describe('Emissions Filter logic functions', () => {
         accountNumber: '007829FACLTY',
         accountTypeCode: 'FACLTY',
         facilityId: 7829,
-        state: 'GA',
+        stateCode: 'GA',
         ownerOperator: 'Oglethorpe Power Corporation',
       },
       {
@@ -1525,7 +1525,7 @@ describe('Emissions Filter logic functions', () => {
         accountNumber: '007916FACLTY',
         accountTypeCode: 'FACLTY',
         facilityId: 7916,
-        state: 'GA',
+        stateCode: 'GA',
         ownerOperator: 'Oglethorpe Power Corporation',
       },
       {
@@ -1534,7 +1534,7 @@ describe('Emissions Filter logic functions', () => {
         accountNumber: '055015FACLTY',
         accountTypeCode: 'FACLTY',
         facilityId: 55015,
-        state: 'TX',
+        stateCode: 'TX',
         ownerOperator: 'Phillips 66 Company',
       },
       {
@@ -1543,7 +1543,7 @@ describe('Emissions Filter logic functions', () => {
         accountNumber: '055540FACLTY',
         accountTypeCode: 'FACLTY',
         facilityId: 55540,
-        state: 'CA',
+        stateCode: 'CA',
         ownerOperator: 'Chula Vista Energy Center, LLC',
       },
       {
@@ -1552,7 +1552,7 @@ describe('Emissions Filter logic functions', () => {
         accountNumber: '999900000001',
         accountTypeCode: 'GENERAL',
         facilityId: null,
-        state: null,
+        stateCode: null,
         ownerOperator: 'Babcock & Wilcox',
       },
       {
@@ -1561,7 +1561,7 @@ describe('Emissions Filter logic functions', () => {
         accountNumber: '999900000004',
         accountTypeCode: 'GENERAL',
         facilityId: null,
-        state: null,
+        stateCode: null,
         ownerOperator: 'Ralston, Paul E',
       },
       {
@@ -1570,7 +1570,7 @@ describe('Emissions Filter logic functions', () => {
         accountNumber: '999900000012',
         accountTypeCode: 'GENERAL',
         facilityId: null,
-        state: null,
+        stateCode: null,
         ownerOperator: 'Morrison, Marks O',
       },
       {
@@ -1579,7 +1579,7 @@ describe('Emissions Filter logic functions', () => {
         accountNumber: '999900000018',
         accountTypeCode: 'GENERAL',
         facilityId: null,
-        state: null,
+        stateCode: null,
         ownerOperator: 'Heller, James',
       },
       {
@@ -1588,7 +1588,7 @@ describe('Emissions Filter logic functions', () => {
         accountNumber: '999900000028',
         accountTypeCode: 'GENERAL',
         facilityId: null,
-        state: null,
+        stateCode: null,
         ownerOperator: 'Brady, Nancylee',
       },
       {
@@ -1597,7 +1597,7 @@ describe('Emissions Filter logic functions', () => {
         accountNumber: '999900000034',
         accountTypeCode: 'GENERAL',
         facilityId: null,
-        state: null,
+        stateCode: null,
         ownerOperator: 'Hoosier Energy REC, Inc.',
       },
       {
@@ -1606,7 +1606,7 @@ describe('Emissions Filter logic functions', () => {
         accountNumber: '999900000036',
         accountTypeCode: 'GENERAL',
         facilityId: null,
-        state: null,
+        stateCode: null,
         ownerOperator: 'Devlin, Theodore E',
       },
       {
@@ -1615,7 +1615,7 @@ describe('Emissions Filter logic functions', () => {
         accountNumber: '999900000038',
         accountTypeCode: 'GENERAL',
         facilityId: null,
-        state: null,
+        stateCode: null,
         ownerOperator: 'Van Horn, Andrew J',
       },
       {
@@ -1624,7 +1624,7 @@ describe('Emissions Filter logic functions', () => {
         accountNumber: '999900000041',
         accountTypeCode: 'GENERAL',
         facilityId: null,
-        state: null,
+        stateCode: null,
         ownerOperator: 'Niemeyer, Victor',
       },
       {
@@ -1633,7 +1633,7 @@ describe('Emissions Filter logic functions', () => {
         accountNumber: '999900000044',
         accountTypeCode: 'GENERAL',
         facilityId: null,
-        state: null,
+        stateCode: null,
         ownerOperator: 'BGC Environmental Brokerage Services, L.P.',
       },
     ];
@@ -1688,23 +1688,23 @@ describe('Emissions Filter logic functions', () => {
   });
   it('engages filter logic for allowance based compliance', () => {
     initialState.filterCriteria.filterMapping = [
-      {"year":"1995","programCode":"ARP","facilityId":7,"state":"AL","ownerOperator":null},{"year":"1995","programCode":"ARP","facilityId":26,"state":"AL","ownerOperator":null},
-      {"year":"1995","programCode":"ARP","facilityId":47,"state":"AL","ownerOperator":null},{"year":"1995","programCode":"ARP","facilityId":56,"state":"AL","ownerOperator":null},
-      {"year":"1995","programCode":"ARP","facilityId":641,"state":"FL","ownerOperator":null},{"year":"1995","programCode":"ARP","facilityId":642,"state":"FL","ownerOperator":null},
-      {"year":"1995","programCode":"ARP","facilityId":645,"state":"FL","ownerOperator":null},{"year":"1995","programCode":"ARP","facilityId":699,"state":"GA","ownerOperator":null},
-      {"year":"2000","programCode":"ARP","facilityId":703,"state":"GA","ownerOperator":null},{"year":"1995","programCode":"ARP","facilityId":708,"state":"GA","ownerOperator":null},
-      {"year":"2000","programCode":"ARP","facilityId":709,"state":"GA","ownerOperator":null},{"year":"1995","programCode":"ARP","facilityId":710,"state":"GA","ownerOperator":null},
-      {"year":"1995","programCode":"ARP","facilityId":727,"state":"GA","ownerOperator":null},{"year":"1995","programCode":"ARP","facilityId":728,"state":"GA","ownerOperator":null},
-      {"year":"1995","programCode":"ARP","facilityId":733,"state":"GA","ownerOperator":null},{"year":"1995","programCode":"ARP","facilityId":861,"state":"IL","ownerOperator":null},
-      {"year":"1995","programCode":"ARP","facilityId":862,"state":"IL","ownerOperator":null},{"year":"1995","programCode":"ARP","facilityId":863,"state":"IL","ownerOperator":null},
-      {"year":"1995","programCode":"ARP","facilityId":864,"state":"IL","ownerOperator":null},{"year":"1995","programCode":"ARP","facilityId":876,"state":"IL","ownerOperator":null},
-      {"year":"1995","programCode":"ARP","facilityId":887,"state":"IL","ownerOperator":null},{"year":"1995","programCode":"ARP","facilityId":889,"state":"IL","ownerOperator":null},
-      {"year":"1997","programCode":"ARP","facilityId":891,"state":"IL","ownerOperator":null},{"year":"1995","programCode":"ARP","facilityId":892,"state":"IL","ownerOperator":null},
-      {"year":"1995","programCode":"ARP","facilityId":897,"state":"IL","ownerOperator":null},{"year":"1995","programCode":"ARP","facilityId":898,"state":"IL","ownerOperator":null},
-      {"year":"1997","programCode":"ARP","facilityId":983,"state":"IN","ownerOperator":null},{"year":"1995","programCode":"ARP","facilityId":988,"state":"IN","ownerOperator":null},
-      {"year":"1995","programCode":"ARP","facilityId":990,"state":"IN","ownerOperator":null},{"year":"1995","programCode":"ARP","facilityId":991,"state":"IN","ownerOperator":null},
-      {"year":"1997","programCode":"ARP","facilityId":994,"state":"IN","ownerOperator":null},{"year":"1995","programCode":"ARP","facilityId":995,"state":"IN","ownerOperator":null},
-      {"year":"1995","programCode":"ARP","facilityId":997,"state":"IN","ownerOperator":null}
+      {"year":"1995","programCode":"ARP","facilityId":7,"stateCode":"AL","ownerOperator":null},{"year":"1995","programCode":"ARP","facilityId":26,"stateCode":"AL","ownerOperator":null},
+      {"year":"1995","programCode":"ARP","facilityId":47,"stateCode":"AL","ownerOperator":null},{"year":"1995","programCode":"ARP","facilityId":56,"stateCode":"AL","ownerOperator":null},
+      {"year":"1995","programCode":"ARP","facilityId":641,"stateCode":"FL","ownerOperator":null},{"year":"1995","programCode":"ARP","facilityId":642,"stateCode":"FL","ownerOperator":null},
+      {"year":"1995","programCode":"ARP","facilityId":645,"stateCode":"FL","ownerOperator":null},{"year":"1995","programCode":"ARP","facilityId":699,"stateCode":"GA","ownerOperator":null},
+      {"year":"2000","programCode":"ARP","facilityId":703,"stateCode":"GA","ownerOperator":null},{"year":"1995","programCode":"ARP","facilityId":708,"stateCode":"GA","ownerOperator":null},
+      {"year":"2000","programCode":"ARP","facilityId":709,"stateCode":"GA","ownerOperator":null},{"year":"1995","programCode":"ARP","facilityId":710,"stateCode":"GA","ownerOperator":null},
+      {"year":"1995","programCode":"ARP","facilityId":727,"stateCode":"GA","ownerOperator":null},{"year":"1995","programCode":"ARP","facilityId":728,"stateCode":"GA","ownerOperator":null},
+      {"year":"1995","programCode":"ARP","facilityId":733,"stateCode":"GA","ownerOperator":null},{"year":"1995","programCode":"ARP","facilityId":861,"stateCode":"IL","ownerOperator":null},
+      {"year":"1995","programCode":"ARP","facilityId":862,"stateCode":"IL","ownerOperator":null},{"year":"1995","programCode":"ARP","facilityId":863,"stateCode":"IL","ownerOperator":null},
+      {"year":"1995","programCode":"ARP","facilityId":864,"stateCode":"IL","ownerOperator":null},{"year":"1995","programCode":"ARP","facilityId":876,"stateCode":"IL","ownerOperator":null},
+      {"year":"1995","programCode":"ARP","facilityId":887,"stateCode":"IL","ownerOperator":null},{"year":"1995","programCode":"ARP","facilityId":889,"stateCode":"IL","ownerOperator":null},
+      {"year":"1997","programCode":"ARP","facilityId":891,"stateCode":"IL","ownerOperator":null},{"year":"1995","programCode":"ARP","facilityId":892,"stateCode":"IL","ownerOperator":null},
+      {"year":"1995","programCode":"ARP","facilityId":897,"stateCode":"IL","ownerOperator":null},{"year":"1995","programCode":"ARP","facilityId":898,"stateCode":"IL","ownerOperator":null},
+      {"year":"1997","programCode":"ARP","facilityId":983,"stateCode":"IN","ownerOperator":null},{"year":"1995","programCode":"ARP","facilityId":988,"stateCode":"IN","ownerOperator":null},
+      {"year":"1995","programCode":"ARP","facilityId":990,"stateCode":"IN","ownerOperator":null},{"year":"1995","programCode":"ARP","facilityId":991,"stateCode":"IN","ownerOperator":null},
+      {"year":"1997","programCode":"ARP","facilityId":994,"stateCode":"IN","ownerOperator":null},{"year":"1995","programCode":"ARP","facilityId":995,"stateCode":"IN","ownerOperator":null},
+      {"year":"1995","programCode":"ARP","facilityId":997,"stateCode":"IN","ownerOperator":null}
     ];
     initialState.filterCriteria.timePeriod.year.yearArray = [];
     initialState.filterCriteria.ownerOperator = [
