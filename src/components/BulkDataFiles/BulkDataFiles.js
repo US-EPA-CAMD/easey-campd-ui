@@ -29,6 +29,7 @@ const BulkDataFiles = () => {
       closeButton.children[0].removeAttribute("aria-hidden");
       const doneButton = document.getElementsByClassName("usa-modal__footer")[0].children[0];
       doneButton.addEventListener("click", ()=>setCloseFocused(false), false);
+      doneButton.removeAttribute("aria-labelledby");
       const container = document.getElementById("root");
       container.removeAttribute("aria-hidden");
       container.removeAttribute("data-modal-hidden");
