@@ -96,9 +96,7 @@ export const getComboboxEnabledItems = (arr) =>{
 };
 
 export const getComboboxSelectedItems = (arr, number=false) =>{
-  const filter = arr.filter(e=>e.selected);
-  //console.log(filter);
-  return filter.map(el => number? Number(el.id) : el.id);
+  return arr.filter(e=>e.selected).map(el => number? Number(el.id) : el.id);
 };
 
 export const updateEnabledStatusCheckBox = (arry, filteredSet) => {
