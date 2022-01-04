@@ -13,7 +13,7 @@ const filterMapping = [
     "accountNumber": "000000000030",
     "accountTypeCode": "RESERVE",
     "facilityId": null,
-    "state": null,
+    "stateCode": null,
     "ownerOperator": null
   },
   {
@@ -22,7 +22,7 @@ const filterMapping = [
     "accountNumber": "000000000031",
     "accountTypeCode": "RESERVE",
     "facilityId": null,
-    "state": null,
+    "stateCode": null,
     "ownerOperator": null
   },
   {
@@ -31,7 +31,7 @@ const filterMapping = [
     "accountNumber": "000000000032",
     "accountTypeCode": "RESERVE",
     "facilityId": null,
-    "state": null,
+    "stateCode": null,
     "ownerOperator": null
   },
   {
@@ -40,7 +40,7 @@ const filterMapping = [
     "accountNumber": "000000000033",
     "accountTypeCode": "RESERVE",
     "facilityId": null,
-    "state": null,
+    "stateCode": null,
     "ownerOperator": null
   },
   {
@@ -49,7 +49,7 @@ const filterMapping = [
     "accountNumber": "000000000034",
     "accountTypeCode": "RESERVE",
     "facilityId": null,
-    "state": null,
+    "stateCode": null,
     "ownerOperator": null
   },
   {
@@ -58,7 +58,7 @@ const filterMapping = [
     "accountNumber": "000000000039",
     "accountTypeCode": "RESERVE",
     "facilityId": null,
-    "state": null,
+    "stateCode": null,
     "ownerOperator": null
   },
   {
@@ -67,7 +67,7 @@ const filterMapping = [
     "accountNumber": "000000000043",
     "accountTypeCode": "ENFSURR",
     "facilityId": null,
-    "state": null,
+    "stateCode": null,
     "ownerOperator": null
   },
   {
@@ -76,7 +76,7 @@ const filterMapping = [
     "accountNumber": "000054FACLTY",
     "accountTypeCode": "FACLTY",
     "facilityId": 54,
-    "state": "KY",
+    "stateCode": "KY",
     "ownerOperator": "East Kentucky Power Cooperative"
   },
   {
@@ -85,7 +85,7 @@ const filterMapping = [
     "accountNumber": "002330FACLTY",
     "accountTypeCode": "FACLTY",
     "facilityId": 2330,
-    "state": "NV",
+    "stateCode": "NV",
     "ownerOperator": "Sierra Pacific Power Company"
   },
   {
@@ -94,7 +94,7 @@ const filterMapping = [
     "accountNumber": "002336FACLTY",
     "accountTypeCode": "FACLTY",
     "facilityId": 2336,
-    "state": "NV",
+    "stateCode": "NV",
     "ownerOperator": "Sierra Pacific Power Company"
   },
   {
@@ -103,7 +103,7 @@ const filterMapping = [
     "accountNumber": "004050FACLTY",
     "accountTypeCode": "FACLTY",
     "facilityId": 4050,
-    "state": "WI",
+    "stateCode": "WI",
     "ownerOperator": "Wisconsin Power & Light Company"
   },
   {
@@ -112,7 +112,7 @@ const filterMapping = [
     "accountNumber": "006213FACLTY",
     "accountTypeCode": "FACLTY",
     "facilityId": 6213,
-    "state": "IN",
+    "stateCode": "IN",
     "ownerOperator": "Hoosier Energy REC, Inc."
   },
   {
@@ -121,7 +121,7 @@ const filterMapping = [
     "accountNumber": "007335FACLTY",
     "accountTypeCode": "FACLTY",
     "facilityId": 7335,
-    "state": "IN",
+    "stateCode": "IN",
     "ownerOperator": "Indiana Municipal Power Agency"
   },
   {
@@ -130,7 +130,7 @@ const filterMapping = [
     "accountNumber": "007336FACLTY",
     "accountTypeCode": "FACLTY",
     "facilityId": 7336,
-    "state": "IN",
+    "stateCode": "IN",
     "ownerOperator": "Indiana Municipal Power Agency"
   },
   {
@@ -139,7 +139,7 @@ const filterMapping = [
     "accountNumber": "007782FACLTY",
     "accountTypeCode": "FACLTY",
     "facilityId": 7782,
-    "state": "OH",
+    "stateCode": "OH",
     "ownerOperator": "American Municipal Power - Ohio"
   },
   {
@@ -148,7 +148,7 @@ const filterMapping = [
     "accountNumber": "007783FACLTY",
     "accountTypeCode": "FACLTY",
     "facilityId": 7783,
-    "state": "OH",
+    "stateCode": "OH",
     "ownerOperator": "American Municipal Power - Ohio"
   },
   {
@@ -157,7 +157,7 @@ const filterMapping = [
     "accountNumber": "007829FACLTY",
     "accountTypeCode": "FACLTY",
     "facilityId": 7829,
-    "state": "GA",
+    "stateCode": "GA",
     "ownerOperator": "Oglethorpe Power Corporation"
   }
 ];
