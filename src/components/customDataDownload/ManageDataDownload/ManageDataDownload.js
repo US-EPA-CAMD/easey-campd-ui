@@ -76,10 +76,10 @@ const ManageDataDownload = ({
   const [applyClicked, setApplyClicked] = useState(false);
   const [comboBoxYearUpdated, setComboBoxYearUpdated] = useState(false);
 
-  useEffect(()=>{//console.log(filterCriteria.timePeriod.comboBoxYear); console.log("called");
+  useEffect(()=>{
     const dataSubType = getSelectedDataSubType(constants.DATA_SUBTYPES_MAP[selectedDataType]);
     if(applyClicked && loading === 0 && selectedDataType !== "EMISSIONS" && dataSubType !== "Transactions"){
-      if((selectedDataType === "COMPLIANCE" || dataSubType === "Holdings") && comboBoxYearUpdated === false){//console.log("updatetime");
+      if((selectedDataType === "COMPLIANCE" || dataSubType === "Holdings") && comboBoxYearUpdated === false){
         const distinctYears = [...new Set(filterCriteria.filterMapping.map(e=>selectedDataType === "COMPLIANCE" ? e.year : e.vintageYear))];
         updateTimePeriodDispatcher({
           ...filterCriteria.timePeriod,
@@ -127,7 +127,6 @@ const ManageDataDownload = ({
   };
 
   const handleDataTypeDropdown = (event) => {
-    console.log(event.target.value);
     if (event.target.value !== '') {
       setSelectedDataSubtype('');
       updateSelectedDataTypeDispatcher(event.target.value);

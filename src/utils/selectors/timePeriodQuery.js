@@ -32,8 +32,6 @@ export const constructTimePeriodQuery = (dataSubType, filterCriteria) => {
       )}`;
     case 'ozone season emissions':
     case 'annual emissions':
-    case 'allowance based':
-    case 'emissions based':
     case 'facility/unit attributes':
       return `${constructQuery(
         filterCriteria.timePeriod.year.yearArray,
@@ -41,7 +39,10 @@ export const constructTimePeriodQuery = (dataSubType, filterCriteria) => {
         true
       )}`;
     case 'holdings':
-      return `&${constructComboBoxQuery(filterCriteria.timePeriod.comboBoxYear, 'vintageYear')}`
+      return `${constructComboBoxQuery(
+        filterCriteria.timePeriod.comboBoxYear,
+        'vintageYear'
+      )}`;
     case 'transactions':
       let timePeriodQuery = '&';
       if (
@@ -50,7 +51,16 @@ export const constructTimePeriodQuery = (dataSubType, filterCriteria) => {
       ) {
         timePeriodQuery += `transactionBeginDate=${filterCriteria.timePeriod.startDate}&transactionEndDate=${filterCriteria.timePeriod.endDate}`;
       }
-      return `${timePeriodQuery}${constructComboBoxQuery(filterCriteria.timePeriod.comboBoxYear, 'vintageYear')}`;
+      return `${timePeriodQuery}${constructComboBoxQuery(
+        filterCriteria.timePeriod.comboBoxYear,
+        'vintageYear'
+      )}`;
+    case 'allowance based':
+    case 'emissions based':
+      return `${constructComboBoxQuery(
+        filterCriteria.timePeriod.comboBoxYear,
+        'year'
+      )}`;
     default:
       return '';
   }
