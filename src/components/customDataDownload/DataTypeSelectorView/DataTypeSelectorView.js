@@ -34,7 +34,7 @@ const DataTypeSelectorView = ({
           />
         </Tooltip>
       </div>
-      <div className="border-bottom-1px border-base-light clearfix padding-y-1 padding-x-2">
+      <div className="border-y-1px border-base-light clearfix padding-y-2 padding-x-2 desktop:padding-y-1">
         <div className="grid-row display-flex flex-align-center">
           {selectedDataSubtype !== '' &&
             selectedDataSubtype !== '-1' &&
