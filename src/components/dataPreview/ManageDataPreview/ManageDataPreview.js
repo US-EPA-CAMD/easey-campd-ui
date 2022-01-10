@@ -26,6 +26,7 @@ const ManageDataPreview = ({
   dataType,
   dataSubType,
   appliedFilters,
+  displayMobileDataType,
   setDisplayMobileDataType,
   timePeriod,
   handleFilterButtonClick,
@@ -40,6 +41,7 @@ const ManageDataPreview = ({
   const [requirementsMet, setRequirementsMet] = useState(false);
   const [renderPreviewData, setRenderPreviewData] = useState(false);
   const [removedAppliedFilter, setRemovedAppliedFilter] = useState(null);
+  const [width, setWidth] = useState(window.innerWidth);
 
   useEffect(() => {
     if (
@@ -61,6 +63,22 @@ const ManageDataPreview = ({
       }
     }// eslint-disable-next-line react-hooks/exhaustive-deps
   },[appliedFilters]);
+
+
+
+  useEffect(() => {
+    const handleResize = () => setWidth(window.innerWidth);
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [width]);
+
+  useEffect(() => {
+    if (width > 1024) hideNavDispacher(false);
+    else {
+      if (displayMobileDataType) hideNavDispacher(true);
+    } // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [width]);
 
   const handleUpdateInAppliedFilters = () => {
     resetDataPreviewDispacher();
@@ -190,7 +208,7 @@ const ManageDataPreview = ({
           handleUpdateInAppliedFilters={handleUpdateInAppliedFilters}
         />
       ) : (
-        <div className="margin-3 desktop:margin-3 tablet:margin-x-10 flex-justify-center padding-3 tablet:border width-mobile-lg line-height-sans-5 margin-0 tablet:margin-3">
+        <div className="desktop:margin-3 tablet:margin-x-10 flex-justify-center padding-3 tablet:border width-mobile-lg line-height-sans-5 margin-0 tablet:margin-3">
           <h3 className="font-sans-lg margin-top-0">To get started:</h3>
           <ul>
             <li>

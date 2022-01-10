@@ -214,11 +214,24 @@ const ManageDataDownload = ({
     }
     return selectedFilter;
   };
-
+  
   return (
     <div className="position-relative">
-      <div className="display-flex flex-no-wrap" data-testid="manage-data-download-wrapper">
-      <div className={`${displayFilters ? 'desktop:display-none desktop-lg:display-block' : ''} side-nav side-nav-height bg-base-lighter margin-0 ${displayMobileDataType? `width-full tablet:width-mobile-lg position-absolute`: 'mobile-lg:display-none desktop:display-block'}`}>
+      <div
+        className="display-flex flex-no-wrap"
+        data-testid="manage-data-download-wrapper"
+      >
+        <div
+          className={`${
+            displayFilters
+              ? 'desktop:display-none desktop-lg:display-block'
+              : ''
+          } side-nav side-nav-height bg-base-lighter margin-0 ${
+            displayMobileDataType
+              ? 'width-full tablet:width-mobile-lg position-absolute desktop:position-static'
+              : 'display-none desktop:display-block'
+          }`}
+        >
           <DataTypeSelectorView
             selectedDataType={selectedDataType}
             getSelectedDataSubType={getSelectedDataSubType}
@@ -254,13 +267,14 @@ const ManageDataDownload = ({
           getSelectedDataSubType={getSelectedDataSubType}
         />
         <ManageDataPreview
-            dataType={appliedDataType.dataType}
-            setDisplayMobileDataType={setDisplayMobileDataType}
-            handleFilterButtonClick={handleFilterButtonClick}
-          />
-        {loading ? <LoadingModal loading={loading}/>: null}
+          dataType={appliedDataType.dataType}
+          displayMobileDataType={displayMobileDataType}
+          setDisplayMobileDataType={setDisplayMobileDataType}
+          handleFilterButtonClick={handleFilterButtonClick}
+        />
+        {loading ? <LoadingModal loading={loading} /> : null}
       </div>
-  </div>
+    </div>
   );
 };
 
