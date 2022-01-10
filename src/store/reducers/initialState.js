@@ -34,4 +34,5 @@ export default {
     filterMapping: [],
   },
   apiCallsInProgress: 0,
+  hideNav: false
 };

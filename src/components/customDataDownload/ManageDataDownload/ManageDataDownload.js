@@ -43,9 +43,7 @@ const ManageDataDownload = ({
       resetFilterDispatcher(null, true);
       removeAppliedFiltersDispatcher(null, true);
     };
-    return function cleanup() {
-      return resetFilters();
-    };// eslint-disable-next-line
+    return () => resetFilters(); // eslint-disable-next-line
   }, []);
 
   metaAdder(
@@ -75,6 +73,7 @@ const ManageDataDownload = ({
   const [filterClickRef, setFilterClickRef] = useState(null);
   const [applyClicked, setApplyClicked] = useState(false);
   const [comboBoxYearUpdated, setComboBoxYearUpdated] = useState(false);
+  const [displayMobileDataType, setDisplayMobileDataType] = useState(false);
 
   useEffect(()=>{//console.log(filterCriteria.timePeriod.comboBoxYear); console.log("called");
     const dataSubType = getSelectedDataSubType(constants.DATA_SUBTYPES_MAP[selectedDataType]);
@@ -219,7 +218,7 @@ const ManageDataDownload = ({
   return (
     <div className="position-relative">
       <div className="display-flex flex-no-wrap" data-testid="manage-data-download-wrapper">
-        <div className={`${displayFilters ? 'desktop:display-none desktop-lg:display-block' : ''} side-nav side-nav-height bg-base-lighter margin-0`}>
+      <div className={`${displayFilters ? 'desktop:display-none desktop-lg:display-block' : ''} side-nav side-nav-height bg-base-lighter margin-0 ${displayMobileDataType? `width-full tablet:width-mobile-lg position-absolute`: 'mobile-lg:display-none desktop:display-block'}`}>
           <DataTypeSelectorView
             selectedDataType={selectedDataType}
             getSelectedDataSubType={getSelectedDataSubType}
@@ -256,6 +255,7 @@ const ManageDataDownload = ({
         />
         <ManageDataPreview
             dataType={appliedDataType.dataType}
+            setDisplayMobileDataType={setDisplayMobileDataType}
             handleFilterButtonClick={handleFilterButtonClick}
           />
         {loading ? <LoadingModal loading={loading}/>: null}

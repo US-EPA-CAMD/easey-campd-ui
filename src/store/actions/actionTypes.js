@@ -40,6 +40,9 @@ export const UPDATE_SELECTED_DATASUBTYPE = "UPDATE_SELECTED_DATASUBTYPE";
 //API call
 export const BEGIN_API_CALL = "BEGIN_API_CALL";
 
+//hideNav
+export const HIDE_NAV = "HIDE_NAV";
+
 //data preview
 export const LOAD_DATA_PREVIEW_SUCCESS = "LOAD_DATA_PREVIEW_SUCCESS";
 export const RESET_DATA_PREVIEW = "RESET_DATA_PREVIEW";

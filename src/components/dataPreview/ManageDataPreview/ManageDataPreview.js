@@ -16,6 +16,7 @@ import {
   updateTimePeriod,
   updateFilterCriteria,
 } from '../../../store/actions/customDataDownload/filterCriteria';
+import hideNav from '../../../store/actions/hideNavAction';
 import { EMISSIONS_DATA_SUBTYPES } from '../../../utils/constants/emissions';
 import { ALLOWANCES_DATA_SUBTYPES } from '../../../utils/constants/allowances';
 import { COMPLIANCES_DATA_SUBTYPES } from '../../../utils/constants/compliances';
@@ -25,8 +26,11 @@ const ManageDataPreview = ({
   dataType,
   dataSubType,
   appliedFilters,
+  setDisplayMobileDataType,
   timePeriod,
   handleFilterButtonClick,
+  hideNavDispacher,
+  hideNav,
   resetDataPreviewDispacher,
   resetFiltersDispatcher,
   removeAppliedFiltersDispatcher,
@@ -118,26 +122,45 @@ const ManageDataPreview = ({
   };
 
   return (
-    <div className="width-full">
-      <div className="display-flex flex-row flex-justify bg-base-lightest padding-x-3 minh-10">
-        <h2 className="flex-align-self-center font-sans-xl text-bold margin-0">
+    <div
+      className='width-full'
+    >
+      <div className="desktop:display-flex flex-row flex-justify bg-base-lightest desktop:padding-x-3 minh-10 mobile-lg:padding-0">
+        <div className="tablet:display-flex tablet:flex-row tablet:flex-justify tablet:width-full"><h2 className="flex-align-self-center font-sans-xl text-bold margin-0 mobile-lg:padding-x-2 desktop-lg:padding-x-0">
           Custom Data Download
         </h2>
-        <div className="flex-align-self-center mobile-lg:padding-right-2 tablet:padding-right-4 widescreen:padding-right-10">
-          <Tooltip
+        <div className="flex-align-self-center mobile-lg:padding-0 desktop:padding-right-4 widescreen:padding-right-10">
+          {!hideNav && <Tooltip
             content="Preview the first 100 rows of your query here."
             field="Preview Data"
           >
-            <Help className="text-primary margin-bottom-2" fontSize="small" />
-          </Tooltip>
+            <Help className="text-primary margin-bottom-2 mobile-lg:margin-left-2" fontSize="small" />
+          </Tooltip>}
           <Button
             type="button"
-            className="clearfix width-card height-6 font-sans-md margin-left-1"
+            className="clearfix width-card height-6 font-sans-md margin-left-1 mobile-lg:margin-2"
             disabled={!requirementsMet}
             onClick={() => setRenderPreviewData(true)}
           >
             Preview Data
-          </Button>
+          </Button></div></div>
+          <div className="bg-base-lighter margin-0 padding-2 tablet:display-flex desktop:display-none width-full">
+            <Button
+              type="button"
+              className="usa-button margin-y-1 desktop:display-none width-full"
+              onClick={() => {
+                setDisplayMobileDataType(true);
+                hideNavDispacher(true);
+              }}
+            >
+              Data Type
+            </Button>
+            <Button
+              type="button"
+              className="usa-button margin-y-1 desktop:display-none width-full"
+            >
+              Filters
+            </Button>
         </div>
       </div>
       {appliedFilters.length > 0 && (
@@ -162,7 +185,7 @@ const ManageDataPreview = ({
           handleUpdateInAppliedFilters={handleUpdateInAppliedFilters}
         />
       ) : (
-        <div className="margin-3 flex-justify-center padding-3 border width-mobile-lg line-height-sans-5">
+        <div className="mobile-lg:margin-3 desktop:margin-3 tablet:margin-x-10 flex-justify-center padding-3 tablet:border width-mobile-lg line-height-sans-5 mobile-lg:margin-0 tablet:margin-3">
           <h3 className="font-sans-lg margin-top-0">To get started:</h3>
           <ul>
             <li>
@@ -192,11 +215,13 @@ const mapStateToProps = (state) => {
     appliedFilters: state.customDataDownload.appliedFilters,
     timePeriod: state.filterCriteria.timePeriod,
     filterCriteria: state.filterCriteria,
+    hideNav: state.hideNav,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    hideNavDispacher: (boolean) => dispatch(hideNav(boolean)),
     resetDataPreviewDispacher: () => dispatch(resetDataPreview()),
     removeAppliedFiltersDispatcher: (removedFilter, removeAll, opHours) =>
       dispatch(removeAppliedFilter(removedFilter, removeAll, opHours)),
@@ -204,7 +229,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(resetFilter(filterToReset, resetAll)),
     updateTimePeriodDispatcher: (timePeriod) =>
       dispatch(updateTimePeriod(timePeriod)),
-    updateFilterCriteriaDispacher: (filterCriteria) => 
+    updateFilterCriteriaDispacher: (filterCriteria) =>
       dispatch(updateFilterCriteria(filterCriteria)),
   };
 };

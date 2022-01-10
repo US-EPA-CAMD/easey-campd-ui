@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from 'react-redux';
 
 import { Header } from "@us-epa-camd/easey-design-system";
 import { AppVersion } from "@us-epa-camd/easey-design-system";
@@ -13,13 +14,12 @@ const Layout = (props) => {
   const childrenWithProps = React.Children.map(props.children, (child) =>
     React.cloneElement(child)
   );
-
   return (
     <div className="react-transition fade-in padding-bottom-5">
       <a id="skip-nav" className="skip-to-content-anchor" href={"#main"}>
         Skip to Content
       </a>
-      <div className="topHeader">
+      <div className={`topHeader ${props.hideNav? 'display-none': ''}`}>
         <div className="epa-header">
           <Header environment={config.app.env} />
         </div>
@@ -38,4 +38,5 @@ const Layout = (props) => {
   );
 };
 
-export default Layout;
+const mapStateToProps = (state) => ({hideNav: state.hideNav})
+export default connect(mapStateToProps, null)(Layout);
