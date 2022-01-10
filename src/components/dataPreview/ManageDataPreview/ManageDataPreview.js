@@ -30,6 +30,7 @@ const ManageDataPreview = ({
   timePeriod,
   handleFilterButtonClick,
   hideNavDispacher,
+  hideNav,
   resetDataPreviewDispacher,
   resetFiltersDispatcher,
   removeAppliedFiltersDispatcher,
@@ -129,12 +130,12 @@ const ManageDataPreview = ({
           Custom Data Download
         </h2>
         <div className="flex-align-self-center mobile-lg:padding-0 desktop:padding-right-4 widescreen:padding-right-10">
-          <Tooltip
+          {!hideNav && <Tooltip
             content="Preview the first 100 rows of your query here."
             field="Preview Data"
           >
             <Help className="text-primary margin-bottom-2 mobile-lg:margin-left-2" fontSize="small" />
-          </Tooltip>
+          </Tooltip>}
           <Button
             type="button"
             className="clearfix width-card height-6 font-sans-md margin-left-1 mobile-lg:margin-2"
@@ -160,7 +161,6 @@ const ManageDataPreview = ({
             >
               Filters
             </Button>
-          
         </div>
       </div>
       {appliedFilters.length > 0 && (
@@ -215,6 +215,7 @@ const mapStateToProps = (state) => {
     appliedFilters: state.customDataDownload.appliedFilters,
     timePeriod: state.filterCriteria.timePeriod,
     filterCriteria: state.filterCriteria,
+    hideNav: state.hideNav,
   };
 };
 

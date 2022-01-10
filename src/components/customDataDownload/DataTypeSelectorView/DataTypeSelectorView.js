@@ -34,7 +34,7 @@ const DataTypeSelectorView = ({
           />
         </Tooltip>
       </div>
-      <div className="border-y-1px border-base-light clearfix padding-y-2 padding-x-2 desktop:padding-y-1">
+      <div className="border-y-1px border-base-light clearfix padding-y-2 padding-x-2 desktop:padding-y-1 desktop:border-top-0">
         <div className="grid-row display-flex flex-align-center">
           {selectedDataSubtype !== '' &&
             selectedDataSubtype !== '-1' &&
@@ -115,7 +115,7 @@ const DataTypeSelectorView = ({
         )}
       </div>
       {dataSubtypeApplied === false && (
-        <div className="border-top-1px border-base-light padding-x-6 padding-y-3 minh-mobile-lg">
+        <div className="desktop:border-top-1px border-base-light mobile-lg:padding-x-2 desktop:padding-x-6 padding-y-3 minh-mobile-lg">
           <Button
             primary="true"
             className="float-right clearfix"

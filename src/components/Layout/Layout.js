@@ -14,7 +14,6 @@ const Layout = (props) => {
   const childrenWithProps = React.Children.map(props.children, (child) =>
     React.cloneElement(child)
   );
-  console.log('hide ', props.hideNav);
   return (
     <div className="react-transition fade-in padding-bottom-5">
       <a id="skip-nav" className="skip-to-content-anchor" href={"#main"}>
@@ -41,5 +40,3 @@ const Layout = (props) => {
 
 const mapStateToProps = (state) => ({hideNav: state.hideNav})
 export default connect(mapStateToProps, null)(Layout);
-
-// export default Layout;
