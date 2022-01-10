@@ -41,6 +41,7 @@ const ManageDataPreview = ({
   const [requirementsMet, setRequirementsMet] = useState(false);
   const [renderPreviewData, setRenderPreviewData] = useState(false);
   const [removedAppliedFilter, setRemovedAppliedFilter] = useState(null);
+  const [previewHasBeenRendered, setPreviewHasBeenRendered] = useState(false)
 
   useEffect(() => {
     if (
@@ -62,6 +63,12 @@ const ManageDataPreview = ({
       }
     }// eslint-disable-next-line react-hooks/exhaustive-deps
   },[appliedFilters]);
+
+  useEffect(()=>{
+    if(previewHasBeenRendered && !renderPreviewData){
+      document.getElementById("helper-text").focus()
+    }// eslint-disable-next-line react-hooks/exhaustive-deps
+  },[renderPreviewData]);
 
   const handleUpdateInAppliedFilters = () => {
     resetDataPreviewDispacher();
@@ -122,45 +129,54 @@ const ManageDataPreview = ({
   };
 
   return (
-    <div
-      className='width-full'
-    >
+    <div className="width-full">
       <div className="desktop:display-flex flex-row flex-justify bg-base-lightest desktop:padding-x-3 minh-10 mobile-lg:padding-0">
-        <div className="tablet:display-flex tablet:flex-row tablet:flex-justify tablet:width-full"><h2 className="flex-align-self-center font-sans-xl text-bold margin-0 mobile-lg:padding-x-2 desktop-lg:padding-x-0">
-          Custom Data Download
-        </h2>
-        <div className="flex-align-self-center mobile-lg:padding-0 desktop:padding-right-4 widescreen:padding-right-10">
-          {!hideNav && <Tooltip
-            content="Preview the first 100 rows of your query here."
-            field="Preview Data"
-          >
-            <Help className="text-primary margin-bottom-2 mobile-lg:margin-left-2" fontSize="small" />
-          </Tooltip>}
-          <Button
-            type="button"
-            className="clearfix width-card height-6 font-sans-md margin-left-1 mobile-lg:margin-2"
-            disabled={!requirementsMet}
-            onClick={() => setRenderPreviewData(true)}
-          >
-            Preview Data
-          </Button></div></div>
-          <div className="bg-base-lighter margin-0 padding-2 tablet:display-flex desktop:display-none width-full">
+        <div className="tablet:display-flex tablet:flex-row tablet:flex-justify tablet:width-full">
+          <h2 className="flex-align-self-center font-sans-xl text-bold margin-0 mobile-lg:padding-x-2 desktop-lg:padding-x-0">
+            Custom Data Download
+          </h2>
+          <div className="flex-align-self-center mobile-lg:padding-0 desktop:padding-right-4 widescreen:padding-right-10">
+            {!hideNav && (
+              <Tooltip
+                content="Preview the first 100 rows of your query here."
+                field="Preview Data"
+              >
+                <Help
+                  className="text-primary margin-bottom-2 mobile-lg:margin-left-2"
+                  fontSize="small"
+                />
+              </Tooltip>
+            )}
             <Button
               type="button"
-              className="usa-button margin-y-1 desktop:display-none width-full"
+              className="clearfix width-card height-6 font-sans-md margin-left-1 mobile-lg:margin-2"
+              disabled={!requirementsMet}
               onClick={() => {
-                setDisplayMobileDataType(true);
-                hideNavDispacher(true);
+                setRenderPreviewData(true);
+                setPreviewHasBeenRendered(true);
               }}
             >
-              Data Type
+              Preview Data
             </Button>
-            <Button
-              type="button"
-              className="usa-button margin-y-1 desktop:display-none width-full"
-            >
-              Filters
-            </Button>
+          </div>
+        </div>
+        <div className="bg-base-lighter margin-0 padding-2 tablet:display-flex desktop:display-none width-full">
+          <Button
+            type="button"
+            className="usa-button margin-y-1 desktop:display-none width-full"
+            onClick={() => {
+              setDisplayMobileDataType(true);
+              hideNavDispacher(true);
+            }}
+          >
+            Data Type
+          </Button>
+          <Button
+            type="button"
+            className="usa-button margin-y-1 desktop:display-none width-full"
+          >
+            Filters
+          </Button>
         </div>
       </div>
       {appliedFilters.length > 0 && (
@@ -186,7 +202,13 @@ const ManageDataPreview = ({
         />
       ) : (
         <div className="mobile-lg:margin-3 desktop:margin-3 tablet:margin-x-10 flex-justify-center padding-3 tablet:border width-mobile-lg line-height-sans-5 mobile-lg:margin-0 tablet:margin-3">
-          <h3 className="font-sans-lg margin-top-0">To get started:</h3>
+          <h3
+            className="font-sans-lg margin-top-0"
+            id="helper-text"
+            tabIndex={-1}
+          >
+            To get started:
+          </h3>
           <ul>
             <li>
               Build a query by choosing a data type and subtype. Click Apply.
@@ -198,8 +220,11 @@ const ManageDataPreview = ({
             <li>Click Preview Data to view data selection.</li>
             <li>
               Activate the tool tips{' '}
-              <Help className="text-primary padding-top-1" aria-label="Tooltip image" /> to
-              reveal helpful tips and info.{' '}
+              <Help
+                className="text-primary padding-top-1"
+                aria-label="Tooltip image"
+              />{' '}
+              to reveal helpful tips and info.{' '}
             </li>
           </ul>
         </div>
