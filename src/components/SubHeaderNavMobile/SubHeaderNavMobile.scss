@@ -1,9 +1,14 @@
 #mobile-accordion-menu .easey-accordion-menu {
-  .usa-sidenav.usa-sidenav__item:nth-child(-n + 3) a {
+  .usa-sidenav .usa-sidenav__item:nth-child(-n + 3) a {
     font-size: 18px;
+    font-weight: bold;
   }
-  .usa-sidenav.usa-sidenav__item:nth-last-child(-n + 3) a {
+  .usa-sidenav .usa-sidenav__item:nth-last-child(-n + 3) a {
     font-size: 11px;
+  }
+  .usa-sidenav__sublist > .usa-sidenav__item > a {
+    font-size: 14px !important;
+    font-weight: normal !important;
   }
   .usa-sidenav__item {
     border-top: 1px solid rgba(158, 157, 157, 0.4);
