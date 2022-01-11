@@ -17,7 +17,9 @@ import LoadingModal from '../../LoadingModal/LoadingModal';
 // *** STYLES (individual component)
 import './ManageDataDownload.scss';
 import { loadAllFilters, resetFilter, loadFilterMapping, updateFilterCriteria, updateTimePeriod } from '../../../store/actions/customDataDownload/filterCriteria';
+import hideNav from '../../../store/actions/hideNavAction';
 import { engageFilterLogic } from '../../../utils/selectors/filterLogic';
+import useCheckWidth from '../../../utils/hooks/useCheckWidth'
 import { metaAdder } from '../../../utils/document/metaAdder';
 
 const ManageDataDownload = ({
@@ -31,6 +33,7 @@ const ManageDataDownload = ({
   resetFilterDispatcher,
   appliedFilters,
   loadAllFiltersDispatcher,
+  hideNavDispacher,
   filterCriteria,
   loading,
 }) => {
@@ -74,7 +77,16 @@ const ManageDataDownload = ({
   const [applyClicked, setApplyClicked] = useState(false);
   const [comboBoxYearUpdated, setComboBoxYearUpdated] = useState(false);
   const [displayMobileDataType, setDisplayMobileDataType] = useState(false);
+  const [displayCancelMobile, setDisplayCancelMobile] = useState(false);
+  const isMobileOrTablet = useCheckWidth([0, 1024]);
 
+  useEffect(() => {
+    if (isMobileOrTablet) { 
+      setDisplayCancelMobile(true)
+    } else {
+      setDisplayCancelMobile(false)
+    }
+  }, [isMobileOrTablet])
   useEffect(()=>{//console.log(filterCriteria.timePeriod.comboBoxYear); console.log("called");
     const dataSubType = getSelectedDataSubType(constants.DATA_SUBTYPES_MAP[selectedDataType]);
     if(applyClicked && loading === 0 && selectedDataType !== "EMISSIONS" && dataSubType !== "Transactions"){
@@ -181,6 +193,10 @@ const ManageDataDownload = ({
   };
 
   const handleCancelButtonClick = () => {
+    if (!appliedDataType.dataType || !appliedDataType.dataSubType) {
+      hideNavDispacher(false)
+      return setDisplayMobileDataType(false)
+    }
     setDataTypeApplied(true);
     setDataSubtypeApplied(true);
     updateSelectedDataTypeDispatcher(appliedDataType.dataType);
@@ -214,7 +230,10 @@ const ManageDataDownload = ({
     }
     return selectedFilter;
   };
-  
+
+  const mobileDataTypeDisplay = displayMobileDataType? 'width-full tablet:width-mobile-lg minh-viewport'
+  : 'display-none desktop:display-block';
+  const position = isMobileOrTablet ? 'position-absolute' : 'position-static';
   return (
     <div className="position-relative">
       <div
@@ -226,11 +245,7 @@ const ManageDataDownload = ({
             displayFilters
               ? 'desktop:display-none desktop-lg:display-block'
               : ''
-          } side-nav side-nav-height bg-base-lighter margin-0 ${
-            displayMobileDataType
-              ? 'width-full tablet:width-mobile-lg position-absolute desktop:position-static'
-              : 'display-none desktop:display-block'
-          }`}
+          } side-nav side-nav-height bg-base-lighter margin-0 ${mobileDataTypeDisplay +  ' ' + position}`}
         >
           <DataTypeSelectorView
             selectedDataType={selectedDataType}
@@ -245,6 +260,7 @@ const ManageDataDownload = ({
             handleCancelButtonClick={handleCancelButtonClick}
             selectionChange={selectionChange}
             displayCancel={displayCancel}
+            displayCancelMobile={displayCancelMobile}
           />
           <FilterCriteriaMenu
             dataSubtypeApplied={dataSubtypeApplied}
@@ -304,7 +320,9 @@ const mapDispatchToProps = (dispatch) => {
     loadFilterMappingDispatcher: (dataType, dataSubType, years) =>
       dispatch(loadFilterMapping(dataType, dataSubType, years)),
     updateTimePeriodDispatcher: (timePeriod) =>
-      dispatch(updateTimePeriod(timePeriod))
+      dispatch(updateTimePeriod(timePeriod)),
+      hideNavDispacher: (boolean) => dispatch(hideNav(boolean)),
+
   };
 };
 

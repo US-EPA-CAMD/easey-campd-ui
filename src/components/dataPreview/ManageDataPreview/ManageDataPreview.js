@@ -20,6 +20,7 @@ import hideNav from '../../../store/actions/hideNavAction';
 import { EMISSIONS_DATA_SUBTYPES } from '../../../utils/constants/emissions';
 import { ALLOWANCES_DATA_SUBTYPES } from '../../../utils/constants/allowances';
 import { COMPLIANCES_DATA_SUBTYPES } from '../../../utils/constants/compliances';
+import useCheckWidth from '../../../utils/hooks/useCheckWidth'
 import Tooltip from '../../Tooltip/Tooltip';
 
 const ManageDataPreview = ({
@@ -41,7 +42,7 @@ const ManageDataPreview = ({
   const [requirementsMet, setRequirementsMet] = useState(false);
   const [renderPreviewData, setRenderPreviewData] = useState(false);
   const [removedAppliedFilter, setRemovedAppliedFilter] = useState(null);
-  const [width, setWidth] = useState(window.innerWidth);
+  const isMobileOrTablet = useCheckWidth([0, 1024]);
 
   useEffect(() => {
     if (
@@ -65,20 +66,15 @@ const ManageDataPreview = ({
   },[appliedFilters]);
 
 
-
   useEffect(() => {
-    const handleResize = () => setWidth(window.innerWidth);
-
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, [width]);
-
-  useEffect(() => {
-    if (width > 1024) hideNavDispacher(false);
-    else {
-      if (displayMobileDataType) hideNavDispacher(true);
+    if (!isMobileOrTablet) {
+      hideNavDispacher(false);
+    } else {
+      if (displayMobileDataType) {
+        hideNavDispacher(true);
+      }
     } // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [width]);
+  }, [isMobileOrTablet]);
 
   const handleUpdateInAppliedFilters = () => {
     resetDataPreviewDispacher();
