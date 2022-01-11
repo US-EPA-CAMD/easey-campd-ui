@@ -105,6 +105,7 @@ const FilterCriteriaMenu = ({
                           : "filter-button"
                       }
                       disabled={checkDisabled(el)}
+                      id={`filter${i}`}
                     >
                       {el.label}
                       <FontAwesomeIcon
