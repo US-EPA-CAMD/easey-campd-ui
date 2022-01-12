@@ -117,7 +117,7 @@ const DataTypeSelectorView = ({
         )}
       </div>
       {dataSubtypeApplied === false && (
-        <div className="border-top-1px border-base-light mobile-lg:padding-x-2 desktop:padding-x-6 padding-y-3 minh-mobile-lg">
+        <div className="border-top-1px border-base-light mobile-lg:padding-x-2 desktop:padding-x-6 padding-y-3 height-mobile-lg">
           <Button
             primary="true"
             className="float-right clearfix"

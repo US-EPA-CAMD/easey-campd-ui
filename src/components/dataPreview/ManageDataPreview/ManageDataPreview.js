@@ -31,6 +31,7 @@ const ManageDataPreview = ({
   setDisplayMobileDataType,
   timePeriod,
   handleFilterButtonClick,
+  hideNav,
   hideNavDispacher,
   resetDataPreviewDispacher,
   resetFiltersDispatcher,
@@ -138,9 +139,9 @@ const ManageDataPreview = ({
 
   return (
     <div className="width-full">
-      <div className="desktop:display-flex flex-row flex-justify bg-base-lightest desktop:padding-x-3 minh-10 padding-0">
+      <div className={`desktop:display-flex flex-row flex-justify bg-base-lightest desktop:padding-x-3 minh-10 padding-0 ${displayMobileDataType && isMobileOrTablet? 'height-viewport' : ''}`}>
         <div className="tablet:display-flex tablet:flex-row tablet:flex-justify tablet:width-full">
-          <h2 className="flex-align-self-center font-sans-xl text-bold margin-0 padding-x-2 desktop-lg:padding-x-0">
+          <h2 className="flex-align-self-center font-sans-xl text-bold margin-0 padding-x-2 tablet:padding-x-4 desktop-lg:padding-x-0">
             Custom Data Download
           </h2>
           <div className="flex-align-self-center padding-0 desktop:padding-right-4 widescreen:padding-right-10">
@@ -165,10 +166,11 @@ const ManageDataPreview = ({
             </Button>
           </div>
         </div>
-        <div className="bg-base-lighter margin-0 padding-2 tablet:display-flex desktop:display-none width-full">
+        <div className={`margin-0 padding-y-2 padding-x-2 tablet:padding-left-4 desktop:padding-2 tablet:display-flex desktop:display-none width-full 
+        ${isMobileOrTablet && displayMobileDataType? 'bg-base-lightest': 'bg-base-lighter'}`}>
           <Button
             type="button"
-            className="usa-button margin-y-1 desktop:display-none width-full"
+            className="usa-button margin-y-1 desktop:display-none width-full height-6"
             onClick={() => {
               setDisplayMobileDataType(true);
               hideNavDispacher(true);
@@ -178,7 +180,7 @@ const ManageDataPreview = ({
           </Button>
           <Button
             type="button"
-            className="usa-button margin-y-1 desktop:display-none width-full"
+            className="usa-button margin-y-1 desktop:display-none width-full height-6"
           >
             Filters
           </Button>
@@ -201,35 +203,33 @@ const ManageDataPreview = ({
           </div>
         </div>
       )}
-      <div aria-live="polite">
-        {renderPreviewData ? (
-          <DataPreview
-            handleUpdateInAppliedFilters={handleUpdateInAppliedFilters}
-          />
-        ) : (
-          <div className="desktop:margin-3 tablet:margin-x-10 flex-justify-center padding-3 tablet:border width-mobile-lg line-height-sans-5 margin-0 tablet:margin-3">
-            <h3 className="font-sans-lg margin-top-0">To get started:</h3>
-            <ul>
-              <li>
-                Build a query by choosing a data type and subtype. Click Apply.
-              </li>
-              <li>
-                Refine query by using available filters. Selection must be made
-                for required filter.
-              </li>
-              <li>Click Preview Data to view data selection.</li>
-              <li>
-                Activate the tool tips{' '}
-                <Help
-                  className="text-primary padding-top-1"
-                  aria-label="Tooltip image"
-                />{' '}
-                to reveal helpful tips and info.{' '}
-              </li>
-            </ul>
-          </div>
-        )}
-      </div>
+      {renderPreviewData ? (
+        <DataPreview
+          handleUpdateInAppliedFilters={handleUpdateInAppliedFilters}
+        />
+      ) : (
+        <div className={`desktop:margin-3 tablet:margin-x-10 flex-justify-center padding-3 tablet:border mobile-lg:width-mobile-lg line-height-sans-5 margin-0 tablet:margin-3 ${isMobileOrTablet && displayMobileDataType? 'display-none': ''}`}>
+          <h3 className="font-sans-lg margin-top-0">To get started:</h3>
+          <ul>
+            <li>
+              Build a query by choosing a data type and subtype. Click Apply.
+            </li>
+            <li>
+              Refine query by using available filters. Selection must be made
+              for required filter.
+            </li>
+            <li>Click Preview Data to view data selection.</li>
+            <li>
+              Activate the tool tips{' '}
+              <Help
+                className="text-primary padding-top-1"
+                aria-label="Tooltip image"
+              />{' '}
+              to reveal helpful tips and info.{' '}
+            </li>
+          </ul>
+        </div>
+      )}
     </div>
   );
 };
