@@ -14,7 +14,7 @@ import OwnerOperator from "../OwnerOperator/OwnerOperator";
 import TransactionType from "../TransactionType/TransactionType";
 import SourceCategory from "../SourceCategory/SourceCategory";
 import { focusTrap } from "../../../utils/ensure-508/focus-trap";
-
+import useCheckWidth from "../../../utils/hooks/useCheckWidth.js";
 const FilterCriteriaPanel = ({
   show,
   selectedDataSubtype,
@@ -24,7 +24,7 @@ const FilterCriteriaPanel = ({
 
   const [childrenRendered, setChildrenRendered] = useState(false);
   const [firstFocusableEl, setFirstFocusableEl] = useState(null);
-
+  const isMobileOrTablet = useCheckWidth([0, 1024]);
   useEffect(() => {
     if(show && childrenRendered){
       const { firstComponentFocusableElement, handleKeyPress } = focusTrap(".filter-panel");
@@ -183,7 +183,7 @@ const FilterCriteriaPanel = ({
   return (
     <>
       {show === true ? (
-        <div className="filter-panel side-nav-height bg-base-lightest margin-0 shadow-5">
+        <div className={`filter-panel side-nav-height bg-base-lightest margin-0 shadow-5 ${isMobileOrTablet? 'position-absolute width-full tablet:width-mobile-lg minh-viewport': ''}`}>
           <div className="padding-top-6 padding-bottom-3 padding-x-1">
             {contentRenderer()}
           </div>
