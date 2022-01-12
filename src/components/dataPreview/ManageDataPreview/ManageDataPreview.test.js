@@ -4,6 +4,11 @@ import { render, fireEvent } from '@testing-library/react';
 import configureStore from '../../../store/configureStore.dev';
 import { Provider } from 'react-redux';
 import initialState from '../../../store/reducers/initialState';
+import { handleError } from '../../../utils/api/apiUtils';
+
+jest.spyOn(window, 'alert').mockImplementation(() => {});
+jest.spyOn(window, 'confirm').mockImplementation(() => {});
+
 
 initialState.customDataDownload.dataType = 'EMISSIONS';
 initialState.customDataDownload.dataSubType = 'Hourly Emissions';
@@ -15,11 +20,11 @@ initialState.filterCriteria.timePeriod = {
   endDate: '2019-01-01',
   opHrsOnly: false,
   year: {
-    yearArray: [2019,2020],
+    yearArray: [2019, 2020],
     yearString: '2019,2020',
   },
-  comboBoxYear:[],
-  month: [1,3,5],
+  comboBoxYear: [],
+  month: [1, 3, 5],
   quarter: [],
 };
 let store = configureStore(initialState);
@@ -28,6 +33,7 @@ describe('ManageDataPreview', () => {
   test('Check that the  component properly renders', () => {
     const { getByRole } = render(
       <Provider store={store}>
+        <div id="filter0"></div>
         <ManageDataPreview />
       </Provider>
     );
@@ -43,6 +49,7 @@ describe('ManageDataPreview', () => {
     store = configureStore(initialState);
     const { getByRole } = render(
       <Provider store={store}>
+        <div id="filter0"></div>
         <ManageDataPreview />
       </Provider>
     );
@@ -58,7 +65,8 @@ describe('ManageDataPreview', () => {
     store = configureStore(initialState);
     const { getByRole } = render(
       <Provider store={store}>
-        <ManageDataPreview/>
+        <div id="filter0"></div>
+        <ManageDataPreview />
       </Provider>
     );
     const previewButton = getByRole('button', { name: 'Preview Data' });
@@ -73,7 +81,8 @@ describe('ManageDataPreview', () => {
     store = configureStore(initialState);
     const { getByRole } = render(
       <Provider store={store}>
-        <ManageDataPreview/>
+        <div id="filter0"></div>
+        <ManageDataPreview />
       </Provider>
     );
     const previewButton = getByRole('button', { name: 'Preview Data' });
@@ -88,6 +97,7 @@ describe('ManageDataPreview', () => {
     store = configureStore(initialState);
     const { getByRole, getByTestId } = render(
       <Provider store={store}>
+        <div id="filter0"></div>
         <ManageDataPreview />
       </Provider>
     );
@@ -105,6 +115,7 @@ describe('ManageDataPreview', () => {
     store = configureStore(initialState);
     const { getByRole } = render(
       <Provider store={store}>
+        <div id="filter0"></div>
         <ManageDataPreview />
       </Provider>
     );

@@ -109,6 +109,8 @@ const ManageDataPreview = ({
     resetFiltersDispatcher(null, true);
     removeAppliedFiltersDispatcher(null, true);
     handleUpdateInAppliedFilters();
+    window.alert('Filters have been successfully cleared.');
+    document.getElementById('filter0').focus();
   };
 
   const contains = () => {

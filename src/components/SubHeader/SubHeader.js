@@ -8,6 +8,7 @@ import {
   subHeaderMenuList,
   subHeaderUtilityList,
 } from '../../utils/constants/menuTopics';
+import SubHeaderNavMobile from "../SubHeaderNavMobile/SubHeaderNavMobile";
 
 const SubHeader = () => {
   const pathname = useLocation().pathname;
@@ -26,6 +27,7 @@ const SubHeader = () => {
   };
 
   const [navDropdownOpen, setNavDropdownOpen] = useState(initialNavOpen);
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
 
   const handleToggleNavDropdown = (column, isUtility) => {
     setNavDropdownOpen((prevNavDropdownOpen) => {
@@ -62,13 +64,34 @@ const SubHeader = () => {
               Clean Air Markets Program Data
             </span>
           </Title>
-          <Button className="desktop:display-none float-right bg-transparent margin-0 position-relative top-1">
-            <img
-              src={`${process.env.PUBLIC_URL}/images/icons/mobile-menu-expand.svg`}
-              alt="Expandable Menu"
-              className={'position-absolute bottom-1px'}
+          <div className="desktop:display-none">
+            <Button 
+              className={showMobileMenu?"display:none opacity-0":"float-right bg-transparent margin-0 position-relative top-1 padding-right-3"}
+              onClick={()=>setShowMobileMenu(true)}
+              >
+              <img
+                src={`${process.env.PUBLIC_URL}/images/icons/mobile-menu-expand.svg`}
+                alt="Expandable Menu"
+                className={'position-absolute bottom-1px'}
+              />
+            </Button>
+            <Button 
+              className= {showMobileMenu?"float-right bg-transparent margin-0 position-relative top-1 padding-right-3":"display:none opacity-0"}
+              onClick={()=>setShowMobileMenu(false)}
+              >
+              <img
+                src={`${process.env.PUBLIC_URL}/images/icons/mobile-menu-collapse.svg`}
+                alt="Collapsable Menu"
+                className={showMobileMenu?'position-absolute bottom-1px':'display-none'}
+              />
+            </Button>
+            <SubHeaderNavMobile
+              subHeaderMenuList={subHeaderMenuList}
+              subHeaderUtilityList={subHeaderUtilityList}
+              showMobileMenu={showMobileMenu}
+              pathname={pathname}
             />
-          </Button>
+          </div>
           <div className="display-flex flex-column flex-align-end">
             <SubHeaderNav
               pathname={pathname}
