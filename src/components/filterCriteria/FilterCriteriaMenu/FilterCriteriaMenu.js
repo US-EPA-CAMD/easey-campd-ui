@@ -1,9 +1,7 @@
 import * as React from "react";
 import * as constants from "../../../utils/constants/customDataDownload";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button } from "@trussworks/react-uswds";
-import { faSlidersH } from "@fortawesome/free-solid-svg-icons";
-import { Help } from '@material-ui/icons';
+import { Help, Tune } from '@material-ui/icons';
 
 import "./FilterCriteriaMenu.scss";
 import { isAddedToFilters } from "../../../utils/selectors/general";
@@ -94,24 +92,26 @@ const FilterCriteriaMenu = ({
                   <p key={i} className="padding-y-0">
                     <Button
                       outline="true"
-                      onClick={(evt) => handleFilterButtonClick(el.value, evt.target)}
+                      onClick={(evt) =>
+                        handleFilterButtonClick(el.value, evt.target)
+                      }
                       aria-selected={
-                        isAddedToFilters(el.value, appliedFilters) || activeFilter===el.value
-                          ? true : false
+                        isAddedToFilters(el.value, appliedFilters) ||
+                        activeFilter === el.value
+                          ? true
+                          : false
                       }
-                      className={
-                        isAddedToFilters(el.value, appliedFilters) || activeFilter===el.value
-                          ? "filter-button applied-filter"
-                          : "filter-button"
-                      }
+                      className={`display-flex flex-row flex-align-center flex-justify ${
+                        isAddedToFilters(el.value, appliedFilters) ||
+                        activeFilter === el.value
+                          ? 'filter-button applied-filter'
+                          : 'filter-button'
+                      }`}
                       disabled={checkDisabled(el)}
                       id={`filter${i}`}
                     >
                       {el.label}
-                      <FontAwesomeIcon
-                        icon={faSlidersH}
-                        className="float-right clearfix"
-                      />
+                      <Tune fontSize="small" />
                     </Button>
                   </p>
                 );
