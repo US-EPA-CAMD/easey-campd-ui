@@ -104,12 +104,15 @@ const RelatedResources = () => {
                 href={topic.url}
               >
                 {topic.name}
+                {topic.hasOwnProperty('hasExit') && (
+                  <Tag
+                    className="radius-md padding-y-05 margin-left-1 font-sans-3xs text-semibold text-ls-2"
+                    aria-label={`The ${topic.name} link is to a website outside of the government domain`}
+                  >
+                    EXIT
+                  </Tag>
+                )}
               </Link>
-              {topic.hasOwnProperty('hasExit') && (
-                <Tag className="radius-md padding-y-05 margin-left-1 font-sans-3xs text-semibold text-ls-2">
-                  EXIT
-                </Tag>
-              )}
             </div>
           );
         })}
