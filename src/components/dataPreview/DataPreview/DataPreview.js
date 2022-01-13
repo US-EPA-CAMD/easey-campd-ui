@@ -54,6 +54,7 @@ export const DataPreview = ({
         columns={columns}
         data={data}
         totalCount={totalCount}
+        handleBackButton={handleUpdateInAppliedFilters}
       />
   );
 };
