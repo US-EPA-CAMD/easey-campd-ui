@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
-import { ArrowDownwardSharp, ArrowBack } from '@material-ui/icons';
+import { ArrowDownwardSharp } from '@material-ui/icons';
+import { Button } from '@trussworks/react-uswds';
 import LoadingModal from '../../LoadingModal/LoadingModal';
 import DataTable from 'react-data-table-component';
 import DownloadFileType from '../../customDataDownload/DownloadFileType/DownloadFileType';
@@ -32,28 +33,26 @@ const DataPreviewRender = ({
   return (
     <div className="preview-content-wrapper padding-x-3 padding-y-3">
       <div className="display-flex flex-row flex-justify flex-align-center">
-        <div
-          id="data-table-title"
-          className="flex-align-center"
-          aria-live="polite"
-        >
+        <div id="data-table-title" aria-live="polite" className='flex-align-center'>
           {loading === 0 && dataPreview !== null ? (
-            <>
-              <div className='mobile-lg:display-inline desktop:display-none position-relative'>
-                <ArrowBack className='position:-absolute arrow-back-svg' fontSize='large' onClick={handleBackButton}/>
-              </div>
-              <div className="panel-header display-inline mobile-lg:padding-left-05 desktop:padding-left-0">
-                <h3>Data Preview &nbsp;</h3>
-              </div>
-              <span 
-              className="font-sans-sm text-bold mobile-lg:display-block desktop-lg:display-inline mobile-lg:padding-left-5 desktop:padding-left-0">
-                {dataPreview.length > 0
-                  ? `(Viewing the first ${dataPreview.length} records of ${totalCount})`
-                  : `No results match that search criteria. Please change the criteria and try again.`}
-              </span>
-            </>
+          <>
+            <div className="panel-header display-inline">
+              <h3>Data Preview &nbsp;</h3>
+            </div>
+            <span 
+            className="font-sans-sm text-bold mobile-lg:display-block desktop-lg:display-inline">
+              {dataPreview.length > 0
+                ? `(Viewing the first ${dataPreview.length} records of ${totalCount})`
+                : `No results match that search criteria. Please change the criteria and try again.`}
+            </span>
+          </>
           ) : (
             <LoadingModal loading={loading} />
+          )}
+        </div>
+        <div className='clearfix mobile-lg:display-block desktop:display-none'>
+          {loading === 0 && dataPreview !== null && dataPreview.length > 0 && (
+            <Button outline="true" onClick={handleBackButton}>Back</Button>
           )}
         </div>
         <div className="clearfix display-none desktop:display-block">
