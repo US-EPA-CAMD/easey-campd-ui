@@ -104,9 +104,10 @@ const FilterCriteriaPanel = ({
     timePeriod: <TimePeriod closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} showYear={true} filterToApply={'Time Period'}/>,
   }
 
+  //isAnnual is specified for year validation
   const facUnitAttrEmissions = {
     ...emissions,
-    timePeriod: <TimePeriod closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} showYear={true} filterToApply={'Time Period'}/>,
+    timePeriod: <TimePeriod closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} showYear={true} isAnnual = {true} filterToApply={'Time Period'}/>,
     sourceCategory: <SourceCategory closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
   }
 
