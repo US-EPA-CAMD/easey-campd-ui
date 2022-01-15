@@ -112,6 +112,8 @@ const ManageDataPreview = ({
     resetFiltersDispatcher(null, true);
     removeAppliedFiltersDispatcher(null, true);
     handleUpdateInAppliedFilters();
+    window.alert('Filters have been successfully cleared.');
+    document.getElementById('filter0').focus();
   };
 
   const contains = () => {
@@ -148,7 +150,7 @@ const ManageDataPreview = ({
           <div className="flex-align-self-center padding-0 desktop:padding-right-4 widescreen:padding-right-10">
             {!hideNav && (
               <Tooltip
-                content="Preview the first 100 rows of your query here."
+                content={!requirementsMet ? "Preview button will be disabled until at least one filter is selected." : "Preview the first 100 rows of your query here."}
                 field="Preview Data"
               >
                 <Help

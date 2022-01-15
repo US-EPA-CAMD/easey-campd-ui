@@ -155,6 +155,7 @@ const ManageDataDownload = ({
   };
 
   const handleBackButtonClick = () => {
+    hideNavDispatcher(false)
     setDisplayMobileDataType(false);
     setDataTypeApplied(false);
     setDataSubtypeApplied(false);
@@ -207,6 +208,7 @@ const ManageDataDownload = ({
   };
 
   const handleMobileFiltersButtonClick = () => {
+    hideNavDispatcher(true);
     setDataTypeApplied(true);
     setDataSubtypeApplied(true);
     setDisplayMobileDataType(true);

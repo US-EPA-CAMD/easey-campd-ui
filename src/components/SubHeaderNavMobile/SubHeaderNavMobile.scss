@@ -1,0 +1,26 @@
+#mobile-accordion-menu .easey-accordion-menu {
+  .usa-sidenav .usa-sidenav__item:nth-child(-n + 3) a {
+    font-size: 18px;
+    font-weight: bold;
+  }
+  .usa-sidenav .usa-sidenav__item:nth-last-child(-n + 3) a {
+    font-size: 14px;
+  }
+  .usa-sidenav__sublist > .usa-sidenav__item > a {
+    font-size: 14px !important;
+    font-weight: normal !important;
+  }
+  .usa-sidenav__item {
+    border-top: 1px solid rgba(158, 157, 157, 0.4);
+  }
+  .usa-sidenav {
+    border-bottom: 1px solid rgba(158, 157, 157, 0.4);
+    background-color: transparent;
+  }
+  .usa-sidenav a {
+    padding-right: 0px;
+  }
+  .usa-sidenav a:not(.usa-button):not(.usa-current):hover {
+    color: white;
+  }
+}

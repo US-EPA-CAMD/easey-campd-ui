@@ -4,8 +4,7 @@ import * as constants from "../../../utils/constants/customDataDownload";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faWindowClose } from '@fortawesome/free-solid-svg-icons';
 import { Button } from "@trussworks/react-uswds";
-import { faSlidersH } from "@fortawesome/free-solid-svg-icons";
-import { Help } from '@material-ui/icons';
+import { Help, Tune } from '@material-ui/icons';
 
 import "./FilterCriteriaMenu.scss";
 import { isAddedToFilters } from "../../../utils/selectors/general";
@@ -125,13 +124,14 @@ const FilterCriteriaMenu = ({
                           ? true
                           : false
                       }
-                      className={
+                      className={`display-flex flex-row flex-align-center flex-justify ${
                         isAddedToFilters(el.value, appliedFilters) ||
                         activeFilter === el.value
                           ? 'filter-button applied-filter'
                           : 'filter-button'
-                      }
+                      }`}
                       disabled={checkDisabled(el)}
+                      id={`filter${i}`}
                     >
                       {el.label}
                       {isMobileOrTablet &&
@@ -146,10 +146,7 @@ const FilterCriteriaMenu = ({
                           }
                         />
                       ) : (
-                        <FontAwesomeIcon
-                          icon={faSlidersH}
-                          className="float-right clearfix"
-                        />
+                        <Tune fontSize="small" />
                       )}
                     </Button>
                   </p>

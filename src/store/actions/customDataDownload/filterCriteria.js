@@ -470,7 +470,6 @@ export const loadAllFilters = (dataType, dataSubType, filterCriteria) =>{
     }
     return Promise.all([...promises])
       .then((values) => {
-        console.log(values);
         values.forEach((value, index) =>{
          if(value){
           dispatchAction(value.data, apiCallOrder[index], dispatch)
