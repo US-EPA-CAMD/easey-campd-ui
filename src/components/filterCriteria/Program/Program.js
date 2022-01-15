@@ -14,7 +14,7 @@ import Tooltip from '../../Tooltip/Tooltip';
 export const Program = ({
   storeProgram,
   appliedFilters,
-  updateFilterCriteriaDispacher,
+  updateFilterCriteriaDispatcher,
   updateProgramSelectionDispatcher,
   addAppliedFilterDispatcher,
   removeAppliedFilterDispatcher,
@@ -38,7 +38,7 @@ export const Program = ({
   useEffect(()=>{
     if(applyFilterClicked){
       if(filterCriteria.filterMapping.length>0){
-        engageFilterLogic(dataType, dataSubType, filterToApply, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispacher);
+        engageFilterLogic(dataType, dataSubType, filterToApply, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispatcher);
       }
       closeFlyOutHandler();
     }// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -134,7 +134,7 @@ const mapDispatchToProps = (dispatch) => {
     updateProgramSelectionDispatcher: (program) => dispatch(updateProgramSelection(program)),
     addAppliedFilterDispatcher: (filterToApply) => dispatch(addAppliedFilter(filterToApply)),
     removeAppliedFilterDispatcher: (removedFilter) => dispatch(removeAppliedFilter(removedFilter)),
-    updateFilterCriteriaDispacher: (filterCriteria) => dispatch(updateFilterCriteria(filterCriteria)),
+    updateFilterCriteriaDispatcher: (filterCriteria) => dispatch(updateFilterCriteria(filterCriteria)),
   };
 };
 

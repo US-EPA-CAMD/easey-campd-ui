@@ -1,5 +1,9 @@
 import initialState from '../../store/reducers/initialState';
 import {formatYearsToArray, formatDateToApi, initcap} from "./general";
+// import { EMISSIONS_DATA_SUBTYPES } from '../../utils/constants/emissions';
+// import { ALLOWANCES_DATA_SUBTYPES } from '../../utils/constants/allowances';
+// import { COMPLIANCES_DATA_SUBTYPES } from '../../utils/constants/compliances';
+// import { isAddedToFilters } from '../../utils/selectors/general';
 
 export const resetFilterHelper = (state, filterToReset, resetAll = false) => {
   const clonedFilterCriteria = JSON.parse(JSON.stringify(state));
@@ -507,3 +511,26 @@ export const getPipeDelimitedYears = (yearsArray) => {
   })
   return result;
 }
+
+//   const mapRequiredFilters = {
+//     EMISSIONS: EMISSIONS_DATA_SUBTYPES,
+//     ALLOWANCE: ALLOWANCES_DATA_SUBTYPES,
+//     COMPLIANCE: COMPLIANCES_DATA_SUBTYPES,
+//   };
+//   const subTypes = mapRequiredFilters[dataType] || null;
+//   if (!subTypes) {
+//     return false;
+//   }
+//   const index = subTypes.filter((el) => el.label === dataSubType);
+//   if (index.length === 0) {
+//     return false;
+//   }
+
+//   const search =
+//     index[0].required[0] === 'none'
+//       ? [true]
+//       : index[0].required.map((el) =>
+//           isAddedToFilters(el, appliedFilters)
+//         );
+//   return appliedFilters.length > 0 && search.indexOf(false) === -1;
+// };

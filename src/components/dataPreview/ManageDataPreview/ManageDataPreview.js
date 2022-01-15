@@ -31,17 +31,20 @@ const ManageDataPreview = ({
   setDisplayMobileDataType,
   timePeriod,
   handleFilterButtonClick,
+  handleMobileFiltersButtonClick,
   hideNav,
-  hideNavDispacher,
-  resetDataPreviewDispacher,
+  hideNavDispatcher,
+  resetDataPreviewDispatcher,
   resetFiltersDispatcher,
   removeAppliedFiltersDispatcher,
   updateTimePeriodDispatcher,
   filterCriteria,
-  updateFilterCriteriaDispacher
+  updateFilterCriteriaDispatcher,
+  renderPreviewData,
+  setRenderPreviewData,
+  handlePreviewDataButtonClick
 }) => {
   const [requirementsMet, setRequirementsMet] = useState(false);
-  const [renderPreviewData, setRenderPreviewData] = useState(false);
   const [removedAppliedFilter, setRemovedAppliedFilter] = useState(null);
   const isMobileOrTablet = useCheckWidth([0, 1024]);
 
@@ -61,7 +64,7 @@ const ManageDataPreview = ({
   useEffect(()=>{
     if(removedAppliedFilter !== null){
       if(filterCriteria.filterMapping.length>0){
-        engageFilterLogic(dataType, dataSubType, removedAppliedFilter, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispacher, true);
+        engageFilterLogic(dataType, dataSubType, removedAppliedFilter, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispatcher, true);
       }
     }// eslint-disable-next-line react-hooks/exhaustive-deps
   },[appliedFilters]);
@@ -69,16 +72,16 @@ const ManageDataPreview = ({
 
   useEffect(() => {
     if (!isMobileOrTablet) {
-      hideNavDispacher(false);
+      hideNavDispatcher(false);
     } else {
       if (displayMobileDataType) {
-        hideNavDispacher(true);
+        hideNavDispatcher(true);
       }
     } // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isMobileOrTablet]);
 
   const handleUpdateInAppliedFilters = () => {
-    resetDataPreviewDispacher();
+    resetDataPreviewDispatcher();
     setRenderPreviewData(false);
   };
 
@@ -137,7 +140,7 @@ const ManageDataPreview = ({
 
   return (
     <div className="width-full">
-      <div className={`desktop:display-flex flex-row flex-justify bg-base-lightest desktop:padding-x-3 minh-10 padding-0 ${displayMobileDataType && isMobileOrTablet? 'height-viewport' : ''}`}>
+      <div className="desktop:display-flex flex-row flex-justify bg-base-lightest desktop:padding-x-3 minh-10 padding-0 ">
         <div className="tablet:display-flex tablet:flex-row tablet:flex-justify tablet:width-full">
           <h2 className="flex-align-self-center font-sans-xl text-bold margin-0 padding-x-2 tablet:padding-x-4 desktop-lg:padding-x-0">
             Custom Data Download
@@ -158,20 +161,19 @@ const ManageDataPreview = ({
               type="button"
               className="clearfix width-card height-6 font-sans-md margin-left-1 margin-2 desktop:margin-0 desktop:margin-left-1"
               disabled={!requirementsMet}
-              onClick={() => setRenderPreviewData(true)}
+              onClick={handlePreviewDataButtonClick}
             >
               Preview Data
             </Button>
           </div>
         </div>
-        <div className={`margin-0 padding-y-2 padding-x-2 tablet:padding-left-4 desktop:padding-2 tablet:display-flex desktop:display-none width-full 
-        ${isMobileOrTablet && displayMobileDataType? 'bg-base-lightest': 'bg-base-lighter'}`}>
+        <div className={"margin-0 padding-y-2 padding-x-2 tablet:padding-left-4 desktop:padding-2 tablet:display-flex desktop:display-none width-full bg-base-lighter"}>
           <Button
             type="button"
             className="usa-button margin-y-1 desktop:display-none width-full height-6"
             onClick={() => {
               setDisplayMobileDataType(true);
-              hideNavDispacher(true);
+              hideNavDispatcher(true);
             }}
           >
             Data Type
@@ -179,8 +181,10 @@ const ManageDataPreview = ({
           <Button
             type="button"
             className="usa-button margin-y-1 desktop:display-none width-full height-6"
+            disabled={!dataType || !dataSubType}
+            onClick={handleMobileFiltersButtonClick}
           >
-            Filters
+            Filters {appliedFilters.length? `(${appliedFilters.length})`: ''}
           </Button>
         </div>
       </div>
@@ -206,7 +210,7 @@ const ManageDataPreview = ({
           handleUpdateInAppliedFilters={handleUpdateInAppliedFilters}
         />
       ) : (
-        <div className={`desktop:margin-3 tablet:margin-x-10 flex-justify-center padding-3 tablet:border mobile-lg:width-mobile-lg line-height-sans-5 margin-0 tablet:margin-3 ${isMobileOrTablet && displayMobileDataType? 'display-none': ''}`}>
+        <div className="desktop:margin-3 tablet:margin-x-10 flex-justify-center padding-3 tablet:border mobile-lg:width-mobile-lg line-height-sans-5 margin-0 tablet:margin-3">
           <h3 className="font-sans-lg margin-top-0">To get started:</h3>
           <ul>
             <li>
@@ -245,15 +249,15 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    hideNavDispacher: (boolean) => dispatch(hideNav(boolean)),
-    resetDataPreviewDispacher: () => dispatch(resetDataPreview()),
+    hideNavDispatcher: (boolean) => dispatch(hideNav(boolean)),
+    resetDataPreviewDispatcher: () => dispatch(resetDataPreview()),
     removeAppliedFiltersDispatcher: (removedFilter, removeAll, opHours) =>
       dispatch(removeAppliedFilter(removedFilter, removeAll, opHours)),
     resetFiltersDispatcher: (filterToReset, resetAll) =>
       dispatch(resetFilter(filterToReset, resetAll)),
     updateTimePeriodDispatcher: (timePeriod) =>
       dispatch(updateTimePeriod(timePeriod)),
-    updateFilterCriteriaDispacher: (filterCriteria) =>
+    updateFilterCriteriaDispatcher: (filterCriteria) =>
       dispatch(updateFilterCriteria(filterCriteria)),
   };
 };

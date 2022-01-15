@@ -1,10 +1,18 @@
 import React from 'react';
+import { connect } from 'react-redux';
+
 import { Button, Dropdown, Label } from '@trussworks/react-uswds';
 import { Help } from '@material-ui/icons';
 
 import * as constants from '../../../utils/constants/customDataDownload';
 import { initcap } from '../../../utils/selectors/general';
 import Tooltip from '../../Tooltip/Tooltip';
+
+import {
+  resetDataPreview,
+  removeAppliedFilter,
+} from '../../../store/actions/customDataDownload/customDataDownload';
+import { resetFilter } from '../../../store/actions/customDataDownload/filterCriteria';
 
 const DataTypeSelectorView = ({
   selectedDataType,
@@ -19,9 +27,10 @@ const DataTypeSelectorView = ({
   handleCancelButtonClick,
   selectionChange,
   displayCancel,
-  displayCancelMobile
+  displayCancelMobile,
 }) => {
   const showCancelButton = displayCancel || displayCancelMobile;
+
   return (
     <>
       <div className="panel-header padding-top-3 padding-bottom-3 padding-left-2">
@@ -117,7 +126,7 @@ const DataTypeSelectorView = ({
         )}
       </div>
       {dataSubtypeApplied === false && (
-        <div className="border-top-1px border-base-light mobile-lg:padding-x-2 desktop:padding-x-6 padding-y-3 height-mobile-lg">
+        <div className="border-top-1px border-base-light padding-x-2 desktop:padding-x-6 padding-y-3 height-mobile-lg">
           <Button
             primary="true"
             className="float-right clearfix"
@@ -141,4 +150,17 @@ const DataTypeSelectorView = ({
   );
 };
 
-export default DataTypeSelectorView;
+const mapStateToProps = (state) => ({
+  appliedFilters: state.customDataDownload.appliedFilters,
+});
+const mapDispatchToProps = (dispatch) => {
+  return {
+    resetDataPreviewDispatcher: () => dispatch(resetDataPreview()),
+    removeAppliedFiltersDispatcher: (removedFilter, removeAll, opHours) =>
+      dispatch(removeAppliedFilter(removedFilter, removeAll, opHours)),
+    resetFiltersDispatcher: (filterToReset, resetAll) =>
+      dispatch(resetFilter(filterToReset, resetAll)),
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(DataTypeSelectorView);

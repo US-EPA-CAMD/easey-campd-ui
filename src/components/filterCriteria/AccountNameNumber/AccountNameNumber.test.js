@@ -69,7 +69,7 @@ describe('Account Name/Number Component', () => {
       <Provider store={store}>
         <AccountNameNumber
           loadAccountNameNumbersDispatcher={jest.fn()}
-          updateAccountNameNumberSelectionDispacher={jest.fn()}
+          updateAccountNameNumberSelectionDispatcher={jest.fn()}
           addAppliedFilterDispatcher={jest.fn()}
           removeAppliedFilterDispatcher={jest.fn()}
           closeFlyOutHandler={() => (flyOutClosed = true)}

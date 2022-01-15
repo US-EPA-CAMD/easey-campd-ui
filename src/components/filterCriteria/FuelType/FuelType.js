@@ -15,7 +15,7 @@ export const FuelType = ({
   storeFuelType,
   appliedFilters,
   updateFuelTypeSelectionDispatcher,
-  updateFilterCriteriaDispacher,
+  updateFilterCriteriaDispatcher,
   addAppliedFilterDispatcher,
   removeAppliedFilterDispatcher,
   closeFlyOutHandler,
@@ -38,7 +38,7 @@ export const FuelType = ({
     if(applyFilterClicked){
       if(dataType === "EMISSIONS"){
         if(filterCriteria.filterMapping.length>0){
-          engageFilterLogic(dataType, dataSubType, filterToApply, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispacher);
+          engageFilterLogic(dataType, dataSubType, filterToApply, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispatcher);
         }
       }
       closeFlyOutHandler();
@@ -145,7 +145,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(addAppliedFilter(filterToApply)),
     removeAppliedFilterDispatcher: (removedFilter) =>
       dispatch(removeAppliedFilter(removedFilter)),
-    updateFilterCriteriaDispacher: (filterCriteria) => 
+    updateFilterCriteriaDispatcher: (filterCriteria) => 
       dispatch(updateFilterCriteria(filterCriteria)),
   };
 };

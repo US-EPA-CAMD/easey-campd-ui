@@ -13,7 +13,7 @@ import Tooltip from '../../../Tooltip/Tooltip';
 const TimePeriodComboBox = ({
   timePeriod,
   appliedFilters,
-  updateTimePeriodDispacher,
+  updateTimePeriodDispatcher,
   addAppliedFilterDispatcher,
   removeAppliedFilterDispatcher,
   closeFlyOutHandler,
@@ -22,7 +22,7 @@ const TimePeriodComboBox = ({
   dataType,
   dataSubType,
   filterCriteria,
-  updateFilterCriteriaDispacher
+  updateFilterCriteriaDispatcher
   }) => {
 
   const [yearsArray, setYearsArray] = useState(JSON.parse(JSON.stringify(timePeriod.comboBoxYear)));
@@ -48,7 +48,7 @@ const TimePeriodComboBox = ({
     if(applyFilterClicked){
       if(dataSubType === "Holdings" || dataSubType === "Transactions" || dataType === "COMPLIANCE"){
         if(filterCriteria.filterMapping.length>0){
-          engageFilterLogic(dataType, dataSubType, filterToApply, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispacher);
+          engageFilterLogic(dataType, dataSubType, filterToApply, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispatcher);
         }
       }
       closeFlyOutHandler();
@@ -56,7 +56,7 @@ const TimePeriodComboBox = ({
   }, [timePeriod.comboBoxYear]);
 
   const handleApplyFilter = () =>{
-    updateTimePeriodDispacher({
+    updateTimePeriodDispatcher({
       ...timePeriod,
       comboBoxYear: yearsArray
     });
@@ -134,10 +134,10 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    updateTimePeriodDispacher: (timePeriod) => dispatch(updateTimePeriod(timePeriod)),
+    updateTimePeriodDispatcher: (timePeriod) => dispatch(updateTimePeriod(timePeriod)),
     addAppliedFilterDispatcher: (filterToApply) => dispatch(addAppliedFilter(filterToApply)),
     removeAppliedFilterDispatcher: (removedFilter) => dispatch(removeAppliedFilter(removedFilter)),
-    updateFilterCriteriaDispacher: (filterCriteria) => dispatch(updateFilterCriteria(filterCriteria)),
+    updateFilterCriteriaDispatcher: (filterCriteria) => dispatch(updateFilterCriteria(filterCriteria)),
   };
 };
 

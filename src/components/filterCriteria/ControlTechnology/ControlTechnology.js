@@ -14,7 +14,7 @@ import Tooltip from '../../Tooltip/Tooltip';
 export const ControlTechnology = ({
   storeControlTechnology,
   appliedFilters,
-  updateFilterCriteriaDispacher,
+  updateFilterCriteriaDispatcher,
   updateControlTechnologySelectionDispatcher,
   addAppliedFilterDispatcher,
   removeAppliedFilterDispatcher,
@@ -40,7 +40,7 @@ export const ControlTechnology = ({
     if(applyFilterClicked){
       if(dataType === "EMISSIONS"){
         if(filterCriteria.filterMapping.length>0){
-          engageFilterLogic(dataType, dataSubType, filterToApply, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispacher);
+          engageFilterLogic(dataType, dataSubType, filterToApply, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispatcher);
         }
       }
       closeFlyOutHandler();
@@ -141,7 +141,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    updateFilterCriteriaDispacher: (filterCriteria) => 
+    updateFilterCriteriaDispatcher: (filterCriteria) => 
       dispatch(updateFilterCriteria(filterCriteria)),
     updateControlTechnologySelectionDispatcher: (controlTechnology) =>
       dispatch(updateControlTechnologySelection(controlTechnology)),

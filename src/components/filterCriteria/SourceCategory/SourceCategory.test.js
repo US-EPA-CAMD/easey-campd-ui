@@ -66,7 +66,7 @@ describe('Source Category Component', () => {
         store={store}>
         <SourceCategory
           loadSourceCategoriesDispatcher ={loadSourceCategories}
-          updateSourceCategorySelectionDispacher ={updateSourceCategorySelection}
+          updateSourceCategorySelectionDispatcher ={updateSourceCategorySelection}
           addAppliedFilterDispatcher ={addAppliedFilter}
           removeAppliedFilterDispatcher ={removeAppliedFilter}
           closeFlyOutHandler ={()=> flyOutClosed=true}

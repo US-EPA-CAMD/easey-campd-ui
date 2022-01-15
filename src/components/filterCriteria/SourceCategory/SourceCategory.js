@@ -13,8 +13,8 @@ import Tooltip from '../../Tooltip/Tooltip';
 const SourceCategory = ({
   sourceCategory,
   appliedFilters,
-  updateFilterCriteriaDispacher,
-  updateSourceCategorySelectionDispacher,
+  updateFilterCriteriaDispatcher,
+  updateSourceCategorySelectionDispatcher,
   addAppliedFilterDispatcher,
   removeAppliedFilterDispatcher,
   closeFlyOutHandler,
@@ -38,7 +38,7 @@ const SourceCategory = ({
     if(applyFilterClicked){
       if(dataType === "EMISSIONS"){
         if(filterCriteria.filterMapping.length>0){
-          engageFilterLogic(dataType, dataSubType, filterToApply, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispacher);
+          engageFilterLogic(dataType, dataSubType, filterToApply, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispatcher);
         }
       }
       closeFlyOutHandler();
@@ -46,7 +46,7 @@ const SourceCategory = ({
   }, [sourceCategory]);
 
   const handleApplyFilter = () =>{
-    updateSourceCategorySelectionDispacher(_sourceCategory);
+    updateSourceCategorySelectionDispatcher(_sourceCategory);
     if(isAddedToFilters(filterToApply, appliedFilters)){
       removeAppliedFilterDispatcher(filterToApply);
     }
@@ -125,8 +125,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    updateFilterCriteriaDispacher: (filterCriteria) => dispatch(updateFilterCriteria(filterCriteria)),
-    updateSourceCategorySelectionDispacher: (sourceCategory) => dispatch(updateSourceCategorySelection(sourceCategory)),
+    updateFilterCriteriaDispatcher: (filterCriteria) => dispatch(updateFilterCriteria(filterCriteria)),
+    updateSourceCategorySelectionDispatcher: (sourceCategory) => dispatch(updateSourceCategorySelection(sourceCategory)),
     addAppliedFilterDispatcher: (filterToApply) => dispatch(addAppliedFilter(filterToApply)),
     removeAppliedFilterDispatcher: (removedFilter) => dispatch(removeAppliedFilter(removedFilter))
   };

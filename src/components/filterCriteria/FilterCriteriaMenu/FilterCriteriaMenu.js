@@ -1,13 +1,27 @@
 import * as React from "react";
+import { connect } from "react-redux"
 import * as constants from "../../../utils/constants/customDataDownload";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faWindowClose } from '@fortawesome/free-solid-svg-icons';
 import { Button } from "@trussworks/react-uswds";
 import { faSlidersH } from "@fortawesome/free-solid-svg-icons";
 import { Help } from '@material-ui/icons';
 
 import "./FilterCriteriaMenu.scss";
 import { isAddedToFilters } from "../../../utils/selectors/general";
+import useCheckWidth from '../../../utils/hooks/useCheckWidth';
 import Tooltip from '../../Tooltip/Tooltip';
+
+import {
+  resetDataPreview,
+  removeAppliedFilter,
+} from '../../../store/actions/customDataDownload/customDataDownload';
+import {
+  resetFilter,
+  updateTimePeriod,
+  updateFilterCriteria,
+} from '../../../store/actions/customDataDownload/filterCriteria';
+
 
 const FilterCriteriaMenu = ({
     dataSubtypeApplied,
@@ -16,8 +30,18 @@ const FilterCriteriaMenu = ({
     handleFilterButtonClick,
     activeFilter,
     appliedFilters,
-    filterCriteria
-  }) => {
+    filterCriteria,
+    resetFiltersDispatcher,
+    removeAppliedFiltersDispatcher,
+    resetDataPreviewDispatcher,
+    onFilterTagRemovedHandler
+  }) => { 
+    const removeFilter = (filterType) => {
+      resetFiltersDispatcher(filterType);
+      removeAppliedFiltersDispatcher(filterType);
+      resetDataPreviewDispatcher();
+    };
+    const isMobileOrTablet = useCheckWidth([0, 1024]);
     const checkSelectableData = (listItem) => {
       let enabled = 0;
       for (const el of listItem) {
@@ -96,21 +120,37 @@ const FilterCriteriaMenu = ({
                       outline="true"
                       onClick={(evt) => handleFilterButtonClick(el.value, evt.target)}
                       aria-selected={
-                        isAddedToFilters(el.value, appliedFilters) || activeFilter===el.value
-                          ? true : false
+                        isAddedToFilters(el.value, appliedFilters) ||
+                        activeFilter === el.value
+                          ? true
+                          : false
                       }
                       className={
-                        isAddedToFilters(el.value, appliedFilters) || activeFilter===el.value
-                          ? "filter-button applied-filter"
-                          : "filter-button"
+                        isAddedToFilters(el.value, appliedFilters) ||
+                        activeFilter === el.value
+                          ? 'filter-button applied-filter'
+                          : 'filter-button'
                       }
                       disabled={checkDisabled(el)}
                     >
                       {el.label}
-                      <FontAwesomeIcon
-                        icon={faSlidersH}
-                        className="float-right clearfix"
-                      />
+                      {isMobileOrTablet &&
+                      isAddedToFilters(el.value, appliedFilters) ? (
+                        <FontAwesomeIcon
+                          icon={faWindowClose}
+                          className="float-right clearfix"
+                          onClick={(evt)=>{
+                              evt.stopPropagation();
+                              removeFilter(el.value);
+                            }
+                          }
+                        />
+                      ) : (
+                        <FontAwesomeIcon
+                          icon={faSlidersH}
+                          className="float-right clearfix"
+                        />
+                      )}
                     </Button>
                   </p>
                 );
@@ -122,5 +162,18 @@ const FilterCriteriaMenu = ({
     </>
   );
 };
-
-export default FilterCriteriaMenu;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    resetDataPreviewDispatcher: () => dispatch(resetDataPreview()),
+    removeAppliedFiltersDispatcher: (removedFilter, removeAll, opHours) =>
+      dispatch(removeAppliedFilter(removedFilter, removeAll, opHours)),
+    resetFiltersDispatcher: (filterToReset, resetAll) =>
+      dispatch(resetFilter(filterToReset, resetAll)),
+    updateTimePeriodDispatcher: (timePeriod) =>
+      dispatch(updateTimePeriod(timePeriod)),
+    updateFilterCriteriaDispatcher: (filterCriteria) =>
+      dispatch(updateFilterCriteria(filterCriteria)),
+  };
+};
+// export default FilterCriteriaMenu;
+export default connect(null, mapDispatchToProps)(FilterCriteriaMenu);

@@ -11,7 +11,7 @@ import { engageFilterLogic } from "../../../utils/selectors/filterLogic";
 const StateTerritory = ({
   stateTerritory,
   appliedFilters,
-  updateStateSelectionDispacher,
+  updateStateSelectionDispatcher,
   addAppliedFilterDispatcher,
   removeAppliedFilterDispatcher,
   closeFlyOutHandler,
@@ -19,7 +19,7 @@ const StateTerritory = ({
   dataType,
   dataSubType,
   filterCriteria,
-  updateFilterCriteriaDispacher
+  updateFilterCriteriaDispatcher
   }) => {
 
   const [_stateTerritory, setStateTerritory] = useState(JSON.parse(JSON.stringify(stateTerritory)));
@@ -35,14 +35,14 @@ const StateTerritory = ({
   useEffect(()=>{
     if(applyFilterClicked){
       if(filterCriteria.filterMapping.length>0){
-        engageFilterLogic(dataType, dataSubType, filterToApply, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispacher);
+        engageFilterLogic(dataType, dataSubType, filterToApply, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispatcher);
       }
       closeFlyOutHandler();
     }// eslint-disable-next-line react-hooks/exhaustive-deps
   }, [stateTerritory]);
 
   const handleApplyFilter = () =>{
-    updateStateSelectionDispacher(_stateTerritory);
+    updateStateSelectionDispatcher(_stateTerritory);
     if(isAddedToFilters(filterToApply, appliedFilters)){
       removeAppliedFilterDispatcher(filterToApply);
     }
@@ -112,10 +112,10 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    updateStateSelectionDispacher: (stateSelection) => dispatch(updateStateSelection(stateSelection)),
+    updateStateSelectionDispatcher: (stateSelection) => dispatch(updateStateSelection(stateSelection)),
     addAppliedFilterDispatcher: (filterToApply) => dispatch(addAppliedFilter(filterToApply)),
     removeAppliedFilterDispatcher: (removedFilter) => dispatch(removeAppliedFilter(removedFilter)),
-    updateFilterCriteriaDispacher: (filterCriteria) => dispatch(updateFilterCriteria(filterCriteria)),
+    updateFilterCriteriaDispatcher: (filterCriteria) => dispatch(updateFilterCriteria(filterCriteria)),
   };
 };
 

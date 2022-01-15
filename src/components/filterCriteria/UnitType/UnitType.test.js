@@ -170,7 +170,7 @@ describe('Unit Type', () => {
         storeUnitType={storeUnitType}
         appliedFilters={[]}
         closeFlyOutHandler={() => flyoutClosed = true}
-        updateFilterCriteriaDispacher={jest.fn()}
+        updateFilterCriteriaDispatcher={jest.fn()}
         updateUnitTypeSelectionDispatcher={jest.fn()}
         addAppliedFilterDispatcher={jest.fn()}
         removeAppliedFilterDispatcher={jest.fn()}

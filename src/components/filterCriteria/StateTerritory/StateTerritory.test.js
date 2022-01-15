@@ -84,7 +84,7 @@ describe('State/Territory Component', () => {
       <Provider 
         store={store}>
         <StateTerritory
-          updateStateSelectionDispacher ={updateStateSelection}
+          updateStateSelectionDispatcher ={updateStateSelection}
           addAppliedFilterDispatcher ={addAppliedFilter}
           removeAppliedFilterDispatcher ={removeAppliedFilter}
           closeFlyOutHandler ={()=> flyOutClosed=true}

@@ -221,7 +221,7 @@ describe("Hourly Emissions Program", () => {
           storeProgram= {storeProgam}
           appliedFilters={[]}
           closeFlyOutHandler={() => flyoutClosed = true}
-          updateFilterCriteriaDispacher={jest.fn()}
+          updateFilterCriteriaDispatcher={jest.fn()}
           updateProgramSelectionDispatcher={jest.fn()}
           addAppliedFilterDispatcher={jest.fn()}
           removeAppliedFilterDispatcher={jest.fn()}
