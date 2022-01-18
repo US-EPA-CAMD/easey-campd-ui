@@ -103,6 +103,7 @@ const accountType = [
 const storeAccountType = restructureAccountTypes(accountType);
 initialState.filterCriteria.accountType = storeAccountType;
 const store = configureStore(initialState);
+let flyoutClosed = false;
 
 describe('Account Type', () => {
   let queries;
@@ -111,7 +112,7 @@ describe('Account Type', () => {
     queries = render(
       <Provider store={store}>
         <AccountType
-          closeFlyOutHandler={jest.fn()}
+          closeFlyOutHandler={() => flyoutClosed = true}
           loadAccountTypesDispatcher={jest.fn()}
           updateAccountTypeSelectionDispatcher={jest.fn()}
           addAppliedFilterDispatcher={jest.fn()}
@@ -147,7 +148,7 @@ describe('Account Type', () => {
   });
 
   it('handles checkbox selection appropriately and applies them', () => {
-    const { getByRole } = queries;
+    const { getByRole, getByText } = queries;
     const saCheckbox = getByRole('checkbox', {
       name: 'Surrender Account (SURR)',
     });
@@ -159,18 +160,8 @@ describe('Account Type', () => {
     });
     fireEvent.click(selectAllRetire);
     expect(selectAllRetire.checked).toEqual(true);
-
-    const applyButton = getByRole('button', {
-      name: 'Apply Filter',
-    });
-    fireEvent.click(applyButton);
-
-    const fCheckbox = getByRole('checkbox', {
-      name: 'Facility Account (FACLTY)',
-    });
-    fireEvent.click(fCheckbox);
-    expect(fCheckbox.checked).toEqual(true);
-
-    fireEvent.click(applyButton);
+    const applyFilterButton = getByText('Apply Filter').closest('button');
+    fireEvent.click(applyFilterButton);
+    expect(flyoutClosed).toBe(true);
   });
 });
