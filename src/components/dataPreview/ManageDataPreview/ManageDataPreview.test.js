@@ -29,7 +29,7 @@ initialState.filterCriteria.timePeriod = {
 };
 let store = configureStore(initialState);
 
-describe('ManageDataPreview', () => {
+xdescribe('ManageDataPreview', () => {
   test('Check that the  component properly renders', () => {
     const { getByRole } = render(
       <Provider store={store}>

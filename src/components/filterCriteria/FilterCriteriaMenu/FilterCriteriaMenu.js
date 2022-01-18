@@ -1,11 +1,25 @@
 import * as React from "react";
+import { connect } from "react-redux"
 import * as constants from "../../../utils/constants/customDataDownload";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faWindowClose } from '@fortawesome/free-solid-svg-icons';
 import { Button } from "@trussworks/react-uswds";
 import { Help, Tune } from '@material-ui/icons';
 
 import "./FilterCriteriaMenu.scss";
 import { isAddedToFilters } from "../../../utils/selectors/general";
 import Tooltip from '../../Tooltip/Tooltip';
+
+import {
+  resetDataPreview,
+  removeAppliedFilter,
+} from '../../../store/actions/customDataDownload/customDataDownload';
+import {
+  resetFilter,
+  updateTimePeriod,
+  updateFilterCriteria,
+} from '../../../store/actions/customDataDownload/filterCriteria';
+
 
 const FilterCriteriaMenu = ({
     dataSubtypeApplied,
@@ -14,8 +28,18 @@ const FilterCriteriaMenu = ({
     handleFilterButtonClick,
     activeFilter,
     appliedFilters,
-    filterCriteria
-  }) => {
+    filterCriteria,
+    resetFiltersDispatcher,
+    removeAppliedFiltersDispatcher,
+    resetDataPreviewDispatcher,
+    isMobileOrTablet,
+    hideFilterMenu,
+  }) => { 
+    const removeFilter = (filterType) => {
+      resetFiltersDispatcher(filterType);
+      removeAppliedFiltersDispatcher(filterType);
+      resetDataPreviewDispatcher();
+    };
     const checkSelectableData = (listItem) => {
       let enabled = 0;
       for (const el of listItem) {
@@ -64,10 +88,10 @@ const FilterCriteriaMenu = ({
       }
       return validateInput(filterCriteria, filter.stateVar);
     };
-
+    const showMenu = isMobileOrTablet ? !hideFilterMenu && dataSubtypeApplied : dataSubtypeApplied;
   return (
     <>
-      {dataSubtypeApplied === true && (
+      {showMenu === true && (
         <>
           <div className="panel-header padding-top-3 padding-left-2">
             <h2>Filters</h2>
@@ -92,9 +116,7 @@ const FilterCriteriaMenu = ({
                   <p key={i} className="padding-y-0">
                     <Button
                       outline="true"
-                      onClick={(evt) =>
-                        handleFilterButtonClick(el.value, evt.target)
-                      }
+                      onClick={(evt) => handleFilterButtonClick(el.value, evt.target)}
                       aria-selected={
                         isAddedToFilters(el.value, appliedFilters) ||
                         activeFilter === el.value
@@ -111,7 +133,20 @@ const FilterCriteriaMenu = ({
                       id={`filter${i}`}
                     >
                       {el.label}
-                      <Tune fontSize="small" />
+                      {isMobileOrTablet &&
+                      isAddedToFilters(el.value, appliedFilters) ? (
+                        <FontAwesomeIcon
+                          icon={faWindowClose}
+                          className="float-right clearfix"
+                          onClick={(evt)=>{
+                              evt.stopPropagation();
+                              removeFilter(el.value);
+                            }
+                          }
+                        />
+                      ) : (
+                        <Tune fontSize="small" />
+                      )}
                     </Button>
                   </p>
                 );
@@ -123,5 +158,18 @@ const FilterCriteriaMenu = ({
     </>
   );
 };
-
-export default FilterCriteriaMenu;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    resetDataPreviewDispatcher: () => dispatch(resetDataPreview()),
+    removeAppliedFiltersDispatcher: (removedFilter, removeAll, opHours) =>
+      dispatch(removeAppliedFilter(removedFilter, removeAll, opHours)),
+    resetFiltersDispatcher: (filterToReset, resetAll) =>
+      dispatch(resetFilter(filterToReset, resetAll)),
+    updateTimePeriodDispatcher: (timePeriod) =>
+      dispatch(updateTimePeriod(timePeriod)),
+    updateFilterCriteriaDispatcher: (filterCriteria) =>
+      dispatch(updateFilterCriteria(filterCriteria)),
+  };
+};
+// export default FilterCriteriaMenu;
+export default connect(null, mapDispatchToProps)(FilterCriteriaMenu);

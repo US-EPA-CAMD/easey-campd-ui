@@ -172,7 +172,7 @@ describe('Account Name/Number Component', () => {
     query = render(
       <Provider store={store}>
         <TimePeriodComboBox
-          updateTimePeriodDispacher={jest.fn()}
+          updateTimePeriodDispatcher={jest.fn()}
           addAppliedFilterDispatcher={jest.fn()}
           removeAppliedFilterDispatcher={jest.fn()}
           closeFlyOutHandler={() => (flyOutClosed = true)}

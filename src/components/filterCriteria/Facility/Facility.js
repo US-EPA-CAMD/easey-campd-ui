@@ -13,7 +13,7 @@ import Tooltip from '../../Tooltip/Tooltip';
 const Facility = ({
   facility,
   appliedFilters,
-  updateFacilitySelectionDispacher,
+  updateFacilitySelectionDispatcher,
   addAppliedFilterDispatcher,
   removeAppliedFilterDispatcher,
   closeFlyOutHandler,
@@ -21,7 +21,7 @@ const Facility = ({
   dataType,
   dataSubType,
   filterCriteria,
-  updateFilterCriteriaDispacher
+  updateFilterCriteriaDispatcher
   }) => {
 
   const [stateFacility, setStateFacility] = useState(JSON.parse(JSON.stringify(facility)));
@@ -37,14 +37,14 @@ const Facility = ({
   useEffect(()=>{
     if(applyFilterClicked){
       if(filterCriteria.filterMapping.length>0){
-        engageFilterLogic(dataType, dataSubType, filterToApply, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispacher);
+        engageFilterLogic(dataType, dataSubType, filterToApply, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispatcher);
       }
       closeFlyOutHandler();
     }// eslint-disable-next-line react-hooks/exhaustive-deps
   }, [facility]);
 
   const handleApplyFilter = () =>{
-    updateFacilitySelectionDispacher(stateFacility);
+    updateFacilitySelectionDispatcher(stateFacility);
     if(isAddedToFilters(filterToApply, appliedFilters)){
       removeAppliedFilterDispatcher(filterToApply);
     }
@@ -123,8 +123,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    updateFilterCriteriaDispacher: (filterCriteria) => dispatch(updateFilterCriteria(filterCriteria)),
-    updateFacilitySelectionDispacher: (facility) => dispatch(updateFacilitySelection(facility)),
+    updateFilterCriteriaDispatcher: (filterCriteria) => dispatch(updateFilterCriteria(filterCriteria)),
+    updateFacilitySelectionDispatcher: (facility) => dispatch(updateFacilitySelection(facility)),
     addAppliedFilterDispatcher: (filterToApply) => dispatch(addAppliedFilter(filterToApply)),
     removeAppliedFilterDispatcher: (removedFilter) => dispatch(removeAppliedFilter(removedFilter))
   };

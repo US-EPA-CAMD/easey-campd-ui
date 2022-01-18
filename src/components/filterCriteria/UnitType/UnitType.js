@@ -18,7 +18,7 @@ import { isAddedToFilters } from '../../../utils/selectors/general';
 export const UnitType = ({
   storeUnitType,
   appliedFilters,
-  updateFilterCriteriaDispacher,
+  updateFilterCriteriaDispatcher,
   updateUnitTypeSelectionDispatcher,
   addAppliedFilterDispatcher,
   removeAppliedFilterDispatcher,
@@ -49,7 +49,7 @@ export const UnitType = ({
             dataSubType,
             filterToApply,
             JSON.parse(JSON.stringify(filterCriteria)),
-            updateFilterCriteriaDispacher
+            updateFilterCriteriaDispatcher
           );
         }
       }
@@ -148,7 +148,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(addAppliedFilter(filterToApply)),
     removeAppliedFilterDispatcher: (removedFilter) =>
       dispatch(removeAppliedFilter(removedFilter)),
-    updateFilterCriteriaDispacher: (filterCriteria) =>
+    updateFilterCriteriaDispatcher: (filterCriteria) =>
       dispatch(updateFilterCriteria(filterCriteria)),
   };
 };

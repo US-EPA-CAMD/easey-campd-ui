@@ -61,7 +61,7 @@ describe('Owner Operator Component', () => {
           dataSubType ={jest.fn()}
           appliedFilters ={jest.fn()}
           loadownerOperatorsDispatcher ={loadOwnerOperators}
-          updateOwnerOperatorDispacher ={updateOwnerOperatorSelection}
+          updateOwnerOperatorDispatcher ={updateOwnerOperatorSelection}
           addAppliedFilterDispatcher ={addAppliedFilter}
           removeAppliedFilterDispatcher ={removeAppliedFilter}
           closeFlyOutHandler ={()=> flyOutClosed=true}

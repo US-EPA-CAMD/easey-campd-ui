@@ -19,7 +19,7 @@ import Tooltip from '../../Tooltip/Tooltip';
 const AccountNameNumber = ({
   accountNameNumber,
   appliedFilters,
-  updateAccountNameNumberSelectionDispacher,
+  updateAccountNameNumberSelectionDispatcher,
   addAppliedFilterDispatcher,
   removeAppliedFilterDispatcher,
   closeFlyOutHandler,
@@ -27,7 +27,7 @@ const AccountNameNumber = ({
   dataType,
   dataSubType,
   filterCriteria,
-  updateFilterCriteriaDispacher
+  updateFilterCriteriaDispatcher
 }) => {
   const [_accountNameNumber, setAccountNameNumber] = useState(JSON.parse(JSON.stringify(accountNameNumber)));
   const [applyFilterClicked, setApplyFilterClicked] = useState(false);
@@ -42,14 +42,14 @@ const AccountNameNumber = ({
   useEffect(()=>{
     if(applyFilterClicked){
       if(filterCriteria.filterMapping.length>0){
-        engageFilterLogic(dataType, dataSubType, filterToApply, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispacher);
+        engageFilterLogic(dataType, dataSubType, filterToApply, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispatcher);
       }
       closeFlyOutHandler();
     }// eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accountNameNumber]);
 
   const handleApplyFilter = () => {
-    updateAccountNameNumberSelectionDispacher(_accountNameNumber);
+    updateAccountNameNumberSelectionDispatcher(_accountNameNumber);
     if (isAddedToFilters(filterToApply, appliedFilters)) {
       removeAppliedFilterDispatcher(filterToApply);
     }
@@ -129,11 +129,11 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    updateAccountNameNumberSelectionDispacher: (accountNameNumberSelection) => 
+    updateAccountNameNumberSelectionDispatcher: (accountNameNumberSelection) => 
       dispatch(updateAccountNameNumberSelection(accountNameNumberSelection)),
     addAppliedFilterDispatcher: (filterToApply) => dispatch(addAppliedFilter(filterToApply)),
     removeAppliedFilterDispatcher: (removedFilter) =>dispatch(removeAppliedFilter(removedFilter)),
-    updateFilterCriteriaDispacher: (filterCriteria) => dispatch(updateFilterCriteria(filterCriteria)),
+    updateFilterCriteriaDispatcher: (filterCriteria) => dispatch(updateFilterCriteria(filterCriteria)),
   };
 };
 

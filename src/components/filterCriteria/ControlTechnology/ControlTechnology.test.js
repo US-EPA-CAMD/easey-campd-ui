@@ -232,7 +232,7 @@ describe('Control technology', () => {
           storeControlTechnology={storeControlTechnology}
           appliedFilters={[]}
           closeFlyOutHandler={() => flyoutClosed = true}
-          updateFilterCriteriaDispacher={jest.fn()}
+          updateFilterCriteriaDispatcher={jest.fn()}
           updateControlTechnologySelectionDispatcher={jest.fn()}
           addAppliedFilterDispatcher={jest.fn()}
           removeAppliedFilterDispatcher={jest.fn()}

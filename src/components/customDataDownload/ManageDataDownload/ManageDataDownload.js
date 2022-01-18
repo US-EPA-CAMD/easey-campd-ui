@@ -11,6 +11,7 @@ import DataTypeSelectorView from '../DataTypeSelectorView/DataTypeSelectorView';
 import FilterCriteriaMenu from '../../filterCriteria/FilterCriteriaMenu/FilterCriteriaMenu';
 import FilterCriteriaPanel from '../../filterCriteria/FilterCriteriaPanel/FilterCriteriaPanel';
 import ManageDataPreview from '../../dataPreview/ManageDataPreview/ManageDataPreview';
+import MobileMenu from '../../MobileComponents/MobileMenu'
 import * as constants from '../../../utils/constants/customDataDownload';
 import LoadingModal from '../../LoadingModal/LoadingModal';
 
@@ -26,14 +27,14 @@ const ManageDataDownload = ({
   selectedDataType,
   updateSelectedDataTypeDispatcher,
   updateSelectedDataSubTypeDispatcher,
-  updateFilterCriteriaDispacher,
+  updateFilterCriteriaDispatcher,
   updateTimePeriodDispatcher,
   removeAppliedFiltersDispatcher,
   loadFilterMappingDispatcher,
   resetFilterDispatcher,
   appliedFilters,
   loadAllFiltersDispatcher,
-  hideNavDispacher,
+  hideNavDispatcher,
   filterCriteria,
   loading,
 }) => {
@@ -78,13 +79,18 @@ const ManageDataDownload = ({
   const [comboBoxYearUpdated, setComboBoxYearUpdated] = useState(false);
   const [displayMobileDataType, setDisplayMobileDataType] = useState(false);
   const [displayCancelMobile, setDisplayCancelMobile] = useState(false);
+  const [hideFilterMenu, setHideFilterMenu] = useState(false);
+  const [hideDataTypeSelector, setHideDataTypeSelector] = useState(false);
   const isMobileOrTablet = useCheckWidth([0, 1024]);
+  const [renderPreviewData, setRenderPreviewData] = useState(false);
 
   useEffect(() => {
     if (isMobileOrTablet) { 
-      setDisplayCancelMobile(true)
+      setDisplayCancelMobile(true);
     } else {
-      setDisplayCancelMobile(false)
+      setDisplayCancelMobile(false);
+      setHideFilterMenu(false);
+      setHideDataTypeSelector(false)
     }
   }, [isMobileOrTablet])
   useEffect(()=>{//console.log(filterCriteria.timePeriod.comboBoxYear); console.log("called");
@@ -102,7 +108,7 @@ const ManageDataDownload = ({
         setComboBoxYearUpdated(true);
       }
       if(comboBoxYearUpdated){
-        engageFilterLogic(selectedDataType, dataSubType, null, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispacher, true);
+        engageFilterLogic(selectedDataType, dataSubType, null, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispatcher, true);
         setApplyClicked(false);
         setComboBoxYearUpdated(false);
       }
@@ -152,6 +158,17 @@ const ManageDataDownload = ({
     setActiveFilter(false);
   };
 
+  const handleBackButtonClick = () => {
+    setHideFilterMenu(false)
+    hideNavDispatcher(false)
+    setDisplayMobileDataType(false);
+    setDataTypeApplied(false);
+    setDataSubtypeApplied(false);
+    setDisplayFilters(false);
+    setActiveFilter(false);
+    setHideDataTypeSelector(false);
+  };
+
   const handleFilterButtonClick = (filterType, evtTarget) => {
     // *** if the same button as is currently selected is pressed again
     if (displayFilters === true && selectedFilter === filterType) {
@@ -167,6 +184,7 @@ const ManageDataDownload = ({
   };
 
   const handleApplyButtonClick = () => {
+    setHideFilterMenu(true)
     setApplyClicked(true);
     const dataSubType = getSelectedDataSubType(constants.DATA_SUBTYPES_MAP[selectedDataType]);
     if (selectedDataType !== '' && selectedDataSubtype !== '') {
@@ -192,10 +210,26 @@ const ManageDataDownload = ({
     }
   };
 
+  const handlePreviewDataButtonClick = () => {
+    setRenderPreviewData(true);
+  };
+
+  const handleMobileFiltersButtonClick = () => {
+    hideNavDispatcher(true);
+    setDataTypeApplied(true);
+    setDataSubtypeApplied(true);
+    setDisplayMobileDataType(true);
+    setHideFilterMenu(false);
+    setHideDataTypeSelector(true);
+  };
+
   const handleCancelButtonClick = () => {
     if (!appliedDataType.dataType || !appliedDataType.dataSubType) {
-      hideNavDispacher(false)
+      hideNavDispatcher(false)
       return setDisplayMobileDataType(false)
+    }
+    if (isMobileOrTablet) {
+      setHideFilterMenu(true)
     }
     setDataTypeApplied(true);
     setDataSubtypeApplied(true);
@@ -233,7 +267,7 @@ const ManageDataDownload = ({
 
   const mobileDataTypeDisplay = displayMobileDataType? 'width-full tablet:width-mobile-lg minh-viewport'
   : 'display-none desktop:display-block';
-  const position = isMobileOrTablet ? 'position-absolute' : 'position-static';
+  const position = isMobileOrTablet ? 'position-absolute pin-y' : 'position-static';
   return (
     <div className="position-relative">
       <div
@@ -261,6 +295,7 @@ const ManageDataDownload = ({
             selectionChange={selectionChange}
             displayCancel={displayCancel}
             displayCancelMobile={displayCancelMobile}
+            hideDataTypeSelector={hideDataTypeSelector}
           />
           <FilterCriteriaMenu
             dataSubtypeApplied={dataSubtypeApplied}
@@ -270,6 +305,16 @@ const ManageDataDownload = ({
             appliedFilters={appliedFilters}
             activeFilter={activeFilter}
             filterCriteria={filterCriteria}
+            hideFilterMenu={hideFilterMenu}
+            setHideFilterMenu={setHideFilterMenu}
+            isMobileOrTablet={isMobileOrTablet}
+          />
+          <MobileMenu 
+          handleBackButtonClick={handleBackButtonClick}
+          appliedFilters={appliedFilters}
+          dataSubtypeApplied={dataSubtypeApplied}
+          handlePreviewDataButtonClick={handlePreviewDataButtonClick}
+          hideFilterMenu={hideFilterMenu}
           />
         </div>
         <FilterCriteriaPanel
@@ -281,12 +326,19 @@ const ManageDataDownload = ({
           selectedFilter={getFilterVariable(selectedFilter)}
           closeFlyOutHandler={closeFlyOutHandler}
           getSelectedDataSubType={getSelectedDataSubType}
+          appliedFilters={appliedFilters}
+          handleBackButtonClick={handleBackButtonClick}
         />
         <ManageDataPreview
           dataType={appliedDataType.dataType}
           displayMobileDataType={displayMobileDataType}
           setDisplayMobileDataType={setDisplayMobileDataType}
           handleFilterButtonClick={handleFilterButtonClick}
+          handleMobileFiltersButtonClick={handleMobileFiltersButtonClick}
+          renderPreviewData={renderPreviewData}
+          setRenderPreviewData={setRenderPreviewData}
+          handlePreviewDataButtonClick={handlePreviewDataButtonClick}
+          isMobileOrTablet={isMobileOrTablet}
         />
         {loading ? <LoadingModal loading={loading} /> : null}
       </div>
@@ -309,7 +361,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(updateSelectedDataType(dataType)),
     updateSelectedDataSubTypeDispatcher: (dataSubType) =>
       dispatch(updateSelectedDataSubType(dataSubType)),
-    updateFilterCriteriaDispacher: (filterCriteria) => 
+    updateFilterCriteriaDispatcher: (filterCriteria) => 
       dispatch(updateFilterCriteria(filterCriteria)),
     removeAppliedFiltersDispatcher: (removedFilter, removeAll) =>
       dispatch(removeAppliedFilter(removedFilter, removeAll)),
@@ -321,8 +373,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(loadFilterMapping(dataType, dataSubType, years)),
     updateTimePeriodDispatcher: (timePeriod) =>
       dispatch(updateTimePeriod(timePeriod)),
-      hideNavDispacher: (boolean) => dispatch(hideNav(boolean)),
-
+      hideNavDispatcher: (boolean) => dispatch(hideNav(boolean)),
   };
 };
 

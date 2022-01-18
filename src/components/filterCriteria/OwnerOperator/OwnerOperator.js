@@ -16,11 +16,11 @@ const OwnerOperator = ({
   dataSubType,
   filterCriteria,
   appliedFilters,
-  updateOwnerOperatorDispacher,
+  updateOwnerOperatorDispatcher,
   addAppliedFilterDispatcher,
   removeAppliedFilterDispatcher,
   loading,
-  updateFilterCriteriaDispacher,
+  updateFilterCriteriaDispatcher,
   closeFlyOutHandler,
   renderedHandler}) => {
 
@@ -47,7 +47,7 @@ const OwnerOperator = ({
     if(applyFilterClicked){
       if(dataType === "ALLOWANCE" || dataType === "COMPLIANCE"){
         if(filterCriteria.filterMapping.length>0){
-          engageFilterLogic(dataType, dataSubType, filterToApply, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispacher);
+          engageFilterLogic(dataType, dataSubType, filterToApply, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispatcher);
         }
       }
       closeFlyOutHandler();
@@ -55,7 +55,7 @@ const OwnerOperator = ({
   }, [ownerOperator]);
 
   const handleApplyFilter = () =>{
-    updateOwnerOperatorDispacher(_ownerOperator);
+    updateOwnerOperatorDispatcher(_ownerOperator);
     if(isAddedToFilters(filterToApply, appliedFilters)){
       removeAppliedFilterDispatcher(filterToApply);
     }
@@ -137,10 +137,10 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     loadownerOperatorsDispatcher: (dataSubType) => dispatch(loadOwnerOperators(dataSubType)),
-    updateOwnerOperatorDispacher: (ownerOperator) => dispatch(updateOwnerOperatorSelection(ownerOperator)),
+    updateOwnerOperatorDispatcher: (ownerOperator) => dispatch(updateOwnerOperatorSelection(ownerOperator)),
     addAppliedFilterDispatcher: (filterToApply) => dispatch(addAppliedFilter(filterToApply)),
     removeAppliedFilterDispatcher: (removedFilter) => dispatch(removeAppliedFilter(removedFilter)),
-    updateFilterCriteriaDispacher: (filterCriteria) => dispatch(updateFilterCriteria(filterCriteria)),
+    updateFilterCriteriaDispatcher: (filterCriteria) => dispatch(updateFilterCriteria(filterCriteria)),
   };
 };
 

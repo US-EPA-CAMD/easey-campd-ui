@@ -306,7 +306,7 @@ describe('Facility Component', () => {
         store={store}>
         <Facility
           loadFacilitiesDispatcher ={loadFacilities}
-          updateFacilitySelectionDispacher ={updateFacilitySelection}
+          updateFacilitySelectionDispatcher ={updateFacilitySelection}
           addAppliedFilterDispatcher ={addAppliedFilter}
           removeAppliedFilterDispatcher ={removeAppliedFilter}
           closeFlyOutHandler ={()=> flyOutClosed=true}

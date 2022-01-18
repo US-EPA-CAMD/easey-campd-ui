@@ -1,5 +1,9 @@
 import initialState from '../../store/reducers/initialState';
 import {formatYearsToArray, formatDateToApi, initcap} from "./general";
+// import { EMISSIONS_DATA_SUBTYPES } from '../../utils/constants/emissions';
+// import { ALLOWANCES_DATA_SUBTYPES } from '../../utils/constants/allowances';
+// import { COMPLIANCES_DATA_SUBTYPES } from '../../utils/constants/compliances';
+// import { isAddedToFilters } from '../../utils/selectors/general';
 
 export const resetFilterHelper = (state, filterToReset, resetAll = false) => {
   const clonedFilterCriteria = JSON.parse(JSON.stringify(state));

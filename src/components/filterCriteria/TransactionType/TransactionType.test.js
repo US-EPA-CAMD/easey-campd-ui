@@ -72,7 +72,7 @@ describe('Transaction Type Component', () => {
         store={store}>
         <TransactionType
           loadtransactionTypesDispatcher ={jest.fn()}
-          updatetransactionTypeSelectionDispacher ={jest.fn()}
+          updatetransactionTypeSelectionDispatcher ={jest.fn()}
           addAppliedFilterDispatcher ={jest.fn()}
           removeAppliedFilterDispatcher ={jest.fn()}
           closeFlyOutHandler ={()=> flyOutClosed=true}

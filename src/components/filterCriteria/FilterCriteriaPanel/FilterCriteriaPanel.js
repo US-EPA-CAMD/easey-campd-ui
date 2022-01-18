@@ -184,7 +184,8 @@ const FilterCriteriaPanel = ({
   return (
     <>
       {show === true ? (
-        <div className={`filter-panel side-nav-height bg-base-lightest margin-0 shadow-5 ${isMobileOrTablet? 'position-absolute width-full tablet:width-mobile-lg minh-viewport': ''}`}>
+        <div className={`filter-panel side-nav-height bg-base-lightest margin-0 shadow-5 
+        ${isMobileOrTablet? 'position-absolute width-full tablet:width-mobile-lg minh-viewport': ''}`}>
           <div className="padding-top-6 padding-bottom-3 padding-x-1">
             {contentRenderer()}
           </div>
