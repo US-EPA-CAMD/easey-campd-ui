@@ -22,6 +22,7 @@ export const MobileMenu = ({
   resetDataPreviewDispatcher,
   handleBackButtonClick,
   handlePreviewDataButtonClick,
+  hideFilterMenu
 }) => {
   const clearAllFilters = () => {
     resetFiltersDispatcher(null, true);
@@ -43,6 +44,7 @@ export const MobileMenu = ({
           >
             Back
           </Button>
+          {!hideFilterMenu && <>
           <div className="mobile-lg:display-flex">
             <Tooltip
               content="Preview the first 100 rows of your query here."
@@ -70,7 +72,7 @@ export const MobileMenu = ({
             onClick={clearAllFilters}
           >
             Clear All
-          </Button>
+          </Button></>}
         </div>
       )}
     </>

@@ -20,7 +20,6 @@ import hideNav from '../../../store/actions/hideNavAction';
 import { EMISSIONS_DATA_SUBTYPES } from '../../../utils/constants/emissions';
 import { ALLOWANCES_DATA_SUBTYPES } from '../../../utils/constants/allowances';
 import { COMPLIANCES_DATA_SUBTYPES } from '../../../utils/constants/compliances';
-import useCheckWidth from '../../../utils/hooks/useCheckWidth'
 import Tooltip from '../../Tooltip/Tooltip';
 
 const ManageDataPreview = ({
@@ -42,11 +41,11 @@ const ManageDataPreview = ({
   updateFilterCriteriaDispatcher,
   renderPreviewData,
   setRenderPreviewData,
-  handlePreviewDataButtonClick
+  handlePreviewDataButtonClick,
+  isMobileOrTablet
 }) => {
   const [requirementsMet, setRequirementsMet] = useState(false);
   const [removedAppliedFilter, setRemovedAppliedFilter] = useState(null);
-  const isMobileOrTablet = useCheckWidth([0, 1024]);
 
   useEffect(() => {
     if (
@@ -184,7 +183,9 @@ const ManageDataPreview = ({
             type="button"
             className="usa-button margin-y-1 desktop:display-none width-full height-6"
             disabled={!dataType || !dataSubType}
-            onClick={handleMobileFiltersButtonClick}
+            onClick={() => {
+              setDisplayMobileDataType(true)
+              handleMobileFiltersButtonClick()}}
           >
             Filters {appliedFilters.length? `(${appliedFilters.length})`: ''}
           </Button>

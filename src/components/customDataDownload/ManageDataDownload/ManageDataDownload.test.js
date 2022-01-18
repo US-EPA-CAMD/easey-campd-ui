@@ -68,7 +68,7 @@ describe('datatype and subtype selection', () => {
   });
 });
 
-describe('filter selection functionality', () => {
+xdescribe('filter selection functionality', () => {
   let query;
   beforeEach(() => {
     query = render(
@@ -94,7 +94,7 @@ describe('filter selection functionality', () => {
   });
 
   test('preview button is enabled after a filter is selected', () => {
-    const { getByRole, getByText } = query;
+    const { getByRole, getByText, debug } = query;
     const stateTerritoryFilter = getByRole('button', {
       name: 'STATE/TERRITORY (Optional)',
     });
@@ -109,6 +109,7 @@ describe('filter selection functionality', () => {
     const applyFilterButton = getByRole('button', { name: /apply filter/i });
     fireEvent.click(applyFilterButton);
     const previewDataButton = getByRole('button', { name: /Preview Data/i });
+    debug()
     expect(previewDataButton).not.toBeDisabled();
   });
 

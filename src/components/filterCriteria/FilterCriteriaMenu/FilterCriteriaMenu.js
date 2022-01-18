@@ -8,7 +8,6 @@ import { Help, Tune } from '@material-ui/icons';
 
 import "./FilterCriteriaMenu.scss";
 import { isAddedToFilters } from "../../../utils/selectors/general";
-import useCheckWidth from '../../../utils/hooks/useCheckWidth';
 import Tooltip from '../../Tooltip/Tooltip';
 
 import {
@@ -33,14 +32,14 @@ const FilterCriteriaMenu = ({
     resetFiltersDispatcher,
     removeAppliedFiltersDispatcher,
     resetDataPreviewDispatcher,
-    onFilterTagRemovedHandler
+    isMobileOrTablet,
+    hideFilterMenu,
   }) => { 
     const removeFilter = (filterType) => {
       resetFiltersDispatcher(filterType);
       removeAppliedFiltersDispatcher(filterType);
       resetDataPreviewDispatcher();
     };
-    const isMobileOrTablet = useCheckWidth([0, 1024]);
     const checkSelectableData = (listItem) => {
       let enabled = 0;
       for (const el of listItem) {
@@ -89,10 +88,10 @@ const FilterCriteriaMenu = ({
       }
       return validateInput(filterCriteria, filter.stateVar);
     };
-
+    const showMenu = isMobileOrTablet ? !hideFilterMenu && dataSubtypeApplied : dataSubtypeApplied;
   return (
     <>
-      {dataSubtypeApplied === true && (
+      {showMenu === true && (
         <>
           <div className="panel-header padding-top-3 padding-left-2">
             <h2>Filters</h2>

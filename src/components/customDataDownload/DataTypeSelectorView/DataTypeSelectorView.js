@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 
 import { Button, Dropdown, Label } from '@trussworks/react-uswds';
 import { Help } from '@material-ui/icons';
@@ -8,11 +7,6 @@ import * as constants from '../../../utils/constants/customDataDownload';
 import { initcap } from '../../../utils/selectors/general';
 import Tooltip from '../../Tooltip/Tooltip';
 
-import {
-  resetDataPreview,
-  removeAppliedFilter,
-} from '../../../store/actions/customDataDownload/customDataDownload';
-import { resetFilter } from '../../../store/actions/customDataDownload/filterCriteria';
 
 const DataTypeSelectorView = ({
   selectedDataType,
@@ -28,11 +22,13 @@ const DataTypeSelectorView = ({
   selectionChange,
   displayCancel,
   displayCancelMobile,
+  hideDataTypeSelector,
 }) => {
   const showCancelButton = displayCancel || displayCancelMobile;
 
   return (
-    <>
+    <>{!hideDataTypeSelector &&
+      <>
       <div className="panel-header padding-top-3 padding-bottom-3 padding-left-2">
         <h2>Data Type</h2>
         <Tooltip
@@ -146,21 +142,10 @@ const DataTypeSelectorView = ({
           )}
         </div>
       )}
+      </>
+      }
     </>
   );
 };
 
-const mapStateToProps = (state) => ({
-  appliedFilters: state.customDataDownload.appliedFilters,
-});
-const mapDispatchToProps = (dispatch) => {
-  return {
-    resetDataPreviewDispatcher: () => dispatch(resetDataPreview()),
-    removeAppliedFiltersDispatcher: (removedFilter, removeAll, opHours) =>
-      dispatch(removeAppliedFilter(removedFilter, removeAll, opHours)),
-    resetFiltersDispatcher: (filterToReset, resetAll) =>
-      dispatch(resetFilter(filterToReset, resetAll)),
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(DataTypeSelectorView);
+export default DataTypeSelectorView;
