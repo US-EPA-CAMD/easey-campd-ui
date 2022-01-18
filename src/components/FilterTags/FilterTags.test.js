@@ -11,18 +11,18 @@ const mockHandler = {
 }
 
 describe('FilterTags', () => {
-  const items = [{ key: 'test', values: ['test'] }];
-  const query = render(
-    <FilterTags
-      items={items}
-      onClick={mockHandler.onClick}
-      onRemove={mockHandler.onRemove}
-      onClearAll={mockHandler.onClearAll}
-    />
-  );
-  const { getByText, getByTestId } = query;
-
   test('event handlers', () => {
+    const items = [{ key: 'test', values: ['test'] }];
+    const query = render(
+      <FilterTags
+        items={items}
+        onClick={mockHandler.onClick}
+        onRemove={mockHandler.onRemove}
+        onClearAll={mockHandler.onClearAll}
+      />
+    );
+    const { getByText, getByTestId } = query;
+
     fireEvent.click(getByText('test: test'));
     expect(mockHandler.onClick).toHaveBeenCalled();
 
@@ -32,4 +32,48 @@ describe('FilterTags', () => {
     fireEvent.click(getByText('Clear All'));
     expect(mockHandler.onClearAll).toHaveBeenCalled();
   });
+
+  test('two items', () => {
+    const items = [{ key: 'test', values: ['test', 'test2'] }];
+    const query = render(
+      <FilterTags
+        items={items}
+        onClick={mockHandler.onClick}
+        onRemove={mockHandler.onRemove}
+        onClearAll={mockHandler.onClearAll}
+      />
+    );
+    const { getByText } = query;
+    expect(getByText('test (2)')).toBeTruthy();
+  })
+
+  test('time period', () => {
+    const items = [{ key: 'Time Period', values: ['testing time period'] }];
+    const query = render(
+      <FilterTags
+        items={items}
+        onClick={mockHandler.onClick}
+        onRemove={mockHandler.onRemove}
+        onClearAll={mockHandler.onClearAll}
+      />
+    );
+    const { getByText } = query;
+
+    expect(getByText('testing time period')).toBeTruthy();
+  })
+
+  test('multiple years', () => {
+    const items = [{ key: 'Year', values: ['test1', 'test2'] }];
+    const query = render(
+      <FilterTags
+        items={items}
+        onClick={mockHandler.onClick}
+        onRemove={mockHandler.onRemove}
+        onClearAll={mockHandler.onClearAll}
+      />
+    );
+    const { getByText } = query;
+
+    expect(getByText('Year')).toBeTruthy();
+  })
 });

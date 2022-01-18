@@ -178,5 +178,31 @@ xdescribe('FilterCriteriaMenu Component', () => {
    expect(stateTerritoryFilter).not.toBeDisabled();
   });
   
+  test('state territory filter should be enabled if it has enabled items', () => {
+    initialState.filterCriteria.stateTerritory = [{
+      enabled: true,
+      id: 'AK',
+      label: 'Alaska',
+      selected: false
+    }]
+    const { getByRole } = render(
+      <MemoryRouter>
+        <FilterCriteriaMenu
+          dataSubtypeApplied={true}
+          selectedDataType="COMPLIANCE"
+          getSelectedDataSubType={jest
+            .fn()
+            .mockImplementation(() => 'Emissions Based')}
+          handleFilterButtonClick={jest.fn()}
+          appliedFilters={[]}
+          filterCriteria={initialState.filterCriteria}
+        />
+      </MemoryRouter>
+    );
+    const stateTerritoryFilter = getByRole('button', {
+      name: 'STATE/TERRITORY (Optional)',
+    });  
+   expect(stateTerritoryFilter).not.toBeDisabled();
+  });
   
 });
