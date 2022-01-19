@@ -68,7 +68,7 @@ describe('datatype and subtype selection', () => {
   });
 });
 
-xdescribe('filter selection functionality', () => {
+describe('filter selection functionality', () => {
   let query;
   beforeEach(() => {
     query = render(
@@ -88,13 +88,15 @@ xdescribe('filter selection functionality', () => {
   });
 
   test('preview data button is disabled initially', () => {
-    const { getByRole } = query;
-    const previewDataButton = getByRole('button', { name: /Preview Data/i });
+    const { getAllByRole } = query;
+    const previewDataButton = getAllByRole('button', { name: /Preview Data/i })[0];
     expect(previewDataButton).toBeDisabled();
   });
 
   test('preview button is enabled after a filter is selected', () => {
-    const { getByRole, getByText, debug } = query;
+    const { getByRole, getByText, getAllByRole } = query;
+    const filtersButton = getByRole('button', {name: 'Filters'})
+    fireEvent.click(filtersButton)
     const stateTerritoryFilter = getByRole('button', {
       name: 'STATE/TERRITORY (Optional)',
     });
@@ -108,14 +110,14 @@ xdescribe('filter selection functionality', () => {
     fireEvent.click(alaska);
     const applyFilterButton = getByRole('button', { name: /apply filter/i });
     fireEvent.click(applyFilterButton);
-    const previewDataButton = getByRole('button', { name: /Preview Data/i });
-    debug()
+    const previewDataButton = getAllByRole('button', { name: /Preview Data/i })[0];
     expect(previewDataButton).not.toBeDisabled();
   });
 
   test('pill button can remove filter selection ', () => {
-    const { getByRole, getByText } = query;
-
+    const { getByRole, getByText, getAllByRole } = query;
+    const filtersButton = getByRole('button', {name: 'Filters'})
+    fireEvent.click(filtersButton)
     const stateTerritoryFilter = getByRole('button', {
       name: 'STATE/TERRITORY (Optional)',
     });
@@ -142,16 +144,17 @@ xdescribe('filter selection functionality', () => {
     });
 
     fireEvent.click(pillButtonRemove);
-    const previewDataButton = getByRole('button', { name: /Preview Data/i });
+    const previewDataButton = getAllByRole('button', { name: /Preview Data/i })[0];
     expect(previewDataButton).toBeDisabled();
   });
 
   test('clear all button removes filter selection', () => {
-    const { getByRole, getByText } = query;
+    const { getByRole, getByText, getAllByRole } = query;
+    const filtersButton = getByRole('button', {name: 'Filters'})
+    fireEvent.click(filtersButton)
     const stateTerritoryFilter = getByRole('button', {
       name: 'STATE/TERRITORY (Optional)',
     });
-
     fireEvent.click(stateTerritoryFilter);
     const stateTerritoryComboBox = getByRole('textbox', {
       name: /select or search states\/territories/i,
@@ -166,12 +169,12 @@ xdescribe('filter selection functionality', () => {
     const applyFilterButton = getByRole('button', { name: /apply filter/i });
     fireEvent.click(applyFilterButton);
 
-    const clearAllButton = getByRole('button', {
+    const clearAllButton = getAllByRole('button', {
       name: /clear all/i,
-    });
+    })[0];
 
     fireEvent.click(clearAllButton);
-    const previewDataButton = getByRole('button', { name: /Preview Data/i });
+    const previewDataButton = getAllByRole('button', { name: /Preview Data/i })[0];
     expect(previewDataButton).toBeDisabled();
   });
 });

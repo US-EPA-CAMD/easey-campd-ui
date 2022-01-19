@@ -171,5 +171,5 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(updateFilterCriteria(filterCriteria)),
   };
 };
-// export default FilterCriteriaMenu;
+
 export default connect(null, mapDispatchToProps)(FilterCriteriaMenu);
