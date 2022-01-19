@@ -5,6 +5,10 @@ import { MemoryRouter } from 'react-router-dom';
 import FilterCriteriaMenu from './FilterCriteriaMenu';
 import { EMISSIONS_FILTERS } from '../../../utils/constants/emissions';
 import initialState from '../../../store/reducers/initialState'
+import configureStore from "../../../store/configureStore.dev";
+import { Provider } from "react-redux";
+const store = configureStore(initialState);
+
 const filterCriteria = {
     timePeriod: {
         startDate: '2019-01-01',
@@ -31,20 +35,22 @@ const filterCriteria = {
       filterMapping: [],
   };
 
-xdescribe('FilterCriteriaMenu Component', () => {
+describe('FilterCriteriaMenu Component', () => {
   test('should render content without error', () => {
     const { getByText } = render(
       <MemoryRouter>
-        <FilterCriteriaMenu
-          dataSubtypeApplied={true}
-          selectedDataType="EMISSIONS"
-          getSelectedDataSubType={jest
-            .fn()
-            .mockImplementation(() => 'Hourly Emissions')}
-          handleFilterButtonClick={jest.fn()}
-          activeFilter="Time Period"
-          appliedFilters={[{ key: 'Time Period', value: '01/01/2019 - 01/01/201' }]}
-        />
+        <Provider store={store}>
+          <FilterCriteriaMenu
+            dataSubtypeApplied={true}
+            selectedDataType="EMISSIONS"
+            getSelectedDataSubType={jest
+              .fn()
+              .mockImplementation(() => 'Hourly Emissions')}
+            handleFilterButtonClick={jest.fn()}
+            activeFilter="Time Period"
+            appliedFilters={[{ key: 'Time Period', value: '01/01/2019 - 01/01/201' }]}
+          />
+        </Provider>
       </MemoryRouter>
     );
 
@@ -59,6 +65,7 @@ xdescribe('FilterCriteriaMenu Component', () => {
   test('time period filter should be enabled', () => {
     const { getByRole } = render(
       <MemoryRouter>
+        <Provider store={store}>
         <FilterCriteriaMenu
           dataSubtypeApplied={true}
           selectedDataType="EMISSIONS"
@@ -69,6 +76,7 @@ xdescribe('FilterCriteriaMenu Component', () => {
           activeFilter="Time Period"
           appliedFilters={[{ key: 'Time Period', value: '01/01/2019 - 01/01/201' }]}
         />
+        </Provider>
       </MemoryRouter>
     );
   
@@ -81,6 +89,7 @@ xdescribe('FilterCriteriaMenu Component', () => {
   test('state territory filter should be disabled on emissions if no time period is selected', () => {
     const { getByRole } = render(
       <MemoryRouter>
+        <Provider store={store}>
         <FilterCriteriaMenu
           dataSubtypeApplied={true}
           selectedDataType="EMISSIONS"
@@ -91,6 +100,7 @@ xdescribe('FilterCriteriaMenu Component', () => {
           activeFilter="Time Period"
           appliedFilters={[]}
         />
+        </Provider>
       </MemoryRouter>
     );
   
@@ -105,6 +115,7 @@ xdescribe('FilterCriteriaMenu Component', () => {
   test('state territory filter should be enabled on emissions after a time period is selected', () => {
     const { getByRole } = render(
       <MemoryRouter>
+        <Provider store={store}>
         <FilterCriteriaMenu
           dataSubtypeApplied={true}
           selectedDataType="EMISSIONS"
@@ -117,6 +128,7 @@ xdescribe('FilterCriteriaMenu Component', () => {
             { key: 'Time Period', value: '01/01/2019 - 01/01/201' },
           ]}
         />
+        </Provider>
       </MemoryRouter>
     );
   
@@ -133,6 +145,7 @@ xdescribe('FilterCriteriaMenu Component', () => {
   test('state territory filter should be disabled if it has no items', () => {
     const { getByRole } = render(
       <MemoryRouter>
+        <Provider store={store}>
         <FilterCriteriaMenu
           dataSubtypeApplied={true}
           selectedDataType="COMPLIANCE"
@@ -143,6 +156,7 @@ xdescribe('FilterCriteriaMenu Component', () => {
           appliedFilters={[]}
           filterCriteria={initialState.filterCriteria}
         />
+        </Provider>
       </MemoryRouter>
     );
    const stateTerritoryFilter = getByRole('button', {
@@ -160,6 +174,7 @@ xdescribe('FilterCriteriaMenu Component', () => {
     }]
     const { getByRole } = render(
       <MemoryRouter>
+        <Provider store={store}>
         <FilterCriteriaMenu
           dataSubtypeApplied={true}
           selectedDataType="COMPLIANCE"
@@ -170,6 +185,7 @@ xdescribe('FilterCriteriaMenu Component', () => {
           appliedFilters={[]}
           filterCriteria={initialState.filterCriteria}
         />
+        </Provider>
       </MemoryRouter>
     );
     const stateTerritoryFilter = getByRole('button', {
@@ -187,6 +203,7 @@ xdescribe('FilterCriteriaMenu Component', () => {
     }]
     const { getByRole } = render(
       <MemoryRouter>
+        <Provider store={store}>
         <FilterCriteriaMenu
           dataSubtypeApplied={true}
           selectedDataType="COMPLIANCE"
@@ -197,6 +214,7 @@ xdescribe('FilterCriteriaMenu Component', () => {
           appliedFilters={[]}
           filterCriteria={initialState.filterCriteria}
         />
+        </Provider>
       </MemoryRouter>
     );
     const stateTerritoryFilter = getByRole('button', {
