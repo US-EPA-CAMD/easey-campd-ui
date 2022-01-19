@@ -138,90 +138,75 @@ const ManageDataPreview = ({
           );
     return appliedFilters.length > 0 && search.indexOf(false) === -1;
   };
-  const showMobilePreview = isMobileOrTablet && !renderPreviewData;
-  const showPreview = showMobilePreview || !isMobileOrTablet;
+
   return (
     <div className="width-full">
-      {showPreview && (
-        <>
-          <div className="desktop:display-flex flex-row flex-justify bg-base-lightest desktop:padding-x-3 minh-10 padding-0 ">
-            <div className="tablet:display-flex tablet:flex-row tablet:flex-justify tablet:width-full">
-              <h2 className="flex-align-self-center font-sans-xl text-bold margin-0 padding-x-2 tablet:padding-x-4 desktop-lg:padding-x-0">
-                Custom Data Download
-              </h2>
-              <div className="flex-align-self-center padding-0 desktop:padding-right-4 widescreen:padding-right-10">
-                {!hideNav && (
-                  <Tooltip
-                    content={
-                      !requirementsMet
-                        ? 'Preview button will be disabled until at least one filter is selected.'
-                        : 'Preview the first 100 rows of your query here.'
-                    }
-                    field="Preview Data"
-                  >
-                    <Help
-                      className="text-primary margin-bottom-2 margin-left-2"
-                      fontSize="small"
-                    />
-                  </Tooltip>
-                )}
-                <Button
-                  type="button"
-                  className="clearfix width-card height-6 font-sans-md margin-left-1 margin-2 desktop:margin-0 desktop:margin-left-1"
-                  disabled={!requirementsMet}
-                  onClick={handlePreviewDataButtonClick}
-                >
-                  Preview Data
-                </Button>
-              </div>
-            </div>
-            <div
-              className={
-                'margin-0 padding-y-2 padding-x-2 tablet:padding-left-4 desktop:padding-2 tablet:display-flex desktop:display-none width-full bg-base-lighter'
-              }
-            >
-              <Button
-                type="button"
-                className="usa-button margin-y-1 desktop:display-none width-full height-6"
-                onClick={() => {
-                  setDisplayMobileDataType(true);
-                  hideNavDispatcher(true);
-                }}
+      <div className={`${isMobileOrTablet && renderPreviewData? 'display-none': 'desktop:display-flex flex-row flex-justify bg-base-lightest desktop:padding-x-3 minh-10 padding-0'}`} >
+        <div className="tablet:display-flex tablet:flex-row tablet:flex-justify tablet:width-full">
+          <h2 className="flex-align-self-center font-sans-xl text-bold margin-0 padding-x-2 tablet:padding-x-4 desktop-lg:padding-x-0">
+            Custom Data Download
+          </h2>
+          <div className="flex-align-self-center padding-0 desktop:padding-right-4 widescreen:padding-right-10">
+            {!hideNav && (
+              <Tooltip
+                content={!requirementsMet ? "Preview button will be disabled until at least one filter is selected." : "Preview the first 100 rows of your query here."}
+                field="Preview Data"
               >
-                Data Type
-              </Button>
-              <Button
-                type="button"
-                className="usa-button margin-y-1 desktop:display-none width-full height-6"
-                disabled={!dataType || !dataSubType}
-                onClick={() => {
-                  setDisplayMobileDataType(true);
-                  handleMobileFiltersButtonClick();
-                }}
-              >
-                Filters{' '}
-                {appliedFilters.length ? `(${appliedFilters.length})` : ''}
-              </Button>
-            </div>
-          </div>
-          {appliedFilters.length > 0 && (
-            <div className="display-none desktop:display-block">
-              <div className="bg-base-lightest padding-left-3 padding-right-3 padding-bottom-2 font-sans-sm">
-                <FilterTags
-                  dataType={dataType}
-                  items={appliedFilters}
-                  onClick={(filterType, evtTarget) =>
-                    handleFilterButtonClick(filterType, evtTarget)
-                  }
-                  onRemove={(filterType, filterTag) =>
-                    onFilterTagRemovedHandler(filterType, filterTag)
-                  }
-                  onClearAll={() => onFilterTagClearAllHandler()}
+                <Help
+                  className="text-primary margin-bottom-2 margin-left-2"
+                  fontSize="small"
                 />
-              </div>
-            </div>
-          )}
-        </>
+              </Tooltip>
+            )}
+            <Button
+              type="button"
+              className="clearfix width-card height-6 font-sans-md margin-left-1 margin-2 desktop:margin-0 desktop:margin-left-1"
+              disabled={!requirementsMet}
+              onClick={handlePreviewDataButtonClick}
+            >
+              Preview Data
+            </Button>
+          </div>
+        </div>
+        <div className={"margin-0 padding-y-2 padding-x-2 tablet:padding-left-4 desktop:padding-2 tablet:display-flex desktop:display-none width-full bg-base-lighter"}>
+          <Button
+            type="button"
+            className="usa-button margin-y-1 desktop:display-none width-full height-6"
+            onClick={() => {
+              setDisplayMobileDataType(true);
+              hideNavDispatcher(true);
+            }}
+          >
+            Data Type
+          </Button>
+          <Button
+            type="button"
+            className="usa-button margin-y-1 desktop:display-none width-full height-6"
+            disabled={!dataType || !dataSubType}
+            onClick={() => {
+              setDisplayMobileDataType(true)
+              handleMobileFiltersButtonClick()}}
+          >
+            Filters {appliedFilters.length? `(${appliedFilters.length})`: ''}
+          </Button>
+        </div>
+      </div>
+      {appliedFilters.length > 0 && (
+        <div className="display-none desktop:display-block">
+          <div className="bg-base-lightest padding-left-3 padding-right-3 padding-bottom-2 font-sans-sm">
+            <FilterTags
+              dataType={dataType}
+              items={appliedFilters}
+              onClick={(filterType, evtTarget) =>
+                handleFilterButtonClick(filterType, evtTarget)
+              }
+              onRemove={(filterType, filterTag) =>
+                onFilterTagRemovedHandler(filterType, filterTag)
+              }
+              onClearAll={() => onFilterTagClearAllHandler()}
+            />
+          </div>
+        </div>
       )}
       {renderPreviewData ? (
         <DataPreview
