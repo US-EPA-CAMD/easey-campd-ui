@@ -141,7 +141,7 @@ const ManageDataPreview = ({
 
   return (
     <div className="width-full">
-      <div className="desktop:display-flex flex-row flex-justify bg-base-lightest desktop:padding-x-3 minh-10 padding-0 ">
+      <div className={`${isMobileOrTablet && renderPreviewData? 'display-none': 'desktop:display-flex flex-row flex-justify bg-base-lightest desktop:padding-x-3 minh-10 padding-0'}`} >
         <div className="tablet:display-flex tablet:flex-row tablet:flex-justify tablet:width-full">
           <h2 className="flex-align-self-center font-sans-xl text-bold margin-0 padding-x-2 tablet:padding-x-4 desktop-lg:padding-x-0">
             Custom Data Download
