@@ -139,7 +139,7 @@ const ContactUsPage = () => {
         submitStatus={submitStatus}
         submitStatusText={
           submitStatus
-            ? 'Thank you, your form has been submitted and an email confirmation will be sent to you shortly.'
+            ? 'Success! You will be sent a confirmation email within the next 24 hours. If you do not receive a notification, please resubmit your issue, reach out to the Clean Air Markets Division hotline at 202-343-9620, or email campd-support@camdsupport.com directly.'
             : emailErrorMsg
         }
       />
