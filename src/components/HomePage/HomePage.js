@@ -29,30 +29,34 @@ const HomePage = () => {
       .tz("America/New_York")
       .format("hh:mm a z");
 
-    const formattedDate = `${yyyy}-${mm}-${dd}`
+    const formattedDate = `${yyyy}-${mm}-${dd}`;
 
     getSubmissionProgress(formattedDate)
       .then((res) => {
         if (res.data) {
           const data = res.data;
-          let quarterSpelledOut;
-          switch (data.quarter) {
-            case "1":
-              quarterSpelledOut = "First";
-              break;
-            case "2":
-              quarterSpelledOut = "Second";
-              break;
-            case "3":
-              quarterSpelledOut = "Third";
-              break;
-            default:
-              quarterSpelledOut = "Fourth";
-          }
+          if (data.quarter !== null) {
+            let quarterSpelledOut;
+            switch (data.quarter) {
+              case "1":
+                quarterSpelledOut = "First";
+                break;
+              case "2":
+                quarterSpelledOut = "Second";
+                break;
+              case "3":
+                quarterSpelledOut = "Third";
+                break;
+              default:
+                quarterSpelledOut = "Fourth";
+            }
 
-          setProgressTitle(
-            `${data.calendarYear} ${quarterSpelledOut} Quarter Emission Files Received`
-          );
+            setProgressTitle(
+              `${data.calendarYear} ${quarterSpelledOut} Quarter Emission Files Received`
+            );
+          } else {
+            setProgressTitle(`Emission Files Received`);
+          }
           setLastUpdated(
             `Last Updated ${monthName} ${dd}, ${yyyy} at ${timeWithZone}`
           );
