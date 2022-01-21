@@ -103,7 +103,7 @@ export const reportingQuarter = () => {
   const curYear = new Date().getFullYear();
   let quarter;
   if (curDate < new Date(`March 31, ${curYear}`)) {
-    quarter = `12/31/'${curYear - 1}`;
+    quarter = `12/31/${curYear - 1}`;
   } else if (curDate < new Date(`June 30, ${curYear}`)) {
     quarter = `03/31/${curYear}`;
   } else if (curDate < new Date(`September 30, ${curYear}`)) {
