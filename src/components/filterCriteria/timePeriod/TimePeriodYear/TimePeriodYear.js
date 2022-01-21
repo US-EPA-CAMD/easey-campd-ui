@@ -27,16 +27,16 @@ const TimePeriodYear = ({
 }) => {
   let rangeMessage;
   if (showMonth) {
-    rangeMessage = `Enter month(s) and year(s) between 01/01/1995 and the end of the calendar quarter, ${reportingQuarter()}`;
+    rangeMessage = `Enter month(s) and year(s) between 01/01/1995 and the quarter ending on ${reportingQuarter()}`;
   } else if (showQuarter) {
-    rangeMessage = `Enter quarter(s) and year(s) between 01/01/1995 and the end of the calendar quarter, ${reportingQuarter()}`;
+    rangeMessage = `Enter quarter(s) and year(s) between 01/01/1995 and the quarter ending on ${reportingQuarter()}`;
   } else if (isAnnual) {
     rangeMessage =
-      'Enter year(s) 1980, 1985, 1990, or a year between 1995 and this year';
+      `Enter year(s) 1980, 1985, 1990, or a year between 1995 and the quarter ending on ${reportingQuarter()}`;
   } else if (isAllowance) {
     rangeMessage = 'Enter year(s) greater than or equal to 1995';
   } else {
-    rangeMessage = `Enter year(s) between ${minYear} and this year`;
+    rangeMessage = `Enter year(s) between ${minYear} and and the quarter ending on ${reportingQuarter()}`;
   }
 
   let yearLabel = 'Year(s)'
