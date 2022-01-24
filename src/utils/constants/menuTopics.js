@@ -24,7 +24,7 @@ export const subHeaderUtilityList = [
   {
     label: 'Resources',
     items: [
-      { menu: 'Glossary', link: '#' },
+      { menu: 'Glossary', link: '/resources/glossary' },
       { menu: 'Related Resources', link: '/resources/related-resources' },
     ],
   },
