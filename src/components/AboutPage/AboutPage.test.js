@@ -1,13 +1,18 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import {
+  render,
+  fireEvent,
+  waitFor,
+  screen,
+  act,
+} from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
-
+import { rest } from 'msw';
+import { setupServer } from 'msw/node';
 import AboutPage from './AboutPage';
-jest.mock("react-markdown", () => ({children}) => 
-  <>{children}</>
-)
-jest.mock("remark-gfm", () => () => {
-})
+
+jest.mock('react-markdown', () => ({ children }) => <>{children}</>);
+jest.mock('remark-gfm', () => () => {});
 const releases = [
   {
     title: 'Beta 0.1',
@@ -300,80 +305,93 @@ const releases = [
     ],
   },
 ];
+
+const relaseNotesUrl =
+  'https://api.epa.gov/easey/dev/content-mgmt/campd/help-support/about/release-notes.json';
+const aboutUrl =
+  'https://api.epa.gov/easey/dev/content-mgmt/campd/help-support/about/index.md';
+const getReleaseNotes = rest.get(relaseNotesUrl, (req, res, ctx) => {
+  return res(ctx.json(releases));
+});
+const getAboutContent = rest.get(aboutUrl, (req, res, ctx) => {
+  return res(ctx.json('this is campd'));
+});
+const server = new setupServer(getReleaseNotes, getAboutContent);
+
+beforeAll(() => server.listen());
+beforeEach(() => server.resetHandlers());
+afterAll(() => server.close());
 describe('accordion functionality', () => {
   const accordionReleases = releases.slice(1);
-  test('should render content without error', () => {
-    const { getAllByText, debug } = render(
+  test('should render content without error', async () => {
+    const { findByText } = render(
       <MemoryRouter>
         <AboutPage />
       </MemoryRouter>
     );
-      debug()
-    accordionReleases.forEach((element) => {
-      const container = getAllByText(`${element.title}: ${element.date}`);
-      expect(container).toBeTruthy();
-    });
+    const aboutHeading = await findByText('this is campd');
+    expect(aboutHeading).toBeInTheDocument();
   });
 
-  // test.each(accordionReleases)(
-  //   'accordions should not be expanded by default',
-  //   (release) => {
-  //     const { getByText } = render(
-  //       <MemoryRouter>
-  //         <AboutPage />
-  //       </MemoryRouter>
-  //     );
+  test.each(accordionReleases)(
+    'accordions should not be expanded by default',
+    async (release) => {
+      const { findByText } = render(
+        <MemoryRouter>
+          <AboutPage />
+        </MemoryRouter>
+      );
 
-  //     const accordion = getByText(`${release.title}: ${release.date}`);
-  //     expect(accordion).toHaveAttribute('aria-expanded', 'false');
-  //   }
-  // );
+      const accordion = await findByText(`${release.title}: ${release.date}`);
+      expect(accordion).toHaveAttribute('aria-expanded', 'false');
+    }
+  );
 
-  // test.each(accordionReleases)(
-  //   'accordion should expand when clicked on',
-  //   (release) => {
-  //     const { getByText } = render(
-  //       <MemoryRouter>
-  //         <AboutPage />
-  //       </MemoryRouter>
-  //     );
+  test.each(accordionReleases)(
+    'accordion should expand when clicked on',
+    async (release) => {
+      const { findByText } = render(
+        <MemoryRouter>
+          <AboutPage />
+        </MemoryRouter>
+      );
 
-  //     const accordion = getByText(`${release.title}: ${release.date}`);
-  //     fireEvent.click(accordion);
-  //     expect(accordion).toHaveAttribute('aria-expanded', 'true');
-  //   }
-  // );
+      const accordion = await findByText(`${release.title}: ${release.date}`);
+      fireEvent.click(accordion);
+      expect(accordion).toHaveAttribute('aria-expanded', 'true');
+    }
+  );
 
-  // test.each(accordionReleases)(
-  //   'accordion should close when already expanded and clicked on',
-  //   (release) => {
-  //     const { getByText } = render(
-  //       <MemoryRouter>
-  //         <AboutPage />
-  //       </MemoryRouter>
-  //     );
+  test.each(accordionReleases)(
+    'accordion should close when already expanded and clicked on',
+    async (release) => {
+      const { findByText } = render(
+        <MemoryRouter>
+          <AboutPage />
+        </MemoryRouter>
+      );
 
-  //     const accordion = getByText(`${release.title}: ${release.date}`);
-  //     fireEvent.click(accordion);
-  //     fireEvent.click(accordion);
-  //     expect(accordion).toHaveAttribute('aria-expanded', 'false');
-  //   }
-  // );
+      const accordion = await findByText(`${release.title}: ${release.date}`);
+      fireEvent.click(accordion);
+      fireEvent.click(accordion);
+      expect(accordion).toHaveAttribute('aria-expanded', 'false');
+    }
+  );
 
-  // test.each(accordionReleases)(
-  //   'accordion titles should have h3 tag',
-  //   (release) => {
-  //     const { getByText } = render(
-  //       <MemoryRouter>
-  //         <AboutPage />
-  //       </MemoryRouter>
-  //     );
+  test.each(accordionReleases)(
+    'accordion titles should have h3 tag',
+    async (release) => {
+      const { findByText } = render(
+        <MemoryRouter>
+          <AboutPage />
+        </MemoryRouter>
+      );
 
-  //     const accordion = getByText(`${release.title}: ${release.date}`);
-  //     expect(accordion.closest('h3')).toHaveAttribute(
-  //       'class',
-  //       'usa-accordion__heading'
-  //     );
-  //   }
-  // );
+      const accordion = await findByText(`${release.title}: ${release.date}`);
+      expect(accordion.closest('h3')).toHaveAttribute(
+        'class',
+        'usa-accordion__heading'
+      );
+    }
+  );
 });

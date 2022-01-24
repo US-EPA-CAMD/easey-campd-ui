@@ -4,7 +4,7 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { metaAdder } from '../../utils/document/metaAdder';
 import formatAccordionTitles from '../../utils/ensure-508/formatAccordionTitles';
-import { getContent } from '../../utils/api/apiUtils';
+import getContent from '../../utils/api/getContent';
 
 const ProductUpdate = ({ release }) => {
   return (
@@ -27,13 +27,15 @@ const ProductUpdate = ({ release }) => {
 };
 
 const AboutPage = () => {
+  const [releaseNotes, setReleaseNotes] = useState([]);
+  const [about, setAbout] = useState('');
   useEffect(() => {
     document.title = 'About CAMPD | CAMPD | US EPA';
   }, []);
   // ***replace h4 tags in accordions with h3 tags for 508
   useEffect(() => {
-    formatAccordionTitles();
-  }, []);
+    formatAccordionTitles();//eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [releaseNotes]);
 
   metaAdder(
     'description',
@@ -43,8 +45,7 @@ const AboutPage = () => {
     'keywords',
     'Clean air markets division, EPA, what is, CAMPD, about, allowance, compliance, emissions, facility, data,  CAMPD APIs, releases, updates, versions'
   );
-  const [releaseNotes, setReleaseNotes] = useState([]);
-  const [about, setAbout] = useState('');
+
   useEffect(() => {
     getContent('/campd/help-support/about/release-notes.json').then((resp) =>
       setReleaseNotes(resp.data)

@@ -1,6 +1,4 @@
 import log from "loglevel";
-import axios from "axios";
-import config from '../../config'
 export async function handleResponse(response) {
   if (response.status === 200 || response.status === 201) {
     return response;
@@ -26,15 +24,3 @@ export function handleError(error) {
     log.error({ error: error.message });
   }
 }
-
-export const getContent = async (path) => {
-  let url = `${config.services.content.uri}${path}`;
-
-  return axios
-    .get(url)
-    .then(handleResponse)
-    .catch((error) => {
-      handleError(error);
-      throw new Error(error);
-    });
-};
