@@ -22,7 +22,7 @@ const GlossaryPage = () => {
   );
   metaAdder(
     'keywords',
-    'Dictionary, data label, CAMPD APIs CAM API,  JSON, glossary, excel file, column headings, definitions'
+    'Dictionary, data label, CAMPD APIs, JSON, glossary, excel file, column headings, definitions'
   );
 
   return (
@@ -35,10 +35,10 @@ const GlossaryPage = () => {
         remarkPlugins={[remarkGfm]}
       />
       <Button className='display-block margin-y-2' onClick={()=>window.open(`${config.services.content.uri}/campd/resources/glossary/CAMPD-Glossary.xlsx`, "_blank")}>
-        Download Glossary (CSV)
+        Download Glossary (XLSX)
       </Button>
       <Button className='display-block margin-y-2' onClick={()=>window.open(`${config.services.content.uri}/campd/resources/glossary/CAMPD-Glossary.pdf`, "_blank")}>
-        Download Glossary (PDF)
+        Download Glossary (PDF)&nbsp;&nbsp;
       </Button>
     </div>
   );
