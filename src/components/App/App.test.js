@@ -6,7 +6,8 @@ import App from './App';
 import configureStore from "../../store/configureStore.dev";
 import config from "../../config";
 const store = configureStore();
-
+jest.mock('react-markdown', () => ({ children }) => <>{children}</>);
+jest.mock('remark-gfm', () => () => {});
 
 describe("Testing the main routing App component", () => {
   it("renders home page component provided with the default path", () => {

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { Button } from '@trussworks/react-uswds';
-import { getContent } from '../../utils/api/getContentAPI';
+import getContent  from '../../utils/api/getContent';
 import config from "../../config";
 
 import { metaAdder } from '../../utils/document/metaAdder';
@@ -34,15 +34,11 @@ const GlossaryPage = () => {
         children={mainContent}
         remarkPlugins={[remarkGfm]}
       />
-      <Button className='display-block margin-y-2'>
-        <a target="_blank" href={`${config.services.content.uri}/campd/resources/glossary/CAMPD-Glossary.xlsx`} rel="noopener noreferrer">
-          Download Glossary (CSV)
-        </a>
+      <Button className='display-block margin-y-2' onClick={()=>window.open(`${config.services.content.uri}/campd/resources/glossary/CAMPD-Glossary.xlsx`, "_blank")}>
+        Download Glossary (CSV)
       </Button>
-      <Button className='display-block margin-y-2'>
-        <a target="_blank" href={`${config.services.content.uri}/campd/resources/glossary/CAMPD-Glossary.pdf`} rel="noopener noreferrer">
-          Download Glossary (PDF)
-        </a>
+      <Button className='display-block margin-y-2' onClick={()=>window.open(`${config.services.content.uri}/campd/resources/glossary/CAMPD-Glossary.pdf`, "_blank")}>
+        Download Glossary (PDF)
       </Button>
     </div>
   );

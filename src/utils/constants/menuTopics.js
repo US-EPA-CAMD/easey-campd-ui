@@ -31,7 +31,7 @@ export const subHeaderUtilityList = [
   {
     label: 'Help/Support',
     items: [
-      { menu: 'About CAMPD', link: '/help-support/about-campd' },
+      { menu: 'About CAMPD', link: '/help-support/about' },
       { menu: 'Tutorials', link: '/help-support/tutorials' },
       { menu: 'FAQs', link: '/help-support/faqs' },
       { menu: 'Contact Us', link: '/help-support/contact-us' },

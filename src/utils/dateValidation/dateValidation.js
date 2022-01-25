@@ -64,6 +64,7 @@ export const isYearFormat = (yearString) => {
 };
 
 export const isInYearRange = (yearArray, minYear, isAnnual = false, isAllowance = false) => {
+  const curDate = new Date();
   const curYear = new Date().getFullYear();
   let result = false;
    if (isAnnual) {
@@ -72,12 +73,21 @@ export const isInYearRange = (yearArray, minYear, isAnnual = false, isAllowance 
          year === 1980 ||
          year === 1985 ||
          year === 1990 ||
-         (year >= 1995 && year <= curYear)
+         (year >= 1995 &&
+           year <= curYear &&
+           curDate >= new Date(`March 31, ${curYear}`)) ||
+         (year >= 1995 && year <= curYear - 1)
      );
    } else if (isAllowance) {
      result = yearArray.every((year) => year >= 1995);
    } else {
-     result = yearArray.every((year) => year >= minYear && year <= curYear);
+     result = yearArray.every(
+       (year) =>
+         (year >= minYear &&
+           year <= curYear &&
+           curDate >= new Date(`March 31, ${curYear}`)) ||
+         (year >= minYear && year <= curYear - 1)
+     );
    }
 
     if (!result) {
