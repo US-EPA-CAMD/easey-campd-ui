@@ -7,7 +7,7 @@ import formatAccordionTitles from '../../utils/ensure-508/formatAccordionTitles'
 import getContent from '../../utils/api/getContent';
 
 const ProductUpdate = ({ release, latestRelease }) => {
-  const showUpcomingFeatures = latestRelease && release.upComingFeatures;
+  const showUpcomingFeatures = latestRelease && release.upcomingFeatures;
   return (
     <div key={release.title}>
       {latestRelease && (
@@ -27,12 +27,16 @@ const ProductUpdate = ({ release, latestRelease }) => {
           <li key={i + bug}>{bug}</li>
         ))}
       </ul>
-      {showUpcomingFeatures && <><h4>Upcoming Features</h4>
-      <ul>
-        {release.upComingFeatures.map((upcomingFeature, i) => (
-          <li key={i + upcomingFeature}>{upcomingFeature}</li>
-        ))}
-      </ul></>}
+      {showUpcomingFeatures && (
+        <>
+          <h4>Upcoming Features</h4>
+          <ul>
+            {release.upcomingFeatures.map((upcomingFeature, i) => (
+              <li key={i + upcomingFeature}>{upcomingFeature}</li>
+            ))}
+          </ul>
+        </>
+      )}
     </div>
   );
 };
@@ -69,7 +73,6 @@ const AboutPage = () => {
   const latestRelease = releaseNotes ? releaseNotes[0] : null;
   const subTitle =
     'text-bold font-heading-xl line-height-sans-3 margin-bottom-1';
-
   return (
     <div className="padding-y-2 mobile-lg:padding-x-2 tablet:padding-x-4 widescreen:padding-x-10 font-sans-sm text-base-darkest text-ls-1 line-height-sans-5">
       <ReactMarkdown remarkPlugins={[remarkGfm]} children={about} />
