@@ -12,6 +12,7 @@ import TutorialsPage from "../TutorialsPage/TutorialsPage";
 import ContactUsPage from "../ContactUsPage/ContactUsPage";
 import RelatedResources from "../RelatedResources/RelatedResources";
 import FaqsPage from "../FaqPage/FaqsPage";
+import GlossaryPage from "../GlossaryPage/GlossaryPage";
 import config from "../../config";
 
 import "./App.scss";
@@ -39,6 +40,7 @@ function App() {
           <Route path='/data/custom-data-download' exact component={ManageDataDownload} />
           <Route path="/data/bulk-data-files" exact component={BulkDataFiles} />
           <Route path="/resources/related-resources" exact component={RelatedResources} />
+          <Route path="/resources/glossary" exact component={GlossaryPage} />
           <Route path="/help-support/about" exact component={AboutPage} />
           <Route path="/help-support/tutorials" exact component={TutorialsPage} />
           <Route path="/help-support/faqs" exact component={FaqsPage} />
