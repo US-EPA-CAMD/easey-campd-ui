@@ -6,11 +6,16 @@ import { metaAdder } from '../../utils/document/metaAdder';
 import formatAccordionTitles from '../../utils/ensure-508/formatAccordionTitles';
 import getContent from '../../utils/api/getContent';
 
-const ProductUpdate = ({ release }) => {
+const ProductUpdate = ({ release, latestRelease }) => {
+  const showUpcomingFeatures = latestRelease && release.upComingFeatures;
   return (
     <div key={release.title}>
-      <h4>What's new in {release.title}</h4>
-      <p>{release.date}</p>
+      {latestRelease && (
+        <h4>
+          What's new in {release.title} ({release.date})
+        </h4>
+      )}
+      <h4>Features</h4>
       <ul>
         {release.features.map((feature, i) => (
           <li key={i + feature}>{feature}</li>
@@ -22,19 +27,25 @@ const ProductUpdate = ({ release }) => {
           <li key={i + bug}>{bug}</li>
         ))}
       </ul>
+      {showUpcomingFeatures && <><h4>Upcoming Features</h4>
+      <ul>
+        {release.upComingFeatures.map((upcomingFeature, i) => (
+          <li key={i + upcomingFeature}>{upcomingFeature}</li>
+        ))}
+      </ul></>}
     </div>
   );
 };
 
 const AboutPage = () => {
-  const [releaseNotes, setReleaseNotes] = useState([]);
+  const [releaseNotes, setReleaseNotes] = useState(null);
   const [about, setAbout] = useState('');
   useEffect(() => {
     document.title = 'About CAMPD | CAMPD | US EPA';
   }, []);
   // ***replace h4 tags in accordions with h3 tags for 508
   useEffect(() => {
-    formatAccordionTitles();//eslint-disable-next-line react-hooks/exhaustive-deps
+    formatAccordionTitles(); //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [releaseNotes]);
 
   metaAdder(
@@ -55,17 +66,17 @@ const AboutPage = () => {
     );
   }, []);
 
-  const latestRelease = releaseNotes[0];
+  const latestRelease = releaseNotes ? releaseNotes[0] : null;
   const subTitle =
     'text-bold font-heading-xl line-height-sans-3 margin-bottom-1';
 
   return (
     <div className="padding-y-2 mobile-lg:padding-x-2 tablet:padding-x-4 widescreen:padding-x-10 font-sans-sm text-base-darkest text-ls-1 line-height-sans-5">
-      <ReactMarkdown remarkPlugins={[remarkGfm]} children={about}/>
-      {releaseNotes.length && (
+      <ReactMarkdown remarkPlugins={[remarkGfm]} children={about} />
+      {releaseNotes && (
         <>
           <h2 className={subTitle}>Product updates</h2>
-          <ProductUpdate release={latestRelease} />
+          <ProductUpdate release={latestRelease} latestRelease={true} />
 
           <h2 className={subTitle}>Release Notes</h2>
           <div className="grid-row">
@@ -73,7 +84,9 @@ const AboutPage = () => {
               items={releaseNotes.slice(1).map((release, i) => {
                 return Object.assign({}, release, {
                   title: `${release.title}: ${release.date}`,
-                  content: <ProductUpdate release={release} />,
+                  content: (
+                    <ProductUpdate release={release} latestRelease={false} />
+                  ),
                   expanded: false,
                   id: release + i,
                 });
