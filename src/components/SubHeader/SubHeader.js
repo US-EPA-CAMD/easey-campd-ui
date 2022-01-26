@@ -10,6 +10,8 @@ import {
 } from '../../utils/constants/menuTopics';
 import SubHeaderNavMobile from "../SubHeaderNavMobile/SubHeaderNavMobile";
 
+import './SubHeader.scss';
+
 const SubHeader = () => {
   const pathname = useLocation().pathname;
   const cddPath = ['/data/custom-data-download', '/manage-data-download','/data', '/data/bulk-data-files'];
@@ -65,12 +67,16 @@ const SubHeader = () => {
           alignSelf: 'top center',
         }}
       >
-        <div className="usa-nav-container clearfix padding-x-0">
-          <Title className="float-left margin-0 desktop-lg:padding-top-2">
+        <div className="usa-nav-container custom-wrapper clearfix padding-x-0">
+          <Title className="logo-wrapper width-card tablet:width-mobile desktop:width-card-lg desktop-lg:width-mobile-md float-left margin-0 desktop-lg:padding-top-2">
+            <img
+              src={`${process.env.PUBLIC_URL}/images/campd-mark.svg`}
+              alt="CAMPD Mark"
+            />
             <h1 className="display-inline-block text-white text-heavy desktop-lg:font-sans-3xl desktop:font-sans-2xl mobile-lg:font-sans-xl margin-0">
               CAMPD
             </h1>
-            <span className="display-none tablet:display-inline-block tablet:margin-left-1 desktop:display-block desktop:margin-0 desktop-lg:display-inline-block desktop-lg:margin-left-1 text-white text-normal font-sans-md width-card text-wrap">
+            <span className="display-none tablet:display-inline-block tablet:margin-left-1 desktop:display-block desktop:margin-left-6 desktop-lg:display-inline-block desktop-lg:margin-left-1 text-white text-normal font-sans-md width-card text-wrap">
               Clean Air Markets Program Data
             </span>
           </Title>
