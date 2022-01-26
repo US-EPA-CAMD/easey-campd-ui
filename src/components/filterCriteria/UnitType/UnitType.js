@@ -42,16 +42,14 @@ export const UnitType = ({
 
   useEffect(() => {
     if (applyFilterClicked) {
-      if (dataType === 'EMISSIONS') {
-        if (filterCriteria.filterMapping.length > 0) {
-          engageFilterLogic(
-            dataType,
-            dataSubType,
-            filterToApply,
-            JSON.parse(JSON.stringify(filterCriteria)),
-            updateFilterCriteriaDispatcher
-          );
-        }
+      if (filterCriteria.filterMapping.length > 0) {
+        engageFilterLogic(
+          dataType,
+          dataSubType,
+          filterToApply,
+          JSON.parse(JSON.stringify(filterCriteria)),
+          updateFilterCriteriaDispatcher
+        );
       }
       closeFlyOutHandler();
     } // eslint-disable-next-line react-hooks/exhaustive-deps
