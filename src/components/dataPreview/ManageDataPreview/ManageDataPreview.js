@@ -20,6 +20,7 @@ import hideNav from '../../../store/actions/hideNavAction';
 import { EMISSIONS_DATA_SUBTYPES } from '../../../utils/constants/emissions';
 import { ALLOWANCES_DATA_SUBTYPES } from '../../../utils/constants/allowances';
 import { COMPLIANCES_DATA_SUBTYPES } from '../../../utils/constants/compliances';
+import { FACILITY_DATA_SUBTYPES } from '../../../utils/constants/facility';
 import Tooltip from '../../Tooltip/Tooltip';
 
 const ManageDataPreview = ({
@@ -120,6 +121,7 @@ const ManageDataPreview = ({
       EMISSIONS: EMISSIONS_DATA_SUBTYPES,
       ALLOWANCE: ALLOWANCES_DATA_SUBTYPES,
       COMPLIANCE: COMPLIANCES_DATA_SUBTYPES,
+      FACILITY: FACILITY_DATA_SUBTYPES,
     };
     const subTypes = mapRequiredFilters[dataType] || null;
     if (!subTypes) {

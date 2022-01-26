@@ -77,7 +77,7 @@ const FilterCriteriaMenu = ({
     };
 
     const checkDisabled = (filter) => {
-      if (selectedDataType === 'EMISSIONS' || getSelectedDataSubType(constants.DATA_SUBTYPES_MAP[selectedDataType]) === "Transactions") {
+      if (selectedDataType === 'EMISSIONS' || selectedDataType === 'FACILITY' || getSelectedDataSubType(constants.DATA_SUBTYPES_MAP[selectedDataType]) === "Transactions") {
         if (filter.value === 'Time Period' || filter.value === "Transaction Date") {
           return false;
         } else if(getSelectedDataSubType(constants.DATA_SUBTYPES_MAP[selectedDataType]) === "Transactions") {

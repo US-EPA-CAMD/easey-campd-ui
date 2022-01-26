@@ -1,13 +1,15 @@
 import * as Emissions from './emissions';
 import * as Allowances from './allowances';
 import * as Compliances from './compliances';
+import * as Facility from "./facility";
 
-export const DATA_TYPES = ["EMISSIONS", "ALLOWANCE", "COMPLIANCE"];
+export const DATA_TYPES = ["EMISSIONS", "ALLOWANCE", "COMPLIANCE", "FACILITY"];
 
 export const DATA_SUBTYPES_MAP = {
   EMISSIONS: Emissions.EMISSIONS_DATA_SUBTYPES,
   ALLOWANCE: Allowances.ALLOWANCES_DATA_SUBTYPES,
   COMPLIANCE: Compliances.COMPLIANCES_DATA_SUBTYPES,
+  FACILITY: Facility.FACILITY_DATA_SUBTYPES
 };
 
 export const FILTERS_MAP = {
@@ -18,7 +20,6 @@ export const FILTERS_MAP = {
     'Quarterly Emissions': Emissions.EMISSIONS_FILTERS,
     'Ozone Season Emissions': Emissions.EMISSIONS_FILTERS,
     'Annual Emissions': Emissions.EMISSIONS_FILTERS,
-    'Facility/Unit Attributes': Emissions.FACILITY_UNIT_FILTERS,
   },
   ALLOWANCE: {
     'Account Information': Allowances.ACCOUNT_INFO_FILTERS,
@@ -28,6 +29,9 @@ export const FILTERS_MAP = {
   COMPLIANCE: {
     'Allowance Based': Compliances.ALLOWANCE_BASED_FILTERS,
     'Emissions Based': Compliances.EMISSIONS_BASED_FILTERS,
+  },
+  FACILITY: {
+    'Facility/Unit Attributes': Facility.FACILITY_FILTERS,
   },
 };
 

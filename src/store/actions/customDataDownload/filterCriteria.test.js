@@ -1988,7 +1988,7 @@ describe("Filter Criteria Async Actions", () => {
     })
   });
 
-  it("should create multiple actions when loading all filters for facility/unit attributes emissions type", () => {
+  it("should create multiple actions when loading all filters for facility/unit attributes facility type", () => {
     mock
       .onGet(`${config.services.mdm.uri}/programs?exclude=MATS`)
       .reply(200, program);
@@ -2018,7 +2018,7 @@ describe("Filter Criteria Async Actions", () => {
       { type: types.BEGIN_API_CALL },
       { type: types.BEGIN_API_CALL },
       { type: types.BEGIN_API_CALL },
-      //{ type: types.LOAD_PROGRAMS_SUCCESS, program: restructurePrograms(program)},
+      { type: types.LOAD_PROGRAMS_SUCCESS, program: restructurePrograms(program)},
       { type: types.LOAD_STATES_SUCCESS, stateTerritory: states.map(s=> ({id: s.stateCode, label:s.stateName, selected:false, enabled:true}))},
       { type: types.LOAD_SOURCE_CATEGORY_SUCCESS, sourceCategory: sourceCategories.map(t=> ({id: t.sourceCategoryDescription, label: t.sourceCategoryDescription, selected:false, enabled:true}))},
       { type: types.LOAD_FACILITIES_SUCCESS, facility: facilities.map(f=> ({id: f.facilityId, label:`${f.facilityName} (${f.facilityId})`, selected:false, enabled:true}))},
@@ -2028,7 +2028,7 @@ describe("Filter Criteria Async Actions", () => {
     ];
 
     const store = mockStore(initState);
-    return store.dispatch(actions.loadAllFilters("EMISSIONS", "Facility/Unit Attributes", initState.filterCriteria)).then(() => {
+    return store.dispatch(actions.loadAllFilters("FACILITY", "Facility/Unit Attributes", initState.filterCriteria)).then(() => {
       //console.log(JSON.stringify(store.getActions()))
       expect(store.getActions()).toEqual(expectedActions);
     })

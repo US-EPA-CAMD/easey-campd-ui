@@ -2,17 +2,12 @@ import * as filterLogic from "../selectors/filterLogic";
 
 const timePeriodLabel = 'Time Period'
 
-export const EMISSIONS_DATA_SUBTYPES = [
+export const FACILITY_DATA_SUBTYPES = [
   { value: '', label: '- Select -' },
-  { value: 1, label: 'Hourly Emissions', service: 'hourly', required: [timePeriodLabel] },
-  { value: 2, label: 'Daily Emissions', service: 'daily', required: [timePeriodLabel] },
-  { value: 3, label: 'Monthly Emissions', service: 'monthly', required: [timePeriodLabel] },
-  { value: 4, label: 'Quarterly Emissions', service: 'quarterly', required: [timePeriodLabel] },
-  { value: 5, label: 'Ozone Season Emissions', service: 'ozone', required: [timePeriodLabel] },
-  { value: 6, label: 'Annual Emissions', service: 'annual', required: [timePeriodLabel] },
+  { value: 1, label: 'Facility/Unit Attributes', service: 'attributes', required: [timePeriodLabel] },
 ];
 
-export const EMISSIONS_FILTERS = [
+export const FACILITY_FILTERS = [
   { value: timePeriodLabel, stateVar: 'timePeriod', label: 'TIME PERIOD (Required)' },
   { value: 'Program', stateVar: 'program', label: 'PROGRAM (Optional)',
     updateFilter: (filterCriteria) =>  filterLogic.filterProgram(filterCriteria)},
@@ -26,4 +21,6 @@ export const EMISSIONS_FILTERS = [
     updateFilter: (filterCriteria) =>  filterLogic.filterFuelType(filterCriteria) },
   { value: 'Control Technology', stateVar: 'controlTechnology', label: 'CONTROL TECHNOLOGY (Optional)',
     updateFilter: (filterCriteria) =>  filterLogic.filterControlTechnology(filterCriteria)  },
+  { value: 'Source Category', stateVar: 'sourceCategory', label: 'SOURCE CATEGORY (Optional)',
+    updateFilter: (filterCriteria) =>  filterLogic.filterSourceCategory(filterCriteria) },
 ];

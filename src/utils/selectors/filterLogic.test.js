@@ -1351,12 +1351,25 @@ initialState.filterCriteria.filterMapping = [
 ];
 
 describe('Emissions Filter logic functions', () => {
-  it('engages filter logic for emissions Facility/Unit Attributes', () => {
+  it('engages filter logic for emissions Annual Emissions', () => {
     const clonedFilterCritera = JSON.parse(
       JSON.stringify(initialState.filterCriteria)
     );
     engageFilterLogic(
       'EMISSIONS',
+      'Annual Emissions',
+      'Time Period',
+      clonedFilterCritera,
+      updateFilterCriteria
+    );
+    expect(clonedFilterCritera).not.toBe(initialState.filterCriteria);
+  });
+  it('engages filter logic for facility unit/attributes', () => {
+    const clonedFilterCritera = JSON.parse(
+      JSON.stringify(initialState.filterCriteria)
+    );
+    engageFilterLogic(
+      'FACILITY',
       'Facility/Unit Attributes',
       'Time Period',
       clonedFilterCritera,
