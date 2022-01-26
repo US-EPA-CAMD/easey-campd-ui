@@ -83,6 +83,7 @@ const SubHeader = () => {
               }
               id={'expandButton'}
               tabIndex={showMobileMenu ? -1 : 0}
+              aria-expanded={showMobileMenu}
               onClick={() => {
                 setShowMobileMenu(true);
                 collapseButton && collapseButton.focus();
@@ -102,6 +103,7 @@ const SubHeader = () => {
               }
               id={'collapseButton'}
               tabIndex={showMobileMenu ? 0 : -1}
+              aria-expanded={showMobileMenu}
               onClick={() => {
                 setShowMobileMenu(false);
                 expandButton && expandButton.focus();
