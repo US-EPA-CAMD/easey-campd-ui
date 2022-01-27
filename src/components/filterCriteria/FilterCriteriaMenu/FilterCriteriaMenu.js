@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux"
 import * as constants from "../../../utils/constants/customDataDownload";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -43,7 +43,7 @@ const FilterCriteriaMenu = ({
         const filtersTooltip = document.querySelector('#filtersTooltip')?.firstChild
         filtersTooltip && filtersTooltip.focus();
       }
-    })
+    }, [isMobileOrTablet, hideFilterMenu]);
     useEffect(() => {
       if(isMobileOrTablet && !hideFilterMenu){
         const { firstComponentFocusableElement, handleKeyPress } = focusTrap(".side-nav");

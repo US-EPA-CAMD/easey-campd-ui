@@ -11,9 +11,9 @@ const ProductUpdate = ({ release, latestRelease }) => {
   return (
     <div key={release.title}>
       {latestRelease && (
-        <h4>
+        <h3>
           What's new in {release.title} ({release.date})
-        </h4>
+        </h3>
       )}
       <h4>Features</h4>
       <ul>
