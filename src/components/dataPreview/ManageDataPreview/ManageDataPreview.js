@@ -165,6 +165,7 @@ const ManageDataPreview = ({
             <Button
               type="button"
               className="clearfix width-card height-6 font-sans-md margin-left-1 margin-2 desktop:margin-0 desktop:margin-left-1"
+              id='previewDataButton'
               disabled={!requirementsMet}
               onClick={handlePreviewDataButtonClick}
             >
@@ -176,6 +177,7 @@ const ManageDataPreview = ({
           <Button
             type="button"
             className="usa-button margin-y-1 desktop:display-none width-full height-6"
+            id='dataTypeButton'
             onClick={() => {
               setDisplayMobileDataType(true);
               hideNavDispatcher(true);
@@ -186,6 +188,7 @@ const ManageDataPreview = ({
           <Button
             type="button"
             className="usa-button margin-y-1 desktop:display-none width-full height-6"
+            id='filtersButton'
             disabled={!dataType || !dataSubType}
             onClick={() => {
               setDisplayMobileDataType(true)
