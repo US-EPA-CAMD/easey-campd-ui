@@ -1,11 +1,11 @@
 import React from "react";
 import { connect } from 'react-redux';
+import { Link } from "@trussworks/react-uswds";
 
 import { Header } from "@us-epa-camd/easey-design-system";
 import { AppVersion } from "@us-epa-camd/easey-design-system";
 
 import SubHeader from "../SubHeader/SubHeader";
-
 import config from "../../config";
 
 import "./Layout.scss";
@@ -14,18 +14,21 @@ const Layout = (props) => {
   const childrenWithProps = React.Children.map(props.children, (child) =>
     React.cloneElement(child)
   );
+
   return (
     <div className="react-transition fade-in padding-bottom-5">
-      <a id="skip-nav" className="skip-to-content-anchor" href={"#main"}>
-        Skip to Content
-      </a>
-      <div className={`topHeader ${props.hideNav? 'display-none': ''}`}>
+      <div id="skipNav">
+          <Link className="skip-to-content-link" href={'#main-content'}>
+            Skip to Content
+          </Link>
+      </div>
+      <div className={`topHeader ${props.hideNav ? 'display-none' : ''}`}>
         <div className="epa-header">
           <Header environment={config.app.env} />
         </div>
         <SubHeader />
       </div>
-      <main className="mainContent" id="main" role="main">
+      <main className="mainContent" id="main-content" role="main">
         {childrenWithProps}
       </main>
       <div className="position-fixed bottom-0 width-full">
