@@ -105,7 +105,7 @@ const FilterCriteriaPanel = ({
   }
 
   //isAnnual is specified for year validation
-  const facUnitAttrEmissions = {
+  const facilityUnitAttributes = {
     ...emissions,
     timePeriod: <TimePeriod closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} showYear={true} isAnnual = {true} filterToApply={'Time Period'}/>,
     sourceCategory: <SourceCategory closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
@@ -149,6 +149,7 @@ const FilterCriteriaPanel = ({
   const emissionsSubTypes = Object.keys(FILTERS_MAP.EMISSIONS);
   const allowanceSubTypes = Object.keys(FILTERS_MAP.ALLOWANCE);
   const complianceSubTypes = Object.keys(FILTERS_MAP.COMPLIANCE);
+  const facilitySubTypes = Object.keys(FILTERS_MAP.FACILITY);
 
   const contentRenderer = () => {
     switch (selectedDataSubtype) {
@@ -164,8 +165,8 @@ const FilterCriteriaPanel = ({
         return ozoneEmissions[selectedFilter]
       case emissionsSubTypes[5]:
         return annualEmissions[selectedFilter];
-      case emissionsSubTypes[6]:
-        return facUnitAttrEmissions[selectedFilter];
+      case facilitySubTypes[0]:
+        return facilityUnitAttributes[selectedFilter];
       case allowanceSubTypes[0]:
         return allownaceAcctInfo[selectedFilter];
       case allowanceSubTypes[1]:

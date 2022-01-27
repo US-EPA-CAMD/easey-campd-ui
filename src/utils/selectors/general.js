@@ -172,6 +172,7 @@ export const constructRequestUrl = (
   let apiService;
   switch (dataType.toLowerCase()) {
     case 'emissions':
+    case 'facility':
       if (dataSubType === 'Facility/Unit Attributes') {
         apiService = `${config.services.facilities.uri}/facilities/`;
       } else {

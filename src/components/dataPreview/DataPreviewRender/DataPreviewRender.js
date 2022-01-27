@@ -33,25 +33,39 @@ const DataPreviewRender = ({
   return (
     <div className="preview-content-wrapper padding-x-3 padding-y-3">
       <div className="display-flex flex-row flex-justify flex-align-center">
-        <div id="data-table-title" aria-live="polite" className='flex-align-center'>
+        <div
+          id="data-table-title"
+          aria-live="polite"
+          className="flex-align-center"
+        >
           {loading === 0 && dataPreview !== null ? (
-          <>
-            <div className='mobile-lg:display-inline desktop:display-none'>
-              {loading === 0 && dataPreview !== null && dataPreview.length > 0 && (
-                <Button outline="true" onClick={handleBackButton}>Back</Button>
-              )}
-            </div>
-            <div className="panel-header display-inline mobile-lg:padding-left-05 desktop:padding-left-0">
-              <h3>Data Preview &nbsp;</h3>
-            </div>
-            <span 
-            className="font-sans-sm text-bold mobile-lg:display-block desktop-lg:display-inline
-              mobile-lg:padding-left-2 desktop:padding-left-0 mobile-lg:margin-left-9 desktop:margin-left-0">
-              {dataPreview.length > 0
-                ? `(Viewing the first ${dataPreview.length} records of ${totalCount})`
-                : `No results match that search criteria. Please change the criteria and try again.`}
-            </span>
-          </>
+            <>
+              <div className="mobile-lg:display-inline desktop:display-none">
+                {loading === 0 && dataPreview !== null && (
+                  <Button
+                    outline="true"
+                    onClick={async () => {
+                      handleBackButton();
+                      const filterButton = await document.querySelector('#previewDataButton');
+                      filterButton.focus();
+                    }}
+                  >
+                    Back
+                  </Button>
+                )}
+              </div>
+              <div className="panel-header display-inline mobile-lg:padding-left-05 desktop:padding-left-0">
+                <h3>Data Preview &nbsp;</h3>
+              </div>
+              <span
+                className="font-sans-sm text-bold mobile-lg:display-block desktop-lg:display-inline
+              mobile-lg:padding-left-2 desktop:padding-left-0 mobile-lg:margin-left-9 desktop:margin-left-0"
+              >
+                {dataPreview.length > 0
+                  ? `(Viewing the first ${dataPreview.length} records of ${totalCount})`
+                  : `No results match that search criteria. Please change the criteria and try again.`}
+              </span>
+            </>
           ) : (
             <LoadingModal loading={loading} />
           )}

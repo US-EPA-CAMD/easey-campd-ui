@@ -69,7 +69,7 @@ export function getOwnerOperators(dataSubType) {
 
 export async function getFilterMapping(dataType, dataSubType, yearSet=[]) {
   let url;
-  if(dataType === "EMISSIONS"){
+  if(dataType === "EMISSIONS" || dataType === "FACILITY"){
     url = `${config.services.facilities.uri}/facilities/attributes/applicable?year=${getPipeDelimitedYears(yearSet)}`;
   }else if(dataType === "ALLOWANCE"){
     if(dataSubType === "Holdings"){

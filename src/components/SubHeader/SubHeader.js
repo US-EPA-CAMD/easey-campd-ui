@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Header, Title, Button } from '@trussworks/react-uswds';
 
@@ -30,7 +30,17 @@ const SubHeader = () => {
 
   const [navDropdownOpen, setNavDropdownOpen] = useState(initialNavOpen);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
-
+  const [mobileMenuFocus, setMobileMenuFocus] = useState({
+    collapseButton: document.querySelector('#collapseButton'),
+    expandButton: document.querySelector('#expandButton'),
+  });
+  const { collapseButton, expandButton } = mobileMenuFocus;
+  useEffect(() => {
+    setMobileMenuFocus({
+      collapseButton: document.querySelector('#collapseButton'),
+      expandButton: document.querySelector('#expandButton'),
+    });
+  }, [showMobileMenu]);
   const handleToggleNavDropdown = (column, isUtility) => {
     setNavDropdownOpen((prevNavDropdownOpen) => {
       const newNavState = Object.assign({}, initialNavOpen);
@@ -77,7 +87,13 @@ const SubHeader = () => {
                   ? 'display:none opacity-0'
                   : 'float-right bg-transparent margin-0 position-relative top-1 padding-right-3'
               }
-              onClick={() => setShowMobileMenu(true)}
+              id={'expandButton'}
+              tabIndex={showMobileMenu ? -1 : 0}
+              aria-expanded={showMobileMenu}
+              onClick={() => {
+                setShowMobileMenu(true);
+                collapseButton && collapseButton.focus();
+              }}
             >
               <img
                 src={`${process.env.PUBLIC_URL}/images/icons/mobile-menu-expand.svg`}
@@ -91,7 +107,13 @@ const SubHeader = () => {
                   ? 'float-right bg-transparent margin-0 position-relative top-1 padding-right-3'
                   : 'display:none opacity-0'
               }
-              onClick={() => setShowMobileMenu(false)}
+              id={'collapseButton'}
+              tabIndex={showMobileMenu ? 0 : -1}
+              aria-expanded={showMobileMenu}
+              onClick={() => {
+                setShowMobileMenu(false);
+                expandButton && expandButton.focus();
+              }}
             >
               <img
                 src={`${process.env.PUBLIC_URL}/images/icons/mobile-menu-collapse.svg`}

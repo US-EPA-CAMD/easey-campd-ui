@@ -95,7 +95,7 @@ const ManageDataDownload = ({
   }, [isMobileOrTablet])
   useEffect(()=>{//console.log(filterCriteria.timePeriod.comboBoxYear); console.log("called");
     const dataSubType = getSelectedDataSubType(constants.DATA_SUBTYPES_MAP[selectedDataType]);
-    if(applyClicked && loading === 0 && selectedDataType !== "EMISSIONS" && dataSubType !== "Transactions"){
+    if(applyClicked && loading === 0 && selectedDataType !== "EMISSIONS" && selectedDataType !== "FACILITY" && dataSubType !== "Transactions"){
       if((selectedDataType === "COMPLIANCE" || dataSubType === "Holdings") && comboBoxYearUpdated === false){//console.log("updatetime");
         const distinctYears = [...new Set(filterCriteria.filterMapping.map(e=>selectedDataType === "COMPLIANCE" ? e.year : e.vintageYear))];
         updateTimePeriodDispatcher({
@@ -159,13 +159,15 @@ const ManageDataDownload = ({
   };
 
   const handleBackButtonClick = () => {
-    setHideFilterMenu(false)
-    hideNavDispatcher(false)
+    hideNavDispatcher(false);
     setDisplayMobileDataType(false);
     setDataTypeApplied(false);
     setDataSubtypeApplied(false);
     setDisplayFilters(false);
     setActiveFilter(false);
+    hideFilterMenu && document.querySelector('#dataTypeButton').focus();
+    hideDataTypeSelector && document.querySelector('#filtersButton').focus();
+    setHideFilterMenu(false);
     setHideDataTypeSelector(false);
   };
 
@@ -188,7 +190,7 @@ const ManageDataDownload = ({
     setApplyClicked(true);
     const dataSubType = getSelectedDataSubType(constants.DATA_SUBTYPES_MAP[selectedDataType]);
     if (selectedDataType !== '' && selectedDataSubtype !== '') {
-      if(selectedDataType !== "EMISSIONS" && dataSubType !== "Transactions"){
+      if(selectedDataType !== "EMISSIONS" && selectedDataType !== "FACILITY" && dataSubType !== "Transactions"){
         loadFilterMappingDispatcher(selectedDataType, dataSubType);
       }
       loadAllFiltersDispatcher(selectedDataType, dataSubType, filterCriteria);
@@ -226,6 +228,7 @@ const ManageDataDownload = ({
   const handleCancelButtonClick = () => {
     if (!appliedDataType.dataType || !appliedDataType.dataSubType) {
       hideNavDispatcher(false)
+      document.querySelector('#dataTypeButton').focus();
       return setDisplayMobileDataType(false)
     }
     if (isMobileOrTablet) {
@@ -296,6 +299,7 @@ const ManageDataDownload = ({
             displayCancel={displayCancel}
             displayCancelMobile={displayCancelMobile}
             hideDataTypeSelector={hideDataTypeSelector}
+            displayMobileDataType={displayMobileDataType}
           />
           <FilterCriteriaMenu
             dataSubtypeApplied={dataSubtypeApplied}

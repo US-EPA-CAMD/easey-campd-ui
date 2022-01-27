@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { Button } from '@trussworks/react-uswds';
+import { Button, Alert, Link } from '@trussworks/react-uswds';
 import { Help } from '@material-ui/icons';
 
 import DataPreview from '../DataPreview/DataPreview';
@@ -20,7 +20,9 @@ import hideNav from '../../../store/actions/hideNavAction';
 import { EMISSIONS_DATA_SUBTYPES } from '../../../utils/constants/emissions';
 import { ALLOWANCES_DATA_SUBTYPES } from '../../../utils/constants/allowances';
 import { COMPLIANCES_DATA_SUBTYPES } from '../../../utils/constants/compliances';
+import { FACILITY_DATA_SUBTYPES } from '../../../utils/constants/facility';
 import Tooltip from '../../Tooltip/Tooltip';
+import config from "../../../config";
 
 const ManageDataPreview = ({
   dataType,
@@ -42,7 +44,8 @@ const ManageDataPreview = ({
   renderPreviewData,
   setRenderPreviewData,
   handlePreviewDataButtonClick,
-  isMobileOrTablet
+  isMobileOrTablet,
+  totalCount
 }) => {
   const [requirementsMet, setRequirementsMet] = useState(false);
   const [removedAppliedFilter, setRemovedAppliedFilter] = useState(null);
@@ -120,6 +123,7 @@ const ManageDataPreview = ({
       EMISSIONS: EMISSIONS_DATA_SUBTYPES,
       ALLOWANCE: ALLOWANCES_DATA_SUBTYPES,
       COMPLIANCE: COMPLIANCES_DATA_SUBTYPES,
+      FACILITY: FACILITY_DATA_SUBTYPES,
     };
     const subTypes = mapRequiredFilters[dataType] || null;
     if (!subTypes) {
@@ -161,6 +165,7 @@ const ManageDataPreview = ({
             <Button
               type="button"
               className="clearfix width-card height-6 font-sans-md margin-left-1 margin-2 desktop:margin-0 desktop:margin-left-1"
+              id='previewDataButton'
               disabled={!requirementsMet}
               onClick={handlePreviewDataButtonClick}
             >
@@ -172,6 +177,7 @@ const ManageDataPreview = ({
           <Button
             type="button"
             className="usa-button margin-y-1 desktop:display-none width-full height-6"
+            id='dataTypeButton'
             onClick={() => {
               setDisplayMobileDataType(true);
               hideNavDispatcher(true);
@@ -182,6 +188,7 @@ const ManageDataPreview = ({
           <Button
             type="button"
             className="usa-button margin-y-1 desktop:display-none width-full height-6"
+            id='filtersButton'
             disabled={!dataType || !dataSubType}
             onClick={() => {
               setDisplayMobileDataType(true)
@@ -206,6 +213,19 @@ const ManageDataPreview = ({
               onClearAll={() => onFilterTagClearAllHandler()}
             />
           </div>
+        </div>
+      )}
+      {!isMobileOrTablet && totalCount !== null && totalCount > config.fileDownloadLimit.allDataTypes && (
+        <div className='padding-x-3 padding-top-3'>
+          <Alert type="warning">
+            {`Your query exceeds the record limit of ${config.fileDownloadLimit.allDataTypes}. Refine your query to further limit the number of records returned or visit the `}
+            <Link 
+              target="_blank"
+              rel="noopener noreferrer"
+              href="/data/bulk-data-files"
+            >
+              Bulk Data Files.</Link>
+          </Alert>
         </div>
       )}
       {renderPreviewData ? (
@@ -244,6 +264,7 @@ const mapStateToProps = (state) => {
     dataType: state.customDataDownload.dataType,
     dataSubType: state.customDataDownload.dataSubType,
     appliedFilters: state.customDataDownload.appliedFilters,
+    totalCount: state.customDataDownload.totalCount,
     timePeriod: state.filterCriteria.timePeriod,
     filterCriteria: state.filterCriteria,
     hideNav: state.hideNav,
