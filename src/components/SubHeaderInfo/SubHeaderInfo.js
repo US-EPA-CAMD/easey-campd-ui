@@ -3,7 +3,10 @@ import React from 'react';
 const SubHeaderInfo = () =>{
   return (
     <div className="grid-row mobile-lg:margin-y-1 desktop:margin-y-3">
-      <div className="mobile-lg:grid-col-auto desktop:grid-col-8 desktop-lg:grid-col-7 widescreen:grid-col-6 display-block bg-primary-darker">
+      <div 
+        className="mobile-lg:grid-col-auto desktop:grid-col-8 desktop-lg:grid-col-7 widescreen:grid-col-6 display-block bg-primary-darker" 
+        id="main-content"
+      >
         <h2 className="font-sans-xl text-white text-bold text-wrap padding-4 margin-0 text-accent-cool-lighter">
           Your resource for emissions, compliance, and allowance data.
         </h2>
