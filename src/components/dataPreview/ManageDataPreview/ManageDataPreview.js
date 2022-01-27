@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { Button } from '@trussworks/react-uswds';
+import { Button, Alert, Link } from '@trussworks/react-uswds';
 import { Help } from '@material-ui/icons';
 
 import DataPreview from '../DataPreview/DataPreview';
@@ -22,6 +22,7 @@ import { ALLOWANCES_DATA_SUBTYPES } from '../../../utils/constants/allowances';
 import { COMPLIANCES_DATA_SUBTYPES } from '../../../utils/constants/compliances';
 import { FACILITY_DATA_SUBTYPES } from '../../../utils/constants/facility';
 import Tooltip from '../../Tooltip/Tooltip';
+import config from "../../../config";
 
 const ManageDataPreview = ({
   dataType,
@@ -43,7 +44,8 @@ const ManageDataPreview = ({
   renderPreviewData,
   setRenderPreviewData,
   handlePreviewDataButtonClick,
-  isMobileOrTablet
+  isMobileOrTablet,
+  totalCount
 }) => {
   const [requirementsMet, setRequirementsMet] = useState(false);
   const [removedAppliedFilter, setRemovedAppliedFilter] = useState(null);
@@ -210,6 +212,19 @@ const ManageDataPreview = ({
           </div>
         </div>
       )}
+      {!isMobileOrTablet && totalCount !== null && totalCount > config.fileDownloadLimit.allDataTypes && (
+        <div className='padding-x-3 padding-top-3'>
+          <Alert type="warning">
+            {`Your query exceeds the record limit of ${config.fileDownloadLimit.allDataTypes}. Refine your query to further limit the number of records returned or visit the `}
+            <Link 
+              target="_blank"
+              rel="noopener noreferrer"
+              href="/data/bulk-data-files"
+            >
+              Bulk Data Files.</Link>
+          </Alert>
+        </div>
+      )}
       {renderPreviewData ? (
         <DataPreview
           handleUpdateInAppliedFilters={handleUpdateInAppliedFilters}
@@ -246,6 +261,7 @@ const mapStateToProps = (state) => {
     dataType: state.customDataDownload.dataType,
     dataSubType: state.customDataDownload.dataSubType,
     appliedFilters: state.customDataDownload.appliedFilters,
+    totalCount: state.customDataDownload.totalCount,
     timePeriod: state.filterCriteria.timePeriod,
     filterCriteria: state.filterCriteria,
     hideNav: state.hideNav,

@@ -11,7 +11,7 @@ axios.defaults.headers.common = {
   "x-api-key": config.app.apiKey
 };
 
-const DownloadFileType = ({ dataType, dataSubType, filterCriteria }) => {
+const DownloadFileType = ({ dataType, dataSubType, filterCriteria, totalCount }) => {
   const [fileType, setFileType] = useState('text/csv');
   const [loading, setLoading] = useState(false);
 
@@ -90,6 +90,7 @@ const DownloadFileType = ({ dataType, dataSubType, filterCriteria }) => {
         type="button"
         className="margin-x-1"
         onClick={() => onDownloadHandler()}
+        disabled={totalCount !== null && totalCount > config.fileDownloadLimit.allDataTypes}
         label="JSON"
       >
         Download
@@ -104,6 +105,7 @@ const mapStateToProps = (state) => {
     dataType: state.customDataDownload.dataType,
     dataSubType: state.customDataDownload.dataSubType,
     filterCriteria: state.filterCriteria,
+    totalCount: state.customDataDownload.totalCount,
   };
 };
 
