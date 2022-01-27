@@ -1,15 +1,14 @@
 import React from "react";
 import { connect } from 'react-redux';
+import { Link } from "@trussworks/react-uswds";
 
 import { Header } from "@us-epa-camd/easey-design-system";
 import { AppVersion } from "@us-epa-camd/easey-design-system";
 
 import SubHeader from "../SubHeader/SubHeader";
-
 import config from "../../config";
 
 import "./Layout.scss";
-import { Link } from "@trussworks/react-uswds";
 
 const Layout = (props) => {
   const childrenWithProps = React.Children.map(props.children, (child) =>
