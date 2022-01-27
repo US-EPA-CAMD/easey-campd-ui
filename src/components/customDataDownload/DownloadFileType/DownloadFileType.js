@@ -90,7 +90,7 @@ const DownloadFileType = ({ dataType, dataSubType, filterCriteria, totalCount })
         type="button"
         className="margin-x-1"
         onClick={() => onDownloadHandler()}
-        disabled={totalCount !== null && totalCount > 100000}
+        disabled={totalCount !== null && totalCount > config.fileDownloadLimit.allDataTypes}
         label="JSON"
       >
         Download

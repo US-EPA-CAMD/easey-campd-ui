@@ -22,6 +22,7 @@ import { ALLOWANCES_DATA_SUBTYPES } from '../../../utils/constants/allowances';
 import { COMPLIANCES_DATA_SUBTYPES } from '../../../utils/constants/compliances';
 import { FACILITY_DATA_SUBTYPES } from '../../../utils/constants/facility';
 import Tooltip from '../../Tooltip/Tooltip';
+import config from "../../../config";
 
 const ManageDataPreview = ({
   dataType,
@@ -48,7 +49,6 @@ const ManageDataPreview = ({
 }) => {
   const [requirementsMet, setRequirementsMet] = useState(false);
   const [removedAppliedFilter, setRemovedAppliedFilter] = useState(null);
-  const configuredLimit = 100000;
 
   useEffect(() => {
     if (
@@ -212,10 +212,10 @@ const ManageDataPreview = ({
           </div>
         </div>
       )}
-      {!isMobileOrTablet && totalCount !== null && totalCount > configuredLimit && (
+      {!isMobileOrTablet && totalCount !== null && totalCount > config.fileDownloadLimit.allDataTypes && (
         <div className='padding-x-3 padding-top-3'>
           <Alert type="warning">
-            {`Your query exceeds the record limit of ${configuredLimit}. Refine your query to further limit the number of records returned or visit the `}
+            {`Your query exceeds the record limit of ${config.fileDownloadLimit.allDataTypes}. Refine your query to further limit the number of records returned or visit the `}
             <Link 
               target="_blank"
               rel="noopener noreferrer"
