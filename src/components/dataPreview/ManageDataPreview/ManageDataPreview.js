@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { Button } from '@trussworks/react-uswds';
+import { Button, Alert, Link } from '@trussworks/react-uswds';
 import { Help } from '@material-ui/icons';
 
 import DataPreview from '../DataPreview/DataPreview';
@@ -43,10 +43,12 @@ const ManageDataPreview = ({
   renderPreviewData,
   setRenderPreviewData,
   handlePreviewDataButtonClick,
-  isMobileOrTablet
+  isMobileOrTablet,
+  totalCount
 }) => {
   const [requirementsMet, setRequirementsMet] = useState(false);
   const [removedAppliedFilter, setRemovedAppliedFilter] = useState(null);
+  const configuredLimit = 100000;
 
   useEffect(() => {
     if (
@@ -210,6 +212,19 @@ const ManageDataPreview = ({
           </div>
         </div>
       )}
+      {!isMobileOrTablet && totalCount !== null && totalCount > configuredLimit && (
+        <div className='padding-x-3 padding-top-3'>
+          <Alert type="warning">
+            {`Your query exceeds the record limit of ${configuredLimit}. Refine your query to further limit the number of records returned or visit the `}
+            <Link 
+              target="_blank"
+              rel="noopener noreferrer"
+              href="/data/bulk-data-files"
+            >
+              Bulk Data Files.</Link>
+          </Alert>
+        </div>
+      )}
       {renderPreviewData ? (
         <DataPreview
           handleUpdateInAppliedFilters={handleUpdateInAppliedFilters}
@@ -246,6 +261,7 @@ const mapStateToProps = (state) => {
     dataType: state.customDataDownload.dataType,
     dataSubType: state.customDataDownload.dataSubType,
     appliedFilters: state.customDataDownload.appliedFilters,
+    totalCount: state.customDataDownload.totalCount,
     timePeriod: state.filterCriteria.timePeriod,
     filterCriteria: state.filterCriteria,
     hideNav: state.hideNav,
