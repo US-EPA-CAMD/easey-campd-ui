@@ -14,7 +14,7 @@ const Layout = (props) => {
   const childrenWithProps = React.Children.map(props.children, (child) =>
     React.cloneElement(child)
   );
-  
+
   return (
     <div className="react-transition fade-in padding-bottom-5">
       <div id="skipNav">
