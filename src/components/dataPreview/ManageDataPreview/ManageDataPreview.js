@@ -251,7 +251,7 @@ const ManageDataPreview = ({
             </li>
             <li>
               For more help, view the{' '}
-              <Link 
+              <Link
               target="_blank"
               rel="noopener noreferrer"
               href={`${config.services.content.uri}/campd/documents/CustomDataDownload-QuickStartGuide.pdf`}
@@ -262,7 +262,7 @@ const ManageDataPreview = ({
             <li>
               <b>
                 Queries are limited to 100,000 records or about of BLANK hourly emissions data with no additional filters. For larger downloads, visit{' '}
-                <Link 
+                <Link
                 target="_blank"
                 rel="noopener noreferrer"
                 href="/data/bulk-data-files"
