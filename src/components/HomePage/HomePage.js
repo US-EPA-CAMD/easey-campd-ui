@@ -13,12 +13,28 @@ import "./HomePage.scss";
 import getContent from '../../utils/api/getContent';
 
 const HomePage = () => {
-  const [mainContent, setMainContent] = useState();
+  const [whatIsNewContent, setWhatIsNewContent] = useState();
+  const [whatIsNewTitle, setWhatIsNewTitle] = useState();
+
   useEffect(() => {
-    getContent("/campd/home/what-is-new/index.md").then((resp) =>
-      setMainContent(resp.data)
+    getContent("/campd/home/what-is-new-content.md").then((resp) =>
+      setWhatIsNewContent(resp.data)
     );
+    getContent("/campd/home/what-is-new-title.md").then((resp) =>
+    setWhatIsNewTitle(resp.data)
+  );
   }, []);
+
+  useEffect(() => {
+    if(whatIsNewTitle){
+    const titleText = document.querySelector(".what-is-new-box-title").firstChild.innerText
+    const paragraphTitleText = document.querySelector(".what-is-new-box-title").firstChild
+    const divTitleText = document.createElement('div')
+    divTitleText.innerText = titleText
+    document.querySelector(".what-is-new-box-title").replaceChild(divTitleText, paragraphTitleText)
+    }
+  }, [whatIsNewTitle]);
+
   const [progressTitle, setProgressTitle] = useState("");
   const [lastUpdated, setLastUpdated] = useState("");
   const [percent, setPercent] = useState(0);
@@ -126,7 +142,7 @@ const HomePage = () => {
       <div className="grid-row padding-y-4 mobile-lg:padding-x-2 desktop:padding-x-4 widescreen:padding-x-10">
         {showProgressBar ? (
           <div className="grid-col-12">
-            <div className="desktop:grid-col-6 mobile-lg:grid-col-12 margin-x-auto padding-x-2">
+            <div className="order-3 desktop:grid-col-6 mobile-lg:grid-col-12 margin-x-auto padding-x-2">
               <TitledProgressBar
                 title={progressTitle}
                 percentage={percent}
@@ -140,7 +156,7 @@ const HomePage = () => {
           const hasButton = topic.button !== null;
           return (
             <div
-              className="padding-y-1 padding-x-1 text-base-darkest grid-col-12 desktop:grid-col-4"
+              className="padding-y-1 padding-x-1 display-flex flex-row flex-align-start text-base-darkest order-3 grid-col-12 desktop:grid-col-4"
               key={`container-${topic.name.replace(/ /g, "-")}`}
             >
               {topic.img}
@@ -182,13 +198,12 @@ const HomePage = () => {
             </div>
           );
         })}
-        <div className="what-is-new-wrapper padding-y-1 padding-x-1 grid-col-12 desktop:grid-col-4">
+        <div className="what-is-new-wrapper mobile-lg:order-1 desktop:order-3 padding-y-1 padding-x-1 display-flex flex-row flex-align-start text-base-darkest grid-col-12 desktop:grid-col-4">
           <WhatIsNewBox
             text={
-              <div className="what-is-new-box">
                 <ReactMarkdown
-                  className="main-content"
-                  children={mainContent}
+                  className="what-is-new-box "
+                  children={whatIsNewContent}
                   remarkPlugins={[remarkGfm]}
                   components={{
                     a: ({ node, ...props }) => (
@@ -200,8 +215,21 @@ const HomePage = () => {
                     ),
                   }}
                 />
-              </div>
             }
+            title = {     <ReactMarkdown
+              className="what-is-new-box-title"
+              children={whatIsNewTitle}
+              remarkPlugins={[remarkGfm]}
+              components={{
+                a: ({ node, ...props }) => (
+                  <USWDSLink
+                    {...props}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  />
+                ),
+              }}
+            />}
           />
         </div>
       </div>
