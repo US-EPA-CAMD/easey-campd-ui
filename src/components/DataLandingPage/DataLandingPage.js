@@ -42,7 +42,7 @@ const DataLandingPage = () => {
       and objects that programmers can use to create software or interact with an external system. An API interprets that data and presents 
       you with the information you wanted in a readable way. These services and associated documentation provide an additional means of accessing CAMPD’s data.`,
       url: () => window.open('https://www.epa.gov/airmarkets/cam-api-portal', '_blank'),
-      button: 'Learn more about CAMPD API\'s',
+      button: 'Learn more about CAMPD APIs',
     },
   ];
   return (
