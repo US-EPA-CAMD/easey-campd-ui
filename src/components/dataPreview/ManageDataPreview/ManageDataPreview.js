@@ -252,6 +252,28 @@ const ManageDataPreview = ({
               />{' '}
               to reveal helpful tips and info.{' '}
             </li>
+            <li>
+              For more help, view the{' '}
+              <Link
+              target="_blank"
+              rel="noopener noreferrer"
+              href={`${config.services.content.uri}/campd/documents/CustomDataDownload-QuickStartGuide.pdf`}
+              >
+                Quick Start Guide.
+              </Link>
+            </li>
+            <li>
+              <b>
+                Queries are limited to --- records or about of --- hourly emissions data with no additional filters. For larger downloads, visit{' '}
+                <Link
+                target="_blank"
+                rel="noopener noreferrer"
+                href="/data/bulk-data-files"
+                >
+                  Bulk Data Files.
+                </Link>
+              </b>
+            </li>
           </ul>
         </div>
       )}

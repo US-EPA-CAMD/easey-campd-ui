@@ -71,7 +71,7 @@ const SubHeader = () => {
           <Title className="logo-wrapper width-card tablet:width-mobile desktop:width-card-lg desktop-lg:width-mobile-md float-left margin-0 desktop-lg:padding-top-2">
             <img
               src={`${process.env.PUBLIC_URL}/images/campd-mark.svg`}
-              alt="CAMPD Mark"
+              alt="CAMPD Logo"
             />
             <h1 className="display-inline-block text-white text-heavy desktop-lg:font-sans-3xl desktop:font-sans-2xl mobile-lg:font-sans-xl margin-0">
               CAMPD
