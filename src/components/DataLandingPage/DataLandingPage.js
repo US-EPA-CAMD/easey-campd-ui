@@ -12,11 +12,11 @@ const DataLandingPage = () => {
 
   metaAdder(
     'description',
-    'Custom data download, bulk data files, and CAM API provide apportioned emissions, monitoring plan, QA, allowance, compliance and facility/unit data.'
+    'Custom data download, bulk data files, and CAMPD API\'s provide apportioned emissions, monitoring plan, QA, allowance, compliance and facility/unit data.'
   );
   metaAdder(
     'keywords',
-    'Clean air markets program data, EPA, emissions, allowance, compliance, custom data download, CAM API, bulk data files, CAMPD, CAMD, FTP, AMPD'
+    'Clean air markets program data, EPA, emissions, allowance, compliance, custom data download, CAMPD APIs, APIs, bulk data files, CAMPD, CAMD, FTP, AMPD'
   );
 
   const history = useHistory();
@@ -24,7 +24,7 @@ const DataLandingPage = () => {
   const topics = [
     {
       name: 'Custom Data Download Tool',
-      description: `Users looking to build a custom query for a particular data type will find this tool flexible, fast, and easy to use. Apportioned emissions,
+      description: `Users looking to build a custom query for a particular type of data will find this tool flexible, fast, and easy to use. Apportioned emissions,
       allowance, compliance and facility/unit attributes data are available for filtering and querying to the user’s desired parameters.`,
       url: () => history.push('/data/custom-data-download'),
       button: 'Start your data query',
@@ -37,12 +37,12 @@ const DataLandingPage = () => {
       button: 'Start browsing datasets',
     },
     {
-      name: 'CAM API',
+      name: 'APIs',
       description: `CAMPD uses web services to display data via an Application Programming Interface (API). An API is a set of commands, functions, protocols, 
       and objects that programmers can use to create software or interact with an external system. An API interprets that data and presents 
       you with the information you wanted in a readable way. These services and associated documentation provide an additional means of accessing CAMPD’s data.`,
-      url: () => null,
-      button: 'Learn more about CAM API',
+      url: () => window.open('https://www.epa.gov/airmarkets/cam-api-portal', '_blank'),
+      button: 'Learn more about CAMPD API\'s',
     },
   ];
   return (
@@ -53,11 +53,11 @@ const DataLandingPage = () => {
         needs.
       </p>
       <p>
-        Three download methods provide apportioned emissions, raw emissions,
+        The three download methods below provide apportioned emissions, raw emissions,
         monitoring plan, QA, allowance, compliance and facility/unit data
         collected from CAMD’s market-based trading programs. Users unfamiliar
-        with the data may want to visit the “Tutorials” section under “Help” for
-        more information about the data as well has how to use the tools below.
+        with the data may want to visit the “Tutorials” section under “Help/Support” for
+        more information about the data as well as how to use the tools below.
       </p>
       <div className="grid-row">
         {topics.map((topic) => {
