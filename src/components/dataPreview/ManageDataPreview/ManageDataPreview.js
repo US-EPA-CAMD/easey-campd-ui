@@ -261,7 +261,7 @@ const ManageDataPreview = ({
             </li>
             <li>
               <b>
-                Queries are limited to 100,000 records or about of BLANK hourly emissions data with no additional filters. For larger downloads, visit{' '}
+                Queries are limited to --- records or about of --- hourly emissions data with no additional filters. For larger downloads, visit{' '}
                 <Link
                 target="_blank"
                 rel="noopener noreferrer"
