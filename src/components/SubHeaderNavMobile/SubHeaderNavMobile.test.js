@@ -19,7 +19,7 @@ describe('SubHeaderNavMobile', () => {
     const { container, getByText } = query;
     const home = getByText('HOME');
     const data = getByText('DATA');
-    const analysis = getByText('VISUALIZATION & ANALYSIS');
+    const analysis = getByText('MAPS & GRAPHS');
 
     expect(home).toBeTruthy();
     expect(data).toBeTruthy();

@@ -73,6 +73,7 @@ const SubHeaderNav = ({
                   <Link
                     key={index}
                     to={item.link}
+                    target={item.menu === 'APIs' ? "_blank" : null}
                     style={utilityStyle}
                     onClick={() => handleSubMenuClick(i)}
                   >

@@ -10,7 +10,7 @@ describe('Data Landing Page Component', () => {
       expect(getByText("Data")).toBeDefined();
       expect(getByText("Custom Data Download Tool")).toBeDefined();
       expect(getByText("Bulk Data Files")).toBeDefined();
-      expect(getByText("CAM API")).toBeDefined();
+      expect(getByText("APIs")).toBeDefined();
       expect(btns.length).toBe(3);
       fireEvent.click(getByText("Start your data query"));
     });
