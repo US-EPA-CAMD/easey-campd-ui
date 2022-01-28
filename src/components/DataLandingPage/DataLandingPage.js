@@ -12,7 +12,7 @@ const DataLandingPage = () => {
 
   metaAdder(
     'description',
-    'Custom data download, bulk data files, and CAMPD API\'s provide apportioned emissions, monitoring plan, QA, allowance, compliance and facility/unit data.'
+    'Custom data download, bulk data files, and CAMPD APIs provide apportioned emissions, monitoring plan, QA, allowance, compliance and facility/unit data.'
   );
   metaAdder(
     'keywords',
