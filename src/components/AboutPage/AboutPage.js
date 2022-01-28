@@ -58,7 +58,7 @@ const AboutPage = () => {
   );
   metaAdder(
     'keywords',
-    'Clean air markets division, EPA, what is, CAMPD, about, allowance, compliance, emissions, facility, data,  CAMPD APIs, releases, updates, versions'
+    'Clean air markets division, EPA, what is, CAMPD, about, allowance, compliance, emissions, facility, data,  CAMPD APIs, APIs, releases, updates, versions'
   );
 
   useEffect(() => {

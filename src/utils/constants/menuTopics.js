@@ -9,11 +9,11 @@ export const subHeaderMenuList = [
       { menu: 'Data Home', link: '/data' },
       { menu: 'Custom Data Download', link: '/data/custom-data-download' },
       { menu: 'Bulk Data Files', link: '/data/bulk-data-files' },
-      { menu: 'CAM API', link: '#' },
+      { menu: 'APIs', link: { pathname: "https://www.epa.gov/airmarkets/cam-api-portal" } },
     ],
   },  
   {
-    label: 'VISUALIZATION & ANALYSIS',
+    label: 'MAPS & GRAPHS',
     items: [
       { menu: 'Coming Soon', link: '#' },
     ],

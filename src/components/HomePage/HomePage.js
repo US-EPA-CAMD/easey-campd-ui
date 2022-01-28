@@ -104,7 +104,7 @@ const HomePage = () => {
   );
   metaAdder(
     "keywords",
-    "Clean air markets program data, EPA, emissions, analysis, data, visualization, allowance, compliance, custom data download, CAM API, bulk data files, CAMPD, AMPD, ECMPS, CAMD, FTP"
+    "Clean air markets program data, EPA, emissions, data, allowance, compliance, custom data download, CAMPD APIs, APIs, bulk data files, CAMPD, AMPD, ECMPS, CAMD, FTP, maps, graphs"
   );
 
   const topics = [
