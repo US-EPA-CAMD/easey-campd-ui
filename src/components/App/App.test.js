@@ -18,7 +18,7 @@ describe("Testing the main routing App component", () => {
         </MemoryRouter>
       </Provider>
     );
-    const textInHomePage = getByText("Visualization");
+    const textInHomePage = getByText("Maps & Graphs");
     expect(textInHomePage).toBeInTheDocument();
   });
 });
