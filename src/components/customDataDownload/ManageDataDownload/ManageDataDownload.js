@@ -159,13 +159,15 @@ const ManageDataDownload = ({
   };
 
   const handleBackButtonClick = () => {
-    setHideFilterMenu(false)
-    hideNavDispatcher(false)
+    hideNavDispatcher(false);
     setDisplayMobileDataType(false);
     setDataTypeApplied(false);
     setDataSubtypeApplied(false);
     setDisplayFilters(false);
     setActiveFilter(false);
+    hideFilterMenu && document.querySelector('#dataTypeButton').focus();
+    hideDataTypeSelector && document.querySelector('#filtersButton').focus();
+    setHideFilterMenu(false);
     setHideDataTypeSelector(false);
   };
 
@@ -226,6 +228,7 @@ const ManageDataDownload = ({
   const handleCancelButtonClick = () => {
     if (!appliedDataType.dataType || !appliedDataType.dataSubType) {
       hideNavDispatcher(false)
+      document.querySelector('#dataTypeButton').focus();
       return setDisplayMobileDataType(false)
     }
     if (isMobileOrTablet) {
@@ -296,6 +299,7 @@ const ManageDataDownload = ({
             displayCancel={displayCancel}
             displayCancelMobile={displayCancelMobile}
             hideDataTypeSelector={hideDataTypeSelector}
+            displayMobileDataType={displayMobileDataType}
           />
           <FilterCriteriaMenu
             dataSubtypeApplied={dataSubtypeApplied}

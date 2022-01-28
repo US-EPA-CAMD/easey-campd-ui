@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Button, Dropdown, Label } from '@trussworks/react-uswds';
 import { Help } from '@material-ui/icons';
 
 import * as constants from '../../../utils/constants/customDataDownload';
 import { initcap } from '../../../utils/selectors/general';
+import { focusTrap } from "../../../utils/ensure-508/focus-trap";
 import Tooltip from '../../Tooltip/Tooltip';
 
 
@@ -23,7 +24,37 @@ const DataTypeSelectorView = ({
   displayCancel,
   displayCancelMobile,
   hideDataTypeSelector,
+  displayMobileDataType
 }) => {
+
+  const [firstFocusableEl, setFirstFocusableEl] = useState(null);
+  useEffect(() => {
+    if ( displayMobileDataType) {
+      const tooltip = document.querySelector('#dataTypeTooltip')?.firstChild;
+      tooltip && tooltip.focus()
+    }
+  }, [displayMobileDataType ])
+
+  useEffect(() => {
+    if(displayMobileDataType){
+      const { firstComponentFocusableElement, handleKeyPress } = focusTrap(".side-nav");
+      // set focus to first element only once
+      if(firstFocusableEl === null && firstComponentFocusableElement){
+        setFirstFocusableEl(firstComponentFocusableElement);
+        firstComponentFocusableElement.focus();
+      }
+      // *** FOCUS TRAP
+      document.addEventListener("keydown", handleKeyPress);
+      // * clean up
+      return () => {
+        document.removeEventListener("keydown", handleKeyPress);
+      };
+    }
+    if(!displayMobileDataType){
+      setFirstFocusableEl(null);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [displayMobileDataType]);
   const showCancelButton = displayCancel || displayCancelMobile;
 
   return (
@@ -31,15 +62,17 @@ const DataTypeSelectorView = ({
       <>
       <div className="panel-header padding-top-3 padding-bottom-3 padding-left-2">
         <h2>Data Type</h2>
-        <Tooltip
-          content="Data type and subtype can be changed at any time."
-          field="Data Type"
-        >
-          <Help
-            className="text-primary margin-left-1 margin-bottom-1"
-            fontSize="small"
-          />
-        </Tooltip>
+        <span id='dataTypeTooltip'>
+          <Tooltip
+            content="Data type and subtype can be changed at any time."
+            field="Data Type" 
+          >
+            <Help
+              className="text-primary margin-left-1 margin-bottom-1"
+              fontSize="small"
+            />
+          </Tooltip>
+        </span>
       </div>
       <div className="border-y-1px border-base-light clearfix padding-y-2 padding-x-2 desktop:padding-y-1 desktop:border-top-0">
         <div className="display-flex desktop:grid-row flex-align-center">

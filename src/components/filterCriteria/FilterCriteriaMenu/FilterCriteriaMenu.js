@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux"
 import * as constants from "../../../utils/constants/customDataDownload";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -8,6 +8,7 @@ import { Help, Tune } from '@material-ui/icons';
 
 import "./FilterCriteriaMenu.scss";
 import { isAddedToFilters } from "../../../utils/selectors/general";
+import { focusTrap } from "../../../utils/ensure-508/focus-trap";
 import Tooltip from '../../Tooltip/Tooltip';
 
 import {
@@ -35,6 +36,34 @@ const FilterCriteriaMenu = ({
     isMobileOrTablet,
     hideFilterMenu,
   }) => { 
+    const [firstFocusableEl, setFirstFocusableEl] = useState(null);
+
+    useEffect(() => {
+      if (isMobileOrTablet && !hideFilterMenu) {
+        const filtersTooltip = document.querySelector('#filtersTooltip')?.firstChild
+        filtersTooltip && filtersTooltip.focus();
+      }
+    }, [isMobileOrTablet, hideFilterMenu]);
+    useEffect(() => {
+      if(isMobileOrTablet && !hideFilterMenu){
+        const { firstComponentFocusableElement, handleKeyPress } = focusTrap(".side-nav");
+        // set focus to first element only once
+        if(firstFocusableEl === null && firstComponentFocusableElement){
+          setFirstFocusableEl(firstComponentFocusableElement);
+          firstComponentFocusableElement.focus();
+        }
+        // *** FOCUS TRAP
+        document.addEventListener("keydown", handleKeyPress);
+        // * clean up
+        return () => {
+          document.removeEventListener("keydown", handleKeyPress);
+        };
+      }
+      if(!isMobileOrTablet || !hideFilterMenu){
+        setFirstFocusableEl(null);
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isMobileOrTablet && !hideFilterMenu]);
     const removeFilter = (filterType) => {
       resetFiltersDispatcher(filterType);
       removeAppliedFiltersDispatcher(filterType);
@@ -95,15 +124,17 @@ const FilterCriteriaMenu = ({
         <>
           <div className="panel-header padding-top-3 padding-left-2">
             <h2>Filters</h2>
-            <Tooltip
-              content="Use the filters below to refine your query. Filter options will update based on previously applied filters. If no selections are made in a filter, all data related to that filter will be returned."
-              field="Filters"
-            >
-              <Help
-                className="text-primary margin-left-1 margin-bottom-1"
-                fontSize="small"
-              />
-            </Tooltip>
+            <span id='filtersTooltip'>
+              <Tooltip
+                content="Use the filters below to refine your query. Filter options will update based on previously applied filters. If no selections are made in a filter, all data related to that filter will be returned."
+                field="Filters"
+              >
+                <Help
+                  className="text-primary margin-left-1 margin-bottom-1"
+                  fontSize="small"
+                />
+              </Tooltip>
+            </span>
           </div>
           <div className="clearfix padding-y-1 padding-x-2">
             <div className="filter-container">
@@ -137,12 +168,21 @@ const FilterCriteriaMenu = ({
                       isAddedToFilters(el.value, appliedFilters) ? (
                         <FontAwesomeIcon
                           icon={faWindowClose}
+                          tabIndex={0}
                           className="float-right clearfix"
                           onClick={(evt)=>{
                               evt.stopPropagation();
                               removeFilter(el.value);
                             }
                           }
+                          onKeyDown={(evt)=>{
+                            if (evt.keyCode === 13){
+                              evt.stopPropagation();
+                              removeFilter(el.value);
+                            } else {
+                              return; 
+                            }
+                          }}
                         />
                       ) : (
                         <Tune fontSize="small" />
