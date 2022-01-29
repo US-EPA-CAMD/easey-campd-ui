@@ -25,7 +25,8 @@ const config = {
     emissions: {
       uri:
         process.env.REACT_APP_EASEY_EMISSIONS_API ||
-        "https://api-easey-dev.app.cloud.gov/emissions-mgmt",
+        "http://localhost:8040/emissions-mgmt",
+        //"https://api-easey-dev.app.cloud.gov/emissions-mgmt",
     },
     account: {
       uri:
