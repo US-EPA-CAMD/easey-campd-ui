@@ -25,8 +25,7 @@ const config = {
     emissions: {
       uri:
         process.env.REACT_APP_EASEY_EMISSIONS_API ||
-        "http://localhost:8040/emissions-mgmt",
-        //"https://api-easey-dev.app.cloud.gov/emissions-mgmt",
+        "https://api-easey-dev.app.cloud.gov/emissions-mgmt",
     },
     account: {
       uri:
@@ -44,9 +43,6 @@ const config = {
         "https://api.epa.gov/easey/dev/content-mgmt",
     },
   },
-  fileDownloadLimit:{
-    allDataTypes: process.env.REACT_APP_EASEY_CAMPD_ALL_FILES_DOWNLOAD_LIMIT || 100000
-  }
 };
 
 export default config;
