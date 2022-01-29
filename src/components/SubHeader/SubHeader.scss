@@ -1,0 +1,25 @@
+.logo-wrapper {
+  img {
+    max-width: 37px;
+  }
+
+  @media only screen and (min-width: 1024px) {
+    img {
+      max-width: 46px;
+    }
+  }
+
+  @media only screen and (min-width: 1200px) {
+    img {
+      max-width: 56px;
+    }
+  }
+}
+
+.custom-wrapper {
+  @media only screen and (min-width: 1200px) {
+    .desktop-lg\:width-mobile-md {
+      width: 400px;
+    }
+  }
+}

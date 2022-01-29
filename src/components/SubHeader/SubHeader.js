@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Header, Title, Button } from '@trussworks/react-uswds';
 
@@ -9,6 +9,8 @@ import {
   subHeaderUtilityList,
 } from '../../utils/constants/menuTopics';
 import SubHeaderNavMobile from "../SubHeaderNavMobile/SubHeaderNavMobile";
+
+import './SubHeader.scss';
 
 const SubHeader = () => {
   const pathname = useLocation().pathname;
@@ -28,7 +30,17 @@ const SubHeader = () => {
 
   const [navDropdownOpen, setNavDropdownOpen] = useState(initialNavOpen);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
-
+  const [mobileMenuFocus, setMobileMenuFocus] = useState({
+    collapseButton: document.querySelector('#collapseButton'),
+    expandButton: document.querySelector('#expandButton'),
+  });
+  const { collapseButton, expandButton } = mobileMenuFocus;
+  useEffect(() => {
+    setMobileMenuFocus({
+      collapseButton: document.querySelector('#collapseButton'),
+      expandButton: document.querySelector('#expandButton'),
+    });
+  }, [showMobileMenu]);
   const handleToggleNavDropdown = (column, isUtility) => {
     setNavDropdownOpen((prevNavDropdownOpen) => {
       const newNavState = Object.assign({}, initialNavOpen);
@@ -55,34 +67,62 @@ const SubHeader = () => {
           alignSelf: 'top center',
         }}
       >
-        <div className="usa-nav-container clearfix padding-x-0">
-          <Title className="float-left margin-0 desktop-lg:padding-top-2">
+        <div className="usa-nav-container custom-wrapper clearfix padding-x-0">
+          <Title className="logo-wrapper width-card tablet:width-mobile desktop:width-card-lg desktop-lg:width-mobile-md float-left margin-0 desktop-lg:padding-top-2">
+            <img
+              src={`${process.env.PUBLIC_URL}/images/campd-mark.svg`}
+              alt="CAMPD Logo"
+            />
             <h1 className="display-inline-block text-white text-heavy desktop-lg:font-sans-3xl desktop:font-sans-2xl mobile-lg:font-sans-xl margin-0">
               CAMPD
             </h1>
-            <span className="display-none tablet:display-inline-block tablet:margin-left-1 desktop:display-block desktop:margin-0 desktop-lg:display-inline-block desktop-lg:margin-left-1 text-white text-normal font-sans-md width-card text-wrap">
+            <span className="display-none tablet:display-inline-block tablet:margin-left-1 desktop:display-block desktop:margin-left-6 desktop-lg:display-inline-block desktop-lg:margin-left-1 text-white text-normal font-sans-md width-card text-wrap">
               Clean Air Markets Program Data
             </span>
           </Title>
           <div className="desktop:display-none">
-            <Button 
-              className={showMobileMenu?"display:none opacity-0":"float-right bg-transparent margin-0 position-relative top-1 padding-right-3"}
-              onClick={()=>setShowMobileMenu(true)}
-              >
+            <Button
+              className={
+                showMobileMenu
+                  ? 'display:none opacity-0'
+                  : 'float-right bg-transparent margin-0 position-relative top-1 padding-right-3'
+              }
+              id={'expandButton'}
+              tabIndex={showMobileMenu ? -1 : 0}
+              aria-expanded={showMobileMenu}
+              onClick={() => {
+                setShowMobileMenu(true);
+                collapseButton && collapseButton.focus();
+              }}
+            >
               <img
                 src={`${process.env.PUBLIC_URL}/images/icons/mobile-menu-expand.svg`}
                 alt="Expandable Menu"
                 className={'position-absolute bottom-1px'}
               />
             </Button>
-            <Button 
-              className= {showMobileMenu?"float-right bg-transparent margin-0 position-relative top-1 padding-right-3":"display:none opacity-0"}
-              onClick={()=>setShowMobileMenu(false)}
-              >
+            <Button
+              className={
+                showMobileMenu
+                  ? 'float-right bg-transparent margin-0 position-relative top-1 padding-right-3'
+                  : 'display:none opacity-0'
+              }
+              id={'collapseButton'}
+              tabIndex={showMobileMenu ? 0 : -1}
+              aria-expanded={showMobileMenu}
+              onClick={() => {
+                setShowMobileMenu(false);
+                expandButton && expandButton.focus();
+              }}
+            >
               <img
                 src={`${process.env.PUBLIC_URL}/images/icons/mobile-menu-collapse.svg`}
                 alt="Collapsable Menu"
-                className={showMobileMenu?'position-absolute bottom-1px':'display-none'}
+                className={
+                  showMobileMenu
+                    ? 'position-absolute bottom-1px'
+                    : 'display-none'
+                }
               />
             </Button>
             <SubHeaderNavMobile

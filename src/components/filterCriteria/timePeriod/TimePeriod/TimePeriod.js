@@ -80,7 +80,7 @@ export const TimePeriod = ({
 
   useEffect(()=>{
     if(applyFilterClicked && loading === 0){
-      if(dataType === "EMISSIONS" || dataSubType === "Transactions"){
+      if(dataType === "EMISSIONS" || dataType === "FACILITY" || dataSubType === "Transactions"){
         if(filterCriteria.filterMapping && filterCriteria.filterMapping.length>0){
           const filterCriteriaCloned = JSON.parse(JSON.stringify(filterCriteria));
           if(dataSubType === "Transactions"){
@@ -207,7 +207,7 @@ export const TimePeriod = ({
 
   const verifyFilterLogic = () =>{
     let result = true;
-    if(dataType === "EMISSIONS" || dataSubType === "Transactions"){
+    if(dataType === "EMISSIONS" || dataType === "FACILITY" || dataSubType === "Transactions"){
       if(!isAddedToFilters(filterToApply, appliedFilters)){
         updateFilterMapping();
       }else if(verifyTimePeriodChange(formState, timePeriod, showYear, dataSubType === "Transactions")){

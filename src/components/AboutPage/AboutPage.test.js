@@ -2,9 +2,6 @@ import React from 'react';
 import {
   render,
   fireEvent,
-  waitFor,
-  screen,
-  act,
 } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { rest } from 'msw';
