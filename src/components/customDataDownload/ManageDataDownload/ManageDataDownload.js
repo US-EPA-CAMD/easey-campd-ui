@@ -139,9 +139,8 @@ const ManageDataDownload = ({
   useEffect(() => {
     const spinner = document.querySelector('.spinner');
     if (!spinner) {
-      console.log('no spinner', spinner);
       setSpinnerActive(false);
-    } else console.log('spinner ', spinner);
+    }
   }, [loading])
   
   // *** EVENT HANDLERS
