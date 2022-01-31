@@ -14,7 +14,6 @@ import ManageDataPreview from '../../dataPreview/ManageDataPreview/ManageDataPre
 import RenderSpinner from '../../RenderSpinner/RenderSpinner';
 import MobileMenu from '../../MobileComponents/MobileMenu'
 import * as constants from '../../../utils/constants/customDataDownload';
-import LoadingModal from '../../LoadingModal/LoadingModal';
 
 // *** STYLES (individual component)
 import './ManageDataDownload.scss';
@@ -39,13 +38,6 @@ const ManageDataDownload = ({
   filterCriteria,
   loading,
 }) => {
-  const [spinnerActive, setSpinnerActive] = useState(false)
-  useEffect(() => {
-    const spinner = document.querySelector('.spinner');
-    if (!spinner) {
-      setSpinnerActive(false);
-    }
-  }, [loading, spinnerActive])
   useEffect(() => {
     document.title = 'Custom Data Download | CAMPD | US EPA';
   }, []);
@@ -91,6 +83,7 @@ const ManageDataDownload = ({
   const [hideDataTypeSelector, setHideDataTypeSelector] = useState(false);
   const isMobileOrTablet = useCheckWidth([0, 1024]);
   const [renderPreviewData, setRenderPreviewData] = useState(false);
+  const [spinnerActive, setSpinnerActive] = useState(false)
 
   useEffect(() => {
     if (isMobileOrTablet) { 
@@ -143,6 +136,14 @@ const ManageDataDownload = ({
     }// eslint-disable-next-line react-hooks/exhaustive-deps
   },[activeFilter]);
 
+  useEffect(() => {
+    const spinner = document.querySelector('.spinner');
+    if (!spinner) {
+      console.log('no spinner', spinner);
+      setSpinnerActive(false);
+    } else console.log('spinner ', spinner);
+  }, [loading])
+  
   // *** EVENT HANDLERS
   const changeDataSubtype = (event) => {
     if (event) {
@@ -354,7 +355,7 @@ const ManageDataDownload = ({
           setSpinnerActive={setSpinnerActive}
           spinnerActive={spinnerActive}
         />
-        <span className="spinner"><RenderSpinner loading={loading} spinnerActive={spinnerActive} setSpinnerActive={setSpinnerActive}/></span>
+        <RenderSpinner loading={loading} spinnerActive={spinnerActive} setSpinnerActive={setSpinnerActive}/>
         {
         //loading ? <LoadingModal loading={loading} /> : null
         }

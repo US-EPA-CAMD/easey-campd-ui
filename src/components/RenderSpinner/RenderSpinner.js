@@ -3,17 +3,21 @@ import './RenderSpinner.scss';
 
 import { Preloader } from '@us-epa-camd/easey-design-system';
 const RenderSpinner = ({ loading, setSpinnerActive, spinnerActive }) => {
-//   const [spinnerInProgress, setSpinnerInProgress] = useState(false);
-//   useEffect(() => {
-//     if (spinnerInProgress) setSpinnerActive(true);
-//   }, [spinnerInProgress]);
+  const [showSpinner, setShowSpinner] = useState(false);
+  useEffect(() => {
+    if (loading && !spinnerActive) {
+      setShowSpinner(true);
+      setSpinnerActive(true);
+    }//eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  if (loading && !spinnerActive) {
-    setSpinnerActive(true);
-    return <Preloader />;
-  } else {
-    return null;
-  }
+  return (
+    showSpinner && (
+      <span className="spinner">
+        <Preloader />
+      </span>
+    )
+  );
 };
 
 export default RenderSpinner;
