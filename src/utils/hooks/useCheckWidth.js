@@ -10,7 +10,7 @@ const useCheckWidth = (targetRange) => {
   }, [width]);
   const [min, max] = targetRange;
 
-  if (width >= min && width <= max) {
+  if (width >= min && width < max) {
     return true;
   }
   return false;
