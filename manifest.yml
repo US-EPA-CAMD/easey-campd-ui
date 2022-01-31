@@ -1,6 +1,8 @@
 applications:
   - name: ((name))
     memory: ((memory))
+    disk_quota: ((disk))
+    instances: ((instances))
     buildpacks:
       - nodejs_buildpack
     env:
@@ -14,5 +16,6 @@ applications:
       REACT_APP_EASEY_QUARTZ_API: https://((apiHost))/quartz-mgmt
       REACT_APP_GOOGLE_ANALYTICS_CONTAINER_ID: ((googleAnalyticsContainerId))
       REACT_APP_GOOGLE_ANALYTICS_ENABLED: ((googleAnalyticsEnabled))
+      NODE_OPTIONS: –max-old-space-size=((memory)) –max_old_space_size=((memory))      
     routes:
       - route: ((host))
