@@ -355,10 +355,7 @@ const ManageDataDownload = ({
           setSpinnerActive={setSpinnerActive}
           spinnerActive={spinnerActive}
         />
-        <RenderSpinner loading={loading} spinnerActive={spinnerActive} setSpinnerActive={setSpinnerActive}/>
-        {
-        //loading ? <LoadingModal loading={loading} /> : null
-        }
+        {loading ? <RenderSpinner loading={loading} spinnerActive={spinnerActive} setSpinnerActive={setSpinnerActive}/> : null}
       </div>
     </div>
   );
