@@ -249,6 +249,7 @@ const ManageDataPreview = ({
               <Help
                 className="text-primary padding-top-1"
                 aria-label="Tooltip image"
+                aria-hidden="false"
               />{' '}
               to reveal helpful tips and info.{' '}
             </li>
