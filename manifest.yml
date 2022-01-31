@@ -1,7 +1,7 @@
 applications:
   - name: ((name))
-    memory: ((memory))
-    disk_quota: ((disk))
+    memory: ((memory))M
+    disk_quota: ((disk))M
     instances: ((instances))
     buildpacks:
       - nodejs_buildpack

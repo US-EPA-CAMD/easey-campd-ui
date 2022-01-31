@@ -1,7 +1,7 @@
 #THIS FILE SHOULD CONTAIN DEV SETTINGS AND CI/CD WORKFLOW WILL CHANGE SETTINGS BASED ON ENV
 name: campd-ui
-memory: 2048M
-disk: 2048M
+memory: 2048
+disk: 2048
 instances: 1
 environment: development
 host: campd-dev.app.cloud.gov
