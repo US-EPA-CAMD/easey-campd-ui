@@ -11,6 +11,7 @@ import DataTypeSelectorView from '../DataTypeSelectorView/DataTypeSelectorView';
 import FilterCriteriaMenu from '../../filterCriteria/FilterCriteriaMenu/FilterCriteriaMenu';
 import FilterCriteriaPanel from '../../filterCriteria/FilterCriteriaPanel/FilterCriteriaPanel';
 import ManageDataPreview from '../../dataPreview/ManageDataPreview/ManageDataPreview';
+import RenderSpinner from '../../RenderSpinner/RenderSpinner';
 import MobileMenu from '../../MobileComponents/MobileMenu'
 import * as constants from '../../../utils/constants/customDataDownload';
 import LoadingModal from '../../LoadingModal/LoadingModal';
@@ -38,6 +39,13 @@ const ManageDataDownload = ({
   filterCriteria,
   loading,
 }) => {
+  const [spinnerActive, setSpinnerActive] = useState(false)
+  useEffect(() => {
+    const spinner = document.querySelector('.spinner');
+    if (!spinner) {
+      setSpinnerActive(false);
+    }
+  }, [loading, spinnerActive])
   useEffect(() => {
     document.title = 'Custom Data Download | CAMPD | US EPA';
   }, []);
@@ -343,8 +351,13 @@ const ManageDataDownload = ({
           setRenderPreviewData={setRenderPreviewData}
           handlePreviewDataButtonClick={handlePreviewDataButtonClick}
           isMobileOrTablet={isMobileOrTablet}
+          setSpinnerActive={setSpinnerActive}
+          spinnerActive={spinnerActive}
         />
-        {loading ? <LoadingModal loading={loading} /> : null}
+        <span className="spinner"><RenderSpinner loading={loading} spinnerActive={spinnerActive} setSpinnerActive={setSpinnerActive}/></span>
+        {
+        //loading ? <LoadingModal loading={loading} /> : null
+        }
       </div>
     </div>
   );

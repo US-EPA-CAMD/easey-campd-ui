@@ -45,6 +45,8 @@ const ManageDataPreview = ({
   setRenderPreviewData,
   handlePreviewDataButtonClick,
   isMobileOrTablet,
+  spinnerActive,
+  setSpinnerActive,
   totalCount
 }) => {
   const [requirementsMet, setRequirementsMet] = useState(false);
@@ -231,6 +233,8 @@ const ManageDataPreview = ({
       {renderPreviewData ? (
         <DataPreview
           handleUpdateInAppliedFilters={handleUpdateInAppliedFilters}
+          spinnerActive={spinnerActive}
+          setSpinnerActive={setSpinnerActive}
         />
       ) : (
         <div className="desktop:margin-3 tablet:margin-x-10 flex-justify-center padding-3 tablet:border mobile-lg:width-mobile-lg line-height-sans-5 margin-0 tablet:margin-3">
