@@ -1,14 +1,40 @@
 import React, { useEffect, useState } from "react";
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import { Link as USWDSLink } from '@trussworks/react-uswds';
 import { Button, Tag } from "@trussworks/react-uswds";
 import { useHistory } from "react-router-dom";
-import { TitledProgressBar } from "@us-epa-camd/easey-design-system";
+import { TitledProgressBar, WhatIsNewBox } from "@us-epa-camd/easey-design-system";
 import moment from "moment-timezone";
 
 import getSubmissionProgress from "../../utils/api/getSubmissionProgress";
 import { metaAdder } from "../../utils/document/metaAdder";
 import "./HomePage.scss";
+import getContent from '../../utils/api/getContent';
 
 const HomePage = () => {
+  const [whatIsNewContent, setWhatIsNewContent] = useState();
+  const [whatIsNewTitle, setWhatIsNewTitle] = useState();
+
+  useEffect(() => {
+    getContent("/campd/home/what-is-new-content.md").then((resp) =>
+      setWhatIsNewContent(resp.data)
+    );
+    getContent("/campd/home/what-is-new-title.md").then((resp) =>
+    setWhatIsNewTitle(resp.data)
+  );
+  }, []);
+
+  useEffect(() => {
+    if(whatIsNewTitle){
+    const titleText = document.querySelector(".what-is-new-box-title").firstChild.innerText
+    const paragraphTitleText = document.querySelector(".what-is-new-box-title").firstChild
+    const divTitleText = document.createElement('div')
+    divTitleText.innerText = titleText
+    document.querySelector(".what-is-new-box-title").replaceChild(divTitleText, paragraphTitleText)
+    }
+  }, [whatIsNewTitle]);
+
   const [progressTitle, setProgressTitle] = useState("");
   const [lastUpdated, setLastUpdated] = useState("");
   const [percent, setPercent] = useState(0);
@@ -78,7 +104,7 @@ const HomePage = () => {
   );
   metaAdder(
     "keywords",
-    "Clean air markets program data, EPA, emissions, analysis, data, visualization, allowance, compliance, custom data download, CAM API, bulk data files, CAMPD, AMPD, ECMPS, CAMD, FTP"
+    "Clean air markets program data, EPA, emissions, data, allowance, compliance, custom data download, CAMPD APIs, APIs, bulk data files, CAMPD, AMPD, ECMPS, CAMD, FTP, maps, graphs"
   );
 
   const topics = [
@@ -96,24 +122,11 @@ const HomePage = () => {
       button: "Start your data query",
     },
     {
-      name: "Analysis",
-      description: `View and download common analyses, reports, insights and other information using CAMPD data.`,
+      name: "Maps & Graphs",
+      description: `Explore interactive tools to learn about programs that regulate the power sector and find information on power plants near you.`,
       img: (
         <img
           src={`${process.env.PUBLIC_URL}/images/icons/icon-analysis.svg`}
-          alt=""
-        />
-      ),
-      url: null,
-      link: "#0",
-      button: null,
-    },
-    {
-      name: "Visualization",
-      description: `Visualize and interact with CAMPD data graphically and through maps.`,
-      img: (
-        <img
-          src={`${process.env.PUBLIC_URL}/images/icons/icon-visualization.svg`}
           alt=""
         />
       ),
@@ -129,7 +142,7 @@ const HomePage = () => {
       <div className="grid-row padding-y-4 mobile-lg:padding-x-2 desktop:padding-x-4 widescreen:padding-x-10">
         {showProgressBar ? (
           <div className="grid-col-12">
-            <div className="desktop:grid-col-6 mobile-lg:grid-col-12 margin-x-auto padding-x-2">
+            <div className="order-3 desktop:grid-col-6 mobile-lg:grid-col-12 margin-x-auto padding-x-2">
               <TitledProgressBar
                 title={progressTitle}
                 percentage={percent}
@@ -143,7 +156,7 @@ const HomePage = () => {
           const hasButton = topic.button !== null;
           return (
             <div
-              className="padding-y-1 padding-x-1 display-flex flex-row flex-align-start text-base-darkest grid-col-12 desktop:grid-col-4"
+              className="padding-y-1 padding-x-1 display-flex flex-row flex-align-start text-base-darkest order-3 grid-col-12 desktop:grid-col-4"
               key={`container-${topic.name.replace(/ /g, "-")}`}
             >
               {topic.img}
@@ -185,6 +198,40 @@ const HomePage = () => {
             </div>
           );
         })}
+        <div className="what-is-new-wrapper mobile-lg:order-1 desktop:order-3 padding-y-1 padding-x-1 display-flex flex-row flex-align-start text-base-darkest grid-col-12 desktop:grid-col-4">
+          <WhatIsNewBox
+            text={
+                <ReactMarkdown
+                  className="what-is-new-box "
+                  children={whatIsNewContent}
+                  remarkPlugins={[remarkGfm]}
+                  components={{
+                    a: ({ node, ...props }) => (
+                      <USWDSLink
+                        {...props}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      />
+                    ),
+                  }}
+                />
+            }
+            title = {     <ReactMarkdown
+              className="what-is-new-box-title"
+              children={whatIsNewTitle}
+              remarkPlugins={[remarkGfm]}
+              components={{
+                a: ({ node, ...props }) => (
+                  <USWDSLink
+                    {...props}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  />
+                ),
+              }}
+            />}
+          />
+        </div>
       </div>
     </div>
   );
