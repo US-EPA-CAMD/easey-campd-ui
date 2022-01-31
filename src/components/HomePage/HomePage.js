@@ -69,28 +69,43 @@ const HomePage = () => {
       .then((res) => {
         if (res.data) {
           const data = res.data;
-          if (data.quarter !== null) {
-            let quarterSpelledOut;
-            switch (data.quarter) {
-              case "1":
-                quarterSpelledOut = "First";
-                break;
-              case "2":
-                quarterSpelledOut = "Second";
-                break;
-              case "3":
-                quarterSpelledOut = "Third";
-                break;
-              default:
-                quarterSpelledOut = "Fourth";
+
+          let quarterSpelledOut;
+          let year = data.calendarYear;
+          if (data.quarter === null) {
+            const date = new Date();
+
+            year = date.getFullYear();
+            const month = date.getMonth();
+
+            if (month === 0) {
+              year--;
             }
 
-            setProgressTitle(
-              `${data.calendarYear} ${quarterSpelledOut} Quarter Emission Files Received`
-            );
-          } else {
-            setProgressTitle(`Emission Files Received`);
+            if (month >= 1 && month <= 3) quarterSpelledOut = "1";
+            else if (month >= 4 && month <= 6) quarterSpelledOut = "2";
+            else if (month >= 7 && month <= 9) quarterSpelledOut = "3";
+            else quarterSpelledOut = "4";
           }
+
+          switch (data.quarter) {
+            case "1":
+              quarterSpelledOut = "First";
+              break;
+            case "2":
+              quarterSpelledOut = "Second";
+              break;
+            case "3":
+              quarterSpelledOut = "Third";
+              break;
+            default:
+              quarterSpelledOut = "Fourth";
+          }
+
+          setProgressTitle(
+            `${year} ${quarterSpelledOut} Quarter Emission Files Received`
+          );
+
           setLastUpdated(
             `Last Updated ${monthName} ${dd}, ${yyyy} at ${timeWithZone}`
           );
