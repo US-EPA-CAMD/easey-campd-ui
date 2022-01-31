@@ -70,8 +70,10 @@ const HomePage = () => {
         if (res.data) {
           const data = res.data;
 
-          let quarterSpelledOut;
+          let quarter = data.quarter;
           let year = data.calendarYear;
+          let quarterSpelledOut;
+
           if (data.quarter === null) {
             const date = new Date();
 
@@ -82,13 +84,18 @@ const HomePage = () => {
               year--;
             }
 
-            if (month >= 1 && month <= 3) quarterSpelledOut = "1";
-            else if (month >= 4 && month <= 6) quarterSpelledOut = "2";
-            else if (month >= 7 && month <= 9) quarterSpelledOut = "3";
-            else quarterSpelledOut = "4";
+            if (month >= 1 && month <= 3) {
+              quarter = "1";
+            } else if (month >= 4 && month <= 6) {
+              quarter = "2";
+            } else if (month >= 7 && month <= 9) {
+              quarter = "3";
+            } else {
+              quarter = "4";
+            }
           }
 
-          switch (data.quarter) {
+          switch (quarter) {
             case "1":
               quarterSpelledOut = "First";
               break;
