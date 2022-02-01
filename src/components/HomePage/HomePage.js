@@ -28,21 +28,6 @@ const HomePage = () => {
     );
   }, []);
 
-  useEffect(() => {
-    if (whatIsNewTitle) {
-      const titleText = document.querySelector(".what-is-new-box-title")
-        .firstChild.innerText;
-      const paragraphTitleText = document.querySelector(
-        ".what-is-new-box-title"
-      ).firstChild;
-      const divTitleText = document.createElement("div");
-      divTitleText.innerText = titleText;
-      document
-        .querySelector(".what-is-new-box-title")
-        .replaceChild(divTitleText, paragraphTitleText);
-    }
-  }, [whatIsNewTitle]);
-
   const [progressTitle, setProgressTitle] = useState("");
   const [lastUpdated, setLastUpdated] = useState("");
   const [percent, setPercent] = useState(0);
@@ -191,6 +176,7 @@ const HomePage = () => {
             >
               {topic.img}
               <div className="margin-left-2 desktop:margin-left-1">
+                <h2>
                 <Button
                   className="font-heading-xl text-bold margin-y-2"
                   unstyled="true"
@@ -200,6 +186,7 @@ const HomePage = () => {
                 >
                   {topic.name}
                 </Button>
+                </h2>
                 {hasButton ? null : (
                   <div className="margin-top-3">
                     <Tag className="radius-md padding-y-05 font-sans-3xs text-semibold text-ls-2">
