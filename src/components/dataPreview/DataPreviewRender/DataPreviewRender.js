@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { ArrowDownwardSharp } from '@material-ui/icons';
 import { Button } from '@trussworks/react-uswds';
-import LoadingModal from '../../LoadingModal/LoadingModal';
 import DataTable from 'react-data-table-component';
 import DownloadFileType from '../../customDataDownload/DownloadFileType/DownloadFileType';
+import RenderSpinner from '../../RenderSpinner/RenderSpinner'
 import { ensure508, cleanUp508 } from '../../../utils/ensure-508/rdt-table';
 
 import './DataPreviewRender.scss';
@@ -14,7 +14,9 @@ const DataPreviewRender = ({
   loading,
   dataPreview,
   totalCount,
-  handleBackButton
+  handleBackButton,
+  spinnerActive,
+  setSpinnerActive
 }) => {
   useEffect(() => {
     const arrowBackSvg = document.getElementsByClassName("arrow-back-svg");
@@ -67,12 +69,12 @@ const DataPreviewRender = ({
               </span>
             </>
           ) : (
-            <LoadingModal loading={loading} />
-          )}
+            <RenderSpinner loading={loading} spinnerActive={spinnerActive} setSpinnerActive={setSpinnerActive}/>
+            )}
         </div>
         <div className="clearfix display-none desktop:display-block">
           {loading === 0 && dataPreview !== null && dataPreview.length > 0 && (
-            <DownloadFileType loading={loading} />
+            <DownloadFileType loading={loading} spinnerActive={spinnerActive} setSpinnerActive={setSpinnerActive}/>
           )}
         </div>
       </div>

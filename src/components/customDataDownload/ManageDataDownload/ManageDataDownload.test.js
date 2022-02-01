@@ -25,12 +25,23 @@ describe("ManageDataDownload", () => {
 });
   
 describe('datatype and subtype selection', () => {
+  test('filter button is disabled initially', () => {
+    const { getByRole } = render(
+      <Provider store={store}>
+        <ManageDataDownload />
+      </Provider>
+    );
+    const filtersButton = getByRole('button', {name: /filters/i});
+    expect(filtersButton).toBeDisabled()
+  })
   test('Apply button is disabled before selection', () => {
     const { getByRole } = render(
       <Provider store={store}>
         <ManageDataDownload />
       </Provider>
     );
+    const dataTypeButton = getByRole('button', {name: /data type/i});
+    fireEvent.click(dataTypeButton);
     const applyButton = getByRole('button', { name: /apply/i });
     expect(applyButton).toBeDisabled();
   });
@@ -41,13 +52,34 @@ describe('datatype and subtype selection', () => {
         <ManageDataDownload />
       </Provider>
     );
-    const dataType = getAllByTestId('dropdown')[0];
-    const dataSubtype = getAllByTestId('dropdown')[1];
-
-    fireEvent.change(dataType, { target: { value: 'COMPLIANCE' } });
-    fireEvent.change(dataSubtype, { target: { value: 2 } });
+    const dataTypeButton = getByRole('button', {name: /data type/i});
+    fireEvent.click(dataTypeButton);
+    const dataTypeDropdown = getAllByTestId('dropdown')[0];
+    const dataSubtypeDropdown = getAllByTestId('dropdown')[1];
+    
+    fireEvent.change(dataTypeDropdown, { target: { value: 'COMPLIANCE' } });
+    fireEvent.change(dataSubtypeDropdown, { target: { value: 2 } });
     const applyButton = getByRole('button', { name: /apply/i });
     expect(applyButton).not.toBeDisabled();
+  });
+
+  test('Filters button is enabled after dataType and dataSubtype are applied', () => {
+    const { getAllByTestId, getByRole } = render(
+      <Provider store={store}>
+        <ManageDataDownload />
+      </Provider>
+    );
+    const dataTypeButton = getByRole('button', {name: /data type/i});
+    fireEvent.click(dataTypeButton);
+    const dataTypeDropdown = getAllByTestId('dropdown')[0];
+    const dataSubtypeDropdown = getAllByTestId('dropdown')[1];
+
+    fireEvent.change(dataTypeDropdown, { target: { value: 'COMPLIANCE' } });
+    fireEvent.change(dataSubtypeDropdown, { target: { value: 2 } });
+    const applyButton = getByRole('button', { name: /apply/i });
+    fireEvent.click(applyButton)
+    const filtersButton = getByRole('button', { name: /filters/i})
+    expect(filtersButton).not.toBeDisabled();
   });
 
   test('allows change of data type and data subtype selection', () => {
@@ -56,11 +88,13 @@ describe('datatype and subtype selection', () => {
         <ManageDataDownload />
       </Provider>
     );
-    const dataType = getAllByTestId('dropdown')[0];
-    const dataSubtype = getAllByTestId('dropdown')[1];
+    const dataTypeButton = getByRole('button', {name: /data type/i});
+    fireEvent.click(dataTypeButton);
+    const dataTypeDropdown = getAllByTestId('dropdown')[0];
+    const dataSubtypeDropdown = getAllByTestId('dropdown')[1];
 
-    fireEvent.change(dataType, { target: { value: 'COMPLIANCE' } });
-    fireEvent.change(dataSubtype, { target: { value: 2 } });
+    fireEvent.change(dataTypeDropdown, { target: { value: 'COMPLIANCE' } });
+    fireEvent.change(dataSubtypeDropdown, { target: { value: 2 } });
     const applyButton = getByRole('button', { name: /apply/i });
     fireEvent.click(applyButton);
     const changeButton = getByRole('button', { name: /change/i });
@@ -76,12 +110,15 @@ describe('filter selection functionality', () => {
         <ManageDataDownload />
       </Provider>
     );
-    const { getAllByTestId, getByRole } = query;
-    const dataType = getAllByTestId('dropdown')[0];
-    const dataSubtype = getAllByTestId('dropdown')[1];
 
-    fireEvent.change(dataType, { target: { value: 'COMPLIANCE' } });
-    fireEvent.change(dataSubtype, { target: { value: 2 } });
+    const { getAllByTestId, getByRole } = query;
+    const dataTypeButton = getByRole('button', {name: /data type/i});
+    fireEvent.click(dataTypeButton);
+    const dataTypeDropdown = getAllByTestId('dropdown')[0];
+    const dataSubtypeDropdown = getAllByTestId('dropdown')[1];
+
+    fireEvent.change(dataTypeDropdown, { target: { value: 'COMPLIANCE' } });
+    fireEvent.change(dataSubtypeDropdown, { target: { value: 2 } });
 
     const applyButton = getByRole('button', { name: /apply/i });
     fireEvent.click(applyButton);
@@ -114,7 +151,7 @@ describe('filter selection functionality', () => {
     expect(previewDataButton).not.toBeDisabled();
   });
 
-  test('pill button can remove filter selection ', () => {
+  xtest('pill button can remove filter selection ', () => {
     const { getByRole, getByText, getAllByRole } = query;
     const filtersButton = getByRole('button', {name: 'Filters'})
     fireEvent.click(filtersButton)
