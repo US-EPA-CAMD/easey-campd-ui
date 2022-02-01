@@ -6,11 +6,10 @@ import { Provider } from 'react-redux';
 import initialState from '../../../store/reducers/initialState';
 import configureStore from '../../../store/configureStore.dev';
 import axios from 'axios';
-import LoadingModal from '../../LoadingModal/LoadingModal';
+import RenderSpinner from '../../RenderSpinner/RenderSpinner';
 
 jest.mock('axios');
-jest.mock('../../LoadingModal/LoadingModal')
-
+jest.mock('../../RenderSpinner/RenderSpinner')
 initialState.customDataDownload.dataType = 'EMISSIONS';
 initialState.customDataDownload.dataSubType = 'Hourly Emissions';
 initialState.filterCriteria = {
@@ -74,7 +73,7 @@ describe('<DownloadFileType/>', () => {
     jest
       .spyOn(document.body, 'appendChild')
       .mockImplementation(() => jest.fn());
-    LoadingModal.mockImplementation(() => null)
+    RenderSpinner.mockImplementation(() => null)
 
     (fireEvent.click(downloadButton));
     fireEvent.click(getByLabelText('JSON'));

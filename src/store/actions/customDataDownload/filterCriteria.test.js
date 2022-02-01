@@ -1456,7 +1456,7 @@ describe("Filter Criteria Async Actions", () => {
     })
   });
 
-  it("should create BEGIN_API_CALL and LOAD_TRANSACTION_TYPE_SUCCESS when loading transaction types data", () => {
+  xit("should create BEGIN_API_CALL and LOAD_TRANSACTION_TYPE_SUCCESS when loading transaction types data", () => {
     const transactionTypes = [
         {
           "transactionTypeCode": "AD",
