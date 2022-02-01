@@ -13,7 +13,7 @@
   
   .spinner .text-center p {
     position: fixed;
-      top: 50%;
+      top: 60%;
       transform: translateY(-50%);
       left: 0;
       right: 0;
@@ -22,4 +22,12 @@
       margin: 0 auto;
       padding: 0;
       z-index: 17;
+  }
+
+  .spinner .text-center button {
+    position: fixed;
+    top: 65%;
+    right: 0;
+    left: 0;
+    margin: 0 auto;
   }
