@@ -137,7 +137,7 @@ const ManageDataDownload = ({
   },[activeFilter]);
 
   useEffect(() => {
-    const spinner = document.querySelector('.spinner');
+    const spinner = document.querySelector('#spinner');
     if (!spinner) {
       setSpinnerActive(false);
     }

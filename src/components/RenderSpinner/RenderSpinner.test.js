@@ -11,7 +11,7 @@ describe('Loading Modal', () => {
         setSpinnerActive={jest.fn}
       />
     );
-    const spinner = container.querySelector('.spinner');
+    const spinner = container.querySelector('#spinner');
     expect(spinner).not.toBeInTheDocument();
   });
 
@@ -23,7 +23,7 @@ describe('Loading Modal', () => {
         setSpinnerActive={jest.fn}
       />
     );
-    const spinner = container.querySelector('.spinner');
+    const spinner = container.querySelector('#spinner');
     expect(spinner).not.toBeInTheDocument();
   });
 
@@ -35,7 +35,7 @@ describe('Loading Modal', () => {
         setSpinnerActive={jest.fn}
       />
     );
-    const spinner = container.querySelector('.spinner');
+    const spinner = container.querySelector('#spinner');
     expect(spinner).toBeInTheDocument();
   });
 });
