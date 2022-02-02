@@ -13,7 +13,7 @@ const RenderSpinner = ({ loading, setSpinnerActive, spinnerActive }) => {
 
   return (
     showSpinner && (
-      <span className="spinner">
+      <span id="spinner">
         <Preloader />
       </span>
     )

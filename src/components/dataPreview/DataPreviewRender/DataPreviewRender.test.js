@@ -106,7 +106,7 @@ describe('ManageDataPreview', () => {
     // const dataPreviewHeader = getByRole('alert');
     // expect(dataPreviewHeader).toBeDefined();
     //   debug()
-    const spinner = container.querySelector('.spinner');
+    const spinner = container.querySelector('#spinner');
     expect(spinner).toBeInTheDocument();
   });
 });
