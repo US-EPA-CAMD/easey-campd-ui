@@ -11,9 +11,9 @@ import DataTypeSelectorView from '../DataTypeSelectorView/DataTypeSelectorView';
 import FilterCriteriaMenu from '../../filterCriteria/FilterCriteriaMenu/FilterCriteriaMenu';
 import FilterCriteriaPanel from '../../filterCriteria/FilterCriteriaPanel/FilterCriteriaPanel';
 import ManageDataPreview from '../../dataPreview/ManageDataPreview/ManageDataPreview';
+import RenderSpinner from '../../RenderSpinner/RenderSpinner';
 import MobileMenu from '../../MobileComponents/MobileMenu'
 import * as constants from '../../../utils/constants/customDataDownload';
-import LoadingModal from '../../LoadingModal/LoadingModal';
 
 // *** STYLES (individual component)
 import './ManageDataDownload.scss';
@@ -83,6 +83,7 @@ const ManageDataDownload = ({
   const [hideDataTypeSelector, setHideDataTypeSelector] = useState(false);
   const isMobileOrTablet = useCheckWidth([0, 1024]);
   const [renderPreviewData, setRenderPreviewData] = useState(false);
+  const [spinnerActive, setSpinnerActive] = useState(false)
 
   useEffect(() => {
     if (isMobileOrTablet) { 
@@ -135,6 +136,13 @@ const ManageDataDownload = ({
     }// eslint-disable-next-line react-hooks/exhaustive-deps
   },[activeFilter]);
 
+  useEffect(() => {
+    const spinner = document.querySelector('#spinner');
+    if (!spinner) {
+      setSpinnerActive(false);
+    }
+  }, [loading])
+  
   // *** EVENT HANDLERS
   const changeDataSubtype = (event) => {
     if (event) {
@@ -343,8 +351,10 @@ const ManageDataDownload = ({
           setRenderPreviewData={setRenderPreviewData}
           handlePreviewDataButtonClick={handlePreviewDataButtonClick}
           isMobileOrTablet={isMobileOrTablet}
+          setSpinnerActive={setSpinnerActive}
+          spinnerActive={spinnerActive}
         />
-        {loading ? <LoadingModal loading={loading} /> : null}
+        {loading ? <RenderSpinner loading={loading} spinnerActive={spinnerActive} setSpinnerActive={setSpinnerActive}/> : null}
       </div>
     </div>
   );

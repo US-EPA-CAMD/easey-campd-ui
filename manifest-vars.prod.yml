@@ -1,5 +1,5 @@
+instances: 2
+environment: production
 host: campd.epa.gov
 apiHost: api.epa.gov/easey
-environment: production
-memory: 2048M
 googleAnalyticsEnabled: "true"

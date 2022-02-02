@@ -90,16 +90,23 @@ const columns = () =>
 
 describe('ManageDataPreview', () => {
   test('Check that the  component properly renders', () => {
-    const { getByRole } = render(
-      <DataPreviewRender
-        loading={1}
-        dataPreview={dataPreview}
-        columns={columns}
-        data={data}
-        totalCount={1}
-        />
+    const { getByRole, debug, container } = render(
+      <Provider 
+        store={store}>
+        <DataPreviewRender
+          loading={1}
+          dataPreview={dataPreview}
+          columns={columns()}
+          data={data()}
+          totalCount={1}
+          setSpinnerActive={jest.fn}
+          />
+        </Provider>
     );
-    const dataPreviewHeader = getByRole('alert');
-    expect(dataPreviewHeader).toBeDefined();
+    // const dataPreviewHeader = getByRole('alert');
+    // expect(dataPreviewHeader).toBeDefined();
+    //   debug()
+    const spinner = container.querySelector('#spinner');
+    expect(spinner).toBeInTheDocument();
   });
 });

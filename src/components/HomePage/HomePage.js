@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from "react";
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
-import { Link as USWDSLink } from '@trussworks/react-uswds';
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import { Link as USWDSLink } from "@trussworks/react-uswds";
 import { Button, Tag } from "@trussworks/react-uswds";
 import { useHistory } from "react-router-dom";
-import { TitledProgressBar, WhatIsNewBox } from "@us-epa-camd/easey-design-system";
+import {
+  TitledProgressBar,
+  WhatIsNewBox,
+} from "@us-epa-camd/easey-design-system";
 import moment from "moment-timezone";
 
 import getSubmissionProgress from "../../utils/api/getSubmissionProgress";
 import { metaAdder } from "../../utils/document/metaAdder";
 import "./HomePage.scss";
-import getContent from '../../utils/api/getContent';
+import getContent from "../../utils/api/getContent";
 
 const HomePage = () => {
   const [whatIsNewContent, setWhatIsNewContent] = useState();
@@ -21,19 +24,9 @@ const HomePage = () => {
       setWhatIsNewContent(resp.data)
     );
     getContent("/campd/home/what-is-new-title.md").then((resp) =>
-    setWhatIsNewTitle(resp.data)
-  );
+      setWhatIsNewTitle(resp.data)
+    );
   }, []);
-
-  useEffect(() => {
-    if(whatIsNewTitle){
-    const titleText = document.querySelector(".what-is-new-box-title").firstChild.innerText
-    const paragraphTitleText = document.querySelector(".what-is-new-box-title").firstChild
-    const divTitleText = document.createElement('div')
-    divTitleText.innerText = titleText
-    document.querySelector(".what-is-new-box-title").replaceChild(divTitleText, paragraphTitleText)
-    }
-  }, [whatIsNewTitle]);
 
   const [progressTitle, setProgressTitle] = useState("");
   const [lastUpdated, setLastUpdated] = useState("");
@@ -61,28 +54,50 @@ const HomePage = () => {
       .then((res) => {
         if (res.data) {
           const data = res.data;
-          if (data.quarter !== null) {
-            let quarterSpelledOut;
-            switch (data.quarter) {
-              case "1":
-                quarterSpelledOut = "First";
-                break;
-              case "2":
-                quarterSpelledOut = "Second";
-                break;
-              case "3":
-                quarterSpelledOut = "Third";
-                break;
-              default:
-                quarterSpelledOut = "Fourth";
+
+          let quarter = data.quarter;
+          let year = data.calendarYear;
+          let quarterSpelledOut;
+
+          if (data.quarter === null) {
+            const date = new Date();
+
+            year = date.getFullYear();
+            const month = date.getMonth();
+
+            if (month === 0) {
+              year--;
             }
 
-            setProgressTitle(
-              `${data.calendarYear} ${quarterSpelledOut} Quarter Emission Files Received`
-            );
-          } else {
-            setProgressTitle(`Emission Files Received`);
+            if (month >= 1 && month <= 3) {
+              quarter = "1";
+            } else if (month >= 4 && month <= 6) {
+              quarter = "2";
+            } else if (month >= 7 && month <= 9) {
+              quarter = "3";
+            } else {
+              quarter = "4";
+            }
           }
+
+          switch (quarter) {
+            case "1":
+              quarterSpelledOut = "First";
+              break;
+            case "2":
+              quarterSpelledOut = "Second";
+              break;
+            case "3":
+              quarterSpelledOut = "Third";
+              break;
+            default:
+              quarterSpelledOut = "Fourth";
+          }
+
+          setProgressTitle(
+            `${year} ${quarterSpelledOut} Quarter Emission Files Received`
+          );
+
           setLastUpdated(
             `Last Updated ${monthName} ${dd}, ${yyyy} at ${timeWithZone}`
           );
@@ -142,7 +157,7 @@ const HomePage = () => {
       <div className="grid-row padding-y-4 mobile-lg:padding-x-2 desktop:padding-x-4 widescreen:padding-x-10">
         {showProgressBar ? (
           <div className="grid-col-12">
-            <div className="order-3 desktop:grid-col-6 mobile-lg:grid-col-12 margin-x-auto padding-x-2">
+            <div className="order-3 desktop:grid-col-6 mobile-lg:grid-col-12 margin-x-auto padding-x-2 padding-y-3">
               <TitledProgressBar
                 title={progressTitle}
                 percentage={percent}
@@ -161,6 +176,7 @@ const HomePage = () => {
             >
               {topic.img}
               <div className="margin-left-2 desktop:margin-left-1">
+                <h2>
                 <Button
                   className="font-heading-xl text-bold margin-y-2"
                   unstyled="true"
@@ -170,6 +186,7 @@ const HomePage = () => {
                 >
                   {topic.name}
                 </Button>
+                </h2>
                 {hasButton ? null : (
                   <div className="margin-top-3">
                     <Tag className="radius-md padding-y-05 font-sans-3xs text-semibold text-ls-2">
@@ -201,35 +218,37 @@ const HomePage = () => {
         <div className="what-is-new-wrapper mobile-lg:order-1 desktop:order-3 padding-y-1 padding-x-1 display-flex flex-row flex-align-start text-base-darkest grid-col-12 desktop:grid-col-4">
           <WhatIsNewBox
             text={
-                <ReactMarkdown
-                  className="what-is-new-box "
-                  children={whatIsNewContent}
-                  remarkPlugins={[remarkGfm]}
-                  components={{
-                    a: ({ node, ...props }) => (
-                      <USWDSLink
-                        {...props}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      />
-                    ),
-                  }}
-                />
+              <ReactMarkdown
+                className="what-is-new-box "
+                children={whatIsNewContent}
+                remarkPlugins={[remarkGfm]}
+                components={{
+                  a: ({ node, ...props }) => (
+                    <USWDSLink
+                      {...props}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    />
+                  ),
+                }}
+              />
             }
-            title = {     <ReactMarkdown
-              className="what-is-new-box-title"
-              children={whatIsNewTitle}
-              remarkPlugins={[remarkGfm]}
-              components={{
-                a: ({ node, ...props }) => (
-                  <USWDSLink
-                    {...props}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  />
-                ),
-              }}
-            />}
+            title={
+              <ReactMarkdown
+                className="what-is-new-box-title"
+                children={whatIsNewTitle}
+                remarkPlugins={[remarkGfm]}
+                components={{
+                  a: ({ node, ...props }) => (
+                    <USWDSLink
+                      {...props}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    />
+                  ),
+                }}
+              />
+            }
           />
         </div>
       </div>

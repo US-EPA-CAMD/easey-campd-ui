@@ -6,13 +6,13 @@ import { connect } from 'react-redux';
 import config from '../../../config';
 
 import { constructRequestUrl } from '../../../utils/selectors/general';
-import LoadingModal from '../../LoadingModal/LoadingModal';
+import RenderSpinner from '../../RenderSpinner/RenderSpinner';
 
 axios.defaults.headers.common = {
   "x-api-key": config.app.apiKey
 };
 
-const DownloadFileType = ({ dataType, dataSubType, filterCriteria, totalCount }) => {
+const DownloadFileType = ({ dataType, dataSubType, filterCriteria, totalCount, spinnerActive, setSpinnerActive}) => {
   const [fileType, setFileType] = useState('text/csv');
   const [loading, setLoading] = useState(false);
 
@@ -84,7 +84,7 @@ const DownloadFileType = ({ dataType, dataSubType, filterCriteria, totalCount })
       >
         Download
       </Button>
-      {loading ? <LoadingModal loading={loading} /> : null}
+      {loading ? <RenderSpinner loading={loading} spinnerActive={spinnerActive} setSpinnerActive={setSpinnerActive}/> : null}
     </div>
   );
 };

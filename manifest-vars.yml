@@ -1,8 +1,11 @@
 #THIS FILE SHOULD CONTAIN DEV SETTINGS AND CI/CD WORKFLOW WILL CHANGE SETTINGS BASED ON ENV
 name: campd-ui
+memory: 2048
+heap: 1536
+disk: 2048
+instances: 1
+environment: development
 host: campd-dev.app.cloud.gov
 apiHost: api.epa.gov/easey/dev
-environment: development
-memory: 1024M
 googleAnalyticsContainerId: "GTM-L8ZB"
 googleAnalyticsEnabled: "false"
