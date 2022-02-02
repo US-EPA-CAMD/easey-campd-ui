@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { Link as USWDSLink } from "@trussworks/react-uswds";
-import { Button, Tag } from "@trussworks/react-uswds";
+import { Link as USWDSLink, Button, Tag } from "@trussworks/react-uswds";
 import { useHistory } from "react-router-dom";
 import {
   TitledProgressBar,
@@ -54,54 +53,13 @@ const HomePage = () => {
       .then((res) => {
         if (res.data) {
           const data = res.data;
-
-          let quarter = data.quarter;
-          let year = data.calendarYear;
-          let quarterSpelledOut;
-
-          if (data.quarter === null) {
-            const date = new Date();
-
-            year = date.getFullYear();
-            const month = date.getMonth();
-
-            if (month === 0) {
-              year--;
-            }
-
-            if (month >= 1 && month <= 3) {
-              quarter = "1";
-            } else if (month >= 4 && month <= 6) {
-              quarter = "2";
-            } else if (month >= 7 && month <= 9) {
-              quarter = "3";
-            } else {
-              quarter = "4";
-            }
-          }
-
-          switch (quarter) {
-            case "1":
-              quarterSpelledOut = "First";
-              break;
-            case "2":
-              quarterSpelledOut = "Second";
-              break;
-            case "3":
-              quarterSpelledOut = "Third";
-              break;
-            default:
-              quarterSpelledOut = "Fourth";
-          }
-
           setProgressTitle(
-            `${year} ${quarterSpelledOut} Quarter Emission Files Received`
+            `${data.year} ${data.quarterName} Quarter Emission Files Received`
           );
-
           setLastUpdated(
             `Last Updated ${monthName} ${dd}, ${yyyy} at ${timeWithZone}`
           );
-          setPercent(parseInt(data.submittedPercentage));
+          setPercent(parseInt(data.percentage));
           setShowProgressBar(true);
         } else {
           setShowProgressBar(false);
@@ -157,7 +115,7 @@ const HomePage = () => {
       <div className="grid-row padding-y-4 mobile-lg:padding-x-2 desktop:padding-x-4 widescreen:padding-x-10">
         {showProgressBar ? (
           <div className="grid-col-12">
-            <div className="order-3 desktop:grid-col-6 mobile-lg:grid-col-12 margin-x-auto padding-x-2 padding-y-3">
+            <div className="order-3 desktop:grid-col-6 mobile-lg:grid-col-12 margin-x-auto padding-x-2 padding-bottom-3">
               <TitledProgressBar
                 title={progressTitle}
                 percentage={percent}
