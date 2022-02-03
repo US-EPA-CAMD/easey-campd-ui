@@ -56,7 +56,8 @@ export const filterProgram = (filterCriteria) =>{
       || selection.acctNumbers.includes(x?.buyAccountNumber) || selection.acctNumbers.includes(x?.sellAccountNumber))&&
       (selection.comboBoxYears.length === 0 || selection.comboBoxYears.includes(x.vintageYear? x.vintageYear : x.year)) &&
       (selection.transactionTypes.length === 0 || selection.transactionTypes.includes(x.transactionTypeCode)) &&
-      (selection.accountTypes.length === 0 || selection.accountTypes.includes(x.accountTypeCode) || selection.accountTypes.includes(x?.buyAccountTypeCode) || selection.accountTypes.includes(x?.sellAccountTypeCode))
+      (selection.accountTypes.length === 0 || selection.accountTypes.includes(x.accountTypeCode)
+      || selection.accountTypes.includes(x?.buyAccountTypeCode) || selection.accountTypes.includes(x?.sellAccountTypeCode))
     }).map(i => i.programCode)
   )];
   updateEnabledStatusCheckBox(filterCriteria.program, filteredSet);
