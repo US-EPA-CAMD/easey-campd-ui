@@ -5,6 +5,8 @@ import { within } from '@testing-library/dom';
 import configureStore from "../../../store/configureStore.dev";
 import { Provider } from "react-redux";
 import initialState from "../../../store/reducers/initialState";
+import { rest } from 'msw';
+import { setupServer } from 'msw/node';
 
 initialState.customDataDownload.dataType= "COMPLIANCE";
 initialState.filterCriteria.stateTerritory = [
@@ -12,11 +14,20 @@ initialState.filterCriteria.stateTerritory = [
 ];
 const store = configureStore(initialState);
 
-// *** set up mocks
-beforeEach(() => {});
+jest.mock('react-markdown', () => ({ children }) => <>{children}</>);
+jest.mock('remark-gfm', () => () => {});
+const helperTextUrl =
+  'https://api.epa.gov/easey/dev/content-mgmt/campd/data/custom-data-download/helper-text.md';
 
-// *** garbage clean up (mocks)
-afterEach(() => {});
+const getHelperTextUrl = rest.get(helperTextUrl, (req, res, ctx) => {
+  return res(ctx.json('this is CDD helper tex'));
+});
+const server = new setupServer(getHelperTextUrl);
+// *** set up mocks
+
+beforeAll(() => server.listen());
+beforeEach(() => server.resetHandlers());
+afterAll(() => server.close());
 describe("ManageDataDownload", () => {
   test("Check that the  component properly renders", () => {
     const { getByTestId } = render(<Provider store={store}><ManageDataDownload /></Provider>);

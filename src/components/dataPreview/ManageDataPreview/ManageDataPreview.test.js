@@ -1,13 +1,25 @@
 import React from 'react';
 import ManageDataPreview from './ManageDataPreview';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, screen } from '@testing-library/react';
 import configureStore from '../../../store/configureStore.dev';
 import { Provider } from 'react-redux';
 import initialState from '../../../store/reducers/initialState';
 import { handleError } from '../../../utils/api/apiUtils';
+import { rest } from 'msw';
+import { setupServer } from 'msw/node';
 
 jest.spyOn(window, 'alert').mockImplementation(() => {});
 jest.spyOn(window, 'confirm').mockImplementation(() => {});
+jest.mock('react-markdown', () => ({ children }) => <>{children}</>);
+jest.mock('remark-gfm', () => () => {});
+
+const helperTextUrl =
+  'https://api.epa.gov/easey/dev/content-mgmt/campd/data/custom-data-download/helper-text.md';
+
+const getHelperTextUrl = rest.get(helperTextUrl, (req, res, ctx) => {
+  return res(ctx.json('this is CDD helper tex'));
+});
+const server = new setupServer(getHelperTextUrl);
 
 
 initialState.customDataDownload.dataType = 'EMISSIONS';
@@ -29,102 +41,21 @@ initialState.filterCriteria.timePeriod = {
 };
 let store = configureStore(initialState);
 
-xdescribe('ManageDataPreview', () => {
-  test('Check that the  component properly renders', () => {
-    const { getByRole } = render(
+beforeAll(() => server.listen());
+beforeEach(() => server.resetHandlers());
+afterAll(() => server.close());
+describe('ManageDataPreview', () => {
+  test('Check that the  component properly renders custom data download helper text', async () => {
+    const { findByText, getByRole } = render(
       <Provider store={store}>
         <div id="filter0"></div>
         <ManageDataPreview />
       </Provider>
     );
+    const helperText = await findByText('this is CDD helper tex');
+    expect(helperText).toBeInTheDocument();
     const previewButton = getByRole('button', { name: 'Preview Data' });
     expect(previewButton).toBeDefined();
     fireEvent.click(previewButton);
-    const dataPreviewHeader = getByRole('alert');
-    expect(dataPreviewHeader).toBeDefined();
-  });
-
-  test('Daily Emissions', () => {
-    initialState.customDataDownload.dataSubType = 'Daily Emissions';
-    store = configureStore(initialState);
-    const { getByRole } = render(
-      <Provider store={store}>
-        <div id="filter0"></div>
-        <ManageDataPreview />
-      </Provider>
-    );
-    const previewButton = getByRole('button', { name: 'Preview Data' });
-    expect(previewButton).toBeDefined();
-    fireEvent.click(previewButton);
-    const dataPreviewHeader = getByRole('alert');
-    expect(dataPreviewHeader).toBeDefined();
-  });
-
-  test('Monthly Emissions', () => {
-    initialState.customDataDownload.dataSubType = 'Monthly Emissions';
-    store = configureStore(initialState);
-    const { getByRole } = render(
-      <Provider store={store}>
-        <div id="filter0"></div>
-        <ManageDataPreview />
-      </Provider>
-    );
-    const previewButton = getByRole('button', { name: 'Preview Data' });
-    expect(previewButton).toBeDefined();
-    fireEvent.click(previewButton);
-    const dataPreviewHeader = getByRole('alert');
-    expect(dataPreviewHeader).toBeDefined();
-  });
-
-  test('Quarterly Emissions', () => {
-    initialState.customDataDownload.dataSubType = 'Quarterly Emissions';
-    store = configureStore(initialState);
-    const { getByRole } = render(
-      <Provider store={store}>
-        <div id="filter0"></div>
-        <ManageDataPreview />
-      </Provider>
-    );
-    const previewButton = getByRole('button', { name: 'Preview Data' });
-    expect(previewButton).toBeDefined();
-    fireEvent.click(previewButton);
-    const dataPreviewHeader = getByRole('alert');
-    expect(dataPreviewHeader).toBeDefined();
-  });
-
-  test('Annual Emissions', () => {
-    initialState.customDataDownload.dataSubType = 'Annual Emissions';
-    store = configureStore(initialState);
-    const { getByRole, getByTestId } = render(
-      <Provider store={store}>
-        <div id="filter0"></div>
-        <ManageDataPreview />
-      </Provider>
-    );
-    const previewButton = getByRole('button', { name: 'Preview Data' });
-    expect(previewButton).toBeDefined();
-    fireEvent.click(previewButton);
-    const dataPreviewHeader = getByRole('alert');
-    expect(dataPreviewHeader).toBeDefined();
-    fireEvent.click(getByTestId('remove'));
-    expect(previewButton).toBeEnabled();
-  });
-
-  test('Ozone Emissions', () => {
-    initialState.customDataDownload.dataSubType = 'Ozone Season Emissions';
-    store = configureStore(initialState);
-    const { getByRole } = render(
-      <Provider store={store}>
-        <div id="filter0"></div>
-        <ManageDataPreview />
-      </Provider>
-    );
-    const previewButton = getByRole('button', { name: 'Preview Data' });
-    expect(previewButton).toBeDefined();
-    fireEvent.click(previewButton);
-    const dataPreviewHeader = getByRole('alert');
-    expect(dataPreviewHeader).toBeDefined();
-    fireEvent.click(getByRole('button', { name: 'Clear All' }));
-    expect(previewButton).toBeDisabled();
   });
 });
