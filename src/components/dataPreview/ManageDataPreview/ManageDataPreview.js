@@ -220,7 +220,7 @@ const ManageDataPreview = ({
       {!isMobileOrTablet && appliedFilters.length>0 && totalCount !== null && totalCount > config.fileDownloadLimit.allDataTypes && (
         <div className='padding-x-3 padding-top-3'>
           <Alert type="warning">
-            {`Your query exceeds the record limit of ${config.fileDownloadLimit.allDataTypes}. Refine your query to further limit the number of records returned or visit the `}
+            {`Your query exceeds the record limit of ${config.streamingLimit}. Refine your query to further limit the number of records returned or visit the `}
             <Link 
               target="_blank"
               rel="noopener noreferrer"
