@@ -35,6 +35,7 @@ const FilterCriteriaMenu = ({
     resetDataPreviewDispatcher,
     isMobileOrTablet,
     hideFilterMenu,
+    setRemovedAppliedFilter
   }) => { 
     const [firstFocusableEl, setFirstFocusableEl] = useState(null);
 
@@ -67,6 +68,7 @@ const FilterCriteriaMenu = ({
     const removeFilter = (filterType) => {
       resetFiltersDispatcher(filterType);
       removeAppliedFiltersDispatcher(filterType);
+      setRemovedAppliedFilter(filterType);
       resetDataPreviewDispatcher();
     };
     const checkSelectableData = (listItem) => {
@@ -162,13 +164,19 @@ const FilterCriteriaMenu = ({
                       }`}
                       disabled={checkDisabled(el)}
                       id={`filter${i}`}
+                      aria-label={el.label}
                     >
                       {el.label}
                       {isMobileOrTablet &&
                       isAddedToFilters(el.value, appliedFilters) ? (
                         <FontAwesomeIcon
                           icon={faWindowClose}
+                          id='mobileClearFilter'
                           tabIndex={0}
+                          focusable={true}
+                          role="button"
+                          aria-hidden={false}
+                          aria-label={`remove ${el.value} filters`}
                           className="float-right clearfix"
                           onClick={(evt)=>{
                               evt.stopPropagation();
