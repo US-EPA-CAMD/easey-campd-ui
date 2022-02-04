@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Button, Alert, Link } from '@trussworks/react-uswds';
 import { Help } from '@material-ui/icons';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 import DataPreview from '../DataPreview/DataPreview';
 import FilterTags from '../../FilterTags/FilterTags';
@@ -23,6 +25,7 @@ import { COMPLIANCES_DATA_SUBTYPES } from '../../../utils/constants/compliances'
 import { FACILITY_DATA_SUBTYPES } from '../../../utils/constants/facility';
 import Tooltip from '../../Tooltip/Tooltip';
 import config from "../../../config";
+import getContent  from '../../../utils/api/getContent';
 
 const ManageDataPreview = ({
   dataType,
@@ -52,6 +55,11 @@ const ManageDataPreview = ({
   setRemovedAppliedFilter
 }) => {
   const [requirementsMet, setRequirementsMet] = useState(false);
+  const [helperText, setHelperText] = useState(null);
+
+  useEffect(() => {
+    getContent('/campd/data/custom-data-download/helper-text.md').then(resp => setHelperText(resp.data));
+  }, []);
 
   useEffect(() => {
     if (
@@ -239,48 +247,17 @@ const ManageDataPreview = ({
         />
       ) : (
         <div className="desktop:margin-3 tablet:margin-x-10 flex-justify-center padding-3 tablet:border mobile-lg:width-mobile-lg line-height-sans-5 margin-0 tablet:margin-3">
-          <h3 className="font-sans-lg margin-top-0">To get started:</h3>
-          <ul>
-            <li>
-              Build a query by choosing a data type and subtype. Click Apply.
-            </li>
-            <li>
-              Refine query by using available filters. Selection must be made
-              for required filter.
-            </li>
-            <li>Click Preview Data to view data selection.</li>
-            <li>
-              Activate the tool tips{' '}
-              <Help
-                className="text-primary padding-top-1"
-                aria-label="Tooltip image"
-                aria-hidden="false"
-              />{' '}
-              to reveal helpful tips and info.{' '}
-            </li>
-            <li>
-              For more help, view the{' '}
-              <Link
-              target="_blank"
-              rel="noopener noreferrer"
-              href={`${config.services.content.uri}/campd/documents/CustomDataDownload-QuickStartGuide.pdf`}
-              >
-                Quick Start Guide.
-              </Link>
-            </li>
-            <li>
-              <b>
-                Queries are limited to --- records or about --- of hourly emissions data with no additional filters. For larger downloads, visit{' '}
-                <Link
-                target="_blank"
-                rel="noopener noreferrer"
-                href="/data/bulk-data-files"
-                >
-                  Bulk Data Files.
-                </Link>
-              </b>
-            </li>
-          </ul>
+          <ReactMarkdown
+            className="helper-text"
+            children={helperText}
+            remarkPlugins={[remarkGfm]}
+            components={{
+              h3: ({node, ...props}) => <h3 className="font-sans-lg margin-top-0">{props.children}</h3>,
+              a: ({node, ...props}) => <Link {...props} target="_blank" rel="noopener noreferrer" />,
+              // eslint-disable-next-line
+              img: ({node, ...props}) => <img {...props} style={{verticalAlign: "bottom"}} />
+            }}
+          />
         </div>
       )}
     </div>
