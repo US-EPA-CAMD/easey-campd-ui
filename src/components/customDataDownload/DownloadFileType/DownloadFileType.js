@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Radio, Fieldset } from '@trussworks/react-uswds';
 import axios from 'axios';
+import download from "downloadjs";
 import { connect } from 'react-redux';
 import config from '../../../config';
 
@@ -34,24 +35,12 @@ const DownloadFileType = ({ dataType, dataSubType, filterCriteria, totalCount, s
       })
       .then((response) => {
         const disposition = response.headers['content-disposition'];
-        const parts =
-          disposition !== undefined ? disposition.split('; ') : undefined;
+        const parts = disposition !== undefined ? disposition.split('; ') : undefined;
 
         if (parts !== undefined && parts[0] === 'attachment') {
-          //const url = window.webkitURL.createObjectURL([response.data], { type: fileType });
-          
-          const url = window.URL.createObjectURL(
-            new Blob([response.data], { type: fileType })
-          );
-          
-          const link = document.createElement('a');
           let fileName = parts[1].replace('filename=', '');
           fileName = fileName.replace(/"/g, '');
-          link.href = url;
-          link.setAttribute('download', fileName);
-          document.body.appendChild(link);
-          link.click();
-          link.parentNode.removeChild(link);
+          download(response.data, fileName);  
         }
         setLoading(false);
       })

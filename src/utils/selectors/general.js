@@ -166,8 +166,8 @@ export const constructRequestUrl = (
       )
     : '';
 
+  const streaming = download ? '/stream' : '';
   const pagination = download ? '' : 'page=1&perPage=100';
-  const attachFile = download ? '&attachFile=true' : '&attachFile=false';
 
   let apiService;
   switch (dataType.toLowerCase()) {
@@ -192,11 +192,11 @@ export const constructRequestUrl = (
     dataSubType
   );
 
-  const url = `${apiService}${subTypeService}?${pagination}${constructTimePeriodQuery(
+  const url = `${apiService}${subTypeService}${streaming}?${pagination}${constructTimePeriodQuery(
     dataSubType,
     filterCriteria
   )}${programQuery}${facilityQuery}${stateTerritoryQuery}${unitTypeQuery}${fuelTypeQuery}${controlTechnologyQuery}
-${accountNameNumberQuery}${accountTypeQuery}${ownerOperatorQuery}${transactionTypeQuery}${sourceCategoryQuery}${attachFile}`;
+${accountNameNumberQuery}${accountTypeQuery}${ownerOperatorQuery}${transactionTypeQuery}${sourceCategoryQuery}`;
   console.log(url.replace(/\r?\n|\r/g, ''));
 
   return url.replace(/\r?\n|\r/g, '');

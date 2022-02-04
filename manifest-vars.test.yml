@@ -2,3 +2,4 @@ instances: 1
 environment: testing
 host: campd-tst.app.cloud.gov
 apiHost: api.epa.gov/easey/test
+streamingLimit: 3000000
