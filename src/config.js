@@ -12,6 +12,8 @@ const config = {
     email:
       process.env.REACT_APP_EASEY_CAMPD_UI_EMAIL ||
       "campd-support@camdsupport.com",
+    streamingLimit:
+      process.env.REACT_APP_EASEY_CAMPD_UI_STREAMING_LIMIT || 1000000,
   },
   services: {
     mdm: {
@@ -44,10 +46,6 @@ const config = {
         process.env.REACT_APP_EASEY_CONTENT_API ||
         "https://api.epa.gov/easey/dev/content-mgmt",
     },
-  },
-  fileDownloadLimit: {
-    allDataTypes:
-      process.env.REACT_APP_EASEY_CAMPD_ALL_FILES_DOWNLOAD_LIMIT || 100000,
   },
 };
 

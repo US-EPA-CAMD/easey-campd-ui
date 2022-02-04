@@ -9,3 +9,4 @@ host: campd-dev.app.cloud.gov
 apiHost: api.epa.gov/easey/dev
 googleAnalyticsContainerId: "GTM-L8ZB"
 googleAnalyticsEnabled: "false"
+streamingLimit: 1000000
