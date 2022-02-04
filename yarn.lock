@@ -2051,10 +2051,10 @@
     semver "^7.3.2"
     tsutils "^3.17.1"
 
-"@us-epa-camd/easey-design-system@1.26.1":
-  version "1.26.1"
-  resolved "https://npm.pkg.github.com/download/@us-epa-camd/easey-design-system/1.26.1/b271d94e9b5df9f1119d5244099eb389b984bfda838f7c5a69d3d24e85ef78c1#417023febfbba16751562d16534554f8630755e3"
-  integrity sha512-4fshd9DP5oq/l9C8W+qnH2suTnQq4kKJf3hcpBxo0E30jIdzpqbQMXt9C+OmR5H8cXpYYDQC6/bQAG3/ND1gsg==
+"@us-epa-camd/easey-design-system@1.29.0":
+  version "1.29.0"
+  resolved "https://npm.pkg.github.com/download/@us-epa-camd/easey-design-system/1.29.0/34f392c09993bdd6e928b7227b02e728ad2cb73d42764565290f3f25e027ac9d#c704bfdd2fa8d07ba20eabf2ac7b420489dac572"
+  integrity sha512-L2uYt6rT+GzsOvZvW8K56p85+Zm5eYcURG9PsMpH3TZGhtZqTPO/K6W8s2evFlijkKCmI/66vehqL6ZTxLfFsg==
   dependencies:
     "@ramonak/react-progress-bar" "^4.2.0"
 
@@ -8572,10 +8572,10 @@ nan@^2.12.1:
   resolved "https://registry.yarnpkg.com/nan/-/nan-2.15.0.tgz#3f34a473ff18e15c1b5626b62903b5ad6e665fee"
   integrity sha512-8ZtvEnA2c5aYCZYd1cvgdnU6cqwixRoYg70xPLWUws5ORTa/lnw+u4amixRS/Ac5U5mQVgp9pnlSUnbNWFaWZQ==
 
-nanoid@^2.1.0:
-  version "2.1.11"
-  resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-2.1.11.tgz#ec24b8a758d591561531b4176a01e3ab4f0f0280"
-  integrity sha512-s/snB+WGm6uwi0WjsZdaVcuf3KJXlfGl2LcxgwkEwJF0D/BWzVWAZW/XY4bFaiR7s0Jk3FPvlnepg1H1b1UwlA==
+nanoid@^2.1.0, nanoid@^3.1.31:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-3.2.0.tgz#62667522da6673971cca916a6d3eff3f415ff80c"
+  integrity sha512-fmsZYa9lpn69Ad5eDn7FMcnnSR+8R34W9qJEijxYhTbfOWzr22n1QxCMzXLK+ODyW2973V3Fux959iQoUxzUIA==
 
 nanomatch@^1.2.9:
   version "1.2.13"
@@ -8644,10 +8644,10 @@ node-fetch@^2.6.7:
   dependencies:
     whatwg-url "^5.0.0"
 
-node-forge@^0.10.0:
-  version "0.10.0"
-  resolved "https://registry.yarnpkg.com/node-forge/-/node-forge-0.10.0.tgz#32dea2afb3e9926f02ee5ce8794902691a676bf3"
-  integrity sha512-PPmu8eEeG9saEUvI97fm4OYxXVB6bFvyNTyiUOBichBpFG8A1Ljw3bY62+5oOjDEMHRnd0Y7HQ+x7uzxOzC6JA==
+node-forge@^0.10.0, node-forge@^1.0.0:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/node-forge/-/node-forge-1.2.1.tgz#82794919071ef2eb5c509293325cec8afd0fd53c"
+  integrity sha512-Fcvtbb+zBcZXbTTVwqGA5W+MKBj56UjVRevvchv5XrcyXbmNdesfZL37nlcWOfpgHhgmxApw3tQbTr4CqNmX4w==
 
 node-int64@^0.4.0:
   version "0.4.0"
