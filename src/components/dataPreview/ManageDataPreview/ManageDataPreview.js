@@ -47,10 +47,11 @@ const ManageDataPreview = ({
   isMobileOrTablet,
   spinnerActive,
   setSpinnerActive,
-  totalCount
+  totalCount,
+  removedAppliedFilter,
+  setRemovedAppliedFilter
 }) => {
   const [requirementsMet, setRequirementsMet] = useState(false);
-  const [removedAppliedFilter, setRemovedAppliedFilter] = useState(null);
 
   useEffect(() => {
     if (
