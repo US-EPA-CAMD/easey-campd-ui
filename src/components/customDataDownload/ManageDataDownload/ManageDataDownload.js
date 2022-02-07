@@ -84,6 +84,7 @@ const ManageDataDownload = ({
   const isMobileOrTablet = useCheckWidth([0, 1024]);
   const [renderPreviewData, setRenderPreviewData] = useState(false);
   const [spinnerActive, setSpinnerActive] = useState(false)
+  const [removedAppliedFilter, setRemovedAppliedFilter] = useState(null);
 
   useEffect(() => {
     if (isMobileOrTablet) { 
@@ -320,6 +321,7 @@ const ManageDataDownload = ({
             hideFilterMenu={hideFilterMenu}
             setHideFilterMenu={setHideFilterMenu}
             isMobileOrTablet={isMobileOrTablet}
+            setRemovedAppliedFilter={setRemovedAppliedFilter}
           />
           <MobileMenu 
           handleBackButtonClick={handleBackButtonClick}
@@ -353,6 +355,8 @@ const ManageDataDownload = ({
           isMobileOrTablet={isMobileOrTablet}
           setSpinnerActive={setSpinnerActive}
           spinnerActive={spinnerActive}
+          removedAppliedFilter={removedAppliedFilter}
+          setRemovedAppliedFilter={setRemovedAppliedFilter}
         />
         {loading ? <RenderSpinner loading={loading} spinnerActive={spinnerActive} setSpinnerActive={setSpinnerActive}/> : null}
       </div>
