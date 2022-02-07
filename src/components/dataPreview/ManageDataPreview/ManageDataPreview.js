@@ -226,10 +226,10 @@ const ManageDataPreview = ({
           </div>
         </div>
       )}
-      {!isMobileOrTablet && appliedFilters.length>0 && totalCount !== null && totalCount > config.streamingLimit && (
+      {!isMobileOrTablet && requirementsMet && totalCount !== null && totalCount > config.app.streamingLimit && (
         <div className='padding-x-3 padding-top-3'>
-          <Alert type="warning">
-            {`Your query exceeds the record limit of ${config.streamingLimit}. Refine your query to further limit the number of records returned or visit the `}
+          <Alert type="warning" aria-live="assertive">
+            {`Your query exceeds the record limit of ${config.app.streamingLimit}. Refine your query to further limit the number of records returned or visit the `}
             <Link 
               target="_blank"
               rel="noopener noreferrer"
