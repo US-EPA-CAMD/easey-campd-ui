@@ -25,6 +25,7 @@ const DownloadFileType = ({ dataType, dataSubType, filterCriteria, totalCount, s
   };
 
   const onDownloadHandler = () => {
+    setSpinnerActive(false)
     setLoading(true);
     axios
       .get(constructRequestUrl(dataType, dataSubType, filterCriteria, true), {
