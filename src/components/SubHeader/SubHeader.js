@@ -83,7 +83,7 @@ const SubHeader = () => {
                 Clean Air Markets Program Data
               </span>
             </span>
-            <div className="program margin-left-8 text-white text-normal font-sans-3xs text-no-wrap">
+            <div className="program margin-left-8 text-white text-normal desktop:margin-top-1 desktop-lg:margin-top-0 text-no-wrap">
               A program of the U.S. EPA
             </div>
           </Title>
