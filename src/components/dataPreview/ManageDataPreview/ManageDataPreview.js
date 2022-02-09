@@ -154,6 +154,9 @@ const ManageDataPreview = ({
     return appliedFilters.length > 0 && search.indexOf(false) === -1;
   };
 
+  console.log('streaming limit either env var or default: ', config.app.streamingLimit)
+  console.log('streaming limit en var: ', process.env.REACT_APP_EASEY_CAMPD_UI_STREAMING_LIMIT)
+  console.log('total count ', totalCount)
   return (
     <div className="width-full">
       <div className={`${isMobileOrTablet && renderPreviewData? 'display-none': 'desktop:display-flex flex-row flex-justify bg-base-lightest desktop:padding-x-3 minh-10 padding-0'}`} >
