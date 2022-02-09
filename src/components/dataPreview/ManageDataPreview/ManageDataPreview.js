@@ -154,9 +154,6 @@ const ManageDataPreview = ({
     return appliedFilters.length > 0 && search.indexOf(false) === -1;
   };
 
-  console.log('streaming limit either env var or default: ', config.app.streamingLimit)
-  console.log('streaming limit en var: ', process.env.REACT_APP_EASEY_CAMPD_UI_STREAMING_LIMIT)
-  console.log('total count ', totalCount)
   return (
     <div className="width-full">
       <div className={`${isMobileOrTablet && renderPreviewData? 'display-none': 'desktop:display-flex flex-row flex-justify bg-base-lightest desktop:padding-x-3 minh-10 padding-0'}`} >
@@ -229,7 +226,7 @@ const ManageDataPreview = ({
           </div>
         </div>
       )}
-      {!isMobileOrTablet && requirementsMet && totalCount !== null && totalCount > config.app.streamingLimit && (
+      {!isMobileOrTablet && requirementsMet && totalCount !== null && Number(totalCount) > Number(config.app.streamingLimit) && (
         <div className='padding-x-3 padding-top-3'>
           <Alert type="warning" aria-live="assertive">
             {`Your query exceeds the record limit of ${config.app.streamingLimit}. Refine your query to further limit the number of records returned or visit the `}
