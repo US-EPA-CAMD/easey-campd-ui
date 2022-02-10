@@ -8,6 +8,7 @@ import {
   subHeaderMenuList,
   subHeaderUtilityList,
 } from '../../utils/constants/menuTopics';
+import useCheckWidth from '../../utils/hooks/useCheckWidth';
 import SubHeaderNavMobile from "../SubHeaderNavMobile/SubHeaderNavMobile";
 
 import './SubHeader.scss';
@@ -35,10 +36,11 @@ const SubHeader = () => {
     expandButton: document.querySelector('#expandButton'),
   });
   const { collapseButton, expandButton } = mobileMenuFocus;
+  const isDesktop = useCheckWidth([1024, 1200])
   useEffect(() => {
     setMobileMenuFocus({
       collapseButton: document.querySelector('#collapseButton'),
-      expandButton: document.querySelector('#expandButton'),
+      expandButton: document.querySelector('#expandButton')
     });
   }, [showMobileMenu]);
   const handleToggleNavDropdown = (column, isUtility) => {
@@ -68,17 +70,22 @@ const SubHeader = () => {
         }}
       >
         <div className="usa-nav-container custom-wrapper clearfix padding-x-0">
-          <Title className="logo-wrapper width-card tablet:width-mobile desktop:width-card-lg desktop-lg:width-mobile-md float-left margin-0 desktop-lg:padding-top-2">
-            <img
-              src={`${process.env.PUBLIC_URL}/images/campd-mark.svg`}
-              alt="CAMPD Logo"
-            />
-            <h1 className="display-inline-block text-white text-heavy desktop-lg:font-sans-3xl desktop:font-sans-2xl mobile-lg:font-sans-xl margin-0">
-              CAMPD
-            </h1>
-            <span className="display-none tablet:display-inline-block tablet:margin-left-1 desktop:display-block desktop:margin-left-6 desktop-lg:display-inline-block desktop-lg:margin-left-1 text-white text-normal font-sans-md width-card text-wrap">
-              Clean Air Markets Program Data
+          <Title className="logo-wrapper float-left margin-0 desktop-lg:padding-top-2">
+            <span className="display-block display-flex desktop:display-block desktop-lg:display-flex">
+              <img
+                src={`${process.env.PUBLIC_URL}/images/campd-mark.svg`}
+                alt="CAMPD Logo"
+              />
+              <h1 className="display-inline-block text-white text-heavy font-sans-3xl margin-0">
+                CAMPD
+              </h1>
+              <span className={`display-none ${isDesktop ? 'width-card':'width-full'} tablet:display-inline-block desktop:display-block margin-left-8 tablet:margin-left-1 tablet:margin-top-1 desktop:margin-left-8 desktop:margin-top-0 desktop-lg:margin-left-1 desktop-lg:margin-top-1 desktop-lg:display-inline-block text-white text-normal font-sans-md text-wrap`}>
+                Clean Air Markets Program Data
+              </span>
             </span>
+            <div className="program margin-left-8 text-white text-normal desktop:margin-top-1 desktop-lg:margin-top-0 text-no-wrap">
+              A program of the U.S. EPA
+            </div>
           </Title>
           <div className="desktop:display-none">
             <Button
