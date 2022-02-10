@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { Link as USWDSLink, Button, Tag } from "@trussworks/react-uswds";
+import { Link as USWDSLink, Button } from "@trussworks/react-uswds";
 import { useHistory } from "react-router-dom";
 import {
   TitledProgressBar,
@@ -17,6 +17,8 @@ import getContent from "../../utils/api/getContent";
 const HomePage = () => {
   const [whatIsNewContent, setWhatIsNewContent] = useState();
   const [whatIsNewTitle, setWhatIsNewTitle] = useState();
+  const [dataCard, setDataCard] = useState();
+  const [mapsGraphsCard, setMapsGraphsCard] = useState();
 
   useEffect(() => {
     getContent("/campd/home/what-is-new-content.md").then((resp) =>
@@ -24,6 +26,12 @@ const HomePage = () => {
     );
     getContent("/campd/home/what-is-new-title.md").then((resp) =>
       setWhatIsNewTitle(resp.data)
+    );
+    getContent("/campd/home/data-card.md").then((resp) =>
+      setDataCard(resp.data)
+    );
+    getContent("/campd/home/maps-and-graphs-card.md").then((resp) =>
+      setMapsGraphsCard(resp.data)
     );
   }, []);
 
@@ -80,35 +88,6 @@ const HomePage = () => {
     "Clean air markets program data, EPA, emissions, data, allowance, compliance, custom data download, CAMPD APIs, APIs, bulk data files, CAMPD, AMPD, ECMPS, CAMD, FTP, maps, graphs"
   );
 
-  const topics = [
-    {
-      name: "Data",
-      description: `Create custom queries, download bulk datasets and use the CAM API to retrieve emissions, allowance and compliance data.`,
-      img: (
-        <img
-          src={`${process.env.PUBLIC_URL}/images/icons/icon-data.svg`}
-          alt=""
-        />
-      ),
-      url: () => history.push("/data/custom-data-download"),
-      link: "/data",
-      button: "Start your data query",
-    },
-    {
-      name: "Maps & Graphs",
-      description: `Explore interactive tools to learn about programs that regulate the power sector and find information on power plants near you.`,
-      img: (
-        <img
-          src={`${process.env.PUBLIC_URL}/images/icons/icon-analysis.svg`}
-          alt=""
-        />
-      ),
-      url: null,
-      link: "#0",
-      button: null,
-    },
-  ];
-
   const history = useHistory();
   return (
     <div>
@@ -124,55 +103,74 @@ const HomePage = () => {
             </div>
           </div>
         ) : null}
-
-        {topics.map((topic) => {
-          const hasButton = topic.button !== null;
-          return (
-            <div
-              className="padding-y-1 padding-x-1 display-flex flex-row flex-align-start text-base-darkest order-3 grid-col-12 desktop:grid-col-4"
-              key={`container-${topic.name.replace(/ /g, "-")}`}
-            >
-              {topic.img}
-              <div className="margin-left-2 desktop:margin-left-1">
-                <h2>
-                <Button
-                  className="font-heading-xl text-bold margin-y-2"
-                  unstyled="true"
-                  onClick={() => history.push(topic.link)}
-                  style={{ textDecoration: "none" }}
-                  key={topic.name}
-                >
-                  {topic.name}
-                </Button>
-                </h2>
-                {hasButton ? null : (
-                  <div className="margin-top-3">
-                    <Tag className="radius-md padding-y-05 font-sans-3xs text-semibold text-ls-2">
-                      Coming Soon
-                    </Tag>
-                  </div>
-                )}
-                <p className="font-sans-sm text-ls-1 line-height-sans-6">
-                  {topic.description}
-                </p>
-                {hasButton ? (
+        <div className="padding-y-1 padding-x-1 display-flex flex-row flex-align-start text-base-darkest order-3 grid-col-12 desktop:grid-col-4">
+          <ReactMarkdown
+            className="data-card"
+            children={dataCard}
+            remarkPlugins={[remarkGfm]}
+            components={{
+              a: ({ node, ...props }) => {
+              return node.properties.title === "Header Link" ? (
+                  <h2>
+                    <Button
+                      className="font-heading-xl text-bold"
+                      unstyled="true"
+                      onClick={() => history.push(props.href)}
+                      style={{ textDecoration: "none" }}
+                    >
+                      {props.children[0]}
+                    </Button>
+                  </h2>
+                ) : (
                   <Button
-                    className="margin-top-1"
+                    className="margin-top-2"
                     type="button"
-                    onClick={topic.url}
+                    onClick={() => history.push(props.href)}
                     role="link"
-                    rel={topic.name}
-                    title={`Go to ${topic.name} page`}
-                    key={topic.url}
-                    id={`${topic.name.split(" ").join("")}`}
+                    rel={"Data"}
+                    title={props.children[0]}
                   >
-                    {topic.button}
+                    {props.children[0]}
                   </Button>
-                ) : null}
-              </div>
-            </div>
-          );
-        })}
+                )
+              }
+            }}
+          />
+        </div>
+        <div className="padding-y-1 padding-x-1 display-flex flex-row flex-align-start text-base-darkest order-3 grid-col-12 desktop:grid-col-4">
+          <ReactMarkdown
+            className="maps-and-graphs-card"
+            children={mapsGraphsCard}
+            remarkPlugins={[remarkGfm]}
+            components={{
+              a: ({ node, ...props }) => {
+              return node.properties.title === "Header Link" ? (
+                  <h2>
+                    <Button
+                      className="font-heading-xl text-bold"
+                      unstyled="true"
+                      onClick={() => history.push(props.href)}
+                      style={{ textDecoration: "none" }}
+                    >
+                      {props.children[0]}
+                    </Button>
+                  </h2>
+                ) : (
+                  <Button
+                    className="margin-top-2"
+                    type="button"
+                    onClick={() => history.push(props.href)}
+                    role="link"
+                    rel={"Maps and Graphs"}
+                    title={props.children[0]}
+                  >
+                    {props.children[0]}
+                  </Button>
+                )
+              }
+            }}
+          />
+        </div>
         <div className="what-is-new-wrapper mobile-lg:order-1 desktop:order-3 padding-y-1 padding-x-1 display-flex flex-row flex-align-start text-base-darkest grid-col-12 desktop:grid-col-4">
           <WhatIsNewBox
             text={

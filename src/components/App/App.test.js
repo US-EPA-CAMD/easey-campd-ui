@@ -13,12 +13,12 @@ describe("Testing the main routing App component", () => {
   it("renders home page component provided with the default path", () => {
     const { getByText } = render(
       <Provider store={store}>
-        <MemoryRouter initialEntries={[`${config.app.path}`]}>
+        <MemoryRouter initialEntries={[`${config.app.path}/data/custom-data-download`]}>
             <App />
         </MemoryRouter>
       </Provider>
     );
-    const textInHomePage = getByText("Maps & Graphs");
+    const textInHomePage = getByText("Custom Data Download");
     expect(textInHomePage).toBeInTheDocument();
   });
 });
