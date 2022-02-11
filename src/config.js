@@ -36,10 +36,10 @@ const config = {
         process.env.REACT_APP_EASEY_ACCOUNT_API ||
         "https://api-easey-dev.app.cloud.gov/account-mgmt",
     },
-    quartz: {
+    notifications: {
       uri:
-        process.env.REACT_APP_EASEY_QUARTZ_API ||
-        "https://api-easey-dev.app.cloud.gov/quartz-mgmt",
+        process.env.REACT_APP_EASEY_NOTIFICATIONS_API ||
+        "https://api-easey-dev.app.cloud.gov/notifications-mgmt",
     },
     content: {
       uri:
