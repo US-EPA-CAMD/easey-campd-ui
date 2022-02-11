@@ -34,15 +34,15 @@ const DataPreviewRender = ({
 
   return (
     <div className="preview-content-wrapper padding-x-3 padding-y-3">
-      <div className="display-flex flex-row flex-justify flex-align-center">
+      <div className="grid-row">
         <div
           id="data-table-title"
           aria-live="polite"
-          className="flex-align-center"
+          className="grid-col-12 desktop:grid-col-6 widescreen:grid-col-8"
         >
           {loading === 0 && dataPreview !== null ? (
-            <>
-              <div className="mobile-lg:display-inline desktop:display-none">
+            <div className='data-preview-header tablet:margin-x-auto desktop:margin-x-0'>
+              <div className="display-inline desktop:display-none">
                 {loading === 0 && dataPreview !== null && (
                   <Button
                     outline="true"
@@ -56,23 +56,23 @@ const DataPreviewRender = ({
                   </Button>
                 )}
               </div>
-              <div className="panel-header display-inline mobile-lg:padding-left-05 desktop:padding-left-0">
+              <div className="panel-header display-inline padding-left-05 tablet:padding-left-0">
                 <h3>Data Preview &nbsp;</h3>
               </div>
               <span
-                className="font-sans-sm text-bold mobile-lg:display-block desktop-lg:display-inline
-              mobile-lg:padding-left-2 desktop:padding-left-0 mobile-lg:margin-left-9 desktop:margin-left-0"
+                className="font-sans-sm text-bold display-block widescreen:display-inline
+                mobile-lg:padding-left-2 desktop:padding-left-0 mobile-lg:margin-left-9 desktop:margin-left-0"
               >
                 {dataPreview.length > 0
                   ? `(Viewing the first ${dataPreview.length} records of ${totalCount})`
                   : `No results match that search criteria. Please change the criteria and try again.`}
               </span>
-            </>
+            </div>
           ) : (
             <RenderSpinner loading={loading} spinnerActive={spinnerActive} setSpinnerActive={setSpinnerActive}/>
             )}
         </div>
-        <div className="clearfix display-none desktop:display-block">
+        <div className="grid-col-12 desktop:grid-col-6 widescreen:grid-col-4">
           {loading === 0 && dataPreview !== null && dataPreview.length > 0 && (
             <DownloadFileType loading={loading} spinnerActive={spinnerActive} setSpinnerActive={setSpinnerActive}/>
           )}

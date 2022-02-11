@@ -1,8 +1,17 @@
 @import "../../../additional-scss/variables";
 
+@media screen and (min-width: 480px) {
+  .data-preview-header {
+    max-width: 480px;
+  }
+}
+
 @media screen and (min-width: 1024px) {
   .preview-content-wrapper {
     max-width: calc(100vw - #{$side-nav-width-desktop});
+  }
+  .data-preview-header {
+    max-width: 1024px;
   }
 }
 
