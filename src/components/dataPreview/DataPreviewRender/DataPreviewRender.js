@@ -51,6 +51,7 @@ const DataPreviewRender = ({
                       const filterButton = await document.querySelector('#previewDataButton');
                       filterButton.focus();
                     }}
+                    aria-label="Back - Select to modify filter selections."
                   >
                     Back
                   </Button>
