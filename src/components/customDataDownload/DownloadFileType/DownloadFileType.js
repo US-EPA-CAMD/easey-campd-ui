@@ -7,6 +7,7 @@ import config from '../../../config';
 
 import { constructRequestUrl } from '../../../utils/selectors/general';
 import RenderSpinner from '../../RenderSpinner/RenderSpinner';
+import "./DownloadFileType.scss";
 
 axios.defaults.headers.common = {
   "x-api-key": config.app.apiKey
@@ -52,7 +53,7 @@ const DownloadFileType = ({ dataType, dataSubType, filterCriteria, totalCount, s
   };
 
   return (
-    <div className="height-10 border-2px radius-lg bg-primary-lighter border-primary display-flex flex-row flex-align-center font-sans-sm">
+    <div className="download-wrapper height-10 border-2px radius-lg bg-primary-lighter border-primary display-flex flex-row flex-align-center font-sans-sm maxw-mobile">
       <Fieldset
         legend="Download File"
         legendSrOnly={true}

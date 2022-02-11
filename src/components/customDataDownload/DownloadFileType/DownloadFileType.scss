@@ -1,0 +1,12 @@
+@media screen and (min-width: 480px) {
+  .download-wrapper {
+    margin: 1em auto;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .download-wrapper {
+    margin: 0;
+    margin-left: auto;
+  }
+}
