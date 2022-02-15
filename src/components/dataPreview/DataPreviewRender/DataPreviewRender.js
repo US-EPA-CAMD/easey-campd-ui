@@ -41,33 +41,35 @@ const DataPreviewRender = ({
           className="grid-col-12 desktop:grid-col-6 widescreen:grid-col-8"
         >
           {loading === 0 && dataPreview !== null ? (
+            <div className="display-flex">
+            <div className="display-inline desktop:display-none">
+            {loading === 0 && dataPreview !== null && (
+              <Button
+                outline="true"
+                onClick={async () => {
+                  handleBackButton();
+                  const filterButton = await document.querySelector('#previewDataButton');
+                  filterButton.focus();
+                }}
+                aria-label="Back - Select to modify filter selections."
+              >
+                Back
+              </Button>
+            )}
+          </div>
             <div className='data-preview-header tablet:margin-x-auto desktop:margin-x-0'>
-              <div className="display-inline desktop:display-none">
-                {loading === 0 && dataPreview !== null && (
-                  <Button
-                    outline="true"
-                    onClick={async () => {
-                      handleBackButton();
-                      const filterButton = await document.querySelector('#previewDataButton');
-                      filterButton.focus();
-                    }}
-                    aria-label="Back - Select to modify filter selections."
-                  >
-                    Back
-                  </Button>
-                )}
-              </div>
-              <div className="panel-header display-inline padding-left-05 tablet:padding-left-0">
+              <div className="panel-header display-inline padding-left-05 tablet:padding-left-0 tablet:margin-left-neg-9 desktop:padding-left-0 desktop:margin-left-0">
                 <h3>Data Preview &nbsp;</h3>
               </div>
               <span
                 className="font-sans-sm text-bold display-block widescreen:display-inline
-                mobile-lg:padding-left-2 desktop:padding-left-0 mobile-lg:margin-left-9 desktop:margin-left-0"
+                desktop:padding-left-0 tablet:margin-left-neg-9 desktop:margin-left-0"
               >
                 {dataPreview.length > 0
                   ? `(Viewing the first ${dataPreview.length} records of ${totalCount})`
                   : `No results match that search criteria. Please change the criteria and try again.`}
               </span>
+              </div>
             </div>
           ) : (
             <RenderSpinner loading={loading} spinnerActive={spinnerActive} setSpinnerActive={setSpinnerActive}/>
