@@ -58,7 +58,6 @@ const DataPreviewRender = ({
             )}
           </div>
             <div className='data-preview-header tablet:margin-x-auto desktop:margin-x-0'>
-              
               <div className="panel-header display-inline padding-left-05 tablet:padding-left-0 tablet:margin-left-neg-9 desktop:padding-left-0 desktop:margin-left-0">
                 <h3>Data Preview &nbsp;</h3>
               </div>
@@ -70,7 +69,8 @@ const DataPreviewRender = ({
                   ? `(Viewing the first ${dataPreview.length} records of ${totalCount})`
                   : `No results match that search criteria. Please change the criteria and try again.`}
               </span>
-            </div></div>
+              </div>
+            </div>
           ) : (
             <RenderSpinner loading={loading} spinnerActive={spinnerActive} setSpinnerActive={setSpinnerActive}/>
             )}
