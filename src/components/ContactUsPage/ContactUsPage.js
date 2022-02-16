@@ -102,18 +102,30 @@ const ContactUsPage = () => {
       sendNotificationEmail(payload)
         // Successful submission
         .then((res) => {
-          console.log(res);
           setSubmitStatus(true);
           setSubmitted(true);
         })
 
         // Error returned
         .catch((error) => {
-          console.log(error);
           setSubmitStatus(false);
           setSubmitted(true);
           setEmailErrorMsg(
-            "An error occurred while submitting your comment. Please try again later!"
+            <p>
+              An error occurred while submitting your comment. Please resubmit
+              your information; or call the Clean Air Markets Division hotline
+              202-343-9620; or email{' '}
+              <Link
+                to="#"
+                onClick={(e) => {
+                  window.location = 'mailto:campd-support@camdsupport.com';
+                  e.preventDefault();
+                }}
+              >
+                campd-support@camdsupport.com
+              </Link>{' '}
+              .
+            </p>
           );
         });
     }
