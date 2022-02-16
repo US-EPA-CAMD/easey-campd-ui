@@ -112,7 +112,7 @@ const FilterCriteriaMenu = ({
         if (filter.value === 'Time Period' || filter.value === "Transaction Date") {
           return false;
         } else if(getSelectedDataSubType(constants.DATA_SUBTYPES_MAP[selectedDataType]) === "Transactions") {
-          return !isAddedToFilters('Transaction Date', appliedFilters);
+          if (!isAddedToFilters('Transaction Date', appliedFilters)) return true;
         }else if (!isAddedToFilters('Time Period', appliedFilters)) {
           return true;
         }
