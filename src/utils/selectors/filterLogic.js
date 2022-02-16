@@ -112,9 +112,9 @@ export const filterFacility = (filterCriteria) =>{
       || selection.accountTypes.includes(x?.buyAccountTypeCode) || selection.accountTypes.includes(x?.sellAccountTypeCode))
     }).map(i => {
       if(i.hasOwnProperty("facilityId")){
-        return String(i.facilityId);
+        return i.facilityId;
       }else{
-        return [String(i.buyFacilityId), String(i.sellFacilityId)];
+        return [i.buyFacilityId, i.sellFacilityId];
       }
     }).flat()
   )];
