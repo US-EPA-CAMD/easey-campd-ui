@@ -57,7 +57,7 @@ const Facility = ({
 
   const onChangeUpdate = (id, updateType) =>{
     const stateCopy = [...stateFacility];
-    const found =stateCopy.find(e=> String(e.id)===String(id));
+    const found =stateCopy.find(e=> e.id.toString()===id.toString());
     if(found){
       updateType==="add"? found.selected = true : found.selected = false;
     }
