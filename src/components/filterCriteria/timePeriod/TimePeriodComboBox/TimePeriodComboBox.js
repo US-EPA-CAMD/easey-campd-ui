@@ -72,7 +72,8 @@ const TimePeriodComboBox = ({
 
   const onChangeUpdate = (id, updateType) =>{
     const stateCopy = [...yearsArray];
-    const found =stateCopy.find(e=> e.id===id);
+    console.log('types id and statecopy ', typeof(id), typeof(stateCopy[0].id))
+    const found =stateCopy.find(e=> String(e.id)===String(id));
     if(found){
       updateType==="add"? found.selected = true : found.selected = false;
     }
