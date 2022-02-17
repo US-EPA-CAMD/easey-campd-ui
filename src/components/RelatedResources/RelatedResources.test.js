@@ -3,8 +3,13 @@ import { render } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 
 import RelatedResources from './RelatedResources';
+import { rest } from 'msw';
+import { setupServer } from 'msw/node';
 
-const topics = [
+jest.mock('react-markdown', () => ({ children }) => <>{children}</>);
+jest.mock('remark-gfm', () => () => {});
+
+const additionalDataTools = [
   {
     name: 'AirData',
     url: 'https://www.epa.gov/outdoor-air-quality-data',
@@ -61,15 +66,39 @@ const topics = [
   },
 ];
 
+const additionalToolsUrl =
+  'https://api.epa.gov/easey/dev/content-mgmt/campd/resources/related-resources/additional-data-tools.json';
+const contentIntroUrl =
+  'https://api.epa.gov/easey/dev/content-mgmt/campd/resources/related-resources/index.md';
+const getAdditionalToolsUrl = rest.get(additionalToolsUrl, (req, res, ctx) => {
+  return res(ctx.json(additionalDataTools));
+});
+const getContentIntro = rest.get(contentIntroUrl, (req, res, ctx) => {
+  return res(ctx.json('This is related resources intro..'));
+});
+const server = new setupServer(getAdditionalToolsUrl, getContentIntro);
+beforeAll(() => server.listen());
+beforeEach(() => server.resetHandlers());
+afterAll(() => server.close());
+
 describe('Related Resources Page Component', () => {
-  test('should render content without error', () => {
+  test('should render content introduction without error', async () => {
+    const { findByText } = render(
+      <MemoryRouter>
+        <RelatedResources />
+      </MemoryRouter>
+    );
+    const heading = await findByText('This is related resources intro..');
+    expect(heading).toBeInTheDocument();
+  });
+  test('should render additional data tools list without error', async () => {
     const { getAllByText } = render(
       <MemoryRouter>
         <RelatedResources />
       </MemoryRouter>
     );
 
-    topics.forEach((element) => {
+    additionalDataTools.forEach((element) => {
       const container = getAllByText(`${element.name}`);
       expect(container).toBeTruthy();
     });
