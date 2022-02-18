@@ -92,14 +92,14 @@ describe('Related Resources Page Component', () => {
     expect(heading).toBeInTheDocument();
   });
   test('should render additional data tools list without error', async () => {
-    const { getAllByText } = render(
+    const { findAllByText } = render(
       <MemoryRouter>
         <RelatedResources />
       </MemoryRouter>
     );
 
     additionalDataTools.forEach((element) => {
-      const container = getAllByText(`${element.name}`);
+      const container = findAllByText(`${element.name}`);
       expect(container).toBeTruthy();
     });
   });
