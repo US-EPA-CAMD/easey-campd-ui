@@ -44,7 +44,7 @@ const MultiSelectCombobox = ({
 
   const onRemoveHanlder = (id) =>{
     const itemsCopy = [...selectedItemsRef.current];
-    const index = itemsCopy.findIndex(i=>i.id===id);
+    const index = itemsCopy.findIndex(i=>i.id.toString()===id.toString());
     if(index>-1){
       itemsCopy.splice(index, 1);
       selectedItemsRef.current = itemsCopy;
@@ -56,7 +56,7 @@ const MultiSelectCombobox = ({
 
   const updateListDataOnChange = (id, update) =>{
     const _itemsCopy = [..._items];
-    const index = _itemsCopy.findIndex(d=> d.id===id);
+    const index = _itemsCopy.findIndex(d=> d.id.toString()===id.toString());
     if(index > -1){
       update==="add"? _itemsCopy[index].selected = true: _itemsCopy[index].selected = false;
     }
