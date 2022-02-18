@@ -70,7 +70,7 @@ const MultiSelectCombobox = ({
     }
     const id = e.target.getAttribute("data-id");
     const optionLabel = e.target.getAttribute("data-label");
-    if(!selectedItems.find(s=> s.id===id)){
+    if(!selectedItems.find(s=> s.id.toString()===id.toString())){
       const _selectedItems = [...selectedItems,{
         id: id,
         component:
