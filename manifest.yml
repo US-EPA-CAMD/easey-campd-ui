@@ -18,6 +18,5 @@ applications:
       REACT_APP_GOOGLE_ANALYTICS_CONTAINER_ID: ((googleAnalyticsContainerId))
       REACT_APP_GOOGLE_ANALYTICS_ENABLED: ((googleAnalyticsEnabled))
       REACT_APP_EASEY_CAMPD_UI_STREAMING_LIMIT: ((streamingLimit))
-      NODE_OPTIONS: --max-old-space-size=((heap))
     routes:
       - route: ((host))
