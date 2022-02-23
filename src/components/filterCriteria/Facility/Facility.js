@@ -56,9 +56,8 @@ const Facility = ({
   };
 
   const onChangeUpdate = (id, updateType) =>{
-    const stateCopy = [...stateFacility]; 
-    // eslint-disable-next-line
-    const found =stateCopy.find(e=> e.id==id);
+    const stateCopy = [...stateFacility];
+    const found =stateCopy.find(e=> e.id.toString()===id.toString());
     if(found){
       updateType==="add"? found.selected = true : found.selected = false;
     }
