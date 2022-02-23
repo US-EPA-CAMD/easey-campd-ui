@@ -64,7 +64,7 @@ const ContactUsPage = () => {
         const modifiedStatusObject = resp.data.map((status) => {
           if (status.hasOwnProperty('email')) {
             const splitMessage = status.message.split('[email]');
-            const statusJSX = {
+            return {
               status: status.status,
               message: (
                 <span>
@@ -82,13 +82,11 @@ const ContactUsPage = () => {
                 </span>
               ),
             };
-            return statusJSX;
           } else {
             return status;
           }
         });
         setSubmitStatusText(modifiedStatusObject);
-        // setSubmitStatusText(resp.data)
       }
     );
   }, []);
@@ -115,7 +113,7 @@ const ContactUsPage = () => {
       setSubmitted(true);
       setEmailErrorMsg(
         submitStatusText.find(
-          (submitStatus) => submitStatus.status === 'error-incomplete-fields'
+          (statusText) => statusText.status === 'error-incomplete-fields'
         ).message
       );
     }
@@ -141,8 +139,8 @@ const ContactUsPage = () => {
           setSubmitted(true);
           setEmailErrorMsg(
             submitStatusText.find(
-              (submitStatus) =>
-                submitStatus.status === 'error-unsuccessful-submition'
+              (statusText) =>
+                statusText.status === 'error-unsuccessful-submition'
             ).message
           );
         });
@@ -171,8 +169,7 @@ const ContactUsPage = () => {
           submitStatusText={
             submitStatus
               ? submitStatusText.find(
-                  (submitStatus) =>
-                    submitStatus.status === 'success'
+                  (statusText) => statusText.status === 'success'
                 ).message
               : emailErrorMsg
           }
