@@ -32,7 +32,7 @@ describe('<DownloadFileType/>', () => {
   beforeEach(() => {
     query = render(
       <Provider store={store}>
-        <DownloadFileType />
+        <DownloadFileType setSpinnerActive={jest.fn()} />
       </Provider>
     );
   });

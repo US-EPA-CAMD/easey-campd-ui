@@ -22,6 +22,7 @@ const TimePeriodFullDate = ({
   validations,
   isFormValid,
   isAllowance,
+  dataType
 }) => {
   useEffect(() => {
     fullDateEnsure508();
@@ -29,7 +30,8 @@ const TimePeriodFullDate = ({
 
   const rangeMessage = isAllowance
     ? 'Enter dates between 03/23/1993 and the current date'
-    : `Enter dates between 01/01/1995 and the quarter ending on ${reportingQuarter()}`;
+    : dataType === "MERCURY AND AIR TOXICS EMISSIONS" ? `Enter dates between 01/01/2015 and the quarter ending on ${reportingQuarter()}` :
+    `Enter dates between 01/01/1995 and the quarter ending on ${reportingQuarter()}`;
 
   return (
     <>

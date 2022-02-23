@@ -111,6 +111,10 @@ const FilterCriteriaPanel = ({
     sourceCategory: <SourceCategory closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
   }
 
+  const matsHourlyEmissions = {
+    ...emissions
+  }
+
   const allownaceAcctInfo = {
     ...allowances,
     program: <Program closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
@@ -150,6 +154,7 @@ const FilterCriteriaPanel = ({
   const allowanceSubTypes = Object.keys(FILTERS_MAP.ALLOWANCE);
   const complianceSubTypes = Object.keys(FILTERS_MAP.COMPLIANCE);
   const facilitySubTypes = Object.keys(FILTERS_MAP.FACILITY);
+  const matsSubTypes = Object.keys(FILTERS_MAP["MERCURY AND AIR TOXICS EMISSIONS"]);
 
   const contentRenderer = () => {
     switch (selectedDataSubtype) {
@@ -167,6 +172,8 @@ const FilterCriteriaPanel = ({
         return annualEmissions[selectedFilter];
       case facilitySubTypes[0]:
         return facilityUnitAttributes[selectedFilter];
+      case matsSubTypes[0]:
+        return matsHourlyEmissions[selectedFilter];
       case allowanceSubTypes[0]:
         return allownaceAcctInfo[selectedFilter];
       case allowanceSubTypes[1]:

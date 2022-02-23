@@ -48,7 +48,7 @@ const Facility = ({
     if(isAddedToFilters(filterToApply, appliedFilters)){
       removeAppliedFilterDispatcher(filterToApply);
     }
-    const selection = stateFacility.filter(e=>e.selected)
+    const selection = stateFacility.filter(e=>e.selected);
     if(selection.length>0){
       addAppliedFilterDispatcher({key:filterToApply, values:selection.map(e=>e.label)});
     }
@@ -56,8 +56,9 @@ const Facility = ({
   };
 
   const onChangeUpdate = (id, updateType) =>{
-    const stateCopy = [...stateFacility];
-    const found =stateCopy.find(e=> e.id===id);
+    const stateCopy = [...stateFacility]; 
+    // eslint-disable-next-line
+    const found =stateCopy.find(e=> e.id==id);
     if(found){
       updateType==="add"? found.selected = true : found.selected = false;
     }

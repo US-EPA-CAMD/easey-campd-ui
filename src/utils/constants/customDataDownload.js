@@ -2,14 +2,16 @@ import * as Emissions from './emissions';
 import * as Allowances from './allowances';
 import * as Compliances from './compliances';
 import * as Facility from "./facility";
+import * as Mats from "./mats";
 
-export const DATA_TYPES = ["EMISSIONS", "ALLOWANCE", "COMPLIANCE", "FACILITY"];
+export const DATA_TYPES = ["EMISSIONS", "ALLOWANCE", "COMPLIANCE", "FACILITY", "MERCURY AND AIR TOXICS EMISSIONS"];
 
 export const DATA_SUBTYPES_MAP = {
   EMISSIONS: Emissions.EMISSIONS_DATA_SUBTYPES,
   ALLOWANCE: Allowances.ALLOWANCES_DATA_SUBTYPES,
   COMPLIANCE: Compliances.COMPLIANCES_DATA_SUBTYPES,
-  FACILITY: Facility.FACILITY_DATA_SUBTYPES
+  FACILITY: Facility.FACILITY_DATA_SUBTYPES,
+  "MERCURY AND AIR TOXICS EMISSIONS": Mats.MATS_DATA_SUBTYPES
 };
 
 export const FILTERS_MAP = {
@@ -33,6 +35,9 @@ export const FILTERS_MAP = {
   FACILITY: {
     'Facility/Unit Attributes': Facility.FACILITY_FILTERS,
   },
+  "MERCURY AND AIR TOXICS EMISSIONS": {
+    'Hourly Emissions': Mats.MATS_FILTERS,
+  }
 };
 
 export const MONTHS = [
