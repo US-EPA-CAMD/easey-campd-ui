@@ -98,9 +98,10 @@ describe('Related Resources Page Component', () => {
       </MemoryRouter>
     );
 
-    additionalDataTools.forEach((element) => {
-      const container = findAllByText(`${element.name}`);
+    //additionalDataTools.forEach((element) => {
+      const element =additionalDataTools[0];
+      const container = await findAllByText(`${element.name}`);
       expect(container).toBeTruthy();
-    });
+    //});
   });
 });

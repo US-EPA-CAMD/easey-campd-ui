@@ -97,7 +97,8 @@ const ManageDataDownload = ({
   }, [isMobileOrTablet])
   useEffect(()=>{//console.log(filterCriteria.timePeriod.comboBoxYear); console.log("called");
     const dataSubType = getSelectedDataSubType(constants.DATA_SUBTYPES_MAP[selectedDataType]);
-    if(applyClicked && loading === 0 && selectedDataType !== "EMISSIONS" && selectedDataType !== "FACILITY" && dataSubType !== "Transactions"){
+    if(applyClicked && loading === 0 && selectedDataType !== "EMISSIONS" && selectedDataType !== "MERCURY AND AIR TOXICS EMISSIONS" && 
+      selectedDataType !== "FACILITY" && dataSubType !== "Transactions"){
       if((selectedDataType === "COMPLIANCE" || dataSubType === "Holdings") && comboBoxYearUpdated === false){//console.log("updatetime");
         const distinctYears = [...new Set(filterCriteria.filterMapping.map(e=>selectedDataType === "COMPLIANCE" ? e.year : e.vintageYear))];
         updateTimePeriodDispatcher({
@@ -199,7 +200,7 @@ const ManageDataDownload = ({
     setApplyClicked(true);
     const dataSubType = getSelectedDataSubType(constants.DATA_SUBTYPES_MAP[selectedDataType]);
     if (selectedDataType !== '' && selectedDataSubtype !== '') {
-      if(selectedDataType !== "EMISSIONS" && selectedDataType !== "FACILITY" && dataSubType !== "Transactions"){
+      if(selectedDataType !== "EMISSIONS" && selectedDataType !== "FACILITY" && selectedDataType !== "MERCURY AND AIR TOXICS EMISSIONS" && dataSubType !== "Transactions"){
         loadFilterMappingDispatcher(selectedDataType, dataSubType);
       }
       loadAllFiltersDispatcher(selectedDataType, dataSubType, filterCriteria);

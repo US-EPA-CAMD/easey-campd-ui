@@ -48,7 +48,7 @@ const Facility = ({
     if(isAddedToFilters(filterToApply, appliedFilters)){
       removeAppliedFilterDispatcher(filterToApply);
     }
-    const selection = stateFacility.filter(e=>e.selected)
+    const selection = stateFacility.filter(e=>e.selected);
     if(selection.length>0){
       addAppliedFilterDispatcher({key:filterToApply, values:selection.map(e=>e.label)});
     }

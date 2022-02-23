@@ -172,7 +172,7 @@ export const TimePeriod = ({
           formState.startDate,
           formState.endDate
         );
-        const minDate = isAllowance ? '1993-03-23' : '1995-01-01';
+        const minDate = isAllowance ? '1993-03-23' : dataType === "MERCURY AND AIR TOXICS EMISSIONS" ? '2015-01-01' : '1995-01-01';
         updatedValidations['validReportingQuarter'] =
           isInValidDateRange(
             formState.startDate,
