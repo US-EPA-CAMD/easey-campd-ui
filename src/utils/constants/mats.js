@@ -7,7 +7,6 @@ export const MATS_DATA_SUBTYPES = [
 
 export const MATS_FILTERS = [
   { value: timePeriodLabel, stateVar: 'timePeriod', label: 'TIME PERIOD (Required)' },
-  { value: 'Program', stateVar: 'program', label: 'PROGRAM (Optional)'},
   { value: 'State/Territory', stateVar: 'stateTerritory', label: 'STATE/TERRITORY (Optional)'},
   { value: 'Facility', stateVar: 'facility', label: 'FACILITY (Optional)'},
   { value: 'Unit Type', stateVar: 'unitType', label: 'UNIT TYPE (Optional)'},
