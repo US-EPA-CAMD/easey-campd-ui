@@ -7,6 +7,7 @@ import {
 } from '@trussworks/react-uswds';
 
 import './SubHeaderNav.scss';
+import  useClickOutClose  from '../../utils/hooks/useClickoutClose';
 
 
 const SubHeaderNav = ({
@@ -14,6 +15,7 @@ const SubHeaderNav = ({
   menuList,
   navDropdownOpen,
   handleToggleNavDropdown,
+  handleCloseNavDropdown,
   initialCategorySelected,
   isUtility = false,
 }) => {
@@ -23,7 +25,7 @@ const SubHeaderNav = ({
   }, [pathname]);
 
   const [categorySelected, setCategorySelected] = useState(initialCategorySelected);
-
+  const navRef = useClickOutClose(()=>handleCloseNavDropdown(isUtility))
   const handleSubMenuClick = (column) => {
     handleToggleNavDropdown(column, isUtility);
 
@@ -33,6 +35,7 @@ const SubHeaderNav = ({
   const utilityStyle = isUtility ? { fontSize: '11px' } : { fontSize: '24px' };
 
   return (
+    <span ref={navRef}>
     <PrimaryNav
       items={menuList.map((el, i) => {
         if (el.items.length === 1 && el.items[0].menu === 'notMenu') {
@@ -92,7 +95,7 @@ const SubHeaderNav = ({
           );
         }
       })}
-    />
+    /></span>
   );
 };
 export default SubHeaderNav;
