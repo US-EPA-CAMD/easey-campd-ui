@@ -85,7 +85,7 @@ const DownloadFileType = ({ dataType, dataSubType, filterCriteria, totalCount}) 
       >
         Download
       </Button>
-      <RenderSpinner showSpinner={loading} />
+      {loading ? <RenderSpinner showSpinner={loading} /> : null}
     </div>
   );
 };

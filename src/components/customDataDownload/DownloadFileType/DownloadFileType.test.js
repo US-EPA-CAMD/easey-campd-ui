@@ -31,11 +31,10 @@ const store = configureStore(initialState);
 describe('<DownloadFileType/>', () => {
   let query;
   beforeEach(() => {
-    query = render(
+    query = render
+    (
       <Provider store={store}>
-        <DownloadFileType 
-        setSpinnerActive={jest.fn()}
-        />
+        <DownloadFileType />
       </Provider>
     );
   });
@@ -43,6 +42,7 @@ describe('<DownloadFileType/>', () => {
   afterEach(cleanup);
 
   it('has radio buttons', () => {
+    console.log('query ', query)
     const { getByLabelText } = query;
     expect(getByLabelText('CSV')).toHaveClass('usa-radio__input');
     expect(getByLabelText('JSON')).toHaveClass('usa-radio__input');

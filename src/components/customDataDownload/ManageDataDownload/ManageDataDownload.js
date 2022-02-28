@@ -136,15 +136,6 @@ const ManageDataDownload = ({
       setFilterClickRef(null);
     }// eslint-disable-next-line react-hooks/exhaustive-deps
   },[activeFilter]);
-
-  useEffect(() => {
-    console.log('loading ', loading)
-    console.log('filterCriteria.filterLogicEngaged ', filterCriteria.filterLogicEngaged)
-    const spinner = document.querySelector('#spinner');
-    if (spinner) {
-        console.log('spinner active in mdd ', spinner)
-    }
-  }, [loading, filterCriteria.filterLogicEngaged])
   
   // *** EVENT HANDLERS
   const changeDataSubtype = (event) => {
