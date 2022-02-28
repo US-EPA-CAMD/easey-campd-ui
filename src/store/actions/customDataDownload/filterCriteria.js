@@ -348,6 +348,11 @@ export function loadSourceCategoriesSuccess(sourceCategory) {
   };
 }
 
+export function engageFilterLogicSuccess(){
+  return {
+    type: types.ENGAGE_FILTER_LOGIC_SUCCESS
+  }
+}
 export function loadSourceCategories() {
   return (dispatch) => {
     dispatch(beginApiCall());

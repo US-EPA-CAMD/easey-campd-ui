@@ -7,6 +7,7 @@ import CheckboxGroupRenderer from '../../CheckboxGroupRenderer/CheckboxGroupRend
 import {
   updateFilterCriteria,
   updateAccountTypeSelection,
+  engageFilterLogicSuccess,
 } from '../../../store/actions/customDataDownload/filterCriteria';
 import {
   addAppliedFilter,
@@ -16,6 +17,7 @@ import { getSelectedIds } from '../../../utils/selectors/filterCriteria';
 import { isAddedToFilters } from '../../../utils/selectors/general';
 import Tooltip from '../../Tooltip/Tooltip';
 import { engageFilterLogic } from '../../../utils/selectors/filterLogic';
+import { beginApiCall } from '../../../store/actions/apiStatusActions';
 
 const AccountType = ({
   storeAccountType,
@@ -29,6 +31,8 @@ const AccountType = ({
   dataSubType,
   filterCriteria,
   updateFilterCriteriaDispacher,
+  beginApiCallDispatcher,
+  engageFilterLogicSuccessDispatcher
 }) => {
   const [accountType, setAccountTypes] = useState(
     JSON.parse(JSON.stringify(storeAccountType))
@@ -70,13 +74,15 @@ const AccountType = ({
   useEffect(() => {
     if (applyFilterClicked) {
       if (filterCriteria.filterMapping.length > 0) {
-        engageFilterLogic(
+        beginApiCallDispatcher();
+        setTimeout(()=>engageFilterLogic(
           dataType,
           dataSubType,
           filterToApply,
           JSON.parse(JSON.stringify(filterCriteria)),
-          updateFilterCriteriaDispacher
-        );
+          updateFilterCriteriaDispacher,
+          engageFilterLogicSuccessDispatcher
+        ));
       }
       closeFlyOutHandler();
     } // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -159,6 +165,10 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(removeAppliedFilter(removedFilter)),
     updateFilterCriteriaDispacher: (filterCriteria) =>
       dispatch(updateFilterCriteria(filterCriteria)),
+    beginApiCallDispatcher: () =>
+      dispatch(beginApiCall()),
+    engageFilterLogicSuccessDispatcher: () =>
+      dispatch(engageFilterLogicSuccess())
   };
 };
 

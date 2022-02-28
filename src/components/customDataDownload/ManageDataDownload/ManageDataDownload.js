@@ -17,7 +17,8 @@ import * as constants from '../../../utils/constants/customDataDownload';
 
 // *** STYLES (individual component)
 import './ManageDataDownload.scss';
-import { loadAllFilters, resetFilter, loadFilterMapping, updateFilterCriteria, updateTimePeriod } from '../../../store/actions/customDataDownload/filterCriteria';
+import { loadAllFilters, resetFilter, loadFilterMapping, updateFilterCriteria, updateTimePeriod, engageFilterLogicSuccess } from '../../../store/actions/customDataDownload/filterCriteria';
+import { beginApiCall } from '../../../store/actions/apiStatusActions';
 import hideNav from '../../../store/actions/hideNavAction';
 import { engageFilterLogic } from '../../../utils/selectors/filterLogic';
 import useCheckWidth from '../../../utils/hooks/useCheckWidth'
@@ -34,6 +35,8 @@ const ManageDataDownload = ({
   resetFilterDispatcher,
   appliedFilters,
   loadAllFiltersDispatcher,
+  beginApiCallDispatcher,
+  engageFilterLogicSuccessDispatcher,
   hideNavDispatcher,
   filterCriteria,
   loading,
@@ -95,7 +98,7 @@ const ManageDataDownload = ({
       setHideDataTypeSelector(false)
     }
   }, [isMobileOrTablet])
-  useEffect(()=>{//console.log(filterCriteria.timePeriod.comboBoxYear); console.log("called");
+  useEffect(()=>{
     const dataSubType = getSelectedDataSubType(constants.DATA_SUBTYPES_MAP[selectedDataType]);
     if(applyClicked && loading === 0 && selectedDataType !== "EMISSIONS" && selectedDataType !== "MERCURY AND AIR TOXICS EMISSIONS" && 
       selectedDataType !== "FACILITY" && dataSubType !== "Transactions"){
@@ -111,12 +114,14 @@ const ManageDataDownload = ({
         setComboBoxYearUpdated(true);
       }
       if(comboBoxYearUpdated){
-        engageFilterLogic(selectedDataType, dataSubType, null, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispatcher, true);
+         beginApiCallDispatcher();
+        setTimeout(()=>engageFilterLogic(selectedDataType, dataSubType, null, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispatcher, engageFilterLogicSuccessDispatcher, true));
         setApplyClicked(false);
         setComboBoxYearUpdated(false);
       }
     }// eslint-disable-next-line react-hooks/exhaustive-deps
   },[applyClicked, loading, comboBoxYearUpdated])
+
 
   useEffect(() => {
     if (
@@ -140,7 +145,7 @@ const ManageDataDownload = ({
 
   useEffect(() => {
     const spinner = document.querySelector('#spinner');
-    if (!spinner) {
+    if (!spinner || !loading) {
       setSpinnerActive(false);
     }
   }, [loading])
@@ -392,7 +397,12 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(loadFilterMapping(dataType, dataSubType, years)),
     updateTimePeriodDispatcher: (timePeriod) =>
       dispatch(updateTimePeriod(timePeriod)),
-      hideNavDispatcher: (boolean) => dispatch(hideNav(boolean)),
+    hideNavDispatcher: (boolean) =>
+      dispatch(hideNav(boolean)),
+    beginApiCallDispatcher: () =>
+      dispatch(beginApiCall()),
+    engageFilterLogicSuccessDispatcher: () =>
+      dispatch(engageFilterLogicSuccess())
   };
 };
 

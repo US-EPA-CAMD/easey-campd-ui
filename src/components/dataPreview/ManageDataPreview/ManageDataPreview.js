@@ -17,6 +17,7 @@ import {
   resetFilter,
   updateTimePeriod,
   updateFilterCriteria,
+  engageFilterLogicSuccess,
 } from '../../../store/actions/customDataDownload/filterCriteria';
 import hideNav from '../../../store/actions/hideNavAction';
 import { EMISSIONS_DATA_SUBTYPES } from '../../../utils/constants/emissions';
@@ -26,6 +27,7 @@ import { FACILITY_DATA_SUBTYPES } from '../../../utils/constants/facility';
 import Tooltip from '../../Tooltip/Tooltip';
 import config from "../../../config";
 import getContent  from '../../../utils/api/getContent';
+import { beginApiCall } from '../../../store/actions/apiStatusActions';
 
 const ManageDataPreview = ({
   dataType,
@@ -44,6 +46,8 @@ const ManageDataPreview = ({
   updateTimePeriodDispatcher,
   filterCriteria,
   updateFilterCriteriaDispatcher,
+  beginApiCallDispatcher,
+  engageFilterLogicSuccessDispatcher,
   renderPreviewData,
   setRenderPreviewData,
   handlePreviewDataButtonClick,
@@ -77,7 +81,8 @@ const ManageDataPreview = ({
   useEffect(()=>{
     if(removedAppliedFilter !== null){
       if(filterCriteria.filterMapping.length>0){
-        engageFilterLogic(dataType, dataSubType, removedAppliedFilter, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispatcher, true);
+        beginApiCallDispatcher();
+        setTimeout(()=>engageFilterLogic(dataType, dataSubType, removedAppliedFilter, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispatcher, engageFilterLogicSuccessDispatcher, true));
       }
     }// eslint-disable-next-line react-hooks/exhaustive-deps
   },[appliedFilters]);
@@ -122,11 +127,12 @@ const ManageDataPreview = ({
   };
 
   const onFilterTagClearAllHandler = () => {
+    const filter = document.getElementById('filter0');
     resetFiltersDispatcher(null, true);
     removeAppliedFiltersDispatcher(null, true);
     handleUpdateInAppliedFilters();
     window.alert('Filters have been successfully cleared.');
-    document.getElementById('filter0').focus();
+    filter && document.getElementById('filter0').focus();
   };
 
   const contains = () => {
@@ -288,6 +294,10 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(updateTimePeriod(timePeriod)),
     updateFilterCriteriaDispatcher: (filterCriteria) =>
       dispatch(updateFilterCriteria(filterCriteria)),
+    beginApiCallDispatcher: () =>
+      dispatch(beginApiCall()),
+    engageFilterLogicSuccessDispatcher: () =>
+      dispatch(engageFilterLogicSuccess())
   };
 };
 

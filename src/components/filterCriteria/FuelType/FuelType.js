@@ -4,12 +4,13 @@ import { Button } from '@trussworks/react-uswds';
 import { Help } from '@material-ui/icons';
 
 import CheckboxGroupRenderer from '../../CheckboxGroupRenderer/CheckboxGroupRenderer';
-import { updateFuelTypeSelection, updateFilterCriteria } from '../../../store/actions/customDataDownload/filterCriteria';
+import { updateFuelTypeSelection, updateFilterCriteria, engageFilterLogicSuccess } from '../../../store/actions/customDataDownload/filterCriteria';
 import { addAppliedFilter, removeAppliedFilter} from '../../../store/actions/customDataDownload/customDataDownload';
 import { getSelectedIds } from '../../../utils/selectors/filterCriteria';
 import { isAddedToFilters } from '../../../utils/selectors/general';
 import { engageFilterLogic } from "../../../utils/selectors/filterLogic";
 import Tooltip from '../../Tooltip/Tooltip';
+import { beginApiCall } from '../../../store/actions/apiStatusActions';
 
 export const FuelType = ({
   storeFuelType,
@@ -18,6 +19,8 @@ export const FuelType = ({
   updateFilterCriteriaDispatcher,
   addAppliedFilterDispatcher,
   removeAppliedFilterDispatcher,
+  beginApiCallDispatcher,
+  engageFilterLogicSuccessDispatcher,
   closeFlyOutHandler,
   renderedHandler,
   dataType,
@@ -37,7 +40,8 @@ export const FuelType = ({
   useEffect(()=>{
     if(applyFilterClicked){
       if(filterCriteria.filterMapping.length>0){
-        engageFilterLogic(dataType, dataSubType, filterToApply, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispatcher);
+        beginApiCallDispatcher();
+        setTimeout(()=>engageFilterLogic(dataType, dataSubType, filterToApply, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispatcher, engageFilterLogicSuccessDispatcher));
       }
       closeFlyOutHandler();
     }// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -145,6 +149,10 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(removeAppliedFilter(removedFilter)),
     updateFilterCriteriaDispatcher: (filterCriteria) => 
       dispatch(updateFilterCriteria(filterCriteria)),
+      beginApiCallDispatcher: () =>
+      dispatch(beginApiCall()),
+    engageFilterLogicSuccessDispatcher: () =>
+      dispatch(engageFilterLogicSuccess())
   };
 };
 

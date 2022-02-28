@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 
 import TimePeriodRender from './TimePeriodRender';
-import { updateTimePeriod, loadFilterMapping, resetFilter, updateFilterCriteria } from '../../../../store/actions/customDataDownload/filterCriteria';
+import { updateTimePeriod, loadFilterMapping, resetFilter, updateFilterCriteria, engageFilterLogicSuccess } from '../../../../store/actions/customDataDownload/filterCriteria';
 import { addAppliedFilter, removeAppliedFilter } from '../../../../store/actions/customDataDownload/customDataDownload';
 import {
   isDateFormatValid,
@@ -23,6 +23,7 @@ import {
 import * as constants from '../../../../utils/constants/customDataDownload';
 import { engageFilterLogic } from "../../../../utils/selectors/filterLogic";
 import { getTimePeriodYears, verifyTimePeriodChange } from "../../../../utils/selectors/filterCriteria";
+import { beginApiCall } from '../../../../store/actions/apiStatusActions';
 
 export const TimePeriod = ({
   timePeriod,
@@ -46,6 +47,8 @@ export const TimePeriod = ({
   dataSubType,
   filterCriteria,
   updateFilterCriteriaDispatcher,
+  beginApiCallDispatcher,
+  engageFilterLogicSuccessDispatcher,
   loading,
 }) => {
   const [formState, setFormState] = useState({
@@ -91,7 +94,8 @@ export const TimePeriod = ({
             });
             filterCriteriaCloned.timePeriod.comboBoxYear = distinctYears.map(year => {return {id:year, label:year, selected:false, enabled:true}});
           }
-          engageFilterLogic(dataType, dataSubType, filterToApply, filterCriteriaCloned, updateFilterCriteriaDispatcher);
+          beginApiCallDispatcher();
+          engageFilterLogic(dataType, dataSubType, filterToApply, filterCriteriaCloned, updateFilterCriteriaDispatcher, engageFilterLogicSuccessDispatcher);
         }else{
           window.alert("Data is not available for the selected time period. Enter a new time period.");
           removeAppliedFiltersDispatcher(filterToApply);
@@ -407,6 +411,10 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(loadFilterMapping(dataType, dataSubType, years)),
     resetFilterDispatcher: (filter, resetAll) =>
       dispatch(resetFilter(filter, resetAll)),
+    beginApiCallDispatcher: () =>
+      dispatch(beginApiCall()),
+    engageFilterLogicSuccessDispatcher: () =>
+      dispatch(engageFilterLogicSuccess())
   };
 };
 

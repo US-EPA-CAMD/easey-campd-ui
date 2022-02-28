@@ -286,10 +286,10 @@ export const filterTransactionType = (filterCriteria) =>{
   updateEnabledStatusComboBox(filterCriteria.transactionType, filteredSet);
 };
 
-export const engageFilterLogic = (dataType, dataSubType, affectedFilter, filterCriteriaCloned, updateFilterCriteriaDispatcher, removedFilter=false) =>{
+export const engageFilterLogic = (dataType, dataSubType, affectedFilter, filterCriteriaCloned, updateFilterCriteriaDispatcher, engageFilterLogicSuccessDispatcher, removedFilter=false) =>{
   const filters = FILTERS_MAP[dataType][dataSubType];
-  populateSelections(filterCriteriaCloned, dataSubType);
-  filters.forEach(obj =>{
+   populateSelections(filterCriteriaCloned, dataSubType);
+   filters.forEach(obj =>{
     if(removedFilter){
       if(obj.hasOwnProperty("updateFilter")){
         obj.updateFilter(filterCriteriaCloned);
@@ -300,4 +300,5 @@ export const engageFilterLogic = (dataType, dataSubType, affectedFilter, filterC
     }
   });
   updateFilterCriteriaDispatcher(filterCriteriaCloned);
+  engageFilterLogicSuccessDispatcher()
 };

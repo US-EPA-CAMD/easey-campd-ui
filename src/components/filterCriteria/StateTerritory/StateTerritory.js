@@ -3,10 +3,11 @@ import { connect } from "react-redux";
 import {Button} from "@trussworks/react-uswds";
 
 import MultiSelectCombobox from '../../MultiSelectCombobox/MultiSelectCombobox';
-import { updateFilterCriteria, updateStateSelection } from "../../../store/actions/customDataDownload/filterCriteria";
+import { engageFilterLogicSuccess, updateFilterCriteria, updateStateSelection } from "../../../store/actions/customDataDownload/filterCriteria";
 import { addAppliedFilter, removeAppliedFilter } from "../../../store/actions/customDataDownload/customDataDownload";
 import { isAddedToFilters } from "../../../utils/selectors/general";
 import { engageFilterLogic } from "../../../utils/selectors/filterLogic";
+import { beginApiCall } from '../../../store/actions/apiStatusActions';
 
 const StateTerritory = ({
   stateTerritory,
@@ -19,7 +20,9 @@ const StateTerritory = ({
   dataType,
   dataSubType,
   filterCriteria,
-  updateFilterCriteriaDispatcher
+  updateFilterCriteriaDispatcher,
+  beginApiCallDispatcher,
+  engageFilterLogicSuccessDispatcher
   }) => {
 
   const [_stateTerritory, setStateTerritory] = useState(JSON.parse(JSON.stringify(stateTerritory)));
@@ -35,7 +38,8 @@ const StateTerritory = ({
   useEffect(()=>{
     if(applyFilterClicked){
       if(filterCriteria.filterMapping.length>0){
-        engageFilterLogic(dataType, dataSubType, filterToApply, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispatcher);
+        beginApiCallDispatcher();
+        setTimeout(()=>engageFilterLogic(dataType, dataSubType, filterToApply, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispatcher, engageFilterLogicSuccessDispatcher));
       }
       closeFlyOutHandler();
     }// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -116,6 +120,8 @@ const mapDispatchToProps = (dispatch) => {
     addAppliedFilterDispatcher: (filterToApply) => dispatch(addAppliedFilter(filterToApply)),
     removeAppliedFilterDispatcher: (removedFilter) => dispatch(removeAppliedFilter(removedFilter)),
     updateFilterCriteriaDispatcher: (filterCriteria) => dispatch(updateFilterCriteria(filterCriteria)),
+    beginApiCallDispatcher: () => dispatch(beginApiCall()),
+    engageFilterLogicSuccessDispatcher: () => dispatch(engageFilterLogicSuccess())
   };
 };
 
