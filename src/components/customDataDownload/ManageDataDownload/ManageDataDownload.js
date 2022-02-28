@@ -83,7 +83,6 @@ const ManageDataDownload = ({
   const [hideDataTypeSelector, setHideDataTypeSelector] = useState(false);
   const isMobileOrTablet = useCheckWidth([0, 1024]);
   const [renderPreviewData, setRenderPreviewData] = useState(false);
-  const [spinnerActive, setSpinnerActive] = useState(false)
   const [removedAppliedFilter, setRemovedAppliedFilter] = useState(null);
 
   useEffect(() => {
@@ -139,11 +138,13 @@ const ManageDataDownload = ({
   },[activeFilter]);
 
   useEffect(() => {
+    console.log('loading ', loading)
+    console.log('filterCriteria.filterLogicEngaged ', filterCriteria.filterLogicEngaged)
     const spinner = document.querySelector('#spinner');
-    if (!spinner) {
-      setSpinnerActive(false);
+    if (spinner) {
+        console.log('spinner active in mdd ', spinner)
     }
-  }, [loading])
+  }, [loading, filterCriteria.filterLogicEngaged])
   
   // *** EVENT HANDLERS
   const changeDataSubtype = (event) => {
@@ -354,12 +355,10 @@ const ManageDataDownload = ({
           setRenderPreviewData={setRenderPreviewData}
           handlePreviewDataButtonClick={handlePreviewDataButtonClick}
           isMobileOrTablet={isMobileOrTablet}
-          setSpinnerActive={setSpinnerActive}
-          spinnerActive={spinnerActive}
           removedAppliedFilter={removedAppliedFilter}
           setRemovedAppliedFilter={setRemovedAppliedFilter}
         />
-        {loading ? <RenderSpinner loading={loading} spinnerActive={spinnerActive} setSpinnerActive={setSpinnerActive}/> : null}
+        <RenderSpinner showSpinner={loading || filterCriteria.filterLogicEngaged} />
       </div>
     </div>
   );

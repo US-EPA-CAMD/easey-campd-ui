@@ -13,7 +13,7 @@ axios.defaults.headers.common = {
   "x-api-key": config.app.apiKey
 };
 
-const DownloadFileType = ({ dataType, dataSubType, filterCriteria, totalCount, spinnerActive, setSpinnerActive}) => {
+const DownloadFileType = ({ dataType, dataSubType, filterCriteria, totalCount}) => {
   const [fileType, setFileType] = useState('text/csv');
   const [loading, setLoading] = useState(false);
 
@@ -26,7 +26,6 @@ const DownloadFileType = ({ dataType, dataSubType, filterCriteria, totalCount, s
   };
 
   const onDownloadHandler = () => {
-    setSpinnerActive(false)
     setLoading(true);
     axios
       .get(constructRequestUrl(dataType, dataSubType, filterCriteria, true), {
@@ -86,7 +85,7 @@ const DownloadFileType = ({ dataType, dataSubType, filterCriteria, totalCount, s
       >
         Download
       </Button>
-      {loading ? <RenderSpinner loading={loading} spinnerActive={spinnerActive} setSpinnerActive={setSpinnerActive}/> : null}
+      <RenderSpinner showSpinner={loading} />
     </div>
   );
 };

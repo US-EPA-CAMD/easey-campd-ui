@@ -13,7 +13,7 @@ const config = {
       process.env.REACT_APP_EASEY_CAMPD_UI_EMAIL ||
       "campd-support@camdsupport.com",
     streamingLimit:
-      process.env.REACT_APP_EASEY_CAMPD_UI_STREAMING_LIMIT || 1000000,
+       1000000,
   },
   services: {
     mdm: {
