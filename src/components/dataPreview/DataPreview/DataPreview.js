@@ -2,6 +2,7 @@ import React, { useEffect, useMemo } from "react";
 import { connect } from "react-redux";
 import { loadDataPreview } from "../../../store/actions/customDataDownload/customDataDownload";
 import DataPreviewRender from "../DataPreviewRender/DataPreviewRender";
+import { dataPreviewColumns } from "../../../utils/constants/dataPreviewCol";
 
 export const DataPreview = ({
   dataType,
@@ -34,7 +35,9 @@ export const DataPreview = ({
     fieldMappings.map(el => ({
       name: el.label,
       selector: el.value,
-      sortable: true
+      sortable: true,
+      minWidth : dataPreviewColumns.hasOwnProperty(el.label)? dataPreviewColumns[el.label] : "180px",
+      maxWidth : dataPreviewColumns.hasOwnProperty(el.label)? dataPreviewColumns[el.label] : "360px"
     }))
   ,[fieldMappings]);
 
