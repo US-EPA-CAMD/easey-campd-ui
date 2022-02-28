@@ -55,6 +55,9 @@ const SubHeader = () => {
     });
   };
 
+  const handleCloseNavDropdown = (isUtility) => {
+    setNavDropdownOpen(initialNavOpen)
+  }
   return (
     <div className="subheader-wrapper">
       <Header
@@ -145,6 +148,7 @@ const SubHeader = () => {
               menuList={subHeaderUtilityList}
               navDropdownOpen={navDropdownOpen.utility}
               handleToggleNavDropdown={handleToggleNavDropdown}
+              handleCloseNavDropdown={handleCloseNavDropdown}
               initialCategorySelected={initialCategorySelected}
               isUtility={true}
             />
@@ -153,6 +157,7 @@ const SubHeader = () => {
               menuList={subHeaderMenuList}
               navDropdownOpen={navDropdownOpen.primary}
               handleToggleNavDropdown={handleToggleNavDropdown}
+              handleCloseNavDropdown={handleCloseNavDropdown}
               initialCategorySelected={initialCategorySelected}
             />
           </div>
