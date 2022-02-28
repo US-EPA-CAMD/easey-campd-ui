@@ -48,8 +48,6 @@ const ManageDataPreview = ({
   setRenderPreviewData,
   handlePreviewDataButtonClick,
   isMobileOrTablet,
-  spinnerActive,
-  setSpinnerActive,
   totalCount,
   removedAppliedFilter,
   setRemovedAppliedFilter
@@ -122,11 +120,12 @@ const ManageDataPreview = ({
   };
 
   const onFilterTagClearAllHandler = () => {
+    const filter = document.getElementById('filter0');
     resetFiltersDispatcher(null, true);
     removeAppliedFiltersDispatcher(null, true);
     handleUpdateInAppliedFilters();
     window.alert('Filters have been successfully cleared.');
-    document.getElementById('filter0').focus();
+    filter && filter.focus();
   };
 
   const contains = () => {
@@ -242,8 +241,6 @@ const ManageDataPreview = ({
       {renderPreviewData ? (
         <DataPreview
           handleUpdateInAppliedFilters={handleUpdateInAppliedFilters}
-          spinnerActive={spinnerActive}
-          setSpinnerActive={setSpinnerActive}
         />
       ) : (
         <div className="desktop:margin-3 tablet:margin-x-10 flex-justify-center padding-3 tablet:border mobile-lg:width-mobile-lg line-height-sans-5 margin-0 tablet:margin-3">
