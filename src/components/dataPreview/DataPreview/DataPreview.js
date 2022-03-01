@@ -15,8 +15,6 @@ export const DataPreview = ({
   appliedFilters,
   totalCount,
   fieldMappings,
-  spinnerActive,
-  setSpinnerActive
 }) => {
   useEffect(() => {
     if(dataPreview !== null){
@@ -62,8 +60,6 @@ export const DataPreview = ({
         data={data}
         totalCount={totalCount}
         handleBackButton={handleUpdateInAppliedFilters}
-        spinnerActive={spinnerActive}
-        setSpinnerActive={setSpinnerActive}
       />
   );
 };
