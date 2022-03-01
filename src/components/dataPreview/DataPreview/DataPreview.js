@@ -36,9 +36,11 @@ export const DataPreview = ({
       name: el.label,
       selector: el.value,
       sortable: true,
-      minWidth : dataPreviewColumns.hasOwnProperty(el.label)? dataPreviewColumns[el.label] : "180px",
-      maxWidth : dataPreviewColumns.hasOwnProperty(el.label)? dataPreviewColumns[el.label] : "360px"
+      // minWidth : dataPreviewColumns.hasOwnProperty(el.label)? dataPreviewColumns[el.label] : "180px",
+      // maxWidth : dataPreviewColumns.hasOwnProperty(el.label)? dataPreviewColumns[el.label] : "360px"
+      width : dataPreviewColumns[dataSubType][el.label]
     }))
+    // eslint-disable-next-line
   ,[fieldMappings]);
 
   const data = useMemo(() => {
