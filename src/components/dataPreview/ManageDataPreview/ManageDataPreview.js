@@ -73,8 +73,6 @@ const ManageDataPreview = ({
         setLimitAlert(limitText);
       }
     );
-
-    
   }, []);
 
   useEffect(() => {
