@@ -1,0 +1,39 @@
+.campd-tool {
+  position: relative;
+
+  a {
+    overflow-wrap: anywhere;
+    hyphens: auto;
+  }
+
+  p {
+    margin-bottom: 0;
+  }
+}
+
+.campd-tool-meta {
+  margin-top: 1rem;
+  border-top: 1px solid #dfe1e2;
+}
+
+.campd-tool-footer {
+  margin-top: 1rem;
+}
+
+.campd-tool[data-expanded="false"] {
+  max-height: 200px;
+  overflow: hidden;
+
+  .campd-tool-footer {
+    position: absolute;
+    bottom: 0;
+    padding-top: 2.5rem;
+    padding-bottom: 1rem;
+    width: 100%;
+    background-image: linear-gradient(
+      to top,
+      white calc(100% - 2rem),
+      transparent
+    );
+  }
+}
