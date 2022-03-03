@@ -15,11 +15,14 @@ jest.mock('remark-gfm', () => () => {});
 
 const helperTextUrl =
   'https://api.epa.gov/easey/dev/content-mgmt/campd/data/custom-data-download/helper-text.md';
-
+const limitTextUrl = 'https://api.epa.gov/easey/dev/content-mgmt/campd/data/custom-data-download/download-limit-alert.md';
 const getHelperTextUrl = rest.get(helperTextUrl, (req, res, ctx) => {
   return res(ctx.json('this is CDD helper tex'));
 });
-const server = new setupServer(getHelperTextUrl);
+const getLimitTextUrl = rest.get(limitTextUrl, (req, res, ctx) => {
+  return res(ctx.json('this is CDD download limit'));
+});
+const server = new setupServer(getHelperTextUrl, getLimitTextUrl);
 
 
 initialState.customDataDownload.dataType = 'EMISSIONS';
@@ -49,7 +52,7 @@ describe('ManageDataPreview', () => {
     const { findByText, getByRole } = render(
       <Provider store={store}>
         <div id="filter0"></div>
-        <ManageDataPreview />
+        <ManageDataPreview requirementsMet={true} totalCount={10000000} />
       </Provider>
     );
     const helperText = await findByText('this is CDD helper tex');
