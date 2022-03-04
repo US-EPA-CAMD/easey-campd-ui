@@ -12,7 +12,7 @@ const ToolCard = ({ data }) => {
     <div className="grid-col-12 tablet:grid-col-6 desktop-lg:grid-col-4">
       <div className="margin-1">
         <div
-          className="campd-tool padding-2 radius-md shadow-2 hover:shadow-5"
+          className="campd-tool position-relative padding-2 radius-md shadow-2 hover:shadow-5 bg-white"
           data-expanded={expanded}
         >
           <div className="campd-tool-header">
@@ -83,27 +83,33 @@ const ToolsGalleryPage = () => {
         </div>
       </section>
 
-      <div className="grid-container-widescreen">
-        <p className="font-sans-lg line-height-sans-6">
-          CAMPD’s Tools Gallery showcases compliance-related dashboards and maps
-          created by users across EPA, making datasets easier to explore and
-          encouraging collaboration <mark>(placeholder text)</mark>.
-        </p>
+      <section className="position-relative padding-y-4 shadow-1">
+        <div className="grid-container-widescreen">
+          <p className="margin-top-0 font-sans-lg line-height-sans-6">
+            CAMPD’s Tools Gallery showcases compliance-related dashboards and
+            maps created by users across EPA, making datasets easier to explore
+            and encouraging collaboration <mark>(placeholder text)</mark>.
+          </p>
 
-        <p className="font-sans-sm line-height-sans-5">
-          <mark>(More tools intro text?)</mark>
-        </p>
-
-        <div className="grid-row">
-          {loading ? (
-            <div className="campd-tools-loading">
-              <Preloader />
-            </div>
-          ) : (
-            tools.map((tool) => <ToolCard key={tool.id} data={tool} />)
-          )}
+          <p className="margin-bottom-0 font-sans-sm line-height-sans-5">
+            <mark>(More tools intro text?)</mark>
+          </p>
         </div>
-      </div>
+      </section>
+
+      <section className="padding-y-4 bg-base-lightest">
+        <div className="grid-container-widescreen">
+          <div className="grid-row">
+            {loading ? (
+              <div className="campd-tools-loading">
+                <Preloader />
+              </div>
+            ) : (
+              tools.map((tool) => <ToolCard key={tool.id} data={tool} />)
+            )}
+          </div>
+        </div>
+      </section>
     </div>
   );
 };
