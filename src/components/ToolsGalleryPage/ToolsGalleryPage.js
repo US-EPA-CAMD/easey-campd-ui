@@ -26,9 +26,9 @@ const ToolCard = ({ data }) => {
             </p>
           </div>
 
-          <p className="campd-tool-summary font-sans-2xs line-height-sans-4">
+          <div className="campd-tool-summary font-sans-2xs line-height-sans-4">
             {data.summary}
-          </p>
+          </div>
 
           <div className="campd-tool-meta font-sans-3xs line-height-sans-3 text-base">
             {data.meta}
