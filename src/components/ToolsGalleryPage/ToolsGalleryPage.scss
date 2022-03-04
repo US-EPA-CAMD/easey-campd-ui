@@ -1,3 +1,16 @@
+.campd-tools-loading {
+  margin: auto;
+
+  img {
+    width: 60px;
+  }
+
+  button {
+    transform-origin: top;
+    transform: scale(0.75);
+  }
+}
+
 .campd-tool {
   position: relative;
 
@@ -11,6 +24,16 @@
   }
 }
 
+.campd-tool-header {
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #dfe1e2;
+
+  a {
+    text-decoration-color: transparent;
+  }
+}
+
 .campd-tool-meta {
   margin-top: 1rem;
   border-top: 1px solid #dfe1e2;
@@ -18,21 +41,29 @@
 
 .campd-tool-footer {
   margin-top: 1rem;
+  text-align: center;
+
+  button {
+    transform-origin: bottom;
+    transform: scale(0.75);
+  }
 }
 
 .campd-tool[data-expanded="false"] {
-  max-height: 200px;
+  height: 200px;
   overflow: hidden;
 
   .campd-tool-footer {
     position: absolute;
+    right: 0;
     bottom: 0;
-    padding-top: 2.5rem;
+    left: 0;
+    padding-top: 1rem;
     padding-bottom: 1rem;
     width: 100%;
     background-image: linear-gradient(
       to top,
-      white calc(100% - 2rem),
+      white calc(100% - 1rem),
       transparent
     );
   }

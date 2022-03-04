@@ -4,8 +4,8 @@ const placeholderTools = [
   {
     id: 1,
     name: "Underground Storage Tank Finder",
-    img: "",
-    url: "#",
+    img: "#",
+    url: "#1",
     summary: (
       <>
         <p>
@@ -77,8 +77,8 @@ const placeholderTools = [
   {
     id: 2,
     name: "Housing Units Served by Private Domestic Wells in the United States",
-    img: "",
-    url: "#",
+    img: "#",
+    url: "#2",
     summary: (
       <>
         <p>
@@ -139,8 +139,8 @@ const placeholderTools = [
   {
     id: 3,
     name: "NPDES eRule Phase 2 Implementation Dashboard",
-    img: "",
-    url: "#",
+    img: "#",
+    url: "#3",
     summary: (
       <>
         <p>
@@ -199,8 +199,8 @@ const placeholderTools = [
   {
     id: 4,
     name: "WQI Portals Monitoring Coverage",
-    img: "",
-    url: "#",
+    img: "#",
+    url: "#4",
     summary: (
       <>
         <p>
@@ -234,8 +234,8 @@ const placeholderTools = [
   {
     id: 5,
     name: "Water Quality Indicators Data Usability Improvement Project",
-    img: "",
-    url: "#",
+    img: "#",
+    url: "#5",
     summary: (
       <>
         <p>
@@ -290,8 +290,8 @@ const placeholderTools = [
   {
     id: 6,
     name: "NPDES eRule Readiness and Data Completeness Dashboard",
-    img: "",
-    url: "#",
+    img: "#",
+    url: "#6",
     summary: (
       <>
         <p>

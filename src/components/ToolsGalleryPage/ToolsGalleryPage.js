@@ -9,20 +9,22 @@ const ToolCard = ({ data }) => {
   const [expanded, setExpanded] = useState(false);
 
   return (
-    <div className="grid-col-12 tablet:grid-col-6 desktop:grid-col-4">
+    <div className="grid-col-12 tablet:grid-col-6 desktop-lg:grid-col-4">
       <div className="margin-1">
         <div
-          className="campd-tool padding-2 radius-md shadow-1 hover:shadow-3"
+          className="campd-tool padding-2 radius-md shadow-2 hover:shadow-5"
           data-expanded={expanded}
         >
-          <p className="campd-tool-name margin-0 font-sans-sm line-height-sans-2 text-bold">
-            <a
-              className="usa-link underline-base-lightest hover:underline-accent-cool"
-              href={data.url}
-            >
-              {data.name}
-            </a>
-          </p>
+          <div className="campd-tool-header">
+            <p className="margin-0 font-sans-sm line-height-sans-2 text-bold">
+              <a
+                className="usa-link hover:underline-accent-cool"
+                href={data.url}
+              >
+                {data.name}
+              </a>
+            </p>
+          </div>
 
           <p className="campd-tool-summary font-sans-2xs line-height-sans-4">
             {data.summary}
@@ -83,7 +85,9 @@ const ToolsGalleryPage = () => {
 
       <div className="grid-row">
         {loading ? (
-          <Preloader />
+          <div className="campd-tools-loading">
+            <Preloader />
+          </div>
         ) : (
           tools.map((tool) => <ToolCard key={tool.id} data={tool} />)
         )}
