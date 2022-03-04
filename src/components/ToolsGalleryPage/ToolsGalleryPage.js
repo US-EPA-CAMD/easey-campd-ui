@@ -70,27 +70,39 @@ const ToolsGalleryPage = () => {
   }, []);
 
   return (
-    <div className="grid-container-widescreen">
-      <h1 className="font-sans-2xl text-bold">Tools Gallery</h1>
-
-      <p className="font-sans-lg line-height-sans-6">
-        CAMPD’s Tools Gallery showcases compliance-related dashboards and maps
-        created by users across EPA, making datasets easier to explore and
-        encouraging collaboration <mark>(placeholder text)</mark>.
-      </p>
-
-      <p className="font-sans-sm line-height-sans-5">
-        <mark>(tools intro text?)</mark>
-      </p>
-
-      <div className="grid-row">
-        {loading ? (
-          <div className="campd-tools-loading">
-            <Preloader />
+    <div className="campd-tools">
+      <section className="usa-hero" aria-label="Tools Gallery">
+        <div className="grid-container-widescreen">
+          <div className="usa-hero__callout">
+            <h1 className="usa-hero__heading">
+              <span className="usa-hero__heading--alt">Tools Gallery:</span>
+              Some tagline about the tools
+            </h1>
+            <p>Possibly some more explanatory text here as well.</p>
           </div>
-        ) : (
-          tools.map((tool) => <ToolCard key={tool.id} data={tool} />)
-        )}
+        </div>
+      </section>
+
+      <div className="grid-container-widescreen">
+        <p className="font-sans-lg line-height-sans-6">
+          CAMPD’s Tools Gallery showcases compliance-related dashboards and maps
+          created by users across EPA, making datasets easier to explore and
+          encouraging collaboration <mark>(placeholder text)</mark>.
+        </p>
+
+        <p className="font-sans-sm line-height-sans-5">
+          <mark>(More tools intro text?)</mark>
+        </p>
+
+        <div className="grid-row">
+          {loading ? (
+            <div className="campd-tools-loading">
+              <Preloader />
+            </div>
+          ) : (
+            tools.map((tool) => <ToolCard key={tool.id} data={tool} />)
+          )}
+        </div>
       </div>
     </div>
   );
