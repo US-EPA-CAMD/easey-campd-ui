@@ -80,7 +80,7 @@ export const TimePeriod = ({
 
   useEffect(()=>{
     if(applyFilterClicked && loading === 0){
-      if(dataType === "EMISSIONS" || dataType === "FACILITY" || dataSubType === "Transactions"){
+      if(dataType === "EMISSIONS" || dataType === "FACILITY" || dataType === "MERCURY AND AIR TOXICS EMISSIONS" || dataSubType === "Transactions"){
         if(filterCriteria.filterMapping && filterCriteria.filterMapping.length>0){
           const filterCriteriaCloned = JSON.parse(JSON.stringify(filterCriteria));
           if(dataSubType === "Transactions"){
@@ -198,7 +198,7 @@ export const TimePeriod = ({
       loadFilterMappingDispatcher(dataType, dataSubType, getTimePeriodYears(null, null, formState.year));
     }
     else
-      if(dataSubType === "Transactions"){
+      if(dataSubType === "Transactions" || dataType === "MERCURY AND AIR TOXICS EMISSIONS"){
         loadFilterMappingDispatcher(dataType, dataSubType, [formatDateToApi(formState.startDate), formatDateToApi(formState.endDate)]);
       }else{
         loadFilterMappingDispatcher(dataType, dataSubType, getTimePeriodYears(formatDateToApi(formState.startDate), formatDateToApi(formState.endDate)));
@@ -207,7 +207,7 @@ export const TimePeriod = ({
 
   const verifyFilterLogic = () =>{
     let result = true;
-    if(dataType === "EMISSIONS" || dataType === "FACILITY" || dataSubType === "Transactions"){
+    if(dataType === "EMISSIONS" || dataType === "FACILITY" || dataType === "MERCURY AND AIR TOXICS EMISSIONS" || dataSubType === "Transactions"){
       if(!isAddedToFilters(filterToApply, appliedFilters)){
         updateFilterMapping();
       }else if(verifyTimePeriodChange(formState, timePeriod, showYear, dataSubType === "Transactions")){
