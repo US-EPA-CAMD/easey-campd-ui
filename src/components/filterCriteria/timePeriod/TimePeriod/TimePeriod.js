@@ -66,7 +66,7 @@ export const TimePeriod = ({
   });
 
   const [applyFilterClicked, setApplyFilterClicked] = useState(false);
-
+  const matsDataType = dataType === "MERCURY AND AIR TOXICS EMISSIONS";
   useEffect(() => {
     if(applyFilterClicked && isFormValid() && verifyFilterLogic()){
       if(showYear){
@@ -80,7 +80,7 @@ export const TimePeriod = ({
 
   useEffect(()=>{
     if(applyFilterClicked && loading === 0){
-      if(dataType === "EMISSIONS" || dataType === "FACILITY" || dataType === "MERCURY AND AIR TOXICS EMISSIONS" || dataSubType === "Transactions"){
+      if(dataType === "EMISSIONS" || dataType === "FACILITY" || matsDataType || dataSubType === "Transactions"){
         if(filterCriteria.filterMapping && filterCriteria.filterMapping.length>0){
           const filterCriteriaCloned = JSON.parse(JSON.stringify(filterCriteria));
           if(dataSubType === "Transactions"){
@@ -172,7 +172,7 @@ export const TimePeriod = ({
           formState.startDate,
           formState.endDate
         );
-        const minDate = isAllowance ? '1993-03-23' : dataType === "MERCURY AND AIR TOXICS EMISSIONS" ? '2015-01-01' : '1995-01-01';
+        const minDate = isAllowance ? '1993-03-23' : matsDataType ? '2015-01-01' : '1995-01-01';
         updatedValidations['validReportingQuarter'] =
           isInValidDateRange(
             formState.startDate,
@@ -198,7 +198,7 @@ export const TimePeriod = ({
       loadFilterMappingDispatcher(dataType, dataSubType, getTimePeriodYears(null, null, formState.year));
     }
     else
-      if(dataSubType === "Transactions" || dataType === "MERCURY AND AIR TOXICS EMISSIONS"){
+      if(dataSubType === "Transactions" || matsDataType){
         loadFilterMappingDispatcher(dataType, dataSubType, [formatDateToApi(formState.startDate), formatDateToApi(formState.endDate)]);
       }else{
         loadFilterMappingDispatcher(dataType, dataSubType, getTimePeriodYears(formatDateToApi(formState.startDate), formatDateToApi(formState.endDate)));
@@ -207,7 +207,7 @@ export const TimePeriod = ({
 
   const verifyFilterLogic = () =>{
     let result = true;
-    if(dataType === "EMISSIONS" || dataType === "FACILITY" || dataType === "MERCURY AND AIR TOXICS EMISSIONS" || dataSubType === "Transactions"){
+    if(dataType === "EMISSIONS" || dataType === "FACILITY" || matsDataType || dataSubType === "Transactions"){
       if(!isAddedToFilters(filterToApply, appliedFilters)){
         updateFilterMapping();
       }else if(verifyTimePeriodChange(formState, timePeriod, showYear, dataSubType === "Transactions")){
