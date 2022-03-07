@@ -55,9 +55,25 @@ const ManageDataPreview = ({
 }) => {
   const [requirementsMet, setRequirementsMet] = useState(false);
   const [helperText, setHelperText] = useState(null);
+  const [limitAlert, setLimitAlert] = useState(null);
 
   useEffect(() => {
     getContent('/campd/data/custom-data-download/helper-text.md').then(resp => setHelperText(resp.data));
+    getContent('/campd/data/custom-data-download/download-limit-alert.md').then(
+      (resp) => {
+        let limitText = resp.data;
+        if (limitText.includes('[limit-configuration]')) {
+          limitText = limitText.replace(
+            '[limit-configuration]',
+            String(config.app.streamingLimit).replace(
+              /\B(?=(\d{3})+(?!\d))/g,
+              ','
+            )
+          );
+        }
+        setLimitAlert(limitText);
+      }
+    );
   }, []);
 
   useEffect(() => {
@@ -230,13 +246,16 @@ const ManageDataPreview = ({
       {requirementsMet && totalCount !== null && Number(totalCount) > Number(config.app.streamingLimit) && (
         <div className='padding-x-3 padding-top-3'>
           <Alert type="warning" aria-live="assertive">
-            {`Your query exceeds the record limit of ${String(config.app.streamingLimit).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}. Refine your query to further limit the number of records returned or visit the `}
-            <Link 
-              target="_blank"
-              rel="noopener noreferrer"
-              href="/data/bulk-data-files"
-            >
-              Bulk Data Files.</Link>
+            <ReactMarkdown
+              children={limitAlert}
+              remarkPlugins={[remarkGfm]}
+              components={{
+                a: ({ node, ...props }) => (
+                  <Link {...props} target="_blank" rel="noopener noreferrer" />
+                ),
+                p: "span"
+              }}
+            />
           </Alert>
         </div>
       )}
