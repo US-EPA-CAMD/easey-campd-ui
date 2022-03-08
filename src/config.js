@@ -46,6 +46,11 @@ const config = {
         process.env.REACT_APP_EASEY_CONTENT_API ||
         "https://api.epa.gov/easey/dev/content-mgmt",
     },
+    quartz: {
+      uri:
+        process.env.REACT_APP_EASEY_QUARTZ_API ||
+        "https://api.epa.gov/easey/dev/quartz-mgmt",
+    },
   },
 };
 
