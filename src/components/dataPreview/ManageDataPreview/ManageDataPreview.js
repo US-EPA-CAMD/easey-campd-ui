@@ -120,6 +120,7 @@ const ManageDataPreview = ({
           startDate: timePeriod.startDate,
           endDate: timePeriod.endDate,
           opHrsOnly: false,
+          comboBoxYear: []
         });
         removeAppliedFiltersDispatcher(filterType, false, true);
       }else{
