@@ -22,11 +22,6 @@ import {
 } from '../../../store/actions/customDataDownload/filterCriteria';
 import MatsDataCaveat from "../../customDataDownload/MatsDataCaveat/MatsDataCaveat";
 
-jest.spyOn(window, 'alert').mockImplementation(() => {});
-jest.spyOn(window, 'confirm').mockImplementation(() => {});
-jest.mock('react-markdown', () => ({ children }) => <>{children}</>);
-jest.mock('remark-gfm', () => () => {});
-
 const FilterCriteriaMenu = ({
     dataSubtypeApplied,
     selectedDataType,
