@@ -6,7 +6,7 @@ import ManageDataDownload from "../customDataDownload/ManageDataDownload/ManageD
 import NotFound from "../NotFound/NotFound";
 import HomePage from "../HomePage/HomePage";
 import DataLandingPage from "../DataLandingPage/DataLandingPage";
-import BulkDataFiles from "../BulkDataFiles/BulkDataFiles";
+import ManageBulkDataFiles from "../bulkDataFiles/ManageBulkDataFiles/ManageBulkDataFiles";
 import AboutPage from "../AboutPage/AboutPage";
 import TutorialsPage from "../TutorialsPage/TutorialsPage";
 import ContactUsPage from "../ContactUsPage/ContactUsPage";
@@ -38,7 +38,7 @@ function App() {
           <Route path="/" exact component={HomePage}/>
           <Route path="/data" exact component={DataLandingPage} />
           <Route path='/data/custom-data-download' exact component={ManageDataDownload} />
-          <Route path="/data/bulk-data-files" exact component={BulkDataFiles} />
+          <Route path="/data/bulk-data-files" exact component={ManageBulkDataFiles} />
           <Route path="/resources/related-resources" exact component={RelatedResources} />
           <Route path="/resources/glossary" exact component={GlossaryPage} />
           <Route path="/help-support/about" exact component={AboutPage} />

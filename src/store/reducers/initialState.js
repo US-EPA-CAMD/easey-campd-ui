@@ -34,6 +34,9 @@ export default {
     filterMapping: [],
     filterLogicEngaged: false
   },
+  bulkDataFiles:{
+    dataTable: null
+  },
   apiCallsInProgress: 0,
   hideNav: false
 };
