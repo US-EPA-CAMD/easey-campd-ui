@@ -4,7 +4,7 @@ const placeholderTools = [
   {
     id: 1,
     name: "Underground Storage Tank Finder",
-    img: "#",
+    img: "https://echo.epa.gov/files/dataviz/42606a1211b794055a96d07367d86e23vvpWd13P1r98tB9kkfHvhKCGuppeGQydrJsVdReH184.png",
     url: "#1",
     summary: (
       <>
@@ -77,7 +77,7 @@ const placeholderTools = [
   {
     id: 2,
     name: "Housing Units Served by Private Domestic Wells in the United States",
-    img: "#",
+    img: "https://echo.epa.gov/files/dataviz/5a247e1457e309df2451c6b29c3d87b2vvpWd13P1r98tB9kkfHvhKCGuppeGQydrJsVdReH184.png",
     url: "#2",
     summary: (
       <>
@@ -139,7 +139,7 @@ const placeholderTools = [
   {
     id: 3,
     name: "NPDES eRule Phase 2 Implementation Dashboard",
-    img: "#",
+    img: "https://echo.epa.gov/files/dataviz/c49b3b84e6a622b91fe1c12b845b0643vvpWd13P1r98tB9kkfHvhKCGuppeGQydrJsVdReH184.jpeg",
     url: "#3",
     summary: (
       <>
@@ -199,7 +199,7 @@ const placeholderTools = [
   {
     id: 4,
     name: "WQI Portals Monitoring Coverage",
-    img: "#",
+    img: "https://echo.epa.gov/files/dataviz/05951ef290d53890a72563756014dba1vvpWd13P1r98tB9kkfHvhKCGuppeGQydrJsVdReH184.png",
     url: "#4",
     summary: (
       <>
@@ -234,7 +234,7 @@ const placeholderTools = [
   {
     id: 5,
     name: "Water Quality Indicators Data Usability Improvement Project",
-    img: "#",
+    img: "https://echo.epa.gov/files/dataviz/18260c7f8dd172716a71655847bd0c5dvvpWd13P1r98tB9kkfHvhKCGuppeGQydrJsVdReH184.png",
     url: "#5",
     summary: (
       <>
@@ -290,7 +290,7 @@ const placeholderTools = [
   {
     id: 6,
     name: "NPDES eRule Readiness and Data Completeness Dashboard",
-    img: "#",
+    img: "https://echo.epa.gov/files/dataviz/e6337a96ab171a7fee8a5dc11c232731vvpWd13P1r98tB9kkfHvhKCGuppeGQydrJsVdReH184.jpeg",
     url: "#6",
     summary: (
       <>

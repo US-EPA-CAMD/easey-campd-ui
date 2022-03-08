@@ -9,39 +9,44 @@ const ToolCard = ({ data }) => {
   const [expanded, setExpanded] = useState(false);
 
   return (
-    <div className="grid-col-12 tablet:grid-col-6 desktop-lg:grid-col-4">
-      <div className="margin-1">
-        <div
-          className="campd-tool position-relative padding-2 radius-md shadow-2 hover:shadow-5 bg-white"
-          data-expanded={expanded}
-        >
-          <div className="campd-tool-header">
-            <p className="margin-0 font-sans-sm line-height-sans-2 text-bold">
-              <a
-                className="usa-link hover:underline-accent-cool"
-                href={data.url}
-              >
-                {data.name}
-              </a>
-            </p>
+    <div className="margin-bottom-4">
+      <div
+        className="campd-tool radius-md shadow-2 bg-white"
+        data-expanded={expanded}
+      >
+        <div className="campd-tool-header padding-y-105 padding-x-2 bg-primary-dark">
+          <p className="font-sans-sm line-height-sans-2">
+            <a className="hover:underline-accent-cool" href={data.url}>
+              {data.name}
+            </a>
+          </p>
+        </div>
+
+        <div className="grid-row margin-1">
+          <div className="grid-col-12 tablet:grid-col-3">
+            <div className="campd-tool-image margin-1 radius-md shadow-1 add-aspect-2x1">
+              <img src={data.img} alt="" />
+            </div>
           </div>
 
-          <div className="campd-tool-summary font-sans-2xs line-height-sans-4">
-            {data.summary}
+          <div className="grid-col-12 tablet:grid-col-9">
+            <div className="campd-tool-summary margin-1 font-sans-2xs line-height-sans-4">
+              {data.summary}
+            </div>
           </div>
+        </div>
 
-          <div className="campd-tool-meta font-sans-3xs line-height-sans-3 text-base">
-            {data.meta}
-          </div>
+        <div className="campd-tool-meta padding-2 font-sans-3xs line-height-sans-3 text-base">
+          {data.meta}
+        </div>
 
-          <div className="campd-tool-footer">
-            <button
-              className="usa-button"
-              onClick={(ev) => setExpanded(!expanded)}
-            >
-              {expanded ? "Show less" : "Show more"}
-            </button>
-          </div>
+        <div className="campd-tool-footer padding-2">
+          <button
+            className="usa-button"
+            onClick={(ev) => setExpanded(!expanded)}
+          >
+            {expanded ? "Show less" : "Show more"}
+          </button>
         </div>
       </div>
     </div>
@@ -98,16 +103,14 @@ const ToolsGalleryPage = () => {
       </section>
 
       <section className="padding-y-4 bg-base-lightest">
-        <div className="grid-container-widescreen">
-          <div className="grid-row">
-            {loading ? (
-              <div className="campd-tools-loading">
-                <Preloader />
-              </div>
-            ) : (
-              tools.map((tool) => <ToolCard key={tool.id} data={tool} />)
-            )}
-          </div>
+        <div className="grid-container">
+          {loading ? (
+            <div className="campd-tools-loading">
+              <Preloader />
+            </div>
+          ) : (
+            tools.map((tool) => <ToolCard key={tool.id} data={tool} />)
+          )}
         </div>
       </section>
     </div>
