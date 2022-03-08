@@ -7,6 +7,18 @@ import { Provider } from "react-redux";
 import initialState from "../../../store/reducers/initialState";
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
+import {
+  unitTypes,
+  fuelTypes,
+  states,
+  controlTechnologies,
+  accountTypes,
+  transactionTypes,
+  sourceCategories,
+  attributes,
+  facilities,
+  ownerOperators,
+} from './testData';
 
 initialState.customDataDownload.dataType= "COMPLIANCE";
 initialState.filterCriteria.stateTerritory = [
@@ -17,12 +29,56 @@ const store = configureStore(initialState);
 jest.mock('react-markdown', () => ({ children }) => <>{children}</>);
 jest.mock('remark-gfm', () => () => {});
 const helperTextUrl =
-  'https://api.epa.gov/easey/dev/content-mgmt/campd/data/custom-data-download/helper-text.md';
+  'https://api.epa.gov/easey/dev/content-mgmt/campd/';
 
 const getHelperTextUrl = rest.get(helperTextUrl, (req, res, ctx) => {
   return res(ctx.json('this is CDD helper tex'));
 });
-const server = new setupServer(getHelperTextUrl);
+const getUnitTypes = rest.get(unitTypes.url, (req, res, ctx) => {
+  return res(ctx.json(unitTypes.data))
+})
+const getFuelTypes = rest.get(fuelTypes.url, (req, res, ctx) => {
+  return res(ctx.json(fuelTypes.data))
+})
+const getStates = rest.get(states.url, (req, res, ctx) => {
+  return res(ctx.json(states.data))
+})
+const getControlTechnologies = rest.get(controlTechnologies.url, (req, res, ctx) => {
+  return res(ctx.json(controlTechnologies.data))
+})
+const getAccountTypes = rest.get(accountTypes.url, (req, res, ctx) => {
+  return res(ctx.json(accountTypes.data))
+})
+const getTransactionTypes = rest.get(transactionTypes.url, (req, res, ctx) => {
+  return res(ctx.json(transactionTypes.data))
+})
+const getSourceCategories = rest.get(sourceCategories.url, (req, res, ctx) => {
+  return res(ctx.json(sourceCategories.data))
+})
+const getAttributes = rest.get(attributes.url, (req, res, ctx) => {
+  return res(ctx.json(attributes.data))
+})
+const getFacilities = rest.get(facilities.url, (req, res, ctx) => {
+  return res(ctx.json(facilities.data))
+})
+const getOwnerOperators = rest.get(ownerOperators.url, (req, res, ctx) => {
+  return res(ctx.json(ownerOperators.data))
+})
+
+const apiCalls = [
+  getUnitTypes,
+  getFacilities,
+  getOwnerOperators,
+  getFuelTypes,
+  getStates,
+  getControlTechnologies,
+  getAccountTypes,
+  getTransactionTypes,
+  getSourceCategories,
+  getAttributes,
+  getHelperTextUrl,
+];
+const server = new setupServer(...apiCalls);
 // *** set up mocks
 
 beforeAll(() => server.listen());

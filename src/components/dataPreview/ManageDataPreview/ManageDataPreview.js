@@ -23,6 +23,7 @@ import { EMISSIONS_DATA_SUBTYPES } from '../../../utils/constants/emissions';
 import { ALLOWANCES_DATA_SUBTYPES } from '../../../utils/constants/allowances';
 import { COMPLIANCES_DATA_SUBTYPES } from '../../../utils/constants/compliances';
 import { FACILITY_DATA_SUBTYPES } from '../../../utils/constants/facility';
+import { MATS_DATA_SUBTYPES } from '../../../utils/constants/mats'
 import Tooltip from '../../Tooltip/Tooltip';
 import config from "../../../config";
 import getContent  from '../../../utils/api/getContent';
@@ -54,9 +55,25 @@ const ManageDataPreview = ({
 }) => {
   const [requirementsMet, setRequirementsMet] = useState(false);
   const [helperText, setHelperText] = useState(null);
+  const [limitAlert, setLimitAlert] = useState(null);
 
   useEffect(() => {
     getContent('/campd/data/custom-data-download/helper-text.md').then(resp => setHelperText(resp.data));
+    getContent('/campd/data/custom-data-download/download-limit-alert.md').then(
+      (resp) => {
+        let limitText = resp.data;
+        if (limitText.includes('[limit-configuration]')) {
+          limitText = limitText.replace(
+            '[limit-configuration]',
+            String(config.app.streamingLimit).replace(
+              /\B(?=(\d{3})+(?!\d))/g,
+              ','
+            )
+          );
+        }
+        setLimitAlert(limitText);
+      }
+    );
   }, []);
 
   useEffect(() => {
@@ -134,6 +151,7 @@ const ManageDataPreview = ({
       ALLOWANCE: ALLOWANCES_DATA_SUBTYPES,
       COMPLIANCE: COMPLIANCES_DATA_SUBTYPES,
       FACILITY: FACILITY_DATA_SUBTYPES,
+      "MERCURY AND AIR TOXICS EMISSIONS": MATS_DATA_SUBTYPES,
     };
     const subTypes = mapRequiredFilters[dataType] || null;
     if (!subTypes) {
@@ -228,13 +246,16 @@ const ManageDataPreview = ({
       {requirementsMet && totalCount !== null && Number(totalCount) > Number(config.app.streamingLimit) && (
         <div className='padding-x-3 padding-top-3'>
           <Alert type="warning" aria-live="assertive">
-            {`Your query exceeds the record limit of ${String(config.app.streamingLimit).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}. Refine your query to further limit the number of records returned or visit the `}
-            <Link 
-              target="_blank"
-              rel="noopener noreferrer"
-              href="/data/bulk-data-files"
-            >
-              Bulk Data Files.</Link>
+            <ReactMarkdown
+              children={limitAlert}
+              remarkPlugins={[remarkGfm]}
+              components={{
+                a: ({ node, ...props }) => (
+                  <Link {...props} target="_blank" rel="noopener noreferrer" />
+                ),
+                p: "span"
+              }}
+            />
           </Alert>
         </div>
       )}

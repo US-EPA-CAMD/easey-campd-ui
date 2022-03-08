@@ -1351,11 +1351,11 @@ initialState.filterCriteria.filterMapping = [
 ];
 
 describe('Emissions Filter logic functions', () => {
-  it('engages filter logic for emissions Annual Emissions', () => {
+  it('engages filter logic for emissions Annual Emissions', async () => {
     const clonedFilterCritera = JSON.parse(
       JSON.stringify(initialState.filterCriteria)
     );
-    engageFilterLogic(
+    await engageFilterLogic(
       'EMISSIONS',
       'Annual Emissions',
       'Time Period',
@@ -1364,11 +1364,11 @@ describe('Emissions Filter logic functions', () => {
     );
     expect(clonedFilterCritera).not.toBe(initialState.filterCriteria);
   });
-  it('engages filter logic for facility unit/attributes', () => {
+  it('engages filter logic for facility unit/attributes', async () => {
     const clonedFilterCritera = JSON.parse(
       JSON.stringify(initialState.filterCriteria)
     );
-    engageFilterLogic(
+    await engageFilterLogic(
       'FACILITY',
       'Facility/Unit Attributes',
       'Time Period',
@@ -1377,7 +1377,7 @@ describe('Emissions Filter logic functions', () => {
     );
     expect(clonedFilterCritera).not.toBe(initialState.filterCriteria);
   });
-  it('engages filter logic for allowance holdings', () => {
+  it('engages filter logic for allowance holdings', async () => {
     initialState.filterCriteria.filterMapping = [
       {
         vintageYear: '1995',
@@ -1690,7 +1690,7 @@ describe('Emissions Filter logic functions', () => {
     const clonedFilterCritera = JSON.parse(
       JSON.stringify(initialState.filterCriteria)
     );
-    engageFilterLogic(
+    await engageFilterLogic(
       'ALLOWANCE',
       'Holdings',
       'Facility',
@@ -1699,7 +1699,7 @@ describe('Emissions Filter logic functions', () => {
     );
     expect(clonedFilterCritera).not.toBe(initialState.filterCriteria);
   });
-  it('engages filter logic for allowance based compliance', () => {
+  it('engages filter logic for allowance based compliance', async () => {
     initialState.filterCriteria.filterMapping = [
       {
         year: '1995',
@@ -1960,7 +1960,7 @@ describe('Emissions Filter logic functions', () => {
     const clonedFilterCritera = JSON.parse(
       JSON.stringify(initialState.filterCriteria)
     );
-    engageFilterLogic(
+    await engageFilterLogic(
       'COMPLIANCE',
       'Allowance Based',
       'Facility',
@@ -1969,7 +1969,7 @@ describe('Emissions Filter logic functions', () => {
     );
     expect(clonedFilterCritera).not.toBe(initialState.filterCriteria);
   });
-  it('engages filter logic for allowance transactions', () => {
+  it('engages filter logic for allowance transactions', async () => {
     initialState.filterCriteria.filterMapping = [
       {
         transactionDate: '2019-01-09',
@@ -2268,7 +2268,7 @@ describe('Emissions Filter logic functions', () => {
     const clonedFilterCritera = JSON.parse(
       JSON.stringify(initialState.filterCriteria)
     );
-    engageFilterLogic(
+    await engageFilterLogic(
       'ALLOWANCE',
       'Transactions',
       'Facility',

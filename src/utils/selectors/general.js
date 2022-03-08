@@ -170,13 +170,19 @@ export const constructRequestUrl = (
   const pagination = download ? '' : 'page=1&perPage=100';
 
   let apiService;
-  switch (dataType.toLowerCase()) {
+  const data_type = dataType.toLowerCase();
+  switch (data_type) {
     case 'emissions':
     case 'facility':
+    case 'mercury and air toxics emissions':
       if (dataSubType === 'Facility/Unit Attributes') {
         apiService = `${config.services.facilities.uri}/facilities/`;
       } else {
-        apiService = `${config.services.emissions.uri}/apportioned/`;
+        if (data_type === 'mercury and air toxics emissions') {
+          apiService = `${config.services.emissions.uri}/apportioned/mats/`;
+        } else {
+          apiService = `${config.services.emissions.uri}/apportioned/`;
+        }
       }
       break;
     case 'allowance':
