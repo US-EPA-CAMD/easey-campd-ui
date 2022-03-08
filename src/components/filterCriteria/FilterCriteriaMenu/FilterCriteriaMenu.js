@@ -20,7 +20,12 @@ import {
   updateTimePeriod,
   updateFilterCriteria,
 } from '../../../store/actions/customDataDownload/filterCriteria';
+import MatsDataCaveat from "../../customDataDownload/MatsDataCaveat/MatsDataCaveat";
 
+jest.spyOn(window, 'alert').mockImplementation(() => {});
+jest.spyOn(window, 'confirm').mockImplementation(() => {});
+jest.mock('react-markdown', () => ({ children }) => <>{children}</>);
+jest.mock('remark-gfm', () => () => {});
 
 const FilterCriteriaMenu = ({
     dataSubtypeApplied,
@@ -35,7 +40,8 @@ const FilterCriteriaMenu = ({
     resetDataPreviewDispatcher,
     isMobileOrTablet,
     hideFilterMenu,
-    setRemovedAppliedFilter
+    setRemovedAppliedFilter,
+    renderPreviewData
   }) => { 
     const [firstFocusableEl, setFirstFocusableEl] = useState(null);
 
@@ -139,6 +145,11 @@ const FilterCriteriaMenu = ({
               </Tooltip>
             </span>
           </div>
+          {isMobileOrTablet && selectedDataType === 'MERCURY AND AIR TOXICS EMISSIONS' && !renderPreviewData && (
+            <div className="margin-2 margin-bottom-0">
+              <MatsDataCaveat />
+            </div>
+          )}
           <div className="clearfix padding-y-1 padding-x-2">
             <div className="filter-container">
               {constants.FILTERS_MAP[selectedDataType][
