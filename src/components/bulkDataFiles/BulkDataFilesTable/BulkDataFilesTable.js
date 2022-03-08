@@ -54,6 +54,7 @@ const BulkDataFilesTable = ({
         persistTableHead={false}
         defaultSortField="filename"
         pagination
+        paginationRowsPerPageOptions={[10,25,50,100]}
         sortIcon={
           <ArrowDownwardSharp className="margin-left-2 text-primary" />
         }

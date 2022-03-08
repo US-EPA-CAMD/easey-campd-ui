@@ -210,12 +210,23 @@ export const TimePeriod = ({
     if(dataType === "EMISSIONS" || dataType === "FACILITY" || matsDataType || dataSubType === "Transactions"){
       if(!isAddedToFilters(filterToApply, appliedFilters)){
         updateFilterMapping();
-      }else if(verifyTimePeriodChange(formState, timePeriod, showYear, dataSubType === "Transactions")){
-        if(window.confirm(`Changing the ${dataSubType==="Transactions"?"transaction date": "year"} will clear out previously selected criteria. Do you want to proceed?`)){
+      }else if(verifyTimePeriodChange(formState, timePeriod, showYear, dataSubType === "Transactions") || verifyTimePeriodChange(formState, timePeriod, showYear, matsDataType)){
+        let message;
+        if (matsDataType) {
+          message =
+            'Changing the time period will clear out previously selected criteria. Do you want to proceed?';
+        } else if (dataSubType === 'Transactions') {
+          message =
+            'Changing the transaction date will clear out previously selected criteria. Do you want to proceed?';
+        } else {
+          message =
+            'Changing the year will clear out previously selected criteria. Do you want to proceed?';
+        }
+        if (window.confirm(message)) {
           resetFilterDispatcher(null, true);
           removeAppliedFiltersDispatcher(null, true);
-          updateFilterMapping()
-        }else{
+          updateFilterMapping();
+        } else {
           result = false;
         }
       }
