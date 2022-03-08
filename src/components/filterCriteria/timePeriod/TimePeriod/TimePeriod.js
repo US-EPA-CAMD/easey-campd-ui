@@ -218,6 +218,14 @@ export const TimePeriod = ({
         }else{
           result = false;
         }
+      }else if(verifyTimePeriodChange(formState, timePeriod, showYear, matsDataType)){
+        if(window.confirm('Changing the time period will clear out previously selected criteria. Do you want to proceed?')){
+          resetFilterDispatcher(null, true);
+          removeAppliedFiltersDispatcher(null, true);
+          updateFilterMapping()
+        }else{
+          result = false;
+        }
       }
     }
     return result;
