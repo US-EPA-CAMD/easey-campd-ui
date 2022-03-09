@@ -1,5 +1,5 @@
 .campd-tools .usa-hero {
-  background-image: url("https://via.placeholder.com/2048x820.png?text=(Placeholder)");
+  background-image: url("./placeholderBanner.png");
 }
 
 .campd-tools-loading {
@@ -31,7 +31,15 @@
   /* uswds "tablet" breakpoint */
   @media (min-width: 40em) {
     .campd-tool-image {
-      padding-bottom: 75%; /* 4x3 aspect ratio */
+      float: left;
+      margin-right: 1rem;
+      padding-bottom: 0;
+      height: 160px;
+      width: 240px;
+    }
+
+    .campd-tool-meta {
+      border-top: none;
     }
   }
 }
@@ -49,6 +57,7 @@
 }
 
 .campd-tool-image {
+  margin-bottom: 1rem;
   border: 1px solid #dfe1e2;
 
   img {
@@ -67,11 +76,11 @@
 }
 
 .campd-tool-meta {
-  margin-top: 1rem;
   border-top: 1px solid #dfe1e2;
 }
 
 .campd-tool-footer {
+  border-top: 1px solid #dfe1e2;
   text-align: center;
 
   button {
@@ -87,6 +96,7 @@
   .campd-tool-footer {
     position: absolute;
     bottom: 0;
+    border-top: none;
     padding-top: 1.625rem;
     width: 100%;
     background-image: linear-gradient(

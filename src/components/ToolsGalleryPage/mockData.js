@@ -19,7 +19,7 @@ const placeholderTools = [
         </p>
       </>
     ),
-    meta: (
+    background: (
       <>
         <p>
           <strong>Source Data Description:</strong> State Sourced. For more
@@ -73,6 +73,11 @@ const placeholderTools = [
         </p>
       </>
     ),
+    meta: (
+      <>
+        <p>Placeholder</p>
+      </>
+    ),
   },
   {
     id: 2,
@@ -104,7 +109,7 @@ const placeholderTools = [
         </p>
       </>
     ),
-    meta: (
+    background: (
       <>
         <p>
           <strong>Source Data Description:</strong> See manuscript:{" "}
@@ -135,6 +140,11 @@ const placeholderTools = [
         </p>
       </>
     ),
+    meta: (
+      <>
+        <p>Placeholder</p>
+      </>
+    ),
   },
   {
     id: 3,
@@ -157,7 +167,7 @@ const placeholderTools = [
         </p>
       </>
     ),
-    meta: (
+    background: (
       <>
         <p>
           <strong>Source Data Description:</strong> EPA updates the data for
@@ -195,6 +205,11 @@ const placeholderTools = [
         </p>
       </>
     ),
+    meta: (
+      <>
+        <p>Placeholder</p>
+      </>
+    ),
   },
   {
     id: 4,
@@ -210,7 +225,7 @@ const placeholderTools = [
         </p>
       </>
     ),
-    meta: (
+    background: (
       <>
         <p>
           <strong>Source Data Description:</strong> US. Water Quality Portals
@@ -230,6 +245,11 @@ const placeholderTools = [
         </p>
       </>
     ),
+    meta: (
+      <>
+        <p>Placeholder</p>
+      </>
+    ),
   },
   {
     id: 5,
@@ -245,7 +265,7 @@ const placeholderTools = [
         </p>
       </>
     ),
-    meta: (
+    background: (
       <>
         <p>
           <strong>Source Data Description:</strong>{" "}
@@ -286,6 +306,11 @@ const placeholderTools = [
         </p>
       </>
     ),
+    meta: (
+      <>
+        <p>Placeholder</p>
+      </>
+    ),
   },
   {
     id: 6,
@@ -309,7 +334,7 @@ const placeholderTools = [
         </p>
       </>
     ),
-    meta: (
+    background: (
       <>
         <p>
           <strong>Source Data Description:</strong> ICIS-NPDES
@@ -328,6 +353,11 @@ const placeholderTools = [
         <p>
           <strong>Help Documentation:</strong> See help page
         </p>
+      </>
+    ),
+    meta: (
+      <>
+        <p>Placeholder</p>
       </>
     ),
   },

@@ -22,22 +22,30 @@ const ToolCard = ({ data }) => {
           </p>
         </div>
 
-        <div className="grid-row margin-1">
-          <div className="grid-col-12 tablet:grid-col-3">
-            <div className="campd-tool-image margin-1 radius-md shadow-1 add-aspect-2x1">
-              <img src={data.img} alt="" />
-            </div>
-          </div>
-
+        <div className="grid-row">
           <div className="grid-col-12 tablet:grid-col-9">
-            <div className="campd-tool-summary margin-1 font-sans-2xs line-height-sans-4">
-              {data.summary}
+            <div className="padding-2">
+              <div className="campd-tool-image radius-md shadow-1 add-aspect-2x1">
+                <img src={data.img} alt="" />
+              </div>
+
+              <div className="campd-tool-summary font-sans-2xs line-height-sans-4">
+                {data.summary}
+              </div>
+
+              <div className="campd-tool-other font-sans-3xs line-height-sans-3">
+                {data.background}
+              </div>
             </div>
           </div>
-        </div>
 
-        <div className="campd-tool-meta padding-2 font-sans-3xs line-height-sans-3 text-base">
-          {data.meta}
+          <div className="grid-col-12 tablet:grid-col-3 bg-base-lightest">
+            <div className="campd-tool-meta padding-2">
+              <div className="font-sans-3xs line-height-sans-3 text-base">
+                {data.meta}
+              </div>
+            </div>
+          </div>
         </div>
 
         <div className="campd-tool-footer padding-2">
