@@ -40,6 +40,7 @@
 
     .campd-tool-meta {
       border-top: none;
+      border-left: 1px solid #dfe1e2;
     }
   }
 }
@@ -72,6 +73,20 @@
 .campd-tool-meta {
   p:first-of-type {
     margin-top: 0;
+  }
+
+  a {
+    color: #005ea2;
+    text-decoration: underline;
+
+    :hover {
+      color: #1a4480;
+    }
+
+    :focus {
+      outline: 0.25rem solid #2491ff;
+      outline-offset: 0;
+    }
   }
 }
 

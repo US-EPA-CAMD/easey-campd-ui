@@ -75,7 +75,48 @@ const placeholderTools = [
     ),
     meta: (
       <>
-        <p>Placeholder</p>
+        <p>
+          <strong>Media:</strong>
+          <br />
+          Cross-Media
+        </p>
+        <p>
+          <strong>Owner Affiliation:</strong>
+          <br />
+          Headquarters
+        </p>
+        <p>
+          <strong>Keywords:</strong>
+          <br />
+          Underground Storage Tanks, Leaking Underground Storage Tanks
+        </p>
+        <p>
+          <strong>Product Owner Contact:</strong>
+          <br />
+          Alex Hall (
+          <a href="mailto:hall.alexander@epa.gov">hall.alexander@epa.gov</a>)
+        </p>
+        <p>
+          <strong>Program Contact:</strong>
+          <br />
+          Will Anderson (anderson.will@epa.gov)
+        </p>
+        <p>
+          <strong>Technical Contact:</strong>
+          <br />
+          Alex Hall (
+          <a href="mailto:hall.alexander@epa.gov">hall.alexander@epa.gov</a>)
+        </p>
+        <p>
+          <strong>Date Uploaded:</strong>
+          <br />
+          10/19/2021
+        </p>
+        <p>
+          <strong>Date Last Updated:</strong>
+          <br />
+          10/19/2021
+        </p>
       </>
     ),
   },
@@ -142,7 +183,49 @@ const placeholderTools = [
     ),
     meta: (
       <>
-        <p>Placeholder</p>
+        <p>
+          <strong>Media:</strong>
+          <br />
+          Drinking Water
+        </p>
+        <p>
+          <strong>Owner Affiliation:</strong>
+          <br />
+          Headquarters
+        </p>
+        <p>
+          <strong>Keywords:</strong>
+          <br />
+          Water, Wells, Private Domestic Wells
+        </p>
+        <p>
+          <strong>Product Owner Contact:</strong>
+          <br />
+          Alex Hall (
+          <a href="mailto:hall.alexander@epa.gov">hall.alexander@epa.gov</a>)
+        </p>
+        <p>
+          <strong>Program Contact:</strong>
+          <br />
+          Alex Hall (
+          <a href="mailto:hall.alexander@epa.gov">hall.alexander@epa.gov</a>)
+        </p>
+        <p>
+          <strong>Technical Contact:</strong>
+          <br />
+          Alex Hall (
+          <a href="mailto:hall.alexander@epa.gov">hall.alexander@epa.gov</a>)
+        </p>
+        <p>
+          <strong>Date Uploaded:</strong>
+          <br />
+          10/19/2021
+        </p>
+        <p>
+          <strong>Date Last Updated:</strong>
+          <br />
+          10/19/2021
+        </p>
       </>
     ),
   },
@@ -207,7 +290,50 @@ const placeholderTools = [
     ),
     meta: (
       <>
-        <p>Placeholder</p>
+        <p>
+          <strong>Media:</strong>
+          <br />
+          Water
+        </p>
+        <p>
+          <strong>Owner Affiliation:</strong>
+          <br />
+          Headquarters
+        </p>
+        <p>
+          <strong>Keywords:</strong>
+          <br />
+          NPDES, General Permits, Program Reports, Electronic Reporting Rule
+        </p>
+        <p>
+          <strong>Product Owner Contact:</strong>
+          <br />
+          Amanda Pruzinsky (
+          <a href="mailto:Pruzinsky.Amanda@epa.gov">Pruzinsky.Amanda@epa.gov</a>
+          )
+        </p>
+        <p>
+          <strong>Program Contact:</strong>
+          <br />
+          Carey Johnston (
+          <a href="mailto:Johnston.Carey@epa.gov">Johnston.Carey@epa.gov</a>)
+        </p>
+        <p>
+          <strong>Technical Contact:</strong>
+          <br />
+          Carey Johnston (
+          <a href="mailto:Johnston.Carey@epa.gov">Johnston.Carey@epa.gov</a>)
+        </p>
+        <p>
+          <strong>Date Uploaded:</strong>
+          <br />
+          06/11/2018
+        </p>
+        <p>
+          <strong>Date Last Updated:</strong>
+          <br />
+          06/11/2018
+        </p>
       </>
     ),
   },
@@ -247,7 +373,50 @@ const placeholderTools = [
     ),
     meta: (
       <>
-        <p>Placeholder</p>
+        <p>
+          <strong>Media:</strong>
+          <br />
+          Water
+        </p>
+        <p>
+          <strong>Owner Affiliation:</strong>
+          <br />
+          Headquarters
+        </p>
+        <p>
+          <strong>Keywords:</strong>
+          <br />
+          WQI, water quality
+        </p>
+        <p>
+          <strong>Product Owner Contact:</strong>
+          <br />
+          Rusty Wasem (
+          <a href="mailto:Wasem.Russell@epa.gov">Wasem.Russell@epa.gov</a>)
+        </p>
+        <p>
+          <strong>Program Contact:</strong>
+          <br />
+          Rusty Wasem (
+          <a href="mailto:Wasem.Russell@epa.gov">Wasem.Russell@epa.gov</a>)
+        </p>
+        <p>
+          <strong>Technical Contact:</strong>
+          <br />
+          Bob Greenspun (
+          <a href="mailto:Greenspun.Robert@epa.gov">Greenspun.Robert@epa.gov</a>
+          )
+        </p>
+        <p>
+          <strong>Date Uploaded:</strong>
+          <br />
+          12/14/2017
+        </p>
+        <p>
+          <strong>Date Last Updated:</strong>
+          <br />
+          12/14/2017
+        </p>
       </>
     ),
   },
@@ -308,7 +477,51 @@ const placeholderTools = [
     ),
     meta: (
       <>
-        <p>Placeholder</p>
+        <p>
+          <strong>Media:</strong>
+          <br />
+          Water
+        </p>
+        <p>
+          <strong>Owner Affiliation:</strong>
+          <br />
+          Headquarters
+        </p>
+        <p>
+          <strong>Keywords:</strong>
+          <br />
+          WQI, water quality
+        </p>
+        <p>
+          <strong>Product Owner Contact:</strong>
+          <br />
+          Amanda Pruzinsky (
+          <a href="mailto:Pruzinsky.Amanda@epa.gov">Pruzinsky.Amanda@epa.gov</a>
+          )
+        </p>
+        <p>
+          <strong>Program Contact:</strong>
+          <br />
+          Russell Wasem (
+          <a href="mailto:wasem.russell@epa.gov">wasem.russell@epa.gov</a>)
+        </p>
+        <p>
+          <strong>Technical Contact:</strong>
+          <br />
+          Robert Greenspun (
+          <a href="mailto:Greenspun.Robert@epa.gov">Greenspun.Robert@epa.gov</a>
+          )
+        </p>
+        <p>
+          <strong>Date Uploaded:</strong>
+          <br />
+          12/14/2017
+        </p>
+        <p>
+          <strong>Date Last Updated:</strong>
+          <br />
+          12/14/2017
+        </p>
       </>
     ),
   },
@@ -357,7 +570,58 @@ const placeholderTools = [
     ),
     meta: (
       <>
-        <p>Placeholder</p>
+        <p>
+          <strong>Media:</strong>
+          <br />
+          Water
+        </p>
+        <p>
+          <strong>Owner Affiliation:</strong>
+          <br />
+          Headquarters
+        </p>
+        <p>
+          <strong>Keywords:</strong>
+          <br />
+          NPDES, eRule
+        </p>
+        <p>
+          <strong>Product Owner Contact:</strong>
+          <br />
+          Jesse Yourish (
+          <a href="mailto:yourish.jesse@epa.gov">
+            mailto:yourish.jesse@epa.gov
+          </a>
+          )
+        </p>
+        <p>
+          <strong>Program Contact:</strong>
+          <br />
+          Jesse Yourish (
+          <a href="mailto:yourish.jesse@epa.gov">
+            mailto:yourish.jesse@epa.gov
+          </a>
+          )
+        </p>
+        <p>
+          <strong>Technical Contact:</strong>
+          <br />
+          Jesse Yourish (
+          <a href="mailto:yourish.jesse@epa.gov">
+            mailto:yourish.jesse@epa.gov
+          </a>
+          )
+        </p>
+        <p>
+          <strong>Date Uploaded:</strong>
+          <br />
+          12/14/2017
+        </p>
+        <p>
+          <strong>Date Last Updated:</strong>
+          <br />
+          12/14/2017
+        </p>
       </>
     ),
   },

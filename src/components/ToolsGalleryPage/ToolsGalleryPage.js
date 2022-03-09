@@ -39,7 +39,7 @@ const ToolCard = ({ data }) => {
             </div>
           </div>
 
-          <div className="grid-col-12 tablet:grid-col-3 bg-base-lightest">
+          <div className="grid-col-12 tablet:grid-col-3 bg-gray-5">
             <div className="campd-tool-meta padding-2">
               <div className="font-sans-3xs line-height-sans-3 text-base">
                 {data.meta}
