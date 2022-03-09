@@ -5,7 +5,9 @@ const placeholderTools = [
     id: 1,
     name: "Underground Storage Tank Finder",
     img: "https://echo.epa.gov/files/dataviz/42606a1211b794055a96d07367d86e23vvpWd13P1r98tB9kkfHvhKCGuppeGQydrJsVdReH184.png",
-    url: "#1",
+    url: "https://gispub.epa.gov/ustfinder",
+    email:
+      "mailto:hall.alexander@epa.gov?subject=ECHO Data Visualization Gallery Feedback - Underground Storage Tank Finder&amp;cc=support@echo.zendesk.com",
     summary: (
       <>
         <p>
@@ -124,7 +126,9 @@ const placeholderTools = [
     id: 2,
     name: "Housing Units Served by Private Domestic Wells in the United States",
     img: "https://echo.epa.gov/files/dataviz/5a247e1457e309df2451c6b29c3d87b2vvpWd13P1r98tB9kkfHvhKCGuppeGQydrJsVdReH184.png",
-    url: "#2",
+    url: "https://gispub.epa.gov/wellmap",
+    email:
+      "mailto:hall.alexander@epa.gov?subject=ECHO Data Visualization Gallery Feedback - Housing Units Served by Private Domestic Wells in the United States&amp;cc=support@echo.zendesk.com",
     summary: (
       <>
         <p>
@@ -233,7 +237,9 @@ const placeholderTools = [
     id: 3,
     name: "NPDES eRule Phase 2 Implementation Dashboard",
     img: "https://echo.epa.gov/files/dataviz/c49b3b84e6a622b91fe1c12b845b0643vvpWd13P1r98tB9kkfHvhKCGuppeGQydrJsVdReH184.jpeg",
-    url: "#3",
+    url: "https://edap.epa.gov/public/extensions/eRule_Phase2/eRule_Phase2.html",
+    email:
+      "mailto:Pruzinsky.Amanda@epa.gov?subject=ECHO Data Visualization Gallery Feedback - NPDES eRule Phase 2 Implementation Dashboard&amp;cc=support@echo.zendesk.com",
     summary: (
       <>
         <p>
@@ -341,7 +347,9 @@ const placeholderTools = [
     id: 4,
     name: "WQI Portals Monitoring Coverage",
     img: "https://echo.epa.gov/files/dataviz/05951ef290d53890a72563756014dba1vvpWd13P1r98tB9kkfHvhKCGuppeGQydrJsVdReH184.png",
-    url: "#4",
+    url: "https://edap.epa.gov/public/extensions/WQI_Portal_Monitoring_Coverage/WQI_Portal_Monitoring_Coverage.html",
+    email:
+      "mailto:Wasem.Russel@epa.gov?subject=ECHO Data Visualization Gallery Feedback - WQI Portals Monitoring Coverage&amp;cc=support@echo.zendesk.com",
     summary: (
       <>
         <p>
@@ -424,7 +432,9 @@ const placeholderTools = [
     id: 5,
     name: "Water Quality Indicators Data Usability Improvement Project",
     img: "https://echo.epa.gov/files/dataviz/18260c7f8dd172716a71655847bd0c5dvvpWd13P1r98tB9kkfHvhKCGuppeGQydrJsVdReH184.png",
-    url: "#5",
+    url: "https://echo.epa.gov/maps/wqimap/dataquality",
+    email:
+      "mailto:Pruzinsky.Amanda@epa.gov?subject=ECHO Data Visualization Gallery Feedback - Water Quality Indicators Data Usability Improvement Project&amp;cc=support@echo.zendesk.com",
     summary: (
       <>
         <p>
@@ -529,7 +539,9 @@ const placeholderTools = [
     id: 6,
     name: "NPDES eRule Readiness and Data Completeness Dashboard",
     img: "https://echo.epa.gov/files/dataviz/e6337a96ab171a7fee8a5dc11c232731vvpWd13P1r98tB9kkfHvhKCGuppeGQydrJsVdReH184.jpeg",
-    url: "#6",
+    url: "https://echo.epa.gov/trends/npdes-erule-dashboard-public",
+    email:
+      "mailto:yourish.jesse@epa.gov?subject=ECHO Data Visualization Gallery Feedback - NPDES eRule Readiness and Data Completeness Dashboard&amp;cc=support@echo.zendesk.com",
     summary: (
       <>
         <p>

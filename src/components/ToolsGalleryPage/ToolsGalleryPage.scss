@@ -94,6 +94,22 @@
   border-top: 1px solid #dfe1e2;
 }
 
+.campd-tool-contact {
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #dfe1e2;
+
+  a {
+    display: flex;
+    align-items: center;
+    text-decoration-color: transparent;
+  }
+
+  svg {
+    margin-right: 0.25rem;
+  }
+}
+
 .campd-tool-footer {
   border-top: 1px solid #dfe1e2;
   text-align: center;

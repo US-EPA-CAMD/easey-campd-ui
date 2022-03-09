@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Preloader } from "@us-epa-camd/easey-design-system";
+import icons from "uswds/dist/img/sprite.svg";
 
 import { placeholderTools } from "./mockData"; // TEMPORARY
 import "./ToolsGalleryPage.scss";
@@ -41,6 +42,22 @@ const ToolCard = ({ data }) => {
 
           <div className="grid-col-12 tablet:grid-col-3 bg-gray-5">
             <div className="campd-tool-meta padding-2">
+              <div className="campd-tool-contact">
+                <p className="font-sans-3xs">
+                  <a className="usa-link" href={data.email}>
+                    <svg
+                      className="usa-icon"
+                      aria-hidden="true"
+                      focusable="false"
+                      role="img"
+                    >
+                      <use href={`${icons}#mail`}></use>
+                    </svg>
+                    Provide Feedback
+                  </a>
+                </p>
+              </div>
+
               <div className="font-sans-3xs line-height-sans-3 text-base">
                 {data.meta}
               </div>
