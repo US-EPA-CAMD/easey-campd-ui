@@ -2,7 +2,6 @@ import { sharedFilters } from './emissions';
 const timePeriodLabel = 'Time Period'
 
 export const MATS_DATA_SUBTYPES = [
-  { value: '', label: '- Select -' },
   { value: 1, label: 'Hourly Emissions', service: 'hourly', required: [timePeriodLabel] },
 ];
 
