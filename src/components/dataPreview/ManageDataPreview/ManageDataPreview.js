@@ -27,6 +27,7 @@ import { MATS_DATA_SUBTYPES } from '../../../utils/constants/mats'
 import Tooltip from '../../Tooltip/Tooltip';
 import config from "../../../config";
 import getContent  from '../../../utils/api/getContent';
+import MatsDataCaveat from '../../customDataDownload/MatsDataCaveat/MatsDataCaveat';
 
 const ManageDataPreview = ({
   dataType,
@@ -120,6 +121,7 @@ const ManageDataPreview = ({
           startDate: timePeriod.startDate,
           endDate: timePeriod.endDate,
           opHrsOnly: false,
+          comboBoxYear: []
         });
         removeAppliedFiltersDispatcher(filterType, false, true);
       }else{
@@ -257,6 +259,11 @@ const ManageDataPreview = ({
               }}
             />
           </Alert>
+        </div>
+      )}
+      {dataType === 'MERCURY AND AIR TOXICS EMISSIONS' && renderPreviewData && (
+        <div className="margin-2 margin-bottom-0 padding-right-2">
+          <MatsDataCaveat></MatsDataCaveat>
         </div>
       )}
       {renderPreviewData ? (

@@ -7,6 +7,12 @@ import { EMISSIONS_FILTERS } from '../../../utils/constants/emissions';
 import initialState from '../../../store/reducers/initialState'
 import configureStore from "../../../store/configureStore.dev";
 import { Provider } from "react-redux";
+
+jest.spyOn(window, 'alert').mockImplementation(() => {});
+jest.spyOn(window, 'confirm').mockImplementation(() => {});
+jest.mock('react-markdown', () => ({ children }) => <>{children}</>);
+jest.mock('remark-gfm', () => () => {});
+
 const store = configureStore(initialState);
 
 const filterCriteria = {

@@ -7,6 +7,7 @@ import * as constants from '../../../utils/constants/customDataDownload';
 import { initcap } from '../../../utils/selectors/general';
 import { focusTrap } from "../../../utils/ensure-508/focus-trap";
 import Tooltip from '../../Tooltip/Tooltip';
+import MatsDataCaveat from '../MatsDataCaveat/MatsDataCaveat';
 
 
 const DataTypeSelectorView = ({
@@ -24,7 +25,8 @@ const DataTypeSelectorView = ({
   displayCancel,
   displayCancelMobile,
   hideDataTypeSelector,
-  displayMobileDataType
+  displayMobileDataType,
+  renderPreviewData
 }) => {
 
   const [firstFocusableEl, setFirstFocusableEl] = useState(null);
@@ -74,6 +76,11 @@ const DataTypeSelectorView = ({
           </Tooltip>
         </span>
       </div>
+      {selectedDataType === 'MERCURY AND AIR TOXICS EMISSIONS' && !renderPreviewData && (
+        <div className="margin-2 margin-top-0 maxw-mobile-lg">
+          <MatsDataCaveat />
+        </div>
+      )}
       <div className="border-y-1px border-base-light clearfix padding-y-2 padding-x-2 desktop:padding-y-1 desktop:border-top-0">
         <div className="display-flex desktop:grid-row flex-align-center">
           {selectedDataSubtype !== '' &&

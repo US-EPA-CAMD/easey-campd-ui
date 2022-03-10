@@ -302,6 +302,7 @@ const ManageDataDownload = ({
             displayCancelMobile={displayCancelMobile}
             hideDataTypeSelector={hideDataTypeSelector}
             displayMobileDataType={displayMobileDataType}
+            renderPreviewData={renderPreviewData}
           />
           <FilterCriteriaMenu
             dataSubtypeApplied={dataSubtypeApplied}
@@ -315,6 +316,7 @@ const ManageDataDownload = ({
             setHideFilterMenu={setHideFilterMenu}
             isMobileOrTablet={isMobileOrTablet}
             setRemovedAppliedFilter={setRemovedAppliedFilter}
+            renderPreviewData={renderPreviewData}
           />
           <MobileMenu 
           handleBackButtonClick={handleBackButtonClick}
