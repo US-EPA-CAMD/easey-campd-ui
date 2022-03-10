@@ -145,7 +145,7 @@ const DataTypeSelectorView = ({
                 className={!selectedDataType ? 'bg-transparent' : ''}
                 onChange={changeDataSubtype}
                 value={selectedDataSubtype}
-                disabled={selectedDataType ? constants.DATA_SUBTYPES_MAP[selectedDataType].length > 1? false : true : true}
+                disabled={!selectedDataType || constants.DATA_SUBTYPES_MAP[selectedDataType]?.length < 2}
               >
                 {selectedDataType ? (
                   constants.DATA_SUBTYPES_MAP[selectedDataType].map((el, i) => (
