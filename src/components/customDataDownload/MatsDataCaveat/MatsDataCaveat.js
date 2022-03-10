@@ -5,7 +5,7 @@ import { Alert, Link as USWDSLink } from '@trussworks/react-uswds';
 
 import getContent from '../../../utils/api/getContent';
 
-const MatsDataCaveat = () => {
+const MatsDataCaveat = ({styling}) => {
   const [matsCaveat, setMatsCaveat] = useState();
   useEffect(() => {
     getContent('/campd/data/custom-data-download/mats-data-caveat.md').then(
@@ -15,7 +15,7 @@ const MatsDataCaveat = () => {
 
   return (
     <Alert
-      className="alert-wrapper usa-alert--slim font-sans-3xs desktop:line-height-sans-2"
+      className={styling}
       type="warning"
       aria-live="assertive"
     >
