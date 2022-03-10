@@ -1,8 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { metaAdder } from '../../../utils/document/metaAdder';
 import { loadBulkDataFiles } from "../../../store/actions/bulkDataFilesActions";
 import BulkDataFilesTable from "../BulkDataFilesTable/BulkDataFilesTable";
+import getContent from '../../../utils/api/getContent';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import { Link } from '@trussworks/react-uswds';
 import Tooltip from '../../Tooltip/Tooltip';
 import { Help } from '@material-ui/icons';
@@ -11,9 +14,11 @@ const ManageBulkDataFiles = ({
   dataTable,
   loadBulkDataFilesDispatcher
 }) => {
+  const [helperText, setHelperText] = useState(null);
 
   useEffect(() => {
     document.title = 'Bulk Data Files | CAMPD | US EPA';
+    getContent('/campd/data/bulk-data-files/helper-text.md').then(resp => setHelperText(resp.data));
     if(dataTable === null){
       loadBulkDataFilesDispatcher();
     }// eslint-disable-next-line
@@ -33,33 +38,16 @@ const ManageBulkDataFiles = ({
       <div className='grid-col-3 maxh-viewport bg-base-lighter margin-0'/>
       <div className='grid-col-fill'>
         <div className='bg-base-lightest padding-4'>
-          <h1 className='margin-0 text-bold font-sans-2xl'>Bulk Data Files</h1>
-          <ul>
-            <li>Use the filters on the left to narrow down the files in the table by data type.</li>
-            <li>The table search function may be used at any time to also filter the files.</li>
-            <li>The total file size download limit is 50 GB. To download more, perform additional downloads</li>
-            <li>To download files programmatically (I.e., thru a script)</li>
-            <li>Looking for raw submission files (I.e., XMLs, EDRs)? Visit the &nbsp;
-              <Link 
-                target="_blank"
-                rel="noopener noreferrer"
-                href="https://gaftp.epa.gov/DMDnLoad/"
-              >
-                FTP site
-              </Link> 
-            </li>
-            <li>Hover over the 
-              <Tooltip
-                  content=""
-                >
-                <Help
-                  className="text-primary"
-                  fontSize="small"
-                />
-              </Tooltip>
-              marks to reveal helpful tips and info.
-            </li>
-          </ul>
+          <ReactMarkdown
+            children={helperText}
+            remarkPlugins={[remarkGfm]}
+            components={{
+              h1: ({node, ...props}) => <h1 className="margin-0 text-bold font-sans-2xl">{props.children}</h1>,
+              a: ({node, ...props}) => <Link {...props} target="_blank" rel="noopener noreferrer" />,
+              // eslint-disable-next-line
+              img: ({node, ...props}) => <img {...props} style={{verticalAlign: "bottom"}} />
+            }}
+          />
         </div>
         <div className='margin-1 grid-row'>
           <div className="margin-top-4 grid-col-1 width-3">
