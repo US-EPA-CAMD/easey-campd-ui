@@ -7,6 +7,19 @@ import configureStore from '../../../store/configureStore.dev';
 import ManageBulkDataFiles from './ManageBulkDataFiles';
 import initialState from '../../../store/reducers/initialState';
 
+import { rest } from 'msw';
+import { setupServer } from 'msw/node';
+
+jest.mock('react-markdown', () => ({ children }) => <>{children}</>);
+jest.mock('remark-gfm', () => () => {});
+
+const helperTextUrl =
+  'https://api.epa.gov/easey/dev/content-mgmt/campd/data/bulk-data-files/helper-text.md';
+const getHelperTextUrl = rest.get(helperTextUrl, (req, res, ctx) => {
+  return res(ctx.json('Bulk Data Files'));
+});
+const server = new setupServer(getHelperTextUrl);
+
 initialState.bulkDataFiles.dataTable= [
   {
     "filename": "Emissions-Daily-2021-Q1.csv",
@@ -154,6 +167,9 @@ initialState.bulkDataFiles.dataTable= [
   }
 ];
 const store = configureStore(initialState);
+beforeAll(() => server.listen());
+beforeEach(() => server.resetHandlers());
+afterAll(() => server.close());
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
@@ -163,8 +179,8 @@ jest.mock('react-router-dom', () => ({
 }));
 
 
-describe('Manage Bulk Data Files component: ', () => {
-  test('sections render without errors', () => {
+describe('Manage Bulk Data Files component: ',  () => {
+  test('sections render without errors', async () => {
     const query = render(
       <Provider store={store}>
         <MemoryRouter>
@@ -174,9 +190,9 @@ describe('Manage Bulk Data Files component: ', () => {
         </MemoryRouter>
       </Provider>
     );
-    const { getByText, getByRole, getAllByRole} = query;
-    expect(getByText("Bulk Data Files")).toBeInTheDocument();
-    expect(getByText("Use the filters on the left to narrow down the files in the table by data type.")).toBeInTheDocument();
+    const { findByText, getByRole, getAllByRole} = query;
+    const header = await findByText('Bulk Data Files');
+    expect(header).toBeInTheDocument();
     expect(getByRole("table")).toBeDefined();
     expect(getAllByRole("columnheader").length).toBe(4);
     expect(getAllByRole("row").length).toBe(initialState.bulkDataFiles.dataTable.length-1);
