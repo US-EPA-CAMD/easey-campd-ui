@@ -152,7 +152,7 @@ const ManageDataDownload = ({
       updateSelectedDataTypeDispatcher(value);
     }
     if (constants.DATA_SUBTYPES_MAP[value].length === 1){
-      setSelectedDataSubtype(0);
+      setSelectedDataSubtype(1);
     }
   };
 
