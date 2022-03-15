@@ -87,7 +87,12 @@ const columns = () =>
     }
     return result;
   };
-
+  const fullDataPreview = new Array(100001).fill(dataPreview[0])
+  const fullData = (() =>
+    fullDataPreview.map((d, i) => {
+      d['id'] = i;
+      return d;
+    }))();
 describe('ManageDataPreview', () => {
   test('Check that the  component properly renders', () => {
     const { getByRole, debug, container } = render(
@@ -109,4 +114,41 @@ describe('ManageDataPreview', () => {
     const spinner = container.querySelector('#spinner');
     expect(spinner).toBeInTheDocument();
   });
+
+  test('displays table when loading is complete and there is data to preview', () => {
+    const { getByText } = render(
+      <Provider 
+        store={store}>
+        <DataPreviewRender
+          loading={0}
+          dataPreview={dataPreview}
+          columns={columns()}
+          data={data()}
+          totalCount={1}
+          setSpinnerActive={jest.fn}
+          />
+        </Provider>
+    );
+    const preview = getByText(/(Viewing the first 1 records of 1)/i)
+    expect(preview).toBeInTheDocument()
+  })
+
+  test('displays no table if there is data to preview', () => {
+    const { getByText } = render(
+      <Provider 
+        store={store}>
+        <DataPreviewRender
+          loading={0}
+          dataPreview={[]}
+          columns={columns()}
+          data={[]}
+          totalCount={1}
+          setSpinnerActive={jest.fn}
+          />
+        </Provider>
+    );
+    const noDataAlert = getByText(/No results match that search criteria. Please change the criteria and try again./i)
+    expect(noDataAlert).toBeInTheDocument()
+  })
+
 });
