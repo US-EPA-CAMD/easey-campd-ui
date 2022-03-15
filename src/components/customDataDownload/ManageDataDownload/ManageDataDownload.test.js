@@ -130,6 +130,40 @@ describe('datatype and subtype selection', () => {
     expect(applyButton).not.toBeDisabled();
   });
 
+  test('data subtype dropdown is disabled if there is only one data subtype', () =>{
+    const { getAllByTestId, getByRole } = render(
+      <Provider store={store}>
+        <ManageDataDownload />
+      </Provider>
+    );
+    const dataTypeButton = getByRole('button', {name: /data type/i});
+    fireEvent.click(dataTypeButton);
+    const dataTypeDropdown = getAllByTestId('dropdown')[0];
+    const dataSubtypeDropdown = getAllByTestId('dropdown')[1];
+    
+    fireEvent.change(dataTypeDropdown, { target: { value: 'MERCURY AND AIR TOXICS EMISSIONS' } });
+    expect(dataSubtypeDropdown).toBeDisabled();
+  })
+
+  test.only('mats caveat is displayed if mats datatype is selected', async () => {
+    const { getAllByTestId, getByRole, findByText } = render(
+      <Provider store={store}>
+        <ManageDataDownload />
+      </Provider>
+    );
+    const dataTypeButton = getByRole('button', { name: /data type/i });
+    fireEvent.click(dataTypeButton);
+    const dataTypeDropdown = getAllByTestId('dropdown')[0];
+
+    fireEvent.change(dataTypeDropdown, {
+      target: { value: 'MERCURY AND AIR TOXICS EMISSIONS' },
+    });
+    const matsCaveat = await findByText(
+      /mats required that coal\-fired electricity generating units \(egus\) start reporting hourly mats emissions and operations data as early as april 2015, but provided extensions for many egus until april 2016 or 2017\. therefore, complete mats data are not available until calendar year 2018\./i
+    );
+    expect(matsCaveat).toBeInTheDocument()
+  });
+
   test('Filters button is enabled after dataType and dataSubtype are applied', () => {
     const { getAllByTestId, getByRole } = render(
       <Provider store={store}>
