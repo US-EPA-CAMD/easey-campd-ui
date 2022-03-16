@@ -60,6 +60,8 @@ const commentTypesUrl =
   'https://api.epa.gov/easey/dev/content-mgmt/campd/help-support/contact-us/comment-types.json';
 const statusTextUrl =
   'https://api.epa.gov/easey/dev/content-mgmt/campd/help-support/contact-us/submit-status-text.json';
+const emailUrl =
+  "https://api-easey-dev.app.cloud.gov/notifications-mgmt/email";
 
 const getIndex = rest.get(indexUrl, (req, res, ctx) => {
   return res(ctx.json('Title text..'));
@@ -70,7 +72,10 @@ const getCommentTypes = rest.get(commentTypesUrl, (req, res, ctx) => {
 const getStatus = rest.get(statusTextUrl, (req, res, ctx) => {
   return res(ctx.json(statuses));
 });
-const server = new setupServer(getIndex, getCommentTypes, getStatus);
+const notification = rest.post(emailUrl, (req, res, ctx) => {
+  return res(ctx.status(200));
+});
+const server = new setupServer(getIndex, getCommentTypes, getStatus, notification);
  beforeAll(() => server.listen());
  beforeEach(() => server.resetHandlers());
  afterEach(cleanup);
@@ -91,7 +96,7 @@ describe('Contact Us Page Component', () => {
       const commentField = await findByTestId(/textarea/i);
       const submitButton = await findByText(/Submit/i);
       fireEvent.change(emailField, { target: { value: 'test@test.com' } });
-      userEvent.type(commentField, 'testing123');
+      userEvent.type(commentField, 'testing1234');
       fireEvent.click(submitButton);
       const errorMessage = await findByRole('heading', {
         name: /error/i,
@@ -122,12 +127,9 @@ describe('Contact Us Page Component', () => {
       expect(errorMessage).not.toBeInTheDocument();
     });
   });
-
-  describe('api', () => {
-
-  })
   
-  it('should render content without error', async () => {
+  describe('api', () => {
+    it('should render content without error', async () => {
     const { findByText } = render(
       <MemoryRouter>
         <ContactUsPage />
@@ -142,4 +144,6 @@ describe('Contact Us Page Component', () => {
     fireEvent.click(button);
     });
   });
+  })
+  
 });
