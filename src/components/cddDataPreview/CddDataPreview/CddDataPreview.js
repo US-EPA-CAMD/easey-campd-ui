@@ -28,8 +28,9 @@ import Tooltip from '../../Tooltip/Tooltip';
 import config from "../../../config";
 import getContent  from '../../../utils/api/getContent';
 import MatsDataCaveat from '../../customDataDownload/MatsDataCaveat/MatsDataCaveat';
+import "./CddDataPreview.scss";
 
-const ManageDataPreview = ({
+const CddDataPreview = ({
   dataType,
   dataSubType,
   appliedFilters,
@@ -174,7 +175,7 @@ const ManageDataPreview = ({
   };
 
   return (
-    <div className="width-full">
+    <div className="width-full" id="cdd-data-preview">
       <div className={`${isMobileOrTablet && renderPreviewData? 'display-none': 'desktop:display-flex flex-row flex-justify bg-base-lightest desktop:padding-x-3 minh-10 padding-0'}`} >
         <div className="tablet:display-flex tablet:flex-row tablet:flex-justify tablet:width-full">
           <h2 className="flex-align-self-center font-sans-xl text-bold margin-0 padding-x-2 tablet:padding-x-4 desktop:padding-x-0">
@@ -282,7 +283,7 @@ const ManageDataPreview = ({
               h3: ({node, ...props}) => <h3 className="font-sans-lg margin-top-0">{props.children}</h3>,
               a: ({node, ...props}) => <Link {...props} target="_blank" rel="noopener noreferrer" />,
               // eslint-disable-next-line
-              img: ({node, ...props}) => <img {...props} style={{verticalAlign: "bottom"}} />
+              img: ({node, ...props}) => <img {...props}/>
             }}
           />
         </div>
@@ -318,4 +319,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ManageDataPreview);
+export default connect(mapStateToProps, mapDispatchToProps)(CddDataPreview);

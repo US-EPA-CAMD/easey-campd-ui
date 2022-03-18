@@ -32,8 +32,6 @@ const SubHeaderNav = ({
     setCategorySelected(initialCategorySelected);
   };
 
-  const utilityStyle = isUtility ? { fontSize: '11px' } : { fontSize: '24px' };
-
   return (
     <span ref={navRef}>
     <PrimaryNav
@@ -45,7 +43,7 @@ const SubHeaderNav = ({
                 to={el.items[0].link}
                 title={el.label}
                 aria-label={el.label}
-                style={utilityStyle}
+                className={`is-utility-${isUtility}`}
               >
                 {el.label}
               </Link>
@@ -60,7 +58,7 @@ const SubHeaderNav = ({
               <NavDropDownButton
                 key={i}
                 label={el.label}
-                style={utilityStyle}
+                className={`is-utility-${isUtility}`}
                 menuId={`menu-${el.label}`}
                 isOpen={navDropdownOpen[i]}
                 onToggle={() => {
@@ -77,7 +75,7 @@ const SubHeaderNav = ({
                     key={index}
                     to={item.link}
                     target={item.menu === 'APIs' ? "_blank" : null}
-                    style={utilityStyle}
+                    className={`is-utility-${isUtility}`}
                     onClick={() => handleSubMenuClick(i)}
                   >
                     {item.menu}

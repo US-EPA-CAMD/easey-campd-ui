@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 
 import configureStore from '../../../store/configureStore.dev';
-import ManageBulkDataFiles from './ManageBulkDataFiles';
+import BulkDataFiles from './BulkDataFiles';
 import initialState from '../../../store/reducers/initialState';
 
 import { rest } from 'msw';
@@ -184,7 +184,7 @@ describe('Manage Bulk Data Files component: ',  () => {
     const query = render(
       <Provider store={store}>
         <MemoryRouter>
-          <ManageBulkDataFiles
+          <BulkDataFiles
             loadBulkDataFilesDispatcher= {jest.fn()}
           />
         </MemoryRouter>

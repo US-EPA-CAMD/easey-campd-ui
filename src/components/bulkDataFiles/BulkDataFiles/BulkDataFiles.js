@@ -9,8 +9,9 @@ import remarkGfm from 'remark-gfm';
 import { Link } from '@trussworks/react-uswds';
 import Tooltip from '../../Tooltip/Tooltip';
 import { Help } from '@material-ui/icons';
+import "./BulkDataFiles.scss";
 
-const ManageBulkDataFiles = ({
+const BulkDataFiles = ({
   dataTable,
   loadBulkDataFilesDispatcher
 }) => {
@@ -34,18 +35,19 @@ const ManageBulkDataFiles = ({
   );
 
   return (
-    <div className='grid-row flex-wrap'>
+    <div className='grid-row flex-wrap' id='bulk-data-files'>
       <div className='grid-col-3 maxh-viewport bg-base-lighter margin-0'/>
       <div className='grid-col-fill'>
         <div className='bg-base-lightest padding-4'>
           <ReactMarkdown
+            className='helper-text'
             children={helperText}
             remarkPlugins={[remarkGfm]}
             components={{
               h1: ({node, ...props}) => <h1 className="margin-0 text-bold font-sans-2xl">{props.children}</h1>,
               a: ({node, ...props}) => <Link {...props} target="_blank" rel="noopener noreferrer" />,
               // eslint-disable-next-line
-              img: ({node, ...props}) => <img {...props} style={{verticalAlign: "bottom"}} />
+              img: ({node, ...props}) => <img {...props} />
             }}
           />
         </div>
@@ -80,4 +82,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ManageBulkDataFiles);
+export default connect(mapStateToProps, mapDispatchToProps)(BulkDataFiles);

@@ -1,5 +1,5 @@
 import React from "react";
-import ManageDataDownload from "./ManageDataDownload";
+import CustomDataDownload from "./CustomDataDownload";
 import { render, fireEvent } from "@testing-library/react";
 import { within } from '@testing-library/dom';
 import configureStore from "../../../store/configureStore.dev";
@@ -18,7 +18,7 @@ import {
   attributes,
   facilities,
   ownerOperators,
-} from './testData';
+} from '../../../utils/constants/cddTestData';
 
 initialState.customDataDownload.dataType= "COMPLIANCE";
 initialState.filterCriteria.stateTerritory = [
@@ -86,9 +86,9 @@ const server = new setupServer(...apiCalls);
 beforeAll(() => server.listen());
 beforeEach(() => server.resetHandlers());
 afterAll(() => server.close());
-describe("ManageDataDownload", () => {
+describe("CustomDataDownload", () => {
   test("Check that the  component properly renders", () => {
-    const { getByTestId } = render(<Provider store={store}><ManageDataDownload /></Provider>);
+    const { getByTestId } = render(<Provider store={store}><CustomDataDownload /></Provider>);
     expect(getByTestId("manage-data-download-wrapper")).toBeVisible();
   });
 });
@@ -97,7 +97,7 @@ describe('datatype and subtype selection', () => {
   test('filter button is disabled initially', () => {
     const { getByRole } = render(
       <Provider store={store}>
-        <ManageDataDownload />
+        <CustomDataDownload />
       </Provider>
     );
     const filtersButton = getByRole('button', {name: /filters/i});
@@ -107,7 +107,7 @@ describe('datatype and subtype selection', () => {
   test('Apply button is disabled before selection', () => {
     const { getByRole } = render(
       <Provider store={store}>
-        <ManageDataDownload />
+        <CustomDataDownload />
       </Provider>
     );
     const dataTypeButton = getByRole('button', {name: /data type/i});
@@ -119,7 +119,7 @@ describe('datatype and subtype selection', () => {
   test('Apply button is enabled after dataType and dataSubtype selection', () => {
     const { getAllByTestId, getByRole } = render(
       <Provider store={store}>
-        <ManageDataDownload />
+        <CustomDataDownload />
       </Provider>
     );
     const dataTypeButton = getByRole('button', {name: /data type/i});
@@ -200,7 +200,7 @@ describe('datatype and subtype selection', () => {
   test('Filters button is enabled after dataType and dataSubtype are applied', () => {
     const { getAllByTestId, getByRole } = render(
       <Provider store={store}>
-        <ManageDataDownload />
+        <CustomDataDownload />
       </Provider>
     );
     const dataTypeButton = getByRole('button', {name: /data type/i});
@@ -219,7 +219,7 @@ describe('datatype and subtype selection', () => {
   test('allows change of data type and data subtype selection', () => {
     const { getAllByTestId, getByRole } = render(
       <Provider store={store}>
-        <ManageDataDownload />
+        <CustomDataDownload />
       </Provider>
     );
     const dataTypeButton = getByRole('button', {name: /data type/i});
@@ -262,7 +262,7 @@ describe('filter selection functionality', () => {
   beforeEach(() => {
     query = render(
       <Provider store={store}>
-        <ManageDataDownload />
+        <CustomDataDownload />
       </Provider>
     );
 
