@@ -58,6 +58,7 @@ const DataTypeSelectorView = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [displayMobileDataType]);
   const showCancelButton = displayCancel || displayCancelMobile;
+  const mats = 'MERCURY AND AIR TOXICS EMISSIONS';
 
   return (
     <>{!hideDataTypeSelector &&
@@ -76,9 +77,11 @@ const DataTypeSelectorView = ({
           </Tooltip>
         </span>
       </div>
-      {selectedDataType === 'MERCURY AND AIR TOXICS EMISSIONS' && !renderPreviewData && (
+      {selectedDataType === mats && !renderPreviewData && (
         <div className="margin-2 margin-top-0 maxw-mobile-lg">
-          <MatsDataCaveat />
+          <MatsDataCaveat
+          styling={'alert-wrapper usa-alert--slim font-sans-3xs desktop:line-height-sans-2'}
+          />
         </div>
       )}
       <div className="border-y-1px border-base-light clearfix padding-y-2 padding-x-2 desktop:padding-y-1 desktop:border-top-0">
@@ -88,7 +91,7 @@ const DataTypeSelectorView = ({
             dataSubtypeApplied === true && (
               <>
                 <span className="text-bold font-sans-xs grid-col-12 desktop:padding-bottom-1 desktop-lg:grid-col-8">
-                  {initcap(selectedDataType)},{' '}
+                  {selectedDataType === mats?  'Mercury and Air Toxics Emissions (MATS)' : initcap(selectedDataType)},{' '}
                   {getSelectedDataSubType(
                     constants.DATA_SUBTYPES_MAP[selectedDataType]
                   )}
@@ -122,7 +125,7 @@ const DataTypeSelectorView = ({
                 </option>
                 {constants.DATA_TYPES.map((el) => (
                   <option key={el} value={el}>
-                    {initcap(el)}
+                    {el === mats?  'Mercury and Air Toxics Emissions (MATS)' : initcap(el)}
                   </option>
                 ))}
               </Dropdown>
@@ -143,7 +146,7 @@ const DataTypeSelectorView = ({
                 className={!selectedDataType ? 'bg-transparent' : ''}
                 onChange={changeDataSubtype}
                 value={selectedDataSubtype}
-                disabled={selectedDataType ? false : true}
+                disabled={!selectedDataType || constants.DATA_SUBTYPES_MAP[selectedDataType]?.length < 2}
               >
                 {selectedDataType ? (
                   constants.DATA_SUBTYPES_MAP[selectedDataType].map((el, i) => (

@@ -1,8 +1,10 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, cleanup } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
+import userEvent from '@testing-library/user-event'
+
 
 import ContactUsPage from './ContactUsPage';
 
@@ -58,6 +60,8 @@ const commentTypesUrl =
   'https://api.epa.gov/easey/dev/content-mgmt/campd/help-support/contact-us/comment-types.json';
 const statusTextUrl =
   'https://api.epa.gov/easey/dev/content-mgmt/campd/help-support/contact-us/submit-status-text.json';
+const emailUrl =
+  "https://api-easey-dev.app.cloud.gov/notifications-mgmt/email";
 
 const getIndex = rest.get(indexUrl, (req, res, ctx) => {
   return res(ctx.json('Title text..'));
@@ -68,14 +72,64 @@ const getCommentTypes = rest.get(commentTypesUrl, (req, res, ctx) => {
 const getStatus = rest.get(statusTextUrl, (req, res, ctx) => {
   return res(ctx.json(statuses));
 });
-const server = new setupServer(getIndex, getCommentTypes, getStatus);
-
+const notification = rest.post(emailUrl, (req, res, ctx) => {
+  return res(ctx.status(200));
+});
+const server = new setupServer(getIndex, getCommentTypes, getStatus, notification);
+ beforeAll(() => server.listen());
+ beforeEach(() => server.resetHandlers());
+ afterEach(cleanup);
+ afterAll(() => server.close());
 describe('Contact Us Page Component', () => {
-  beforeAll(() => server.listen());
-  beforeEach(() => server.resetHandlers());
-  afterAll(() => server.close());
 
-  it('should render content without error', async () => {
+  describe('form validation', () => {
+    test('should show error message if any field is incomplete', async () => {
+      const { findByText, findByRole, findByTestId } = render(
+        <MemoryRouter>
+          <ContactUsPage/>
+        </MemoryRouter>
+      );
+
+      const emailField = await findByRole('textbox', {
+        name: /email/i,
+      });
+      const commentField = await findByTestId(/textarea/i);
+      const submitButton = await findByText(/Submit/i);
+      fireEvent.change(emailField, { target: { value: 'test@test.com' } });
+      userEvent.type(commentField, 'testing1234');
+      fireEvent.click(submitButton);
+      const errorMessage = await findByRole('heading', {
+        name: /error/i,
+      });
+      expect(errorMessage).toBeInTheDocument();
+    });
+
+    test('should not show error message if form is filled out correctly', async () => {
+      const { findByText, findByRole, findByTestId, queryByRole } = render(
+        <MemoryRouter>
+          <ContactUsPage/>
+        </MemoryRouter>
+      );
+
+      const emailField = await findByRole('textbox', {
+        name: /email/i,
+      });
+      const commentField = await findByTestId(/textarea/i);
+      const commentType = await findByText(/help using application/i);
+      const submitButton = await findByText(/Submit/i);
+      fireEvent.change(emailField, { target: { value: 'test@test.com' } });
+      fireEvent.click(commentType);
+      userEvent.type(commentField, 'testing123');
+      fireEvent.click(submitButton);
+      const errorMessage = await queryByRole('heading', {
+        name: /error/i,
+      });
+      expect(errorMessage).not.toBeInTheDocument();
+    });
+  });
+  
+  describe('api', () => {
+    it('should render content without error', async () => {
     const { findByText } = render(
       <MemoryRouter>
         <ContactUsPage />
@@ -90,4 +144,6 @@ describe('Contact Us Page Component', () => {
     fireEvent.click(button);
     });
   });
+  })
+  
 });

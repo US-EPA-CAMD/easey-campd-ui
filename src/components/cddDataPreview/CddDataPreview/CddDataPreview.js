@@ -247,7 +247,7 @@ const CddDataPreview = ({
         </div>
       )}
       {requirementsMet && totalCount !== null && Number(totalCount) > Number(config.app.streamingLimit) && (
-        <div className='padding-x-3 padding-top-3'>
+        <div className='padding-x-2 padding-top-3 margin-right-2'>
           <Alert type="warning" aria-live="assertive">
             <ReactMarkdown
               children={limitAlert}
@@ -264,7 +264,9 @@ const CddDataPreview = ({
       )}
       {dataType === 'MERCURY AND AIR TOXICS EMISSIONS' && renderPreviewData && (
         <div className="margin-2 margin-bottom-0 padding-right-2">
-          <MatsDataCaveat></MatsDataCaveat>
+          <MatsDataCaveat
+          styling={'alert-wrapper usa-alert--warning font-sans-3xs desktop:line-height-sans-2'}
+          ></MatsDataCaveat>
         </div>
       )}
       {renderPreviewData ? (

@@ -146,10 +146,13 @@ const CustomDataDownload = ({
   };
 
   const handleDataTypeDropdown = (event) => {
-    console.log(event.target.value);
-    if (event.target.value !== '') {
+    const value = event.target.value;
+    if (value !== '') {
       setSelectedDataSubtype('');
-      updateSelectedDataTypeDispatcher(event.target.value);
+      updateSelectedDataTypeDispatcher(value);
+    }
+    if (constants.DATA_SUBTYPES_MAP[value].length === 1){
+      setSelectedDataSubtype(1);
     }
   };
 
