@@ -2,11 +2,11 @@ import React, { useEffect } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 import Layout from "../Layout/Layout";
-import ManageDataDownload from "../customDataDownload/ManageDataDownload/ManageDataDownload";
+import CustomDataDownload from "../customDataDownload/CustomDataDownload/CustomDataDownload";
 import NotFound from "../NotFound/NotFound";
 import HomePage from "../HomePage/HomePage";
 import DataLandingPage from "../DataLandingPage/DataLandingPage";
-import ManageBulkDataFiles from "../bulkDataFiles/ManageBulkDataFiles/ManageBulkDataFiles";
+import BulkDataFiles from "../bulkDataFiles/BulkDataFiles/BulkDataFiles";
 import AboutPage from "../AboutPage/AboutPage";
 import TutorialsPage from "../TutorialsPage/TutorialsPage";
 import ContactUsPage from "../ContactUsPage/ContactUsPage";
@@ -37,8 +37,8 @@ function App() {
         <Switch>
           <Route path="/" exact component={HomePage}/>
           <Route path="/data" exact component={DataLandingPage} />
-          <Route path='/data/custom-data-download' exact component={ManageDataDownload} />
-          <Route path="/data/bulk-data-files" exact component={ManageBulkDataFiles} />
+          <Route path='/data/custom-data-download' exact component={CustomDataDownload} />
+          <Route path="/data/bulk-data-files" exact component={BulkDataFiles} />
           <Route path="/resources/related-resources" exact component={RelatedResources} />
           <Route path="/resources/glossary" exact component={GlossaryPage} />
           <Route path="/help-support/about" exact component={AboutPage} />

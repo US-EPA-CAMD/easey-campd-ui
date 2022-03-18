@@ -113,10 +113,9 @@ const HomePage = () => {
               return node.properties.title === "Header Link" ? (
                   <h2>
                     <Button
-                      className="font-heading-xl text-bold"
+                      className="header-link font-heading-xl text-bold"
                       unstyled="true"
                       onClick={() => history.push(props.href)}
-                      style={{ textDecoration: "none" }}
                     >
                       {props.children[0]}
                     </Button>
@@ -147,10 +146,9 @@ const HomePage = () => {
               return node.properties.title === "Header Link" ? (
                   <h2>
                     <Button
-                      className="font-heading-xl text-bold"
+                      className="header-link font-heading-xl text-bold"
                       unstyled="true"
                       onClick={() => history.push(props.href)}
-                      style={{ textDecoration: "none" }}
                     >
                       {props.children[0]}
                     </Button>

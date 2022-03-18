@@ -8,22 +8,22 @@ import {
   removeAppliedFilter,
 } from '../../../store/actions/customDataDownload/customDataDownload';
 import DataTypeSelectorView from '../DataTypeSelectorView/DataTypeSelectorView';
-import FilterCriteriaMenu from '../../filterCriteria/FilterCriteriaMenu/FilterCriteriaMenu';
+import FilterCriteriaMenu from '../../filterCriteria/FilterCriteria/FilterCriteria';
 import FilterCriteriaPanel from '../../filterCriteria/FilterCriteriaPanel/FilterCriteriaPanel';
-import ManageDataPreview from '../../dataPreview/ManageDataPreview/ManageDataPreview';
+import CddDataPreview from '../../cddDataPreview/CddDataPreview/CddDataPreview';
 import RenderSpinner from '../../RenderSpinner/RenderSpinner';
 import MobileMenu from '../../MobileComponents/MobileMenu'
 import * as constants from '../../../utils/constants/customDataDownload';
 
 // *** STYLES (individual component)
-import './ManageDataDownload.scss';
+import './CustomDataDownload.scss';
 import { loadAllFilters, resetFilter, loadFilterMapping, updateFilterCriteria, updateTimePeriod } from '../../../store/actions/customDataDownload/filterCriteria';
 import hideNav from '../../../store/actions/hideNavAction';
 import { engageFilterLogic } from '../../../utils/selectors/filterLogic';
 import useCheckWidth from '../../../utils/hooks/useCheckWidth'
 import { metaAdder } from '../../../utils/document/metaAdder';
 
-const ManageDataDownload = ({
+const CustomDataDownload = ({
   selectedDataType,
   updateSelectedDataTypeDispatcher,
   updateSelectedDataSubTypeDispatcher,
@@ -338,7 +338,7 @@ const ManageDataDownload = ({
           appliedFilters={appliedFilters}
           handleBackButtonClick={handleBackButtonClick}
         />
-        <ManageDataPreview
+        <CddDataPreview
           dataType={appliedDataType.dataType}
           displayMobileDataType={displayMobileDataType}
           setDisplayMobileDataType={setDisplayMobileDataType}
@@ -388,4 +388,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ManageDataDownload);
+export default connect(mapStateToProps, mapDispatchToProps)(CustomDataDownload);

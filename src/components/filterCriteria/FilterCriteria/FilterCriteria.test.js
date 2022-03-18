@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 
-import FilterCriteriaMenu from './FilterCriteriaMenu';
+import FilterCriteria from './FilterCriteria';
 import { EMISSIONS_FILTERS } from '../../../utils/constants/emissions';
 import initialState from '../../../store/reducers/initialState'
 import configureStore from "../../../store/configureStore.dev";
@@ -41,12 +41,12 @@ const filterCriteria = {
       filterMapping: [],
   };
 
-describe('FilterCriteriaMenu Component', () => {
+describe('FilterCriteria Component', () => {
   test('should render content without error', () => {
     const { getByText } = render(
       <MemoryRouter>
         <Provider store={store}>
-          <FilterCriteriaMenu
+          <FilterCriteria
             dataSubtypeApplied={true}
             selectedDataType="EMISSIONS"
             getSelectedDataSubType={jest
@@ -72,7 +72,7 @@ describe('FilterCriteriaMenu Component', () => {
     const { getByRole } = render(
       <MemoryRouter>
         <Provider store={store}>
-        <FilterCriteriaMenu
+        <FilterCriteria
           dataSubtypeApplied={true}
           selectedDataType="EMISSIONS"
           getSelectedDataSubType={jest
@@ -96,7 +96,7 @@ describe('FilterCriteriaMenu Component', () => {
     const { getByRole } = render(
       <MemoryRouter>
         <Provider store={store}>
-        <FilterCriteriaMenu
+        <FilterCriteria
           dataSubtypeApplied={true}
           selectedDataType="EMISSIONS"
           getSelectedDataSubType={jest
@@ -122,7 +122,7 @@ describe('FilterCriteriaMenu Component', () => {
     const { getByRole } = render(
       <MemoryRouter>
         <Provider store={store}>
-        <FilterCriteriaMenu
+        <FilterCriteria
           dataSubtypeApplied={true}
           selectedDataType="EMISSIONS"
           getSelectedDataSubType={jest
@@ -152,7 +152,7 @@ describe('FilterCriteriaMenu Component', () => {
     const { getByRole } = render(
       <MemoryRouter>
         <Provider store={store}>
-        <FilterCriteriaMenu
+        <FilterCriteria
           dataSubtypeApplied={true}
           selectedDataType="COMPLIANCE"
           getSelectedDataSubType={jest
@@ -181,7 +181,7 @@ describe('FilterCriteriaMenu Component', () => {
     const { getByRole } = render(
       <MemoryRouter>
         <Provider store={store}>
-        <FilterCriteriaMenu
+        <FilterCriteria
           dataSubtypeApplied={true}
           selectedDataType="COMPLIANCE"
           getSelectedDataSubType={jest
@@ -210,7 +210,7 @@ describe('FilterCriteriaMenu Component', () => {
     const { getByRole } = render(
       <MemoryRouter>
         <Provider store={store}>
-        <FilterCriteriaMenu
+        <FilterCriteria
           dataSubtypeApplied={true}
           selectedDataType="COMPLIANCE"
           getSelectedDataSubType={jest

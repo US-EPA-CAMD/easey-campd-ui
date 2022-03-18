@@ -35,49 +35,50 @@ const TimePeriodFullDate = ({
 
   return (
     <>
-      <Alert
-        role="alert"
-        type="info"
-        validation
-        heading="Requirements"
-        style={{ display: isFormValid() ? 'none' : 'block' }}
-        aria-live="assertive"
-      >
-        <ValidationChecklist id="validate-time-period">
-          <ValidationItem
-            id="startDateFormat"
-            isValid={validations.startDateFormat}
-            aria-checked={validations.startDateFormat}
-            className={validations.startDateFormat? 'display-none': null}
-          >
-            Enter the Start Date in the MM/DD/YYYY format
-          </ValidationItem>
-          <ValidationItem
-            id="endDateFormat"
-            isValid={validations.endDateFormat}
-            aria-checked={validations.endDateFormat}
-            className={validations.endDateFormat? 'display-none': null}
-          >
-            Enter the End Date in the MM/DD/YYYY format
-          </ValidationItem>
-          <ValidationItem
-            id="dateRange"
-            isValid={validations.dateRange}
-            aria-checked={validations.dateRange}
-            className={validations.dateRange? 'display-none': null}
-          >
-            Enter an end date that is greater than or equal to the begin date
-          </ValidationItem>
-          <ValidationItem
-            id="validReportingQuarter"
-            isValid={validations.validReportingQuarter}
-            aria-checked={validations.validReportingQuarter}
-            className={validations.validReportingQuarter? 'display-none': null}
-          >
-            {rangeMessage}
-          </ValidationItem>
-        </ValidationChecklist>
-      </Alert>
+      <div className={isFormValid() ? 'display-none' : 'display-block' }>
+        <Alert
+          role="alert"
+          type="info"
+          validation
+          heading="Requirements"
+          aria-live="assertive"
+        >
+          <ValidationChecklist id="validate-time-period">
+            <ValidationItem
+              id="startDateFormat"
+              isValid={validations.startDateFormat}
+              aria-checked={validations.startDateFormat}
+              className={validations.startDateFormat? 'display-none': null}
+            >
+              Enter the Start Date in the MM/DD/YYYY format
+            </ValidationItem>
+            <ValidationItem
+              id="endDateFormat"
+              isValid={validations.endDateFormat}
+              aria-checked={validations.endDateFormat}
+              className={validations.endDateFormat? 'display-none': null}
+            >
+              Enter the End Date in the MM/DD/YYYY format
+            </ValidationItem>
+            <ValidationItem
+              id="dateRange"
+              isValid={validations.dateRange}
+              aria-checked={validations.dateRange}
+              className={validations.dateRange? 'display-none': null}
+            >
+              Enter an end date that is greater than or equal to the begin date
+            </ValidationItem>
+            <ValidationItem
+              id="validReportingQuarter"
+              isValid={validations.validReportingQuarter}
+              aria-checked={validations.validReportingQuarter}
+              className={validations.validReportingQuarter? 'display-none': null}
+            >
+              {rangeMessage}
+            </ValidationItem>
+          </ValidationChecklist>
+        </Alert>
+      </div>
       <DateRangePicker
         aria-describedby="validate-time-period"
         endDateHint="mm/dd/yyyy"

@@ -6,7 +6,7 @@ import { faWindowClose } from '@fortawesome/free-solid-svg-icons';
 import { Button } from "@trussworks/react-uswds";
 import { Help, Tune } from '@material-ui/icons';
 
-import "./FilterCriteriaMenu.scss";
+import "./FilterCriteria.scss";
 import { isAddedToFilters } from "../../../utils/selectors/general";
 import { focusTrap } from "../../../utils/ensure-508/focus-trap";
 import Tooltip from '../../Tooltip/Tooltip';
@@ -22,7 +22,7 @@ import {
 } from '../../../store/actions/customDataDownload/filterCriteria';
 import MatsDataCaveat from "../../customDataDownload/MatsDataCaveat/MatsDataCaveat";
 
-const FilterCriteriaMenu = ({
+const FilterCriteria = ({
     dataSubtypeApplied,
     selectedDataType,
     getSelectedDataSubType,
@@ -227,4 +227,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(null, mapDispatchToProps)(FilterCriteriaMenu);
+export default connect(null, mapDispatchToProps)(FilterCriteria);

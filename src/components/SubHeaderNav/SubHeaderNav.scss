@@ -1,14 +1,27 @@
-.menu-underline {
-  border-top: solid 5px #00bde3;
-  margin: 0 1em 0 1em;
-}
+#sub-header-nav {
+  .menu-underline {
+    border-top: solid 5px #00bde3;
+    margin: 0 1em 0 1em;
+  }
 
-.utility-divider {
-  border-right: solid 2px;
-  border-right-color: #fff;
-  opacity: 12%;
-}
+  .utility-divider {
+    border-right: solid 2px;
+    border-right-color: #fff;
+    opacity: 12%;
+  }
 
-.usa-nav__primary-item {
-  padding-left: 3.5em;
+  .usa-nav__primary-item {
+    padding-left: 3.5em;
+  }
+
+  .is-utility-true {
+    font-size: 11px;
+  }
+
+  .is-utility-false {
+    font-size: 24px;
+    span {
+      font-size: 24px;
+    }
+  }
 }

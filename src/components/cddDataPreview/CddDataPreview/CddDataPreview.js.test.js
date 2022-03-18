@@ -1,5 +1,5 @@
 import React from 'react';
-import ManageDataPreview from './ManageDataPreview';
+import CddDataPreview from './CddDataPreview';
 import { render, fireEvent, screen } from '@testing-library/react';
 import configureStore from '../../../store/configureStore.dev';
 import { Provider } from 'react-redux';
@@ -47,12 +47,12 @@ let store = configureStore(initialState);
 beforeAll(() => server.listen());
 beforeEach(() => server.resetHandlers());
 afterAll(() => server.close());
-describe('ManageDataPreview', () => {
+describe('CddDataPreview', () => {
   test('Check that the  component properly renders custom data download helper text', async () => {
     const { findByText, getByRole } = render(
       <Provider store={store}>
         <div id="filter0"></div>
-        <ManageDataPreview requirementsMet={true} totalCount={10000000} />
+        <CddDataPreview requirementsMet={true} totalCount={10000000} />
       </Provider>
     );
     const helperText = await findByText('this is CDD helper tex');
