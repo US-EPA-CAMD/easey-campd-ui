@@ -136,7 +136,7 @@ describe('datatype and subtype selection', () => {
   test('apply button is enabled if there is only one data subtype after datatype selection', async () => {
     const { getAllByTestId, getByRole } = render(
       <Provider store={store}>
-        <ManageDataDownload />
+        <CustomDataDownload />
       </Provider>
     );
     const dataTypeButton = getByRole('button', { name: /data type/i });
@@ -153,7 +153,7 @@ describe('datatype and subtype selection', () => {
   test('apply button is disabled when there are multiple data subtypes after datatype selection', () => {
     const { getAllByTestId, getByRole } = render(
       <Provider store={store}>
-        <ManageDataDownload />
+        <CustomDataDownload />
       </Provider>
     );
     const dataTypeButton = getByRole('button', {name: /data type/i});
@@ -168,7 +168,7 @@ describe('datatype and subtype selection', () => {
   test('data subtype dropdown is disabled if there is only one data subtype', () =>{
     const { getAllByTestId, getByRole } = render(
       <Provider store={store}>
-        <ManageDataDownload />
+        <CustomDataDownload />
       </Provider>
     );
     const dataTypeButton = getByRole('button', {name: /data type/i});
@@ -183,7 +183,7 @@ describe('datatype and subtype selection', () => {
   test('mats caveat is displayed if mats datatype is selected', async () => {
     const { getAllByTestId, getByRole, findByTestId } = render(
       <Provider store={store}>
-        <ManageDataDownload />
+        <CustomDataDownload />
       </Provider>
     );
     const dataTypeButton = getByRole('button', { name: /data type/i });
@@ -238,7 +238,7 @@ describe('datatype and subtype selection', () => {
   test('cancel button takes user back to filters', () => {
     const { getAllByTestId, getByRole, debug } = render(
       <Provider store={store}>
-        <ManageDataDownload />
+        <CustomDataDownload />
       </Provider>
     );
     const dataTypeButton = getByRole('button', {name: /data type/i});
