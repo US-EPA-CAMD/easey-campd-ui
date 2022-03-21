@@ -15,7 +15,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "up": "yarn --ignore-engines && yarn start",
-    "test": "react-scripts test --coverage --watchAll=false --testResultsProcessor=jest-sonar-reporter"
+    "test": "react-scripts test --coverage --watchAll=false --testResultsProcessor=jest-sonar-reporter --forceExit"
   },
   "resolutions": {
     "ansi-regex": "^5.0.1",
