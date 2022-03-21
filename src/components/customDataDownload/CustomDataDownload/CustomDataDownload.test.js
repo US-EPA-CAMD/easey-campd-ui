@@ -136,7 +136,7 @@ describe('datatype and subtype selection', () => {
   test('apply button is enabled if there is only one data subtype after datatype selection', async () => {
     const { getAllByTestId, getByRole } = render(
       <Provider store={store}>
-        <ManageDataDownload />
+        <CustomDataDownload />
       </Provider>
     );
     const dataTypeButton = getByRole('button', { name: /data type/i });
@@ -153,7 +153,7 @@ describe('datatype and subtype selection', () => {
   test('apply button is disabled when there are multiple data subtypes after datatype selection', () => {
     const { getAllByTestId, getByRole } = render(
       <Provider store={store}>
-        <ManageDataDownload />
+        <CustomDataDownload />
       </Provider>
     );
     const dataTypeButton = getByRole('button', {name: /data type/i});
@@ -168,7 +168,7 @@ describe('datatype and subtype selection', () => {
   test('data subtype dropdown is disabled if there is only one data subtype', () =>{
     const { getAllByTestId, getByRole } = render(
       <Provider store={store}>
-        <ManageDataDownload />
+        <CustomDataDownload />
       </Provider>
     );
     const dataTypeButton = getByRole('button', {name: /data type/i});
@@ -183,7 +183,7 @@ describe('datatype and subtype selection', () => {
   test('mats caveat is displayed if mats datatype is selected', async () => {
     const { getAllByTestId, getByRole, findByTestId } = render(
       <Provider store={store}>
-        <ManageDataDownload />
+        <CustomDataDownload />
       </Provider>
     );
     const dataTypeButton = getByRole('button', { name: /data type/i });
@@ -238,7 +238,7 @@ describe('datatype and subtype selection', () => {
   test('cancel button takes user back to filters', () => {
     const { getAllByTestId, getByRole, debug } = render(
       <Provider store={store}>
-        <ManageDataDownload />
+        <CustomDataDownload />
       </Provider>
     );
     const dataTypeButton = getByRole('button', {name: /data type/i});
@@ -306,39 +306,6 @@ describe('filter selection functionality', () => {
     expect(previewDataButton).not.toBeDisabled();
   });
 
-  xtest('pill button can remove filter selection ', () => {
-    const { getByRole, getByText, getAllByRole } = query;
-    const filtersButton = getByRole('button', {name: 'Filters'})
-    fireEvent.click(filtersButton)
-    const stateTerritoryFilter = getByRole('button', {
-      name: 'STATE/TERRITORY (Optional)',
-    });
-
-    fireEvent.click(stateTerritoryFilter);
-    const stateTerritoryComboBox = getByRole('textbox', {
-      name: /select or search states\/territories/i,
-    });
-
-    fireEvent.click(stateTerritoryComboBox);
-
-    const alaska = getByText(/alaska/i);
-
-    fireEvent.click(alaska);
-
-    const applyFilterButton = getByRole('button', { name: /apply filter/i });
-    fireEvent.click(applyFilterButton);
-
-    const pillButton = getByRole('button', {
-      name: /remove selection for state\/territory: alaska/i,
-    });
-    const pillButtonRemove = within(pillButton).getByRole('img', {
-      hidden: true,
-    });
-
-    fireEvent.click(pillButtonRemove);
-    const previewDataButton = getAllByRole('button', { name: /Preview Data/i })[0];
-    expect(previewDataButton).toBeDisabled();
-  });
 
   test('clear all button removes filter selection', () => {
     const { getByRole, getByText, getAllByRole } = query;

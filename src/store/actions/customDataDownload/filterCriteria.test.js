@@ -6,7 +6,7 @@ import MockAdapter from "axios-mock-adapter";
 import configureMockStore from "redux-mock-store";
 import config from "../../../config";
 import initState from "../../reducers/initialState";
-import {restructurePrograms, restructureControlTechnologies, restructureFuelTypes, restructureUnitTypes, restructureAccountTypes} from "../../../utils/selectors/filterCriteria";
+import {restructurePrograms, restructureControlTechnologies, restructureFuelTypes, restructureUnitTypes, restructureAccountTypes, resetFilterHelper, resetCheckBoitems} from "../../../utils/selectors/filterCriteria";
 import { cleanup } from '@testing-library/react';
 // Test an async action
 const middleware = [thunk];
@@ -1456,7 +1456,7 @@ describe("Filter Criteria Async Actions", () => {
     })
   });
 
-  xit("should create BEGIN_API_CALL and LOAD_TRANSACTION_TYPE_SUCCESS when loading transaction types data", () => {
+  it("should create BEGIN_API_CALL and LOAD_TRANSACTION_TYPE_SUCCESS when loading transaction types data", () => {
     const transactionTypes = [
         {
           "transactionTypeCode": "AD",
@@ -2032,6 +2032,46 @@ describe("Filter Criteria Async Actions", () => {
       //console.log(JSON.stringify(store.getActions()))
       expect(store.getActions()).toEqual(expectedActions);
     })
+  });
+
+  it('reset filter helper function should clear selected items of target filter', () => {
+    const state = Object.assign({}, initState, {filterCriteria: {...initState.filterCriteria, facility: facilities.map(f=> ({id: f.facilityId, label:`${f.facilityName} (${f.facilityId})`, selected:true, enabled:true}))}});
+    const updatedFilterCriteria = resetFilterHelper(state.filterCriteria, 'Facility')
+    expect(updatedFilterCriteria.facility.filter(e=> e.selected).length).toEqual(0)
+  });
+
+  it('reset filter helper function should not clear selected items of other filters', () => {
+    const state = Object.assign({}, initState, {
+      filterCriteria: {
+        ...initState.filterCriteria,
+        facility: facilities.map((f) => ({
+          id: f.facilityId,
+          label: `${f.facilityName} (${f.facilityId})`,
+          selected: true,
+          enabled: true,
+        })),
+      },
+    });
+    const updatedFilterCriteria = resetFilterHelper(
+      state.filterCriteria,
+      'State/Territory'
+    );
+    expect(
+      updatedFilterCriteria.facility.filter((e) => e.selected).length
+    ).not.toEqual(0);
+  });
+
+  it('reset checkBox items funtion should reset selected items', () => {
+    const checkbox = [{
+      items: new Array(10)
+        .fill(null)
+        .map((el, i) => ({ id: i, label: i, selected: true, enabled: true })),
+    }];
+    resetCheckBoitems(checkbox);
+    console.log(checkbox[0].items);
+    expect(checkbox[0].items.filter((e) => e.selected).length).toEqual(0);
+    //all items should be enabled
+    expect(checkbox[0].items.filter((e) => e.enabled).length).not.toEqual(0);
   });
 });
 
