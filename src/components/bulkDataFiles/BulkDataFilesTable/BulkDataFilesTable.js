@@ -21,6 +21,7 @@ const BulkDataFilesTable = ({
       name: 'Description',
       selector: row => row.description,
       sortable: true,
+      wrap: true
     },
     {
       name: 'File Size',
