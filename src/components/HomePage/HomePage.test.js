@@ -4,21 +4,22 @@ import { render, cleanup } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { rest } from "msw";
 import { setupServer } from "msw/node";
+import config from "../../config";
 
 jest.mock("react-markdown", () => ({ children }) => <>{children}</>);
 jest.mock("remark-gfm", () => () => {});
 
 const getWhatIsNewUrl =
-  "https://api.epa.gov/easey/dev/content-mgmt/campd/home/what-is-new-content.md";
+  `${config.services.content.uri}/campd/home/what-is-new-content.md`;
 
 const getWhatIsNewTitleUrl =
-  "https://api.epa.gov/easey/dev/content-mgmt/campd/home/what-is-new-title.md";
+  `${config.services.content.uri}/campd/home/what-is-new-title.md`;
 
 const getDataCardUrl =
-  "https://api.epa.gov/easey/dev/content-mgmt/campd/home/data-card.md";
+  `${config.services.content.uri}/campd/home/data-card.md`;
 
 const getMapsGraphsCardUrl =
-  "https://api.epa.gov/easey/dev/content-mgmt/campd/home/maps-and-graphs-card.md"; 
+  `${config.services.content.uri}/campd/home/maps-and-graphs-card.md` 
 
 
 const getWhatIsNewContent = rest.get(getWhatIsNewUrl, (req, res, ctx) => {
@@ -34,7 +35,11 @@ const getMapsGraphs = rest.get(getMapsGraphsCardUrl, (req, res, ctx) => {
   return res(ctx.json("Maps & Graphs"));
 });
 
-const server = new setupServer(getWhatIsNewContent, getWhatIsNewTitle, getDataCard, getMapsGraphs);
+const submissionUrl = `${config.services.emissions.uri}/emissions/submission-progress?submissionPeriod`;
+const getSubmissionProgress = rest.get(submissionUrl, (req, res, ctx) => {
+  return res(ctx.json({year: 2022, quarterName: 'second', percentage: '30%'}))
+})
+const server = new setupServer(getWhatIsNewContent, getWhatIsNewTitle, getDataCard, getMapsGraphs, getSubmissionProgress);
 
 describe("Home Page Component", () => {
   beforeAll(() => server.listen());

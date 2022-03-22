@@ -5,6 +5,7 @@ import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 
 import FaqsPage from './FaqsPage';
+import config from '../../config';
 jest.mock('react-markdown', () => ({ children }) => <>{children}</>);
 jest.mock('react-markdown-v4', () => ({ children }) => <>{children}</>);
 jest.mock('remark-gfm', () => () => {});
@@ -24,9 +25,9 @@ const topics = [{
   ]
 }]
 const titleUrl =
-  'https://api.epa.gov/easey/dev/content-mgmt/campd/help-support/faqs/index.md';
+  `${config.services.content.uri}/campd/help-support/faqs/index.md`;
 const contentUrl =
-  'https://api.epa.gov/easey/dev/content-mgmt/campd/help-support/faqs/topics.md';
+  `${config.services.content.uri}/campd/help-support/faqs/topics.md`;
 const getTitle = rest.get(titleUrl, (req, res, ctx) => {
   return res(ctx.json('Title text..'));
 });

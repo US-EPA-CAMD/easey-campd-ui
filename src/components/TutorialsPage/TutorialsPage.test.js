@@ -8,6 +8,7 @@ import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 
 import TutorialsPage from './TutorialsPage';
+import config from '../../config';
 
 jest.mock('react-markdown', () => ({ children }) => <>{children}</>);
 jest.mock('remark-gfm', () => () => {});
@@ -15,7 +16,7 @@ jest.mock('remark-gfm', () => () => {});
 const topics = ['Quick Start Guides', 'Data Guides', 'Other'];
 
 const tutorialsUrl =
-  'https://api.epa.gov/easey/dev/content-mgmt/campd/help-support/tutorials/index.md';
+  `${config.services.content.uri}/campd/help-support/tutorials/index.md`;
 const getTutorialsContent = rest.get(tutorialsUrl, (req, res, ctx) => {
   return res(ctx.json('this is campd'));
 });

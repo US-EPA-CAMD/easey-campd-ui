@@ -7,6 +7,7 @@ import userEvent from '@testing-library/user-event'
 
 
 import ContactUsPage from './ContactUsPage';
+import config from '../../config';
 
 jest.mock('react-markdown', () => ({ children }) => <>{children}</>);
 jest.mock('remark-gfm', () => () => {});
@@ -55,11 +56,11 @@ const statuses = [
 ];
 
 const indexUrl =
-  'https://api.epa.gov/easey/dev/content-mgmt/campd/help-support/contact-us/index.md';
+  `${config.services.content.uri}/campd/help-support/contact-us/index.md`;
 const commentTypesUrl =
-  'https://api.epa.gov/easey/dev/content-mgmt/campd/help-support/contact-us/comment-types.json';
+  `${config.services.content.uri}/campd/help-support/contact-us/comment-types.json`;
 const statusTextUrl =
-  'https://api.epa.gov/easey/dev/content-mgmt/campd/help-support/contact-us/submit-status-text.json';
+  `${config.services.content.uri}/campd/help-support/contact-us/submit-status-text.json`;
 const emailUrl =
   "https://api-easey-dev.app.cloud.gov/notifications-mgmt/email";
 

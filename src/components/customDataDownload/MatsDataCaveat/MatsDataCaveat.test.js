@@ -4,6 +4,7 @@ import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 
 import MatsDataCaveat from './MatsDataCaveat';
+import config from '../../../config';
 
 jest.spyOn(window, 'alert').mockImplementation(() => {});
 jest.spyOn(window, 'confirm').mockImplementation(() => {});
@@ -11,7 +12,7 @@ jest.mock('react-markdown', () => ({ children }) => <>{children}</>);
 jest.mock('remark-gfm', () => () => {});
 
 const matsCaveatUrl =
-  'https://api.epa.gov/easey/dev/content-mgmt/campd/data/custom-data-download/mats-data-caveat.md';
+  `${config.services.content.uri}/campd/data/custom-data-download/mats-data-caveat.md`;
 const getMatsCaveatUrl = rest.get(matsCaveatUrl, (req, res, ctx) => {
   return res(ctx.json('this is mats caveat'));
 });
