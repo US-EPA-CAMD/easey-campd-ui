@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import DataTable from 'react-data-table-component';
 import { ArrowDownwardSharp } from '@material-ui/icons';
+import { formatDateToYYMMDD } from '../../../utils/selectors/general';
 
 const BulkDataFilesTable = ({
   dataTableRecords
@@ -14,8 +15,9 @@ const BulkDataFilesTable = ({
     },
     {
       name: 'Date Updated',
-      selector: row => row.lastUpdated,
+      selector: row => formatDateToYYMMDD(row.lastUpdated),
       sortable: true,
+      maxWidth: "250px"
     },
     {
       name: 'Description',
