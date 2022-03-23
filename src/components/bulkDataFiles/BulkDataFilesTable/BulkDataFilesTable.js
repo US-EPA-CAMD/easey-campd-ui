@@ -1,10 +1,30 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useEffect } from 'react';
 import DataTable from 'react-data-table-component';
 import { ArrowDownwardSharp } from '@material-ui/icons';
+
+import {
+  ensure508,
+  cleanUp508,
+  setCheckboxToFileNames,
+} from '../../../utils/ensure-508/rdt-table';
 
 const BulkDataFilesTable = ({
   dataTableRecords
 }) => {
+  useEffect(() => {
+    const arrowBackSvg = document.getElementsByClassName("arrow-back-svg");
+    if(arrowBackSvg.length>0){
+      arrowBackSvg[0].setAttribute("viewBox","0 0 24 14")
+    }
+    setTimeout(() => {
+      ensure508();
+    }, 1000);
+    setCheckboxToFileNames(dataTableRecords)
+
+    return () => {
+      cleanUp508();
+    };
+  }, [dataTableRecords]);
 
   const columns = [
     {
@@ -41,7 +61,10 @@ const BulkDataFilesTable = ({
   }, [dataTableRecords]);
 
   return (
-    <div className="data-display-table grid-col-fill">
+    <div 
+      className="data-display-table grid-col-fill" 
+      table-aria-labelledby="data-table-title"
+    >
       <DataTable
         columns={columns}
         data={data}

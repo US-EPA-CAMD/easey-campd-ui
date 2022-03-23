@@ -206,3 +206,20 @@ export const removeAriaSortHandlersFromDatatable = () => {
     element.removeEventListener("keydown", setAriaSort);
   });
 };
+
+export const setCheckboxToFileNames = (data) => {
+  setTimeout(() => {
+    const selectAll = document.querySelector('[name="select-all-rows"]');
+    if (selectAll) {
+      selectAll.setAttribute('aria-label', 'Select/deselect all file names');
+    }
+    document.querySelectorAll('[type="checkbox"]').forEach((element) => {
+      if (element.getAttribute('name') !== 'select-all-rows') {
+        const index = parseInt(element.getAttribute('name').split('select-row-')[1]);
+        const label = `select-row-${data[index].filename}`
+        element.setAttribute("aria-label", label);
+        element.setAttribute("name", label);
+      }
+    });
+  });
+};
