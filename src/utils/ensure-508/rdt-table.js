@@ -5,13 +5,15 @@
  *   used to make sure all input present on the screen is in 508 complaint format
  *
  *       Inputs:
- *              none
+ *              triggerAddAriaLabelToDatatable - flag whether or not it will use addAriaLabelToDatatable()
  *       Outputs:
  *              none
  *****************************************************/
- export const ensure508 = () => {
-  // *** add aria label to all data tables
-  addAriaLabelToDatatable();
+ export const ensure508 = (triggerAddAriaLabelToDatatable = false) => {
+  if (triggerAddAriaLabelToDatatable) {
+    // *** add aria label to all data tables
+    addAriaLabelToDatatable();
+  }
 
   // *** add aria sorted-by to data tables
   addInitialAriaSort();

@@ -19,6 +19,8 @@ const BulkDataFilesTable = ({
     }
     setTimeout(() => {
       ensure508();
+      const table = document.querySelector('[role="table"]')
+      table.setAttribute("aria-label", 'Bulk Data File selection table')
     }, 1000);
     setCheckboxToReferenceColumn(dataTableRecords, 'filename', 'file names')
 
@@ -64,26 +66,21 @@ const BulkDataFilesTable = ({
   }, [dataTableRecords]);
 
   return (
-    <div
-      className="data-display-table grid-col-fill"
-      table-aria-labelledby="data-table-title"
-    >
+    <div className="data-display-table grid-col-fill">
       <DataTable
         columns={columns}
         data={data}
         noHeader={true}
         highlightOnHover={true}
         selectableRows={true}
-        selectableRowsVisibleOnly 
+        selectableRowsVisibleOnly
         responsive={false}
         striped={true}
         persistTableHead={false}
         defaultSortField="filename"
         pagination
-        paginationRowsPerPageOptions={[10,25,50,100]}
-        sortIcon={
-          <ArrowDownwardSharp className="margin-left-2 text-primary" />
-        }
+        paginationRowsPerPageOptions={[10, 25, 50, 100]}
+        sortIcon={<ArrowDownwardSharp className="margin-left-2 text-primary" />}
       />
     </div>
   );
