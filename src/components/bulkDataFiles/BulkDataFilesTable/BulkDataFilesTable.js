@@ -5,7 +5,7 @@ import { ArrowDownwardSharp } from '@material-ui/icons';
 import {
   ensure508,
   cleanUp508,
-  setCheckboxToFileNames,
+  setCheckboxToReferenceColumn,
 } from '../../../utils/ensure-508/rdt-table';
 
 const BulkDataFilesTable = ({
@@ -19,7 +19,7 @@ const BulkDataFilesTable = ({
     setTimeout(() => {
       ensure508();
     }, 1000);
-    setCheckboxToFileNames(dataTableRecords, 'filename', 'file names')
+    setCheckboxToReferenceColumn(dataTableRecords, 'filename', 'file names')
 
     return () => {
       cleanUp508();

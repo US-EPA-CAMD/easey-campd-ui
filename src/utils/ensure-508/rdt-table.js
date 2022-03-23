@@ -208,7 +208,7 @@ export const removeAriaSortHandlersFromDatatable = () => {
 };
 
 /*****************************************************
- * setCheckboxToFileNames:
+ * setCheckboxToReferenceColumn:
  *
  *   This function is used to set compliant aria-labels to all the checkboxes
  *
@@ -219,7 +219,7 @@ export const removeAriaSortHandlersFromDatatable = () => {
  *       Outputs:
  *              none
  *****************************************************/
-export const setCheckboxToFileNames = (data, coulmnToReference, selectAllReference) => {
+export const setCheckboxToReferenceColumn = (data, coulmnToReference, selectAllReference) => {
   setTimeout(() => {
     const selectAll = document.querySelector('[name="select-all-rows"]');
     if (selectAll) {
