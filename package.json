@@ -15,7 +15,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "up": "yarn --ignore-engines && yarn start",
-    "test": "react-scripts test --coverage --watchAll=false --testResultsProcessor=jest-sonar-reporter --detectOpenHandles"
+    "test": "react-scripts test --coverage --watchAll=false --testResultsProcessor=jest-sonar-reporter"
   },
   "resolutions": {
     "ansi-regex": "^5.0.1",
