@@ -214,8 +214,8 @@ export const removeAriaSortHandlersFromDatatable = () => {
  *
  *       Inputs:
  *              data - an array of data elements that populate the table
- *              columnToReference - what the checkboxes should reference
- *              selectAllReference - what the select all checkbox shoule reference
+ *              columnToReference - what the checkboxes should reference (is an attribute of data)
+ *              selectAllReference - what the select all checkbox should reference (is just a label)
  *       Outputs:
  *              none
  *****************************************************/
