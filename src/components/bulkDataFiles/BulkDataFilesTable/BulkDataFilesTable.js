@@ -19,7 +19,7 @@ const BulkDataFilesTable = ({
     setTimeout(() => {
       ensure508();
     }, 1000);
-    setCheckboxToFileNames(dataTableRecords)
+    setCheckboxToFileNames(dataTableRecords, 'filename')
 
     return () => {
       cleanUp508();

@@ -207,7 +207,18 @@ export const removeAriaSortHandlersFromDatatable = () => {
   });
 };
 
-export const setCheckboxToFileNames = (data) => {
+/*****************************************************
+ * setCheckboxToFileNames:
+ *
+ *   This function is used to set compliant aria-labels to all the checkboxes
+ *
+ *       Inputs:
+ *              data - an array of data elements that populate the table
+ *              columnToReference - what the checkboxes should reference 
+ *       Outputs:
+ *              none
+ *****************************************************/
+export const setCheckboxToFileNames = (data, coulmnToReference) => {
   setTimeout(() => {
     const selectAll = document.querySelector('[name="select-all-rows"]');
     if (selectAll) {
@@ -216,7 +227,7 @@ export const setCheckboxToFileNames = (data) => {
     document.querySelectorAll('[type="checkbox"]').forEach((element) => {
       if (element.getAttribute('name') !== 'select-all-rows') {
         const index = parseInt(element.getAttribute('name').split('select-row-')[1]);
-        const label = `select-row-${data[index].filename}`
+        const label = `select-row-${data[index][coulmnToReference]}`
         element.setAttribute("aria-label", label);
         element.setAttribute("name", label);
       }
