@@ -5,6 +5,7 @@ import { MemoryRouter } from 'react-router-dom';
 import RelatedResources from './RelatedResources';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
+import config from '../../config';
 
 jest.mock('react-markdown', () => ({ children }) => <>{children}</>);
 jest.mock('remark-gfm', () => () => {});
@@ -67,9 +68,9 @@ const additionalDataTools = [
 ];
 
 const additionalToolsUrl =
-  'https://api.epa.gov/easey/dev/content-mgmt/campd/resources/related-resources/additional-data-tools.json';
+  `${config.services.content.uri}/campd/resources/related-resources/additional-data-tools.json`;
 const contentIntroUrl =
-  'https://api.epa.gov/easey/dev/content-mgmt/campd/resources/related-resources/index.md';
+  `${config.services.content.uri}/campd/resources/related-resources/index.md`;
 const getAdditionalToolsUrl = rest.get(additionalToolsUrl, (req, res, ctx) => {
   return res(ctx.json(additionalDataTools));
 });
