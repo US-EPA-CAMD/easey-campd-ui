@@ -61,6 +61,7 @@ const HomePage = () => {
       .then((res) => {
         if (res.data) {
           const data = res.data;
+          console.log('submission progress ', data);
           setProgressTitle(
             `${data.year} ${data.quarterName} Quarter Emission Files Received`
           );

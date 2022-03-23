@@ -7,15 +7,17 @@ import initialState from '../../../store/reducers/initialState';
 import { handleError } from '../../../utils/api/apiUtils';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
+import config from '../../../config';
 
 jest.spyOn(window, 'alert').mockImplementation(() => {});
 jest.spyOn(window, 'confirm').mockImplementation(() => {});
 jest.mock('react-markdown', () => ({ children }) => <>{children}</>);
 jest.mock('remark-gfm', () => () => {});
 
+const { findByText, getByRole } = screen;
 const helperTextUrl =
-  'https://api.epa.gov/easey/dev/content-mgmt/campd/data/custom-data-download/helper-text.md';
-const limitTextUrl = 'https://api.epa.gov/easey/dev/content-mgmt/campd/data/custom-data-download/download-limit-alert.md';
+  `${config.services.content.uri}/campd/data/custom-data-download/helper-text.md`;
+const limitTextUrl = `${config.services.content.uri}/campd/data/custom-data-download/download-limit-alert.md`;
 const getHelperTextUrl = rest.get(helperTextUrl, (req, res, ctx) => {
   return res(ctx.json('this is CDD helper tex'));
 });
@@ -49,7 +51,7 @@ beforeEach(() => server.resetHandlers());
 afterAll(() => server.close());
 describe('CddDataPreview', () => {
   test('Check that the  component properly renders custom data download helper text', async () => {
-    const { findByText, getByRole } = render(
+    render(
       <Provider store={store}>
         <div id="filter0"></div>
         <CddDataPreview requirementsMet={true} totalCount={10000000} />

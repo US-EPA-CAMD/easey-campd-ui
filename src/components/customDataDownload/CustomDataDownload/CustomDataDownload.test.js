@@ -306,39 +306,6 @@ describe('filter selection functionality', () => {
     expect(previewDataButton).not.toBeDisabled();
   });
 
-  xtest('pill button can remove filter selection ', () => {
-    const { getByRole, getByText, getAllByRole } = query;
-    const filtersButton = getByRole('button', {name: 'Filters'})
-    fireEvent.click(filtersButton)
-    const stateTerritoryFilter = getByRole('button', {
-      name: 'STATE/TERRITORY (Optional)',
-    });
-
-    fireEvent.click(stateTerritoryFilter);
-    const stateTerritoryComboBox = getByRole('textbox', {
-      name: /select or search states\/territories/i,
-    });
-
-    fireEvent.click(stateTerritoryComboBox);
-
-    const alaska = getByText(/alaska/i);
-
-    fireEvent.click(alaska);
-
-    const applyFilterButton = getByRole('button', { name: /apply filter/i });
-    fireEvent.click(applyFilterButton);
-
-    const pillButton = getByRole('button', {
-      name: /remove selection for state\/territory: alaska/i,
-    });
-    const pillButtonRemove = within(pillButton).getByRole('img', {
-      hidden: true,
-    });
-
-    fireEvent.click(pillButtonRemove);
-    const previewDataButton = getAllByRole('button', { name: /Preview Data/i })[0];
-    expect(previewDataButton).toBeDisabled();
-  });
 
   test('clear all button removes filter selection', () => {
     const { getByRole, getByText, getAllByRole } = query;

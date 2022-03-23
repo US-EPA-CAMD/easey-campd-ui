@@ -4,16 +4,17 @@ import { MemoryRouter } from 'react-router-dom';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 import GlossaryPage from './GlossaryPage';
+import config from '../../config';
 
 jest.mock('react-markdown', () => ({ children }) => <>{children}</>);
 jest.mock('remark-gfm', () => () => {});
 
 const contentUrl =
-  'https://api.epa.gov/easey/dev/content-mgmt/campd/resources/glossary/index.md';
+  `${config.services.content.uri}/campd/resources/glossary/index.md`;
 const pdfUrl =
-  'https://api.epa.gov/easey/dev/content-mgmt/campd/resources/glossary/CAMPD-Glossary.pdf';
+  `${config.services.content.uri}/campd/resources/glossary/CAMPD-Glossary.pdf`;
 const csvUrl =
-  'https://api.epa.gov/easey/dev/content-mgmt/campd/resources/glossary/CAMPD-Glossary.xlsx';
+  `${config.services.content.uri}/campd/resources/glossary/CAMPD-Glossary.xlsx`;
 
 const glossaryContent = `Glossary Content`;
 

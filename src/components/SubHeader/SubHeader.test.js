@@ -7,6 +7,7 @@ import configureStore from '../../store/configureStore.dev';
 import SubHeader from './SubHeader';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
+import config from '../../config';
 const store = configureStore();
 
 jest.mock('react-markdown', () => ({ children }) => <>{children}</>);
@@ -15,9 +16,9 @@ jest.mock('remark-gfm', () => () => {});
 jest.mock('remark-sub-super', () => () => {});
 
 const titleUrl =
-  'https://api.epa.gov/easey/dev/content-mgmt/campd/home/main-title.md';
+  `${config.services.content.uri}/campd/home/main-title.md`;
 const contentUrl =
-  'https://api.epa.gov/easey/dev/content-mgmt/campd/home/main-content.md';
+  `${config.services.content.uri}/campd/home/main-content.md`;
 const getTitle = rest.get(titleUrl, (req, res, ctx) => {
   return res(ctx.json('Title text..'));
 });
