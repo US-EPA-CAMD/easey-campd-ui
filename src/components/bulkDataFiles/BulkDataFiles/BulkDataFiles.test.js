@@ -9,12 +9,13 @@ import initialState from '../../../store/reducers/initialState';
 
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
+import config from '../../../config';
 
 jest.mock('react-markdown', () => ({ children }) => <>{children}</>);
 jest.mock('remark-gfm', () => () => {});
 
 const helperTextUrl =
-  'https://api.epa.gov/easey/dev/content-mgmt/campd/data/bulk-data-files/helper-text.md';
+  `${config.services.content.uri}/campd/data/bulk-data-files/helper-text.md`;
 const getHelperTextUrl = rest.get(helperTextUrl, (req, res, ctx) => {
   return res(ctx.json('Bulk Data Files'));
 });
