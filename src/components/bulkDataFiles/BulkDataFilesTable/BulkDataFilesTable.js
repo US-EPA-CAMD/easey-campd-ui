@@ -62,8 +62,8 @@ const BulkDataFilesTable = ({
   }, [dataTableRecords]);
 
   return (
-    <div 
-      className="data-display-table grid-col-fill" 
+    <div
+      className="data-display-table grid-col-fill"
       table-aria-labelledby="data-table-title"
     >
       <DataTable
