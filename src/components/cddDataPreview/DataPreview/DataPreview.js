@@ -34,7 +34,8 @@ export const DataPreview = ({
       name: el.label,
       selector: el.value,
       sortable: true,
-      width : dataPreviewColumns[dataSubType][el.label]
+      width : dataPreviewColumns[dataSubType][el.label],
+      wrap: true
     }))
     // eslint-disable-next-line
   ,[fieldMappings]);
