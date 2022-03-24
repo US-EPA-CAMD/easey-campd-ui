@@ -22,7 +22,7 @@ const DataPreviewRender = ({
       arrowBackSvg[0].setAttribute("viewBox","0 0 24 14")
     }
     setTimeout(() => {
-      ensure508();
+      ensure508(true);
     }, 1000);
 
     return () => {
