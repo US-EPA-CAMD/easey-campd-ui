@@ -10,7 +10,8 @@ import {
 } from '../../../utils/ensure-508/rdt-table';
 
 const BulkDataFilesTable = ({
-  dataTableRecords
+  dataTableRecords,
+  setFiles
 }) => {
   useEffect(() => {
     const arrowBackSvg = document.getElementsByClassName("arrow-back-svg");
@@ -28,7 +29,6 @@ const BulkDataFilesTable = ({
       cleanUp508();
     };
   }, [dataTableRecords]);
-
   const columns = [
     {
       name: 'File Name',
@@ -66,7 +66,7 @@ const BulkDataFilesTable = ({
   }, [dataTableRecords]);
 
   return (
-    <div className="data-display-table grid-col-fill">
+      <div className="data-display-table grid-col-fill">
       <DataTable
         columns={columns}
         data={data}
@@ -81,6 +81,7 @@ const BulkDataFilesTable = ({
         pagination
         paginationRowsPerPageOptions={[10, 25, 50, 100]}
         sortIcon={<ArrowDownwardSharp className="margin-left-2 text-primary" />}
+        onSelectedRowsChange={(...args) => setFiles( ...args)}
       />
     </div>
   );

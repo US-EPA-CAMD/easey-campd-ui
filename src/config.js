@@ -14,6 +14,8 @@ const config = {
       "campd-support@camdsupport.com",
     streamingLimit:
       process.env.REACT_APP_EASEY_CAMPD_UI_STREAMING_LIMIT || 1000000,
+    downloadLimit:
+      process.env.REACT_APP_EASEY_CAMPD_UI_DOWNLOAD_LIMIT || '50 GB',
   },
   services: {
     mdm: {
@@ -51,6 +53,11 @@ const config = {
         process.env.REACT_APP_EASEY_QUARTZ_API ||
         "https://api.epa.gov/easey/dev/quartz-mgmt",
     },
+    bulkDataFiles: {
+      uri: 
+        process.env.REACT_APP_EASEY_BULK_DATA_FILES_API ||
+        'http://api.epa.gov/easey/dev/bulk-files'
+    }
   },
 };
 
