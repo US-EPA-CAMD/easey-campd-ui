@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { metaAdder } from '../../../utils/document/metaAdder';
-import { loadBulkDataFiles } from "../../../store/actions/bulkDataFilesActions";
+import { loadBulkDataFiles, updateBulkDataFiles } from "../../../store/actions/bulkDataFilesActions";
 import BulkDataFilesTable from "../BulkDataFilesTable/BulkDataFilesTable";
 import getContent from '../../../utils/api/getContent';
+import BulkDataFilesFilters from "../BulkDataFilesFilters/BulkDataFilesFilters";
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { Link } from '@trussworks/react-uswds';
@@ -13,7 +14,8 @@ import "./BulkDataFiles.scss";
 
 const BulkDataFiles = ({
   dataTable,
-  loadBulkDataFilesDispatcher
+  loadBulkDataFilesDispatcher,
+  updateBulkDataFilesDispacher
 }) => {
   const [helperText, setHelperText] = useState(null);
 
@@ -36,7 +38,12 @@ const BulkDataFiles = ({
 
   return (
     <div className='grid-row flex-wrap' id='bulk-data-files'>
-      <div className='grid-col-3 maxh-viewport bg-base-lighter margin-0'/>
+      <div className='grid-col-3 height-viewport bg-base-lighter margin-0'>
+        <BulkDataFilesFilters
+          dataTableRecords={dataTable}
+          updateBulkDataFilesDispacher={updateBulkDataFilesDispacher}
+        />
+      </div>
       <div className='grid-col-fill'>
         <div className='bg-base-lightest padding-4'>
           <ReactMarkdown
@@ -63,7 +70,7 @@ const BulkDataFiles = ({
             </Tooltip>
           </div>
           <BulkDataFilesTable
-            dataTableRecords ={dataTable}
+            dataTableRecords ={JSON.parse(JSON.stringify(dataTable))}
           />
         </div>
       </div>
@@ -79,6 +86,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     loadBulkDataFilesDispatcher: () => dispatch(loadBulkDataFiles()),
+    updateBulkDataFilesDispacher: (tableRecords) => dispatch(updateBulkDataFiles(tableRecords))
   };
 };
 
