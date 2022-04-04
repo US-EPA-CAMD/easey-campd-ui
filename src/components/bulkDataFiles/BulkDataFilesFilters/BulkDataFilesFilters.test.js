@@ -264,12 +264,10 @@ afterAll(() => server.close());
 describe('BDFF-component',  () => {
   test('filters render without errors', async () => {
     const query = render(
-      <MemoryRouter>
-        <BulkDataFilesFilters
-          dataTableRecords={dataTableRecords}
-          loadBulkDataFilesDispatcher= {jest.fn()}
-        />
-      </MemoryRouter>
+      <BulkDataFilesFilters
+        dataTableRecords={dataTableRecords}
+        loadBulkDataFilesDispatcher= {jest.fn()}
+      />
     );
     const { findByText, getAllByTestId, getByTestId, findByLabelText} = query;
     const dataTypeFilter = await findByText("Data Type");
