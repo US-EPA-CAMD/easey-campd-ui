@@ -113,7 +113,7 @@ const BulkDataFilesFilters = ({
         )
       }
       {
-        filtersContent && ((dataType === "Emissions" && (subType === "Hourly" || subType === "Daily")) || dataType === "Mercury and Air Toxics Emissions (MATS)") &&
+        filtersContent && (dataType === "Emissions" || dataType === "Mercury and Air Toxics Emissions (MATS)") &&
         (
           <>
             <Label
