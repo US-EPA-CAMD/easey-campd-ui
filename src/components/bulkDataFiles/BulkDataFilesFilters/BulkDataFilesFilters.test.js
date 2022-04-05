@@ -1,34 +1,12 @@
 import React from 'react';
-import { render, screen, fireEvent, cleanup } from '@testing-library/react';
-import { Provider } from 'react-redux';
-import { MemoryRouter } from 'react-router-dom';
-
-import configureStore from '../../../store/configureStore.dev';
-import BulkDataFiles from './BulkDataFiles';
-import initialState from '../../../store/reducers/initialState';
-
+import { render, fireEvent, screen  } from '@testing-library/react';
+import BulkDataFilesFilters from './BulkDataFilesFilters';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 import config from '../../../config';
 
 jest.mock('react-markdown', () => ({ children }) => <>{children}</>);
 jest.mock('remark-gfm', () => () => {});
-const { findByRole, findByText, getByRole, getAllByRole, getByText, queryByText, debug } = screen;
-const helperTextUrl =
-  `${config.services.content.uri}/campd/data/bulk-data-files/helper-text.md`;
-const downloadLimitAlertUrl =
-  `${config.services.content.uri}/campd/data/bulk-data-files/download-limit-alert.md`
-const getHelperTextUrl = rest.get(helperTextUrl, (req, res, ctx) => {
-  return res(ctx.json('Bulk Data Files'));
-});
-const getDownloadLimitAlert = rest.get(downloadLimitAlertUrl, (req, res, ctx) => {
-  return res(ctx.json('Download Limit Alert'));
-});
-const bulkDataFilesUrl=
-`${config.services.quartz.uri}/bulk-files`;
-const getBulkDataFiles = rest.get(bulkDataFilesUrl, (req, res, ctx) => {
-  return 
-})
 const filtersContent = {
   "dataTypes": ["Allowance", "Compliance", "Emissions", "Facility", "Mercury and Air Toxics Emissions (MATS)"],
   "subTypes" : {
@@ -98,9 +76,9 @@ const filtersUrl =
 const getFiltersUrl = rest.get(filtersUrl, (req, res, ctx) => {
   return res(ctx.json(filtersContent));
 });
-const server = new setupServer(getHelperTextUrl, getDownloadLimitAlert, getBulkDataFiles, getFiltersUrl);
+const server = new setupServer(getFiltersUrl);
 
-initialState.bulkDataFiles.dataTable=[
+const dataTableRecords = [
   {
     "filename": "Emissions-Daily-2021-Q1.csv",
     "s3Path": "emissions/daily/quarter/Emissions-Daily-2021-Q1.csv",
@@ -279,166 +257,30 @@ initialState.bulkDataFiles.dataTable=[
     "lastUpdated": "2022-03-01T20:04:56Z"
   }
 ];
-const store = configureStore(initialState);
 beforeAll(() => server.listen());
 beforeEach(() => server.resetHandlers());
-afterEach(cleanup)
 afterAll(() => server.close());
 
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
-  useHistory: () => ({
-    push: jest.fn(),
-  }),
-}));
-
-/*****
- */
-describe('Manage Bulk Data Files component: ',  () => {
-    test('download button is disabled when no files are selected', () => {
-      render(
-        <Provider store={store}>
-          <MemoryRouter>
-            <BulkDataFiles
-              loadBulkDataFilesDispatcher= {jest.fn()}
-            />
-          </MemoryRouter>
-        </Provider>
-      );
-      const downloadButton = getByRole('button', {
-        name: /download/i
-      });
-      expect(downloadButton).toBeDisabled();
-    });
-
-    test('download button is enabled after files are selected', () => {
-      render(
-        <Provider store={store}>
-          <MemoryRouter>
-            <BulkDataFiles
-              loadBulkDataFilesDispatcher= {jest.fn()}
-            />
-          </MemoryRouter>
-        </Provider>
-      );
-      const checkbox = getByRole('checkbox', {
-        name: /select-row-4/i
-      })
-      fireEvent.click(checkbox);
-      const downloadButton = getByRole('button', {
-        name: /download/i
-      });
-      expect(downloadButton).not.toBeDisabled();
-    });
-
-    test('number of files is updated when files are added or removed', () => {
-      render(
-        <Provider store={store}>
-          <MemoryRouter>
-            <BulkDataFiles
-              loadBulkDataFilesDispatcher= {jest.fn()}
-            />
-          </MemoryRouter>
-        </Provider>
-      );
-      const checkbox1 = getByRole('checkbox', {
-        name: /select-row-4/i
-      });
-      const checkbox2 = getByRole('checkbox', {
-        name: /select-row-5/i
-      })
-      fireEvent.click(checkbox1);
-      const fileCount= getByText(/files selected: 1/i)
-      expect(fileCount).toBeInTheDocument();
-      fireEvent.click(checkbox2);
-      const updatedFileCount= getByText(/files selected: 2/i)
-      expect(updatedFileCount).toBeInTheDocument();
-      fireEvent.click(checkbox2);
-      expect(fileCount).toBeInTheDocument();
-    });
-
-
-  test('sections render without errors', async () => {
+describe('BDFF-component',  () => {
+  test('filters render without errors', async () => {
     const query = render(
-      <Provider store={store}>
-        <MemoryRouter>
-          <BulkDataFiles
-            loadBulkDataFilesDispatcher= {jest.fn()}
-          />
-        </MemoryRouter>
-      </Provider>
+      <BulkDataFilesFilters
+        dataTableRecords={dataTableRecords}
+        loadBulkDataFilesDispatcher= {jest.fn()}
+      />
     );
-    const { findByText, getByRole, getAllByRole} = query;
-    const header = await findByText('Bulk Data Files');
-    expect(header).toBeInTheDocument();
-    expect(getByRole("table")).toBeDefined();
-    expect(getAllByRole("columnheader").length).toBe(4);
-    expect(getAllByRole("row").length).toBe(initialState.bulkDataFiles.dataTable.length-1);
+    const { findByText, getAllByTestId, getByTestId, findByLabelText} = query;
+    const dataTypeFilter = await findByText("Data Type");
+    expect(dataTypeFilter).toBeTruthy();
+    // fireEvent.change(getByTestId('dataType-select'), { target: { value: 2 } });
+    // let dataTypeOptions = getAllByTestId('dataType-select-option')
+    // expect(dataTypeOptions[2].selected).toBeTruthy();
+    // const SubTypeFilter = await findByLabelText("Subtype");
+    // expect(SubTypeFilter).toBeTruthy();
+    // fireEvent.change(getByTestId('subType-select'), { target: { value: 1 } });
+    // let subTypeOptions = getAllByTestId('subType-select-option');
+    // expect(subTypeOptions[1].selected).toBeTruthy();
+    // const groupingFilter = await findByLabelText("Grouping");
+    // expect(groupingFilter).toBeTruthy();
   });
-
-
-  test('file size is updated when files are added or removed', async () => {
-    render(
-      <Provider store={store}>
-        <MemoryRouter>
-          <BulkDataFiles
-            loadBulkDataFilesDispatcher= {jest.fn()}
-          />
-        </MemoryRouter>
-      </Provider>
-    );
-    const checkbox = await findByRole('checkbox', {
-      name: /select-row-4/i
-    })
-    fireEvent.click(checkbox);
-    const fileSize= getByText(/size: 4\.66 mb/i)
-    expect(fileSize).toBeInTheDocument();
-    fireEvent.click(checkbox);
-    const updatedFileSize= getByText(/size:/i)
-    expect(updatedFileSize).toBeInTheDocument();
-  });
-
-
-  test('download button is disabled if file size exceeds download limit', async () => {
-    render(
-      <Provider store={store}>
-        <MemoryRouter>
-          <BulkDataFiles
-            loadBulkDataFilesDispatcher= {jest.fn()}
-          />
-        </MemoryRouter>
-      </Provider>
-    );
-    const allFiles = await findByRole('checkbox', {
-      name: /select-all-rows/i
-    })
-    fireEvent.click(allFiles);
-    const downloadButton = getByRole('button', {
-      name: /download/i
-    });
-    expect(downloadButton).toBeDisabled();
-  });
-
-  test('Alert pops up when file size exceeds download limit and is removed when limit is no longer exceeded', async() => {
-    render(
-      <Provider store={store}>
-        <MemoryRouter>
-          <BulkDataFiles
-            loadBulkDataFilesDispatcher= {jest.fn()}
-          />
-        </MemoryRouter>
-      </Provider>
-    );
-
-    const allFiles = await findByRole('checkbox', {
-      name: /select-all-rows/i
-    })
-    fireEvent.click(allFiles);
-    const alert = await findByText(/download limit alert/i)
-    expect(alert).toBeInTheDocument();
-    fireEvent.click(allFiles);
-    expect(queryByText(/download limit alert/i)).toBeNull()
-  });
-
 });
-

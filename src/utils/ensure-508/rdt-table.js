@@ -231,12 +231,13 @@ export const setCheckboxToReferenceColumn = (data, coulmnToReference, selectAllR
     if (selectAll) {
       selectAll.setAttribute('aria-label', `Select/deselect all ${selectAllReference}`);
     }
-    document.querySelectorAll('[type="checkbox"]').forEach((element) => {
-      if (element.getAttribute('name') !== 'select-all-rows') {
-        const index = parseInt(element.getAttribute('name').split('select-row-')[1]);
-        const label = `select-row-${data[index][coulmnToReference]}`
-        element.setAttribute("aria-label", label);
-        element.setAttribute("name", label);
+    document.querySelectorAll('.rdt_TableRow').forEach((row) => {
+      const checkboxEl = row.children[0].firstElementChild;
+      const fileNameEl = row.children[1].firstElementChild;
+      if(checkboxEl.getAttribute('name') !== 'select-all-rows') {
+        const label = `select-row-${fileNameEl.innerHTML}`;
+        checkboxEl.setAttribute("aria-label", label);
+        checkboxEl.setAttribute("name", label);
       }
     });
   });

@@ -22,3 +22,10 @@ export function loadBulkDataFiles() {
       });
   };
 }
+
+export function updateBulkDataFiles(bulkDataFiles) {
+  return {
+    type: types.UPDATE_BULK_DATA_FILES,
+    bulkDataFiles
+  };
+}

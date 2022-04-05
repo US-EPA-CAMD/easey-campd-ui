@@ -304,3 +304,12 @@ export const engageFilterLogic = async(dataType, dataSubType, affectedFilter, fi
   });
   setTimeout(()=>updateFilterCriteriaDispatcher(filterCriteriaCloned));
 };
+
+export const filterBulkDataFiles = (selection, tableRecords) =>{
+  return tableRecords.filter(record => {
+    return (selection.dataType === '' || record.metadata?.datatype?.toUpperCase() === selection.dataType.toUpperCase()) &&
+    (selection.subType === '' || record.metadata?.datasubtype?.toUpperCase() === selection.subType.toUpperCase()) &&
+    (selection.grouping === '' || record.metadata?.grouping?.toUpperCase() === selection.grouping.toUpperCase()) &&
+    (selection.state === '' || record.metadata?.statecode?.toUpperCase() === selection.state.toUpperCase())
+  });
+};
