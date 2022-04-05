@@ -47,7 +47,7 @@ const BulkDataFiles = ({
     if(selectedFiles.selectedCount){
       selectedFiles.selectedRows.forEach(file => {
         const maxUnit =  file.gigaBytes > 0 ? `${file.gigaBytes} GB` : file.megaBytes > 0 ? `${file.megaBytes} MB`: file.kiloBytes? `${file.kiloBytes} KB`: file.bytes;
-        const bytes = convertToBytes(maxUnit)
+        const bytes = convertToBytes(maxUnit);
         currentSize += parseFloat(bytes);
       })
       currentSize = formatFileSize(currentSize)
@@ -65,7 +65,7 @@ const BulkDataFiles = ({
   );
   metaAdder(
     'keywords',
-    'EPA CAMD, FTP, prepackaged data download, static datasets, AMPD, emissions data, allowance, compliance, Clean air markets program data, emissions, analysis,  facility filesrmation, CAMPD, AMPD, CAMD'
+    'EPA CAMD, FTP, prepackaged data download, static datasets, AMPD, emissions data, allowance, compliance, Clean air markets program data, emissions, analysis,  facility information, CAMPD, AMPD, CAMD'
   );
 
   return (
