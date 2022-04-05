@@ -2068,7 +2068,6 @@ describe("Filter Criteria Async Actions", () => {
         .map((el, i) => ({ id: i, label: i, selected: true, enabled: true })),
     }];
     resetCheckBoxItems(checkbox);
-    console.log(checkbox[0].items);
     expect(checkbox[0].items.filter((e) => e.selected).length).toEqual(0);
     //all items should be still be enabled
     expect(checkbox[0].items.filter((e) => e.enabled).length).not.toEqual(0);

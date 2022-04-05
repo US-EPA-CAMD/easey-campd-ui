@@ -74,12 +74,16 @@ export const changeGridCellAttributeValue = () => {
  *****************************************************/
 export const addAriaLabelToDatatable = () => {
   document.querySelectorAll(`.rdt_Table`).forEach((element) => {
+    console.log('element: ', element);
     let label = "Data Table";
     const tableContainer = document.querySelector(".data-display-table");
     if(tableContainer){
+      console.log('tableContainer: ', tableContainer);
       label = tableContainer.getAttribute("table-aria-labelledby");
       element.setAttribute("aria-labelledby", label);
+      console.log('inner el within tableContainer', element);
     }else{
+      console.log('inner el', element);
       element.setAttribute("aria-label", label);
     }
   });

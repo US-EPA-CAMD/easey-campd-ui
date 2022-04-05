@@ -10,7 +10,8 @@ import {
 } from '../../../utils/ensure-508/rdt-table';
 
 const BulkDataFilesTable = ({
-  dataTableRecords
+  dataTableRecords,
+  setSelectedFiles
 }) => {
   useEffect(() => {
     const arrowBackSvg = document.getElementsByClassName("arrow-back-svg");
@@ -20,7 +21,8 @@ const BulkDataFilesTable = ({
     setTimeout(() => {
       ensure508();
       const table = document.querySelector('[role="table"]')
-      table.setAttribute("aria-label", 'Bulk Data File selection table')
+      if (table){
+        table.setAttribute("aria-label", 'Bulk Data File selection table')}
     }, 1000);
     setCheckboxToReferenceColumn(dataTableRecords, 'filename', 'file names')
 
@@ -28,7 +30,6 @@ const BulkDataFilesTable = ({
       cleanUp508();
     };
   }, [dataTableRecords]);
-
   const columns = [
     {
       name: 'File Name',
@@ -66,7 +67,7 @@ const BulkDataFilesTable = ({
   }, [dataTableRecords]);
 
   return (
-    <div className="data-display-table grid-col-fill">
+      <div className="data-display-table grid-col-fill">
       <DataTable
         columns={columns}
         data={data}
@@ -81,6 +82,7 @@ const BulkDataFilesTable = ({
         pagination
         paginationRowsPerPageOptions={[10, 25, 50, 100]}
         sortIcon={<ArrowDownwardSharp className="margin-left-2 text-primary" />}
+        onSelectedRowsChange={(...args) => setSelectedFiles( ...args)}
       />
     </div>
   );

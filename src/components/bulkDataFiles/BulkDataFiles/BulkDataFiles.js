@@ -7,10 +7,13 @@ import getContent from '../../../utils/api/getContent';
 import BulkDataFilesFilters from "../BulkDataFilesFilters/BulkDataFilesFilters";
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { Link } from '@trussworks/react-uswds';
+import { Alert, Link } from '@trussworks/react-uswds';
 import Tooltip from '../../Tooltip/Tooltip';
 import { Help } from '@material-ui/icons';
 import "./BulkDataFiles.scss";
+import config from '../../../config';
+import BulkDataFilesDownload from '../BulkDataFilesDownload/BulkDataFilesDownload';
+import { convertToBytes, downloadLimitReached, formatFileSize } from '../../../utils/selectors/general';
 
 const BulkDataFiles = ({
   dataTable,
@@ -18,14 +21,45 @@ const BulkDataFiles = ({
   updateBulkDataFilesDispacher
 }) => {
   const [helperText, setHelperText] = useState(null);
+  const [selectedFiles, setSelectedFiles] = useState({});
+  const [fileSize, setFileSize] = useState(0);
+  const [limitAlert, setLimitAlert] = useState(null);
+  const [limitReached, setLimitReached] = useState(false);
+  const { downloadLimit } = config.app;
 
   useEffect(() => {
     document.title = 'Bulk Data Files | CAMPD | US EPA';
     getContent('/campd/data/bulk-data-files/helper-text.md').then(resp => setHelperText(resp.data));
+    getContent('/campd/data/bulk-data-files/download-limit-alert.md').then(
+      (resp) => {
+        let limitText = resp.data;
+        if (limitText.includes('[limit-configuration]')) {
+          limitText = limitText.replace('[limit-configuration]', downloadLimit);
+        }
+        setLimitAlert(limitText);
+      }
+    );
     if(dataTable === null){
       loadBulkDataFilesDispatcher();
     }// eslint-disable-next-line
   }, []);
+
+  useEffect(() => {
+    let currentSize = 0;
+    if(selectedFiles.selectedCount){
+      selectedFiles.selectedRows.forEach(file => {
+        const maxUnit =  file.gigaBytes > 0 ? `${file.gigaBytes} GB` : file.megaBytes > 0 ? `${file.megaBytes} MB`: file.kiloBytes? `${file.kiloBytes} KB`: file.bytes;
+        const bytes = convertToBytes(maxUnit);
+        currentSize += parseFloat(bytes);
+      })
+      currentSize = formatFileSize(currentSize)
+      setFileSize(currentSize);
+      setLimitReached(downloadLimitReached(currentSize, downloadLimit));
+    } else {
+      setFileSize(0)
+      setLimitReached(false)
+    }// eslint-disable-next-line
+  }, [selectedFiles])
 
   metaAdder(
     'description',
@@ -58,6 +92,18 @@ const BulkDataFiles = ({
             }}
           />
         </div>
+        {limitReached? <div className='padding-x-2 padding-top-3 margin-x-2'>
+          <Alert type="warning" aria-live="assertive">
+            <ReactMarkdown
+              children={limitAlert}
+              remarkPlugins={[remarkGfm]}
+              components={{
+                p: "span"
+              }}
+            />
+          </Alert>
+        </div>: null}
+        <BulkDataFilesDownload fileSize={fileSize} limitReached={limitReached} selectedFiles={selectedFiles}/>
         <div className='margin-1 grid-row'>
           <div className="margin-top-4 grid-col-1 width-3">
             <Tooltip
@@ -71,6 +117,7 @@ const BulkDataFiles = ({
           </div>
           <BulkDataFilesTable
             dataTableRecords ={JSON.parse(JSON.stringify(dataTable))}
+            setSelectedFiles={setSelectedFiles}
           />
         </div>
       </div>
