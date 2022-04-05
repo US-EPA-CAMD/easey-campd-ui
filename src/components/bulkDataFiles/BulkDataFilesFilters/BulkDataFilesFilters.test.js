@@ -7,7 +7,7 @@ import config from '../../../config';
 
 jest.mock('react-markdown', () => ({ children }) => <>{children}</>);
 jest.mock('remark-gfm', () => () => {});
-const filtersContent = `{
+const filtersContent = {
   "dataTypes": ["Allowance", "Compliance", "Emissions", "Facility", "Mercury and Air Toxics Emissions (MATS)"],
   "subTypes" : {
     "Emissions" : ["Hourly", "Daily"]
@@ -70,7 +70,7 @@ const filtersContent = `{
     {"stateCode": "WV", "stateName": "West Virginia", "epaRegion": 3},
     {"stateCode": "WY", "stateName": "Wyoming", "epaRegion": 8}
   ]
-}`;
+};
 const filtersUrl =
   `${config.services.content.uri}/campd/data/bulk-data-files/filters-content.json`;
 const getFiltersUrl = rest.get(filtersUrl, (req, res, ctx) => {
