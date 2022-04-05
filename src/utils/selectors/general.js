@@ -118,7 +118,7 @@ export const convertToBytes = (fileSize) => {
   fileSize = fileSize.toLowerCase();
   const unit = fileSize.split(' ')[1];
   if (unit === 'bytes') {
-    return;
+    return fileSize;
   }
   const unitsDictionary = { kb: 1000, mb: 1000000, gb: 1000000000 };
   const byteSize = parseFloat(fileSize) * unitsDictionary[unit];
