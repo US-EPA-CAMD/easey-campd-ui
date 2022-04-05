@@ -1,11 +1,12 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
 
 import configureStore from '../../../store/configureStore.dev';
 import initialState from '../../../store/reducers/initialState';
 import DataPreviewRender from './DataPreviewRender';
 
+const {queryByLabelText, debug} = screen;
 const fieldMappings = [{"label":"State","value":"stateCode"},{"label":"Facility Name","value":"facilityName"},{"label":"Facility ID","value":"facilityId"},
 {"label":"Unit ID","value":"unitId"},{"label":"Associated Stacks","value":"assocStacks"},{"label":"Date","value":"opDate"},{"label":"Hour","value":"opHour"},
 {"label":"Operating Time","value":"opTime"},{"label":"Gross Load (MW)","value":"gLoad"},{"label":"Steam Load (1000 lb/hr)","value":"sLoad"},
@@ -95,7 +96,7 @@ const columns = () =>
     }))();
 describe('ManageDataPreview', () => {
   test('Check that the  component properly renders', () => {
-    const { getByRole, debug, container } = render(
+    const { getByRole, container } = render(
       <Provider 
         store={store}>
         <DataPreviewRender
@@ -108,9 +109,7 @@ describe('ManageDataPreview', () => {
           />
         </Provider>
     );
-    // const dataPreviewHeader = getByRole('alert');
-    // expect(dataPreviewHeader).toBeDefined();
-    //   debug()
+
     const spinner = container.querySelector('#spinner');
     expect(spinner).toBeInTheDocument();
   });
@@ -151,4 +150,28 @@ describe('ManageDataPreview', () => {
     expect(noDataAlert).toBeInTheDocument()
   })
 
+  describe('ensure 508', () => {
+    test('table should be labelled', () => {
+      const { container } = render(
+        <Provider 
+          store={store}>
+          <DataPreviewRender
+            loading={0}
+            dataPreview={dataPreview}
+            columns={columns()}
+            data={data()}
+            totalCount={1}
+            setSpinnerActive={jest.fn}
+            />
+          </Provider>
+      );
+      const table = container.querySelector('.rdt_Table')
+      const tableTitle = container.querySelector('.data-display-table')
+      console.log(table);
+      console.log(tableTitle);
+      debug()
+      const table2 = queryByLabelText('data-table-title')
+      console.log(table2);
+    })
+  })
 });
