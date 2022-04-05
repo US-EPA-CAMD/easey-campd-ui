@@ -73,7 +73,6 @@ describe('FAQs Page Component', () => {
         );
 
         const accordion = await findByText(topic.title);
-        console.log(accordion);
         expect(accordion).toHaveAttribute('aria-expanded', 'false');
       }
     );

@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen, fireEvent, cleanup } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 
@@ -13,13 +13,23 @@ import config from '../../../config';
 
 jest.mock('react-markdown', () => ({ children }) => <>{children}</>);
 jest.mock('remark-gfm', () => () => {});
-
+const { findByRole, findByText, getByRole, getAllByRole, getByText, queryByText, debug } = screen;
 const helperTextUrl =
   `${config.services.content.uri}/campd/data/bulk-data-files/helper-text.md`;
+const downloadLimitAlertUrl =
+  `${config.services.content.uri}/campd/data/bulk-data-files/download-limit-alert.md`
 const getHelperTextUrl = rest.get(helperTextUrl, (req, res, ctx) => {
   return res(ctx.json('Bulk Data Files'));
 });
-const server = new setupServer(getHelperTextUrl);
+const getDownloadLimitAlert = rest.get(downloadLimitAlertUrl, (req, res, ctx) => {
+  return res(ctx.json('Download Limit Alert'));
+});
+const bulkDataFilesUrl=
+`${config.services.quartz.uri}/bulk-files`;
+const getBulkDataFiles = rest.get(bulkDataFilesUrl, (req, res, ctx) => {
+  return 
+})
+const server = new setupServer(getHelperTextUrl, getDownloadLimitAlert, getBulkDataFiles);
 
 initialState.bulkDataFiles.dataTable= [
   {
@@ -52,7 +62,7 @@ initialState.bulkDataFiles.dataTable= [
     "dataType": "emissions",
     "dataSubType": "daily",
     "grouping": "quarter",
-    "bytes": 77672657,
+    "bytes": 776726570000000,
     "kiloBytes": 75852,
     "megaBytes": 74,
     "gigaBytes": 0,
@@ -170,6 +180,7 @@ initialState.bulkDataFiles.dataTable= [
 const store = configureStore(initialState);
 beforeAll(() => server.listen());
 beforeEach(() => server.resetHandlers());
+afterEach(cleanup)
 afterAll(() => server.close());
 
 jest.mock('react-router-dom', () => ({
@@ -179,8 +190,72 @@ jest.mock('react-router-dom', () => ({
   }),
 }));
 
-
+/*****
+ */
 describe('Manage Bulk Data Files component: ',  () => {
+    test('download button is disabled when no files are selected', () => {
+      render(
+        <Provider store={store}>
+          <MemoryRouter>
+            <BulkDataFiles
+              loadBulkDataFilesDispatcher= {jest.fn()}
+            />
+          </MemoryRouter>
+        </Provider>
+      );
+      const downloadButton = getByRole('button', {
+        name: /download/i
+      });
+      expect(downloadButton).toBeDisabled();
+    });
+
+    test('download button is enabled after files are selected', () => {
+      render(
+        <Provider store={store}>
+          <MemoryRouter>
+            <BulkDataFiles
+              loadBulkDataFilesDispatcher= {jest.fn()}
+            />
+          </MemoryRouter>
+        </Provider>
+      );
+      const checkbox = getByRole('checkbox', {
+        name: /select-row-4/i
+      })
+      fireEvent.click(checkbox);
+      const downloadButton = getByRole('button', {
+        name: /download/i
+      });
+      expect(downloadButton).not.toBeDisabled();
+    });
+
+    test('number of files is updated when files are added or removed', () => {
+      render(
+        <Provider store={store}>
+          <MemoryRouter>
+            <BulkDataFiles
+              loadBulkDataFilesDispatcher= {jest.fn()}
+            />
+          </MemoryRouter>
+        </Provider>
+      );
+      const checkbox1 = getByRole('checkbox', {
+        name: /select-row-4/i
+      });
+      const checkbox2 = getByRole('checkbox', {
+        name: /select-row-5/i
+      })
+      fireEvent.click(checkbox1);
+      const fileCount= getByText(/files selected: 1/i)
+      expect(fileCount).toBeInTheDocument();
+      fireEvent.click(checkbox2);
+      const updatedFileCount= getByText(/files selected: 2/i)
+      expect(updatedFileCount).toBeInTheDocument();
+      fireEvent.click(checkbox2);
+      expect(fileCount).toBeInTheDocument();
+    });
+
+
   test('sections render without errors', async () => {
     const query = render(
       <Provider store={store}>
@@ -198,4 +273,70 @@ describe('Manage Bulk Data Files component: ',  () => {
     expect(getAllByRole("columnheader").length).toBe(4);
     expect(getAllByRole("row").length).toBe(initialState.bulkDataFiles.dataTable.length-1);
   });
+
+
+  test('file size is updated when files are added or removed', async () => {
+    render(
+      <Provider store={store}>
+        <MemoryRouter>
+          <BulkDataFiles
+            loadBulkDataFilesDispatcher= {jest.fn()}
+          />
+        </MemoryRouter>
+      </Provider>
+    );
+    const checkbox = await findByRole('checkbox', {
+      name: /select-row-4/i
+    })
+    fireEvent.click(checkbox);
+    const fileSize= getByText(/size: 4\.66 mb/i)
+    expect(fileSize).toBeInTheDocument();
+    fireEvent.click(checkbox);
+    const updatedFileSize= getByText(/size:/i)
+    expect(updatedFileSize).toBeInTheDocument();
+  });
+
+
+  test('download button is disabled if file size exceeds download limit', async () => {
+    render(
+      <Provider store={store}>
+        <MemoryRouter>
+          <BulkDataFiles
+            loadBulkDataFilesDispatcher= {jest.fn()}
+          />
+        </MemoryRouter>
+      </Provider>
+    );
+    const allFiles = await findByRole('checkbox', {
+      name: /select-all-rows/i
+    })
+    fireEvent.click(allFiles);
+    const downloadButton = getByRole('button', {
+      name: /download/i
+    });
+    expect(downloadButton).toBeDisabled();
+  });
+
+  test('Alert pops up when file size exceeds download limit and is removed when limit is no longer exceeded', async() => {
+    render(
+      <Provider store={store}>
+        <MemoryRouter>
+          <BulkDataFiles
+            loadBulkDataFilesDispatcher= {jest.fn()}
+          />
+        </MemoryRouter>
+      </Provider>
+    );
+
+    const allFiles = await findByRole('checkbox', {
+      name: /select-all-rows/i
+    })
+    fireEvent.click(allFiles);
+    const alert = await findByText(/download limit alert/i)
+    expect(alert).toBeInTheDocument();
+    fireEvent.click(allFiles);
+    expect(queryByText(/download limit alert/i)).toBeNull()
+  });
+
 });
+

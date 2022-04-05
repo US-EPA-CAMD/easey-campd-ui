@@ -11,7 +11,7 @@ import {
 
 const BulkDataFilesTable = ({
   dataTableRecords,
-  setFiles
+  setSelectedFiles
 }) => {
   useEffect(() => {
     const arrowBackSvg = document.getElementsByClassName("arrow-back-svg");
@@ -21,7 +21,8 @@ const BulkDataFilesTable = ({
     setTimeout(() => {
       ensure508();
       const table = document.querySelector('[role="table"]')
-      table.setAttribute("aria-label", 'Bulk Data File selection table')
+      if (table){
+        table.setAttribute("aria-label", 'Bulk Data File selection table')}
     }, 1000);
     setCheckboxToReferenceColumn(dataTableRecords, 'filename', 'file names')
 
@@ -81,7 +82,7 @@ const BulkDataFilesTable = ({
         pagination
         paginationRowsPerPageOptions={[10, 25, 50, 100]}
         sortIcon={<ArrowDownwardSharp className="margin-left-2 text-primary" />}
-        onSelectedRowsChange={(...args) => setFiles( ...args)}
+        onSelectedRowsChange={(...args) => setSelectedFiles( ...args)}
       />
     </div>
   );

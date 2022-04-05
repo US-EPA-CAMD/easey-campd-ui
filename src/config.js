@@ -56,7 +56,7 @@ const config = {
     bulkDataFiles: {
       uri: 
         process.env.REACT_APP_EASEY_BULK_DATA_FILES_API ||
-        'http://api.epa.gov/easey/dev/bulk-files'
+        'https://api.epa.gov/easey/dev/bulk-files'
     }
   },
 };

@@ -233,7 +233,7 @@ export const sourceCategories = {
   ],
 };
 export const attributes = {
-  url: 'tps://api-easey-dev.app.cloud.gov/account-mgmt/emissions-compliance/attributes/applicable',
+  url: 'https://api-easey-dev.app.cloud.gov/account-mgmt/emissions-compliance/attributes/applicable',
   data: [
     {
       year: 1996,

@@ -18,6 +18,7 @@ import {
   facilities,
   ownerOperators,
 } from '../../../utils/constants/cddTestData';
+import config from "../../../config";
 
 initialState.customDataDownload.dataType= "COMPLIANCE";
 initialState.filterCriteria.stateTerritory = [
@@ -28,9 +29,16 @@ const store = configureStore(initialState);
 jest.mock('react-markdown', () => ({ children }) => <>{children}</>);
 jest.mock('remark-gfm', () => () => {});
 const helperTextUrl =
-  'https://api.epa.gov/easey/dev/content-mgmt/campd/';
-
-const getHelperTextUrl = rest.get(helperTextUrl, (req, res, ctx) => {
+  'https://api.epa.gov/easey/dev/content-mgmt/campd/data/custom-data-download/helper-text.md';
+const limitTextUrl = `${config.services.content.uri}/campd/data/custom-data-download/download-limit-alert.md`;
+const getLimitText = rest.get(limitTextUrl, (req, res, ctx) => {
+  return res(ctx.json('this is CDD download limit'));
+});
+const matsCaveatUrl = `${config.services.content.uri}/campd/data/custom-data-download/mats-data-caveat.md`;
+const getMatsCaveat = rest.get(matsCaveatUrl, (req, res, ctx) => {
+  return res(ctx.json('this is CDD download limit'));
+});
+const getHelperText = rest.get(helperTextUrl, (req, res, ctx) => {
   return res(ctx.json('this is CDD helper tex'));
 });
 const getUnitTypes = rest.get(unitTypes.url, (req, res, ctx) => {
@@ -77,12 +85,34 @@ const apiCalls = [
   getTransactionTypes,
   getSourceCategories,
   getAttributes,
-  getHelperTextUrl,
+  getHelperText,
+  getLimitText,
+  getMatsCaveat
 ];
 const server = new setupServer(...apiCalls);
 // *** set up mocks
 
-beforeAll(() => server.listen());
+beforeAll(() => server.listen(
+  {
+    onUnhandledRequest(req) {
+      console.error(
+        '1234 Found an unhandled %s request to %s',
+        req.method,
+        req.url.href,
+        `
+        
+        
+
+        ************************************************************************************************
+
+        
+        ************************************************************************************************
+        
+        
+        `
+      )}
+  }
+));
 beforeEach(() => server.resetHandlers());
 afterAll(() => server.close());
 describe("CustomDataDownload", () => {
@@ -235,7 +265,7 @@ describe('datatype and subtype selection', () => {
   });
 
   test('cancel button takes user back to filters', () => {
-    const { getAllByTestId, getByRole, debug } = render(
+    const { getAllByTestId, getByRole } = render(
       <Provider store={store}>
         <CustomDataDownload />
       </Provider>
@@ -251,7 +281,6 @@ describe('datatype and subtype selection', () => {
     const cancelButton = getByRole('button', { name: /cancel/i });
     fireEvent.click(cancelButton);
     const newChangeButton = getByRole('button', { name: /change/i });
-    debug()
     expect(newChangeButton).toBeInTheDocument()
   })
 });
