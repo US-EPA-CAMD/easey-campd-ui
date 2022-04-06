@@ -1,6 +1,6 @@
 import React, { useMemo, useEffect, useCallback, useState } from 'react';
 import DataTable from 'react-data-table-component';
-import { ArrowDownwardSharp } from '@material-ui/icons';
+import { ArrowDownwardSharp, Help } from '@material-ui/icons';
 import { formatDateToYYMMDD, convertToBytes, downloadLimitReached, formatFileSize } from '../../../utils/selectors/general';
 import BulkDataFilesDownload from '../BulkDataFilesDownload/BulkDataFilesDownload';
 import config from '../../../config';
@@ -14,7 +14,7 @@ import remarkGfm from 'remark-gfm';
 import getContent from '../../../utils/api/getContent';
 import ReactMarkdown from 'react-markdown';
 import { Alert } from '@trussworks/react-uswds';
-
+import Tooltip from '../../Tooltip/Tooltip';
 const BulkDataFilesTable = ({
   dataTableRecords
 }) => {
@@ -111,18 +111,29 @@ const BulkDataFilesTable = ({
 
   return (
     <div className="data-display-table grid-col-fill margin-x-2">
-      {limitReached? <div className='padding-top-3'>
+      {limitReached ? (
+        <div className="padding-top-3">
           <Alert type="warning" aria-live="assertive">
             <ReactMarkdown
               children={limitAlert}
               remarkPlugins={[remarkGfm]}
               components={{
-                p: "span"
+                p: 'span',
               }}
             />
           </Alert>
-        </div>: null}
-      <BulkDataFilesDownload fileSize={fileSize} limitReached={limitReached} selectedFiles={selectedFiles}/>
+        </div>
+      ) : null}
+      <BulkDataFilesDownload
+        fileSize={fileSize}
+        limitReached={limitReached}
+        selectedFiles={selectedFiles}
+      />
+      <div className="margin-top-4 grid-col-1 width-3 margin-left-neg-3 margin-bottom-neg-3">
+        <Tooltip content='"Selecting All" will select all files in all pages of the table.'>
+          <Help className="text-primary" fontSize="small" />
+        </Tooltip>
+      </div>
       <DataTable
         columns={columns}
         data={data}

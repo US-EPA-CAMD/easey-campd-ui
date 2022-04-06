@@ -8,8 +8,6 @@ import BulkDataFilesFilters from "../BulkDataFilesFilters/BulkDataFilesFilters";
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { Link } from '@trussworks/react-uswds';
-import Tooltip from '../../Tooltip/Tooltip';
-import { Help } from '@material-ui/icons';
 import "./BulkDataFiles.scss";
 
 const BulkDataFiles = ({
@@ -59,16 +57,6 @@ const BulkDataFiles = ({
           />
         </div>
         <div className='margin-1 grid-row'>
-          <div className="margin-top-4 grid-col-1 width-3">
-            <Tooltip
-                content='"Selecting all” will select only the files displayed in the table’s current view page.'
-              >
-              <Help
-                className="text-primary"
-                fontSize="small"
-              />
-            </Tooltip>
-          </div>
           <BulkDataFilesTable
             dataTableRecords ={JSON.parse(JSON.stringify(dataTable))}
           />
