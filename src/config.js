@@ -15,7 +15,7 @@ const config = {
     streamingLimit:
       process.env.REACT_APP_EASEY_CAMPD_UI_STREAMING_LIMIT || 1000000,
     downloadLimit:
-      process.env.REACT_APP_EASEY_CAMPD_UI_DOWNLOAD_LIMIT || '50 GB',
+      process.env.REACT_APP_EASEY_CAMPD_UI_DOWNLOAD_LIMIT || '5 GB',
   },
   services: {
     mdm: {

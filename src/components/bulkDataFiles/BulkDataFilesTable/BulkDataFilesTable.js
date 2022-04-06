@@ -74,7 +74,7 @@ const BulkDataFilesTable = ({
         noHeader={true}
         highlightOnHover={true}
         selectableRows={true}
-        selectableRowsVisibleOnly
+        // selectableRowsVisibleOnly
         responsive={false}
         striped={true}
         persistTableHead={false}

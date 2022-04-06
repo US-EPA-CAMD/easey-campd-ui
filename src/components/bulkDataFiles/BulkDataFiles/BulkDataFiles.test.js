@@ -13,7 +13,7 @@ import config from '../../../config';
 
 jest.mock('react-markdown', () => ({ children }) => <>{children}</>);
 jest.mock('remark-gfm', () => () => {});
-const { findByRole, findByText, getByRole, getAllByRole, getByText, queryByText, debug } = screen;
+const { findByRole, findByText, getByRole, getByText, queryByText, debug } = screen;
 const helperTextUrl =
   `${config.services.content.uri}/campd/data/bulk-data-files/helper-text.md`;
 const downloadLimitAlertUrl =
@@ -27,7 +27,8 @@ const getDownloadLimitAlert = rest.get(downloadLimitAlertUrl, (req, res, ctx) =>
 const bulkDataFilesUrl=
 `${config.services.quartz.uri}/bulk-files`;
 const getBulkDataFiles = rest.get(bulkDataFilesUrl, (req, res, ctx) => {
-  return 
+  console.log('called');
+  return res(ctx.json('bulk data files'))
 })
 const filtersContent = {
   "dataTypes": ["Allowance", "Compliance", "Emissions", "Facility", "Mercury and Air Toxics Emissions (MATS)"],
@@ -107,13 +108,7 @@ initialState.bulkDataFiles.dataTable=[
     "bytes": 71084971,
     "kiloBytes": 69418,
     "megaBytes": 67,
-    "gigaBytes": 0,
-    "metadata": {
-      "grouping": "state",
-      "datasubtype": "Daily",
-      "statecode": "AL",
-      "datatype": "Emissions"
-    },
+    "gigaBytes": 80,
     "lastUpdated": "2022-03-02T02:39:01Z"
   },
   {
@@ -391,10 +386,9 @@ describe('Manage Bulk Data Files component: ',  () => {
       name: /select-row-4/i
     })
     fireEvent.click(checkbox);
-    const fileSize= getByText(/size: 4\.66 mb/i)
-    expect(fileSize).toBeInTheDocument();
     fireEvent.click(checkbox);
-    const updatedFileSize= getByText(/size:/i)
+    const updatedFileSize= queryByText(/size:/i)
+    console.log(updatedFileSize);
     expect(updatedFileSize).toBeInTheDocument();
   });
 
@@ -439,6 +433,4 @@ describe('Manage Bulk Data Files component: ',  () => {
     fireEvent.click(allFiles);
     expect(queryByText(/download limit alert/i)).toBeNull()
   });
-
 });
-

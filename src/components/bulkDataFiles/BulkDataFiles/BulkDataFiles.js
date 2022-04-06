@@ -72,7 +72,7 @@ const BulkDataFiles = ({
 
   return (
     <div className='grid-row flex-wrap' id='bulk-data-files'>
-      <div className='grid-col-3 height-viewport bg-base-lighter margin-0'>
+      <div className='grid-col-3 height-viewport bg-base-lighter margin-0 display-none desktop:display-block'>
         <BulkDataFilesFilters
           dataTableRecords={dataTable}
           updateBulkDataFilesDispacher={updateBulkDataFilesDispacher}
