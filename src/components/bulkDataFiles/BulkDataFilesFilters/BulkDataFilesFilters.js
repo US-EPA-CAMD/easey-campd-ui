@@ -73,7 +73,7 @@ const BulkDataFilesFilters = ({
               data-testid="dataType-select"
             >
               <option  data-testid="dataType-select-option" key="" value="">
-                - Select -
+                Select (optional)
               </option>
               {filtersContent.dataTypes.sort().map((el) => (
                 <option data-testid="dataType-select-option" key={el} value={el}>
@@ -101,7 +101,7 @@ const BulkDataFilesFilters = ({
               data-testid="subtype-select"
             >
               <option data-testid="subtype-select-option" key="" value="">
-                - Select -
+                Select (optional)
               </option>
               {filtersContent.subTypes[dataType].map((el) => (
                 <option data-testid="subtype-select-option" key={el} value={el}>
@@ -129,7 +129,7 @@ const BulkDataFilesFilters = ({
               data-testid="grouping-select"
             >
               <option data-testid="grouping-select-option" key="" value="">
-                - Select -
+                Select (optional)
               </option>
               {filtersContent.groupings[dataType].map((el) => (
                 <option data-testid="grouping-select-option" key={el} value={el}>
@@ -157,7 +157,7 @@ const BulkDataFilesFilters = ({
               data-testid="state-select"
             >
               <option data-testid="state-select-option" key="" value="">
-                - Select -
+                Select (optional)
               </option>
               {filtersContent.states.map((el) => (
                 <option data-testid="state-select-option" key={el.stateCode} value={el.stateCode}>
