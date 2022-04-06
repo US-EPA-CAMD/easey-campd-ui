@@ -3,7 +3,6 @@ import DataTable from 'react-data-table-component';
 import { ArrowDownwardSharp } from '@material-ui/icons';
 import { formatDateToYYMMDD, convertToBytes, downloadLimitReached, formatFileSize } from '../../../utils/selectors/general';
 import BulkDataFilesDownload from '../BulkDataFilesDownload/BulkDataFilesDownload';
-import {  } from '../../../utils/selectors/general';
 import config from '../../../config';
 
 import {
@@ -100,14 +99,14 @@ const BulkDataFilesTable = ({
       setFileSize(currentSize);
       if (downloadLimitReached(currentSize, downloadLimit)) {
         setLimitReached(true);
-      };
+      }
     }
     else {
       setFileSize(0)
       setLimitReached(false)
     }// eslint-disable-next-line
   }, [selectedFiles])
-  
+
   const handleSelectedFiles = useCallback((files) => setSelectedFiles( files), [])
 
   return (
