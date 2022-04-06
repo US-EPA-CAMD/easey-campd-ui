@@ -1,9 +1,9 @@
 import React, { useMemo, useEffect, useCallback, useState } from 'react';
 import DataTable from 'react-data-table-component';
 import { ArrowDownwardSharp } from '@material-ui/icons';
-import { formatDateToYYMMDD } from '../../../utils/selectors/general';
+import { formatDateToYYMMDD, convertToBytes, downloadLimitReached, formatFileSize } from '../../../utils/selectors/general';
 import BulkDataFilesDownload from '../BulkDataFilesDownload/BulkDataFilesDownload';
-import { convertToBytes, downloadLimitReached, formatFileSize } from '../../../utils/selectors/general';
+import {  } from '../../../utils/selectors/general';
 import config from '../../../config';
 
 import {
@@ -98,8 +98,10 @@ const BulkDataFilesTable = ({
       })
       currentSize = formatFileSize(currentSize)
       setFileSize(currentSize);
-      if (downloadLimitReached(currentSize, downloadLimit))setLimitReached(true);
-    } 
+      if (downloadLimitReached(currentSize, downloadLimit)) {
+        setLimitReached(true);
+      };
+    }
     else {
       setFileSize(0)
       setLimitReached(false)
@@ -128,7 +130,6 @@ const BulkDataFilesTable = ({
         noHeader={true}
         highlightOnHover={true}
         selectableRows={true}
-        selectableRowsVisibleOnly
         responsive={false}
         striped={true}
         persistTableHead={false}

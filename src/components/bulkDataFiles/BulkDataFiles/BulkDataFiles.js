@@ -7,11 +7,10 @@ import getContent from '../../../utils/api/getContent';
 import BulkDataFilesFilters from "../BulkDataFilesFilters/BulkDataFilesFilters";
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { Alert, Link } from '@trussworks/react-uswds';
+import { Link } from '@trussworks/react-uswds';
 import Tooltip from '../../Tooltip/Tooltip';
 import { Help } from '@material-ui/icons';
 import "./BulkDataFiles.scss";
-import config from '../../../config';
 
 const BulkDataFiles = ({
   dataTable,
@@ -19,8 +18,6 @@ const BulkDataFiles = ({
   updateBulkDataFilesDispacher
 }) => {
   const [helperText, setHelperText] = useState(null);
-
-  const { downloadLimit } = config.app;
 
   useEffect(() => {
     document.title = 'Bulk Data Files | CAMPD | US EPA';
