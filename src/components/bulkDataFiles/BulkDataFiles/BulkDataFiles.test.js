@@ -96,10 +96,10 @@ const filtersContent = {
 };
 const filtersUrl =
   `${config.services.content.uri}/campd/data/bulk-data-files/filters-content.json`;
-const getFiltersUrl = rest.get(filtersUrl, (req, res, ctx) => {
+const getFilters = rest.get(filtersUrl, (req, res, ctx) => {
   return res(ctx.json(filtersContent));
 });
-const server = new setupServer(getHelperTextUrl, getDownloadLimitAlert, getBulkDataFiles, getFiltersUrl);
+const server = new setupServer(getHelperTextUrl, getDownloadLimitAlert, getBulkDataFiles, getFilters);
 
 initialState.bulkDataFiles.dataTable=[
   {

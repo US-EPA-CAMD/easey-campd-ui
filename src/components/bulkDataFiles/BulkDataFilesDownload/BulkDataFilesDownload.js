@@ -27,7 +27,7 @@ const BulkDataFilesDownload = ({ selectedFiles, fileSize, limitReached }) => {
   };
 
   return (
-    <div className="download-wrapper height-10 border-2px radius-lg bg-primary-lighter border-primary display-flex flex-row flex-align-center font-sans-sm margin-x-4 margin-top-2 padding-x-2">
+    <div className="download-wrapper height-10 border-2px radius-lg bg-primary-lighter border-primary display-flex flex-row flex-align-center font-sans-sm margin-top-2 padding-x-2">
       <div className="grid-col flex-1">
         Files selected: {selectedFiles.selectedCount || ''}
       </div>
