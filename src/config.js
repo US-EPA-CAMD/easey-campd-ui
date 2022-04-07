@@ -1,6 +1,6 @@
 const config = {
   app: {
-    apiKey: process.env.REACT_APP_CAMPD_API_KEY || "",
+    apiKey: process.env.REACT_APP_CAMPD_API_KEY || "T8r7OW4f12XtWKLY7CPgKmKu1WoP3TVG0x4eqmlB",
     googleAnalyticsEnabled:
       process.env.REACT_APP_GOOGLE_ANALYTICS_ENABLED || "false",
     googleAnalyticsContainerId:

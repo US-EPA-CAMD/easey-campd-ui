@@ -3,6 +3,7 @@ import DataTable from 'react-data-table-component';
 import { ArrowDownwardSharp, Help } from '@material-ui/icons';
 import { formatDateToYYMMDD, convertToBytes, downloadLimitReached, formatFileSize } from '../../../utils/selectors/general';
 import BulkDataFilesDownload from '../BulkDataFilesDownload/BulkDataFilesDownload';
+import SearchComponent from '../SearchComponent/SearchComponent';
 import config from '../../../config';
 
 import {
@@ -18,6 +19,9 @@ import Tooltip from '../../Tooltip/Tooltip';
 const BulkDataFilesTable = ({
   dataTableRecords
 }) => {
+  const [searchText, setSearchText] = useState('');
+	const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
+  const [searchedItems, setSearchedItems] = useState([]);
   const [selectedFiles, setSelectedFiles] = useState({});
   const [fileSize, setFileSize] = useState(0);
   const [limitAlert, setLimitAlert] = useState(null);
@@ -65,16 +69,18 @@ const BulkDataFilesTable = ({
     }
   ], []);
 
-  const data = useMemo(() => {
+  useMemo(() => {
     let result = [];
     if (dataTableRecords) {
       result = dataTableRecords.map((d,i)=>{
         d['id'] = i;
         return d;
       });
+      setSearchedItems(result);
     }
     return result;
   }, [dataTableRecords]);
+
   useEffect(() => {
     getContent('/campd/data/bulk-data-files/download-limit-alert.md').then(
       (resp) => {
@@ -109,6 +115,24 @@ const BulkDataFilesTable = ({
 
   const handleSelectedFiles = useCallback((files) => setSelectedFiles( files), [])
 
+  const subHeaderComponentMemo = useMemo(() => {
+		const handleClear = () => {
+			if (searchText) {
+				setResetPaginationToggle(!resetPaginationToggle);
+				setSearchText('');
+			}
+		};
+    const handleSearch = () =>{
+      const filteredItems = dataTableRecords.filter(
+        item => item.filename.toLowerCase().includes(searchText.toLowerCase()) && item.description.toLowerCase().includes(searchText.toLowerCase())
+      );
+      setSearchedItems(filteredItems);
+    }
+		return (
+			<SearchComponent searchText={searchText} onSearchHandler={handleSearch} onChangeHandler={e => setSearchText(e.target.value)} onClearHandler={handleClear} />
+		);
+	}, [searchText, resetPaginationToggle]);
+
   return (
     <div className="data-display-table grid-col-fill margin-x-2">
       {limitReached ? (
@@ -137,7 +161,7 @@ const BulkDataFilesTable = ({
       <div className="overflow-x-scroll">
       <DataTable
         columns={columns}
-        data={data}
+        data={searchedItems}
         noHeader={true}
         highlightOnHover={true}
         selectableRows={true}
@@ -145,7 +169,9 @@ const BulkDataFilesTable = ({
         striped={true}
         persistTableHead={false}
         defaultSortField="filename"
+        subHeaderComponent={subHeaderComponentMemo}
         pagination
+        paginationResetDefaultPage={resetPaginationToggle}
         paginationRowsPerPageOptions={[10, 25, 50, 100]}
         sortIcon={<ArrowDownwardSharp className="margin-left-2 text-primary" />}
         onSelectedRowsChange={handleSelectedFiles}
