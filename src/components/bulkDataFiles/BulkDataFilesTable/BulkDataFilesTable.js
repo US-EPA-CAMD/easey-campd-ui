@@ -134,7 +134,7 @@ const BulkDataFilesTable = ({
           <Help className="text-primary" fontSize="small" />
         </Tooltip>
       </div>
-      <div className="overflow-scroll">
+      <div className="overflow-x-scroll">
       <DataTable
         columns={columns}
         data={data}
