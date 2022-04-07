@@ -134,6 +134,7 @@ const BulkDataFilesTable = ({
           <Help className="text-primary" fontSize="small" />
         </Tooltip>
       </div>
+      <div className="overflow-scroll">
       <DataTable
         columns={columns}
         data={data}
@@ -148,7 +149,7 @@ const BulkDataFilesTable = ({
         paginationRowsPerPageOptions={[10, 25, 50, 100]}
         sortIcon={<ArrowDownwardSharp className="margin-left-2 text-primary" />}
         onSelectedRowsChange={handleSelectedFiles}
-      />
+      /></div>
     </div>
   );
 };
