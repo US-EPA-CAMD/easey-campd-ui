@@ -153,12 +153,11 @@ const BulkDataFilesTable = ({
         limitReached={limitReached}
         selectedFiles={selectedFiles}
       />
-      <div className="margin-top-4 grid-col-1 width-3 margin-left-neg-3 margin-bottom-neg-3">
+      <div className="margin-top-4 grid-col-1 width-3 margin-left-neg-3 margin-bottom-neg-6">
         <Tooltip content='"Selecting All" will select all files in all pages of the table.'>
           <Help className="text-primary" fontSize="small" />
         </Tooltip>
       </div>
-      <div className="overflow-x-scroll">
       <DataTable
         columns={columns}
         data={searchedItems}
@@ -175,7 +174,7 @@ const BulkDataFilesTable = ({
         paginationRowsPerPageOptions={[10, 25, 50, 100]}
         sortIcon={<ArrowDownwardSharp className="margin-left-2 text-primary" />}
         onSelectedRowsChange={handleSelectedFiles}
-      /></div>
+      />
     </div>
   );
 };
