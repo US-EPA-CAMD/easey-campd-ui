@@ -3,7 +3,6 @@ import * as filterLogic from "../selectors/filterLogic";
 const timePeriodLabel = 'Time Period'
 
 export const FACILITY_DATA_SUBTYPES = [
-  { value: '', label: '- Select -' },
   { value: 1, label: 'Facility/Unit Attributes', service: 'attributes', required: [timePeriodLabel] },
 ];
 
