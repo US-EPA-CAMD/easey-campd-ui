@@ -3,8 +3,9 @@ import DataTable from 'react-data-table-component';
 import { ArrowDownwardSharp, Help } from '@material-ui/icons';
 import { formatDateToYYMMDD, convertToBytes, downloadLimitReached, formatFileSize } from '../../../utils/selectors/general';
 import BulkDataFilesDownload from '../BulkDataFilesDownload/BulkDataFilesDownload';
-import SearchComponent from '../SearchComponent/SearchComponent';
 import config from '../../../config';
+import usePrevious from "../../../utils/hooks/usePrevious";
+import "./BulkDataFilesTable.scss";
 
 import {
   ensure508,
@@ -14,13 +15,14 @@ import {
 import remarkGfm from 'remark-gfm';
 import getContent from '../../../utils/api/getContent';
 import ReactMarkdown from 'react-markdown';
-import { Alert } from '@trussworks/react-uswds';
+import { Alert, Search} from '@trussworks/react-uswds';
 import Tooltip from '../../Tooltip/Tooltip';
 const BulkDataFilesTable = ({
   dataTableRecords
 }) => {
   const [searchText, setSearchText] = useState('');
-	const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
+  const prevSearchText = usePrevious(searchText);
+  const [noDataMsg, setNoDataMsg] = useState("There are no records to display");
   const [searchedItems, setSearchedItems] = useState([]);
   const [selectedFiles, setSelectedFiles] = useState({});
   const [fileSize, setFileSize] = useState(0);
@@ -39,7 +41,7 @@ const BulkDataFilesTable = ({
         table.setAttribute("aria-label", 'Bulk Data File selection table')}
     }, 1000);
     setCheckboxToReferenceColumn(dataTableRecords, 'filename', 'file names')
-
+    setNoDataMsg("There are no records to display");
     return () => {
       cleanUp508();
     };
@@ -69,7 +71,7 @@ const BulkDataFilesTable = ({
     }
   ], []);
 
-  useMemo(() => {
+  const data = useMemo(() => {
     let result = [];
     if (dataTableRecords) {
       result = dataTableRecords.map((d,i)=>{
@@ -116,22 +118,28 @@ const BulkDataFilesTable = ({
   const handleSelectedFiles = useCallback((files) => setSelectedFiles( files), [])
 
   const subHeaderComponentMemo = useMemo(() => {
-		const handleClear = () => {
-			if (searchText) {
-				setResetPaginationToggle(!resetPaginationToggle);
-				setSearchText('');
-			}
-		};
-    const handleSearch = () =>{
-      const filteredItems = dataTableRecords.filter(
-        item => item.filename.toLowerCase().includes(searchText.toLowerCase()) && item.description.toLowerCase().includes(searchText.toLowerCase())
-      );
+    if(prevSearchText && searchText === ""){
+      setSearchedItems(data);
+    }
+    const handleSearch = (e) =>{
+      e.preventDefault();
+      const filteredItems = searchedItems.filter(
+        item => item.filename.toLowerCase().includes(searchText.toLowerCase()) || item.description.toLowerCase().includes(searchText.toLowerCase())
+      );console.log("filteredItems", filteredItems);
       setSearchedItems(filteredItems);
+      if(filteredItems.length === 0){
+        setNoDataMsg("No results match that search criteria. Please change the criteria and try again.");
+      }
     }
 		return (
-			<SearchComponent searchText={searchText} onSearchHandler={handleSearch} onChangeHandler={e => setSearchText(e.target.value)} onClearHandler={handleClear} />
-		);
-	}, [searchText, resetPaginationToggle]);
+      <Search
+        placeholder="Keyword"
+        onSubmit={handleSearch}
+        onChange={e => setSearchText(e.target.value)}
+        onReset={(e)=>console.log(e)}
+      />
+		);// eslint-disable-next-line
+	}, [searchText]);
 
   return (
     <div className="data-display-table grid-col-fill margin-x-2">
@@ -153,28 +161,34 @@ const BulkDataFilesTable = ({
         limitReached={limitReached}
         selectedFiles={selectedFiles}
       />
-      <div className="margin-top-4 grid-col-1 width-3 margin-left-neg-3 margin-bottom-neg-6">
-        <Tooltip content='"Selecting All" will select all files in all pages of the table.'>
-          <Help className="text-primary" fontSize="small" />
-        </Tooltip>
+      <hr className='margin-y-3'/>
+      <div className='display-flex'>
+        <div className="table-tooltip">
+          <Tooltip content='"Selecting All" will select all files in all pages of the table.'>
+            <Help className="text-primary" fontSize="small" />
+          </Tooltip>
+        </div>
+        <div className='width-full'>
+          <DataTable
+            columns={columns}
+            data={searchedItems}
+            noHeader={true}
+            highlightOnHover={true}
+            selectableRows={true}
+            responsive={false}
+            striped={true}
+            persistTableHead={false}
+            defaultSortField="filename"
+            subHeader
+            subHeaderComponent={subHeaderComponentMemo}
+            noDataComponent={noDataMsg}
+            pagination
+            paginationRowsPerPageOptions={[10, 25, 50, 100]}
+            sortIcon={<ArrowDownwardSharp className="margin-left-2 text-primary" />}
+            onSelectedRowsChange={handleSelectedFiles}
+          />
+        </div>
       </div>
-      <DataTable
-        columns={columns}
-        data={searchedItems}
-        noHeader={true}
-        highlightOnHover={true}
-        selectableRows={true}
-        responsive={false}
-        striped={true}
-        persistTableHead={false}
-        defaultSortField="filename"
-        subHeaderComponent={subHeaderComponentMemo}
-        pagination
-        paginationResetDefaultPage={resetPaginationToggle}
-        paginationRowsPerPageOptions={[10, 25, 50, 100]}
-        sortIcon={<ArrowDownwardSharp className="margin-left-2 text-primary" />}
-        onSelectedRowsChange={handleSelectedFiles}
-      />
     </div>
   );
 };
