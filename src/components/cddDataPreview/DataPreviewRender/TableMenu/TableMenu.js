@@ -70,7 +70,7 @@ const TableMenu = ({
       ref={ref}
     >
       {topic.label}
-      <span style={isHovered | open ? { display: 'flex' } : { visibility: 'hidden' }}>
+      <span style={isHovered || open ? { display: 'flex' } : { visibility: 'hidden' }}>
         {sortArrowUp ? (
           <ArrowUpwardSharp
             className="text-base"
