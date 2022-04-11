@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 const useHover = () => {
   const [value, setValue] = useState(false);
@@ -15,7 +15,7 @@ const useHover = () => {
         node.removeEventListener('mouseout', handleMouseOut);
       };
     }
-  }, [ref.current]);
+  }, []);
   return [ref, value];
 };
 

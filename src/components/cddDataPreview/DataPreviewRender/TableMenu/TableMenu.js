@@ -11,6 +11,7 @@ import { ArrowDownwardSharp, ArrowUpwardSharp } from '@material-ui/icons';
 
 import './TableMenu.scss';
 import { Button } from '@trussworks/react-uswds';
+import useHover from '../../../../utils/hooks/useHover';
 
 const TableMenu = ({
   topic,
@@ -23,9 +24,9 @@ const TableMenu = ({
   const [anchorEl, setAnchorEl] = useState(null);
   const [columMenuOpen, setColumnMenuOpen] = useState(false);
   const [sortArrowUp, setSortArrowUp] = useState(false);
+  const [ref, isHovered] = useHover();
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
-    console.log(event.currentTarget)
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
@@ -67,32 +68,35 @@ const TableMenu = ({
       onClick={(e) => {
         e.stopPropagation();
       }}
+      ref={ref}
     >
       {topic.label}
-      {sortArrowUp ? (
-        <ArrowUpwardSharp
-          className="text-base"
-          style={{ fontSize: '18px' }}
-          onClick={handleSortDesc}
+      <span style={isHovered | open ? { display: 'flex' } : { visibility: 'hidden' }}>
+        {sortArrowUp ? (
+          <ArrowUpwardSharp
+            className="text-base"
+            style={{ fontSize: '18px' }}
+            onClick={handleSortDesc}
+            id={'icon'}
+          />
+        ) : (
+          <ArrowDownwardSharp
+            className="text-base"
+            style={{ fontSize: '18px' }}
+            onClick={handleSortAsc}
+            id={'icon'}
+          />
+        )}
+        <FontAwesomeIcon
+          icon={faEllipsisV}
+          color={'gray'}
+          aria-controls={open ? 'basic-menu' : undefined}
+          aria-haspopup="true"
+          aria-expanded={open ? 'true' : undefined}
+          onClick={handleClick}
           id={'icon'}
         />
-      ) : (
-        <ArrowDownwardSharp
-          className="text-base"
-          style={{ fontSize: '18px' }}
-          onClick={handleSortAsc}
-          id={'icon'}
-        />
-      )}
-      <FontAwesomeIcon
-        icon={faEllipsisV}
-        color={'gray'}
-        aria-controls={open ? 'basic-menu' : undefined}
-        aria-haspopup="true"
-        aria-expanded={open ? 'true' : undefined}
-        onClick={handleClick}
-        id={'icon'}
-      />
+      </span>
       {!columMenuOpen ? (
         <>
           <Menu
@@ -134,14 +138,6 @@ const TableMenu = ({
               placeholder="Column Title"
               variant="standard"
               id="textField"
-              // sx={{
-              //   '& .MuiOutlinedInput-root:hover': {
-              //     '& > fieldset': {
-              //       borderColor: 'orange',
-              //     },
-              //   },
-              // }}
-              InputProps={{ bordercolor: 'orange' }}
             />
             {fieldMappings?.map((el) => (
               <MenuItem key={el.label}>

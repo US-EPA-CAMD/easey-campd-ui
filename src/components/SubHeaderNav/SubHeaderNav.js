@@ -8,6 +8,7 @@ import {
 
 import './SubHeaderNav.scss';
 import  useClickOutClose  from '../../utils/hooks/useClickoutClose';
+import { useClickOutside } from 'react-click-outside-hook'
 
 
 const SubHeaderNav = ({
@@ -25,15 +26,22 @@ const SubHeaderNav = ({
   }, [pathname]);
 
   const [categorySelected, setCategorySelected] = useState(initialCategorySelected);
-  const navRef = useClickOutClose(()=>handleCloseNavDropdown(isUtility))
+  // const navRef = useClickOutClose(()=>handleCloseNavDropdown(isUtility))
+  const [ref, hasClickedOutside] = useClickOutside()
+
   const handleSubMenuClick = (column) => {
     handleToggleNavDropdown(column, isUtility);
 
     setCategorySelected(initialCategorySelected);
   };
+  useEffect(() => {
+    if(hasClickedOutside) {
+      handleCloseNavDropdown(isUtility)
+    }//eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hasClickedOutside])
 
   return (
-    <span ref={navRef}>
+    <span ref={ref}>
     <PrimaryNav
       items={menuList.map((el, i) => {
         if (el.items.length === 1 && el.items[0].menu === 'notMenu') {
