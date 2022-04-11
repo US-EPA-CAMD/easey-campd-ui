@@ -9,7 +9,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisV } from '@fortawesome/free-solid-svg-icons';
 import { ArrowDownwardSharp, ArrowUpwardSharp } from '@material-ui/icons';
 
-import './TableMenu.scss';
 import { Button } from '@trussworks/react-uswds';
 import useHover from '../../../../utils/hooks/useHover';
 
