@@ -155,7 +155,9 @@ export const dataPreviewColumns = {
         "PM Controls":	"150px",
         "NOx Controls":	"170px",
         "Hg Controls":	"170px",
-        "Program Code":	"135px"
+        "Program Code":	"135px",
+        'HCL Input Rate (lb/mmBtu)': "145px",
+        'HF Input Rate (lb/mmBtu)': "145px",
     },
     "Daily Emissions":{
         "State"	:"95px",
