@@ -74,16 +74,12 @@ export const changeGridCellAttributeValue = () => {
  *****************************************************/
 export const addAriaLabelToDatatable = () => {
   document.querySelectorAll(`.rdt_Table`).forEach((element) => {
-    console.log('element: ', element);
     let label = "Data Table";
     const tableContainer = document.querySelector(".data-display-table");
     if(tableContainer){
-      console.log('tableContainer: ', tableContainer);
       label = tableContainer.getAttribute("table-aria-labelledby");
       element.setAttribute("aria-labelledby", label);
-      console.log('inner el within tableContainer', element);
     }else{
-      console.log('inner el', element);
       element.setAttribute("aria-label", label);
     }
   });
@@ -112,7 +108,7 @@ export const addInitialAriaSort = () => {
           if (
             column
               .querySelector(".__rdt_custom_sort_icon__")
-              .classList.contains("asc")
+              .classList?.contains("asc")
           ) {
             column
               .closest(`.rdt_TableCol_Sortable`)
@@ -120,7 +116,7 @@ export const addInitialAriaSort = () => {
           } else if (
             column
               .querySelector(".__rdt_custom_sort_icon__")
-              .classList.contains("desc")
+              .classList?.contains("desc")
           ) {
             column
               .closest(`.rdt_TableCol_Sortable`)
@@ -160,9 +156,9 @@ export const setAriaSort = (event) => {
     document.querySelectorAll(`.rdt_TableCol_Sortable`).forEach((column) => {
       if(column === currentColumn){
         if(currentColumn.ariaSort === "none"){
-          if(sortIcon.classList.contains("asc")){
+          if(sortIcon?.classList?.contains("asc")){
             currentColumn.ariaSort = "ascending";
-          }else if(sortIcon.classList.contains("desc")){
+          }else if(sortIcon?.classList?.contains("desc")){
             currentColumn.ariaSort = "descending";
           }
         }else{

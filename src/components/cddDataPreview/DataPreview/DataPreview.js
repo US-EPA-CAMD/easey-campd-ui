@@ -1,8 +1,9 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { connect } from "react-redux";
 import { loadDataPreview } from "../../../store/actions/customDataDownload/customDataDownload";
 import DataPreviewRender from "../DataPreviewRender/DataPreviewRender";
 import { dataPreviewColumns } from "../../../utils/constants/dataPreviewCol";
+import TableMenu from "../DataPreviewRender/TableMenu/TableMenu";
 
 export const DataPreview = ({
   dataType,
@@ -16,6 +17,10 @@ export const DataPreview = ({
   totalCount,
   fieldMappings,
 }) => {
+  const [unsort, setUnsort] = useState(null);
+  const [sortAsc, setSortAsc] = useState(null);
+  const [sortDesc, setSortDesc] = useState(null);
+  const [sortValue, setSortValue] = useState(null);
   useEffect(() => {
     if(dataPreview !== null){
       handleUpdateInAppliedFilters();
@@ -29,14 +34,23 @@ export const DataPreview = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]);
-  const columns = useMemo(() =>
-    fieldMappings.map(el => ({
-      name: el.label,
-      selector: el.value,
-      sortable: true,
-      width : dataPreviewColumns[dataSubType][el.label],
-      wrap: true
-    }))
+  const columns = useMemo(() =>{
+    return fieldMappings.map(el =>{
+      return {
+        name: (
+          <TableMenu
+            topic={el}
+            fieldMappings={fieldMappings}
+            setSortAsc={setSortAsc}
+            setSortDesc={setSortDesc}
+            setUnsort={setUnsort}
+            setSortValue={setSortValue}
+          />
+        ),
+        selector: el.value,
+        width: dataPreviewColumns[dataSubType][el.label],
+        wrap: true,
+      };})}
     // eslint-disable-next-line
   ,[fieldMappings]);
 
@@ -48,8 +62,16 @@ export const DataPreview = ({
         return d;
       });
     }
-    return result;
-  }, [loading, dataPreview]);
+    if (unsort) {
+      return result;
+    } else if (sortAsc) {
+      return result.sort((a, b) => (a[sortValue] > b[sortValue] ? 1 : -1));
+    } else if (sortDesc) {
+      return result.sort((a, b) => (a[sortValue] < b[sortValue] ? 1 : -1));
+    } else {
+      return result;
+    };
+  }, [loading, dataPreview, sortAsc, sortDesc, unsort, sortValue]);
 
   return (
       <DataPreviewRender
