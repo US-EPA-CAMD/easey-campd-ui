@@ -111,10 +111,10 @@ const TableMenu = ({
               Unsort
             </MenuItem>
             <MenuItem onClick={handleSortAsc} key="asc">
-              sort by ASC
+              Sort by ASC
             </MenuItem>
             <MenuItem onClick={handleSortDesc} key="desc">
-              sort by DESC
+              Sort by DESC
             </MenuItem>
             <MenuItem onClick={() => setColumnMenuOpen(true)}>
               Customize Columns
