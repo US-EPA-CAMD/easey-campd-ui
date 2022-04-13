@@ -133,10 +133,11 @@ const BulkDataFilesTable = ({
     }
 		return (
       <Search
+        inputId="bulk-data-files-table-search"
+        label="Search Bulk Data Files Table"
         placeholder="Keyword"
         onSubmit={handleSearch}
         onChange={e => setSearchText(e.target.value)}
-        onReset={(e)=>console.log(e)}
       />
 		);// eslint-disable-next-line
 	}, [searchText]);

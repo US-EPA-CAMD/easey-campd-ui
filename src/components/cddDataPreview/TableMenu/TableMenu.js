@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import FormGroup from '@mui/material/FormGroup';
@@ -10,7 +10,7 @@ import { faEllipsisV } from '@fortawesome/free-solid-svg-icons';
 import { ArrowDownwardSharp, ArrowUpwardSharp } from '@material-ui/icons';
 
 import { Button } from '@trussworks/react-uswds';
-import useHover from '../../../../utils/hooks/useHover';
+import useHover from '../../../utils/hooks/useHover';
 
 const TableMenu = ({
   topic,

@@ -7,7 +7,6 @@ import {
 } from '@trussworks/react-uswds';
 
 import './SubHeaderNav.scss';
-import  useClickOutClose  from '../../utils/hooks/useClickoutClose';
 import { useClickOutside } from 'react-click-outside-hook'
 
 
