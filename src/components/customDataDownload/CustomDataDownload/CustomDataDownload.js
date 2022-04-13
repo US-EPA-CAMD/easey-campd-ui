@@ -82,7 +82,11 @@ const CustomDataDownload = ({
   const [hideFilterMenu, setHideFilterMenu] = useState(false);
   const [hideDataTypeSelector, setHideDataTypeSelector] = useState(false);
   const isMobileOrTablet = useCheckWidth([0, 1024]);
-  const [renderPreviewData, setRenderPreviewData] = useState(false);
+  const [renderPreviewData, setRenderPreviewData] = useState({
+    display: false,
+    dataType: '',
+    dataSubType: '',
+  });
   const [removedAppliedFilter, setRemovedAppliedFilter] = useState(null);
 
   useEffect(() => {
@@ -218,7 +222,11 @@ const CustomDataDownload = ({
   };
 
   const handlePreviewDataButtonClick = () => {
-    setRenderPreviewData(true);
+    setRenderPreviewData({
+      display: true,
+      dataType: selectedDataType,
+      dataSubType: selectedDataSubtype,
+    });
   };
 
   const handleMobileFiltersButtonClick = () => {

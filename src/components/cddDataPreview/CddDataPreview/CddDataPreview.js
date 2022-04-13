@@ -112,7 +112,11 @@ const CddDataPreview = ({
 
   const handleUpdateInAppliedFilters = () => {
     resetDataPreviewDispatcher();
-    setRenderPreviewData(false);
+    setRenderPreviewData({
+      display: false,
+      dataType: '',
+      dataSubType: '',
+    });
   };
 
   const onFilterTagRemovedHandler = (filterType, label) => {
@@ -176,7 +180,7 @@ const CddDataPreview = ({
 
   return (
     <div className="width-full" id="cdd-data-preview">
-      <div className={`${isMobileOrTablet && renderPreviewData? 'display-none': 'desktop:display-flex flex-row flex-justify bg-base-lightest desktop:padding-x-3 minh-10 padding-0'}`} >
+      <div className={`${isMobileOrTablet && renderPreviewData.display? 'display-none': 'desktop:display-flex flex-row flex-justify bg-base-lightest desktop:padding-x-3 minh-10 padding-0'}`} >
         <div className="tablet:display-flex tablet:flex-row tablet:flex-justify tablet:width-full">
           <h2 className="flex-align-self-center font-sans-xl text-bold margin-0 padding-x-2 tablet:padding-x-4 desktop:padding-x-0">
             Custom Data Download
@@ -262,14 +266,14 @@ const CddDataPreview = ({
           </Alert>
         </div>
       )}
-      {dataType === 'MERCURY AND AIR TOXICS EMISSIONS' && renderPreviewData && (
+      {renderPreviewData.dataType === 'MERCURY AND AIR TOXICS EMISSIONS' && (
         <div className="margin-2 margin-bottom-0 padding-right-2">
           <MatsDataCaveat
           styling={'alert-wrapper usa-alert--warning font-sans-3xs desktop:line-height-sans-2'}
           ></MatsDataCaveat>
         </div>
       )}
-      {renderPreviewData ? (
+      {renderPreviewData.display ? (
         <DataPreview
           handleUpdateInAppliedFilters={handleUpdateInAppliedFilters}
         />

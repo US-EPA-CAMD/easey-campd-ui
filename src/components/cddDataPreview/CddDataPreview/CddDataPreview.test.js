@@ -54,7 +54,12 @@ describe('CddDataPreview', () => {
     render(
       <Provider store={store}>
         <div id="filter0"></div>
-        <CddDataPreview requirementsMet={true} totalCount={10000000} />
+        <CddDataPreview requirementsMet={true} totalCount={10000000} 
+        renderPreviewData={{
+        display: false,
+        dataType: '',
+        dataSubType: '',
+        }} />
       </Provider>
     );
     const helperText = await findByText('this is CDD helper tex');

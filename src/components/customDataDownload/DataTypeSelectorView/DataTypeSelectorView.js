@@ -77,7 +77,7 @@ const DataTypeSelectorView = ({
           </Tooltip>
         </span>
       </div>
-      {selectedDataType === mats && !renderPreviewData && (
+      {selectedDataType === mats && renderPreviewData.dataType !== mats && (
         <div className="margin-2 margin-top-0 maxw-mobile-lg">
           <MatsDataCaveat
           styling={'alert-wrapper usa-alert--slim font-sans-3xs desktop:line-height-sans-2'}
