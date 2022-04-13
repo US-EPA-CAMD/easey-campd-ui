@@ -14,9 +14,7 @@ export const subHeaderMenuList = [
   },  
   {
     label: 'MAPS & GRAPHS',
-    items: [
-      { menu: 'Tools Gallery', link: '/tools/gallery' },
-    ],
+    items: [{ menu: 'notMenu', link: '/maps-graphs' }],
   },
 ];
 

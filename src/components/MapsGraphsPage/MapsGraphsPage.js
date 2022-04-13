@@ -3,7 +3,7 @@ import { Preloader } from "@us-epa-camd/easey-design-system";
 import icons from "uswds/dist/img/sprite.svg";
 
 import { placeholderTools } from "./mockData"; // TEMPORARY
-import "./ToolsGalleryPage.scss";
+import "./MapsGraphsPage.scss";
 import { metaAdder } from "../../utils/document/metaAdder";
 
 const ToolCard = ({ data }) => {
@@ -78,7 +78,7 @@ const ToolCard = ({ data }) => {
   );
 };
 
-const ToolsGalleryPage = () => {
+const MapsGraphsPage = () => {
   useEffect(() => {
     document.title = "Tools Gallery | CAMPD | US EPA";
     metaAdder("description", "(TODO)");
@@ -159,4 +159,4 @@ const ToolsGalleryPage = () => {
   );
 };
 
-export default ToolsGalleryPage;
+export default MapsGraphsPage;

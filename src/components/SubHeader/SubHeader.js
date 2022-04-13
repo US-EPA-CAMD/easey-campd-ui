@@ -16,11 +16,9 @@ import './SubHeader.scss';
 const SubHeader = () => {
   const pathname = useLocation().pathname;
   const dataRoutes = ['/data', '/data/custom-data-download', '/data/bulk-data-files'];
-  const toolsRoutes = ['/tools/gallery'];
   const initialCategorySelected = [
     pathname === '/',
     dataRoutes.includes(pathname),
-    toolsRoutes.includes(pathname),
     false,
     false,
     false,
