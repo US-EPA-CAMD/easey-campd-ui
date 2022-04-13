@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { loadDataPreview } from "../../../store/actions/customDataDownload/customDataDownload";
 import DataPreviewRender from "../DataPreviewRender/DataPreviewRender";
 import { dataPreviewColumns } from "../../../utils/constants/dataPreviewCol";
-import TableMenu from "../DataPreviewRender/TableMenu/TableMenu";
+import TableMenu from "../TableMenu/TableMenu";
 
 export const DataPreview = ({
   dataType,
