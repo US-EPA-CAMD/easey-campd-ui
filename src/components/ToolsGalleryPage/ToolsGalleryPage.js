@@ -106,9 +106,11 @@ const ToolsGalleryPage = () => {
           <div className="usa-hero__callout">
             <h1 className="usa-hero__heading">
               <span className="usa-hero__heading--alt">Tools Gallery:</span>
-              Some tagline about the tools
+              Explore Facility Emissions & Compliance Near You
             </h1>
-            <p>Possibly some more explanatory text here as well.</p>
+            <a className="usa-button" href="/">
+              Facility Map Explorer
+            </a>
           </div>
         </div>
       </section>
@@ -116,13 +118,28 @@ const ToolsGalleryPage = () => {
       <section className="position-relative padding-y-4 shadow-1">
         <div className="grid-container-widescreen">
           <p className="margin-top-0 font-sans-lg line-height-sans-6">
-            CAMPD’s Tools Gallery showcases compliance-related dashboards and
-            maps created by users across EPA, making datasets easier to explore
-            and encouraging collaboration <mark>(placeholder text)</mark>.
+            Maps &amp; Graphs is a collection of tools that allow analysis and
+            visualization of allowance, compliance, emissions, and facility data
+            for various use cases: compare facility or state level emissions,
+            map and explore nearby facilities with emissions and compliance
+            data, analyze trends in program allowance banks, and more. Explore
+            the tools below and use the “Provide Feedback” link to share
+            suggested enhancements or other visualizations you would like to
+            see.
           </p>
 
           <p className="margin-bottom-0 font-sans-sm line-height-sans-5">
-            <mark>(More tools intro text?)</mark>
+            Interested in building your own visualization? All APIs that support
+            Maps &amp; Graphs tools are publicly available and source code is
+            available in the{" "}
+            <a href="https://github.com/USEPA/campd-maps-graphs">
+              Maps &amp; Graphs repository
+            </a>
+            . For more information on the APIs visit the{" "}
+            <a href="https://www.epa.gov/airmarkets/cam-api-portal">
+              CAM API portal
+            </a>{" "}
+            and let us know what you are building!
           </p>
         </div>
       </section>
