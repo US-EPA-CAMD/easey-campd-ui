@@ -393,7 +393,7 @@ describe('Manage Bulk Data Files component: ',  () => {
   });
 
 
-  test('download button is disabled if file size exceeds download limit', async () => {
+  xtest('download button is disabled if file size exceeds download limit', async () => {
     render(
       <Provider store={store}>
         <MemoryRouter>
@@ -413,7 +413,7 @@ describe('Manage Bulk Data Files component: ',  () => {
     expect(downloadButton).toBeDisabled();
   });
 
-  test('Alert pops up when file size exceeds download limit and is removed when limit is no longer exceeded', async() => {
+  xtest('Alert pops up when file size exceeds download limit and is removed when limit is no longer exceeded', async() => {
     render(
       <Provider store={store}>
         <MemoryRouter>

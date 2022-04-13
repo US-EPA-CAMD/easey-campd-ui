@@ -39,7 +39,7 @@ const FilterCriteria = ({
     renderPreviewData
   }) => { 
     const [firstFocusableEl, setFirstFocusableEl] = useState(null);
-
+    const mats = 'MERCURY AND AIR TOXICS EMISSIONS';
     useEffect(() => {
       if (isMobileOrTablet && !hideFilterMenu) {
         const filtersTooltip = document.querySelector('#filtersTooltip')?.firstChild
@@ -140,7 +140,7 @@ const FilterCriteria = ({
               </Tooltip>
             </span>
           </div>
-          {isMobileOrTablet && selectedDataType === 'MERCURY AND AIR TOXICS EMISSIONS' && !renderPreviewData && (
+          {isMobileOrTablet && selectedDataType === mats && renderPreviewData.dataType !== mats && (
             <div className="margin-2 margin-bottom-0">
               <MatsDataCaveat />
             </div>
