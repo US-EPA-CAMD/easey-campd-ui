@@ -80,9 +80,15 @@ const ToolCard = ({ data }) => {
 
 const MapsGraphsPage = () => {
   useEffect(() => {
-    document.title = "Tools Gallery | CAMPD | US EPA";
-    metaAdder("description", "(TODO)");
-    metaAdder("keywords", "(TODO)");
+    document.title = "Maps & Graphs | CAMPD | US EPA";
+    metaAdder(
+      "description",
+      "The maps & graphs gallery allows users to browse and interact with a variety of tools to visualize emissions trading program data."
+    );
+    metaAdder(
+      "keywords",
+      "Clean air markets program data, EPA, emissions, allowance, compliance, facility, analysis, data, visualization, CAMPD, AMPD, ECMPS, CAMD, FTP, maps, graphs"
+    );
   }, []);
 
   const [loading, setLoading] = useState(false);
