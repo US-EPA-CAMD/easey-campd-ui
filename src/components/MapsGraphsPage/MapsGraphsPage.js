@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Preloader } from "@us-epa-camd/easey-design-system";
 import icons from "uswds/dist/img/sprite.svg";
 
-import { placeholderTools } from "./mockData"; // TEMPORARY
 import "./MapsGraphsPage.scss";
 import { metaAdder } from "../../utils/document/metaAdder";
+import getContent from "./temp"; // TODO: replace with "utils/api" function once content has been added to easey-content repo
 
 const ToolCard = ({ data }) => {
   const [expanded, setExpanded] = useState(false);
@@ -27,15 +26,25 @@ const ToolCard = ({ data }) => {
           <div className="grid-col-12 tablet:grid-col-9">
             <div className="padding-2">
               <div className="campd-tool-image radius-md shadow-1 add-aspect-2x1">
-                <img src={data.img} alt="" />
+                <img src={data.image} alt={data.name} />
               </div>
 
               <div className="campd-tool-summary font-sans-2xs line-height-sans-4">
-                {data.summary}
+                {data.description}
               </div>
 
               <div className="campd-tool-other font-sans-3xs line-height-sans-3">
-                {data.background}
+                <p>
+                  <strong>Source Data:</strong>&nbsp;&nbsp;
+                  {data.sources.map((source, index) => {
+                    // TODO: find out if there will be multiple sources, or just one
+                    return (
+                      <span key={index}>
+                        <a href={source.url}>{source.text}</a>&nbsp;&nbsp;
+                      </span>
+                    );
+                  })}
+                </p>
               </div>
             </div>
           </div>
@@ -44,7 +53,12 @@ const ToolCard = ({ data }) => {
             <div className="campd-tool-meta padding-2">
               <div className="campd-tool-contact">
                 <p className="font-sans-3xs">
-                  <a className="usa-link" href={data.email}>
+                  <a
+                    className="usa-link"
+                    href={`mailto:campd-support@camdsupport.com?subject=CAMPD Maps & Graphs Feedback - ${data.name}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     <svg
                       className="usa-icon"
                       aria-hidden="true"
@@ -59,7 +73,17 @@ const ToolCard = ({ data }) => {
               </div>
 
               <div className="font-sans-3xs line-height-sans-3 text-base">
-                {data.meta}
+                <p>
+                  <strong>Keywords:</strong>
+                  <br />
+                  {data.keywords.join(", ")}
+                </p>
+
+                <p>
+                  <strong>Date Last Updated:</strong>
+                  <br />
+                  {data.updated}
+                </p>
               </div>
             </div>
           </div>
@@ -91,18 +115,27 @@ const MapsGraphsPage = () => {
     );
   }, []);
 
-  const [loading, setLoading] = useState(false);
   const [tools, setTools] = useState([]);
 
   useEffect(() => {
-    setLoading(true);
-
-    // NOTE: web service fetch simulated...
-    // these placeholder tools would be likely fetched from a web service
-    setTimeout(() => {
-      setLoading(false);
-      setTools(placeholderTools);
-    }, 1000);
+    getContent("/campd/maps-graphs/tools.json").then((toolsRes) => {
+      Promise.all(
+        toolsRes.data.map((tool) => {
+          return Promise.all([
+            getContent(`/campd/maps-graphs/tools/${tool.image}`).then(
+              (imgRes) => imgRes.config.url
+            ),
+            getContent(`/campd/maps-graphs/tools/${tool.description}`).then(
+              (descRes) => descRes.data
+            ),
+          ]).then(([image, description]) => {
+            return { ...tool, image, description };
+          });
+        })
+      ).then((fetchedTools) => {
+        setTools(fetchedTools);
+      });
+    });
   }, []);
 
   return (
@@ -152,13 +185,9 @@ const MapsGraphsPage = () => {
 
       <section className="padding-y-4 bg-base-lightest">
         <div className="grid-container">
-          {loading ? (
-            <div className="campd-tools-loading">
-              <Preloader />
-            </div>
-          ) : (
-            tools.map((tool) => <ToolCard key={tool.id} data={tool} />)
-          )}
+          {tools.map((tool, index) => (
+            <ToolCard key={index} data={tool} />
+          ))}
         </div>
       </section>
     </div>
