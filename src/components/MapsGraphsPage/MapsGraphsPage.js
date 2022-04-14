@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import { Link as USWDSLink } from "@trussworks/react-uswds";
 import icons from "uswds/dist/img/sprite.svg";
 
 import { metaAdder } from "../../utils/document/metaAdder";
@@ -56,6 +57,15 @@ const ToolCard = ({ data }) => {
                 <ReactMarkdown
                   children={data.description}
                   remarkPlugins={[remarkGfm]}
+                  components={{
+                    a: ({ node, ...props }) => (
+                      <USWDSLink
+                        {...props}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      />
+                    ),
+                  }}
                 />
               </div>
 
@@ -66,7 +76,14 @@ const ToolCard = ({ data }) => {
                     // TODO: find out if there will be multiple sources, or just one
                     return (
                       <span key={index}>
-                        <a href={source.url}>{source.text}</a>&nbsp;&nbsp;
+                        <USWDSLink
+                          href={source.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {source.text}
+                        </USWDSLink>
+                        &nbsp;&nbsp;
                       </span>
                     );
                   })}
@@ -161,6 +178,15 @@ const MapsGraphsPage = () => {
             <ReactMarkdown
               children={introPrimaryText}
               remarkPlugins={[remarkGfm]}
+              components={{
+                a: ({ node, ...props }) => (
+                  <USWDSLink
+                    {...props}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  />
+                ),
+              }}
             />
           </div>
 
@@ -168,6 +194,15 @@ const MapsGraphsPage = () => {
             <ReactMarkdown
               children={introSecondaryText}
               remarkPlugins={[remarkGfm]}
+              components={{
+                a: ({ node, ...props }) => (
+                  <USWDSLink
+                    {...props}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  />
+                ),
+              }}
             />
           </div>
         </div>
