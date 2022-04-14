@@ -6,40 +6,60 @@ import icons from "uswds/dist/img/sprite.svg";
 import { metaAdder } from "../../utils/document/metaAdder";
 import getContent from "./temp"; // TODO: replace with "utils/api" function once content has been added to easey-content repo
 import HeroSlideshow from "../HeroSlideshow/HeroSlideshow";
-import "./MapsGraphsPage.scss";
 
 const ToolCard = ({ data }) => {
-  const [expanded, setExpanded] = useState(false);
-
   return (
     <div className="margin-bottom-4">
-      <div
-        className="campd-tool radius-md shadow-2 bg-white"
-        data-expanded={expanded}
-      >
-        <div className="campd-tool-header padding-y-105 padding-x-2 bg-primary-dark">
-          <p className="font-sans-sm line-height-sans-2">
-            <a className="hover:underline-accent-cool" href={data.url}>
+      <div className="overflow-hidden radius-md shadow-2 bg-white">
+        <div className="display-flex flex-align-center flex-justify padding-y-105 padding-x-2 bg-primary-dark">
+          <p className="margin-0 text-bold font-sans-sm">
+            <a
+              className="display-block text-white underline-primary-dark hover:underline-accent-cool"
+              href={data.url}
+            >
               {data.name}
+            </a>
+          </p>
+
+          <p className="margin-0 font-sans-3xs">
+            <a
+              className="display-block text-white underline-primary-dark hover:underline-accent-cool"
+              href={`mailto:campd-support@camdsupport.com?subject=CAMPD Maps & Graphs Feedback - ${data.name}`}
+            >
+              <span className="display-flex flex-align-center">
+                <svg
+                  className="usa-icon margin-x-05"
+                  aria-hidden="true"
+                  focusable="false"
+                  role="img"
+                >
+                  <use href={`${icons}#mail`}></use>
+                </svg>
+                Provide Feedback
+              </span>
             </a>
           </p>
         </div>
 
         <div className="grid-row">
-          <div className="grid-col-12 tablet:grid-col-9">
+          <div className="grid-col-12 tablet:grid-col-4">
             <div className="padding-2">
-              <div className="campd-tool-image radius-md shadow-1 add-aspect-2x1">
+              <div className="radius-md shadow-1 add-aspect-4x3">
                 <img src={data.image} alt={data.name} />
               </div>
+            </div>
+          </div>
 
-              <div className="campd-tool-summary font-sans-2xs line-height-sans-4">
+          <div className="grid-col-12 tablet:grid-col-8">
+            <div className="padding-2 padding-top-0">
+              <div className="font-sans-xs line-height-sans-5">
                 <ReactMarkdown
                   children={data.description}
                   remarkPlugins={[remarkGfm]}
                 />
               </div>
 
-              <div className="campd-tool-other font-sans-3xs line-height-sans-3">
+              <div className="font-sans-2xs line-height-sans-4 text-base-darker">
                 <p>
                   <strong>Source Data:</strong>&nbsp;&nbsp;
                   {data.sources.map((source, index) => {
@@ -51,34 +71,7 @@ const ToolCard = ({ data }) => {
                     );
                   })}
                 </p>
-              </div>
-            </div>
-          </div>
 
-          <div className="grid-col-12 tablet:grid-col-3 bg-gray-5">
-            <div className="campd-tool-meta padding-2">
-              <div className="campd-tool-contact">
-                <p className="font-sans-3xs">
-                  <a
-                    className="usa-link"
-                    href={`mailto:campd-support@camdsupport.com?subject=CAMPD Maps & Graphs Feedback - ${data.name}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <svg
-                      className="usa-icon"
-                      aria-hidden="true"
-                      focusable="false"
-                      role="img"
-                    >
-                      <use href={`${icons}#mail`}></use>
-                    </svg>
-                    Provide Feedback
-                  </a>
-                </p>
-              </div>
-
-              <div className="font-sans-3xs line-height-sans-3 text-base">
                 <p>
                   <strong>Keywords:</strong>
                   <br />
@@ -93,15 +86,6 @@ const ToolCard = ({ data }) => {
               </div>
             </div>
           </div>
-        </div>
-
-        <div className="campd-tool-footer padding-2">
-          <button
-            className="usa-button"
-            onClick={(ev) => setExpanded(!expanded)}
-          >
-            {expanded ? "Show less" : "Show more"}
-          </button>
         </div>
       </div>
     </div>
@@ -155,7 +139,7 @@ const MapsGraphsPage = () => {
   }, []);
 
   return (
-    <div className="campd-tools">
+    <>
       <HeroSlideshow
         slides={[
           {
@@ -196,7 +180,7 @@ const MapsGraphsPage = () => {
           ))}
         </div>
       </section>
-    </div>
+    </>
   );
 };
 
