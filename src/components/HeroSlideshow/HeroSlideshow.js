@@ -43,52 +43,51 @@ const HeroSlideshow = ({ slides }) => {
   }, []);
 
   return (
-    <>
-      <div className="hero-slideshow js-hero-slideshow">
-        <ul className="hero-slideshow__list js-hero-slideshow__container">
-          {slides.map(({ image, title, callout, text, link }, index) => (
-            <li key={index} className="hero-slideshow__item">
-              <section
-                className="usa-hero usa-hero--slideshow"
-                style={{ backgroundImage: `url(${image})` }}
-              >
-                <div className="grid-container-widescreen">
-                  <div className="usa-hero__callout usa-dark-background">
-                    <h2 className="usa-hero__heading">
-                      {callout && (
-                        <span className="usa-hero__heading--alt">
-                          {callout}
-                        </span>
-                      )}
-                      {title}
-                    </h2>
-                    {text}
-                    {link && (
-                      <a className="usa-button" href={link.url}>
-                        {link.text}
-                      </a>
+    <div className="hero-slideshow js-hero-slideshow">
+      <ul className="hero-slideshow__list js-hero-slideshow__container">
+        {slides.map(({ image, title, callout, text, link }, index) => (
+          <li key={index} className="hero-slideshow__item">
+            <section
+              className="usa-hero usa-hero--slideshow"
+              style={{
+                paddingBottom: slides.length > 1 ? "3.5rem" : "2rem",
+                backgroundImage: `url(${image})`,
+              }}
+            >
+              <div className="grid-container-widescreen">
+                <div className="usa-hero__callout usa-dark-background">
+                  <h2 className="usa-hero__heading">
+                    {callout && (
+                      <span className="usa-hero__heading--alt">{callout}</span>
                     )}
-                  </div>
+                    {title}
+                  </h2>
+                  {text}
+                  {link && (
+                    <a className="usa-button" href={link.url}>
+                      {link.text}
+                    </a>
+                  )}
                 </div>
-              </section>
-            </li>
-          ))}
-        </ul>
+              </div>
+            </section>
+          </li>
+        ))}
+      </ul>
 
-        <div className="hero-slideshow__nav">
-          <div className="grid-container-widescreen js-hero-slideshow__nav">
-            {slides.map((_slide, index) => (
-              <button
-                key={index}
-                className="hero-slideshow__nav-button usa-button"
-              >
-                {index + 1}
-              </button>
-            ))}
-          </div>
+      <div className="hero-slideshow__nav">
+        <div className="grid-container-widescreen js-hero-slideshow__nav">
+          {slides.map((_slide, index) => (
+            <button
+              key={index}
+              className="hero-slideshow__nav-button usa-button"
+            >
+              {index + 1}
+            </button>
+          ))}
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
