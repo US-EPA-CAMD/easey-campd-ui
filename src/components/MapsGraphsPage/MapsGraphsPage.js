@@ -3,9 +3,10 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import icons from "uswds/dist/img/sprite.svg";
 
-import "./MapsGraphsPage.scss";
 import { metaAdder } from "../../utils/document/metaAdder";
 import getContent from "./temp"; // TODO: replace with "utils/api" function once content has been added to easey-content repo
+import HeroSlideshow from "../HeroSlideshow/HeroSlideshow";
+import "./MapsGraphsPage.scss";
 
 const ToolCard = ({ data }) => {
   const [expanded, setExpanded] = useState(false);
@@ -155,19 +156,20 @@ const MapsGraphsPage = () => {
 
   return (
     <div className="campd-tools">
-      <section className="usa-hero" aria-label="Tools Gallery">
-        <div className="grid-container-widescreen">
-          <div className="usa-hero__callout">
-            <h1 className="usa-hero__heading">
-              <span className="usa-hero__heading--alt">Tools Gallery:</span>
-              Explore Facility Emissions & Compliance Near You
-            </h1>
-            <a className="usa-button" href="/">
-              Facility Map Explorer
-            </a>
-          </div>
-        </div>
-      </section>
+      <HeroSlideshow
+        slides={[
+          {
+            image: "https://fpoimg.com/2048x820?text=Hero%20A%205:2",
+            title: "Explore Facility Emissions & Compliance Near You",
+            callout: "Tools Gallery:",
+            text: null,
+            link: {
+              url: "/",
+              text: "Facility Map Explorer",
+            },
+          },
+        ]}
+      />
 
       <section className="position-relative padding-top-2 padding-bottom-4 shadow-1">
         <div className="grid-container-widescreen">

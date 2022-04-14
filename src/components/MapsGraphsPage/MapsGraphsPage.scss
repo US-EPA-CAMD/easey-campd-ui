@@ -2,19 +2,6 @@
   background-image: url("./placeholderBanner.png");
 }
 
-.campd-tools-loading {
-  margin: auto;
-
-  img {
-    width: 60px;
-  }
-
-  button {
-    transform-origin: top;
-    transform: scale(0.75);
-  }
-}
-
 .campd-tool {
   position: relative;
   overflow: hidden;
