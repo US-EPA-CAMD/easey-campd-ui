@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import icons from "uswds/dist/img/sprite.svg";
 
 import "./MapsGraphsPage.scss";
@@ -30,7 +32,10 @@ const ToolCard = ({ data }) => {
               </div>
 
               <div className="campd-tool-summary font-sans-2xs line-height-sans-4">
-                {data.description}
+                <ReactMarkdown
+                  children={data.description}
+                  remarkPlugins={[remarkGfm]}
+                />
               </div>
 
               <div className="campd-tool-other font-sans-3xs line-height-sans-3">
@@ -115,18 +120,28 @@ const MapsGraphsPage = () => {
     );
   }, []);
 
+  const [introPrimaryText, setIntroPrimaryText] = useState("");
+  const [introSecondaryText, setIntroSecondaryText] = useState("");
   const [tools, setTools] = useState([]);
 
   useEffect(() => {
-    getContent("/campd/maps-graphs/tools.json").then((toolsRes) => {
+    getContent("/campd/maps-graphs/intro-primary-text.md").then((resp) =>
+      setIntroPrimaryText(resp.data)
+    );
+
+    getContent("/campd/maps-graphs/intro-secondary-text.md").then((resp) =>
+      setIntroSecondaryText(resp.data)
+    );
+
+    getContent("/campd/maps-graphs/tools.json").then((resp) => {
       Promise.all(
-        toolsRes.data.map((tool) => {
+        resp.data.map((tool) => {
           return Promise.all([
             getContent(`/campd/maps-graphs/tools/${tool.image}`).then(
-              (imgRes) => imgRes.config.url
+              (imgResp) => imgResp.config.url
             ),
             getContent(`/campd/maps-graphs/tools/${tool.description}`).then(
-              (descRes) => descRes.data
+              (descResp) => descResp.data
             ),
           ]).then(([image, description]) => {
             return { ...tool, image, description };
@@ -154,32 +169,21 @@ const MapsGraphsPage = () => {
         </div>
       </section>
 
-      <section className="position-relative padding-y-4 shadow-1">
+      <section className="position-relative padding-top-2 padding-bottom-4 shadow-1">
         <div className="grid-container-widescreen">
-          <p className="margin-top-0 font-sans-lg line-height-sans-6">
-            Maps &amp; Graphs is a collection of tools that allow analysis and
-            visualization of allowance, compliance, emissions, and facility data
-            for various use cases: compare facility or state level emissions,
-            map and explore nearby facilities with emissions and compliance
-            data, analyze trends in program allowance banks, and more. Explore
-            the tools below and use the “Provide Feedback” link to share
-            suggested enhancements or other visualizations you would like to
-            see.
-          </p>
+          <div className="font-sans-lg line-height-sans-6">
+            <ReactMarkdown
+              children={introPrimaryText}
+              remarkPlugins={[remarkGfm]}
+            />
+          </div>
 
-          <p className="margin-bottom-0 font-sans-sm line-height-sans-5">
-            Interested in building your own visualization? All APIs that support
-            Maps &amp; Graphs tools are publicly available and source code is
-            available in the{" "}
-            <a href="https://github.com/USEPA/campd-maps-graphs">
-              Maps &amp; Graphs repository
-            </a>
-            . For more information on the APIs visit the{" "}
-            <a href="https://www.epa.gov/airmarkets/cam-api-portal">
-              CAM API portal
-            </a>{" "}
-            and let us know what you are building!
-          </p>
+          <div className="font-sans-md line-height-sans-5">
+            <ReactMarkdown
+              children={introSecondaryText}
+              remarkPlugins={[remarkGfm]}
+            />
+          </div>
         </div>
       </section>
 
