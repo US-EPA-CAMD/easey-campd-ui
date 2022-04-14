@@ -8,107 +8,6 @@ import { metaAdder } from "../../utils/document/metaAdder";
 import getContent from "./temp"; // TODO: replace with "utils/api" function once content has been added to easey-content repo
 import HeroSlideshow from "../HeroSlideshow/HeroSlideshow";
 
-const ToolCard = ({ data }) => {
-  return (
-    <div className="margin-bottom-4">
-      <div className="overflow-hidden radius-md shadow-2 bg-white">
-        <div className="display-flex flex-align-center flex-justify padding-y-105 padding-x-2 bg-primary-dark">
-          <p className="margin-0 text-bold font-sans-sm">
-            <a
-              className="display-block text-white underline-primary-dark hover:underline-accent-cool"
-              href={data.url}
-            >
-              {data.name}
-            </a>
-          </p>
-
-          <p className="margin-0 font-sans-3xs">
-            <a
-              className="display-block text-white underline-primary-dark hover:underline-accent-cool"
-              href={`mailto:campd-support@camdsupport.com?subject=CAMPD Maps & Graphs Feedback - ${data.name}`}
-            >
-              <span className="display-flex flex-align-center">
-                <svg
-                  className="usa-icon margin-x-05"
-                  aria-hidden="true"
-                  focusable="false"
-                  role="img"
-                >
-                  <use href={`${icons}#mail`}></use>
-                </svg>
-                Provide Feedback
-              </span>
-            </a>
-          </p>
-        </div>
-
-        <div className="grid-row">
-          <div className="grid-col-12 tablet:grid-col-4">
-            <div className="padding-2">
-              <div className="radius-md shadow-1 add-aspect-4x3">
-                <img src={data.image} alt={data.name} />
-              </div>
-            </div>
-          </div>
-
-          <div className="grid-col-12 tablet:grid-col-8">
-            <div className="padding-2 padding-top-0">
-              <div className="font-sans-xs line-height-sans-5">
-                <ReactMarkdown
-                  children={data.description}
-                  remarkPlugins={[remarkGfm]}
-                  components={{
-                    a: ({ node, ...props }) => (
-                      <USWDSLink
-                        {...props}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      />
-                    ),
-                  }}
-                />
-              </div>
-
-              <div className="font-sans-2xs line-height-sans-4 text-base-darker">
-                <p>
-                  <strong>Source Data:</strong>&nbsp;&nbsp;
-                  {data.sources.map((source, index) => {
-                    // TODO: find out if there will be multiple sources, or just one
-                    return (
-                      <span key={index}>
-                        <USWDSLink
-                          href={source.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          {source.text}
-                        </USWDSLink>
-                        &nbsp;&nbsp;
-                      </span>
-                    );
-                  })}
-                </p>
-
-                <p>
-                  <strong>Keywords:</strong>
-                  <br />
-                  {data.keywords.join(", ")}
-                </p>
-
-                <p>
-                  <strong>Date Last Updated:</strong>
-                  <br />
-                  {data.updated}
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
 const MapsGraphsPage = () => {
   useEffect(() => {
     document.title = "Maps & Graphs | CAMPD | US EPA";
@@ -216,6 +115,107 @@ const MapsGraphsPage = () => {
         </div>
       </section>
     </>
+  );
+};
+
+const ToolCard = ({ data }) => {
+  return (
+    <div className="margin-bottom-4">
+      <div className="overflow-hidden radius-md shadow-2 bg-white">
+        <div className="display-flex flex-align-center flex-justify padding-y-105 padding-x-2 bg-primary-dark">
+          <p className="margin-0 text-bold font-sans-sm">
+            <a
+              className="display-block text-white underline-primary-dark hover:underline-accent-cool"
+              href={data.url}
+            >
+              {data.name}
+            </a>
+          </p>
+
+          <p className="margin-0 font-sans-3xs">
+            <a
+              className="display-block text-white underline-primary-dark hover:underline-accent-cool"
+              href={`mailto:campd-support@camdsupport.com?subject=CAMPD Maps & Graphs Feedback - ${data.name}`}
+            >
+              <span className="display-flex flex-align-center">
+                <svg
+                  className="usa-icon margin-x-05"
+                  aria-hidden="true"
+                  focusable="false"
+                  role="img"
+                >
+                  <use href={`${icons}#mail`}></use>
+                </svg>
+                Provide Feedback
+              </span>
+            </a>
+          </p>
+        </div>
+
+        <div className="grid-row">
+          <div className="grid-col-12 tablet:grid-col-4">
+            <div className="padding-2">
+              <div className="radius-md shadow-1 add-aspect-4x3">
+                <img src={data.image} alt={data.name} />
+              </div>
+            </div>
+          </div>
+
+          <div className="grid-col-12 tablet:grid-col-8">
+            <div className="padding-2 padding-top-0">
+              <div className="font-sans-xs line-height-sans-5">
+                <ReactMarkdown
+                  children={data.description}
+                  remarkPlugins={[remarkGfm]}
+                  components={{
+                    a: ({ node, ...props }) => (
+                      <USWDSLink
+                        {...props}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      />
+                    ),
+                  }}
+                />
+              </div>
+
+              <div className="font-sans-2xs line-height-sans-4 text-base-darker">
+                <p>
+                  <strong>Source Data:</strong>&nbsp;&nbsp;
+                  {data.sources.map((source, index) => {
+                    // TODO: find out if there will be multiple sources, or just one
+                    return (
+                      <span key={index}>
+                        <USWDSLink
+                          href={source.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {source.text}
+                        </USWDSLink>
+                        &nbsp;&nbsp;
+                      </span>
+                    );
+                  })}
+                </p>
+
+                <p>
+                  <strong>Keywords:</strong>
+                  <br />
+                  {data.keywords.join(", ")}
+                </p>
+
+                <p>
+                  <strong>Date Last Updated:</strong>
+                  <br />
+                  {data.updated}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 
