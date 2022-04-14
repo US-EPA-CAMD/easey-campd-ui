@@ -40,9 +40,9 @@ const HeroSlideshow = ({ slides }) => {
         }
       });
     });
-  }, []);
+  }, [slides]);
 
-  if (slides.length === 0) return null;
+  if (!slides || slides.length === 0) return null;
 
   return (
     <div className="hero-slideshow js-hero-slideshow">
