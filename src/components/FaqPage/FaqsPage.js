@@ -253,7 +253,14 @@ const FaqsPage = () => {
         Below are answers to some frequently asked questions regarding data
         available in CAMPD. For more support, reference our{' '}
         <Link href={'/help-support/tutorials'}>Tutorials</Link>, or{' '}
-        <Link href={'/help-support/contact-us'}>submit a help ticket</Link> under Contact Us.
+        <Link
+          target="_blank"
+          rel="noopener noreferrer"
+          href={'https://www.epa.gov/airmarkets/forms/campd-contact-us'}
+        >
+          submit a help ticket
+        </Link>{' '}
+        under Contact Us.
       </p>
       <div className="grid-row">
         {topics.map((topic) => {
