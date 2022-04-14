@@ -42,6 +42,8 @@ const HeroSlideshow = ({ slides }) => {
     });
   }, []);
 
+  if (slides.length === 0) return null;
+
   return (
     <div className="hero-slideshow js-hero-slideshow">
       <ul className="hero-slideshow__list js-hero-slideshow__container">
