@@ -34,7 +34,7 @@ export const subHeaderUtilityList = [
       { menu: 'About CAMPD', link: '/help-support/about' },
       { menu: 'Tutorials', link: '/help-support/tutorials' },
       { menu: 'FAQs', link: '/help-support/faqs' },
-      { menu: 'Contact Us', link: '/help-support/contact-us' },
+      { menu: 'Contact Us', link: {pathname: 'https://www.epa.gov/airmarkets/forms/campd-contact-us'} },
     ],
   },
   {
