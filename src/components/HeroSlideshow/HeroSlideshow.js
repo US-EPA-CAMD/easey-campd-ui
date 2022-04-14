@@ -50,7 +50,7 @@ const HeroSlideshow = ({ slides }) => {
         {slides.map(({ image, title, callout, text, link }, index) => (
           <li key={index} className="hero-slideshow__item">
             <section
-              className="usa-hero usa-hero--slideshow"
+              className="usa-hero usa-hero--slideshow bg-base-lightest"
               style={{
                 paddingBottom: slides.length > 1 ? "3.5rem" : "2rem",
                 backgroundImage: `url(${image})`,
