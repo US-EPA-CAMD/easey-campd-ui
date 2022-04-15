@@ -20,14 +20,16 @@ import Tooltip from '../../Tooltip/Tooltip';
 const BulkDataFilesTable = ({
   dataTableRecords
 }) => {
+  const tableMsg = (<span aria-live="assertive">There are no records to display</span>)
   const [searchText, setSearchText] = useState('');
   const prevSearchText = usePrevious(searchText);
-  const [noDataMsg, setNoDataMsg] = useState("There are no records to display");
+  const [noDataMsg, setNoDataMsg] = useState(tableMsg);
   const [searchedItems, setSearchedItems] = useState([]);
   const [selectedFiles, setSelectedFiles] = useState({});
   const [fileSize, setFileSize] = useState(0);
   const [limitAlert, setLimitAlert] = useState(null);
   const [limitReached, setLimitReached] = useState(false);
+  const [focusBox, setFocusBox] = useState(false);
   const { downloadLimit } = config.app;
   useEffect(() => {
     const arrowBackSvg = document.getElementsByClassName("arrow-back-svg");
@@ -41,10 +43,17 @@ const BulkDataFilesTable = ({
         table.setAttribute("aria-label", 'Bulk Data File selection table')}
     }, 1000);
     setCheckboxToReferenceColumn(dataTableRecords, 'filename', 'file names')
-    setNoDataMsg("There are no records to display");
+    setNoDataMsg(tableMsg);
+    if(dataTableRecords !== null && dataTableRecords.length >0 && !focusBox){
+      //to show focus highlight box on header checkbox
+      const headerCheckbox = document.getElementsByClassName("rdt_TableCol")[0]; console.log(headerCheckbox);
+      headerCheckbox.setAttribute("class", "sc-hKwDye sc-egiyK dnUdft fHkgxZ");
+      headerCheckbox.firstChild.setAttribute("class", "rdt_TableCol");
+      setFocusBox(true);
+    }
     return () => {
       cleanUp508();
-    };
+    };// eslint-disable-next-line
   }, [dataTableRecords]);
   const columns = useMemo(() => [
     {
@@ -128,7 +137,7 @@ const BulkDataFilesTable = ({
       );console.log("filteredItems", filteredItems);
       setSearchedItems(filteredItems);
       if(filteredItems.length === 0){
-        setNoDataMsg("No results match that search criteria. Please change the criteria and try again.");
+        setNoDataMsg(<span aria-live="assertive">No results match that search criteria. Please change the criteria and try again.</span>);
       }
     }
 		return (
