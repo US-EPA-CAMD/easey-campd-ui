@@ -259,6 +259,8 @@ ${accountNameNumberQuery}${accountTypeQuery}${ownerOperatorQuery}${transactionTy
   return url.replace(/\r?\n|\r/g, '');
 };
 
+export const isInternalUrl = (props) => props.href[0] === '/';
+
 export const formatDateToYYMMDD = (date) => {
   var d = new Date(date),
     month = '' + (d.getMonth() + 1),
