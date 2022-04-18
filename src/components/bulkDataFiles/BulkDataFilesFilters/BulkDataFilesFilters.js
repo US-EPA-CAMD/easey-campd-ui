@@ -2,10 +2,13 @@ import React, { useEffect, useState } from 'react';
 import getContent from '../../../utils/api/getContent';
 import { filterBulkDataFiles } from "../../../utils/selectors/filterLogic";
 import { Button, Dropdown, Label } from '@trussworks/react-uswds';
+import MobileMenu from '../MobileMenu/MobileMenu';
 
 const BulkDataFilesFilters = ({
   dataTableRecords,
-  updateBulkDataFilesDispacher
+  updateBulkDataFilesDispacher,
+  setShowMobileFilters,
+  showMobileFilters
 }) => {
   const [initialTableRecords, setInitialTableRecords] = useState(null);
   const [filtersContent, setFiltersContent] = useState(null);
@@ -13,6 +16,7 @@ const BulkDataFilesFilters = ({
   const [subType, setSubType] = useState('');
   const [grouping, setGrouping] = useState('');
   const [state, setState] = useState('');
+  const [previewDataApplied, setPreviewDataApplied] = useState(false);
   const selection = {
     dataType: dataType,
     subType: subType,
@@ -40,13 +44,19 @@ const BulkDataFilesFilters = ({
   },[grouping]);
 
   useEffect(()=>{
-    if(initialTableRecords){
+    if(showMobileFilters && initialTableRecords){
+      if (previewDataApplied){
+        const filteredRecords = filterBulkDataFiles(selection, initialTableRecords);
+        updateBulkDataFilesDispacher(filteredRecords);
+        setPreviewDataApplied(false)
+      }
+    } else if(initialTableRecords && !showMobileFilters){
       const filteredRecords = filterBulkDataFiles(selection, initialTableRecords);
       updateBulkDataFilesDispacher(filteredRecords);
       //console.log(filteredRecords);
     }
     // eslint-disable-next-line
-  },[dataType, subType, grouping, state]);
+  },[dataType, subType, grouping, state, previewDataApplied]);
 
   const handleClearAll = () =>{
     setDataType('');
@@ -169,8 +179,14 @@ const BulkDataFilesFilters = ({
         )
       }
       <div className='padding-top-3'> 
+        <MobileMenu
+          setShowMobileFilters={setShowMobileFilters}
+          handleClearAll={handleClearAll}
+          setPreviewDataApplied={setPreviewDataApplied}
+          dataType={dataType}
+          />
         <Button
-          className="float-right font-body-md margin-0"
+          className="float-right font-body-md margin-0 display-none desktop:display-block"
           outline="true"
           disabled={dataType === ''}
           onClick={handleClearAll}
