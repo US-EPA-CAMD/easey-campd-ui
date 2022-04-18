@@ -3,6 +3,8 @@ import getContent from '../../../utils/api/getContent';
 import { filterBulkDataFiles } from "../../../utils/selectors/filterLogic";
 import { Button, Dropdown, Label } from '@trussworks/react-uswds';
 import MobileMenu from '../MobileMenu/MobileMenu';
+import Tooltip from '../../Tooltip/Tooltip';
+import { Help } from '@material-ui/icons';
 
 const BulkDataFilesFilters = ({
   dataTableRecords,
@@ -63,6 +65,8 @@ const BulkDataFilesFilters = ({
     setSubType('');
     setGrouping('');
     setState('');
+    const dataTypeSelector = document.querySelector('#data-type');
+    dataTypeSelector.focus();
   };
 
   return (
@@ -75,6 +79,15 @@ const BulkDataFilesFilters = ({
               htmlFor="data-type"
             >
               Data Type
+              <Tooltip
+                content="Certain filters selections will cause other filters to display."
+                field="Data Type" 
+              >
+                <Help
+                  className="text-primary margin-left-1"
+                  fontSize="small"
+                />
+              </Tooltip>
             </Label>
             <Dropdown
               id="data-type"
