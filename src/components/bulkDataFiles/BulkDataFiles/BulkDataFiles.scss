@@ -2,4 +2,21 @@
   .helper-text img {
     vertical-align: bottom;
   }
+
+  @media only screen and (min-width: 640px) and (max-width: 1019px) {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    #filters,
+    #content {
+      grid-row: 1/2;
+    }
+
+    #filters {
+      grid-column-start: 1;
+      z-index: 10;
+    }
+    #content {
+    grid-column: 1/ -1;
+    }
+  }
 }
