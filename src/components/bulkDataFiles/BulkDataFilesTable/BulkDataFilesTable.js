@@ -60,6 +60,7 @@ const BulkDataFilesTable = ({
       name: 'File Name',
       selector: row => row.filename,
       sortable: true,
+      minWidth: "250px"
     },
     {
       name: 'Date Updated',
