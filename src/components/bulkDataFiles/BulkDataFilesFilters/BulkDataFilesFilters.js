@@ -46,8 +46,6 @@ const BulkDataFilesFilters = ({
     setState('');
   },[grouping]);
 
-  useEffect(() => {console.log(isMobileOrTablet);}, [isMobileOrTablet])
-
   useEffect(()=>{
     if(isMobileOrTablet && initialTableRecords){
       if (previewDataApplied){
