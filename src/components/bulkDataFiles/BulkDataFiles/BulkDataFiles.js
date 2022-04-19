@@ -41,7 +41,6 @@ const BulkDataFiles = ({
           dataTableRecords={dataTable}
           updateBulkDataFilesDispacher={updateBulkDataFilesDispacher}
           setShowMobileFilters={setShowMobileFilters}
-          showMobileFilters={showMobileFilters}
         />
       </div>
       <div className={`grid-col-fill ${showMobileFilters ? 'display-none tablet:display-block' : ''}`} id='content'>

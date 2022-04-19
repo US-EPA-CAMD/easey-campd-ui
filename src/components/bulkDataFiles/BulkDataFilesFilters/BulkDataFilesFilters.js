@@ -5,12 +5,12 @@ import { Button, Dropdown, Label } from '@trussworks/react-uswds';
 import MobileMenu from '../MobileMenu/MobileMenu';
 import Tooltip from '../../Tooltip/Tooltip';
 import { Help } from '@material-ui/icons';
+import useCheckWidth from '../../../utils/hooks/useCheckWidth'
 
 const BulkDataFilesFilters = ({
   dataTableRecords,
   updateBulkDataFilesDispacher,
-  setShowMobileFilters,
-  showMobileFilters
+  setShowMobileFilters
 }) => {
   const [initialTableRecords, setInitialTableRecords] = useState(null);
   const [filtersContent, setFiltersContent] = useState(null);
@@ -26,6 +26,7 @@ const BulkDataFilesFilters = ({
     state: state
   };
 
+  const isMobileOrTablet = useCheckWidth([0, 1024]);
   useEffect(() => {
     if(filtersContent === null){
       getContent('/campd/data/bulk-data-files/filters-content.json').then(resp => setFiltersContent(resp.data));
@@ -45,20 +46,22 @@ const BulkDataFilesFilters = ({
     setState('');
   },[grouping]);
 
+  useEffect(() => {console.log(isMobileOrTablet);}, [isMobileOrTablet])
+
   useEffect(()=>{
-    if(showMobileFilters && initialTableRecords){
+    if(isMobileOrTablet && initialTableRecords){
       if (previewDataApplied){
         const filteredRecords = filterBulkDataFiles(selection, initialTableRecords);
         updateBulkDataFilesDispacher(filteredRecords);
         setPreviewDataApplied(false)
       }
-    } else if(initialTableRecords && !showMobileFilters){
+    } else if(initialTableRecords){
       const filteredRecords = filterBulkDataFiles(selection, initialTableRecords);
       updateBulkDataFilesDispacher(filteredRecords);
       //console.log(filteredRecords);
     }
     // eslint-disable-next-line
-  },[dataType, subType, grouping, state, previewDataApplied]);
+  },[dataType, subType, grouping, state, previewDataApplied, isMobileOrTablet]);
 
   const handleClearAll = () =>{
     setDataType('');
