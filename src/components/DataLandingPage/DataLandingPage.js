@@ -55,7 +55,7 @@ const DataLandingPage = () => {
   ];
   return (
     <div id="data-page" className="padding-y-2 mobile-lg:padding-x-2 tablet:padding-x-4 widescreen:padding-x-10 font-sans-sm text-base-darkest text-ls-1 line-height-sans-5">
-      <h1 className="font-sans-2xl text-bold">Data Access Methods</h1>
+      <h1 className="font-sans-xl text-bold">Data Access Methods</h1>
       <p>
       The download options below provide data collected from CAMD’s market-based trading programs. Users unfamiliar with the data may want to visit the 
       <Link
@@ -80,7 +80,7 @@ const DataLandingPage = () => {
                   src={`${process.env.PUBLIC_URL}${topic.imgPath}`}
                   alt={topic.imgAlt}
                 />
-                <h2 className="text-bold font-heading-xl line-height-sans-3 margin-y-0 padding-left-105">
+                <h2 className="text-bold font-sans-xl line-height-sans-3 margin-y-0 padding-left-105">
                 {topic.name}
               </h2>
               </div>
