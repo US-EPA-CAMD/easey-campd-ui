@@ -335,6 +335,7 @@ const CustomDataDownload = ({
           dataSubtypeApplied={dataSubtypeApplied}
           handlePreviewDataButtonClick={handlePreviewDataButtonClick}
           hideFilterMenu={hideFilterMenu}
+          resetFiltersDispatcher={resetFilterDispatcher}
           />
         </div>
         <FilterCriteriaPanel

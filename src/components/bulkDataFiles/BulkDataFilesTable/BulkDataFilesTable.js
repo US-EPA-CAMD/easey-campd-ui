@@ -60,6 +60,7 @@ const BulkDataFilesTable = ({
       name: 'File Name',
       selector: row => row.filename,
       sortable: true,
+      minWidth: "250px"
     },
     {
       name: 'Date Updated',
@@ -108,7 +109,7 @@ const BulkDataFilesTable = ({
     let currentSize = 0;
     if(selectedFiles.selectedCount > 0){
       selectedFiles.selectedRows.forEach(file => {
-        const maxUnit =  file.gigaBytes > 0 ? `${file.gigaBytes} GB` : file.megaBytes > 0 ? `${file.megaBytes} MB`: file.kiloBytes? `${file.kiloBytes} KB`: file.bytes;
+        const maxUnit =  file.gigaBytes > 0 ? `${file.gigaBytes} GB` : file.megaBytes > 0 ? `${file.megaBytes} MB`: file.kiloBytes? `${file.kiloBytes} KB`: `${file.bytes} Bytes`;
         const bytes = convertToBytes(maxUnit);
         currentSize += parseFloat(bytes);
       })
