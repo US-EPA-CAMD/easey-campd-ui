@@ -66,6 +66,9 @@ const BulkDataFilesFilters = ({
     setSubType('');
     setGrouping('');
     setState('');
+    if (isMobileOrTablet) {
+      setPreviewDataApplied(true);
+    }
     const dataTypeSelector = document.querySelector('#data-type');
     dataTypeSelector.focus();
   };
