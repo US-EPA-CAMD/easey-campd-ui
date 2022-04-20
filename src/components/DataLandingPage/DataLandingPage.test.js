@@ -7,12 +7,12 @@ describe('Data Landing Page Component', () => {
     test("should render content without error", () => {
       const {getAllByTestId, getByText} = render(<MemoryRouter><DataLandingPage/></MemoryRouter>);
       const btns = getAllByTestId("button");
-      expect(getByText("Data")).toBeDefined();
+      expect(getByText("Data Access Methods")).toBeDefined();
       expect(getByText("Custom Data Download Tool")).toBeDefined();
       expect(getByText("Bulk Data Files")).toBeDefined();
       expect(getByText("APIs")).toBeDefined();
       expect(btns.length).toBe(3);
-      fireEvent.click(getByText("Start your data query"));
+      fireEvent.click(getByText("Query Data"));
     });
     // test("clicking filter links updates product query params", () => {
     //   let testHistory, testLocation;
