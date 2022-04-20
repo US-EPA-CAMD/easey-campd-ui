@@ -286,6 +286,7 @@ jest.mock('react-router-dom', () => ({
     push: jest.fn(),
   }),
 }));
+const dataTable=Object.assign({}, initialState.bulkDataFiles.dataTable)
 
 /*****
  */
@@ -312,6 +313,7 @@ describe('Manage Bulk Data Files component: ',  () => {
           <MemoryRouter>
             <BulkDataFiles
               loadBulkDataFilesDispatcher= {jest.fn()}
+              dataTable={dataTable}
             />
           </MemoryRouter>
         </Provider>
@@ -332,6 +334,7 @@ describe('Manage Bulk Data Files component: ',  () => {
           <MemoryRouter>
             <BulkDataFiles
               loadBulkDataFilesDispatcher= {jest.fn()}
+              dataTable={dataTable}
             />
           </MemoryRouter>
         </Provider>
@@ -359,6 +362,7 @@ describe('Manage Bulk Data Files component: ',  () => {
         <MemoryRouter>
           <BulkDataFiles
             loadBulkDataFilesDispatcher= {jest.fn()}
+            dataTable={dataTable}
           />
         </MemoryRouter>
       </Provider>
@@ -378,6 +382,7 @@ describe('Manage Bulk Data Files component: ',  () => {
         <MemoryRouter>
           <BulkDataFiles
             loadBulkDataFilesDispatcher= {jest.fn()}
+            dataTable={dataTable}
           />
         </MemoryRouter>
       </Provider>
@@ -393,12 +398,13 @@ describe('Manage Bulk Data Files component: ',  () => {
   });
 
 
-  xtest('download button is disabled if file size exceeds download limit', async () => {
+  test('download button is disabled if file size exceeds download limit', async () => {
     render(
       <Provider store={store}>
         <MemoryRouter>
           <BulkDataFiles
             loadBulkDataFilesDispatcher= {jest.fn()}
+            dataTable={dataTable}
           />
         </MemoryRouter>
       </Provider>
@@ -413,12 +419,13 @@ describe('Manage Bulk Data Files component: ',  () => {
     expect(downloadButton).toBeDisabled();
   });
 
-  xtest('Alert pops up when file size exceeds download limit and is removed when limit is no longer exceeded', async() => {
+  test('Alert pops up when file size exceeds download limit and is removed when limit is no longer exceeded', async() => {
     render(
       <Provider store={store}>
         <MemoryRouter>
           <BulkDataFiles
             loadBulkDataFilesDispatcher= {jest.fn()}
+            dataTable={dataTable}
           />
         </MemoryRouter>
       </Provider>
