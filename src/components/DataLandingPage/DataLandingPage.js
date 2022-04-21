@@ -64,7 +64,7 @@ const DataLandingPage = () => {
         aria-label="Tutorials"
         className="tutorials-link"
       >
-         Tutorals
+         Tutorials
       </Link>
       &nbsp; section under “Help/Support” for more information about the data and associated data guides. 
       </p>
