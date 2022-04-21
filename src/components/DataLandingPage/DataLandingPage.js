@@ -57,16 +57,16 @@ const DataLandingPage = () => {
     <div id="data-page" className="padding-y-2 mobile-lg:padding-x-2 tablet:padding-x-4 widescreen:padding-x-10 font-sans-sm text-base-darkest text-ls-1 line-height-sans-5">
       <h1 className="font-sans-xl text-bold">Data Access Methods</h1>
       <p>
-      The download options below provide data collected from CAMD’s market-based trading programs. Users unfamiliar with the data may want to visit the 
+      The download options below provide data collected from CAMD’s market-based trading programs. Users unfamiliar with the data may want to visit the &nbsp;
       <Link
         to="/help-support/tutorials"
         title="Tutorials"
         aria-label="Tutorials"
         className="tutorials-link"
       >
-        &nbsp; Tutorials &nbsp;
+         Tutorals
       </Link>
-       section under “Help/Support” for more information about the data and associated data guides. 
+      &nbsp; section under “Help/Support” for more information about the data and associated data guides. 
       </p>
       <>
         {topics.map((topic) => {
