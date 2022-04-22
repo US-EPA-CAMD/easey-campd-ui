@@ -26,7 +26,8 @@ const BulkDataFilesFilters = ({
     grouping: '',
     state: ''
   })
-  const updateAppliedFilterSelection = () => setAppliedFilterSelection({
+  const updateAppliedFilterSelection = () => 
+    setAppliedFilterSelection({
     dataType: dataType,
     subType: subType,
     grouping: grouping,
@@ -40,6 +41,7 @@ const BulkDataFilesFilters = ({
   };
 
   const isMobileOrTablet = useCheckWidth([0, 1024]);
+  const changeFromAppliedFilters = isMobileOrTablet && dataType !== appliedFilterSelection.dataType;
   useEffect(() => {
     if(filtersContent === null){
       getContent('/campd/data/bulk-data-files/filters-content.json').then(resp => setFiltersContent(resp.data));
@@ -49,15 +51,19 @@ const BulkDataFilesFilters = ({
     }// eslint-disable-next-line
   }, [dataTableRecords]);
 
-  useEffect(()=>{
-    setSubType('');
-    setGrouping('');
-    setState('')
-  },[dataType]);
+  useEffect(() => {
+    if (changeFromAppliedFilters || !isMobileOrTablet) {
+        setSubType('');
+        setGrouping('');
+        setState('');
+    }// eslint-disable-next-line
+  }, [dataType, isMobileOrTablet]);
 
-  useEffect(()=>{
-    setState('');
-  },[grouping]);
+  useEffect(() => {
+    if (changeFromAppliedFilters || !isMobileOrTablet) {
+        setState('');
+    }// eslint-disable-next-line
+  }, [grouping, isMobileOrTablet]);
 
   useEffect(()=>{
     if(isMobileOrTablet){
@@ -69,6 +75,8 @@ const BulkDataFilesFilters = ({
       } else if (backButtonClicked){
         setDataType(appliedFilterSelection.dataType)
         setSubType(appliedFilterSelection.subType)
+        setGrouping(appliedFilterSelection.grouping)
+        setState(appliedFilterSelection.state)
         setBackButtonClicked(false)
       }
     } else if(initialTableRecords){
