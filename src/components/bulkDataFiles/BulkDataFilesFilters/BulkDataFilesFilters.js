@@ -19,6 +19,20 @@ const BulkDataFilesFilters = ({
   const [grouping, setGrouping] = useState('');
   const [state, setState] = useState('');
   const [previewDataApplied, setPreviewDataApplied] = useState(false);
+  const [backButtonClicked, setBackButtonClicked] = useState(false)
+  const [appliedFilterSelection, setAppliedFilterSelection] = useState({
+    dataType: '',
+    subType: '',
+    grouping: '',
+    state: ''
+  })
+  const updateAppliedFilterSelection = () => 
+    setAppliedFilterSelection({
+    dataType: dataType,
+    subType: subType,
+    grouping: grouping,
+    state: state
+  });
   const selection = {
     dataType: dataType,
     subType: subType,
@@ -27,6 +41,7 @@ const BulkDataFilesFilters = ({
   };
 
   const isMobileOrTablet = useCheckWidth([0, 1024]);
+  const changeFromAppliedFilters = isMobileOrTablet && dataType !== appliedFilterSelection.dataType;
   useEffect(() => {
     if(filtersContent === null){
       getContent('/campd/data/bulk-data-files/filters-content.json').then(resp => setFiltersContent(resp.data));
@@ -36,30 +51,42 @@ const BulkDataFilesFilters = ({
     }// eslint-disable-next-line
   }, [dataTableRecords]);
 
-  useEffect(()=>{
-    setSubType('');
-    setGrouping('');
-    setState('')
-  },[dataType]);
+  useEffect(() => {
+    if (changeFromAppliedFilters || !isMobileOrTablet) {
+        setSubType('');
+        setGrouping('');
+        setState('');
+    }// eslint-disable-next-line
+  }, [dataType, isMobileOrTablet]);
+
+  useEffect(() => {
+    if (changeFromAppliedFilters || !isMobileOrTablet) {
+        setState('');
+    }// eslint-disable-next-line
+  }, [grouping, isMobileOrTablet]);
 
   useEffect(()=>{
-    setState('');
-  },[grouping]);
-
-  useEffect(()=>{
-    if(isMobileOrTablet && initialTableRecords){
-      if (previewDataApplied){
+    if(isMobileOrTablet){
+      if (previewDataApplied && initialTableRecords){
         const filteredRecords = filterBulkDataFiles(selection, initialTableRecords);
         updateBulkDataFilesDispacher(filteredRecords);
+        updateAppliedFilterSelection()
         setPreviewDataApplied(false)
+      } else if (backButtonClicked){
+        setDataType(appliedFilterSelection.dataType)
+        setSubType(appliedFilterSelection.subType)
+        setGrouping(appliedFilterSelection.grouping)
+        setState(appliedFilterSelection.state)
+        setBackButtonClicked(false)
       }
     } else if(initialTableRecords){
       const filteredRecords = filterBulkDataFiles(selection, initialTableRecords);
       updateBulkDataFilesDispacher(filteredRecords);
+      updateAppliedFilterSelection()
       //console.log(filteredRecords);
     }
     // eslint-disable-next-line
-  },[dataType, subType, grouping, state, previewDataApplied, isMobileOrTablet]);
+  },[dataType, subType, grouping, state, previewDataApplied, isMobileOrTablet, backButtonClicked]);
 
   const handleClearAll = () =>{
     setDataType('');
@@ -201,6 +228,7 @@ const BulkDataFilesFilters = ({
           handleClearAll={handleClearAll}
           setPreviewDataApplied={setPreviewDataApplied}
           dataType={dataType}
+          setBackButtonClicked={setBackButtonClicked}
           />
         <Button
           className="float-right font-body-md margin-0 display-none desktop:display-block"

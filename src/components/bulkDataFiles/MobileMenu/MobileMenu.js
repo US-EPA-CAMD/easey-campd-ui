@@ -6,9 +6,13 @@ export const MobileMenu = ({
   setShowMobileFilters,
   handleClearAll,
   setPreviewDataApplied,
+  setBackButtonClicked,
   dataType
 }) => {
-  const handleBackButtonClick = () => setShowMobileFilters(false);
+  const handleBackButtonClick = () => {
+    setBackButtonClicked(true)
+    setShowMobileFilters(false)
+  };
   const handlePreviewData = () => {
     setPreviewDataApplied(true);
     setShowMobileFilters(false);
