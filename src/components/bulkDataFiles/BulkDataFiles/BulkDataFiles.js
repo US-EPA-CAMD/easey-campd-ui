@@ -9,9 +9,11 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { Button, Link } from '@trussworks/react-uswds';
 import "./BulkDataFiles.scss";
+import RenderSpinner from '../../RenderSpinner/RenderSpinner';
 
 const BulkDataFiles = ({
   dataTable,
+  loading,
   loadBulkDataFilesDispatcher,
   updateBulkDataFilesDispacher
 }) => {
@@ -36,6 +38,7 @@ const BulkDataFiles = ({
 
   return (
     <div className='container grid-row flex-wrap' id='bulk-data-files'>
+      <RenderSpinner showSpinner={loading} />
       <div className={`grid-col-3 bg-base-lighter margin-0 display-${showMobileFilters? 'grid width-mobile-lg  minh-viewport': 'none  side-nav-height'} desktop:display-block`} id='filters'>
         <BulkDataFilesFilters
           dataTableRecords={dataTable}
@@ -76,7 +79,8 @@ const BulkDataFiles = ({
 };
 const mapStateToProps = (state) => {
   return {
-    dataTable: state.bulkDataFiles.dataTable
+    dataTable: state.bulkDataFiles.dataTable,
+    loading: state.apiCallsInProgress
   };
 };
 
