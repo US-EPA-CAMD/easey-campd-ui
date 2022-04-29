@@ -21,29 +21,52 @@ const MapsGraphsPage = () => {
     );
   }, []);
 
-  const [introPrimaryText, setIntroPrimaryText] = useState("");
-  const [introSecondaryText, setIntroSecondaryText] = useState("");
+  const [introText, setIntroText] = useState("");
+  const [slides, setSlides] = useState([]);
   const [tools, setTools] = useState([]);
 
   useEffect(() => {
-    getContent("/campd/maps-graphs/intro-primary-text.md").then((resp) =>
-      setIntroPrimaryText(resp.data)
+    getContent("/campd/maps-graphs/intro-text.md").then((resp) =>
+      setIntroText(resp.data)
     );
 
-    getContent("/campd/maps-graphs/intro-secondary-text.md").then((resp) =>
-      setIntroSecondaryText(resp.data)
-    );
+    getContent("/campd/maps-graphs/slides.json").then((resp) => {
+      Promise.all(
+        resp.data.map((slide) => {
+          return Promise.all([
+            slide.image
+              ? getContent(`/campd/maps-graphs/${slide.image}`).then(
+                  (imgResp) => imgResp.config.url
+                )
+              : Promise.resolve(""),
+            slide.text
+              ? getContent(`/campd/maps-graphs/${slide.text}`).then(
+                  (textResp) => textResp.data
+                )
+              : Promise.resolve(""),
+          ]).then(([image, text]) => {
+            return { ...slide, image, text };
+          });
+        })
+      ).then((fetchedSlides) => {
+        setSlides(fetchedSlides);
+      });
+    });
 
     getContent("/campd/maps-graphs/tools.json").then((resp) => {
       Promise.all(
         resp.data.map((tool) => {
           return Promise.all([
-            getContent(`/campd/maps-graphs/tools/${tool.image}`).then(
-              (imgResp) => imgResp.config.url
-            ),
-            getContent(`/campd/maps-graphs/tools/${tool.description}`).then(
-              (descResp) => descResp.data
-            ),
+            tool.image
+              ? getContent(`/campd/maps-graphs/${tool.image}`).then(
+                  (imgResp) => imgResp.config.url
+                )
+              : Promise.resolve(""),
+            tool.description
+              ? getContent(`/campd/maps-graphs/${tool.description}`).then(
+                  (descResp) => descResp.data
+                )
+              : Promise.resolve(""),
           ]).then(([image, description]) => {
             return { ...tool, image, description };
           });
@@ -56,42 +79,13 @@ const MapsGraphsPage = () => {
 
   return (
     <>
-      <HeroSlideshow
-        slides={[
-          {
-            image: "https://fpoimg.com/2048x820?text=Hero%20A%205:2",
-            title: "Explore Facility Emissions & Compliance Near You",
-            callout: "Tools Gallery:",
-            text: null,
-            link: {
-              url: "/",
-              text: "Facility Map Explorer",
-            },
-          },
-        ]}
-      />
+      {slides.length > 0 && <HeroSlideshow slides={slides} />}
 
       <section className="position-relative padding-top-2 padding-bottom-4 shadow-1">
         <div className="grid-container-widescreen">
           <div className="font-sans-lg line-height-sans-6">
             <ReactMarkdown
-              children={introPrimaryText}
-              remarkPlugins={[remarkGfm]}
-              components={{
-                a: ({ node, ...props }) => (
-                  <USWDSLink
-                    {...props}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  />
-                ),
-              }}
-            />
-          </div>
-
-          <div className="font-sans-md line-height-sans-5">
-            <ReactMarkdown
-              children={introSecondaryText}
+              children={introText}
               remarkPlugins={[remarkGfm]}
               components={{
                 a: ({ node, ...props }) => (
@@ -110,7 +104,7 @@ const MapsGraphsPage = () => {
       <section className="padding-y-4 bg-base-lightest">
         <div className="grid-container">
           {tools.map((tool, index) => (
-            <ToolCard key={index} data={tool} />
+            <Tool key={index} data={tool} />
           ))}
         </div>
       </section>
@@ -118,12 +112,12 @@ const MapsGraphsPage = () => {
   );
 };
 
-const ToolCard = ({ data }) => {
+const Tool = ({ data }) => {
   return (
     <div className="margin-bottom-4">
       <div className="overflow-hidden radius-md shadow-2 bg-white">
         <div className="display-flex flex-align-center flex-justify padding-y-105 padding-x-2 bg-primary-dark">
-          <p className="margin-0 text-bold font-sans-sm">
+          <p className="margin-0 text-bold font-sans-lg">
             <a
               className="display-block text-white underline-primary-dark hover:underline-accent-cool"
               href={data.url}
@@ -156,7 +150,9 @@ const ToolCard = ({ data }) => {
           <div className="grid-col-12 tablet:grid-col-4">
             <div className="padding-2">
               <div className="radius-md shadow-1 add-aspect-4x3">
-                <img src={data.image} alt={data.name} />
+                <a className="display-block" href={data.url}>
+                  <img src={data.image} alt={data.name} />
+                </a>
               </div>
             </div>
           </div>
@@ -182,32 +178,22 @@ const ToolCard = ({ data }) => {
               <div className="font-sans-2xs line-height-sans-4 text-base-darker">
                 <p>
                   <strong>Source Data:</strong>&nbsp;&nbsp;
-                  {data.sources.map((source, index) => {
-                    // TODO: find out if there will be multiple sources, or just one
-                    return (
-                      <span key={index}>
-                        <USWDSLink
-                          href={source.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          {source.text}
-                        </USWDSLink>
-                        &nbsp;&nbsp;
-                      </span>
-                    );
-                  })}
+                  <USWDSLink
+                    href={data.source.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {data.source.text}
+                  </USWDSLink>
                 </p>
 
                 <p>
-                  <strong>Keywords:</strong>
-                  <br />
+                  <strong>Keywords:</strong>&nbsp;&nbsp;
                   {data.keywords.join(", ")}
                 </p>
 
                 <p>
-                  <strong>Date Last Updated:</strong>
-                  <br />
+                  <strong>Date Last Updated:</strong>&nbsp;&nbsp;
                   {data.updated}
                 </p>
               </div>
