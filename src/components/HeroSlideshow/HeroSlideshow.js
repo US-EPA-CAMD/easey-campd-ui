@@ -1,4 +1,7 @@
 import React, { useEffect } from "react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import { Link as USWDSLink } from "@trussworks/react-uswds";
 import { tns } from "tiny-slider/src/tiny-slider";
 import "./HeroSlideshow.scss";
 
@@ -7,7 +10,7 @@ import "./HeroSlideshow.scss";
  * @property {string} image
  * @property {string} title
  * @property {?string} callout
- * @property {?React.ReactNode} text
+ * @property {?string} text
  * @property {?{url: string, text: string}} link
  */
 
@@ -62,9 +65,26 @@ const HeroSlideshow = ({ slides }) => {
                     {callout && (
                       <span className="usa-hero__heading--alt">{callout}</span>
                     )}
+
                     {title}
                   </h2>
-                  {text}
+
+                  {text && (
+                    <ReactMarkdown
+                      children={text}
+                      remarkPlugins={[remarkGfm]}
+                      components={{
+                        a: ({ node, ...props }) => (
+                          <USWDSLink
+                            {...props}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          />
+                        ),
+                      }}
+                    />
+                  )}
+
                   {link && (
                     <a className="usa-button" href={link.url}>
                       {link.text}
