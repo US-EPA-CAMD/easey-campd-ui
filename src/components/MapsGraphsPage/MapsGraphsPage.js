@@ -150,7 +150,11 @@ const Tool = ({ data }) => {
           <div className="grid-col-12 tablet:grid-col-4">
             <div className="padding-2">
               <div className="radius-md shadow-1 add-aspect-4x3">
-                <a className="display-block" href={data.url}>
+                <a
+                  className="position-absolute"
+                  style={{ inset: "0.25rem" }}
+                  href={data.url}
+                >
                   <img src={data.image} alt={data.name} />
                 </a>
               </div>
