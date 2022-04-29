@@ -40,7 +40,7 @@ const HeroSlideshow = ({ slides }) => {
         }
       });
     });
-  }, [slides]);
+  }, []);
 
   if (!slides || slides.length === 0) return null;
 
