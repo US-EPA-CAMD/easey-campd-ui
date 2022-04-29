@@ -155,7 +155,12 @@ const Tool = ({ data }) => {
                   style={{ inset: "0.25rem" }}
                   href={data.url}
                 >
-                  <img src={data.image} alt={data.name} />
+                  <img
+                    className="width-full height-full"
+                    style={{ objectFit: "cover" }}
+                    src={data.image}
+                    alt={data.name}
+                  />
                 </a>
               </div>
             </div>
