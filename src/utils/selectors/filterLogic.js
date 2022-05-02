@@ -310,6 +310,9 @@ export const filterBulkDataFiles = (selection, tableRecords) =>{
     return (selection.dataType === '' || record.metadata?.datatype?.toUpperCase() === selection.dataType.toUpperCase()) &&
     (selection.subType === '' || record.metadata?.datasubtype?.toUpperCase() === selection.subType.toUpperCase()) &&
     (selection.grouping === '' || record.metadata?.grouping?.toUpperCase() === selection.grouping.toUpperCase()) &&
+    // eslint-disable-next-line
+    (selection.year === '' || record.metadata?.year == selection.year) &&
+    (selection.quarter === '' || record.metadata?.quarter?.toUpperCase() === selection.quarter.toUpperCase()) &&
     (selection.state === '' || record.metadata?.statecode?.toUpperCase() === selection.state.toUpperCase())
   });
 };
