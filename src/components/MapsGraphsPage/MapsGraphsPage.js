@@ -83,7 +83,7 @@ const MapsGraphsPage = () => {
 
       <section className="position-relative padding-top-2 padding-bottom-4 shadow-1">
         <div className="grid-container-widescreen">
-          <div className="font-sans-lg line-height-sans-6">
+          <div className="font-sans-xs mobile-lg:font-sans-md desktop:font-sans-lg line-height-sans-6">
             <ReactMarkdown
               children={introText}
               remarkPlugins={[remarkGfm]}
