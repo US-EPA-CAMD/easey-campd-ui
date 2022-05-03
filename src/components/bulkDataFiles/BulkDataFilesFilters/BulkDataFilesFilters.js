@@ -144,6 +144,8 @@ const BulkDataFilesFilters = ({
         setSubType('');
         setGrouping('');
         setState('');
+        setYear('');
+        setQuarter('');
     }// eslint-disable-next-line
   }, [dataType, isMobileOrTablet]);
 
@@ -206,7 +208,7 @@ const BulkDataFilesFilters = ({
         })
       }else{
         res = filtersContent.states;
-      }console.log("res",res);
+      }//console.log("res",res);
       setStatesFiltered(res.filter(onlyUnique));
     }// eslint-disable-next-line
   },[filtersContent, dataType, year]);

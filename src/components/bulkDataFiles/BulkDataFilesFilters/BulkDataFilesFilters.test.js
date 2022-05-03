@@ -8,13 +8,29 @@ import config from '../../../config';
 jest.mock('react-markdown', () => ({ children }) => <>{children}</>);
 jest.mock('remark-gfm', () => () => {});
 const filtersContent = {
-  "dataTypes": ["Allowance", "Compliance", "Emissions", "Facility", "Mercury and Air Toxics Emissions (MATS)"],
+  "labels": ["Data Type", "Subtype", "Grouping", "State", "Year", "Quarter"],
+  "dataTypes": ["Allowance", "Compliance", "EDR", "Emissions", "Facility", "Mercury and Air Toxics Emissions (MATS)", "XML"],
   "subTypes" : {
-    "Emissions" : ["Hourly", "Daily"]
+    "Emissions" : ["Hourly", "Daily"],
+    "XML":["Emissions", "Monitoring Plan", "QA"]
   },
   "groupings" : {
     "Emissions" : ["Quarterly", "State"],
     "Mercury and Air Toxics Emissions (MATS)": ["Quarterly", "State"]
+  },
+  "year": {
+    "EDR": [1995,1996,1997,1998,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008],
+    "XML": {
+      "Emissions": [2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022],
+      "QA": [2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022]
+    }
+  },
+  "quarter":{
+    "EDR":["1st Quarter", "2nd Quarter", "3rd Quarter", "4th Quarter"],
+    "XML": {
+      "Emissions": ["1st Quarter", "2nd Quarter", "3rd Quarter", "4th Quarter"],
+      "QA": ["1st Quarter", "2nd Quarter", "3rd Quarter", "4th Quarter"]
+    }
   },
   "states" : [
     {"stateCode": "AK", "stateName": "Alaska", "epaRegion": 10},
@@ -285,12 +301,17 @@ describe('BDFF-component',  () => {
       <BulkDataFilesFilters
         dataTableRecords={dataTableRecords}
         loadBulkDataFilesDispatcher= {jest.fn()}
+        updateBulkDataFilesDispacher= {jest.fn()}
       />
     );
-    const { findByText, getAllByTestId, getByTestId, findByLabelText} = query;
-    const dataTypeFilter = await findByText("Data Type");
-    expect(dataTypeFilter).toBeTruthy();
-    // fireEvent.change(getByTestId('dataType-select'), { target: { value: 2 } });
+    const { findByText, findByTestId} = query;
+    const dataTypeLabel = await findByText("Data Type");
+    expect(dataTypeLabel).toBeTruthy();
+    const dataTypeFilter = await findByTestId('dataType-select');
+    fireEvent.change(dataTypeFilter, { target: { value: "EDR" } });
+    expect(await findByText("Year")).toBeTruthy();
+    expect(await findByText("Quarter")).toBeTruthy();
+    expect(await findByText("State")).toBeTruthy();
     // let dataTypeOptions = getAllByTestId('dataType-select-option')
     // expect(dataTypeOptions[2].selected).toBeTruthy();
     // const SubTypeFilter = await findByLabelText("Subtype");
