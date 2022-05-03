@@ -120,6 +120,12 @@
       "!src/utils/api/setupTests.js",
       "!src/utils/api/apiUtils.js",
       "!src/utils/remoteLogging.js"
+    ],
+    "moduleNameMapper": {
+      "\\.svg$": "<rootDir>/src/__tests__/jest-file-transformer.js"
+    },
+    "transformIgnorePatterns": [
+      "/node_modules/(?!tiny-slider)"
     ]
   }
 }
