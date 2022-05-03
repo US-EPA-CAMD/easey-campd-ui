@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useRef, useEffect } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { Link as USWDSLink } from "@trussworks/react-uswds";
@@ -19,37 +19,41 @@ import "./HeroSlideshow.scss";
  * @param {Slide[]} props.slides
  */
 const HeroSlideshow = ({ slides }) => {
-  useEffect(() => {
-    const sliders = document.querySelectorAll(".js-hero-slideshow");
-    sliders.forEach((slider) => {
-      const sliderObject = tns({
-        autoplay: true,
-        autoplayButtonOutput: false,
-        autoplayHoverPause: true,
-        autoplayTimeout: 6000,
-        container: slider.querySelector(".js-hero-slideshow__container"),
-        controls: false,
-        mode: "gallery",
-        navContainer: slider.querySelector(".js-hero-slideshow__nav"),
-        preventScrollOnTouch: "auto",
-        speed: 500,
-      });
+  const containerRef = useRef(null);
+  const navContainerRef = useRef(null);
 
-      // Stop autoplay after it has looped once through all slides.
-      sliderObject.events.on("transitionEnd", function () {
-        const sliderInfo = sliderObject.getInfo();
-        if (sliderInfo.displayIndex === 1) {
-          sliderObject.pause();
-        }
-      });
+  useEffect(() => {
+    if (!containerRef.current || !navContainerRef.current) return;
+
+    const slider = tns({
+      autoplay: true,
+      autoplayButtonOutput: false,
+      autoplayHoverPause: true,
+      autoplayTimeout: 6000,
+      container: containerRef.current,
+      controls: false,
+      mode: "gallery",
+      navContainer: navContainerRef.current,
+      preventScrollOnTouch: "auto",
+      speed: 500,
     });
+
+    // stop autoplay after it has looped once through all slides
+    slider.events.on("transitionEnd", function (eventInfo, eventName) {
+      const info = slider.getInfo();
+      if (info.displayIndex === 1) slider.pause();
+    });
+
+    return function cleanup() {
+      if (slider) slider.destroy();
+    };
   }, []);
 
   if (!slides || slides.length === 0) return null;
 
   return (
-    <div className="hero-slideshow js-hero-slideshow">
-      <ul className="hero-slideshow__list js-hero-slideshow__container">
+    <div className="hero-slideshow">
+      <ul ref={containerRef} className="hero-slideshow__list">
         {slides.map(({ image, title, callout, text, link }, index) => (
           <li key={index} className="hero-slideshow__item">
             <section
@@ -98,7 +102,7 @@ const HeroSlideshow = ({ slides }) => {
       </ul>
 
       <div className="hero-slideshow__nav">
-        <div className="grid-container-widescreen js-hero-slideshow__nav">
+        <div ref={navContainerRef} className="grid-container-widescreen">
           {slides.map((_slide, index) => (
             <button
               key={index}
