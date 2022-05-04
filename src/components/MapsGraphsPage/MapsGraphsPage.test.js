@@ -1,16 +1,13 @@
 import React from "react";
-import { render } from "@testing-library/react";
+import { fireEvent, render } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { rest } from "msw";
 import { setupServer } from "msw/node";
 
 import MapsGraphsPage from "./MapsGraphsPage";
-import HeroSlideshow from "../HeroSlideshow/HeroSlideshow";
 
 jest.mock("react-markdown", () => ({ children }) => <>{children}</>);
 jest.mock("remark-gfm", () => () => {});
-jest.mock("tiny-slider", () => () => {});
-jest.mock("../HeroSlideshow/HeroSlideshow");
 
 const contentUrl =
   "https://campd-041322.s3.us-east-1.amazonaws.com/dev/campd/maps-graphs";
@@ -75,11 +72,7 @@ describe("Maps and Graphs Page Component", () => {
   afterAll(() => server.close());
 
   test("should render content without error", async () => {
-    // NOTE: monitor this issue, which is preventing testing tiny-slider
-    // https://github.com/ganlanyuan/tiny-slider/issues/767
-    HeroSlideshow.mockImplementation(() => null);
-
-    const { findByText, findAllByRole } = render(
+    const { findByText, findByRole, findAllByRole } = render(
       <MemoryRouter>
         <MapsGraphsPage />
       </MemoryRouter>
@@ -87,6 +80,12 @@ describe("Maps and Graphs Page Component", () => {
 
     const introText = await findByText("Maps & Graphs is a collection...");
     expect(introText).toBeDefined();
+
+    // advance to the second slide
+    const button = await findByRole("button", { name: "Carousel Page 2" });
+    fireEvent.click(button);
+    const heading = await findByRole("heading", { name: "Callout: Title Two" });
+    expect(heading).toBeInTheDocument();
 
     // NOTE: the title and images are hyperlinked in each <Tool />
     const toolLinks = await findAllByRole("link", { name: "Tool One" });

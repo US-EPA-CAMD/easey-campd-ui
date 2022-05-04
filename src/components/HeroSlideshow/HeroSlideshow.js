@@ -51,11 +51,19 @@ const HeroSlideshow = ({ slides }) => {
 
   if (!slides || slides.length === 0) return null;
 
+  // NOTE: setting fontSize on list item via inline style below to support Jest
+  // tests, as the 'tiny-slider' library uses it explicitly in it's initSheet()
+  // method (see addCSSRule), and 'jsdom' doesn't implement the CSS cascade
+
   return (
     <div className="hero-slideshow">
       <ul ref={containerRef} className="hero-slideshow__list">
         {slides.map(({ image, title, callout, text, link }, index) => (
-          <li key={index} className="hero-slideshow__item">
+          <li
+            key={index}
+            className="hero-slideshow__item"
+            style={{ fontSize: "inherit" }}
+          >
             <section
               className="usa-hero usa-hero--slideshow bg-base-lightest"
               style={{
