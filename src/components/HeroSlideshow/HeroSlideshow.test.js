@@ -38,19 +38,46 @@ describe("HeroSlideshow Component", () => {
     expect(container.childElementCount).toEqual(0);
   });
 
-  it("renders properly when provided an array of slides", () => {
-    const { getByRole } = render(<HeroSlideshow slides={slides} />);
-    const heading = getByRole("heading", { name: "Callout: Title One" });
-    expect(heading).toBeInTheDocument();
-  });
-
-  it("advances to the next slide", () => {
-    const { getByRole } = render(<HeroSlideshow slides={slides} />);
-
-    const button = getByRole("button", { name: "Carousel Page 2" });
-    fireEvent.click(button);
+  it("renders a single slide without nav buttons", () => {
+    const { getByRole, queryAllByRole } = render(
+      <HeroSlideshow slides={[slides[1]]} />
+    );
 
     const heading = getByRole("heading", { name: "Callout: Title Two" });
-    expect(heading).toBeInTheDocument();
+    expect(heading).toBeVisible();
+
+    const buttons = queryAllByRole("button");
+    expect(buttons).toEqual([]);
+  });
+
+  it("renders multiple slides with nav buttons", () => {
+    const { getByRole, queryAllByRole } = render(
+      <HeroSlideshow slides={slides} />
+    );
+    const heading = getByRole("heading", { name: "Callout: Title One" });
+    expect(heading).toBeVisible();
+
+    const buttons = queryAllByRole("button");
+    expect(buttons).toHaveLength(3);
+    buttons.forEach((button) => {
+      expect(button).toHaveClass("hero-slideshow__nav-button usa-button");
+    });
+  });
+
+  it("advances to the next slide when a nav button is clicked", async () => {
+    const { queryByRole } = render(<HeroSlideshow slides={slides} />);
+
+    let heading1 = queryByRole("heading", { name: "Callout: Title One" });
+    let heading2 = queryByRole("heading", { name: "Callout: Title Two" });
+    expect(heading1).toBeVisible();
+    expect(heading2).toBeNull();
+
+    const button = queryByRole("button", { name: "Carousel Page 2" });
+    fireEvent.click(button);
+
+    heading1 = queryByRole("heading", { name: "Callout: Title One" });
+    heading2 = queryByRole("heading", { name: "Callout: Title Two" });
+    expect(heading1).toBeNull();
+    expect(heading2).toBeVisible();
   });
 });
