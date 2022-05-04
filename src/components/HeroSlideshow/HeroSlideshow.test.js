@@ -31,22 +31,21 @@ const slides = [
 ];
 
 describe("HeroSlideshow Component", () => {
-  let query;
-
-  beforeEach(() => {
-    query = render(<HeroSlideshow slides={slides} />);
-  });
-
   afterEach(cleanup);
 
-  it("renders properly", () => {
-    const { getByRole } = query;
+  it("renders null when provided an empty array of slides", () => {
+    const { container } = render(<HeroSlideshow slides={[]} />);
+    expect(container.childElementCount).toEqual(0);
+  });
+
+  it("renders properly when provided an array of slides", () => {
+    const { getByRole } = render(<HeroSlideshow slides={slides} />);
     const heading = getByRole("heading", { name: "Callout: Title One" });
     expect(heading).toBeInTheDocument();
   });
 
   it("advances to the next slide", () => {
-    const { getByRole } = query;
+    const { getByRole } = render(<HeroSlideshow slides={slides} />);
 
     const button = getByRole("button", { name: "Carousel Page 2" });
     fireEvent.click(button);
