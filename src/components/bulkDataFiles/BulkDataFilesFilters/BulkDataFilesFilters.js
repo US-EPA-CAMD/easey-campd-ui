@@ -73,6 +73,20 @@ const BulkDataFilesFilters = ({
   useEffect(() => {
     if (changeFromAppliedFilters || !isMobileOrTablet) {
         setState('');
+        setYear('');
+        setQuarter('');
+    }// eslint-disable-next-line
+  }, [subType, isMobileOrTablet]);
+
+  useEffect(() => {
+    if (changeFromAppliedFilters || !isMobileOrTablet) {
+        setState('');
+    }// eslint-disable-next-line
+  }, [year, isMobileOrTablet]);
+
+  useEffect(() => {
+    if (changeFromAppliedFilters || !isMobileOrTablet) {
+        setState('');
     }// eslint-disable-next-line
   }, [grouping, isMobileOrTablet]);
 
