@@ -40,13 +40,14 @@ export function removeAppliedFilter(removedFilter, removeAll = false, opHours = 
   };
 }
 
-export function loadDataPreviewSuccess(data, totalCount, fieldMappings) {
+export function loadDataPreviewSuccess(data, totalCount, fieldMappings, excludableColumns=null) {
   return {
     type: types.LOAD_DATA_PREVIEW_SUCCESS,
     dataPreview: {
       data,
       totalCount : totalCount? totalCount : data.length,
-      fieldMappings
+      fieldMappings,
+      excludableColumns
     },
   };
 }
@@ -56,8 +57,10 @@ export function loadDataPreview(dataType, dataSubType, filterCriteria) {
     dispatch(beginApiCall());
     return mapSelectionToApiCall(dataType, dataSubType, filterCriteria)
     .then((res) => {
+      const exclude = JSON.parse(res.headers['x-excludable-columns'])
+      console.log(exclude);
       dispatch(
-        loadDataPreviewSuccess(res.data, res.headers['x-total-count'], JSON.parse(res.headers['x-field-mappings']))
+        loadDataPreviewSuccess(res.data, res.headers['x-total-count'], JSON.parse(res.headers['x-field-mappings']), JSON.parse(res.headers['x-excludable-columns']))
       );
     })
     .catch((err) => {

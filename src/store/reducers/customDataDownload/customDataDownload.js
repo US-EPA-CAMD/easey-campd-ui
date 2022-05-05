@@ -25,7 +25,14 @@ const reducer = (state = initialState.customDataDownload, action) => {
           appliedFilters: action.removal.removeAll ? [] : state.appliedFilters.filter(filter)
       }
     case types.LOAD_DATA_PREVIEW_SUCCESS:
-      return Object.assign({}, state, { dataPreview: action.dataPreview.data }, { totalCount: action.dataPreview.totalCount }, { fieldMappings: action.dataPreview.fieldMappings });
+      return Object.assign(
+        {},
+        state,
+        { dataPreview: action.dataPreview.data },
+        { totalCount: action.dataPreview.totalCount },
+        { fieldMappings: action.dataPreview.fieldMappings },
+        { excludableColumns: action.dataPreview.excludableColumns }
+      );
     default:
       return state;
   }

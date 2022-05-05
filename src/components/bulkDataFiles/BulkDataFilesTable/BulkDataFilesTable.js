@@ -46,7 +46,7 @@ const BulkDataFilesTable = ({
     setNoDataMsg(tableMsg);
     if(dataTableRecords !== null && dataTableRecords.length >0 && !focusBox){
       //to show focus highlight box on header checkbox
-      const headerCheckbox = document.getElementsByClassName("rdt_TableCol")[0]; console.log(headerCheckbox);
+      const headerCheckbox = document.getElementsByClassName("rdt_TableCol")[0];
       headerCheckbox.setAttribute("class", "sc-hKwDye sc-egiyK dnUdft fHkgxZ");
       headerCheckbox.firstChild.setAttribute("class", "rdt_TableCol");
       setFocusBox(true);
@@ -134,7 +134,12 @@ const BulkDataFilesTable = ({
     const handleSearch = (e) =>{
       e.preventDefault();
       const filteredItems = searchedItems.filter(
-        item => item.filename.toLowerCase().includes(searchText.toLowerCase()) || item.description.toLowerCase().includes(searchText.toLowerCase())
+        item => {
+          console.log(item.filename, item.description, item.metadata);
+          console.log(typeof item.filename, typeof item.metadata.description);
+          // item.filename.toLowerCase().includes(searchText.toLowerCase()) || item.description.toLowerCase().includes(searchText.toLowerCase())
+          return item.fileName
+        }
       );console.log("filteredItems", filteredItems);
       setSearchedItems(filteredItems);
       if(filteredItems.length === 0){

@@ -51,9 +51,21 @@
         outline: none;
         border: solid 4px #2672de;
         color: $epa-black !important;
+        #icons {
+          visibility: visible !important;
+        }
+        #icon{
+          visibility: visible !important;
+        }
       }
       :hover:not(:focus) {
         color: $epa-black !important;
+        #icons {
+          visibility: visible !important;
+        }
+        #icon{
+          visibility: visible !important;
+        }
       }
     }
   }
