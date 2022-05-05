@@ -70,7 +70,7 @@ const BulkDataFilesTable = ({
     },
     {
       name: 'Description',
-      selector: row => row.description,
+      selector: row => row.metadata?.description,
       sortable: true,
       wrap: true
     },
@@ -134,13 +134,8 @@ const BulkDataFilesTable = ({
     const handleSearch = (e) =>{
       e.preventDefault();
       const filteredItems = searchedItems.filter(
-        item => {
-          console.log(item.filename, item.description, item.metadata);
-          console.log(typeof item.filename, typeof item.metadata.description);
-          // item.filename.toLowerCase().includes(searchText.toLowerCase()) || item.description.toLowerCase().includes(searchText.toLowerCase())
-          return item.fileName
-        }
-      );console.log("filteredItems", filteredItems);
+        item => item.filename.toLowerCase().includes(searchText.toLowerCase()) || item.description.toLowerCase().includes(searchText.toLowerCase())
+      );
       setSearchedItems(filteredItems);
       if(filteredItems.length === 0){
         setNoDataMsg(<span aria-live="assertive">No results match that search criteria. Please change the criteria and try again.</span>);
