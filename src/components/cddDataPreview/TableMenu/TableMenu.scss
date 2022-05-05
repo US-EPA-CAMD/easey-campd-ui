@@ -12,10 +12,15 @@
   visibility: hidden;
 }
 
+#icons:focus{
+  visibility: visible !important;
+}
+
+#icon {
+  font-size: 18px;
+}
 
 
-.MuiFormControl-root
-  .MuiTextField-root
-  .css-1u3bzj6-MuiFormControl-root-MuiTextField-root {
-  width: 100%;
+.MuiFormControl-root.MuiTextField-root.css-1u3bzj6-MuiFormControl-root-MuiTextField-root {
+  width: 95%;
 }

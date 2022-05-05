@@ -14,6 +14,7 @@ import { Button } from '@trussworks/react-uswds';
 import './TableMenu.scss';
 import { connect } from 'react-redux';
 import { updateFilterCriteria } from '../../../store/actions/customDataDownload/filterCriteria';
+import { focusTrap } from '../../../utils/ensure-508/focus-trap';
 
 const TableMenu = ({
   topic,
@@ -53,6 +54,30 @@ const TableMenu = ({
       }
     }
   }, [excludableColumns, fieldMappings]);
+  const [firstFocusableEl, setFirstFocusableEl] = useState(null);
+
+  // useEffect(() => {
+  //   if(columnMenuOpen && document.querySelector("#columnMenu")){
+  //     const { firstComponentFocusableElement, handleKeyPress } = focusTrap("#columnMenu");
+  //     // set focus to first element only once
+  //     if(firstFocusableEl === null && firstComponentFocusableElement){
+  //       setFirstFocusableEl(firstComponentFocusableElement);
+  //       firstComponentFocusableElement.focus();
+  //     }
+  //     // *** FOCUS TRAP
+  //     document.addEventListener("keydown", handleKeyPress);
+  //     // * clean up
+  //     return () => {
+  //       document.removeEventListener("keydown", handleKeyPress);
+  //     };
+  //   }
+  //   if(!columnMenuOpen){
+  //     setFirstFocusableEl(null);
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [columnMenuOpen]);
+
+  columnMenuOpen && console.log(document.querySelector(".subMenu"));
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -124,11 +149,11 @@ const TableMenu = ({
       <span
         id='icons'
         className='display-flex'
+        style={open? {visibility: 'visible'} : {display: 'flex'}}
       >
         {sortArrowUp ? (
           <ArrowUpwardSharp
             className="text-base"
-            style={{ fontSize: '18px' }}
             onClick={handleSortDesc}
             onKeyDown={(e) => (e.key === 'Enter' ? handleSortDesc(e) : null)}
             id={'icon'}
@@ -157,14 +182,13 @@ const TableMenu = ({
         />
       </span>
       {!columnMenuOpen ? (
-        <>
           <Menu
             id="basic-menu"
             anchorEl={anchorEl}
             open={open}
             onClose={handleClose}
             MenuListProps={{
-              'aria-labelledby': 'basic-button',
+              'aria-labelledby': 'menu-button',
             }}
           >
             <MenuItem onClick={handleUnsort} key="unsort" tabIndex={0}>
@@ -187,21 +211,21 @@ const TableMenu = ({
               Customize Columns
             </MenuItem>
           </Menu>
-        </>
       ) : (
         <Menu
-          id={topic}
+          id='subMenuContainer'
           anchorEl={anchorEl}
           open={open}
           onClose={handleCloseSubMenu}
           MenuListProps={{
-            'aria-labelledby': 'basic-button',
+            'aria-labelledby': 'column-menu-button',
           }}
           PaperProps={{
             style: { maxHeight: 350 },
           }}
+          tabIndex={-1}
         >
-          <div className="form-group margin-x-1" tabIndex={-1}>
+          <div className="form-group margin-x-1" id='columnMenu' tabIndex={-1}>
             <div className="text-primary" tabIndex={0}>
               Find Column
             </div>
@@ -211,11 +235,10 @@ const TableMenu = ({
               id="textField"
             />
             <br />
-            <div id="columns" className="padding-left-1">
+            <div id="columns" className="padding-left-1" tabIndex={-1}>
               {fieldMappings?.map((el) => (
                 <div key={el.label} className="padding-right-1 padding-top-1">
-                  <MenuItem>
-                  <FormControlLabel
+                  <MenuItem key={el.label}><FormControlLabel
                     control={
                       !excludableColumnsState[el.label] ? (
                         <Checkbox
@@ -242,7 +265,7 @@ const TableMenu = ({
                 </div>
               ))}
             </div>
-            <div>
+            <div className="margin-top-1">
               <div className="display-flex flex-justify">
                 <div className="text-primary" tabIndex={0}>
                   Select All
