@@ -134,7 +134,8 @@ const BulkDataFilesTable = ({
     const handleSearch = (e) =>{
       e.preventDefault();
       const filteredItems = searchedItems.filter(
-        item => item.filename.toLowerCase().includes(searchText.toLowerCase()) || item.description.toLowerCase().includes(searchText.toLowerCase())
+        item => item.metadata.description? item.filename.toLowerCase().includes(searchText.toLowerCase()) || item.metadata.description.toLowerCase().includes(searchText.toLowerCase())
+        : item.filename.toLowerCase().includes(searchText.toLowerCase()) 
       );
       setSearchedItems(filteredItems);
       if(filteredItems.length === 0){
