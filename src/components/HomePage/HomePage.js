@@ -109,6 +109,10 @@ const HomePage = () => {
             children={dataCard}
             remarkPlugins={[remarkGfm]}
             components={{
+              img: ({node, ...props}) => <img {...props} alt=""/>,
+              // eslint-disable-next-line
+              table: ({node, ...props}) => <table {...props} role="Presentation"/>,
+              th: ({node, ...props}) => <td {...props}/>,
               a: ({ node, ...props }) => {
               return node.properties.title === "Header Link" ? (
                   <h2>
@@ -141,7 +145,11 @@ const HomePage = () => {
             className="maps-and-graphs-card"
             children={mapsGraphsCard}
             remarkPlugins={[remarkGfm]}
-            components={{
+            components={{// eslint-disable-next-line
+              img: ({node, ...props}) => <img {...props} alt=""/>,
+              // eslint-disable-next-line
+              table: ({node, ...props}) => <table {...props} role="Presentation"/>,
+              th: ({node, ...props}) => <td {...props}/>,
               a: ({ node, ...props }) => {
               return node.properties.title === "Header Link" ? (
                   <h2>
