@@ -2,19 +2,15 @@ import React, { useState, useEffect } from 'react';
 import {
   Menu,
   MenuItem,
-  FormControlLabel,
-  Checkbox,
-  TextField,
 } from '@mui/material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisV } from '@fortawesome/free-solid-svg-icons';
 import { ArrowDownwardSharp, ArrowUpwardSharp } from '@material-ui/icons';
 
-import { Button } from '@trussworks/react-uswds';
+import { Button, Checkbox, TextInput } from '@trussworks/react-uswds';
 import './TableMenu.scss';
 import { connect } from 'react-redux';
 import { updateFilterCriteria } from '../../../store/actions/customDataDownload/filterCriteria';
-import { focusTrap } from '../../../utils/ensure-508/focus-trap';
 
 const TableMenu = ({
   topic,
@@ -54,30 +50,6 @@ const TableMenu = ({
       }
     }
   }, [excludableColumns, fieldMappings]);
-  const [firstFocusableEl, setFirstFocusableEl] = useState(null);
-
-  // useEffect(() => {
-  //   if(columnMenuOpen && document.querySelector("#columnMenu")){
-  //     const { firstComponentFocusableElement, handleKeyPress } = focusTrap("#columnMenu");
-  //     // set focus to first element only once
-  //     if(firstFocusableEl === null && firstComponentFocusableElement){
-  //       setFirstFocusableEl(firstComponentFocusableElement);
-  //       firstComponentFocusableElement.focus();
-  //     }
-  //     // *** FOCUS TRAP
-  //     document.addEventListener("keydown", handleKeyPress);
-  //     // * clean up
-  //     return () => {
-  //       document.removeEventListener("keydown", handleKeyPress);
-  //     };
-  //   }
-  //   if(!columnMenuOpen){
-  //     setFirstFocusableEl(null);
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [columnMenuOpen]);
-
-  columnMenuOpen && console.log(document.querySelector(".subMenu"));
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -223,50 +195,45 @@ const TableMenu = ({
           PaperProps={{
             style: { maxHeight: 350 },
           }}
-          tabIndex={-1}
-        >
-          <div className="form-group margin-x-1" id='columnMenu' tabIndex={-1}>
-            <div className="text-primary" tabIndex={0}>
+          
+        > <div>
+          <div className="form-group margin-x-1" id='columnMenu'>
+            <div className="text-primary">
               Find Column
             </div>
-            <TextField
+            <TextInput 
               placeholder="Column Title"
-              variant="standard"
+              type="search"
               id="textField"
+              tabIndex={0}
             />
             <br />
-            <div id="columns" className="padding-left-1" tabIndex={-1}>
+            <div id="columns" className="padding-left-1" >
               {fieldMappings?.map((el) => (
-                <div key={el.label} className="padding-right-1 padding-top-1">
-                  <MenuItem key={el.label}><FormControlLabel
-                    control={
-                      !excludableColumnsState[el.label] ? (
+                <div key={el.label} className="padding-right-1">
+                  {!excludableColumnsState[el.label] ? (
                         <Checkbox
-                          sx={{ padding: 0 }}
-                          tabIndex={-1}
+                        id={el.label}
+                        label={el.label}
                           disabled={true}
                           checked={true}
                         />
                       ) : (
                         <Checkbox
-                          sx={{ padding: 0 }}
-                          tabIndex={0}
-                        />
-                      )
-                    }
-                    label={el.label}
-                    onChange={(e) =>
-                      setCheckedBoxes({
-                        ...checkedBoxes,
-                        [el.label]: { ...el, checked: e.target.checked },
-                      })
-                    }
-                  /></MenuItem>
+                        id={el.label}
+                        label={el.label}
+                        onChange={(e) =>
+                          setCheckedBoxes({
+                            ...checkedBoxes,
+                            [el.label]: { ...el, checked: e.target.checked },
+                          })
+                        }
+                        />)}
                 </div>
               ))}
             </div>
-            <div className="margin-top-1">
-              <div className="display-flex flex-justify">
+            <div className="margin-top-1" >
+              <div className="display-flex flex-justify"  >
                 <div className="text-primary" tabIndex={0}>
                   Select All
                 </div>
@@ -274,12 +241,13 @@ const TableMenu = ({
                   Deselect All
                 </div>
               </div>
-              <div className="width-10 margin-x-auto">
-                <Button type="button" onClick={handleApply}>
+              <div className="width-10 margin-x-auto"  >
+                <Button type="button" onClick={handleApply} tabIndex={0}>
                   Apply
                 </Button>
               </div>
             </div>
+          </div>
           </div>
         </Menu>
       )}
