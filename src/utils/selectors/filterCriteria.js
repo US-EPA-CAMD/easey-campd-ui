@@ -189,6 +189,17 @@ export const constructQuery = (filterState, filterName, multiSelectTimePeriod=fa
   return query.length > 0 ? `&${filterName}=${query}` : '';
 };
 
+export const addExcludeParams = (excludeParams) => {
+  let query = '&exclude=';
+  excludeParams.forEach((param, i)=> {
+    if (i === excludeParams.length - 1) {
+      query = `${query}${param}`
+    }  else {
+      query = `${query}${param}|`
+    }
+  })
+  return query;
+}
 /* ---------PROGRAM----------- */
 export const restructurePrograms = (programs) => {
   const data = [

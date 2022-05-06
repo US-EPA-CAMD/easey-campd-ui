@@ -1,55 +1,86 @@
-import React, { useState } from 'react';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import TextField from '@mui/material/TextField';
+import React, { useState, useEffect } from 'react';
+import {
+  Menu,
+  MenuItem,
+} from '@mui/material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisV } from '@fortawesome/free-solid-svg-icons';
 import { ArrowDownwardSharp, ArrowUpwardSharp } from '@material-ui/icons';
 
-import { Button } from '@trussworks/react-uswds';
-import useHover from '../../../utils/hooks/useHover';
+import { Button, Checkbox, TextInput } from '@trussworks/react-uswds';
+import './TableMenu.scss';
+import { connect } from 'react-redux';
+import { updateFilterCriteria } from '../../../store/actions/customDataDownload/filterCriteria';
 
 const TableMenu = ({
   topic,
   fieldMappings,
+  filterCriteria,
   setSortValue,
   setSortDesc,
   setSortAsc,
   setUnsort,
+  setSelectedColumns,
+  excludableColumns,
+  updateFilterCriteriaDispatcher,
 }) => {
   const [anchorEl, setAnchorEl] = useState(null);
-  const [columMenuOpen, setColumnMenuOpen] = useState(false);
+  const [columnMenuOpen, setColumnMenuOpen] = useState(false);
   const [sortArrowUp, setSortArrowUp] = useState(false);
-  const [ref, isHovered] = useHover();
+  const [checkedBoxes, setCheckedBoxes] = useState({});
+  const [excludableColumnsState, setExcludableColumnsState] = useState(null);
+  const [nonExcludableColumns, setNonExcludableColumns] = useState([]);
   const open = Boolean(anchorEl);
+
+  useEffect(() => {
+    const columns = {};
+    const selectableColumns = {};
+    const unSelectableColumns = [];
+    if (excludableColumns) {
+      excludableColumns.forEach((column) => (columns[column.label] = true));
+      setExcludableColumnsState(columns);
+      if (fieldMappings) {
+        fieldMappings.forEach((el) => {
+          columns[el.label]
+            ? (selectableColumns[el.label] = el)
+            : unSelectableColumns.push(el);
+        });
+        setCheckedBoxes(selectableColumns);
+        setNonExcludableColumns(unSelectableColumns);
+      }
+    }
+  }, [excludableColumns, fieldMappings]);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
-  const handleClose = () => {
+  const handleClose = (e) => {
+    if (e?.key === 'Tab') {
+      return;
+    }
     setAnchorEl(null);
   };
-  const handleCloseSubMenu = () => {
+  const handleCloseSubMenu = (e) => {
+    if (e.key === 'Tab') {
+      return;
+    }
     setColumnMenuOpen(false);
     setAnchorEl(null);
   };
-  const handleSortAsc = () => {
+  const handleSortAsc = (e) => {
     setSortValue(topic.value);
     setSortDesc(false);
     setUnsort(false);
     setSortAsc(true);
     setSortArrowUp(true);
-    handleClose();
+    handleClose(e);
   };
-  const handleSortDesc = () => {
+  const handleSortDesc = (e) => {
     setSortArrowUp(false);
     setSortValue(topic.value);
     setUnsort(false);
     setSortAsc(false);
     setSortDesc(true);
-    handleClose();
+    handleClose(e);
   };
   const handleUnsort = () => {
     setSortValue(topic.value);
@@ -57,6 +88,24 @@ const TableMenu = ({
     setSortDesc(false);
     setUnsort(true);
     setSortArrowUp(false);
+    handleClose();
+  };
+  const handleApply = () => {
+    const columns = [];
+    const excludedColumns = [];
+    Object.keys(checkedBoxes).forEach((el) => {
+      if (checkedBoxes[el].checked) {
+        columns.push(checkedBoxes[el]);
+      } else if (checkedBoxes[el]) {
+        excludedColumns.push(checkedBoxes[el].value);
+      }
+    });
+    const columnsToDisplay = [...columns, ...nonExcludableColumns];
+    const filterCriteriaCloned = JSON.parse(JSON.stringify(filterCriteria));
+    filterCriteriaCloned.excludeParams = excludedColumns;
+    filterCriteriaCloned.selectedColumns = columnsToDisplay;
+    updateFilterCriteriaDispatcher(filterCriteriaCloned);
+    setSelectedColumns(columnsToDisplay);
     handleClose();
   };
 
@@ -67,23 +116,29 @@ const TableMenu = ({
       onClick={(e) => {
         e.stopPropagation();
       }}
-      ref={ref}
     >
       {topic.label}
-      <span style={isHovered || open ? { display: 'flex' } : { visibility: 'hidden' }}>
+      <span
+        id='icons'
+        className='display-flex'
+        style={open? {visibility: 'visible'} : {display: 'flex'}}
+      >
         {sortArrowUp ? (
           <ArrowUpwardSharp
             className="text-base"
-            style={{ fontSize: '18px' }}
             onClick={handleSortDesc}
+            onKeyDown={(e) => (e.key === 'Enter' ? handleSortDesc(e) : null)}
             id={'icon'}
+            tabIndex={0}
           />
         ) : (
           <ArrowDownwardSharp
             className="text-base"
             style={{ fontSize: '18px' }}
             onClick={handleSortAsc}
+            onKeyDown={(e) => (e.key === 'Enter' ? handleSortAsc(e) : null)}
             id={'icon'}
+            tabIndex={0}
           />
         )}
         <FontAwesomeIcon
@@ -93,68 +148,124 @@ const TableMenu = ({
           aria-haspopup="true"
           aria-expanded={open ? 'true' : undefined}
           onClick={handleClick}
+          onKeyDown={(e) => (e.key === 'Enter' ? handleClick(e) : null)}
           id={'icon'}
+          tabIndex={0}
         />
       </span>
-      {!columMenuOpen ? (
-        <>
+      {!columnMenuOpen ? (
           <Menu
             id="basic-menu"
             anchorEl={anchorEl}
             open={open}
             onClose={handleClose}
             MenuListProps={{
-              'aria-labelledby': 'basic-button',
+              'aria-labelledby': 'menu-button',
             }}
           >
-            <MenuItem onClick={handleUnsort} key="unsort">
+            <MenuItem onClick={handleUnsort} key="unsort" tabIndex={0}>
               Unsort
             </MenuItem>
-            <MenuItem onClick={handleSortAsc} key="asc">
+            <MenuItem onClick={handleSortAsc} key="asc" tabIndex={0}>
               Sort by ASC
             </MenuItem>
-            <MenuItem onClick={handleSortDesc} key="desc">
+            <MenuItem onClick={handleSortDesc} key="desc" tabIndex={0}>
               Sort by DESC
             </MenuItem>
-            <MenuItem onClick={() => setColumnMenuOpen(true)}>
+            <MenuItem
+              onClick={async () => {
+                await setColumnMenuOpen(true);
+                const search = document.querySelector('#textField');
+                search && search.focus();
+              }}
+              tabIndex={0}
+            >
               Customize Columns
             </MenuItem>
           </Menu>
-        </>
       ) : (
         <Menu
-          id={topic}
+          id='subMenuContainer'
           anchorEl={anchorEl}
           open={open}
           onClose={handleCloseSubMenu}
           MenuListProps={{
-            'aria-labelledby': 'basic-button',
+            'aria-labelledby': 'column-menu-button',
           }}
-        >
-          <FormGroup className="margin-x-1">
-            <div className="text-primary">Find Column</div>
-            <TextField
-              placeholder="Column Title"
-              variant="standard"
-              id="textField"
-            />
-            {fieldMappings?.map((el) => (
-              <MenuItem key={el.label}>
-                <FormControlLabel control={<Checkbox />} label={el.label} />
-              </MenuItem>
-            ))}
-            <div className="display-flex flex-justify">
-              <div className="text-primary">Select All</div>
-              <div className="text-primary">Deselect All</div>
+          PaperProps={{
+            style: { maxHeight: 350 },
+          }}
+          
+        > <div>
+          <div className="form-group margin-x-1" id='columnMenu'>
+            <div className="text-primary">
+              Find Column
             </div>
-            <Button type="button" className="width-10 margin-x-auto">
-              Apply
-            </Button>
-          </FormGroup>
+            <TextInput 
+              placeholder="Column Title"
+              type="search"
+              id="textField"
+              tabIndex={0}
+            />
+            <br />
+            <div id="columns" className="padding-left-1" >
+              {fieldMappings?.map((el) => (
+                <div key={el.label} className="padding-right-1">
+                  {!excludableColumnsState[el.label] ? (
+                        <Checkbox
+                        id={el.label}
+                        label={el.label}
+                          disabled={true}
+                          checked={true}
+                        />
+                      ) : (
+                        <Checkbox
+                        id={el.label}
+                        label={el.label}
+                        onChange={(e) =>
+                          setCheckedBoxes({
+                            ...checkedBoxes,
+                            [el.label]: { ...el, checked: e.target.checked },
+                          })
+                        }
+                        />)}
+                </div>
+              ))}
+            </div>
+            <div className="margin-top-1" >
+              <div className="display-flex flex-justify"  >
+                <div className="text-primary" tabIndex={0}>
+                  Select All
+                </div>
+                <div className="text-primary" tabIndex={0}>
+                  Deselect All
+                </div>
+              </div>
+              <div className="width-10 margin-x-auto"  >
+                <Button type="button" onClick={handleApply} tabIndex={0}>
+                  Apply
+                </Button>
+              </div>
+            </div>
+          </div>
+          </div>
         </Menu>
       )}
     </div>
   );
 };
 
-export default TableMenu;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    updateFilterCriteriaDispatcher: (filterCriteria) =>
+      dispatch(updateFilterCriteria(filterCriteria)),
+  };
+};
+const mapStateToProps = (state) => {
+  return {
+    fieldMappings: state.customDataDownload.fieldMappings,
+    filterCriteria: state.filterCriteria,
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(TableMenu);

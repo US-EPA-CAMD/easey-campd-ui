@@ -16,11 +16,13 @@ export const DataPreview = ({
   appliedFilters,
   totalCount,
   fieldMappings,
+  excludableColumns
 }) => {
   const [unsort, setUnsort] = useState(null);
   const [sortAsc, setSortAsc] = useState(null);
   const [sortDesc, setSortDesc] = useState(null);
   const [sortValue, setSortValue] = useState(null);
+  const [selectedColumns, setSelectedColumns] = useState(null);
   useEffect(() => {
     if(dataPreview !== null){
       handleUpdateInAppliedFilters();
@@ -35,24 +37,39 @@ export const DataPreview = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]);
   const columns = useMemo(() =>{
-    return fieldMappings.map(el =>{
-      return {
+    return selectedColumns? selectedColumns.map(el => ({
+      name: (
+        <TableMenu
+          topic={el}
+          setSortAsc={setSortAsc}
+          setSortDesc={setSortDesc}
+          setUnsort={setUnsort}
+          setSortValue={setSortValue}
+          setSelectedColumns={setSelectedColumns}
+          excludableColumns={excludableColumns}
+        />
+      ),
+      selector: el.value,
+      width: dataPreviewColumns[dataSubType][el.label] || '90 px',
+      wrap: true,
+    })): fieldMappings.map(el => ({
         name: (
           <TableMenu
             topic={el}
-            fieldMappings={fieldMappings}
             setSortAsc={setSortAsc}
             setSortDesc={setSortDesc}
             setUnsort={setUnsort}
             setSortValue={setSortValue}
+            setSelectedColumns={setSelectedColumns}
+            excludableColumns={excludableColumns}
           />
         ),
         selector: el.value,
         width: dataPreviewColumns[dataSubType][el.label],
         wrap: true,
-      };})}
+      }))}
     // eslint-disable-next-line
-  ,[fieldMappings]);
+  ,[fieldMappings, selectedColumns]);
 
   const data = useMemo(() => {
     let result = [];
@@ -92,6 +109,7 @@ const mapStateToProps = (state) => {
     dataPreview: state.customDataDownload.dataPreview,
     totalCount: state.customDataDownload.totalCount,
     fieldMappings: state.customDataDownload.fieldMappings,
+    excludableColumns: state.customDataDownload.excludableColumns,
     filterCriteria: state.filterCriteria,
     loading: state.apiCallsInProgress,
     appliedFilters : state.customDataDownload.appliedFilters

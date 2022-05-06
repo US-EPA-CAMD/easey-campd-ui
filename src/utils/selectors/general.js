@@ -1,4 +1,5 @@
 import {
+  addExcludeParams,
   constructComboBoxQuery,
   constructQuery,
   filterAmpersand,
@@ -216,6 +217,7 @@ export const constructRequestUrl = (
         constructComboBoxQuery(filterCriteria.sourceCategory, 'sourceCategory')
       )
     : '';
+  const excludeParams = filterCriteria.excludeParams.length? addExcludeParams(filterCriteria.excludeParams) : ''
 
   const streaming = download ? '/stream' : '';
   const pagination = download ? '' : 'page=1&perPage=100';
@@ -253,7 +255,7 @@ export const constructRequestUrl = (
     dataSubType,
     filterCriteria
   )}${programQuery}${facilityQuery}${stateTerritoryQuery}${unitTypeQuery}${fuelTypeQuery}${controlTechnologyQuery}
-${accountNameNumberQuery}${accountTypeQuery}${ownerOperatorQuery}${transactionTypeQuery}${sourceCategoryQuery}`;
+${accountNameNumberQuery}${accountTypeQuery}${ownerOperatorQuery}${transactionTypeQuery}${sourceCategoryQuery}${excludeParams}`;
   console.log(url.replace(/\r?\n|\r/g, ''));
 
   return url.replace(/\r?\n|\r/g, '');
