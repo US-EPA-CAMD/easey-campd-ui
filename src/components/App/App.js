@@ -32,22 +32,22 @@ function App() {
   return (
     <div className="react-transition fade-in">
       <BrowserRouter basename={config.app.path}>
-        <Layout>
-          <Switch>
-            <Route path="/" exact component={HomePage} />
-            <Route path="/data" exact component={DataLandingPage} />
-            <Route path="/data/custom-data-download" exact component={CustomDataDownload} />
-            <Route path="/data/bulk-data-files" exact component={BulkDataFiles} />
-            <Route path="/maps-graphs" exact component={MapsGraphsPage} />
-            <Route path="/resources/related-resources" exact component={RelatedResources} />
-            <Route path="/resources/glossary" exact component={GlossaryPage} />
-            <Route path="/help-support/about" exact component={AboutPage} />
-            <Route path="/help-support/tutorials" exact component={TutorialsPage} />
-            <Route path="/help-support/faqs" exact component={FaqsPage} />
-            <Route path="/help-support/contact-us" exact component={() => window.location.href = 'https://www.epa.gov/airmarkets/forms/campd-contact-us'} />
-            <Route path="/*" component={NotFound} />
-          </Switch>
-        </Layout>
+      <Layout>
+        <Switch>
+          <Route path="/" exact component={HomePage} />
+          <Route path="/data" exact component={DataLandingPage} />
+          <Route path="/data/custom-data-download" exact component={CustomDataDownload} />
+          <Route path="/data/bulk-data-files" exact component={BulkDataFiles} />
+          <Route path="/maps-graphs" exact component={MapsGraphsPage} />
+          <Route path="/resources/related-resources" exact component={RelatedResources} />
+          <Route path="/resources/glossary" exact component={GlossaryPage} />
+          <Route path="/help-support/about" exact component={AboutPage} />
+          <Route path="/help-support/tutorials" exact component={TutorialsPage} />
+          <Route path="/help-support/faqs" exact component={FaqsPage} />
+          <Route path="/help-support/contact-us" exact component={() => window.location.href = 'https://www.epa.gov/airmarkets/forms/campd-contact-us'} />
+          <Route path="/*" component={NotFound} />
+        </Switch>
+      </Layout>
       </BrowserRouter>
     </div>
   );
