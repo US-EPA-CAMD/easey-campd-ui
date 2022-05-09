@@ -5,7 +5,7 @@ import { Link as USWDSLink } from "@trussworks/react-uswds";
 import icons from "uswds/dist/img/sprite.svg";
 
 import { metaAdder } from "../../utils/document/metaAdder";
-import getContent from "./temp"; // TODO: replace with "utils/api" function once content has been added to easey-content repo
+import getContent from "../../utils/api/getContent";
 import HeroSlideshow from "../HeroSlideshow/HeroSlideshow";
 
 const MapsGraphsPage = () => {
