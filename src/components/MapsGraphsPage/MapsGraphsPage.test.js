@@ -4,13 +4,13 @@ import { MemoryRouter } from "react-router-dom";
 import { rest } from "msw";
 import { setupServer } from "msw/node";
 
+import config from "../../config";
 import MapsGraphsPage from "./MapsGraphsPage";
 
 jest.mock("react-markdown", () => ({ children }) => <>{children}</>);
 jest.mock("remark-gfm", () => () => {});
 
-const contentUrl =
-  "https://campd-041322.s3.us-east-1.amazonaws.com/dev/campd/maps-graphs";
+const contentUrl = `${config.services.content.uri}/campd/maps-graphs`;
 
 const slides = [
   {
