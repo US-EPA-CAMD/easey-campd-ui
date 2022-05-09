@@ -15,10 +15,11 @@ import './SubHeader.scss';
 
 const SubHeader = () => {
   const pathname = useLocation().pathname;
-  const dataRoutes = ['/data', '/data/custom-data-download', '/data/bulk-data-files'];
+  const cddPath = ['/data/custom-data-download', '/manage-data-download','/data', '/data/bulk-data-files'];
   const initialCategorySelected = [
     pathname === '/',
-    dataRoutes.includes(pathname),
+    cddPath.includes(pathname),
+    false,
     false,
     false,
     false,
