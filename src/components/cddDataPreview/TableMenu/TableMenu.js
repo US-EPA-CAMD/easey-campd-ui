@@ -339,6 +339,7 @@ const TableMenu = ({
                         tabIndex={0}
                         role="button"
                         onClick={handleSelectAll}
+                        onKeyDown={(e) => handleKeyDown(e, handleSelectAll, 'Enter')}
                       >
                         Select All
                       </div>
@@ -347,6 +348,7 @@ const TableMenu = ({
                         tabIndex={0}
                         role="button"
                         onClick={handleDeselectAll}
+                        onKeyDown={(e) => handleKeyDown(e, handleDeselectAll, 'Enter')}
                       >
                         Deselect All
                       </div>
