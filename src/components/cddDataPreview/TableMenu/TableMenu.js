@@ -10,9 +10,7 @@ import { connect } from 'react-redux';
 import { updateFilterCriteria } from '../../../store/actions/customDataDownload/filterCriteria';
 import { usePopper } from 'react-popper';
 import Portal from '../../Portal/Portal';
-import {
-  handleKeyDown,
-} from '../../../utils/ensure-508/handleKeyDown';
+import { handleKeyDown } from '../../../utils/ensure-508/handleKeyDown';
 
 const TableMenu = ({
   topic,
@@ -49,8 +47,9 @@ const TableMenu = ({
       setExcludableColumnsState(columns);
       if (fieldMappings) {
         fieldMappings.forEach((el) => {
-          columns[el.label]
-            ? (removableColumns[el.label] = el)
+          const label = el.label;
+          columns[label]
+            ? (removableColumns[label] = el)
             : requiredColumns.push(el);
         });
         setCheckedBoxes(removableColumns);
@@ -215,7 +214,6 @@ const TableMenu = ({
               sx={{ bgcolor: 'white', boxShadow: 1 }}
               component="nav"
               aria-labelledby="submenu"
-
             >
               <ListItem
                 onClick={handleUnsort}
@@ -296,8 +294,12 @@ const TableMenu = ({
                             label={el.label}
                             checked={getCheckBoxStatus(el.label)}
                             onChange={(e) => {
-                              if (selectAll) setSelectAll(false);
-                              if (deselectAll) setDeselectAll(false);
+                              if (selectAll) {
+                                setSelectAll(false);
+                              }
+                              if (deselectAll) {
+                                setDeselectAll(false);
+                              }
                               setCheckedBoxes({
                                 ...checkedBoxes,
                                 [el.label]: {
@@ -308,15 +310,19 @@ const TableMenu = ({
                             }}
                             onKeyDown={(e) => {
                               if (e.key === 'Enter') {
-                                const status = e.target.checked? false : true
-                                e.target.checked = status
-                                if (selectAll) setSelectAll(false);
-                                if (deselectAll) setDeselectAll(false);
+                                const status = e.target.checked ? false : true;
+                                e.target.checked = status;
+                                if (selectAll) {
+                                  setSelectAll(false);
+                                }
+                                if (deselectAll) {
+                                  setDeselectAll(false);
+                                }
                                 setCheckedBoxes({
                                   ...checkedBoxes,
                                   [el.label]: {
                                     ...el,
-                                    checked: status
+                                    checked: status,
                                   },
                                 });
                               }
