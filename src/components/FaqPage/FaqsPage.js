@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Accordion } from '@trussworks/react-uswds';
+import { Accordion, Link } from '@trussworks/react-uswds';
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import formatAccordionTitles from '../../utils/ensure-508/formatAccordionTitles';
 import { metaAdder } from '../../utils/document/metaAdder';
 import getContent from "../../utils/api/getContent";
+import { isInternalUrl } from '../../utils/selectors/general';
 const FaqsPage = () => {
 
   const [description, setDescription] = useState(null)
@@ -46,6 +47,12 @@ const FaqsPage = () => {
             {props.children}
           </h1>
         ),
+        a: ({ node, ...props }) => (
+          <Link {...props}
+          target={isInternalUrl(props)? null: '_blank'}
+          rel= {isInternalUrl(props)? null: '"noopener noreferrer"'}
+          />
+        )
       }}
       />
       <div className="grid-row">

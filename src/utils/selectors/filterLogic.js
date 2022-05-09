@@ -66,7 +66,7 @@ export const filterProgram = (filterCriteria) =>{
 export const filterStateTerritory = (filterCriteria) =>{
   const filteredSet = [...new Set(
     filterCriteria.filterMapping.filter(x => {
-      return (selection.years.length === 0 || selection.years.includes(x?.year)) &&
+      return (selection.years.length === 0 || selection.years.includes(x?.year | x?.date?.substring(0,4))) &&
       (selection.programs.length === 0 || selection.programs.includes(x.programCode)) &&
       (selection.fuelTypes.length === 0 || selection.fuelTypes.includes(x.fuelTypeCode)) &&
       (selection.facilities.length === 0 || selection.facilities.includes(x?.facilityId)
@@ -95,7 +95,7 @@ export const filterStateTerritory = (filterCriteria) =>{
 export const filterFacility = (filterCriteria) =>{
   const filteredSet = [...new Set(
     filterCriteria.filterMapping.filter(x => {
-      return (selection.years.length === 0 || selection.years.includes(x?.year)) &&
+      return (selection.years.length === 0 || selection.years.includes(x?.year | x?.date?.substring(0,4))) &&
       (selection.states.length === 0 || selection.states.includes(x?.stateCode)
       || selection.states.includes(x?.buyState) || selection.states.includes(x?.sellState)) &&
       (selection.programs.length === 0 || selection.programs.includes(x.programCode)) &&
@@ -124,7 +124,7 @@ export const filterFacility = (filterCriteria) =>{
 export const filterUnitType = (filterCriteria) =>{
   const filteredSet = [...new Set(
     filterCriteria.filterMapping.filter(x => {
-      return (selection.years.length === 0 || selection.years.includes(x.year)) &&
+      return (selection.years.length === 0 || selection.years.includes(x?.year | x?.date?.substring(0,4))) &&
       (selection.states.length === 0 || selection.states.includes(x.stateCode)) &&
       (selection.programs.length === 0 || selection.programs.includes(x.programCode)) &&
       (selection.fuelTypes.length === 0 || selection.fuelTypes.includes(x.fuelTypeCode)) &&
@@ -139,7 +139,7 @@ export const filterUnitType = (filterCriteria) =>{
 export const filterFuelType = (filterCriteria) =>{
   const filteredSet = [...new Set(
     filterCriteria.filterMapping.filter(x => {
-      return (selection.years.length === 0 || selection.years.includes(x.year)) &&
+      return (selection.years.length === 0 || selection.years.includes(x?.year | x?.date?.substring(0,4))) &&
       (selection.states.length === 0 || selection.states.includes(x.stateCode)) &&
       (selection.programs.length === 0 || selection.programs.includes(x.programCode)) &&
       (selection.facilities.length === 0 || selection.facilities.includes(x.facilityId)) &&
@@ -154,7 +154,7 @@ export const filterFuelType = (filterCriteria) =>{
 export const filterControlTechnology = (filterCriteria) =>{
   const filteredSet = [...new Set(
     filterCriteria.filterMapping.filter(x => {
-      return (selection.years.length === 0 || selection.years.includes(x.year)) &&
+      return (selection.years.length === 0 || selection.years.includes(x?.year | x?.date?.substring(0,4))) &&
       (selection.states.length === 0 || selection.states.includes(x.stateCode)) &&
       (selection.programs.length === 0 || selection.programs.includes(x.programCode)) &&
       (selection.fuelTypes.length === 0 || selection.fuelTypes.includes(x.fuelTypeCode)) &&
@@ -289,7 +289,7 @@ export const filterTransactionType = (filterCriteria) =>{
 export const engageFilterLogic = async(dataType, dataSubType, affectedFilter, filterCriteriaCloned, updateFilterCriteriaDispatcher, removedFilter=false) =>{
   const fcCopy = JSON.parse(JSON.stringify(filterCriteriaCloned));
   fcCopy.filterLogicEngaged = true;
-   await updateFilterCriteriaDispatcher(fcCopy); 
+  await updateFilterCriteriaDispatcher(fcCopy); 
   const filters = FILTERS_MAP[dataType][dataSubType];
   populateSelections(filterCriteriaCloned, dataSubType);
   filters.forEach(obj =>{
@@ -303,4 +303,16 @@ export const engageFilterLogic = async(dataType, dataSubType, affectedFilter, fi
     }
   });
   setTimeout(()=>updateFilterCriteriaDispatcher(filterCriteriaCloned));
+};
+
+export const filterBulkDataFiles = (selection, tableRecords) =>{
+  return tableRecords.filter(record => {
+    return (selection.dataType === '' || record.metadata?.datatype?.toUpperCase() === selection.dataType.toUpperCase()) &&
+    (selection.subType === '' || record.metadata?.datasubtype?.toUpperCase() === selection.subType.toUpperCase()) &&
+    (selection.grouping === '' || record.metadata?.grouping?.toUpperCase() === selection.grouping.toUpperCase()) &&
+    // eslint-disable-next-line
+    (selection.year === '' || record.metadata?.year == selection.year) &&
+    (selection.quarter === '' || record.metadata?.quarter?.toUpperCase() === selection.quarter.toUpperCase()) &&
+    (selection.state === '' || record.metadata?.statecode?.toUpperCase() === selection.state.toUpperCase())
+  });
 };

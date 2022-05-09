@@ -42,7 +42,6 @@ describe('<DownloadFileType/>', () => {
   afterEach(cleanup);
 
   it('has radio buttons', () => {
-    console.log('query ', query)
     const { getByLabelText } = query;
     expect(getByLabelText('CSV')).toHaveClass('usa-radio__input');
     expect(getByLabelText('JSON')).toHaveClass('usa-radio__input');

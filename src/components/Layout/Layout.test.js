@@ -7,6 +7,7 @@ import { Provider } from 'react-redux';
 import initialState from '../../store/reducers/initialState';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
+import config from '../../config';
 const store = configureStore(initialState);
 
 const childComponent = () =>{
@@ -19,21 +20,26 @@ jest.mock('remark-gfm', () => () => {});
 jest.mock('remark-sub-super', () => () => {});
 
 const titleUrl =
-  'https://api.epa.gov/easey/dev/content-mgmt/campd/home/main-title.md';
+  `${config.services.content.uri}/campd/home/main-title.md`;
 const contentUrl =
-  'https://api.epa.gov/easey/dev/content-mgmt/campd/home/main-content.md';
+  `${config.services.content.uri}/campd/home/main-content.md`;
 const getTitle = rest.get(titleUrl, (req, res, ctx) => {
   return res(ctx.json('Title text..'));
 });
 const getContent = rest.get(contentUrl, (req, res, ctx) => {
   return res(ctx.json('Content text..'));
 });
-const server = new setupServer(getTitle, getContent);
+const submissionUrl =
+  `${config.services.emissions.uri}/emissions/submission-progress?submissionPeriod`;
+const getSubmissionProgress = rest.get(submissionUrl, (req, res, ctx) => {
+  return res(ctx.json({year: 2022, quarterName: 'second', percentage: '30%'}))
+})
+const server = new setupServer(getTitle, getContent, getSubmissionProgress);
 beforeAll(() => server.listen());
 beforeEach(() => server.resetHandlers());
 afterAll(() => server.close());
 
-test("Layout renders a routed child component between header and footer", () => {
+test("Layout renders a routed child component between header and footer", async () => {
     render(
         <Provider store={store}>
             <BrowserRouter>

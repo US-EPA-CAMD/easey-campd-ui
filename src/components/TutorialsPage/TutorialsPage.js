@@ -7,6 +7,7 @@ import { metaAdder } from '../../utils/document/metaAdder';
 import getContent from '../../utils/api/getContent';
 
 import './TutorialsPage.scss';
+import { isInternalUrl } from '../../utils/selectors/general';
 
 
 const TutorialsPage = () => {
@@ -39,7 +40,9 @@ const TutorialsPage = () => {
         remarkPlugins={[remarkGfm]}
         components={{
           a: ({ node, ...props }) => (
-            <USWDSLink {...props} target="_blank" rel="noopener noreferrer" />
+            <USWDSLink {...props}
+            target={isInternalUrl(props)? null: "_blank"}
+            rel={isInternalUrl(props)? null: "noopener noreferrer"} />
           ),
         }}
       />

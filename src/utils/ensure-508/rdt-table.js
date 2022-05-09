@@ -5,13 +5,15 @@
  *   used to make sure all input present on the screen is in 508 complaint format
  *
  *       Inputs:
- *              none
+ *              triggerAddAriaLabelToDatatable - flag whether or not it will use addAriaLabelToDatatable()
  *       Outputs:
  *              none
  *****************************************************/
- export const ensure508 = () => {
-  // *** add aria label to all data tables
-  addAriaLabelToDatatable();
+ export const ensure508 = (triggerAddAriaLabelToDatatable = false) => {
+  if (triggerAddAriaLabelToDatatable) {
+    // *** add aria label to all data tables
+    addAriaLabelToDatatable();
+  }
 
   // *** add aria sorted-by to data tables
   addInitialAriaSort();
@@ -106,7 +108,7 @@ export const addInitialAriaSort = () => {
           if (
             column
               .querySelector(".__rdt_custom_sort_icon__")
-              .classList.contains("asc")
+              .classList?.contains("asc")
           ) {
             column
               .closest(`.rdt_TableCol_Sortable`)
@@ -114,7 +116,7 @@ export const addInitialAriaSort = () => {
           } else if (
             column
               .querySelector(".__rdt_custom_sort_icon__")
-              .classList.contains("desc")
+              .classList?.contains("desc")
           ) {
             column
               .closest(`.rdt_TableCol_Sortable`)
@@ -154,9 +156,9 @@ export const setAriaSort = (event) => {
     document.querySelectorAll(`.rdt_TableCol_Sortable`).forEach((column) => {
       if(column === currentColumn){
         if(currentColumn.ariaSort === "none"){
-          if(sortIcon.classList.contains("asc")){
+          if(sortIcon?.classList?.contains("asc")){
             currentColumn.ariaSort = "ascending";
-          }else if(sortIcon.classList.contains("desc")){
+          }else if(sortIcon?.classList?.contains("desc")){
             currentColumn.ariaSort = "descending";
           }
         }else{
@@ -204,5 +206,35 @@ export const removeAriaSortHandlersFromDatatable = () => {
   document.querySelectorAll(".rdt_TableCol_Sortable").forEach((element) => {
     element.removeEventListener("click", setAriaSort);
     element.removeEventListener("keydown", setAriaSort);
+  });
+};
+
+/*****************************************************
+ * setCheckboxToReferenceColumn:
+ *
+ *   This function is used to set compliant aria-labels to all the checkboxes
+ *
+ *       Inputs:
+ *              data - an array of data elements that populate the table
+ *              columnToReference - what the checkboxes should reference (is an attribute of data)
+ *              selectAllReference - what the select all checkbox should reference (is just a label)
+ *       Outputs:
+ *              none
+ *****************************************************/
+export const setCheckboxToReferenceColumn = (data, coulmnToReference, selectAllReference) => {
+  setTimeout(() => {
+    const selectAll = document.querySelector('[name="select-all-rows"]');
+    if (selectAll) {
+      selectAll.setAttribute('aria-label', `Select/deselect all ${selectAllReference}`);
+    }
+    document.querySelectorAll('.rdt_TableRow').forEach((row) => {
+      const checkboxEl = row.children[0].firstElementChild;
+      const fileNameEl = row.children[1].firstElementChild;
+      if(checkboxEl.getAttribute('name') !== 'select-all-rows') {
+        const label = `select-row-${fileNameEl.innerHTML}`;
+        checkboxEl.setAttribute("aria-label", label);
+        checkboxEl.setAttribute("name", label);
+      }
+    });
   });
 };

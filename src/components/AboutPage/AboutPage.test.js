@@ -7,6 +7,7 @@ import { MemoryRouter } from 'react-router-dom';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 import AboutPage from './AboutPage';
+import config from '../../config';
 
 jest.mock('react-markdown', () => ({ children }) => <>{children}</>);
 jest.mock('remark-gfm', () => () => {});
@@ -304,9 +305,9 @@ const releases = [
 ];
 
 const relaseNotesUrl =
-  'https://api.epa.gov/easey/dev/content-mgmt/campd/help-support/about/release-notes.json';
+  `${config.services.content.uri}/campd/help-support/about/release-notes.json`;
 const aboutUrl =
-  'https://api.epa.gov/easey/dev/content-mgmt/campd/help-support/about/index.md';
+  `${config.services.content.uri}/campd/help-support/about/index.md`;
 const getReleaseNotes = rest.get(relaseNotesUrl, (req, res, ctx) => {
   return res(ctx.json(releases));
 });

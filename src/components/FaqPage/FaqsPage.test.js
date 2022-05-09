@@ -1,15 +1,16 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, fireEvent, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 
 import FaqsPage from './FaqsPage';
+import config from '../../config';
 jest.mock('react-markdown', () => ({ children }) => <>{children}</>);
 jest.mock('react-markdown-v4', () => ({ children }) => <>{children}</>);
 jest.mock('remark-gfm', () => () => {});
 jest.mock('remark-sub-super', () => () => {});
-
+const { findByText, debug } = screen;
 const topics = [{
   "name": "Allowance & Compliance",
   "items": [
@@ -24,9 +25,9 @@ const topics = [{
   ]
 }]
 const titleUrl =
-  'https://api.epa.gov/easey/dev/content-mgmt/campd/help-support/faqs/index.md';
+  `${config.services.content.uri}/campd/help-support/faqs/index.md`;
 const contentUrl =
-  'https://api.epa.gov/easey/dev/content-mgmt/campd/help-support/faqs/topics.md';
+  `${config.services.content.uri}/campd/help-support/faqs/topics.md`;
 const getTitle = rest.get(titleUrl, (req, res, ctx) => {
   return res(ctx.json('Title text..'));
 });
@@ -34,7 +35,7 @@ const getContent = rest.get(contentUrl, (req, res, ctx) => {
   return res(ctx.json(topics));
 });
 const server = new setupServer(getTitle, getContent);
-
+const topicItems = topics[0].items
 
 describe('FAQs Page Component', () => {
   beforeAll(() => server.listen());
@@ -51,5 +52,77 @@ describe('FAQs Page Component', () => {
       const container = findAllByText(`${element.name}`);
       expect(container).toBeTruthy();
     });
+  });
+  test('should render title text', async () => {
+    render(
+      <MemoryRouter>
+        <FaqsPage />
+      </MemoryRouter>
+    );
+    const titleText = await findByText('Title text..');
+    expect(titleText).toBeInTheDocument();
+  });
+  describe('accordion functionality', () => {
+    test.each(topicItems)(
+      'accordions should not be expanded by default',
+      async (topic) => {
+        render(
+          <MemoryRouter>
+            <FaqsPage />
+          </MemoryRouter>
+        );
+
+        const accordion = await findByText(topic.title);
+        expect(accordion).toHaveAttribute('aria-expanded', 'false');
+      }
+    );
+  
+    test.each(topicItems)(
+      'accordion should expand when clicked on',
+      async (topic) => {
+        render(
+          <MemoryRouter>
+            <FaqsPage />
+          </MemoryRouter>
+        );
+  
+        const accordion = await findByText(topic.title);
+        fireEvent.click(accordion);
+        expect(accordion).toHaveAttribute('aria-expanded', 'true');
+      }
+    );
+  
+    test.each(topicItems)(
+      'accordion should close when already expanded and clicked on',
+      async (topic) => {
+        render(
+          <MemoryRouter>
+            <FaqsPage />
+          </MemoryRouter>
+        );
+  
+        const accordion = await findByText(topic.title);
+        fireEvent.click(accordion);
+        fireEvent.click(accordion);
+        expect(accordion).toHaveAttribute('aria-expanded', 'false');
+      }
+    );
+  
+    test.each(topicItems)(
+      'accordion titles should have h3 tag for 508',
+      async (topic) => {
+        render(
+          <MemoryRouter>
+            <FaqsPage />
+          </MemoryRouter>
+        );
+  
+        const accordion = await findByText(topic.title);
+        expect(accordion.closest('h3')).toHaveAttribute(
+          'class',
+          'usa-accordion__heading'
+        );
+      }
+    );
   });
 });

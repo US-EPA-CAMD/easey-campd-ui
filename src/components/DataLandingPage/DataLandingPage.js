@@ -1,13 +1,21 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import { Button } from '@trussworks/react-uswds';
 import { useHistory } from 'react-router-dom';
-
 import { metaAdder } from '../../utils/document/metaAdder';
+import getContent from "../../utils/api/getContent";
+import "./DataLandingPage.scss";
 
 
 const DataLandingPage = () => {
+  const [header, setHeader] = useState(null);
+  const [content, setContent] = useState(null);
+
   useEffect(() => {
     document.title = 'Data | CAMPD | US EPA';
+    getContent("/campd/data/home/header.md").then((resp) => setHeader(resp.data));
+    getContent("/campd/data/home/index.json").then((resp) => setContent(resp.data));
   }, []);
 
   metaAdder(
@@ -21,72 +29,53 @@ const DataLandingPage = () => {
 
   const history = useHistory();
 
-  const topics = [
-    {
-      name: 'Custom Data Download Tool',
-      description: `Users looking to build a custom query for a particular type of data will find this tool flexible, fast, and easy to use. Apportioned emissions,
-      allowance, compliance and facility/unit attributes data are available for filtering and querying to the user’s desired parameters.`,
-      url: () => history.push('/data/custom-data-download'),
-      button: 'Start your data query',
-    },
-    {
-      name: 'Bulk Data Files',
-      description: `For larger data downloads, bulk data files provide access to prepackaged datasets of apportioned emissions (including MATS), raw emissions, 
-      monitoring plans, QA, allowance, and compliance data thru EPA’s FTP site. Additionally, modelers who use SMOKE data will find their annual datasets here.`,
-      url: () => history.push('/data/bulk-data-files'),
-      button: 'Start browsing datasets',
-    },
-    {
-      name: 'APIs',
-      description: `CAMPD uses web services to display data via an Application Programming Interface (API). An API is a set of commands, functions, protocols, 
-      and objects that programmers can use to create software or interact with an external system. An API interprets that data and presents 
-      you with the information you wanted in a readable way. These services and associated documentation provide an additional means of accessing CAMPD’s data.`,
-      url: () => window.open('https://www.epa.gov/airmarkets/cam-api-portal', '_blank'),
-      button: 'Learn more about CAMPD APIs',
-    },
-  ];
   return (
-    <div className="padding-y-2 mobile-lg:padding-x-2 tablet:padding-x-4 widescreen:padding-x-10 font-sans-sm text-base-darkest text-ls-1 line-height-sans-5">
-      <h1 className="font-sans-2xl text-bold">Data</h1>
-      <p className="font-sans-lg line-height-sans-6">
-        CAMPD’s Data section serves all your bulk and custom data download
-        needs.
-      </p>
-      <p>
-        The three download methods below provide apportioned emissions, raw emissions,
-        monitoring plan, QA, allowance, compliance and facility/unit data
-        collected from CAMD’s market-based trading programs. Users unfamiliar
-        with the data may want to visit the “Tutorials” section under “Help/Support” for
-        more information about the data as well as how to use the tools below.
-      </p>
-      <div className="grid-row">
-        {topics.map((topic) => {
+    <div id="data-page" className="padding-y-2 mobile-lg:padding-x-2 tablet:padding-x-4 widescreen:padding-x-10 font-sans-sm text-base-darkest text-ls-1 line-height-sans-5">
+      <ReactMarkdown
+        children={header}
+        remarkPlugins={[remarkGfm]}
+        components={{
+          h1: ({node, ...props}) => <h1 className="font-sans-xl text-bold">{props.children}</h1>
+        }}
+      />
+      <>
+        {content && content.map((topic) => {
           return (
             <div
-              className="padding-y-2 grid-col-12 desktop:grid-col-4 desktop:padding-right-3 text-base-darkest"
+              className="padding-205 text-base-darkest shadow-3 margin-y-4"
               key={`container-${topic.name.replace(/ /g, '-')}`}
             >
-              {' '}
-              <h2 className="text-bold font-heading-xl line-height-sans-3 margin-bottom-1">
-                {topic.name}{' '}
+              <div className='display-flex flex-row flex-justify-start margin-bottom-105'>
+                <img
+                  src={`${process.env.PUBLIC_URL}${topic.imgPath}`}
+                  alt={topic.imgAlt}
+                />
+                <h2 className="text-bold font-sans-xl line-height-sans-3 margin-y-0 padding-left-105">
+                {topic.name}
               </h2>
-              <div>{topic.description}</div>
-              <Button
-                className="margin-top-1"
-                type="button"
-                onClick={topic.url}
-                role="link"
-                rel={topic.name}
-                title={`Go to ${topic.name} page`}
-                key={topic.url}
-                id={`${topic.name.split(' ').join('')}`}
-              >
-                {topic.button}
-              </Button>
+              </div>
+              <div className='display-flex grid-row margin-top-05'>
+                <p className='margin-y-0 grid-col-12 desktop:grid-col-fill'>
+                    {topic.description}
+                </p>
+                <Button
+                  className="link-button flex-align-self-center grid-col-12 desktop:grid-col-2 desktop:margin-left-105 margin-top-105 desktop:margin-top-0"
+                  type="button"
+                  onClick={ topic.hasOwnProperty("externalLink") ?  () => window.open(topic.url, '_blank') : () => history.push(topic.url)}
+                  role="link"
+                  rel={topic.name}
+                  title={`Go to ${topic.name} page`}
+                  key={topic.url}
+                  id={`${topic.name.split(' ').join('')}`}
+                >
+                  {topic.button}
+                </Button>
+              </div>
             </div>
           );
         })}
-      </div>
+
+      </>
     </div>
   );
 };

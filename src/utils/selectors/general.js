@@ -1,4 +1,9 @@
-import { constructComboBoxQuery, constructQuery, filterAmpersand } from './filterCriteria';
+import {
+  addExcludeParams,
+  constructComboBoxQuery,
+  constructQuery,
+  filterAmpersand,
+} from './filterCriteria';
 import config from '../../config';
 import { constructTimePeriodQuery } from './timePeriodQuery';
 import * as constants from '../constants/customDataDownload';
@@ -98,6 +103,50 @@ export const formatQuartersToApiOrString = (quarterArray, string = false) => {
   return apiQuarterArrayOrString;
 };
 
+/** bulk data files*/
+export const formatFileSize = (bytes, decimalPoint) => {
+  if (bytes === 0) {
+    return '0 Bytes';
+  }
+  const k = 1000,
+    dm = decimalPoint || 2,
+    sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'],
+    i = Math.floor(Math.log(bytes) / Math.log(k));
+  return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+};
+
+export const convertToBytes = (fileSize) => {
+  fileSize = fileSize.toLowerCase();
+  const unit = fileSize.split(' ')[1];
+  if (unit === 'bytes') {
+    return fileSize;
+  }
+  const unitsDictionary = { kb: 1000, mb: 1000000, gb: 1000000000 };
+  const byteSize = parseFloat(fileSize) * unitsDictionary[unit];
+  return `${byteSize} bytes`;
+};
+
+export const downloadLimitReached = (size, limit) => {
+  if (!size) {
+    return false;
+  }
+  size = size.toLowerCase();
+  const unit = size.slice(-2);
+  if (unit === 'gb') {
+    if (parseFloat(size) < parseFloat(limit)) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+  const smallerUnits = { es: true, kb: true, mb: true };
+  if (smallerUnits[unit]) {
+    return false;
+  } else {
+    return true;
+  }
+};
+
 export const reportingQuarter = () => {
   const curDate = new Date();
   const curYear = new Date().getFullYear();
@@ -122,7 +171,6 @@ const getServiceSubtype = (options, dataSubType) => {
   );
   return entry ? entry.service : '';
 };
-
 
 export const constructRequestUrl = (
   dataType,
@@ -158,25 +206,36 @@ export const constructRequestUrl = (
     ? constructComboBoxQuery(filterCriteria.ownerOperator, 'ownerOperator')
     : '';
   const transactionTypeQuery = filterCriteria.transactionType
-    ? constructComboBoxQuery(filterCriteria.transactionType, 'transactionType', true)
+    ? constructComboBoxQuery(
+        filterCriteria.transactionType,
+        'transactionType',
+        true
+      )
     : '';
   const sourceCategoryQuery = filterCriteria.sourceCategory
     ? filterAmpersand(
         constructComboBoxQuery(filterCriteria.sourceCategory, 'sourceCategory')
       )
     : '';
+  const excludeParams = filterCriteria.excludeParams.length? addExcludeParams(filterCriteria.excludeParams) : ''
 
   const streaming = download ? '/stream' : '';
   const pagination = download ? '' : 'page=1&perPage=100';
 
   let apiService;
-  switch (dataType.toLowerCase()) {
+  const data_type = dataType.toLowerCase();
+  switch (data_type) {
     case 'emissions':
     case 'facility':
+    case 'mercury and air toxics emissions':
       if (dataSubType === 'Facility/Unit Attributes') {
         apiService = `${config.services.facilities.uri}/facilities/`;
       } else {
-        apiService = `${config.services.emissions.uri}/apportioned/`;
+        if (data_type === 'mercury and air toxics emissions') {
+          apiService = `${config.services.emissions.uri}/apportioned/mats/`;
+        } else {
+          apiService = `${config.services.emissions.uri}/apportioned/`;
+        }
       }
       break;
     case 'allowance':
@@ -196,8 +255,22 @@ export const constructRequestUrl = (
     dataSubType,
     filterCriteria
   )}${programQuery}${facilityQuery}${stateTerritoryQuery}${unitTypeQuery}${fuelTypeQuery}${controlTechnologyQuery}
-${accountNameNumberQuery}${accountTypeQuery}${ownerOperatorQuery}${transactionTypeQuery}${sourceCategoryQuery}`;
+${accountNameNumberQuery}${accountTypeQuery}${ownerOperatorQuery}${transactionTypeQuery}${sourceCategoryQuery}${excludeParams}`;
   console.log(url.replace(/\r?\n|\r/g, ''));
 
   return url.replace(/\r?\n|\r/g, '');
+};
+
+export const isInternalUrl = (props) => props.href[0] === '/';
+
+export const formatDateToYYMMDD = (date) => {
+  var d = new Date(date),
+    month = '' + (d.getMonth() + 1),
+    day = '' + d.getDate(),
+    year = d.getFullYear();
+
+  if (month.length < 2) month = '0' + month;
+  if (day.length < 2) day = '0' + day;
+
+  return [year, month, day].join('-');
 };

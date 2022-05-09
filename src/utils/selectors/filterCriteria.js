@@ -1,9 +1,5 @@
 import initialState from '../../store/reducers/initialState';
 import {formatYearsToArray, formatDateToApi, initcap} from "./general";
-// import { EMISSIONS_DATA_SUBTYPES } from '../../utils/constants/emissions';
-// import { ALLOWANCES_DATA_SUBTYPES } from '../../utils/constants/allowances';
-// import { COMPLIANCES_DATA_SUBTYPES } from '../../utils/constants/compliances';
-// import { isAddedToFilters } from '../../utils/selectors/general';
 
 export const resetFilterHelper = (state, filterToReset, resetAll = false) => {
   const clonedFilterCriteria = JSON.parse(JSON.stringify(state));
@@ -193,6 +189,17 @@ export const constructQuery = (filterState, filterName, multiSelectTimePeriod=fa
   return query.length > 0 ? `&${filterName}=${query}` : '';
 };
 
+export const addExcludeParams = (excludeParams) => {
+  let query = '&exclude=';
+  excludeParams.forEach((param, i)=> {
+    if (i === excludeParams.length - 1) {
+      query = `${query}${param}`
+    }  else {
+      query = `${query}${param}|`
+    }
+  })
+  return query;
+}
 /* ---------PROGRAM----------- */
 export const restructurePrograms = (programs) => {
   const data = [

@@ -8,11 +8,6 @@ import {
   resetDataPreview,
   removeAppliedFilter,
 } from '../../store/actions/customDataDownload/customDataDownload';
-import {
-  resetFilter,
-  updateTimePeriod,
-  updateFilterCriteria,
-} from '../../store/actions/customDataDownload/filterCriteria';
 
 export const MobileMenu = ({
   dataSubtypeApplied,
@@ -89,12 +84,6 @@ const mapDispatchToProps = (dispatch) => {
     resetDataPreviewDispatcher: () => dispatch(resetDataPreview()),
     removeAppliedFiltersDispatcher: (removedFilter, removeAll, opHours) =>
       dispatch(removeAppliedFilter(removedFilter, removeAll, opHours)),
-    resetFiltersDispatcher: (filterToReset, resetAll) =>
-      dispatch(resetFilter(filterToReset, resetAll)),
-    updateTimePeriodDispatcher: (timePeriod) =>
-      dispatch(updateTimePeriod(timePeriod)),
-    updateFilterCriteriaDispatcher: (filterCriteria) =>
-      dispatch(updateFilterCriteria(filterCriteria)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(MobileMenu);

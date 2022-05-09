@@ -1,0 +1,26 @@
+@import '../../../additional-scss/variables';
+#columns {
+  overflow-y: scroll;
+  position: relative;
+  height: 210px;
+}
+#textField {
+  border-style: none none solid;
+  border-color: $epa-blue-base;
+}
+
+#icons:not(:focus) {
+  visibility: hidden;
+}
+
+#icons:focus{
+  visibility: visible !important;
+}
+
+#icon {
+  font-size: 18px !important;
+}
+
+.MuiList-root.MuiList-padding.css-16r9efz-MuiList-root, .MuiList-root.MuiList-padding.css-kx5frl-MuiList-root{
+  z-index: 2;
+}

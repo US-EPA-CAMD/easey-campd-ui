@@ -6,6 +6,7 @@ export default {
     dataPreview: null,
     totalCount: null,
     fieldMappings: [],
+    excludableColumns: [],
   },
   filterCriteria: {
     timePeriod: {
@@ -32,7 +33,12 @@ export default {
     transactionType: [],
     sourceCategory: [],
     filterMapping: [],
+    excludeParams: [],
+    selectedColumns: [],
     filterLogicEngaged: false
+  },
+  bulkDataFiles:{
+    dataTable: null
   },
   apiCallsInProgress: 0,
   hideNav: false

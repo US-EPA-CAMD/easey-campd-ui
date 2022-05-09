@@ -109,14 +109,17 @@ const HomePage = () => {
             children={dataCard}
             remarkPlugins={[remarkGfm]}
             components={{
+              img: ({node, ...props}) => <img {...props} alt=""/>,
+              // eslint-disable-next-line
+              table: ({node, ...props}) => <table {...props} role="Presentation"/>,
+              th: ({node, ...props}) => <td {...props}/>,
               a: ({ node, ...props }) => {
               return node.properties.title === "Header Link" ? (
                   <h2>
                     <Button
-                      className="font-heading-xl text-bold"
+                      className="header-link font-heading-xl text-bold"
                       unstyled="true"
                       onClick={() => history.push(props.href)}
-                      style={{ textDecoration: "none" }}
                     >
                       {props.children[0]}
                     </Button>
@@ -142,15 +145,18 @@ const HomePage = () => {
             className="maps-and-graphs-card"
             children={mapsGraphsCard}
             remarkPlugins={[remarkGfm]}
-            components={{
+            components={{// eslint-disable-next-line
+              img: ({node, ...props}) => <img {...props} alt=""/>,
+              // eslint-disable-next-line
+              table: ({node, ...props}) => <table {...props} role="Presentation"/>,
+              th: ({node, ...props}) => <td {...props}/>,
               a: ({ node, ...props }) => {
               return node.properties.title === "Header Link" ? (
                   <h2>
                     <Button
-                      className="font-heading-xl text-bold"
+                      className="header-link font-heading-xl text-bold"
                       unstyled="true"
                       onClick={() => history.push(props.href)}
-                      style={{ textDecoration: "none" }}
                     >
                       {props.children[0]}
                     </Button>

@@ -141,7 +141,7 @@ const SubHeader = () => {
               pathname={pathname}
             />
           </div>
-          <div className="display-flex flex-column flex-align-end">
+          <div className="display-flex flex-column flex-align-end" id="sub-header-nav">
             <SubHeaderNav
               pathname={pathname}
               menuList={subHeaderUtilityList}
