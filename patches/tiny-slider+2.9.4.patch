@@ -1,0 +1,17 @@
+diff --git a/node_modules/tiny-slider/src/tiny-slider.js b/node_modules/tiny-slider/src/tiny-slider.js
+index 110b2f4..c527d71 100644
+--- a/node_modules/tiny-slider/src/tiny-slider.js
++++ b/node_modules/tiny-slider/src/tiny-slider.js
+@@ -545,7 +545,11 @@ export var tns = function(options) {
+     rect = div.getBoundingClientRect();
+     width = rect.right - rect.left;
+     div.remove();
+-    return width || getClientWidth(el.parentNode);
++    if (width) {
++      return width;
++    } else if (null !== el.parentNode.parentNode) {
++      return getClientWidth(el.parentNode);
++    }
+   }
+ 
+   function getViewportWidth () {

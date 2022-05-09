@@ -15,7 +15,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "up": "yarn --ignore-engines && yarn start",
-    "test": "react-scripts test --coverage --watchAll=false --testResultsProcessor=jest-sonar-reporter"
+    "test": "react-scripts test --coverage --watchAll=false --testResultsProcessor=jest-sonar-reporter",
+    "postinstall": "patch-package"
   },
   "resolutions": {
     "ansi-regex": "^5.0.1",
@@ -56,6 +57,8 @@
     "loglevel": "^1.7.0",
     "moment-timezone": "^0.5.34",
     "msw": "^0.36.5",
+    "patch-package": "6.4.7",
+    "postinstall-postinstall": "2.1.0",
     "prettier": "^2.2.1",
     "react": "^17.0.2",
     "react-data-table-component": "^6.11.7",
