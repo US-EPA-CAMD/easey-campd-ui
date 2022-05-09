@@ -18,5 +18,9 @@
 }
 
 #icon {
-  font-size: 18px;
+  font-size: 18px !important;
+}
+
+.MuiList-root.MuiList-padding.css-16r9efz-MuiList-root, .MuiList-root.MuiList-padding.css-kx5frl-MuiList-root{
+  z-index: 2;
 }
