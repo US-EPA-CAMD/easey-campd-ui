@@ -6,7 +6,7 @@ import CustomDataDownload from "../customDataDownload/CustomDataDownload/CustomD
 import NotFound from "../NotFound/NotFound";
 import HomePage from "../HomePage/HomePage";
 import DataLandingPage from "../DataLandingPage/DataLandingPage";
-import BulkDataFiles from "../BulkDataFiles/BulkDataFiles/BulkDataFiles";
+import BulkDataFiles from "../bulkDataFiles/BulkDataFiles/BulkDataFiles";
 import MapsGraphsPage from "../MapsGraphsPage/MapsGraphsPage";
 import AboutPage from "../AboutPage/AboutPage";
 import TutorialsPage from "../TutorialsPage/TutorialsPage";
