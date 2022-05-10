@@ -75,8 +75,8 @@ const TableMenu = ({
       }
     } //eslint-disable-next-line
   }, [excludableColumns, selectedColumns]);
+
   useEffect(() => {
-    // setCheckedBoxes()
     if (closed) {
       if (filterCriteria.columnState) {
         setCheckedBoxes(JSON.parse(JSON.stringify(filterCriteria.columnState)));
@@ -87,14 +87,18 @@ const TableMenu = ({
     }
   }, [closed, filterCriteria.columnState, checkAll]);
   const openMenu = async (event) => {
+    columnMenuOpen && setColumnMenuOpen(false);
     setMenuOpen(true);
     await setAnchorEl(event.currentTarget);
     const unsortMenuOption = document.querySelector('#unsort');
-    unsortMenuOption && unsortMenuOption.focus();
+    unsortMenuOption &&
+      unsortMenuOption.focus({
+        preventScroll: true,
+      });
   };
   const openSubMenu = async () => {
-    await setColumnMenuOpen(true);
     setMenuOpen(false);
+    await setColumnMenuOpen(true);
     const search = document.querySelector('#textField');
     search && search.focus();
   };
@@ -253,6 +257,7 @@ const TableMenu = ({
               sx={{ bgcolor: 'white', boxShadow: 1 }}
               component="nav"
               aria-labelledby="submenu"
+              onKeyDown={(e) => handleKeyDown(e, handleClose, 'Escape')}
             >
               <ListItem
                 onClick={handleUnsort}
@@ -260,6 +265,7 @@ const TableMenu = ({
                 key="unsort"
                 id="unsort"
                 tabIndex={0}
+                className="menuItem"
               >
                 Unsort
               </ListItem>
@@ -268,6 +274,7 @@ const TableMenu = ({
                 onKeyDown={(e) => handleKeyDown(e, handleSortAsc, 'Enter')}
                 key="asc"
                 tabIndex={0}
+                className="menuItem"
               >
                 Sort by ASC
               </ListItem>
@@ -276,6 +283,7 @@ const TableMenu = ({
                 key="desc"
                 tabIndex={0}
                 onKeyDown={(e) => handleKeyDown(e, handleSortDesc, 'Enter')}
+                className="menuItem"
               >
                 Sort by DESC
               </ListItem>
@@ -283,6 +291,7 @@ const TableMenu = ({
                 onClick={openSubMenu}
                 onKeyDown={(e) => handleKeyDown(e, openSubMenu, 'Enter')}
                 tabIndex={0}
+                className="menuItem"
               >
                 Customize Columns
               </ListItem>
@@ -302,6 +311,7 @@ const TableMenu = ({
               sx={{ bgcolor: 'white', boxShadow: 1 }}
               component="nav"
               aria-labelledby="submenu"
+              onKeyDown={(e) => handleKeyDown(e, handleClose, 'Escape')}
             >
               <div>
                 <div className="form-group margin-1" id="columnMenu">
@@ -318,6 +328,11 @@ const TableMenu = ({
                   />
                   <br />
                   <div id="columns" className="padding-left-1">
+                    {!filteredColumns.length ? (
+                      <div className="margin-x-5 margin-y-10">
+                        No results match that search criteria
+                      </div>
+                    ) : null}
                     {filteredColumns?.map((el) => (
                       <div key={el.label} className="padding-right-1">
                         {!excludableColumnsState[el.label] ? (
@@ -370,6 +385,7 @@ const TableMenu = ({
                         onKeyDown={(e) =>
                           handleKeyDown(e, handleSelectAll, 'Enter')
                         }
+                        id="selectAll"
                       >
                         Select All
                       </div>
@@ -381,6 +397,7 @@ const TableMenu = ({
                         onKeyDown={(e) =>
                           handleKeyDown(e, handleDeselectAll, 'Enter')
                         }
+                        id="selectAll"
                       >
                         Deselect All
                       </div>
