@@ -53,6 +53,11 @@ const config = {
         process.env.REACT_APP_EASEY_QUARTZ_API ||
         "https://api.epa.gov/easey/dev/quartz-mgmt",
     },
+    campd: {
+      uri:
+        process.env.REACT_APP_EASEY_CAMPD_SERVICES ||
+        "https://api-easey-dev.app.cloud.gov/camd-services",
+    },
     bulkDataFiles: {
       uri: 
         process.env.REACT_APP_EASEY_BULK_DATA_FILES_API ||

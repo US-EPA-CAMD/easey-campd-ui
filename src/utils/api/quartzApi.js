@@ -7,7 +7,7 @@ axios.defaults.headers.common = {
 };
 
 export const getBulkDataFilesList = async () => {
-  const url = `${config.services.quartz.uri}/bulk-files`;
+  const url = `${config.services.campd.uri}/bulk-files`;
 
   return axios
     .get(url)

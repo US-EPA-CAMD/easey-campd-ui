@@ -25,7 +25,7 @@ const getDownloadLimitAlert = rest.get(downloadLimitAlertUrl, (req, res, ctx) =>
   return res(ctx.json('Download Limit Alert'));
 });
 const bulkDataFilesUrl=
-`${config.services.quartz.uri}/bulk-files`;
+`${config.services.campd.uri}/bulk-files`;
 const getBulkDataFiles = rest.get(bulkDataFilesUrl, (req, res, ctx) => {
   console.log('called');
   return res(ctx.json('bulk data files'))
