@@ -77,7 +77,6 @@ const TableMenu = ({
   }, [excludableColumns, selectedColumns]);
 
   useEffect(() => {
-    // setCheckedBoxes()
     if (closed) {
       if (filterCriteria.columnState) {
         setCheckedBoxes(JSON.parse(JSON.stringify(filterCriteria.columnState)));
@@ -92,9 +91,10 @@ const TableMenu = ({
     setMenuOpen(true);
     await setAnchorEl(event.currentTarget);
     const unsortMenuOption = document.querySelector('#unsort');
-    unsortMenuOption && unsortMenuOption.focus({
-      preventScroll: true
-    });
+    unsortMenuOption &&
+      unsortMenuOption.focus({
+        preventScroll: true,
+      });
   };
   const openSubMenu = async () => {
     setMenuOpen(false);
@@ -257,7 +257,7 @@ const TableMenu = ({
               sx={{ bgcolor: 'white', boxShadow: 1 }}
               component="nav"
               aria-labelledby="submenu"
-              onKeyDown={e => handleKeyDown(e, handleClose, 'Escape')}
+              onKeyDown={(e) => handleKeyDown(e, handleClose, 'Escape')}
             >
               <ListItem
                 onClick={handleUnsort}
@@ -311,7 +311,7 @@ const TableMenu = ({
               sx={{ bgcolor: 'white', boxShadow: 1 }}
               component="nav"
               aria-labelledby="submenu"
-              onKeyDown={e => handleKeyDown(e, handleClose, 'Escape')}
+              onKeyDown={(e) => handleKeyDown(e, handleClose, 'Escape')}
             >
               <div>
                 <div className="form-group margin-1" id="columnMenu">
@@ -327,10 +327,12 @@ const TableMenu = ({
                     tabIndex={0}
                   />
                   <br />
-                  
-                  <div id="columns" className="padding-left-1">{!filteredColumns.length?
-                <div className="margin-x-5 margin-y-10">No results match that search criteria</div>: null
-                }
+                  <div id="columns" className="padding-left-1">
+                    {!filteredColumns.length ? (
+                      <div className="margin-x-5 margin-y-10">
+                        No results match that search criteria
+                      </div>
+                    ) : null}
                     {filteredColumns?.map((el) => (
                       <div key={el.label} className="padding-right-1">
                         {!excludableColumnsState[el.label] ? (
@@ -388,7 +390,7 @@ const TableMenu = ({
                         Select All
                       </div>
                       <div
-                        className="text-primary underline"
+                        className="text-primary"
                         tabIndex={0}
                         role="button"
                         onClick={handleDeselectAll}
