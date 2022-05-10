@@ -137,7 +137,7 @@ const BulkDataFilesFilters = ({
     if(filtersContent){
       if((dataType === "EDR" || (dataType === filtersContent.dataTypes[filtersContent.dataTypes.length-1] && subType !=="Monitoring Plan")) && year !== ''){
       initialTableRecords.forEach(r=>{// eslint-disable-next-line
-          if(year == r.metadata?.year){
+          if(year == r.metadata?.year && r.metadata.datatype === dataType){
             res.push(filtersContent.states.find(s=> s.stateCode === r.metadata?.statecode));
           }
         })
