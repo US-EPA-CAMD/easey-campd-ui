@@ -24,3 +24,12 @@
 .MuiList-root.MuiList-padding.css-16r9efz-MuiList-root, .MuiList-root.MuiList-padding.css-kx5frl-MuiList-root{
   z-index: 2;
 }
+
+.menuItem{
+  cursor: pointer !important;
+}
+
+#selectAll{
+  cursor: pointer;
+  text-decoration: underline;
+}
