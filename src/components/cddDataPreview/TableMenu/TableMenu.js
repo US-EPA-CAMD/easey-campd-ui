@@ -21,50 +21,78 @@ const TableMenu = ({
   setSortAsc,
   setUnsort,
   setSelectedColumns,
+  selectedColumns,
   excludableColumns,
   updateFilterCriteriaDispatcher,
 }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [popperElement, setPopperElement] = useState(null);
   const { styles, attributes } = usePopper(anchorEl, popperElement);
+
   const [menuOpen, setMenuOpen] = useState(false);
   const [columnMenuOpen, setColumnMenuOpen] = useState(false);
   const [sortArrowUp, setSortArrowUp] = useState(false);
+
   const [checkedBoxes, setCheckedBoxes] = useState({});
   const [excludableColumnsState, setExcludableColumnsState] = useState(null);
   const [nonExcludableColumns, setNonExcludableColumns] = useState([]);
   const [filteredColumns, setFilteredColumns] = useState([]);
-  const [selectAll, setSelectAll] = useState(false);
-  const [deselectAll, setDeselectAll] = useState(false);
+  const [checkAll, setCheckAll] = useState(null);
+  const [filterMappingsCopy, setFilterMappingsCopy] = useState([]);
+  const [closed, setClosed] = useState(true);
   const open = Boolean(anchorEl);
 
   useEffect(() => {
     const columns = {};
     const removableColumns = {};
     const requiredColumns = [];
+
     if (excludableColumns) {
       excludableColumns.forEach((column) => (columns[column.label] = true));
       setExcludableColumnsState(columns);
+      const tempFieldMappings = JSON.parse(JSON.stringify(fieldMappings));
       if (fieldMappings) {
-        fieldMappings.forEach((el) => {
+        tempFieldMappings.forEach((el) => {
           const label = el.label;
-          columns[label]
-            ? (removableColumns[label] = el)
-            : requiredColumns.push(el);
+          if (columns[label]) {
+            removableColumns[label] = el;
+            removableColumns[label].checked = true;
+          } else {
+            requiredColumns.push(el);
+          }
         });
-        setCheckedBoxes(removableColumns);
+        if (filterCriteria.columnState) {
+          setCheckedBoxes(
+            JSON.parse(JSON.stringify(filterCriteria.columnState))
+          );
+        } else {
+          setCheckedBoxes(removableColumns);
+        }
+        setCheckAll(removableColumns);
         setNonExcludableColumns(requiredColumns);
-        setFilteredColumns(fieldMappings);
+        setFilteredColumns(tempFieldMappings);
+        setFilterMappingsCopy(tempFieldMappings);
       }
+    } //eslint-disable-next-line
+  }, [excludableColumns, selectedColumns]);
+  useEffect(() => {
+    // setCheckedBoxes()
+    if (closed) {
+      if (filterCriteria.columnState) {
+        setCheckedBoxes(JSON.parse(JSON.stringify(filterCriteria.columnState)));
+      } else {
+        checkAll && setCheckedBoxes(checkAll);
+      }
+      setClosed(false);
     }
-  }, [excludableColumns, fieldMappings]);
+  }, [closed, filterCriteria.columnState, checkAll]);
   const openMenu = async (event) => {
     setMenuOpen(true);
     await setAnchorEl(event.currentTarget);
     const unsortMenuOption = document.querySelector('#unsort');
     unsortMenuOption && unsortMenuOption.focus();
   };
-  const openSubMenu = async (e) => {
+  const openSubMenu = async () => {
     await setColumnMenuOpen(true);
     setMenuOpen(false);
     const search = document.querySelector('#textField');
@@ -74,6 +102,8 @@ const TableMenu = ({
     setAnchorEl(null);
     setColumnMenuOpen(false);
     setMenuOpen(false);
+    setClosed(true);
+    // setCheckedBoxes(applied)
   };
   const handleCloseSubMenu = (e) => {
     if (e.key === 'Tab') {
@@ -109,22 +139,36 @@ const TableMenu = ({
 
   const handleSearch = (e) => {
     setFilteredColumns(
-      fieldMappings.filter((column) =>
+      filterMappingsCopy.filter((column) =>
         column.label.toLowerCase().includes(e.target.value.toLowerCase())
       )
     );
   };
+
   const handleSelectAll = () => {
-    if (deselectAll) {
-      setDeselectAll(false);
-    }
-    setSelectAll(true);
+    const columns = [...filteredColumns];
+    const temp = { ...checkedBoxes };
+    columns.forEach((el) => {
+      const label = el.label;
+      if (checkedBoxes[label]) {
+        temp[label].checked = true;
+      }
+    });
+    setFilteredColumns(columns);
+    setCheckedBoxes(temp);
   };
+
   const handleDeselectAll = () => {
-    if (selectAll) {
-      setSelectAll(false);
-    }
-    setDeselectAll(true);
+    const columns = [...filteredColumns];
+    const temp = { ...checkedBoxes };
+    columns.forEach((el) => {
+      const label = el.label;
+      if (checkedBoxes[label]) {
+        temp[label].checked = false;
+      }
+    });
+    setFilteredColumns(columns);
+    setCheckedBoxes(temp);
   };
   const handleApply = () => {
     const columns = [];
@@ -141,23 +185,18 @@ const TableMenu = ({
     const filterCriteriaCloned = JSON.parse(JSON.stringify(filterCriteria));
     filterCriteriaCloned.excludeParams = excludedColumns;
     filterCriteriaCloned.selectedColumns = columnsToDisplay;
+    filterCriteriaCloned.columnState = checkedBoxes;
     updateFilterCriteriaDispatcher(filterCriteriaCloned);
     setSelectedColumns(columnsToDisplay);
-    handleClose();
+    handleClose(true);
   };
   const getCheckBoxStatus = (checkbox) => {
-    if (selectAll) {
-      return true;
-    }
-    if (deselectAll) {
-      return false;
-    }
     if (checkedBoxes[checkbox]) {
-      return checkedBoxes[checkbox].checked;
+      return checkedBoxes[checkbox]?.checked;
     }
-    return false;
-  };
 
+    return true;
+  };
   return (
     <div
       className="display-flex"
@@ -294,12 +333,6 @@ const TableMenu = ({
                             label={el.label}
                             checked={getCheckBoxStatus(el.label)}
                             onChange={(e) => {
-                              if (selectAll) {
-                                setSelectAll(false);
-                              }
-                              if (deselectAll) {
-                                setDeselectAll(false);
-                              }
                               setCheckedBoxes({
                                 ...checkedBoxes,
                                 [el.label]: {
@@ -312,12 +345,7 @@ const TableMenu = ({
                               if (e.key === 'Enter') {
                                 const status = e.target.checked ? false : true;
                                 e.target.checked = status;
-                                if (selectAll) {
-                                  setSelectAll(false);
-                                }
-                                if (deselectAll) {
-                                  setDeselectAll(false);
-                                }
+
                                 setCheckedBoxes({
                                   ...checkedBoxes,
                                   [el.label]: {
@@ -339,7 +367,9 @@ const TableMenu = ({
                         tabIndex={0}
                         role="button"
                         onClick={handleSelectAll}
-                        onKeyDown={(e) => handleKeyDown(e, handleSelectAll, 'Enter')}
+                        onKeyDown={(e) =>
+                          handleKeyDown(e, handleSelectAll, 'Enter')
+                        }
                       >
                         Select All
                       </div>
@@ -348,7 +378,9 @@ const TableMenu = ({
                         tabIndex={0}
                         role="button"
                         onClick={handleDeselectAll}
-                        onKeyDown={(e) => handleKeyDown(e, handleDeselectAll, 'Enter')}
+                        onKeyDown={(e) =>
+                          handleKeyDown(e, handleDeselectAll, 'Enter')
+                        }
                       >
                         Deselect All
                       </div>
