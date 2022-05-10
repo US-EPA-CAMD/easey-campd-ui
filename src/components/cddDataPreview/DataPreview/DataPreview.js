@@ -46,6 +46,7 @@ export const DataPreview = ({
           setUnsort={setUnsort}
           setSortValue={setSortValue}
           setSelectedColumns={setSelectedColumns}
+          selectedColumns={selectedColumns}
           excludableColumns={excludableColumns}
         />
       ),
@@ -61,6 +62,7 @@ export const DataPreview = ({
             setUnsort={setUnsort}
             setSortValue={setSortValue}
             setSelectedColumns={setSelectedColumns}
+            selectedColumns={selectedColumns}
             excludableColumns={excludableColumns}
           />
         ),
