@@ -16,6 +16,13 @@ const SubHeaderNavMobile = ({
     }
   },[showMobileMenu]);
 
+  const getHref = (el) => {
+    if (el.link?.pathname){
+      return el.link.pathname;
+    }
+    return el.link === "#" ? null : el.link
+  }
+
   const populateItems = () =>{
     const combinedMenu = [subHeaderMenuList, subHeaderUtilityList].flat();
     return combinedMenu.map((el, i)=>{
@@ -36,7 +43,8 @@ const SubHeaderNavMobile = ({
             return {
               current: pathname === e.link,
               //href: e.link === "#" ? null : `${window.location.origin}${e.link}`,
-              href: e.link === "#" ? null : e.link,
+              href: getHref(e),
+              target: e.target? e.target : '_self',
               id: e.menu,
               label: e.menu
             }
