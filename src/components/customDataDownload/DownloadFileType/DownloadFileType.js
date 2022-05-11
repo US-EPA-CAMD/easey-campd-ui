@@ -53,7 +53,7 @@ const DownloadFileType = ({ dataType, dataSubType, filterCriteria, totalCount, s
   };
 
   return (
-    <div className="download-wrapper height-10 border-2px radius-lg bg-primary-lighter border-primary display-flex flex-row flex-align-center font-sans-sm maxw-mobile">
+    <div className="download-wrapper height-10 border-2px radius-lg bg-primary-lighter border-primary display-flex flex-row flex-align-center font-sans-sm maxw-card-lg">
       <Fieldset
         legend="Download File"
         legendSrOnly={true}
@@ -68,14 +68,14 @@ const DownloadFileType = ({ dataType, dataSubType, filterCriteria, totalCount, s
           onClick={onRadioChangeHandler}
           label="CSV"
         />
-        <Radio
+        {/* <Radio
           id="json"
           name="input-radio"
           color="bg-primary"
           className="margin-x-1 margin-bottom-1"
           onClick={onRadioChangeHandler}
           label="JSON"
-        />
+        /> */}
       </Fieldset>
       <Button
         type="button"
