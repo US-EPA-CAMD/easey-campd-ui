@@ -34,7 +34,6 @@ const SubHeaderNavMobile = ({
           label: el.label,
         }
       }else{
-        console.log(el.items.filter(d => d.link === pathname));
         return {
           current: el.items.filter(d => d.link === pathname).length > 0,
           expanded: false,
