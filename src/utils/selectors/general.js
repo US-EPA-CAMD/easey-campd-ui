@@ -140,25 +140,37 @@ export const constructRequestUrl = (
     ? constructComboBoxQuery(filterCriteria.stateTerritory, 'stateCode')
     : '';
   const unitTypeQuery = filterCriteria.unitType
-    ? constructQuery(filterCriteria.unitType, 'unitType')
+    ? filterAmpersand(
+        constructQuery(filterCriteria.unitType, 'unitType')
+      )
     : '';
   const fuelTypeQuery = filterCriteria.fuelType
-    ? constructQuery(filterCriteria.fuelType, 'unitFuelType')
+    ? filterAmpersand(
+        constructQuery(filterCriteria.fuelType, 'unitFuelType')
+      )
     : '';
   const controlTechnologyQuery = filterCriteria.controlTechnology
-    ? constructQuery(filterCriteria.controlTechnology, 'controlTechnologies')
+    ? filterAmpersand(
+        constructQuery(filterCriteria.controlTechnology, 'controlTechnologies')
+      )
     : '';
   const accountNameNumberQuery = filterCriteria.accountNameNumber
     ? constructComboBoxQuery(filterCriteria.accountNameNumber, 'accountNumber')
     : '';
   const accountTypeQuery = filterCriteria.accountType
-    ? constructQuery(filterCriteria.accountType, 'accountType')
+    ? filterAmpersand(
+        constructQuery(filterCriteria.accountType, 'accountType')
+      )
     : '';
   const ownerOperatorQuery = filterCriteria.ownerOperator
-    ? constructComboBoxQuery(filterCriteria.ownerOperator, 'ownerOperator')
+    ? filterAmpersand(
+        constructComboBoxQuery(filterCriteria.ownerOperator, 'ownerOperator')
+      )
     : '';
   const transactionTypeQuery = filterCriteria.transactionType
-    ? constructComboBoxQuery(filterCriteria.transactionType, 'transactionType', true)
+    ? filterAmpersand(
+        constructComboBoxQuery(filterCriteria.transactionType, 'transactionType', true)
+      )
     : '';
   const sourceCategoryQuery = filterCriteria.sourceCategory
     ? filterAmpersand(
