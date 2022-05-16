@@ -16,7 +16,8 @@ const DataPreviewRender = ({
   totalCount,
   handleBackButton,
   spinnerActive,
-  setSpinnerActive
+  setSpinnerActive,
+  setApiError
 }) => {
   useEffect(() => {
     const arrowBackSvg = document.getElementsByClassName("arrow-back-svg");
@@ -77,7 +78,7 @@ const DataPreviewRender = ({
         </div>
         <div className="grid-col-12 desktop:grid-col-6 widescreen:grid-col-4">
           {loading === 0 && dataPreview !== null && dataPreview.length > 0 && (
-            <DownloadFileType loading={loading} spinnerActive={spinnerActive} setSpinnerActive={setSpinnerActive}/>
+            <DownloadFileType loading={loading} spinnerActive={spinnerActive} setSpinnerActive={setSpinnerActive} setApiError={setApiError}/>
           )}
         </div>
       </div>

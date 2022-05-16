@@ -1,6 +1,7 @@
 const config = {
   app: {
     apiKey: process.env.REACT_APP_CAMPD_API_KEY || "",
+    apiTimeout: process.env.REACT_APP_API_TIMEOUT || 900000,
     googleAnalyticsEnabled:
       process.env.REACT_APP_GOOGLE_ANALYTICS_ENABLED || "false",
     googleAnalyticsContainerId:

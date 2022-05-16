@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Radio, Fieldset } from "@trussworks/react-uswds";
 import axios from "axios";
 import { connect } from "react-redux";
@@ -19,10 +19,13 @@ const DownloadFileType = ({
   totalCount,
   spinnerActive,
   setSpinnerActive,
+  setApiError
 }) => {
   const [fileType, setFileType] = useState("text/csv");
   const [loading, setLoading] = useState(false);
 
+  useEffect(() => ()=>setApiError(false), // eslint-disable-next-line react-hooks/exhaustive-deps
+   [])
   const onRadioChangeHandler = (event) => {
     if (event.target.id === "json") {
       setFileType("application/json");
@@ -40,6 +43,7 @@ const DownloadFileType = ({
           Accept: fileType,
         },
         responseType: "blob",
+        timeout: Number(config.app.apiTimeout),
       })
       .then((response) => {
         const disposition = response.headers["content-disposition"];
@@ -68,6 +72,7 @@ const DownloadFileType = ({
       .catch((error) => {
         console.log(error);
         setLoading(false);
+        setApiError(true);
       });
   };
 

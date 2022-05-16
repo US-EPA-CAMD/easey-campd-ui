@@ -56,6 +56,8 @@ const ManageDataPreview = ({
 }) => {
   const [requirementsMet, setRequirementsMet] = useState(false);
   const [helperText, setHelperText] = useState(null);
+  const [apiError, setApiError] = useState(false);
+
 
   useEffect(() => {
     getContent('/campd/data/custom-data-download/helper-text.md').then(resp => setHelperText(resp.data));
@@ -239,9 +241,17 @@ const ManageDataPreview = ({
           </Alert>
         </div>
       )}
+      {apiError ? (
+      <div className='padding-x-3 padding-top-3'>
+        <Alert type="warning" aria-live="assertive">
+          The download has been interrupted or failed. Resubmit your query or reach out to campd-support@camdsupport.com if you continue to encounter this error.
+        </Alert>
+      </div>
+      ) : null}
       {renderPreviewData ? (
         <DataPreview
           handleUpdateInAppliedFilters={handleUpdateInAppliedFilters}
+          setApiError={setApiError}
           spinnerActive={spinnerActive}
           setSpinnerActive={setSpinnerActive}
         />
