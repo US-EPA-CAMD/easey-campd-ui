@@ -43,7 +43,7 @@ const DownloadFileType = ({
           Accept: fileType,
         },
         responseType: "blob",
-        timeout: parseInt(config.app.apiTimeout),
+        timeout: Number(config.app.apiTimeout),
       })
       .then((response) => {
         const disposition = response.headers["content-disposition"];
