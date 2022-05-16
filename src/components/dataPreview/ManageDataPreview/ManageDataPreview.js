@@ -242,18 +242,19 @@ const ManageDataPreview = ({
         </div>
       )}
       {apiError ? (
+      <div className='padding-x-3 padding-top-3'>
         <Alert type="warning" aria-live="assertive">
           The download has been interrupted or failed. Resubmit your query or reach out to campd-support@camdsupport.com if you continue to encounter this error.
         </Alert>
+      </div>
       ) : null}
       {renderPreviewData ? (
-        <div className='padding-x-3 padding-top-3'>
         <DataPreview
           handleUpdateInAppliedFilters={handleUpdateInAppliedFilters}
           setApiError={setApiError}
           spinnerActive={spinnerActive}
           setSpinnerActive={setSpinnerActive}
-        /></div>
+        />
       ) : (
         <div className="desktop:margin-3 tablet:margin-x-10 flex-justify-center padding-3 tablet:border mobile-lg:width-mobile-lg line-height-sans-5 margin-0 tablet:margin-3">
           <ReactMarkdown
