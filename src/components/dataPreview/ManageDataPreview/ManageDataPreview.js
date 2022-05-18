@@ -249,7 +249,6 @@ const ManageDataPreview = ({
           <ReactMarkdown children={apiErrorAlert} remarkPlugins={[remarkGfm]}
           components={{
             p: ({node, ...props}) => <span>{props.children}</span>,
-            // eslint-disable-next-line
           }}
           />
         </Alert>
