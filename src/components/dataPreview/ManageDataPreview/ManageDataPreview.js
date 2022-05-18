@@ -56,11 +56,13 @@ const ManageDataPreview = ({
 }) => {
   const [requirementsMet, setRequirementsMet] = useState(false);
   const [helperText, setHelperText] = useState(null);
+  const [apiErrorAlert, setApiErrorAlert] = useState(null);
   const [apiError, setApiError] = useState(false);
 
 
   useEffect(() => {
     getContent('/campd/data/custom-data-download/helper-text.md').then(resp => setHelperText(resp.data));
+    getContent('/campd/data/custom-data-download/api-error-alert.md').then(resp => setApiErrorAlert(resp.data));
   }, []);
 
   useEffect(() => {
@@ -243,8 +245,12 @@ const ManageDataPreview = ({
       )}
       {apiError ? (
       <div className='padding-x-3 padding-top-3'>
-        <Alert type="warning" aria-live="assertive">
-          The download has been interrupted or failed. Resubmit your query or reach out to campd-support@camdsupport.com if you continue to encounter this error.
+        <Alert type="warning" aria-live="assertive" >
+          <ReactMarkdown children={apiErrorAlert} remarkPlugins={[remarkGfm]}
+          components={{
+            p: ({node, ...props}) => <span>{props.children}</span>,
+          }}
+          />
         </Alert>
       </div>
       ) : null}
