@@ -32,6 +32,7 @@ export default {
     transactionType: [],
     sourceCategory: [],
     filterMapping: [],
+    filterLogicEngaged: false,
   },
   apiCallsInProgress: 0,
   hideNav: false
