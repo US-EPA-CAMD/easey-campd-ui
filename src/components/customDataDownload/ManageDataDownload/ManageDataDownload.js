@@ -83,7 +83,6 @@ const ManageDataDownload = ({
   const [hideDataTypeSelector, setHideDataTypeSelector] = useState(false);
   const isMobileOrTablet = useCheckWidth([0, 1024]);
   const [renderPreviewData, setRenderPreviewData] = useState(false);
-  const [spinnerActive, setSpinnerActive] = useState(false)
   const [removedAppliedFilter, setRemovedAppliedFilter] = useState(null);
 
   useEffect(() => {
@@ -137,12 +136,6 @@ const ManageDataDownload = ({
     }// eslint-disable-next-line react-hooks/exhaustive-deps
   },[activeFilter]);
 
-  useEffect(() => {
-    const spinner = document.querySelector('#spinner');
-    if (!spinner) {
-      setSpinnerActive(false);
-    }
-  }, [loading])
   
   // *** EVENT HANDLERS
   const changeDataSubtype = (event) => {
@@ -276,6 +269,7 @@ const ManageDataDownload = ({
     }
     return selectedFilter;
   };
+  useEffect(() => console.log(filterCriteria.filterLogicEngaged), [filterCriteria.filterLogicEngaged])
 
   const mobileDataTypeDisplay = displayMobileDataType? 'width-full tablet:width-mobile-lg minh-viewport'
   : 'display-none desktop:display-block';
@@ -353,12 +347,10 @@ const ManageDataDownload = ({
           setRenderPreviewData={setRenderPreviewData}
           handlePreviewDataButtonClick={handlePreviewDataButtonClick}
           isMobileOrTablet={isMobileOrTablet}
-          setSpinnerActive={setSpinnerActive}
-          spinnerActive={spinnerActive}
           removedAppliedFilter={removedAppliedFilter}
           setRemovedAppliedFilter={setRemovedAppliedFilter}
         />
-        {loading ? <RenderSpinner loading={loading} spinnerActive={spinnerActive} setSpinnerActive={setSpinnerActive}/> : null}
+        <RenderSpinner showSpinner={loading || filterCriteria.filterLogicEngaged} />
       </div>
     </div>
   );

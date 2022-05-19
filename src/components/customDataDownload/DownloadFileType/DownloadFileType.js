@@ -17,8 +17,6 @@ const DownloadFileType = ({
   dataSubType,
   filterCriteria,
   totalCount,
-  spinnerActive,
-  setSpinnerActive,
   setApiError
 }) => {
   const [fileType, setFileType] = useState("text/csv");
@@ -35,7 +33,6 @@ const DownloadFileType = ({
   };
 
   const onDownloadHandler = () => {
-    setSpinnerActive(false);
     setLoading(true);
     axios
       .get(constructRequestUrl(dataType, dataSubType, filterCriteria, true), {
@@ -115,9 +112,7 @@ const DownloadFileType = ({
       </Button>
       {loading ? (
         <RenderSpinner
-          loading={loading}
-          spinnerActive={spinnerActive}
-          setSpinnerActive={setSpinnerActive}
+          showSpinner={loading}
         />
       ) : null}
     </div>
