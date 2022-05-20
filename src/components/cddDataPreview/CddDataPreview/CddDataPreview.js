@@ -9,7 +9,7 @@ import { ModalToggleButton, Modal, ModalHeading, ModalFooter } from '@trussworks
 import { createBookmark } from '../../../utils/api/quartzApi';
 import DataPreview from '../DataPreview/DataPreview';
 import FilterTags from '../../FilterTags/FilterTags';
-import { isAddedToFilters, formatBookmarkDate, getBookmarkContent } from '../../../utils/selectors/general';
+import { isAddedToFilters, formatBookmarkDate, getBookmarkContent, initcap } from '../../../utils/selectors/general';
 import { engageFilterLogic } from '../../../utils/selectors/filterLogic';
 import {
   resetDataPreview,
@@ -199,7 +199,7 @@ const CddDataPreview = ({
         setBookmark({
           id: res.data.bookmarkId,
           dateCreated: formatBookmarkDate(new Date(res.data.bookmarkAddDate)),
-          dataType: content.dataType,
+          dataType: initcap(content.dataType),
           dataSubType: content.dataSubType,
           url: `${window.location.href}?bookmarkId=${res.data.bookmarkId}`
         });
@@ -238,7 +238,7 @@ const CddDataPreview = ({
             <Button
               type="button"
               className="clearfix width-card height-6 font-sans-md margin-left-1 margin-2 desktop:margin-0 desktop:margin-left-1"
-              disabled={dataPreview===null}
+              disabled={dataPreview===null || !requirementsMet}
               onClick={()=>createBookmarkHandler()}
             >
               Bookmark
