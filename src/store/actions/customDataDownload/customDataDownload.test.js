@@ -55,7 +55,7 @@ describe('custom data download Async Actions', () => {
 
     const store = mockStore(initState.customDataDownload);
     return store
-      .dispatch(actions.loadDataPreview("EMISSIONS","Hourly Emissions", initState.filterCriteria))
+      .dispatch(actions.loadDataPreview("EMISSIONS","Hourly Emissions", initState.filterCriteria, initState.customDataDownload.aggregation))
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
       });

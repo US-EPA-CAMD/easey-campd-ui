@@ -42,7 +42,6 @@ export const DataPreview = ({
       filterCriteriaCloned.excludeParams = [];
       filterCriteriaCloned.selectedColumns = [];
       filterCriteriaCloned.columnState = null;
-      console.log('dismounts');
       return updateFilterCriteriaDispatcher(filterCriteriaCloned);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

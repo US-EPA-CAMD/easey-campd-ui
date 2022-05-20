@@ -44,8 +44,8 @@ const TableMenu = ({
 
   useEffect(() => {
     const columns = {};
-    const removableColumns = {};
     const requiredColumns = [];
+    const removableColumns = {};
 
     if (excludableColumns) {
       excludableColumns.forEach((column) => (columns[column.label] = true));
