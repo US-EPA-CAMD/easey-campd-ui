@@ -3,6 +3,10 @@ import {
   constructComboBoxQuery,
   constructQuery,
   filterAmpersand,
+  getCheckBoxEnabledItems,
+  getCheckBoxSelectedItems,
+  getComboboxEnabledItems,
+  getComboboxSelectedItems
 } from './filterCriteria';
 import config from '../../config';
 import { constructTimePeriodQuery } from './timePeriodQuery';
@@ -273,4 +277,47 @@ export const formatDateToYYMMDD = (date) => {
   if (day.length < 2) day = '0' + day;
 
   return [year, month, day].join('-');
+};
+
+export const formatBookmarkDate = (dt) =>{
+  return `${
+    (dt.getMonth()+1).toString().padStart(2, '0')}/${
+    dt.getDate().toString().padStart(2, '0')}/${
+    dt.getFullYear().toString().padStart(4, '0')} ${
+    dt.getHours().toString().padStart(2, '0')}:${
+    dt.getMinutes().toString().padStart(2, '0')}:${
+    dt.getSeconds().toString().padStart(2, '0')}`
+};
+
+export const getBookmarkContent = (dataType, dataSubType, filtersMap, filterCriteria) =>{
+  const filters = filtersMap.map(el => el.stateVar);console.log("filters",filters);
+  const checkboxItems = ["program", "unitType", "fuelType", "controlTechnology", "accountType"];
+  let content = {
+    dataType: dataType,
+    dataSubType: dataSubType, 
+    filters: {},
+    dataPreview: {
+      excludedColumns: filterCriteria.excludeParams
+    }
+  }
+  filters.forEach(filter =>{
+    if(["timePeriod","transactionDate"].includes(filter)){
+      content.filters[filter] = JSON.parse(JSON.stringify(filterCriteria.timePeriod));
+      delete content.filters[filter]["comboBoxYear"];
+    }else if(filter === "comboBoxYear"){
+      content.filters[filter] = {
+        selected: getComboboxSelectedItems(filterCriteria.timePeriod.comboBoxYear),
+        enabled: getComboboxEnabledItems(filterCriteria.timePeriod.comboBoxYear).map(el=>el.id)
+      }
+      content.filters[filter].enabled = content.filters[filter].enabled.filter(el=> !content.filters[filter].selected.includes(el));
+    }
+    else{
+      content.filters[filter] = {
+        selected: checkboxItems.includes(filter)? getCheckBoxSelectedItems(filterCriteria[filter]) : getComboboxSelectedItems(filterCriteria[filter]),
+        enabled : checkboxItems.includes(filter)? getCheckBoxEnabledItems(filterCriteria[filter]) : getComboboxEnabledItems(filterCriteria[filter]).map(el=>el.id)
+      }
+      content.filters[filter].enabled = content.filters[filter].enabled.filter(el=> !content.filters[filter].selected.includes(el));
+    } 
+  });
+  return content;
 };

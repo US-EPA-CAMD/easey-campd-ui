@@ -18,3 +18,14 @@ export const getBulkDataFilesList = async () => {
     });
 };
 
+export const createBookmark = async (content) => {
+  const url = `${config.services.campd.uri}/bookmarks`;
+
+  return axios
+    .post(url, content)
+    .then(handleResponse)
+    .catch((error) => {
+      handleError(error);
+      throw new Error(error);
+    });
+};
