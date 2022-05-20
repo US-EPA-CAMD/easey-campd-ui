@@ -30,3 +30,10 @@ export const EMISSIONS_FILTERS = [
     updateFilter: (filterCriteria) =>  filterLogic.filterProgram(filterCriteria)},
   ...sharedFilters
 ];
+
+export const EMISSIONS_AGGREGATION = [
+  {value: 'Unit (No Aggregation)', service: '', label: 'Unit (No Aggregation)'},
+  {value: 'Facility', service: 'facility', label: 'Facility'},
+  {value: 'State', service: 'state', label: 'State'},
+  {value: 'National', service: 'national', label: 'National'},
+]

@@ -4,8 +4,10 @@ import { loadDataPreview } from "../../../store/actions/customDataDownload/custo
 import DataPreviewRender from "../DataPreviewRender/DataPreviewRender";
 import { dataPreviewColumns } from "../../../utils/constants/dataPreviewCol";
 import TableMenu from "../TableMenu/TableMenu";
+import { updateFilterCriteria } from "../../../store/actions/customDataDownload/filterCriteria";
 
 export const DataPreview = ({
+  aggregation,
   dataType,
   dataSubType,
   dataPreview,
@@ -16,7 +18,8 @@ export const DataPreview = ({
   appliedFilters,
   totalCount,
   fieldMappings,
-  excludableColumns
+  excludableColumns,
+  updateFilterCriteriaDispatcher
 }) => {
   const [unsort, setUnsort] = useState(null);
   const [sortAsc, setSortAsc] = useState(null);
@@ -32,7 +35,15 @@ export const DataPreview = ({
 
   useEffect(() =>{
     if(dataPreview === null){
-      loadDataPreviewDispacher(dataType, dataSubType, filterCriteria);
+      loadDataPreviewDispacher(dataType, dataSubType, filterCriteria, aggregation);
+    }
+    return () => {
+      const filterCriteriaCloned = JSON.parse(JSON.stringify(filterCriteria));
+      filterCriteriaCloned.excludeParams = [];
+      filterCriteriaCloned.selectedColumns = [];
+      filterCriteriaCloned.columnState = null;
+      console.log('dismounts');
+      return updateFilterCriteriaDispatcher(filterCriteriaCloned);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]);
@@ -112,6 +123,7 @@ const mapStateToProps = (state) => {
     totalCount: state.customDataDownload.totalCount,
     fieldMappings: state.customDataDownload.fieldMappings,
     excludableColumns: state.customDataDownload.excludableColumns,
+    aggregation: state.customDataDownload.aggregation,
     filterCriteria: state.filterCriteria,
     loading: state.apiCallsInProgress,
     appliedFilters : state.customDataDownload.appliedFilters
@@ -120,7 +132,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loadDataPreviewDispacher: (dataType, dataSubType, filterCriteria) => dispatch(loadDataPreview(dataType, dataSubType, filterCriteria))
+    loadDataPreviewDispacher: (dataType, dataSubType, filterCriteria, aggregation) => dispatch(loadDataPreview(dataType, dataSubType, filterCriteria, aggregation)),
+    updateFilterCriteriaDispatcher: (filterCriteria) => dispatch(updateFilterCriteria(filterCriteria)),
   };
 };
 

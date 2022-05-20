@@ -14,6 +14,10 @@ export const DATA_SUBTYPES_MAP = {
   "MERCURY AND AIR TOXICS EMISSIONS": Mats.MATS_DATA_SUBTYPES
 };
 
+export const AGGREGATION = {
+  EMISSIONS: Emissions.EMISSIONS_AGGREGATION,
+};
+
 export const FILTERS_MAP = {
   EMISSIONS: {
     'Hourly Emissions': Emissions.EMISSIONS_FILTERS,

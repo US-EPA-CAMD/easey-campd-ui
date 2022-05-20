@@ -27,7 +27,6 @@ const getDownloadLimitAlert = rest.get(downloadLimitAlertUrl, (req, res, ctx) =>
 const bulkDataFilesUrl=
 `${config.services.campd.uri}/bulk-files`;
 const getBulkDataFiles = rest.get(bulkDataFilesUrl, (req, res, ctx) => {
-  console.log('called');
   return res(ctx.json('bulk data files'))
 })
 const filtersContent = {
@@ -414,7 +413,6 @@ describe('Manage Bulk Data Files component: ',  () => {
     fireEvent.click(checkbox);
     fireEvent.click(checkbox);
     const updatedFileSize= queryByText(/size:/i)
-    console.log(updatedFileSize);
     expect(updatedFileSize).toBeInTheDocument();
   });
 

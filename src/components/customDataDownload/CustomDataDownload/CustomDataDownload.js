@@ -6,6 +6,7 @@ import {
   updateSelectedDataType,
   updateSelectedDataSubType,
   removeAppliedFilter,
+  updateSelectedAggregation,
 } from '../../../store/actions/customDataDownload/customDataDownload';
 import DataTypeSelectorView from '../DataTypeSelectorView/DataTypeSelectorView';
 import FilterCriteriaMenu from '../../filterCriteria/FilterCriteria/FilterCriteria';
@@ -27,6 +28,7 @@ const CustomDataDownload = ({
   selectedDataType,
   updateSelectedDataTypeDispatcher,
   updateSelectedDataSubTypeDispatcher,
+  updateSelectedAggregation,
   updateFilterCriteriaDispatcher,
   updateTimePeriodDispatcher,
   removeAppliedFiltersDispatcher,
@@ -65,10 +67,14 @@ const CustomDataDownload = ({
   const [appliedDataType, setAppliedDataType] = useState({
     dataType: '',
     dataSubType: '',
+    aggregation: '',
   });
 
   const [selectedDataSubtype, setSelectedDataSubtype] = useState('');
+  const [selectedAggregation, setSelectedAggregation] = useState('');
+
   const [selectionChange, setSelectionChange] = useState(false);
+  const [onlyAggregationChanged, setOnlyAggregationChanged] = useState(false)
 
   const [displayCancel, setDisplayCancel] = useState(false);
   const [displayFilters, setDisplayFilters] = useState(false);
@@ -122,17 +128,25 @@ const CustomDataDownload = ({
   },[applyClicked, loading, comboBoxYearUpdated])
 
   useEffect(() => {
+    const noAggregationChange = appliedDataType.aggregation === selectedAggregation || !selectedAggregation;
+    const aggregationChange = appliedDataType.aggregation !== selectedAggregation;
     if (
       (appliedDataType.dataType === selectedDataType &&
-        appliedDataType.dataSubType === selectedDataSubtype) ||
+        appliedDataType.dataSubType === selectedDataSubtype && noAggregationChange) ||
       selectedDataSubtype === ''
     ) {
       setSelectionChange(false);
-    } else {
+      setOnlyAggregationChanged(false);
+    } else if (appliedDataType.dataType === selectedDataType &&
+      appliedDataType.dataSubType === selectedDataSubtype && aggregationChange) {
+      setOnlyAggregationChanged(true);
       setSelectionChange(true);
+      }else{
+      setSelectionChange(true);
+      setOnlyAggregationChanged(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedDataType, selectedDataSubtype, appliedDataType]);
+  }, [selectedDataType, selectedDataSubtype, appliedDataType, selectedAggregation]);
 
   useEffect(()=>{
     if(!activeFilter && filterClickRef!==null){
@@ -149,6 +163,12 @@ const CustomDataDownload = ({
     return true;
   };
 
+  const changeAggregation = (event) => {
+    if (event) {
+      setSelectedAggregation(event.target.value);
+    }
+    return true;
+  }
   const handleDataTypeDropdown = (event) => {
     const value = event.target.value;
     if (value !== '') {
@@ -208,10 +228,17 @@ const CustomDataDownload = ({
       setAppliedDataType({
         dataType: selectedDataType,
         dataSubType: selectedDataSubtype,
+        aggregation: selectedAggregation,
       });
+      updateSelectedAggregation(selectedAggregation);
       if (selectionChange) {
-        removeAppliedFiltersDispatcher(null, true);
-        resetFilterDispatcher(null, true);
+        if(!onlyAggregationChanged){
+          removeAppliedFiltersDispatcher(null, true);
+          resetFilterDispatcher(null, true);
+        }
+        if (selectedDataType !== "EMISSIONS"){
+          setSelectedAggregation('')
+        }
       }
       setSelectionChange(false);
       setDisplayCancel(true);
@@ -301,11 +328,13 @@ const CustomDataDownload = ({
             selectedDataType={selectedDataType}
             getSelectedDataSubType={getSelectedDataSubType}
             selectedDataSubtype={selectedDataSubtype}
+            selectedAggregation={selectedAggregation}
             dataTypeApplied={dataTypeApplied}
             dataSubtypeApplied={dataSubtypeApplied}
             handleDataTypeDropdown={handleDataTypeDropdown}
             handleChangeButtonClick={handleChangeButtonClick}
             changeDataSubtype={changeDataSubtype}
+            changeAggregation={changeAggregation}
             handleApplyButtonClick={handleApplyButtonClick}
             handleCancelButtonClick={handleCancelButtonClick}
             selectionChange={selectionChange}
@@ -384,6 +413,8 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(updateSelectedDataType(dataType)),
     updateSelectedDataSubTypeDispatcher: (dataSubType) =>
       dispatch(updateSelectedDataSubType(dataSubType)),
+    updateSelectedAggregation: (aggregation) =>
+      dispatch(updateSelectedAggregation(aggregation)),
     updateFilterCriteriaDispatcher: (filterCriteria) => 
       dispatch(updateFilterCriteria(filterCriteria)),
     removeAppliedFiltersDispatcher: (removedFilter, removeAll) =>

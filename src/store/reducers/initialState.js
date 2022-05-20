@@ -2,6 +2,7 @@ export default {
   customDataDownload: {
     dataType: '',
     dataSubType: '',
+    aggregation: '',
     appliedFilters: [],
     dataPreview: null,
     totalCount: null,
