@@ -1,13 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { connect } from 'react-redux';
 import { Button, Alert, Link } from '@trussworks/react-uswds';
 import { Help } from '@material-ui/icons';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
+import { ModalToggleButton, Modal, ModalHeading, ModalFooter } from '@trussworks/react-uswds';
+import { createBookmark } from '../../../utils/api/quartzApi';
 import DataPreview from '../DataPreview/DataPreview';
 import FilterTags from '../../FilterTags/FilterTags';
-import { isAddedToFilters } from '../../../utils/selectors/general';
+import { isAddedToFilters, formatBookmarkDate, getBookmarkContent } from '../../../utils/selectors/general';
 import { engageFilterLogic } from '../../../utils/selectors/filterLogic';
 import {
   resetDataPreview,
@@ -23,7 +25,8 @@ import { EMISSIONS_DATA_SUBTYPES } from '../../../utils/constants/emissions';
 import { ALLOWANCES_DATA_SUBTYPES } from '../../../utils/constants/allowances';
 import { COMPLIANCES_DATA_SUBTYPES } from '../../../utils/constants/compliances';
 import { FACILITY_DATA_SUBTYPES } from '../../../utils/constants/facility';
-import { MATS_DATA_SUBTYPES } from '../../../utils/constants/mats'
+import { MATS_DATA_SUBTYPES } from '../../../utils/constants/mats';
+import { FILTERS_MAP } from "../../../utils/constants/customDataDownload";
 import Tooltip from '../../Tooltip/Tooltip';
 import config from "../../../config";
 import getContent  from '../../../utils/api/getContent';
@@ -52,12 +55,16 @@ const CddDataPreview = ({
   handlePreviewDataButtonClick,
   isMobileOrTablet,
   totalCount,
+  dataPreview,
   removedAppliedFilter,
   setRemovedAppliedFilter
 }) => {
   const [requirementsMet, setRequirementsMet] = useState(false);
   const [helperText, setHelperText] = useState(null);
   const [limitAlert, setLimitAlert] = useState(null);
+  const [bookmark, setBookmark] = useState(null);
+  const [modalFocus, setModalFocus] = useState(false);
+  const modalRef = useRef();
 
   useEffect(() => {
     getContent('/campd/data/custom-data-download/helper-text.md').then(resp => setHelperText(resp.data));
@@ -109,6 +116,12 @@ const CddDataPreview = ({
       }
     } // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isMobileOrTablet]);
+
+  useEffect(()=>{
+    if(bookmark !==null && dataPreview === null){
+      setBookmark(null);
+    }// eslint-disable-next-line
+  },[dataPreview])
 
   const handleUpdateInAppliedFilters = () => {
     resetDataPreviewDispatcher();
@@ -178,6 +191,30 @@ const CddDataPreview = ({
     return appliedFilters.length > 0 && search.indexOf(false) === -1;
   };
 
+  const createBookmarkHandler = () =>{
+    const content = getBookmarkContent(dataType, dataSubType, FILTERS_MAP[dataType][dataSubType], filterCriteria);
+    if(bookmark === null){
+      createBookmark(content)
+      .then(res=>{
+        setBookmark({
+          id: res.data.bookmarkId,
+          dateCreated: formatBookmarkDate(new Date(res.data.bookmarkAddDate)),
+          dataType: content.dataType,
+          dataSubType: content.dataSubType,
+          url: `${window.location.href}?bookmarkId=${res.data.bookmarkId}`
+        });
+        navigator.clipboard.writeText(`${window.location.href}?bookmarkId=${res.data.bookmarkId}`);
+        modalRef.current.toggleModal(null, true);
+      })
+      .catch(err=>{
+        console.error(err);
+      });
+    }else{
+      navigator.clipboard.writeText(`${window.location.href}?bookmarkId=${bookmark.id}`);
+      modalRef.current.toggleModal(null, true);
+    }
+  };
+
   return (
     <div className="width-full" id="cdd-data-preview">
       <div className={`${isMobileOrTablet && renderPreviewData.display? 'display-none': 'desktop:display-flex flex-row flex-justify bg-base-lightest desktop:padding-x-3 minh-10 padding-0'}`} >
@@ -185,6 +222,28 @@ const CddDataPreview = ({
           <h2 className="flex-align-self-center font-sans-xl text-bold margin-0 padding-x-2 tablet:padding-x-4 desktop:padding-x-0">
             Custom Data Download
           </h2>
+          <div className='desktop:display-flex desktop:flex-row desktop:flex-justify-end'>
+          <div className="flex-align-self-center padding-0">
+            {!hideNav && (
+              <Tooltip
+                content="Bookmark button will be disabled until query is previewed."
+                field="Bookmark"
+              >
+                <Help
+                  className="text-primary desktop-lg:margin-bottom-2 desktop-lg:margin-left-2"
+                  fontSize="small"
+                />
+              </Tooltip>
+            )}
+            <Button
+              type="button"
+              className="clearfix width-card height-6 font-sans-md margin-left-1 margin-2 desktop:margin-0 desktop:margin-left-1"
+              disabled={dataPreview===null}
+              onClick={()=>createBookmarkHandler()}
+            >
+              Bookmark
+            </Button>
+          </div>
           <div className="flex-align-self-center padding-0 desktop:padding-right-4 widescreen:padding-right-10">
             {!hideNav && (
               <Tooltip
@@ -192,7 +251,7 @@ const CddDataPreview = ({
                 field="Preview Data"
               >
                 <Help
-                  className="text-primary margin-bottom-2 margin-left-2"
+                  className="text-primary desktop-lg:margin-bottom-2 desktop-lg:margin-left-2"
                   fontSize="small"
                 />
               </Tooltip>
@@ -206,6 +265,7 @@ const CddDataPreview = ({
             >
               Preview Data
             </Button>
+          </div>
           </div>
         </div>
         <div className={"margin-0 padding-y-2 padding-x-2 tablet:padding-left-4 desktop:padding-2 tablet:display-flex desktop:display-none width-full bg-base-lighter"}>
@@ -233,6 +293,43 @@ const CddDataPreview = ({
           </Button>
         </div>
       </div>
+      <>
+        <Modal
+          onFocus={()=>setModalFocus(!modalFocus)}
+          ref={modalRef}
+          id="bookmark-modal"
+          aria-labelledby="bookmark-modal-heading"
+          aria-describedby="bookmark-modal-description"
+        >
+          <ModalHeading id="bookmark-modal-heading">
+            Bookmark created
+          </ModalHeading>
+          <div className="usa-prose" id="bookmark-modal-description">
+            <p>
+              {`${bookmark?.dataType}, ${bookmark?.dataSubType}`}
+            </p>
+            <p>
+              {`Created: ${bookmark?.dateCreated}`}
+            </p>
+            <p>Bookmark has been successfully copied to the clipboard.</p>
+            <p>
+              Bookmark Link:
+              {// eslint-disable-next-line
+              <a className='display-block' href={bookmark?.url} target="_blank">{bookmark?.url}</a>}
+            </p>
+          </div>
+          <ModalFooter>
+            <ModalToggleButton
+              className="float-left"
+              modalRef={modalRef}
+              closer
+              aria-labelledby="close-bookmark-modal"
+            >
+              Ok
+            </ModalToggleButton>
+          </ModalFooter>
+        </Modal>
+      </>
       {appliedFilters.length > 0 && (
         <div className="display-none desktop:display-block">
           <div className="bg-base-lightest padding-left-3 padding-right-3 padding-bottom-2 font-sans-sm">
@@ -302,6 +399,7 @@ const mapStateToProps = (state) => {
     dataSubType: state.customDataDownload.dataSubType,
     appliedFilters: state.customDataDownload.appliedFilters,
     totalCount: state.customDataDownload.totalCount,
+    dataPreview: state.customDataDownload.dataPreview,
     timePeriod: state.filterCriteria.timePeriod,
     filterCriteria: state.filterCriteria,
     hideNav: state.hideNav,

@@ -84,6 +84,18 @@ export const getCheckBoxSelectedItems = (arr) =>{
   return result;
 };
 
+export const getCheckBoxEnabledItems = (arr) =>{
+  const result = [];
+  arr.forEach(entry =>{
+    entry.items.forEach(item =>{
+      if(item.enabled){
+        result.push(item.id);
+      }
+    });
+  });
+  return result;
+};
+
 export const resetComboBoxItems = (entity) =>{
   entity.forEach(e =>{
     e.selected = false;
