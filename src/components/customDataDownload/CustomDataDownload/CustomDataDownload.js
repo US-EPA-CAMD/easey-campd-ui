@@ -28,7 +28,7 @@ const CustomDataDownload = ({
   selectedDataType,
   updateSelectedDataTypeDispatcher,
   updateSelectedDataSubTypeDispatcher,
-  updateSelectedAggregation,
+  updateSelectedAggregationDispatcher,
   updateFilterCriteriaDispatcher,
   updateTimePeriodDispatcher,
   removeAppliedFiltersDispatcher,
@@ -230,7 +230,7 @@ const CustomDataDownload = ({
         dataSubType: selectedDataSubtype,
         aggregation: selectedAggregation,
       });
-      updateSelectedAggregation(selectedAggregation);
+      updateSelectedAggregationDispatcher(selectedAggregation);
       if (selectionChange) {
         if(!onlyAggregationChanged){
           removeAppliedFiltersDispatcher(null, true);
@@ -413,7 +413,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(updateSelectedDataType(dataType)),
     updateSelectedDataSubTypeDispatcher: (dataSubType) =>
       dispatch(updateSelectedDataSubType(dataSubType)),
-    updateSelectedAggregation: (aggregation) =>
+    updateSelectedAggregationDispatcher: (aggregation) =>
       dispatch(updateSelectedAggregation(aggregation)),
     updateFilterCriteriaDispatcher: (filterCriteria) => 
       dispatch(updateFilterCriteria(filterCriteria)),
