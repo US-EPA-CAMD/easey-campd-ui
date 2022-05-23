@@ -7,6 +7,7 @@ import NotFound from "../NotFound/NotFound";
 import HomePage from "../HomePage/HomePage";
 import DataLandingPage from "../DataLandingPage/DataLandingPage";
 import BulkDataFiles from "../bulkDataFiles/BulkDataFiles/BulkDataFiles";
+import MapsGraphsPage from "../MapsGraphsPage/MapsGraphsPage";
 import AboutPage from "../AboutPage/AboutPage";
 import TutorialsPage from "../TutorialsPage/TutorialsPage";
 import RelatedResources from "../RelatedResources/RelatedResources";
@@ -17,7 +18,6 @@ import config from "../../config";
 import "./App.scss";
 
 function App() {
-
   const prepDocument = () => {
     setTimeout(() => {
       const mainContent = document.querySelector('.mainContent');
@@ -34,10 +34,11 @@ function App() {
       <BrowserRouter basename={config.app.path}>
       <Layout>
         <Switch>
-          <Route path="/" exact component={HomePage}/>
+          <Route path="/" exact component={HomePage} />
           <Route path="/data" exact component={DataLandingPage} />
-          <Route path='/data/custom-data-download' exact component={CustomDataDownload} />
+          <Route path="/data/custom-data-download" exact component={CustomDataDownload} />
           <Route path="/data/bulk-data-files" exact component={BulkDataFiles} />
+          <Route path="/maps-graphs" exact component={MapsGraphsPage} />
           <Route path="/resources/related-resources" exact component={RelatedResources} />
           <Route path="/resources/glossary" exact component={GlossaryPage} />
           <Route path="/help-support/about" exact component={AboutPage} />

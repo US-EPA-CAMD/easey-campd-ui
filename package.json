@@ -15,7 +15,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "up": "yarn --ignore-engines && yarn start",
-    "test": "react-scripts test --coverage --watchAll=false --testResultsProcessor=jest-sonar-reporter"
+    "test": "react-scripts test --coverage --watchAll=false --testResultsProcessor=jest-sonar-reporter",
+    "postinstall": "patch-package"
   },
   "resolutions": {
     "ansi-regex": "^5.0.1",
@@ -59,6 +60,8 @@
     "loglevel": "^1.7.0",
     "moment-timezone": "^0.5.34",
     "msw": "^0.36.5",
+    "patch-package": "6.4.7",
+    "postinstall-postinstall": "2.1.0",
     "prettier": "^2.2.1",
     "react": "^17.0.2",
     "react-click-outside-hook": "^1.1.1",
@@ -83,6 +86,7 @@
     "remark-sub-super": "^1.0.20",
     "sass": "^1.36.0",
     "styled-components": "^5.3.0",
+    "tiny-slider": "2.9.4",
     "uswds": "^2.12.1"
   },
   "devDependencies": {
@@ -124,6 +128,12 @@
       "!src/utils/api/setupTests.js",
       "!src/utils/api/apiUtils.js",
       "!src/utils/remoteLogging.js"
+    ],
+    "moduleNameMapper": {
+      "\\.svg$": "<rootDir>/jest/file-transformer.js"
+    },
+    "transformIgnorePatterns": [
+      "/node_modules/(?!tiny-slider)"
     ]
   }
 }
