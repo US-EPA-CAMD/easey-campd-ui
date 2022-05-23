@@ -24,6 +24,7 @@ initialState.filterCriteria = {
   unitType: [],
   fuelType: [],
   stateTerritory: [],
+  excludeParams: [],
   controlTechnology: [],
 };
 const store = configureStore(initialState);

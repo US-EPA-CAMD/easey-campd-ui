@@ -13,7 +13,7 @@ axios.defaults.headers.common = {
   "x-api-key": config.app.apiKey
 };
 
-const DownloadFileType = ({ dataType, dataSubType, filterCriteria, totalCount}) => {
+const DownloadFileType = ({ aggregation, dataType, dataSubType, filterCriteria, totalCount}) => {
   const [fileType, setFileType] = useState('text/csv');
   const [loading, setLoading] = useState(false);
 
@@ -28,7 +28,7 @@ const DownloadFileType = ({ dataType, dataSubType, filterCriteria, totalCount}) 
   const onDownloadHandler = () => {
     setLoading(true);
     axios
-      .get(constructRequestUrl(dataType, dataSubType, filterCriteria, true), {
+      .get(constructRequestUrl(dataType, dataSubType, filterCriteria, aggregation, true), {
         headers: {
           Accept: fileType,
         },
@@ -94,6 +94,7 @@ const mapStateToProps = (state) => {
   return {
     dataType: state.customDataDownload.dataType,
     dataSubType: state.customDataDownload.dataSubType,
+    aggregation: state.customDataDownload.aggregation,
     filterCriteria: state.filterCriteria,
     totalCount: state.customDataDownload.totalCount,
   };

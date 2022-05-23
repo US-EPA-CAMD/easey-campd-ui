@@ -8,6 +8,8 @@ const reducer = (state = initialState.customDataDownload, action) => {
       return Object.assign({}, state, { dataType: action.dataType });
     case types.UPDATE_SELECTED_DATASUBTYPE:
       return Object.assign({}, state, { dataSubType: action.dataSubType });
+    case types.UPDATE_SELECTED_AGGREGATION:
+      return Object.assign({}, state, { aggregation: action.aggregation });
     case types.RESET_DATA_PREVIEW:
       return {...state, dataPreview: null, totalCount:null};
     case types.ADD_APPLIED_FILTER:

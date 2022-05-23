@@ -16,6 +16,13 @@ export function updateSelectedDataSubType(dataSubType) {
   };
 }
 
+export function updateSelectedAggregation(aggregation) {
+  return {
+    type: types.UPDATE_SELECTED_AGGREGATION,
+    aggregation,
+  };
+}
+
 export function resetDataPreview(){
   return {
     type: types.RESET_DATA_PREVIEW
@@ -52,13 +59,14 @@ export function loadDataPreviewSuccess(data, totalCount, fieldMappings, excludab
   };
 }
 
-export function loadDataPreview(dataType, dataSubType, filterCriteria) {
+export function loadDataPreview(dataType, dataSubType, filterCriteria, aggregation) {
   return (dispatch) => {
     dispatch(beginApiCall());
-    return mapSelectionToApiCall(dataType, dataSubType, filterCriteria)
+    return mapSelectionToApiCall(dataType, dataSubType, filterCriteria, aggregation)
     .then((res) => {
+      const excludableColumns = res.headers['x-excludable-columns']?  JSON.parse(res.headers['x-excludable-columns']) : [];
       dispatch(
-        loadDataPreviewSuccess(res.data, res.headers['x-total-count'], JSON.parse(res.headers['x-field-mappings']), JSON.parse(res.headers['x-excludable-columns']))
+        loadDataPreviewSuccess(res.data, res.headers['x-total-count'], JSON.parse(res.headers['x-field-mappings']), excludableColumns)
       );
     })
     .catch((err) => {

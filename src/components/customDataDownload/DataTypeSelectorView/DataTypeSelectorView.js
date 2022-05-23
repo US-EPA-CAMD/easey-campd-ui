@@ -13,12 +13,14 @@ import MatsDataCaveat from '../MatsDataCaveat/MatsDataCaveat';
 const DataTypeSelectorView = ({
   selectedDataType,
   getSelectedDataSubType,
+  selectedAggregation,
   selectedDataSubtype,
   dataTypeApplied,
   dataSubtypeApplied,
   handleDataTypeDropdown,
   handleChangeButtonClick,
   changeDataSubtype,
+  changeAggregation,
   handleApplyButtonClick,
   handleCancelButtonClick,
   selectionChange,
@@ -94,7 +96,7 @@ const DataTypeSelectorView = ({
                   {selectedDataType === mats?  'Mercury and Air Toxics Emissions (MATS)' : initcap(selectedDataType)},{' '}
                   {getSelectedDataSubType(
                     constants.DATA_SUBTYPES_MAP[selectedDataType]
-                  )}
+                  )}{selectedAggregation && `, ${selectedAggregation}`}
                 </span>
                 <Button
                   outline="true"
@@ -150,6 +152,37 @@ const DataTypeSelectorView = ({
               >
                 {selectedDataType ? (
                   constants.DATA_SUBTYPES_MAP[selectedDataType].map((el, i) => (
+                    <option key={i} value={el.value}>
+                      {el.label}
+                    </option>
+                  ))
+                ) : (
+                  <option key="" value="">
+                    - Select -
+                  </option>
+                )}
+              </Dropdown>
+            </div>
+          </>
+        )}
+        {selectedDataType === 'EMISSIONS' && !dataSubtypeApplied && (
+          <>
+            <Label
+              className="padding-top-1 font-body-md margin-0"
+              htmlFor="aggregation"
+            >
+              Aggregation (Required)
+            </Label>
+            <div className="padding-y-1">
+              <Dropdown
+                id="aggregation"
+                className={!selectedDataType ? 'bg-transparent' : ''}
+                onChange={changeAggregation}
+                value={selectedAggregation}
+                // disabled={!selectedDataType || constants.DATA_SUBTYPES_MAP[selectedDataType]?.length < 2}
+              >
+                {selectedDataType? (
+                  constants.AGGREGATION[selectedDataType].map((el, i) => (
                     <option key={i} value={el.value}>
                       {el.label}
                     </option>

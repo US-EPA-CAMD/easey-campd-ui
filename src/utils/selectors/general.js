@@ -12,6 +12,7 @@ import config from '../../config';
 import { constructTimePeriodQuery } from './timePeriodQuery';
 import * as constants from '../constants/customDataDownload';
 import { isYearFormat } from '../dateValidation/dateValidation';
+import { EMISSIONS_AGGREGATION } from '../constants/emissions';
 
 export const isAddedToFilters = (filter, appliedFilters) => {
   return appliedFilters.filter((el) => el.key === filter).length > 0;
@@ -180,6 +181,7 @@ export const constructRequestUrl = (
   dataType,
   dataSubType,
   filterCriteria,
+  aggregation,
   download = false
 ) => {
   const programQuery = filterCriteria.program
@@ -254,8 +256,9 @@ export const constructRequestUrl = (
     constants.DATA_SUBTYPES_MAP[dataType.toUpperCase()],
     dataSubType
   );
-
-  const url = `${apiService}${subTypeService}${streaming}?${pagination}${constructTimePeriodQuery(
+  const aggregationLink = getServiceSubtype(EMISSIONS_AGGREGATION, aggregation);
+  const aggregationService = aggregationLink? '/'+ aggregationLink : '';
+  const url = `${apiService}${subTypeService}${aggregationService}${streaming}?${pagination}${constructTimePeriodQuery(
     dataSubType,
     filterCriteria
   )}${programQuery}${facilityQuery}${stateTerritoryQuery}${unitTypeQuery}${fuelTypeQuery}${controlTechnologyQuery}

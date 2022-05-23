@@ -33,9 +33,10 @@ export const RESET_FILTER = "RESET_FILTER";
 export const ADD_APPLIED_FILTER = "ADD_APPLIED_FILTER";
 export const REMOVE_APPLIED_FILTER = "REMOVE_APPLIED_FILTER";
 
-//update cdd data type and subytpe
+//update cdd data type, subytpe, and aggregation
 export const UPDATE_SELECTED_DATATYPE = "UPDATE_SELECTED_DATATYPE";
 export const UPDATE_SELECTED_DATASUBTYPE = "UPDATE_SELECTED_DATASUBTYPE";
+export const UPDATE_SELECTED_AGGREGATION = "UPDATE_SELECTED_AGGREGATION";
 
 //API call
 export const BEGIN_API_CALL = "BEGIN_API_CALL";
