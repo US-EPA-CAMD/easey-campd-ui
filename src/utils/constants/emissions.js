@@ -33,7 +33,7 @@ export const EMISSIONS_FILTERS = [
 
 export const EMISSIONS_AGGREGATION = [
   {value: 'Unit (No Aggregation)', service: '', label: 'Unit (No Aggregation)'},
-  {value: 'Facility', service: 'facility', label: 'Facility'},
-  {value: 'State', service: 'state', label: 'State'},
-  {value: 'National', service: 'national', label: 'National'},
+  {value: 'Facility', service: 'by-facility', label: 'Facility'},
+  {value: 'State', service: 'by-state', label: 'State'},
+  {value: 'National', service: 'nationally', label: 'National'},
 ]
