@@ -315,7 +315,7 @@ const CddDataPreview = ({
             <p>
               Bookmark Link:
               {// eslint-disable-next-line
-              <a className='display-block' href={bookmark?.url} target="_blank">{bookmark?.url}</a>}
+              <a className='display-block' href={bookmark?.url} target="_blank" rel="noopener noreferrer">{bookmark?.url}</a>}
             </p>
           </div>
           <ModalFooter>

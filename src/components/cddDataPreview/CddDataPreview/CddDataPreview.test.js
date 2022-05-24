@@ -14,7 +14,7 @@ jest.spyOn(window, 'confirm').mockImplementation(() => {});
 jest.mock('react-markdown', () => ({ children }) => <>{children}</>);
 jest.mock('remark-gfm', () => () => {});
 
-const { findByText, getByRole } = screen;
+const { findByText, getByRole, findByTestId, findByRole } = screen;
 const helperTextUrl =
   `${config.services.content.uri}/campd/data/custom-data-download/helper-text.md`;
 const limitTextUrl = `${config.services.content.uri}/campd/data/custom-data-download/download-limit-alert.md`;
@@ -24,7 +24,17 @@ const getHelperTextUrl = rest.get(helperTextUrl, (req, res, ctx) => {
 const getLimitTextUrl = rest.get(limitTextUrl, (req, res, ctx) => {
   return res(ctx.json('this is CDD download limit'));
 });
-const server = new setupServer(getHelperTextUrl, getLimitTextUrl);
+const bookmarkUrl = `${config.services.campd.uri}/bookmarks`;
+const createBookmarkUrl = rest.post(bookmarkUrl, (req, res, ctx) => {
+  return res(ctx.json({
+    "bookmarkId": 1072,
+    "bookmarkAddDate": "2022-05-23T12:56:45.587Z",
+    "bookmarkLastAccessedDate": "2022-05-23T16:13:13.011Z",
+    "bookmarkHitCount": 2
+  }));
+});
+
+const server = new setupServer(getHelperTextUrl, getLimitTextUrl, createBookmarkUrl);
 
 
 initialState.customDataDownload.dataType = 'EMISSIONS';
@@ -44,6 +54,18 @@ initialState.filterCriteria.timePeriod = {
   month: [1, 3, 5],
   quarter: [],
 };
+initialState.customDataDownload.dataPreview = [
+  {
+    test: 'Some value',
+    test2: 'Another value',
+  },
+  {
+    test: 'Yet Some value',
+    test2: 'Yet Another value',
+  },
+];
+initialState.customDataDownload.totalCount = "50";
+initialState.customDataDownload.fieldMappings = [{"label":"Test","value":"test"},{"label":"Test2","value":"test2"}];
 let store = configureStore(initialState);
 
 beforeAll(() => server.listen());
@@ -67,5 +89,27 @@ describe('CddDataPreview', () => {
     const previewButton = getByRole('button', { name: 'Preview Data' });
     expect(previewButton).toBeDefined();
     fireEvent.click(previewButton);
+  });
+  test('Check bookmark funtionality works on cdd', async () => {
+    render(
+      <Provider store={store}>
+        <div id="filter0"></div>
+        <CddDataPreview requirementsMet={true} totalCount={50} 
+        renderPreviewData={{
+        display: false,
+        dataType: '',
+        dataSubType: '',
+        }} />
+      </Provider>
+    );
+    const bookmarkButton = getByRole('button', { name: 'Bookmark' });
+    expect(bookmarkButton).toBeDefined();
+    fireEvent.click(bookmarkButton);
+    const bookmarkModal = await findByTestId("modalWindow");
+    expect(bookmarkModal).toBeInTheDocument();
+    expect(await findByText("Bookmark created")).toBeDefined();
+    const modalCloser = await findByRole('button', {name : 'Ok'});
+    expect(modalCloser).toBeDefined();
+    fireEvent.click(modalCloser);
   });
 });
