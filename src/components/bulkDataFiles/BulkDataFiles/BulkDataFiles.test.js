@@ -8,9 +8,6 @@ import BulkDataFiles from './BulkDataFiles';
 import initialState from '../../../store/reducers/initialState';
 import { dataTable } from '../../../utils/constants/bulkDataFilesTestData';
 
-const { findByRole, findByText, getByRole, getByText, queryByText, debug } =
-  screen;
-
 initialState.bulkDataFiles.dataTable = dataTable;
 let store = configureStore(initialState);
 
@@ -25,7 +22,7 @@ jest.mock('react-router-dom', () => ({
  */
 describe('Manage Bulk Data Files component: ',  () => {
   test('download button is disabled when no files are selected', () => {
-    render(
+    const { getByRole } = render(
       <Provider store={store}>
         <MemoryRouter>
           <BulkDataFiles
@@ -42,7 +39,7 @@ describe('Manage Bulk Data Files component: ',  () => {
   });
 
   test('download button is enabled after files are selected', () => {
-    render(
+    const { getByRole } = render(
       <Provider store={store}>
         <MemoryRouter>
           <BulkDataFiles
@@ -64,7 +61,7 @@ describe('Manage Bulk Data Files component: ',  () => {
   });
 
   test('number of files is updated when files are added or removed', () => {
-    render(
+    const { getByRole, getByText } = render(
       <Provider store={store}>
         <MemoryRouter>
           <BulkDataFiles
@@ -114,7 +111,7 @@ test('sections render without errors', async () => {
 
 
 test('file size is updated when files are added or removed', async () => {
-  render(
+  const { findByRole, queryByText } = render(
     <Provider store={store}>
       <MemoryRouter>
         <BulkDataFiles
@@ -136,7 +133,7 @@ test('file size is updated when files are added or removed', async () => {
 
 
 test('download button is disabled if file size exceeds download limit', async () => {
-  render(
+  const {findByRole, getByRole} = render(
     <Provider store={store}>
       <MemoryRouter>
         <BulkDataFiles
@@ -158,7 +155,7 @@ test('download button is disabled if file size exceeds download limit', async ()
 });
 
 // test('Alert pops up when file size exceeds download limit and is removed when limit is no longer exceeded', async() => {
-//   render(
+//   const {findByText,findByRole, queryByText} =render(
 //     <Provider store={store}>
 //       <MemoryRouter>
 //         <BulkDataFiles
