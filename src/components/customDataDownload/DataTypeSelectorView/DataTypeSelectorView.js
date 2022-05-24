@@ -96,7 +96,7 @@ const DataTypeSelectorView = ({
                   {selectedDataType === mats?  'Mercury and Air Toxics Emissions (MATS)' : initcap(selectedDataType)},{' '}
                   {getSelectedDataSubType(
                     constants.DATA_SUBTYPES_MAP[selectedDataType]
-                  )}{selectedAggregation && `, ${selectedAggregation}`}
+                  )}{selectedDataType === "EMISSIONS"?  `, ${selectedAggregation || 'Unit (No Aggregation)'}` : selectedAggregation && `, ${selectedAggregation}`}
                 </span>
                 <Button
                   outline="true"

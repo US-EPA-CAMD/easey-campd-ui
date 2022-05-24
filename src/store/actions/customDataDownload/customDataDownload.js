@@ -64,7 +64,7 @@ export function loadDataPreview(dataType, dataSubType, filterCriteria, aggregati
     dispatch(beginApiCall());
     return mapSelectionToApiCall(dataType, dataSubType, filterCriteria, aggregation)
     .then((res) => {
-      const excludableColumns = res.headers['x-excludable-columns']?  JSON.parse(res.headers['x-excludable-columns']) : [];
+      const excludableColumns = res.headers?.['x-excludable-columns']?  JSON.parse(res.headers['x-excludable-columns']) : [];
       dispatch(
         loadDataPreviewSuccess(res.data, res.headers['x-total-count'], JSON.parse(res.headers['x-field-mappings']), excludableColumns)
       );
