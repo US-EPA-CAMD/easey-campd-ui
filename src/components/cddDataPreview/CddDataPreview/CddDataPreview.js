@@ -34,6 +34,7 @@ import MatsDataCaveat from '../../customDataDownload/MatsDataCaveat/MatsDataCave
 import "./CddDataPreview.scss";
 
 const CddDataPreview = ({
+  aggregation,
   dataType,
   dataSubType,
   appliedFilters,
@@ -84,7 +85,17 @@ const CddDataPreview = ({
       }
     );
   }, []);
-
+  
+  useEffect(() => {
+    if(dataPreview){
+      resetDataPreviewDispatcher()
+      setRenderPreviewData({
+        display: false,
+        dataType,
+        dataSubType,
+      });
+    }// eslint-disable-next-line
+  }, [aggregation])
   useEffect(() => {
     if (
       dataType &&
@@ -397,6 +408,7 @@ const mapStateToProps = (state) => {
   return {
     dataType: state.customDataDownload.dataType,
     dataSubType: state.customDataDownload.dataSubType,
+    aggregation: state.customDataDownload.aggregation,
     appliedFilters: state.customDataDownload.appliedFilters,
     totalCount: state.customDataDownload.totalCount,
     dataPreview: state.customDataDownload.dataPreview,
