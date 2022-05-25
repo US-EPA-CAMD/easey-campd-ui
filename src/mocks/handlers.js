@@ -25,6 +25,10 @@ const limitTextUrl = `${config.services.content.uri}/campd/data/custom-data-down
 const getLimitText = rest.get(limitTextUrl, (req, res, ctx) => {
   return res(ctx.json('this is CDD download limit'));
 });
+const bulkDataFileDownloadUrl = `${config.services.bulkDataFiles.uri}/*`;
+const downloadBulkDataFile = rest.get(bulkDataFileDownloadUrl, (req, res, ctx) => {
+  return res(ctx.status(200),ctx.json());
+})
 const matsCaveatUrl = `${config.services.content.uri}/campd/data/custom-data-download/mats-data-caveat.md`;
 const getMatsCaveat = rest.get(matsCaveatUrl, (req, res, ctx) => {
   return res(ctx.json('this is CDD download limit'));
@@ -87,6 +91,7 @@ const getFilters = rest.get(filtersUrl, (req, res, ctx) => {
   return res(ctx.json(filtersContent));
 });
 export const handlers = [
+  downloadBulkDataFile,
   getUnitTypes,
   getFacilities,
   getOwnerOperators,

@@ -13,9 +13,8 @@ beforeAll(() =>
   server.listen({
     onUnhandledRequest(req) {
       console.warn(
-        ' Found an unhandled %s request to %s',
-        req.method,
-        req.url.href
+        "\u001b[1;45m Found an unhandled request to " + 
+        req.url + "\u001b[0m"
       );
     },
   })
