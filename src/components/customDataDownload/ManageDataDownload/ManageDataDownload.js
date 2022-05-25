@@ -269,7 +269,6 @@ const ManageDataDownload = ({
     }
     return selectedFilter;
   };
-  useEffect(() => console.log(filterCriteria.filterLogicEngaged), [filterCriteria.filterLogicEngaged])
 
   const mobileDataTypeDisplay = displayMobileDataType? 'width-full tablet:width-mobile-lg minh-viewport'
   : 'display-none desktop:display-block';

@@ -37,10 +37,10 @@ const config = {
         process.env.REACT_APP_EASEY_ACCOUNT_API ||
         "https://api-easey-dev.app.cloud.gov/account-mgmt",
     },
-    notifications: {
+    streaming: {
       uri:
-        process.env.REACT_APP_EASEY_NOTIFICATIONS_API ||
-        "https://api-easey-dev.app.cloud.gov/notifications-mgmt",
+        process.env.REACT_APP_EASEY_STREAMING_API ||
+        "https://api-easey-dev.app.cloud.gov/streaming-services",
     },
     content: {
       uri:

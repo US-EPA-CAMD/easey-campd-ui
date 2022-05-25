@@ -14,7 +14,7 @@ applications:
       REACT_APP_EASEY_EMISSIONS_API: https://((apiHost))/emissions-mgmt
       REACT_APP_EASEY_ACCOUNT_API: https://((apiHost))/account-mgmt
       REACT_APP_EASEY_CONTENT_API: https://((apiHost))/content-mgmt
-      REACT_APP_EASEY_NOTIFICATIONS_API: https://((apiHost))/notifications-mgmt
+      REACT_APP_EASEY_STREAMING_API: https://((apiHost))/streaming-services
       REACT_APP_GOOGLE_ANALYTICS_CONTAINER_ID: ((googleAnalyticsContainerId))
       REACT_APP_GOOGLE_ANALYTICS_ENABLED: ((googleAnalyticsEnabled))
       REACT_APP_EASEY_CAMPD_UI_STREAMING_LIMIT: ((streamingLimit))

@@ -287,7 +287,6 @@ export const filterTransactionType = (filterCriteria) =>{
 };
 
 export const engageFilterLogic = async(dataType, dataSubType, affectedFilter, filterCriteriaCloned, updateFilterCriteriaDispatcher, removedFilter=false) =>{
-  console.log('started');
   const fcCopy = JSON.parse(JSON.stringify(filterCriteriaCloned));
   fcCopy.filterLogicEngaged = true;
   await updateFilterCriteriaDispatcher(fcCopy); 

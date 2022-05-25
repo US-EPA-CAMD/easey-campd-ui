@@ -3,4 +3,3 @@ environment: production
 host: campd.epa.gov
 apiHost: api.epa.gov/easey
 googleAnalyticsEnabled: "true"
-streamingLimit: 5000000
