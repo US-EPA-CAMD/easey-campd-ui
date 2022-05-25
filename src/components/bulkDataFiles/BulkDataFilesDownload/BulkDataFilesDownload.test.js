@@ -1,6 +1,7 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import BulkDataFilesDownload from './BulkDataFilesDownload';
+import axios from 'axios';
 const { getByRole } = screen;
 
 jest.mock('react-markdown', () => ({ children }) => <>{children}</>);
@@ -36,7 +37,19 @@ const selectedFiles = {
     },
   ],
 };
-
+const overLimitFiles = Object.assign({}, selectedFiles, selectedFiles.selectedRows = [...selectedFiles.selectedRows, {
+      filename: 'compliance-txso2.csv',
+      s3Path: 'compliance/compliance-txso2.csv',
+      bytes: 0,
+      kiloBytes: 6,
+      megaBytes: 0,
+      gigaBytes: 6145,
+      lastUpdated: '2022-03-06T20:33:45Z',
+      description: 'Texas SO2 Trading Program Annual Reconciliation Data',
+      metadata: {},
+      id: 7,
+    }]);
+const singleSelectedFile = Object.assign({}, selectedFiles, [selectedFiles.selectedRows[0]])
 describe('Bulk data files download component functionality', () => {
   test('download button should be disabled if no files are selected', () => {
     render(
@@ -67,4 +80,20 @@ describe('Bulk data files download component functionality', () => {
     });
     expect(downloadButton).not.toBeDisabled();
   });
+
+  test('download button should be disabled if file size exceeds limit', () => {
+    render(
+      <BulkDataFilesDownload
+        selectedFiles={overLimitFiles}
+        limitReached={true}
+        fileSize={'697.23 GB'}
+      />
+    );
+
+    const downloadButton = getByRole('button', {
+      name: /download/i,
+    });
+    expect(downloadButton).toBeDisabled();
+  });
+
 });

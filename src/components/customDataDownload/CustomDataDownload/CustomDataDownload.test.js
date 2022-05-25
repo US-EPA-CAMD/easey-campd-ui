@@ -4,21 +4,6 @@ import { render, fireEvent } from "@testing-library/react";
 import configureStore from "../../../store/configureStore.dev";
 import { Provider } from "react-redux";
 import initialState from "../../../store/reducers/initialState";
-import { rest } from 'msw';
-import { setupServer } from 'msw/node';
-import {
-  unitTypes,
-  fuelTypes,
-  states,
-  controlTechnologies,
-  accountTypes,
-  transactionTypes,
-  sourceCategories,
-  attributes,
-  facilities,
-  ownerOperators,
-} from '../../../utils/constants/cddTestData';
-import config from "../../../config";
 
 initialState.customDataDownload.dataType= "COMPLIANCE";
 initialState.filterCriteria.stateTerritory = [
@@ -26,95 +11,9 @@ initialState.filterCriteria.stateTerritory = [
 ];
 const store = configureStore(initialState);
 
-jest.mock('react-markdown', () => ({ children }) => <>{children}</>);
-jest.mock('remark-gfm', () => () => {});
-const helperTextUrl =
-  'https://api.epa.gov/easey/dev/content-mgmt/campd/data/custom-data-download/helper-text.md';
-const limitTextUrl = `${config.services.content.uri}/campd/data/custom-data-download/download-limit-alert.md`;
-const getLimitText = rest.get(limitTextUrl, (req, res, ctx) => {
-  return res(ctx.json('this is CDD download limit'));
-});
-const matsCaveatUrl = `${config.services.content.uri}/campd/data/custom-data-download/mats-data-caveat.md`;
-const getMatsCaveat = rest.get(matsCaveatUrl, (req, res, ctx) => {
-  return res(ctx.json('this is CDD download limit'));
-});
-const getHelperText = rest.get(helperTextUrl, (req, res, ctx) => {
-  return res(ctx.json('this is CDD helper tex'));
-});
-const getUnitTypes = rest.get(unitTypes.url, (req, res, ctx) => {
-  return res(ctx.json(unitTypes.data))
-})
-const getFuelTypes = rest.get(fuelTypes.url, (req, res, ctx) => {
-  return res(ctx.json(fuelTypes.data))
-})
-const getStates = rest.get(states.url, (req, res, ctx) => {
-  return res(ctx.json(states.data))
-})
-const getControlTechnologies = rest.get(controlTechnologies.url, (req, res, ctx) => {
-  return res(ctx.json(controlTechnologies.data))
-})
-const getAccountTypes = rest.get(accountTypes.url, (req, res, ctx) => {
-  return res(ctx.json(accountTypes.data))
-})
-const getTransactionTypes = rest.get(transactionTypes.url, (req, res, ctx) => {
-  return res(ctx.json(transactionTypes.data))
-})
-const getSourceCategories = rest.get(sourceCategories.url, (req, res, ctx) => {
-  return res(ctx.json(sourceCategories.data))
-})
-const getAttributes = rest.get(attributes.url, (req, res, ctx) => {
-  return res(ctx.json(attributes.data))
-})
-const getFacilities = rest.get(facilities.url, (req, res, ctx) => {
-  return res(ctx.json(facilities.data))
-})
-const getOwnerOperators = rest.get(ownerOperators.url, (req, res, ctx) => {
-  return res(ctx.json(ownerOperators.data))
-})
-
 const matsDataType = 'MERCURY AND AIR TOXICS EMISSIONS';
 const complianceDataType = 'COMPLIANCE'
-const apiCalls = [
-  getUnitTypes,
-  getFacilities,
-  getOwnerOperators,
-  getFuelTypes,
-  getStates,
-  getControlTechnologies,
-  getAccountTypes,
-  getTransactionTypes,
-  getSourceCategories,
-  getAttributes,
-  getHelperText,
-  getLimitText,
-  getMatsCaveat
-];
-const server = new setupServer(...apiCalls);
-// *** set up mocks
 
-beforeAll(() => server.listen(
-  {
-    onUnhandledRequest(req) {
-      console.error(
-        '1234 Found an unhandled %s request to %s',
-        req.method,
-        req.url.href,
-        `
-        
-        
-
-        ************************************************************************************************
-
-        
-        ************************************************************************************************
-        
-        
-        `
-      )}
-  }
-));
-beforeEach(() => server.resetHandlers());
-afterAll(() => server.close());
 describe("CustomDataDownload", () => {
   test("Check that the  component properly renders", () => {
     const { getByTestId } = render(<Provider store={store}><CustomDataDownload /></Provider>);

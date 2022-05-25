@@ -31,14 +31,14 @@ const BulkDataFilesDownload = ({ selectedFiles, fileSize, limitReached }) => {
       aria-live="assertive"
       className="download-wrapper height-10 border-2px radius-lg bg-primary-lighter border-primary display-flex flex-row flex-align-center font-sans-sm margin-top-2 padding-x-2">
       <div className="grid-col flex-1">
-        Files selected: {selectedFiles.selectedCount || ''}
+        Files selected: {selectedFiles?.selectedCount || ''}
       </div>
       <div className="grid-col flex-1">Size: {fileSize || ''}</div>
       <Button
         type="button"
         className="flex-end margin-x-1"
         onClick={() => onDownloadHandler()}
-        disabled={!selectedFiles.selectedCount || limitReached}
+        disabled={!selectedFiles?.selectedCount || limitReached}
       >
         Download
       </Button>
