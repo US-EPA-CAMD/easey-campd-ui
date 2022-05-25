@@ -5,6 +5,8 @@ import DataTable from 'react-data-table-component';
 import DownloadFileType from '../../customDataDownload/DownloadFileType/DownloadFileType';
 import RenderSpinner from '../../RenderSpinner/RenderSpinner'
 import { ensure508, cleanUp508 } from '../../../utils/ensure-508/rdt-table';
+import Tooltip from '../../Tooltip/Tooltip';
+import { Help } from '@material-ui/icons';
 
 import './DataPreviewRender.scss';
 
@@ -15,6 +17,7 @@ const DataPreviewRender = ({
   dataPreview,
   totalCount,
   handleBackButton,
+  createBookmarkHandler
 }) => {
   useEffect(() => {
     const arrowBackSvg = document.getElementsByClassName("arrow-back-svg");
@@ -76,6 +79,29 @@ const DataPreviewRender = ({
         <div className="grid-col-12 desktop:grid-col-6 widescreen:grid-col-4">
           {loading === 0 && dataPreview !== null && dataPreview.length > 0 && (
             <DownloadFileType loading={loading} />
+          )}
+        </div>
+        <div className="grid-col-12 desktop:display-none padding-0 maxw-card margin-x-auto margin-bottom-1">
+          {loading === 0 && dataPreview !== null && dataPreview.length > 0 && (
+            <>
+              <Tooltip
+                content="Bookmark button will be disabled until query is previewed."
+                field="Bookmark"
+              >
+                <Help
+                  className="text-primary margin-top-neg-3 margin-left-neg-2"
+                  fontSize="small"
+                />
+              </Tooltip>
+              <Button
+                type="button"
+                className="clearfix width-card height-6 font-sans-md margin-0"
+                disabled={dataPreview===null}
+                onClick={()=>createBookmarkHandler()}
+              >
+                Bookmark
+              </Button>
+            </>
           )}
         </div>
       </div>
