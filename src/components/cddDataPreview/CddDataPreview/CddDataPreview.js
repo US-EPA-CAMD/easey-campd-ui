@@ -234,27 +234,29 @@ const CddDataPreview = ({
             Custom Data Download
           </h2>
           <div className='desktop:display-flex desktop:flex-row desktop:flex-justify-end'>
-          <div className="flex-align-self-center padding-0">
-            {!hideNav && (
-              <Tooltip
-                content="Bookmark button will be disabled until query is previewed."
-                field="Bookmark"
+          {!isMobileOrTablet &&
+            <div className="flex-align-self-center padding-0">
+              {!hideNav && (
+                <Tooltip
+                  content="Bookmark button will be disabled until query is previewed."
+                  field="Bookmark"
+                >
+                  <Help
+                    className="text-primary desktop-lg:margin-bottom-2 desktop-lg:margin-left-2"
+                    fontSize="small"
+                  />
+                </Tooltip>
+              )}
+              <Button
+                type="button"
+                className="clearfix width-card height-6 font-sans-md margin-left-1 margin-2 desktop:margin-0 desktop:margin-left-1"
+                disabled={dataPreview===null || !requirementsMet}
+                onClick={()=>createBookmarkHandler()}
               >
-                <Help
-                  className="text-primary desktop-lg:margin-bottom-2 desktop-lg:margin-left-2"
-                  fontSize="small"
-                />
-              </Tooltip>
-            )}
-            <Button
-              type="button"
-              className="clearfix width-card height-6 font-sans-md margin-left-1 margin-2 desktop:margin-0 desktop:margin-left-1"
-              disabled={dataPreview===null || !requirementsMet}
-              onClick={()=>createBookmarkHandler()}
-            >
-              Bookmark
-            </Button>
-          </div>
+                Bookmark
+              </Button>
+            </div>
+          }
           <div className="flex-align-self-center padding-0 desktop:padding-right-4 widescreen:padding-right-10">
             {!hideNav && (
               <Tooltip
@@ -384,6 +386,7 @@ const CddDataPreview = ({
       {renderPreviewData.display ? (
         <DataPreview
           handleUpdateInAppliedFilters={handleUpdateInAppliedFilters}
+          createBookmarkHandler={createBookmarkHandler}
         />
       ) : (
         <div className="desktop:margin-3 tablet:margin-x-10 flex-justify-center padding-3 tablet:border mobile-lg:width-mobile-lg line-height-sans-5 margin-0 tablet:margin-3">
