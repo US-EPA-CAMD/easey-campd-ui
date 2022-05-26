@@ -178,25 +178,26 @@ export const constructRequestUrl = (
       )
     : '';
 
-  const streaming = download ? '/stream' : '';
   const pagination = download ? '' : 'page=1&perPage=100';
 
-  let apiService;
+  let apiPath = '';
+  let apiService= '';
+
   switch (dataType.toLowerCase()) {
     case 'emissions':
+      apiPath = `/emissions/apportioned/`
+      apiService = `${download ? config.services.streaming.uri : config.services.emissions.uri}`;
+      break;
     case 'facility':
-      if (dataSubType === 'Facility/Unit Attributes') {
-        apiService = `${config.services.facilities.uri}/facilities/`;
-      } else {
-        apiService = `${config.services.emissions.uri}/apportioned/`;
-      }
+      apiPath = `/facilities/`
+      apiService = `${download ? config.services.streaming.uri : config.services.facilities.uri}`;
       break;
     case 'allowance':
     case 'compliance':
-      apiService = `${config.services.account.uri}/`;
+      apiPath = `/`
+      apiService = `${download ? config.services.streaming.uri : config.services.account.uri}`;
       break;
     default:
-      apiService = '';
       break;
   }
   const subTypeService = getServiceSubtype(
@@ -204,12 +205,11 @@ export const constructRequestUrl = (
     dataSubType
   );
 
-  const url = `${apiService}${subTypeService}${streaming}?${pagination}${constructTimePeriodQuery(
+  const url = `${apiService}${apiPath}${subTypeService}?${pagination}${constructTimePeriodQuery(
     dataSubType,
     filterCriteria
   )}${programQuery}${facilityQuery}${stateTerritoryQuery}${unitTypeQuery}${fuelTypeQuery}${controlTechnologyQuery}
 ${accountNameNumberQuery}${accountTypeQuery}${ownerOperatorQuery}${transactionTypeQuery}${sourceCategoryQuery}`;
-  console.log(url.replace(/\r?\n|\r/g, ''));
 
   return url.replace(/\r?\n|\r/g, '');
 };
