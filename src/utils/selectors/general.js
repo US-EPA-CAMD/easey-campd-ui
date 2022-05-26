@@ -180,18 +180,17 @@ export const constructRequestUrl = (
 
   const pagination = download ? '' : 'page=1&perPage=100';
 
-  let apiService;
-  let apiPath;
+  let apiPath = '';
+  let apiService= '';
+
   switch (dataType.toLowerCase()) {
     case 'emissions':
+      apiPath = `/emissions/apportioned/`
+      apiService = `${download ? config.services.streaming.uri : config.services.emissions.uri}`;
+      break;
     case 'facility':
-      if (dataSubType === 'Facility/Unit Attributes') {
-        apiPath = `/facilities/`
-        apiService = `${download ? config.services.streaming.uri : config.services.facilities.uri}`;
-      } else {
-        apiPath = `/apportioned/`
-        apiService = `${download ? config.services.streaming.uri : config.services.emissions.uri}`;
-      }
+      apiPath = `/facilities/`
+      apiService = `${download ? config.services.streaming.uri : config.services.facilities.uri}`;
       break;
     case 'allowance':
     case 'compliance':
@@ -199,8 +198,6 @@ export const constructRequestUrl = (
       apiService = `${download ? config.services.streaming.uri : config.services.account.uri}`;
       break;
     default:
-      apiPath = '';
-      apiService = '';
       break;
   }
   const subTypeService = getServiceSubtype(
