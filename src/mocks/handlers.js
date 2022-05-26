@@ -25,7 +25,7 @@ const limitTextUrl = `${config.services.content.uri}/campd/data/custom-data-down
 const getLimitText = rest.get(limitTextUrl, (req, res, ctx) => {
   return res(ctx.json('this is CDD download limit'));
 });
-const bulkDataFileDownloadUrl = `${config.services.bulkDataFiles.uri}/*`;
+const bulkDataFileDownloadUrl = `${config.services.bulkFiles.uri}/*`;
 const downloadBulkDataFile = rest.get(bulkDataFileDownloadUrl, (req, res, ctx) => {
   return res(ctx.status(200),ctx.json());
 })
@@ -82,7 +82,7 @@ const getDownloadLimitAlert = rest.get(
     return res(ctx.json('Download Limit Alert'));
   }
 );
-const bulkDataFilesUrl = `${config.services.campd.uri}/bulk-files`;
+const bulkDataFilesUrl = `${config.services.camd.uri}/bulk-files`;
 const getBulkDataFiles = rest.get(bulkDataFilesUrl, (req, res, ctx) => {
   return res(ctx.json(dataTable));
 });

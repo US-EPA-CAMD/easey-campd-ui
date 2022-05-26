@@ -24,7 +24,7 @@ const getHelperTextUrl = rest.get(helperTextUrl, (req, res, ctx) => {
 const getLimitTextUrl = rest.get(limitTextUrl, (req, res, ctx) => {
   return res(ctx.json('this is CDD download limit'));
 });
-const bookmarkUrl = `${config.services.campd.uri}/bookmarks`;
+const bookmarkUrl = `${config.services.camd.uri}/bookmarks`;
 const createBookmarkUrl = rest.post(bookmarkUrl, (req, res, ctx) => {
   return res(ctx.json({
     "bookmarkId": 1072,

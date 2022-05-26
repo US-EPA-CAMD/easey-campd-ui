@@ -8,7 +8,7 @@ const BulkDataFilesDownload = ({ selectedFiles, fileSize, limitReached }) => {
   const onDownloadHandler = () => {
     selectedFiles.selectedRows.forEach((file) => {
       const { filename, s3Path } = file;
-      const url = `${config.services.bulkDataFiles.uri}/${s3Path}`;
+      const url = `${config.services.bulkFiles.uri}/${s3Path}`;
       const fileType = filename.split('.')[1];
       axios
         .get(url, {

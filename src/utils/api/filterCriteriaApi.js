@@ -72,7 +72,7 @@ export async function getFilterMapping(dataType, dataSubType, yearSet=[]) {
   if(dataType === "EMISSIONS" || dataType === "FACILITY"){
     url = `${config.services.facilities.uri}/facilities/attributes/applicable?year=${getPipeDelimitedYears(yearSet)}`;
   }else if(dataType === "MERCURY AND AIR TOXICS EMISSIONS"){
-    url = `${config.services.emissions.uri}/apportioned/mats/attributes/applicable?beginDate=${yearSet[0]}&endDate=${yearSet[1]}`
+    url = `${config.services.emissions.uri}/emissions/apportioned/mats/attributes/applicable?beginDate=${yearSet[0]}&endDate=${yearSet[1]}`
   }else if(dataType === "ALLOWANCE"){
     if(dataSubType === "Holdings"){
       url = `${config.services.account.uri}/allowance-holdings/attributes/applicable`;

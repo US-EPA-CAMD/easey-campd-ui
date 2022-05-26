@@ -38,27 +38,22 @@ const config = {
         process.env.REACT_APP_EASEY_ACCOUNT_API ||
         "https://api-easey-dev.app.cloud.gov/account-mgmt",
     },
-    notifications: {
+    streaming: {
       uri:
-        process.env.REACT_APP_EASEY_NOTIFICATIONS_API ||
-        "https://api-easey-dev.app.cloud.gov/notifications-mgmt",
+        process.env.REACT_APP_EASEY_STREAMING_API ||
+        "https://api-easey-dev.app.cloud.gov/streaming-services",
     },
     content: {
       uri:
         process.env.REACT_APP_EASEY_CONTENT_API ||
         "https://api.epa.gov/easey/dev/content-mgmt",
     },
-    quartz: {
+    camd: {
       uri:
-        process.env.REACT_APP_EASEY_QUARTZ_API ||
-        "https://api.epa.gov/easey/dev/quartz-mgmt",
-    },
-    campd: {
-      uri:
-        process.env.REACT_APP_EASEY_CAMPD_SERVICES ||
+        process.env.REACT_APP_EASEY_CAMD_SERVICES ||
         "https://api-easey-dev.app.cloud.gov/camd-services",
     },
-    bulkDataFiles: {
+    bulkFiles: {
       uri: 
         process.env.REACT_APP_EASEY_BULK_DATA_FILES_API ||
         'https://api.epa.gov/easey/dev/bulk-files'

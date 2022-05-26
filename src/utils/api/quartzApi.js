@@ -7,7 +7,7 @@ axios.defaults.headers.common = {
 };
 
 export const getBulkDataFilesList = async () => {
-  const url = `${config.services.campd.uri}/bulk-files`;
+  const url = `${config.services.camd.uri}/bulk-files`;
 
   return axios
     .get(url)
@@ -19,7 +19,7 @@ export const getBulkDataFilesList = async () => {
 };
 
 export const createBookmark = async (content) => {
-  const url = `${config.services.campd.uri}/bookmarks`;
+  const url = `${config.services.camd.uri}/bookmarks`;
 
   return axios
     .post(url, content)

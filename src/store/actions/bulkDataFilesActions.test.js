@@ -160,7 +160,7 @@ describe('bulk data files Async Actions', () => {
         "lastUpdated": "2022-03-01T20:04:56Z"
       }
     ];
-    const url = `${config.services.campd.uri}/bulk-files`;
+    const url = `${config.services.camd.uri}/bulk-files`;
     console.log(url);
     mock
       .onGet(url)

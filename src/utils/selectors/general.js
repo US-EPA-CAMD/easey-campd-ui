@@ -225,31 +225,31 @@ export const constructRequestUrl = (
     : '';
   const excludeParams = filterCriteria.excludeParams.length? addExcludeParams(filterCriteria.excludeParams) : ''
 
-  const streaming = download ? '/stream' : '';
   const pagination = download ? '' : 'page=1&perPage=100';
 
-  let apiService;
+  let apiPath = '';
+  let apiService= '';
+
   const data_type = dataType.toLowerCase();
   switch (data_type) {
     case 'emissions':
+      apiPath = `/emissions/apportioned/`
+      apiService = `${download ? config.services.streaming.uri : config.services.emissions.uri}`;
+      break;
     case 'facility':
+      apiPath = `/facilities/`
+      apiService = `${download ? config.services.streaming.uri : config.services.facilities.uri}`;
+      break;
     case 'mercury and air toxics emissions':
-      if (dataSubType === 'Facility/Unit Attributes') {
-        apiService = `${config.services.facilities.uri}/facilities/`;
-      } else {
-        if (data_type === 'mercury and air toxics emissions') {
-          apiService = `${config.services.emissions.uri}/apportioned/mats/`;
-        } else {
-          apiService = `${config.services.emissions.uri}/apportioned/`;
-        }
-      }
+      apiPath = `/emissions/apportioned/mats/`
+      apiService = `${download ? config.services.streaming.uri : config.services.emissions.uri}`;
       break;
     case 'allowance':
     case 'compliance':
-      apiService = `${config.services.account.uri}/`;
+      apiPath = `/`
+      apiService = `${download ? config.services.streaming.uri : config.services.account.uri}`;
       break;
     default:
-      apiService = '';
       break;
   }
   const subTypeService = getServiceSubtype(
@@ -258,7 +258,7 @@ export const constructRequestUrl = (
   );
   const aggregationLink = getServiceSubtype(EMISSIONS_AGGREGATION, aggregation);
   const aggregationService = aggregationLink? '/'+ aggregationLink : '';
-  const url = `${apiService}${subTypeService}${aggregationService}${streaming}?${pagination}${constructTimePeriodQuery(
+  const url = `${apiService}${apiPath}${subTypeService}${aggregationService}?${pagination}${constructTimePeriodQuery(
     dataSubType,
     filterCriteria
   )}${programQuery}${facilityQuery}${stateTerritoryQuery}${unitTypeQuery}${fuelTypeQuery}${controlTechnologyQuery}
