@@ -15,6 +15,8 @@ const config = {
       "campd-support@camdsupport.com",
     streamingLimit:
       process.env.REACT_APP_EASEY_CAMPD_UI_STREAMING_LIMIT || 1000000,
+    emissionsSubmissionTestDate:
+      process.env.REACT_APP_EASEY_CAMPD_UI_EMISSIONS_SUBMISSION_TEST_DATE,
   },
   services: {
     mdm: {
