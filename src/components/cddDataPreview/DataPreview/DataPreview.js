@@ -20,7 +20,8 @@ export const DataPreview = ({
   fieldMappings,
   excludableColumns,
   updateFilterCriteriaDispatcher,
-  createBookmarkHandler
+  createBookmarkHandler,
+  setApiError
 }) => {
   const [unsort, setUnsort] = useState(null);
   const [sortAsc, setSortAsc] = useState(null);
@@ -112,6 +113,7 @@ export const DataPreview = ({
         totalCount={totalCount}
         handleBackButton={handleUpdateInAppliedFilters}
         createBookmarkHandler={createBookmarkHandler}
+        setApiError={setApiError}
       />
   );
 };
