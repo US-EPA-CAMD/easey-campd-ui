@@ -15,14 +15,14 @@ import CddDataPreview from '../../cddDataPreview/CddDataPreview/CddDataPreview';
 import RenderSpinner from '../../RenderSpinner/RenderSpinner';
 import MobileMenu from '../../MobileComponents/MobileMenu'
 import * as constants from '../../../utils/constants/customDataDownload';
-
-// *** STYLES (individual component)
-import './CustomDataDownload.scss';
 import { loadAllFilters, resetFilter, loadFilterMapping, updateFilterCriteria, updateTimePeriod } from '../../../store/actions/customDataDownload/filterCriteria';
 import hideNav from '../../../store/actions/hideNavAction';
 import { engageFilterLogic } from '../../../utils/selectors/filterLogic';
 import useCheckWidth from '../../../utils/hooks/useCheckWidth'
 import { metaAdder } from '../../../utils/document/metaAdder';
+import { getBookmarkData } from '../../../utils/api/quartzApi';
+// *** STYLES (individual component)
+import './CustomDataDownload.scss';
 
 const CustomDataDownload = ({
   selectedDataType,
@@ -40,17 +40,6 @@ const CustomDataDownload = ({
   filterCriteria,
   loading,
 }) => {
-  useEffect(() => {
-    document.title = 'Custom Data Download | CAMPD | US EPA';
-  }, []);
-
-  useEffect(() => {
-    const resetFilters = () => {
-      resetFilterDispatcher(null, true);
-      removeAppliedFiltersDispatcher(null, true);
-    };
-    return () => resetFilters(); // eslint-disable-next-line
-  }, []);
 
   metaAdder(
     'description',
@@ -94,6 +83,42 @@ const CustomDataDownload = ({
     dataSubType: '',
   });
   const [removedAppliedFilter, setRemovedAppliedFilter] = useState(null);
+  const [ bookmarkData, setBookmarkData ] = useState(null);
+  const [ bookmarkInit, setBookmarkInit ] = useState(false);
+
+  useEffect(() => {
+    document.title = 'Custom Data Download | CAMPD | US EPA';
+    const params = new Proxy(new URLSearchParams(window.location.search), {
+      get: (searchParams, prop) => searchParams.get(prop),
+    });
+    if(params.bookmarkId){
+      getBookmarkData(Number(params.bookmarkId)).then(res => setBookmarkData(res.data?.bookmarkData));
+      setBookmarkInit(true);
+    }
+  }, []);
+
+  useEffect(()=>{
+    if(bookmarkInit && bookmarkData){
+      if(selectedDataType === '' && selectedDataSubtype === ''){
+        updateSelectedDataTypeDispatcher(bookmarkData?.dataType);
+        const selectedDataSubtypeObj = constants.DATA_SUBTYPES_MAP[bookmarkData?.dataType].find(e=>e.label === bookmarkData?.dataSubType)
+        setSelectedDataSubtype(selectedDataSubtypeObj.value);
+        bookmarkData.hasOwnProperty('aggregation') ? setSelectedAggregation(bookmarkData.aggregation) : setSelectedAggregation(''); 
+      }else {
+        handleApplyButtonClick();
+        window.history.pushState({}, document.title, window.location.href.split('?')[0])
+        setBookmarkInit(false);
+      }
+    }// eslint-disable-next-line
+  },[bookmarkData, selectedDataType, selectedDataSubtype]);
+
+  useEffect(() => {
+    const resetFilters = () => {
+      resetFilterDispatcher(null, true);
+      removeAppliedFiltersDispatcher(null, true);
+    };
+    return () => resetFilters(); // eslint-disable-next-line
+  }, []);
 
   useEffect(() => {
     if (isMobileOrTablet) { 
@@ -237,7 +262,8 @@ const CustomDataDownload = ({
           resetFilterDispatcher(null, true);
         }
         if (selectedDataType !== "EMISSIONS"){
-          setSelectedAggregation('')
+          setSelectedAggregation('');
+          updateSelectedAggregationDispatcher("");
         }
       }
       setSelectionChange(false);
@@ -295,7 +321,7 @@ const CustomDataDownload = ({
   };
 
   const getFilterVariable = (selectedFilter) => {
-    if (selectedDataSubtype !== '') {
+    if (selectedDataSubtype !== '' && selectedFilter !== '') {
       const filters =
         constants.FILTERS_MAP[selectedDataType][
           getSelectedDataSubType(constants.DATA_SUBTYPES_MAP[selectedDataType])
