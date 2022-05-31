@@ -13,6 +13,7 @@ import getSubmissionProgress from "../../utils/api/getSubmissionProgress";
 import { metaAdder } from "../../utils/document/metaAdder";
 import "./HomePage.scss";
 import getContent from "../../utils/api/getContent";
+import config from '../../config';
 
 const HomePage = () => {
   const [whatIsNewContent, setWhatIsNewContent] = useState();
@@ -45,7 +46,12 @@ const HomePage = () => {
   }, []);
 
   useEffect(() => {
-    const today = new Date();
+    let today = new Date();
+
+    if (config.app.emissionsSubmissionTestDate) {
+      today = new Date(config.app.emissionsSubmissionTestDate);
+    }
+
     const dd = String(today.getDate()).padStart(2, "0");
     const mm = String(today.getMonth() + 1).padStart(2, "0");
     const yyyy = today.getFullYear();

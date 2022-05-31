@@ -63,12 +63,15 @@ const CddDataPreview = ({
   const [requirementsMet, setRequirementsMet] = useState(false);
   const [helperText, setHelperText] = useState(null);
   const [limitAlert, setLimitAlert] = useState(null);
+  const [apiErrorAlert, setApiErrorAlert] = useState(null);
+  const [apiError, setApiError] = useState(false);
   const [bookmark, setBookmark] = useState(null);
   const [modalFocus, setModalFocus] = useState(false);
   const modalRef = useRef();
 
   useEffect(() => {
     getContent('/campd/data/custom-data-download/helper-text.md').then(resp => setHelperText(resp.data));
+    getContent('/campd/data/custom-data-download/api-error-alert.md').then(resp => setApiErrorAlert(resp.data));
     getContent('/campd/data/custom-data-download/download-limit-alert.md').then(
       (resp) => {
         let limitText = resp.data;
@@ -383,10 +386,22 @@ const CddDataPreview = ({
           ></MatsDataCaveat>
         </div>
       )}
+      {apiError ? (
+      <div className='padding-x-3 padding-top-3'>
+        <Alert type="warning" aria-live="assertive" >
+          <ReactMarkdown children={apiErrorAlert} remarkPlugins={[remarkGfm]}
+          components={{
+            p: ({node, ...props}) => <span>{props.children}</span>,
+          }}
+          />
+        </Alert>
+      </div>
+      ) : null}
       {renderPreviewData.display ? (
         <DataPreview
           handleUpdateInAppliedFilters={handleUpdateInAppliedFilters}
           createBookmarkHandler={createBookmarkHandler}
+          setApiError={setApiError}
         />
       ) : (
         <div className="desktop:margin-3 tablet:margin-x-10 flex-justify-center padding-3 tablet:border mobile-lg:width-mobile-lg line-height-sans-5 margin-0 tablet:margin-3">

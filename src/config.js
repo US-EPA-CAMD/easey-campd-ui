@@ -1,6 +1,7 @@
 const config = {
   app: {
     apiKey: process.env.REACT_APP_CAMPD_API_KEY || "",
+    apiTimeout: process.env.REACT_APP_API_TIMEOUT || 900000,
     googleAnalyticsEnabled:
       process.env.REACT_APP_GOOGLE_ANALYTICS_ENABLED || "false",
     googleAnalyticsContainerId:
@@ -16,6 +17,8 @@ const config = {
       process.env.REACT_APP_EASEY_CAMPD_UI_STREAMING_LIMIT || 1000000,
     downloadLimit:
       process.env.REACT_APP_EASEY_CAMPD_UI_DOWNLOAD_LIMIT || '50 GB',
+    emissionsSubmissionTestDate:
+      process.env.REACT_APP_EASEY_CAMPD_UI_EMISSIONS_SUBMISSION_TEST_DATE,
   },
   services: {
     mdm: {

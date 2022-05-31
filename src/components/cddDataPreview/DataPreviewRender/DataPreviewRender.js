@@ -17,7 +17,8 @@ const DataPreviewRender = ({
   dataPreview,
   totalCount,
   handleBackButton,
-  createBookmarkHandler
+  createBookmarkHandler,
+  setApiError
 }) => {
   useEffect(() => {
     const arrowBackSvg = document.getElementsByClassName("arrow-back-svg");
@@ -73,12 +74,12 @@ const DataPreviewRender = ({
               </div>
             </div>
           ) : (
-            <RenderSpinner showSpinner={loading} />
+            <RenderSpinner showSpinner={loading}/>
             )}
         </div>
         <div className="grid-col-12 desktop:grid-col-6 widescreen:grid-col-4">
           {loading === 0 && dataPreview !== null && dataPreview.length > 0 && (
-            <DownloadFileType loading={loading} />
+            <DownloadFileType loading={loading} setApiError={setApiError}/>
           )}
         </div>
         <div className="grid-col-12 desktop:display-none padding-0 maxw-card margin-x-auto margin-bottom-1">

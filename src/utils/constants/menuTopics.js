@@ -9,7 +9,7 @@ export const subHeaderMenuList = [
       { menu: 'Data Home', link: '/data' },
       { menu: 'Custom Data Download', link: '/data/custom-data-download' },
       { menu: 'Bulk Data Files', link: '/data/bulk-data-files' },
-      { menu: 'APIs', link: { pathname: "https://www.epa.gov/airmarkets/cam-api-portal" } },
+      { menu: 'APIs', link: { pathname: "https://www.epa.gov/airmarkets/cam-api-portal" }, target: '_blank'},
     ],
   },  
   {
@@ -32,7 +32,7 @@ export const subHeaderUtilityList = [
       { menu: 'About CAMPD', link: '/help-support/about' },
       { menu: 'Tutorials', link: '/help-support/tutorials' },
       { menu: 'FAQs', link: '/help-support/faqs' },
-      { menu: 'Contact Us', link: {pathname: 'https://www.epa.gov/airmarkets/forms/campd-contact-us'} },
+      { menu: 'Contact Us', link: {pathname: 'https://www.epa.gov/airmarkets/forms/campd-contact-us'}, target: '_blank' },
     ],
   },
   {

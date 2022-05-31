@@ -154,7 +154,7 @@ const CustomDataDownload = ({
       setFilterClickRef(null);
     }// eslint-disable-next-line react-hooks/exhaustive-deps
   },[activeFilter]);
-  
+
   // *** EVENT HANDLERS
   const changeDataSubtype = (event) => {
     if (event) {

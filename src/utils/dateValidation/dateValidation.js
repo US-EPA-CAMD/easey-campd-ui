@@ -102,6 +102,13 @@ export const isInValidDateRange = (date, minDate, isAllowance=false) => {
   return dateInput >= minDate && dateInput <= maxDate;
 };
 
+export const isRangeLimitValid = (start, end) =>{
+  let diff =(end.getTime() - start.getTime());
+  const numOfDays = Math.ceil(diff / (1000 * 3600 * 24));
+  //for leap and non-leap years
+  return numOfDays <= 730 || numOfDays <= 731; 
+};
+
 export const isInValidReportingQuarter = (
   yearString,
   minYear,
