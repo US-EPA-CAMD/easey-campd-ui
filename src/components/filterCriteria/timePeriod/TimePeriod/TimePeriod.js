@@ -11,6 +11,7 @@ import {
   isInValidReportingQuarter,
   isInYearRange,
   isYearFormat,
+  isRangeLimitValid,
 } from '../../../../utils/dateValidation/dateValidation';
 import {
   isAddedToFilters,
@@ -63,6 +64,7 @@ export const TimePeriod = ({
     dateRange: true,
     validReportingQuarter: true,
     yearFormat: true,
+    validRangeLimit: true
   });
 
   const [applyFilterClicked, setApplyFilterClicked] = useState(false);
@@ -180,6 +182,10 @@ export const TimePeriod = ({
             isAllowance
           ) &&
           isInValidDateRange(formState.endDate, new Date(minDate), isAllowance);
+        if(dataSubType === "Transactions"){
+          updatedValidations['validRangeLimit'] = 
+            isRangeLimitValid(new Date(formState.startDate), new Date(formState.endDate));
+        }
       } else {
         updatedValidations['dateRange'] = false;
         updatedValidations['validReportingQuarter'] = false;
@@ -295,7 +301,8 @@ export const TimePeriod = ({
         validations.startDateFormat &&
         validations.endDateFormat &&
         validations.dateRange &&
-        validations.validReportingQuarter
+        validations.validReportingQuarter &&
+        validations.validRangeLimit
       );
     }
   };

@@ -76,6 +76,14 @@ const TimePeriodFullDate = ({
             >
               {rangeMessage}
             </ValidationItem>
+            <ValidationItem
+            id="validRangeLimit"
+            isValid={validations.validRangeLimit}
+            aria-checked={validations.validRangeLimit}
+            className={validations.validRangeLimit? 'display-none': null}
+          >
+            The date range should be limited to a 2 year time period
+          </ValidationItem>
           </ValidationChecklist>
         </Alert>
       </div>
