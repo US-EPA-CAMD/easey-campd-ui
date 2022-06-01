@@ -302,12 +302,13 @@ export const formatBookmarkDate = (dt) =>{
     dt.getFullYear().toString().slice(-2)}, ${dt.toLocaleString('en-US', options)}`
 };
 
-export const getBookmarkContent = (dataType, dataSubType, filtersMap, filterCriteria) =>{
+export const getBookmarkContent = (dataType, dataSubType, aggregation, filtersMap, filterCriteria) =>{
   const filters = filtersMap.map(el => el.stateVar);console.log("filters",filters);
   const checkboxItems = ["program", "unitType", "fuelType", "controlTechnology", "accountType"];
   let content = {
     dataType: dataType,
     dataSubType: dataSubType, 
+    aggregation: aggregation,
     filters: {},
     dataPreview: {
       excludedColumns: filterCriteria.excludeParams

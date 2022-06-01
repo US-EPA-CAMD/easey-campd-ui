@@ -206,7 +206,7 @@ const CddDataPreview = ({
   };
 
   const createBookmarkHandler = () =>{
-    const content = getBookmarkContent(dataType, dataSubType, FILTERS_MAP[dataType][dataSubType], filterCriteria);
+    const content = getBookmarkContent(dataType, dataSubType, aggregation, FILTERS_MAP[dataType][dataSubType], filterCriteria);
     if(bookmark === null){
       createBookmark(content)
       .then(res=>{

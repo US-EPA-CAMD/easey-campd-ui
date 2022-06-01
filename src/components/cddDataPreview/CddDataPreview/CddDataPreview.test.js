@@ -81,7 +81,9 @@ describe('CddDataPreview', () => {
         display: false,
         dataType: '',
         dataSubType: '',
-        }} />
+        }}
+        setRenderPreviewData={jest.fn()}
+        />
       </Provider>
     );
     const helperText = await findByText('this is CDD helper tex');
@@ -99,7 +101,9 @@ describe('CddDataPreview', () => {
         display: false,
         dataType: '',
         dataSubType: '',
-        }} />
+        }} 
+        setRenderPreviewData={jest.fn()}
+        />
       </Provider>
     );
     const bookmarkButton = getByRole('button', { name: 'Bookmark' });

@@ -29,3 +29,14 @@ export const createBookmark = async (content) => {
       throw new Error(error);
     });
 };
+
+export const getBookmarkData = (id) =>{
+  const url = `${config.services.camd.uri}/bookmarks/${id}`;
+
+  return axios.get(url)
+  .then(handleResponse)
+  .catch((error)=>{
+    handleError(error);
+    throw new Error(error);
+  });
+} 
