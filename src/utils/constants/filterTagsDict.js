@@ -11,7 +11,7 @@ const getTimePeriodLabels = (selectedFilter) => {
 };
 export const filterTagsDict = {
   accountNameNumber: {label: 'Account Name/Number', method: getSelectedLabels},
-  accountTypeCode: { label: 'Account Type', method: getSelectedIds },
+  accountType: { label: 'Account Type', method: getSelectedIds },
   comboBoxYear: { label: 'Year', method: getSelectedLabels},
   controlTechnology: { label: 'Control Technology', method: getSelectedIds },
   facility: { label: 'Facility', method: getSelectedLabels },

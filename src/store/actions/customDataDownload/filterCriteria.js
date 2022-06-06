@@ -376,9 +376,9 @@ export function loadSourceCategoriesSuccess(sourceCategory, bookmarkFilters) {
     sourceCategory: sourceCategory.map(t=> ({
       id: t.sourceCategoryDescription, 
       label: t.sourceCategoryDescription, 
-      selected: bookmarkFilters? bookmarkFilters?.transactionType.selected.includes(t.transactionTypeCode) : false, 
-      enabled: bookmarkFilters? bookmarkFilters?.transactionType.enabled.includes(t.transactionTypeCode) 
-        || bookmarkFilters?.transactionType.selected.includes(t.transactionTypeCode) : true,
+      selected: bookmarkFilters? bookmarkFilters?.sourceCategory.selected.includes(t.sourceCategoryDescription) : false, 
+      enabled: bookmarkFilters? bookmarkFilters?.sourceCategory.enabled.includes(t.sourceCategoryDescription) 
+        || bookmarkFilters?.sourceCategory.selected.includes(t.sourceCategoryDescription) : true,
     }))
   };
 }
