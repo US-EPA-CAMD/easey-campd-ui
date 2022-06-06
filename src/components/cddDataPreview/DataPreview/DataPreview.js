@@ -4,7 +4,7 @@ import { loadDataPreview } from "../../../store/actions/customDataDownload/custo
 import DataPreviewRender from "../DataPreviewRender/DataPreviewRender";
 import { dataPreviewColumns } from "../../../utils/constants/dataPreviewCol";
 import TableMenu from "../TableMenu/TableMenu";
-import { updateFilterCriteria } from "../../../store/actions/customDataDownload/filterCriteria";
+import { resetFilterCriteriaItems } from "../../../store/actions/customDataDownload/filterCriteria";
 
 export const DataPreview = ({
   aggregation,
@@ -19,9 +19,9 @@ export const DataPreview = ({
   totalCount,
   fieldMappings,
   excludableColumns,
-  updateFilterCriteriaDispatcher,
   createBookmarkHandler,
-  setApiError
+  setApiError,
+  resetFilterCriteriaItemsDispatcher
 }) => {
   const [unsort, setUnsort] = useState(null);
   const [sortAsc, setSortAsc] = useState(null);
@@ -39,13 +39,7 @@ export const DataPreview = ({
     if(dataPreview === null){
       loadDataPreviewDispacher(dataType, dataSubType, filterCriteria, aggregation);
     }
-    return () => {
-      const filterCriteriaCloned = JSON.parse(JSON.stringify(filterCriteria));
-      filterCriteriaCloned.excludeParams = [];
-      filterCriteriaCloned.selectedColumns = [];
-      filterCriteriaCloned.columnState = null;
-      return updateFilterCriteriaDispatcher(filterCriteriaCloned);
-    }
+    return () => resetFilterCriteriaItemsDispatcher(['excludeParams', 'selectedColumns', 'columnState'])
     // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]);
   const columns = useMemo(() =>{
@@ -136,7 +130,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     loadDataPreviewDispacher: (dataType, dataSubType, filterCriteria, aggregation) => dispatch(loadDataPreview(dataType, dataSubType, filterCriteria, aggregation)),
-    updateFilterCriteriaDispatcher: (filterCriteria) => dispatch(updateFilterCriteria(filterCriteria)),
+    resetFilterCriteriaItemsDispatcher: (itemsToReset) => dispatch(resetFilterCriteriaItems(itemsToReset)),
   };
 };
 

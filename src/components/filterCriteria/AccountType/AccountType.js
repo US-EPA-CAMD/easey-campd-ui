@@ -75,7 +75,7 @@ const AccountType = ({
           dataSubType,
           filterToApply,
           JSON.parse(JSON.stringify(filterCriteria)),
-          updateFilterCriteriaDispacher
+          updateFilterCriteriaDispacher,
         );
       }
       closeFlyOutHandler();

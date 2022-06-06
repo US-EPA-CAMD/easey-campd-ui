@@ -25,6 +25,7 @@ const TableMenu = ({
   excludableColumns,
   updateFilterCriteriaDispatcher,
 }) => {
+  //positions the table menu properly
   const [anchorEl, setAnchorEl] = useState(null);
   const [popperElement, setPopperElement] = useState(null);
   const { styles, attributes } = usePopper(anchorEl, popperElement);
@@ -62,10 +63,12 @@ const TableMenu = ({
           }
         });
         if (filterCriteria.columnState) {
+          console.log('keeping filter state')
           setCheckedBoxes(
             JSON.parse(JSON.stringify(filterCriteria.columnState))
           );
         } else {
+          console.log('checking all');
           setCheckedBoxes(removableColumns);
         }
         setCheckAll(removableColumns);
@@ -74,7 +77,7 @@ const TableMenu = ({
         setFilterMappingsCopy(tempFieldMappings);
       }
     } //eslint-disable-next-line
-  }, [excludableColumns, selectedColumns]);
+  }, [excludableColumns, selectedColumns, filterCriteria.columnState]);
 
   useEffect(() => {
     if (closed) {

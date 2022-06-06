@@ -61,6 +61,7 @@ export const filterProgram = (filterCriteria) =>{
     }).map(i => i.programCode)
   )];
   updateEnabledStatusCheckBox(filterCriteria.program, filteredSet);
+  return filterCriteria.program;
 };
 
 export const filterStateTerritory = (filterCriteria) =>{
@@ -90,6 +91,7 @@ export const filterStateTerritory = (filterCriteria) =>{
     }).flat()
   )];
   updateEnabledStatusComboBox(filterCriteria.stateTerritory, filteredSet);
+  return filterCriteria.stateTerritory;
 };
 
 export const filterFacility = (filterCriteria) =>{
@@ -119,6 +121,7 @@ export const filterFacility = (filterCriteria) =>{
     }).flat()
   )];
   updateEnabledStatusComboBox(filterCriteria.facility, filteredSet);
+  return filterCriteria.facility;
 };
 
 export const filterUnitType = (filterCriteria) =>{
@@ -134,6 +137,7 @@ export const filterUnitType = (filterCriteria) =>{
     }).map(i => i.unitTypeCode)
   )];
   updateEnabledStatusCheckBox(filterCriteria.unitType, filteredSet);
+  return filterCriteria.unitType;
 };
 
 export const filterFuelType = (filterCriteria) =>{
@@ -149,6 +153,7 @@ export const filterFuelType = (filterCriteria) =>{
     }).map(i => i.fuelTypeCode)
   )];
   updateEnabledStatusCheckBox(filterCriteria.fuelType, filteredSet);
+  return filterCriteria.fuelType;
 };
 
 export const filterControlTechnology = (filterCriteria) =>{
@@ -164,6 +169,7 @@ export const filterControlTechnology = (filterCriteria) =>{
     }).map(i => i.controlCode)
   )];
   updateEnabledStatusCheckBox(filterCriteria.controlTechnology, filteredSet);
+  return filterCriteria.controlTechnology;
 };
 
 export const filterSourceCategory = (filterCriteria) =>{
@@ -179,6 +185,7 @@ export const filterSourceCategory = (filterCriteria) =>{
     }).map(i => String(i.sourceCategoryDescription))
   )];
   updateEnabledStatusComboBox(filterCriteria.sourceCategory, filteredSet);
+  return filterCriteria.sourceCategory;
 };
 
 export const filterAccountNameNumber = (filterCriteria) =>{
@@ -203,6 +210,7 @@ export const filterAccountNameNumber = (filterCriteria) =>{
     }).flat()
   )];
   updateEnabledStatusComboBox(filterCriteria.accountNameNumber, filteredSet);
+  return filterCriteria.accountNameNumber;
 };
 
 export const filterAccountType = (filterCriteria) =>{
@@ -227,6 +235,8 @@ export const filterAccountType = (filterCriteria) =>{
     }).flat()
   )];
   updateEnabledStatusCheckBox(filterCriteria.accountType, filteredSet, true);
+  return filterCriteria.accountType;
+
 };
 
 export const filterOwnerOperator = (filterCriteria) =>{
@@ -246,6 +256,7 @@ export const filterOwnerOperator = (filterCriteria) =>{
     }).map(i => i.ownerOperator)
   )];
   updateEnabledStatusComboBox(filterCriteria.ownerOperator, filteredSet);
+  return filterCriteria.ownerOperator;
 };
 
 export const filterComboBoxYear = (filterCriteria) =>{
@@ -265,6 +276,7 @@ export const filterComboBoxYear = (filterCriteria) =>{
     }).map(i => i.hasOwnProperty("vintageYear") ? i.vintageYear : i.year)
   )];
   updateEnabledStatusComboBox(filterCriteria.timePeriod.comboBoxYear, filteredSet);
+  return filterCriteria.timePeriod.comboBoxYear;
 };
 
 export const filterTransactionType = (filterCriteria) =>{
@@ -284,25 +296,38 @@ export const filterTransactionType = (filterCriteria) =>{
     }).map(i => i.transactionTypeCode)
   )];
   updateEnabledStatusComboBox(filterCriteria.transactionType, filteredSet);
+  return filterCriteria.transactionType;
 };
 
-export const engageFilterLogic = async(dataType, dataSubType, affectedFilter, filterCriteriaCloned, updateFilterCriteriaDispatcher, removedFilter=false) =>{
-  const fcCopy = JSON.parse(JSON.stringify(filterCriteriaCloned));
-  fcCopy.filterLogicEngaged = true;
-  await updateFilterCriteriaDispatcher(fcCopy); 
+export const engageFilterLogic = (dataType, dataSubType, affectedFilter, filterCriteriaCloned, updateFilterCriteriaDispatcher, filterLogicEngagedDispatcher, removedFilter=false) =>{
   const filters = FILTERS_MAP[dataType][dataSubType];
   populateSelections(filterCriteriaCloned, dataSubType);
+  const updatedFilterCriteria = {}
   filters.forEach(obj =>{
     if(removedFilter){
       if(obj.hasOwnProperty("updateFilter")){
         obj.updateFilter(filterCriteriaCloned);
+        const stateVar = obj.stateVar
+        updatedFilterCriteria[stateVar] = obj.updateFilter(filterCriteriaCloned)
       }
     }
     else if(obj.hasOwnProperty("updateFilter") && affectedFilter !== obj.value){
       obj.updateFilter(filterCriteriaCloned);
+        const stateVar = obj.stateVar
+        if (stateVar !== 'comboBoxYear'){
+        updatedFilterCriteria[stateVar] = obj.updateFilter(filterCriteriaCloned)
+      } else {
+        console.log({stateVar});
+        updatedFilterCriteria.timePeriod = {
+          ...filterCriteriaCloned.timePeriod,
+          [stateVar] : obj.updateFilter(filterCriteriaCloned)
+        }
+      }
     }
-  });
-  setTimeout(()=>updateFilterCriteriaDispatcher(filterCriteriaCloned));
+  }); 
+  console.log(updatedFilterCriteria);
+  updateFilterCriteriaDispatcher(updatedFilterCriteria)
+  setTimeout(()=>filterLogicEngagedDispatcher(false));  
 };
 
 export const filterBulkDataFiles = (selection, tableRecords) =>{
@@ -316,3 +341,41 @@ export const filterBulkDataFiles = (selection, tableRecords) =>{
     (selection.state === '' || record.metadata?.statecode?.toUpperCase() === selection.state.toUpperCase())
   });
 };
+
+//helper functions for filter criteria component to check if filters should be disabled
+export const checkSelectableData = (listItem) => {
+  let enabled = 0;
+  for (const el of listItem) {
+    if (enabled) {
+      break;
+    }
+    if (el.items) {
+      for (const filterItem of el.items) {
+        if (filterItem.enabled) {
+          enabled++;
+          break;
+        }
+      }
+    }
+    if (el.enabled) {
+      enabled++;
+      break;
+    }
+  }
+  return enabled === 0;
+};
+export const validateInput = (list, item) => {
+  if (!item || !list) {
+    return false;
+  }
+  let listItem = list[item];
+
+  if (item === 'comboBoxYear') {
+    listItem = list.timePeriod.comboBoxYear;
+  }
+  if (!listItem) {
+    return false;
+  }
+  return checkSelectableData(listItem);
+};
+

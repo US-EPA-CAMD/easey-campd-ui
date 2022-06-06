@@ -17,10 +17,9 @@ import {
 } from '../../../store/actions/customDataDownload/customDataDownload';
 import {
   resetFilter,
-  updateTimePeriod,
-  updateFilterCriteria,
 } from '../../../store/actions/customDataDownload/filterCriteria';
 import MatsDataCaveat from "../../customDataDownload/MatsDataCaveat/MatsDataCaveat";
+import { validateInput } from "../../../utils/selectors/filterLogic";
 
 const FilterCriteria = ({
     dataSubtypeApplied,
@@ -71,41 +70,6 @@ const FilterCriteria = ({
       removeAppliedFiltersDispatcher(filterType);
       setRemovedAppliedFilter(filterType);
       resetDataPreviewDispatcher();
-    };
-    const checkSelectableData = (listItem) => {
-      let enabled = 0;
-      for (const el of listItem) {
-        if (enabled) {
-          break;
-        }
-        if (el.items) {
-          for (const filterItem of el.items) {
-            if (filterItem.enabled) {
-              enabled++;
-              break;
-            }
-          }
-        }
-        if (el.enabled) {
-          enabled++;
-          break;
-        }
-      }
-      return enabled === 0;
-    };
-    const validateInput = (list, item) => {
-      if (!item || !list) {
-        return false;
-      }
-      let listItem = list[item];
-
-      if (item === 'comboBoxYear') {
-        listItem = list.timePeriod.comboBoxYear;
-      }
-      if (!listItem) {
-        return false;
-      }
-      return checkSelectableData(listItem);
     };
 
     const checkDisabled = (filter) => {
@@ -220,10 +184,6 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(removeAppliedFilter(removedFilter, removeAll, opHours)),
     resetFiltersDispatcher: (filterToReset, resetAll) =>
       dispatch(resetFilter(filterToReset, resetAll)),
-    updateTimePeriodDispatcher: (timePeriod) =>
-      dispatch(updateTimePeriod(timePeriod)),
-    updateFilterCriteriaDispatcher: (filterCriteria) =>
-      dispatch(updateFilterCriteria(filterCriteria)),
   };
 };
 

@@ -6,6 +6,7 @@ import CheckboxGroupRenderer from '../../CheckboxGroupRenderer/CheckboxGroupRend
 import {
   updateUnitTypeSelection,
   updateFilterCriteria,
+  filterLogicEngaged,
 } from '../../../store/actions/customDataDownload/filterCriteria';
 import {
   addAppliedFilter,
