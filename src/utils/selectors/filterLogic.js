@@ -299,7 +299,8 @@ export const filterTransactionType = (filterCriteria) =>{
   return filterCriteria.transactionType;
 };
 
-export const engageFilterLogic = (dataType, dataSubType, affectedFilter, filterCriteriaCloned, updateFilterCriteriaDispatcher, filterLogicEngagedDispatcher, removedFilter=false) =>{
+export const engageFilterLogic = (dataType, dataSubType, affectedFilter, filterCriteriaCloned, updateFilterCriteriaDispatcher, removedFilter=false) =>{
+  updateFilterCriteriaDispatcher({filterLogicEngaged: true})
   const filters = FILTERS_MAP[dataType][dataSubType];
   populateSelections(filterCriteriaCloned, dataSubType);
   const updatedFilterCriteria = {}
@@ -327,7 +328,7 @@ export const engageFilterLogic = (dataType, dataSubType, affectedFilter, filterC
   }); 
   console.log(updatedFilterCriteria);
   updateFilterCriteriaDispatcher(updatedFilterCriteria)
-  setTimeout(()=>filterLogicEngagedDispatcher(false));  
+  setTimeout(()=>updateFilterCriteriaDispatcher({filterLogicEngaged: false}));  
 };
 
 export const filterBulkDataFiles = (selection, tableRecords) =>{
