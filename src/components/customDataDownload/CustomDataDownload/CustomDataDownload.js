@@ -7,7 +7,6 @@ import {
   updateSelectedDataSubType,
   removeAppliedFilter,
   updateSelectedAggregation,
-  addAppliedFilter,
 } from '../../../store/actions/customDataDownload/customDataDownload';
 import DataTypeSelectorView from '../DataTypeSelectorView/DataTypeSelectorView';
 import FilterCriteriaMenu from '../../filterCriteria/FilterCriteria/FilterCriteria';
@@ -24,10 +23,8 @@ import { metaAdder } from '../../../utils/document/metaAdder';
 import { getBookmarkData } from '../../../utils/api/quartzApi';
 // *** STYLES (individual component)
 import './CustomDataDownload.scss';
-import { filterTagsDict } from '../../../utils/constants/filterTagsDict';
 
 const CustomDataDownload = ({
-  addAppliedFilterDispatcher,
   selectedDataType,
   updateSelectedDataTypeDispatcher,
   updateSelectedDataSubTypeDispatcher,
@@ -101,23 +98,6 @@ const CustomDataDownload = ({
   }, []);
 
   useEffect(()=>{
-    const applyDataTypeAndAddFilterTags =  async () => {
-      await  handleApplyButtonClick();
-      const bookmarkFilters = bookmarkData.filters;
-      Object.keys(bookmarkFilters).forEach((el) => {
-        const filterCategory = bookmarkFilters[el];
-        const selectedFilters = filterCategory?.selected;
-        const filterTagItem = filterTagsDict[el];
-        if (selectedFilters && selectedFilters.length){
-          addAppliedFilterDispatcher({key: filterTagItem?.label, values: filterTagItem?.method(filterCriteria[el], selectedFilters)})
-        } else if (el === 'timePeriod'){
-          addAppliedFilterDispatcher({key: filterTagItem?.label, values: filterTagItem?.method(filterCategory)})
-          if (filterCategory.opHrsOnly){
-            addAppliedFilterDispatcher({key: filterTagItem?.label, values: ['Operating Hours Only']})
-          }
-        }
-      })
-    }
     if(bookmarkInit && bookmarkData){
       if(selectedDataType === '' && selectedDataSubtype === ''){
         updateSelectedDataTypeDispatcher(bookmarkData?.dataType);
@@ -125,8 +105,7 @@ const CustomDataDownload = ({
         setSelectedDataSubtype(selectedDataSubtypeObj.value);
         bookmarkData.hasOwnProperty('aggregation') ? setSelectedAggregation(bookmarkData.aggregation) : setSelectedAggregation(''); 
       }else {
-        // handleApplyButtonClick();
-        applyDataTypeAndAddFilterTags();
+        handleApplyButtonClick();
         window.history.pushState({}, document.title, window.location.href.split('?')[0])
         setBookmarkInit(false);
       }
@@ -456,8 +435,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    addAppliedFilterDispatcher: (filterToApply) =>
-      dispatch(addAppliedFilter(filterToApply)),
     updateSelectedDataTypeDispatcher: (dataType) =>
       dispatch(updateSelectedDataType(dataType)),
     updateSelectedDataSubTypeDispatcher: (dataSubType) =>
