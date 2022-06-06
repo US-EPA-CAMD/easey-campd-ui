@@ -1,8 +1,6 @@
 import {formatDateToUi} from '../selectors/general'
 
-const getSelectedLabels = (state, ids) =>
-  // returning ids now but should return the commented out code below
-     ids ;//state && state.filter((e) => e.selected).map((e) => e.label);
+const getSelectedLabels = (state, ids) => state && state.filter((e) => e.selected).map((e) => e.label);
 const getSelectedIds = (state, ids) => ids;
 const getTimePeriodLabels = (selectedFilter) => {
   if (selectedFilter?.startDate){
