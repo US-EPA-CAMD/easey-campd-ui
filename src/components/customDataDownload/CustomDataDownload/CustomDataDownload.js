@@ -101,8 +101,8 @@ const CustomDataDownload = ({
   }, []);
 
   useEffect(()=>{
-    const applyDataTypeAndAddFilterTags =  async () => {
-      await  handleApplyButtonClick();
+    const applyDataTypeAndAddFilterTags = () => {
+      handleApplyButtonClick();
       const bookmarkFilters = bookmarkData.filters;
       Object.keys(bookmarkFilters).forEach((el) => {
         const filterCategory = bookmarkFilters[el];
@@ -125,7 +125,6 @@ const CustomDataDownload = ({
         setSelectedDataSubtype(selectedDataSubtypeObj.value);
         bookmarkData.hasOwnProperty('aggregation') ? setSelectedAggregation(bookmarkData.aggregation) : setSelectedAggregation(''); 
       }else {
-        // handleApplyButtonClick();
         applyDataTypeAndAddFilterTags();
         window.history.pushState({}, document.title, window.location.href.split('?')[0])
         setBookmarkInit(false);
