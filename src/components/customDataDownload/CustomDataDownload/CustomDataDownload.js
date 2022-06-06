@@ -137,20 +137,51 @@ const CustomDataDownload = ({
         const distinctYears = [...new Set(filterCriteria.filterMapping.map(e=>selectedDataType === "COMPLIANCE" ? e.year : e.vintageYear))];
         updateTimePeriodDispatcher({
           ...filterCriteria.timePeriod,
-          comboBoxYear: distinctYears.map(year => {return {id:year, label:year, selected:false, enabled:true}})
+          comboBoxYear: distinctYears.map(year => {
+            return {
+              id:year, 
+              label:year, 
+              selected: bookmarkData? bookmarkData.filters?.comboBoxYear.selected.includes(year) : false, 
+              enabled: bookmarkData? bookmarkData.filters?.comboBoxYear.enabled.includes(year) 
+                || bookmarkData.filters?.comboBoxYear.selected.includes(year) : true
+            }})
         });
         setComboBoxYearUpdated(true);
       }
       if(dataSubType === "Account Information"){
         setComboBoxYearUpdated(true);
       }
-      if(comboBoxYearUpdated){
+      if(comboBoxYearUpdated && !bookmarkInit){
         engageFilterLogic(selectedDataType, dataSubType, null, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispatcher, true);
         setApplyClicked(false);
         setComboBoxYearUpdated(false);
       }
-    }// eslint-disable-next-line react-hooks/exhaustive-deps
-  },[applyClicked, loading, comboBoxYearUpdated])
+    }else if(bookmarkInit && bookmarkData){
+      let bookmarkTimePeriod, distinctYears;
+      if(bookmarkData.dataSubType === "Transactions"){
+        bookmarkTimePeriod = bookmarkData.filters.transactionDate;
+        distinctYears = [...new Set(filterCriteria.filterMapping.map(e=>e.vintageYear))];
+      }else {
+        bookmarkTimePeriod = bookmarkData.filters.timePeriod;
+      }
+      updateTimePeriodDispatcher({
+        ...filterCriteria.timePeriod,
+        startDate: bookmarkTimePeriod.startDate,
+        endDate: bookmarkTimePeriod.endDate,
+        opHrsOnly: bookmarkTimePeriod.opHrsOnly,
+        year: bookmarkTimePeriod.year,
+        comboBoxYear: distinctYears?  distinctYears.map(year => {return {
+          id:year, 
+          label:year, 
+          selected: bookmarkTimePeriod.comboBoxYear.selected.includes(year), 
+          enabled: bookmarkTimePeriod.comboBoxYear.enabled.includes(year) || bookmarkTimePeriod.comboBoxYear.selected.includes(year)
+        }}) : [],
+        month: bookmarkTimePeriod.month,
+        quarter: bookmarkTimePeriod.quarter, 
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[applyClicked, loading, comboBoxYearUpdated, bookmarkData])
 
   useEffect(() => {
     const noAggregationChange = appliedDataType.aggregation === selectedAggregation || !selectedAggregation;
@@ -247,7 +278,7 @@ const CustomDataDownload = ({
       if(selectedDataType !== "EMISSIONS" && selectedDataType !== "FACILITY" && selectedDataType !== "MERCURY AND AIR TOXICS EMISSIONS" && dataSubType !== "Transactions"){
         loadFilterMappingDispatcher(selectedDataType, dataSubType);
       }
-      loadAllFiltersDispatcher(selectedDataType, dataSubType, filterCriteria);
+      loadAllFiltersDispatcher(selectedDataType, dataSubType, filterCriteria, bookmarkData?.filters);
       setDataTypeApplied(true);
       setDataSubtypeApplied(true);
       setAppliedDataType({
@@ -383,6 +414,7 @@ const CustomDataDownload = ({
             isMobileOrTablet={isMobileOrTablet}
             setRemovedAppliedFilter={setRemovedAppliedFilter}
             renderPreviewData={renderPreviewData}
+            bookmarkData={bookmarkData}
           />
           <MobileMenu 
           handleBackButtonClick={handleBackButtonClick}
@@ -404,6 +436,7 @@ const CustomDataDownload = ({
           getSelectedDataSubType={getSelectedDataSubType}
           appliedFilters={appliedFilters}
           handleBackButtonClick={handleBackButtonClick}
+          bookmarkData={bookmarkData}
         />
         <CddDataPreview
           dataType={appliedDataType.dataType}
@@ -445,8 +478,8 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(updateFilterCriteria(filterCriteria)),
     removeAppliedFiltersDispatcher: (removedFilter, removeAll) =>
       dispatch(removeAppliedFilter(removedFilter, removeAll)),
-    loadAllFiltersDispatcher: (dataType, dataSubType, filterCriteria) =>
-      dispatch(loadAllFilters(dataType, dataSubType, filterCriteria)),
+    loadAllFiltersDispatcher: (dataType, dataSubType, filterCriteria, bookmarkFilters) =>
+      dispatch(loadAllFilters(dataType, dataSubType, filterCriteria, bookmarkFilters)),
     resetFilterDispatcher: (filterToReset, resetAll) =>
       dispatch(resetFilter(filterToReset, resetAll)),
     loadFilterMappingDispatcher: (dataType, dataSubType, years) =>

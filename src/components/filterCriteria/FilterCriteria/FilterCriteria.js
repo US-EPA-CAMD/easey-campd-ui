@@ -36,7 +36,8 @@ const FilterCriteria = ({
     isMobileOrTablet,
     hideFilterMenu,
     setRemovedAppliedFilter,
-    renderPreviewData
+    renderPreviewData,
+    bookmarkData
   }) => { 
     const [firstFocusableEl, setFirstFocusableEl] = useState(null);
     const mats = 'MERCURY AND AIR TOXICS EMISSIONS';
@@ -114,9 +115,9 @@ const FilterCriteria = ({
         if (filter.value === 'Time Period' || filter.value === "Transaction Date") {
           return false;
         } else if(getSelectedDataSubType(constants.DATA_SUBTYPES_MAP[selectedDataType]) === "Transactions") {
-          if (!isAddedToFilters('Transaction Date', appliedFilters)) return true;
+          if (!isAddedToFilters('Transaction Date', appliedFilters)) return false;
         }else if (!isAddedToFilters('Time Period', appliedFilters)) {
-          return true;
+          return false;
         }
       }
       return validateInput(filterCriteria, filter.stateVar);

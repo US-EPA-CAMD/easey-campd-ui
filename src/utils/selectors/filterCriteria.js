@@ -213,7 +213,7 @@ export const addExcludeParams = (excludeParams) => {
   return query;
 }
 /* ---------PROGRAM----------- */
-export const restructurePrograms = (programs) => {
+export const restructurePrograms = (programs, bookmarkFilters) => {
   const data = [
     {
       name: 'Annual',
@@ -241,8 +241,9 @@ export const restructurePrograms = (programs) => {
           })`
         : `${p.programDescription} (${p.programCode})`,
       active: !p.retiredIndicator,
-      selected: false,
-      enabled: true,
+      selected: bookmarkFilters? bookmarkFilters?.program.selected.includes(p.programCode) : false,
+      enabled: bookmarkFilters? bookmarkFilters?.program.enabled.includes(p.programCode) 
+        || bookmarkFilters?.program.selected.includes(p.programCode) : true,
     };
     if (p.annualIndicator) {
       data[0].items.push(entry);
@@ -295,7 +296,7 @@ const unitTypeGroups = (unitTypes) => {
   return unique;
 }
 
-export const restructureUnitTypes = (unitTypes) => {
+export const restructureUnitTypes = (unitTypes, bookmarkFilters) => {
   const groups = unitTypeGroups(unitTypes);
   const data = groups.map((group) => group = {
     name: group,
@@ -319,8 +320,9 @@ export const restructureUnitTypes = (unitTypes) => {
       label: `${ut.unitTypeDescription} (${ut.unitTypeCode})`,
       group: ut.unitTypeGroupCode,
       groupDescription: ut.unitTypeGroupDescription,
-      selected: false,
-      enabled: true,
+      selected: bookmarkFilters? bookmarkFilters?.unitType.selected.includes(ut.unitTypeCode) : false,
+      enabled: bookmarkFilters? bookmarkFilters?.unitType.enabled.includes(ut.unitTypeCode) 
+        || bookmarkFilters?.unitType.selected.includes(ut.unitTypeCode) : true,
     };
     const index = data.findIndex(group => group.name === entry.groupDescription)
     data[index].items.push(entry);
@@ -354,7 +356,7 @@ const fuelTypeGroups = (fuelTypes) => {
   return unique;
 }
 
-export const restructureFuelTypes = (fuelTypes) => {
+export const restructureFuelTypes = (fuelTypes, bookmarkFilters) => {
   const groups = fuelTypeGroups(fuelTypes);
   const data = groups.map((group) => group = {
     name: group,
@@ -378,8 +380,9 @@ export const restructureFuelTypes = (fuelTypes) => {
       label: `${ft.fuelTypeDescription} (${ft.fuelTypeCode})`,
       group: ft.fuelGroupCode,
       groupDescription: ft.fuelGroupDescription,
-      selected: false,
-      enabled: true,
+      selected: bookmarkFilters? bookmarkFilters?.fuelType.selected.includes(ft.fuelTypeCode) : false,
+      enabled: bookmarkFilters? bookmarkFilters?.fuelType.enabled.includes(ft.fuelTypeCode) 
+        || bookmarkFilters?.fuelType.selected.includes(ft.fuelTypeCode) : true,
     };
     const index = data.findIndex(group => group.name.toUpperCase() === entry.group.toUpperCase())
     data[index].items.push(entry);
@@ -424,7 +427,7 @@ const controlGroups = (controlTechnologies) => {
   return unique;
 };
 
-export const restructureControlTechnologies = (controlTechnologies) => {
+export const restructureControlTechnologies = (controlTechnologies, bookmarkFilters) => {
   const groups = controlGroups(controlTechnologies);
   const data = groups.map((group) => group = {
     name: group.name,
@@ -448,8 +451,9 @@ export const restructureControlTechnologies = (controlTechnologies) => {
       label: `${ct.controlDescription} (${ct.controlCode})`,
       group: ct.controlEquipParamCode,
       groupDescription: ct?.controlEquipParamDescription || 'Other',
-      selected: false,
-      enabled: true,
+      selected: bookmarkFilters? bookmarkFilters?.controlTechnology.selected.includes(ct.controlCode) : false,
+      enabled: bookmarkFilters? bookmarkFilters?.controlTechnology.enabled.includes(ct.controlCode) 
+        || bookmarkFilters?.controlTechnology.selected.includes(ct.controlCode) : true,
     };
     const index = data.findIndex(group => group.name === entry.groupDescription)
     data[index].items.push(entry);
@@ -473,7 +477,7 @@ const accountTypeGroups = (accountTypes) => {
   return unique;
 }
 
-export const restructureAccountTypes = (accountTypes) => {
+export const restructureAccountTypes = (accountTypes, bookmarkFilters) => {
   const groups = accountTypeGroups(accountTypes);
   const data = groups.map((group) => group = {
     name: group,
@@ -497,8 +501,9 @@ export const restructureAccountTypes = (accountTypes) => {
       label: `${at.accountTypeDescription} (${at.accountTypeCode})`,
       group: at.accountTypeGroupCode,
       groupDescription: at.accountTypeGroupDescription,
-      selected: false,
-      enabled: true,
+      selected: bookmarkFilters? bookmarkFilters?.accountType.selected.includes(at.accountTypeCode) : false,
+      enabled: bookmarkFilters? bookmarkFilters?.accountType.enabled.includes(at.accountTypeCode) 
+        || bookmarkFilters?.accountType.selected.includes(at.accountTypeCode) : true,
     };
     const index = data.findIndex(group => group.name === entry.groupDescription)
     data[index].items.push(entry);
