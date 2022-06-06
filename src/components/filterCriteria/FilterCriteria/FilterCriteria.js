@@ -37,7 +37,6 @@ const FilterCriteria = ({
     hideFilterMenu,
     setRemovedAppliedFilter,
     renderPreviewData,
-    bookmarkData
   }) => { 
     const [firstFocusableEl, setFirstFocusableEl] = useState(null);
     const mats = 'MERCURY AND AIR TOXICS EMISSIONS';

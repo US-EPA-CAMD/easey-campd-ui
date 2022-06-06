@@ -101,28 +101,28 @@ const CustomDataDownload = ({
     }
   }, []);
 
-  useEffect(()=>{
-    const applyDataTypeAndAddFilterTags = () => {
-      handleApplyButtonClick();
-      const bookmarkFilters = bookmarkData.filters;
-      Object.keys(bookmarkFilters).forEach((el) => {
-        const filterCategory = bookmarkFilters[el];
-        const selectedFilters = filterCategory?.selected;
-        const filterTagItem = filterTagsDict[el];
-        if (selectedFilters?.length){
-          if (el === 'comboBoxYear'){
-            addAppliedFilterDispatcher({key: filterTagItem?.label, values: filterTagItem?.method(filterCriteria.timePeriod[el], selectedFilters)});
-          }else {
-            addAppliedFilterDispatcher({key: filterTagItem?.label, values: filterTagItem?.method(filterCriteria[el], selectedFilters)})
-          }
-        } else if (el === 'timePeriod'){
-          addAppliedFilterDispatcher({key: filterTagItem?.label, values: filterTagItem?.method(filterCategory)})
-          if (filterCategory.opHrsOnly){
-            addAppliedFilterDispatcher({key: filterTagItem?.label, values: ['Operating Hours Only']})
-          }
+  const applyBookmarkFilterTags = () => {
+    const bookmarkFilters = bookmarkData.filters;
+    Object.keys(bookmarkFilters).forEach((el) => {
+      const filterCategory = bookmarkFilters[el];
+      const selectedFilters = filterCategory?.selected;
+      const filterTagItem = filterTagsDict[el];
+      if (selectedFilters?.length){
+        if (el === 'comboBoxYear'){
+          addAppliedFilterDispatcher({key: filterTagItem?.label, values: filterTagItem?.method(filterCriteria.timePeriod[el], selectedFilters)});
+        }else {console.log(el," ", filterCriteria[el]);
+          addAppliedFilterDispatcher({key: filterTagItem?.label, values: filterTagItem?.method(filterCriteria[el], selectedFilters)})
         }
-      })
-    }
+      } else if (el === 'timePeriod'){
+        addAppliedFilterDispatcher({key: filterTagItem?.label, values: filterTagItem?.method(filterCategory)})
+        if (filterCategory.opHrsOnly){
+          addAppliedFilterDispatcher({key: filterTagItem?.label, values: ['Operating Hours Only']})
+        }
+      }
+    })
+  }
+
+  useEffect(()=>{
     if(bookmarkInit && bookmarkData){
       if(selectedDataType === '' && selectedDataSubtype === ''){
         updateSelectedDataTypeDispatcher(bookmarkData?.dataType);
@@ -130,8 +130,7 @@ const CustomDataDownload = ({
         setSelectedDataSubtype(selectedDataSubtypeObj.value);
         bookmarkData.hasOwnProperty('aggregation') ? setSelectedAggregation(bookmarkData.aggregation) : setSelectedAggregation(''); 
       }else {
-        applyDataTypeAndAddFilterTags();
-        //handleApplyButtonClick();
+        handleApplyButtonClick();
         window.history.pushState({}, document.title, window.location.href.split('?')[0])
       }
     }// eslint-disable-next-line
@@ -156,53 +155,60 @@ const CustomDataDownload = ({
   }, [isMobileOrTablet])
   useEffect(()=>{//console.log(filterCriteria.timePeriod.comboBoxYear); console.log("called");
     const dataSubType = getSelectedDataSubType(constants.DATA_SUBTYPES_MAP[selectedDataType]);
-    if(applyClicked && loading === 0 && selectedDataType !== "EMISSIONS" && selectedDataType !== "MERCURY AND AIR TOXICS EMISSIONS" && 
-      selectedDataType !== "FACILITY" && dataSubType !== "Transactions"){debugger;
-      if((selectedDataType === "COMPLIANCE" || dataSubType === "Holdings") && comboBoxYearUpdated === false){//console.log("updatetime");
-        const distinctYears = [...new Set(filterCriteria.filterMapping.map(e=>selectedDataType === "COMPLIANCE" ? e.year : e.vintageYear))];
+    if(applyClicked && loading ===0){
+      if(selectedDataType !== "EMISSIONS" && selectedDataType !== "MERCURY AND AIR TOXICS EMISSIONS" && 
+        selectedDataType !== "FACILITY" && dataSubType !== "Transactions"){
+        if((selectedDataType === "COMPLIANCE" || dataSubType === "Holdings") && comboBoxYearUpdated === false){//console.log("updatetime");
+          const distinctYears = [...new Set(filterCriteria.filterMapping.map(e=>selectedDataType === "COMPLIANCE" ? e.year : e.vintageYear))];
+          updateTimePeriodDispatcher({
+            ...filterCriteria.timePeriod,
+            comboBoxYear: distinctYears.map(year => {
+              return {
+                id:year, 
+                label:year, 
+                selected: bookmarkData? bookmarkData.filters?.comboBoxYear.selected.includes(year) : false, 
+                enabled: bookmarkData? bookmarkData.filters?.comboBoxYear.enabled.includes(year) 
+                  || bookmarkData.filters?.comboBoxYear.selected.includes(year) : true
+              }})
+          });
+          setComboBoxYearUpdated(true);
+        }
+        if(dataSubType === "Account Information"){
+          setComboBoxYearUpdated(true);
+        }
+        if(comboBoxYearUpdated && !bookmarkInit){
+          engageFilterLogic(selectedDataType, dataSubType, null, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispatcher, true);
+          setApplyClicked(false);
+          setComboBoxYearUpdated(false);
+        }
+        if(comboBoxYearUpdated && bookmarkInit){
+          applyBookmarkFilterTags();
+          setBookmarkInit(false);
+        }
+      }else if(bookmarkInit && bookmarkData && filterCriteria.filterMapping.length>0){
+        let distinctYears =[];
+        const bookmarkTimePeriod = bookmarkData.filters.timePeriod;
+        if(bookmarkData.dataSubType === "Transactions"){
+          distinctYears = [...new Set(filterCriteria.filterMapping.map(e=>e.vintageYear))];
+        }
         updateTimePeriodDispatcher({
           ...filterCriteria.timePeriod,
-          comboBoxYear: distinctYears.map(year => {
-            return {
-              id:year, 
-              label:year, 
-              selected: bookmarkData? bookmarkData.filters?.comboBoxYear.selected.includes(year) : false, 
-              enabled: bookmarkData? bookmarkData.filters?.comboBoxYear.enabled.includes(year) 
-                || bookmarkData.filters?.comboBoxYear.selected.includes(year) : true
-            }})
+          startDate: bookmarkTimePeriod.startDate,
+          endDate: bookmarkTimePeriod.endDate,
+          opHrsOnly: bookmarkTimePeriod.opHrsOnly,
+          year: bookmarkTimePeriod.year,
+          comboBoxYear: distinctYears?  distinctYears.map(year => {return {
+            id:year, 
+            label:year, 
+            selected: bookmarkData.filters.comboBoxYear.selected.includes(year), 
+            enabled: bookmarkData.filters.comboBoxYear.enabled.includes(year) || bookmarkData.filters.comboBoxYear.selected.includes(year)
+          }}) : [],
+          month: bookmarkTimePeriod.month,
+          quarter: bookmarkTimePeriod.quarter, 
         });
-        setComboBoxYearUpdated(true);
+        applyBookmarkFilterTags();
+        setBookmarkInit(false);
       }
-      if(dataSubType === "Account Information"){
-        setComboBoxYearUpdated(true);
-      }
-      if(comboBoxYearUpdated && !bookmarkInit){
-        engageFilterLogic(selectedDataType, dataSubType, null, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispatcher, true);
-        setApplyClicked(false);
-        setComboBoxYearUpdated(false);
-      }
-    }else if(selectedDataType !== '' && dataSubType !=='' && bookmarkInit && bookmarkData && filterCriteria.filterMapping.length>0){debugger;
-      let distinctYears =[];
-      const bookmarkTimePeriod = bookmarkData.filters.timePeriod;
-      if(bookmarkData.dataSubType === "Transactions"){
-        distinctYears = [...new Set(filterCriteria.filterMapping.map(e=>e.vintageYear))];
-      }
-      updateTimePeriodDispatcher({
-        ...filterCriteria.timePeriod,
-        startDate: bookmarkTimePeriod.startDate,
-        endDate: bookmarkTimePeriod.endDate,
-        opHrsOnly: bookmarkTimePeriod.opHrsOnly,
-        year: bookmarkTimePeriod.year,
-        comboBoxYear: distinctYears?  distinctYears.map(year => {return {
-          id:year, 
-          label:year, 
-          selected: bookmarkData.filters.comboBoxYear.selected.includes(year), 
-          enabled: bookmarkData.filters.comboBoxYear.enabled.includes(year) || bookmarkData.filters.comboBoxYear.selected.includes(year)
-        }}) : [],
-        month: bookmarkTimePeriod.month,
-        quarter: bookmarkTimePeriod.quarter, 
-      });
-      setBookmarkInit(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   },[applyClicked, loading, comboBoxYearUpdated, bookmarkData])
@@ -301,7 +307,7 @@ const CustomDataDownload = ({
     if (selectedDataType !== '' && selectedDataSubtype !== '') {
       if(selectedDataType !== "EMISSIONS" && selectedDataType !== "FACILITY" && selectedDataType !== "MERCURY AND AIR TOXICS EMISSIONS" && dataSubType !== "Transactions"){
         loadFilterMappingDispatcher(selectedDataType, dataSubType);
-      }else if(bookmarkInit && bookmarkData){debugger;
+      }else if(bookmarkInit && bookmarkData){
         const { startDate, endDate, year } = bookmarkData.filters.timePeriod;
         if(bookmarkData.filters.timePeriod.year.yearArray.length > 0){
           loadFilterMappingDispatcher(bookmarkData.dataType, bookmarkData.dataSubType, getTimePeriodYears(null, null, year.yearString));
@@ -449,7 +455,6 @@ const CustomDataDownload = ({
             isMobileOrTablet={isMobileOrTablet}
             setRemovedAppliedFilter={setRemovedAppliedFilter}
             renderPreviewData={renderPreviewData}
-            bookmarkData={bookmarkData}
           />
           <MobileMenu 
           handleBackButtonClick={handleBackButtonClick}
@@ -471,7 +476,6 @@ const CustomDataDownload = ({
           getSelectedDataSubType={getSelectedDataSubType}
           appliedFilters={appliedFilters}
           handleBackButtonClick={handleBackButtonClick}
-          bookmarkData={bookmarkData}
         />
         <CddDataPreview
           dataType={appliedDataType.dataType}
