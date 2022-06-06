@@ -379,4 +379,3 @@ export const validateInput = (list, item) => {
   }
   return checkSelectableData(listItem);
 };
-

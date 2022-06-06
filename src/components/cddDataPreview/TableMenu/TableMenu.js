@@ -63,12 +63,10 @@ const TableMenu = ({
           }
         });
         if (filterCriteria.columnState) {
-          console.log('keeping filter state')
           setCheckedBoxes(
             JSON.parse(JSON.stringify(filterCriteria.columnState))
           );
         } else {
-          console.log('checking all');
           setCheckedBoxes(removableColumns);
         }
         setCheckAll(removableColumns);
