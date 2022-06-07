@@ -107,18 +107,26 @@ const CustomDataDownload = ({
       const filterCategory = bookmarkFilters[el];
       const selectedFilters = filterCategory?.selected;
       const filterTagItem = filterTagsDict[el];
+      const bookmarkDataSubType = bookmarkData.dataSubType;
+      const showOperatingHrsSubtypes = {'Hourly Emissions': true}
       if (selectedFilters?.length){
         if (el === 'comboBoxYear'){
-          addAppliedFilterDispatcher({key: filterTagItem?.label, values: filterTagItem?.method(filterCriteria.timePeriod[el], selectedFilters)});
-        }else {console.log(el," ", filterCriteria[el]);
+          if (bookmarkData.dataType === 'ALLOWANCE'){
+            if (filterCriteria.timePeriod[el].length) {addAppliedFilterDispatcher({key: 'Vintage Year', values: filterTagItem?.method( filterCriteria.timePeriod[el])});}
+          }else {
+            if (filterCriteria.timePeriod[el].length) {addAppliedFilterDispatcher({key: filterTagItem?.label, values: filterTagItem?.method(filterCriteria.timePeriod[el], selectedFilters)});}}
+        }else {
           addAppliedFilterDispatcher({key: filterTagItem?.label, values: filterTagItem?.method(filterCriteria[el], selectedFilters)})
         }
       } else if (el === 'timePeriod'){
+        if (bookmarkDataSubType === 'Transactions'){
+        addAppliedFilterDispatcher({key: 'Transaction Date', values: filterTagItem?.method(filterCategory)});
+      }else if (bookmarkDataSubType !== 'Transactions'){
         addAppliedFilterDispatcher({key: filterTagItem?.label, values: filterTagItem?.method(filterCategory)})
-        if (filterCategory.opHrsOnly){
+        if (filterCategory.opHrsOnly && showOperatingHrsSubtypes[bookmarkDataSubType]){
           addAppliedFilterDispatcher({key: filterTagItem?.label, values: ['Operating Hours Only']})
-        }
-      }
+        }}
+      } 
     })
   }
 
@@ -490,7 +498,7 @@ const CustomDataDownload = ({
           removedAppliedFilter={removedAppliedFilter}
           setRemovedAppliedFilter={setRemovedAppliedFilter}
         />
-        <RenderSpinner showSpinner={loading || filterCriteria.filterLogicEngaged} />
+        <RenderSpinner showSpinner={loading || filterCriteria.filterLogicEngaged || bookmarkInit} />
       </div>
     </div>
   );
