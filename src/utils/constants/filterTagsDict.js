@@ -1,12 +1,34 @@
 import {formatDateToUi} from '../selectors/general'
 
-const getSelectedLabels = (state, ids) => state && state.filter((e) => e.selected).map((e) => e.label);
+const getSelectedLabels = (state, ids) => state?.filter((e) => e.selected).map((e) => e.label);
 const getSelectedIds = (state, ids) => ids;
+const findMonthsOrQuarters = (state) => {
+  let monthsOrQuarters = '; ';
+  let addedMonthsOrQuarters = 0;
+  if(state.month?.length){
+     state.month.forEach(month => {
+      if (month.selected) {
+      addedMonthsOrQuarters> 0? monthsOrQuarters += ', ' + month.label : monthsOrQuarters += month.label;
+      addedMonthsOrQuarters +=1;
+      }
+    })
+    return monthsOrQuarters;
+  } else if (state.quarter?.length){
+    state.quarter.forEach(quarter => {
+      if (quarter.selected) {
+       addedMonthsOrQuarters> 0? monthsOrQuarters += ', ' + quarter.label : monthsOrQuarters += quarter.label;
+       addedMonthsOrQuarters +=1;
+     }
+   })
+    return monthsOrQuarters;
+  }
+  return '';
+}
 const getTimePeriodLabels = (selectedFilter) => {
   if (selectedFilter?.startDate){
     return [`${formatDateToUi(selectedFilter.startDate)} - ${formatDateToUi(selectedFilter.endDate)}`]
   } else {
-    return  [selectedFilter.year?.yearString, 'filter tag year value']
+    return  [selectedFilter.year?.yearString + findMonthsOrQuarters(selectedFilter), 'filter tag year value']
   }
 };
 export const filterTagsDict = {
@@ -22,5 +44,6 @@ export const filterTagsDict = {
   stateTerritory: { label: 'State/Territory', method: getSelectedLabels },
   timePeriod: { label: 'Time Period', method: getTimePeriodLabels},
   transactionType: { label: 'Transaction Type', method: getSelectedLabels },
-  unitType: { label: 'Unit Type', method: getSelectedIds },
+  transactionDate: { label: 'Transaction Date', method: getTimePeriodLabels},
+  unitType: { label: 'Unit Type', method: getSelectedIds},
 };
