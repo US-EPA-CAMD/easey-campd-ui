@@ -316,8 +316,8 @@ export const getBookmarkContent = (dataType, dataSubType, aggregation, filtersMa
   }
   filters.forEach(filter =>{
     if(["timePeriod","transactionDate"].includes(filter)){
-      content.filters[filter] = JSON.parse(JSON.stringify(filterCriteria.timePeriod));
-      delete content.filters[filter]["comboBoxYear"];
+      content.filters['timePeriod'] = JSON.parse(JSON.stringify(filterCriteria.timePeriod));
+      delete content.filters['timePeriod']["comboBoxYear"];
     }else if(filter === "comboBoxYear"){
       content.filters[filter] = {
         selected: getComboboxSelectedItems(filterCriteria.timePeriod.comboBoxYear),

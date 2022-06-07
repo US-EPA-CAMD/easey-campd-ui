@@ -19,6 +19,7 @@ import * as constants from '../../../utils/constants/customDataDownload';
 import { loadAllFilters, resetFilter, loadFilterMapping, updateFilterCriteria, updateTimePeriod } from '../../../store/actions/customDataDownload/filterCriteria';
 import hideNav from '../../../store/actions/hideNavAction';
 import { engageFilterLogic } from '../../../utils/selectors/filterLogic';
+import { getTimePeriodYears } from '../../../utils/selectors/filterCriteria';
 import useCheckWidth from '../../../utils/hooks/useCheckWidth'
 import { metaAdder } from '../../../utils/document/metaAdder';
 import { getBookmarkData } from '../../../utils/api/quartzApi';
@@ -100,24 +101,36 @@ const CustomDataDownload = ({
     }
   }, []);
 
-  useEffect(()=>{
-    const applyDataTypeAndAddFilterTags = () => {
-      handleApplyButtonClick();
-      const bookmarkFilters = bookmarkData.filters;
-      Object.keys(bookmarkFilters).forEach((el) => {
-        const filterCategory = bookmarkFilters[el];
-        const selectedFilters = filterCategory?.selected;
-        const filterTagItem = filterTagsDict[el];
-        if (selectedFilters && selectedFilters.length){
+  const applyBookmarkFilterTags = () => {
+    const bookmarkFilters = bookmarkData.filters;
+    Object.keys(bookmarkFilters).forEach((el) => {
+      const filterCategory = bookmarkFilters[el];
+      const selectedFilters = filterCategory?.selected;
+      const filterTagItem = filterTagsDict[el];
+      const bookmarkDataSubType = bookmarkData.dataSubType;
+      const showOperatingHrsSubtypes = {'Hourly Emissions': true}
+      if (selectedFilters?.length){
+        if (el === 'comboBoxYear'){
+          if (bookmarkData.dataType === 'ALLOWANCE'){
+            if (filterCriteria.timePeriod[el].length) {addAppliedFilterDispatcher({key: 'Vintage Year', values: filterTagItem?.method( filterCriteria.timePeriod[el])});}
+          }else {
+            if (filterCriteria.timePeriod[el].length) {addAppliedFilterDispatcher({key: filterTagItem?.label, values: filterTagItem?.method(filterCriteria.timePeriod[el], selectedFilters)});}}
+        }else {
           addAppliedFilterDispatcher({key: filterTagItem?.label, values: filterTagItem?.method(filterCriteria[el], selectedFilters)})
-        } else if (el === 'timePeriod'){
-          addAppliedFilterDispatcher({key: filterTagItem?.label, values: filterTagItem?.method(filterCategory)})
-          if (filterCategory.opHrsOnly){
-            addAppliedFilterDispatcher({key: filterTagItem?.label, values: ['Operating Hours Only']})
-          }
         }
-      })
-    }
+      } else if (el === 'timePeriod'){
+        if (bookmarkDataSubType === 'Transactions'){
+        addAppliedFilterDispatcher({key: 'Transaction Date', values: filterTagItem?.method(filterCategory)});
+      }else if (bookmarkDataSubType !== 'Transactions'){
+        addAppliedFilterDispatcher({key: filterTagItem?.label, values: filterTagItem?.method(filterCategory)})
+        if (filterCategory.opHrsOnly && showOperatingHrsSubtypes[bookmarkDataSubType]){
+          addAppliedFilterDispatcher({key: filterTagItem?.label, values: ['Operating Hours Only']})
+        }}
+      } 
+    })
+  }
+
+  useEffect(()=>{
     if(bookmarkInit && bookmarkData){
       if(selectedDataType === '' && selectedDataSubtype === ''){
         updateSelectedDataTypeDispatcher(bookmarkData?.dataType);
@@ -125,9 +138,8 @@ const CustomDataDownload = ({
         setSelectedDataSubtype(selectedDataSubtypeObj.value);
         bookmarkData.hasOwnProperty('aggregation') ? setSelectedAggregation(bookmarkData.aggregation) : setSelectedAggregation(''); 
       }else {
-        applyDataTypeAndAddFilterTags();
+        handleApplyButtonClick();
         window.history.pushState({}, document.title, window.location.href.split('?')[0])
-        setBookmarkInit(false);
       }
     }// eslint-disable-next-line
   },[bookmarkData, selectedDataType, selectedDataSubtype]);
@@ -151,26 +163,63 @@ const CustomDataDownload = ({
   }, [isMobileOrTablet])
   useEffect(()=>{//console.log(filterCriteria.timePeriod.comboBoxYear); console.log("called");
     const dataSubType = getSelectedDataSubType(constants.DATA_SUBTYPES_MAP[selectedDataType]);
-    if(applyClicked && loading === 0 && selectedDataType !== "EMISSIONS" && selectedDataType !== "MERCURY AND AIR TOXICS EMISSIONS" && 
-      selectedDataType !== "FACILITY" && dataSubType !== "Transactions"){
-      if((selectedDataType === "COMPLIANCE" || dataSubType === "Holdings") && comboBoxYearUpdated === false){//console.log("updatetime");
-        const distinctYears = [...new Set(filterCriteria.filterMapping.map(e=>selectedDataType === "COMPLIANCE" ? e.year : e.vintageYear))];
+    if(applyClicked && loading ===0){
+      if(selectedDataType !== "EMISSIONS" && selectedDataType !== "MERCURY AND AIR TOXICS EMISSIONS" && 
+        selectedDataType !== "FACILITY" && dataSubType !== "Transactions"){
+        if((selectedDataType === "COMPLIANCE" || dataSubType === "Holdings") && comboBoxYearUpdated === false){//console.log("updatetime");
+          const distinctYears = [...new Set(filterCriteria.filterMapping.map(e=>selectedDataType === "COMPLIANCE" ? e.year : e.vintageYear))];
+          updateTimePeriodDispatcher({
+            ...filterCriteria.timePeriod,
+            comboBoxYear: distinctYears.map(year => {
+              return {
+                id:year, 
+                label:year, 
+                selected: bookmarkData? bookmarkData.filters?.comboBoxYear.selected.includes(year) : false, 
+                enabled: bookmarkData? bookmarkData.filters?.comboBoxYear.enabled.includes(year) 
+                  || bookmarkData.filters?.comboBoxYear.selected.includes(year) : true
+              }})
+          });
+          setComboBoxYearUpdated(true);
+        }
+        if(dataSubType === "Account Information"){
+          setComboBoxYearUpdated(true);
+        }
+        if(comboBoxYearUpdated && !bookmarkInit){
+          engageFilterLogic(selectedDataType, dataSubType, null, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispatcher, true);
+          setApplyClicked(false);
+          setComboBoxYearUpdated(false);
+        }
+        if(comboBoxYearUpdated && bookmarkInit){
+          applyBookmarkFilterTags();
+          setBookmarkInit(false);
+        }
+      }else if(bookmarkInit && bookmarkData && filterCriteria.filterMapping.length>0){
+        let distinctYears =[];
+        const bookmarkTimePeriod = bookmarkData.filters.timePeriod;
+        if(bookmarkData.dataSubType === "Transactions"){
+          distinctYears = [...new Set(filterCriteria.filterMapping.map(e=>e.vintageYear))];
+        }
         updateTimePeriodDispatcher({
           ...filterCriteria.timePeriod,
-          comboBoxYear: distinctYears.map(year => {return {id:year, label:year, selected:false, enabled:true}})
+          startDate: bookmarkTimePeriod.startDate,
+          endDate: bookmarkTimePeriod.endDate,
+          opHrsOnly: bookmarkTimePeriod.opHrsOnly,
+          year: bookmarkTimePeriod.year,
+          comboBoxYear: distinctYears?  distinctYears.map(year => {return {
+            id:year, 
+            label:year, 
+            selected: bookmarkData.filters.comboBoxYear.selected.includes(year), 
+            enabled: bookmarkData.filters.comboBoxYear.enabled.includes(year) || bookmarkData.filters.comboBoxYear.selected.includes(year)
+          }}) : [],
+          month: bookmarkTimePeriod.month,
+          quarter: bookmarkTimePeriod.quarter, 
         });
-        setComboBoxYearUpdated(true);
+        applyBookmarkFilterTags();
+        setBookmarkInit(false);
       }
-      if(dataSubType === "Account Information"){
-        setComboBoxYearUpdated(true);
-      }
-      if(comboBoxYearUpdated){
-        engageFilterLogic(selectedDataType, dataSubType, null, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispatcher, true);
-        setApplyClicked(false);
-        setComboBoxYearUpdated(false);
-      }
-    }// eslint-disable-next-line react-hooks/exhaustive-deps
-  },[applyClicked, loading, comboBoxYearUpdated])
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[applyClicked, loading, comboBoxYearUpdated, bookmarkData])
 
   useEffect(() => {
     const noAggregationChange = appliedDataType.aggregation === selectedAggregation || !selectedAggregation;
@@ -266,8 +315,19 @@ const CustomDataDownload = ({
     if (selectedDataType !== '' && selectedDataSubtype !== '') {
       if(selectedDataType !== "EMISSIONS" && selectedDataType !== "FACILITY" && selectedDataType !== "MERCURY AND AIR TOXICS EMISSIONS" && dataSubType !== "Transactions"){
         loadFilterMappingDispatcher(selectedDataType, dataSubType);
+      }else if(bookmarkInit && bookmarkData){
+        const { startDate, endDate, year } = bookmarkData.filters.timePeriod;
+        if(bookmarkData.filters.timePeriod.year.yearArray.length > 0){
+          loadFilterMappingDispatcher(bookmarkData.dataType, bookmarkData.dataSubType, getTimePeriodYears(null, null, year.yearString));
+        }else{
+          if(bookmarkData.dataType === "MERCURY AND AIR TOXICS EMISSIONS" || bookmarkData.dataSubType === "Transactions"){
+            loadFilterMappingDispatcher(bookmarkData.dataType, bookmarkData.dataSubType, [startDate, endDate])
+          }else{
+            loadFilterMappingDispatcher(bookmarkData.dataType, bookmarkData.dataSubType, getTimePeriodYears(startDate, endDate));
+          }
+        }
       }
-      loadAllFiltersDispatcher(selectedDataType, dataSubType, filterCriteria);
+      loadAllFiltersDispatcher(selectedDataType, dataSubType, filterCriteria, bookmarkData?.filters);
       setDataTypeApplied(true);
       setDataSubtypeApplied(true);
       setAppliedDataType({
@@ -438,7 +498,7 @@ const CustomDataDownload = ({
           removedAppliedFilter={removedAppliedFilter}
           setRemovedAppliedFilter={setRemovedAppliedFilter}
         />
-        <RenderSpinner showSpinner={loading || filterCriteria.filterLogicEngaged} />
+        <RenderSpinner showSpinner={loading || filterCriteria.filterLogicEngaged || bookmarkInit} />
       </div>
     </div>
   );
@@ -467,8 +527,8 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(updateFilterCriteria(filterCriteria)),
     removeAppliedFiltersDispatcher: (removedFilter, removeAll) =>
       dispatch(removeAppliedFilter(removedFilter, removeAll)),
-    loadAllFiltersDispatcher: (dataType, dataSubType, filterCriteria) =>
-      dispatch(loadAllFilters(dataType, dataSubType, filterCriteria)),
+    loadAllFiltersDispatcher: (dataType, dataSubType, filterCriteria, bookmarkFilters) =>
+      dispatch(loadAllFilters(dataType, dataSubType, filterCriteria, bookmarkFilters)),
     resetFilterDispatcher: (filterToReset, resetAll) =>
       dispatch(resetFilter(filterToReset, resetAll)),
     loadFilterMappingDispatcher: (dataType, dataSubType, years) =>
