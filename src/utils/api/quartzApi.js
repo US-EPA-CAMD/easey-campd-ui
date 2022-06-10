@@ -1,15 +1,11 @@
-import axios from 'axios';
-import config from '../../config';
-import { handleError, handleResponse } from './apiUtils';
-
-axios.defaults.headers.common = {
-  "x-api-key": config.app.apiKey,
-};
+import { clientTokenAxios } from "./clientTokenAxios";
+import config from "../../config";
+import { handleError, handleResponse } from "./apiUtils";
 
 export const getBulkDataFilesList = async () => {
   const url = `${config.services.camd.uri}/bulk-files`;
 
-  return axios
+  return (await clientTokenAxios())
     .get(url)
     .then(handleResponse)
     .catch((error) => {
@@ -21,7 +17,7 @@ export const getBulkDataFilesList = async () => {
 export const createBookmark = async (content) => {
   const url = `${config.services.camd.uri}/bookmarks`;
 
-  return axios
+  return (await clientTokenAxios())
     .post(url, content)
     .then(handleResponse)
     .catch((error) => {
@@ -30,13 +26,14 @@ export const createBookmark = async (content) => {
     });
 };
 
-export const getBookmarkData = (id) =>{
+export const getBookmarkData = async (id) => {
   const url = `${config.services.camd.uri}/bookmarks/${id}`;
 
-  return axios.get(url)
-  .then(handleResponse)
-  .catch((error)=>{
-    handleError(error);
-    throw new Error(error);
-  });
-} 
+  return (await clientTokenAxios())
+    .get(url)
+    .then(handleResponse)
+    .catch((error) => {
+      handleError(error);
+      throw new Error(error);
+    });
+};
