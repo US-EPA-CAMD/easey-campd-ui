@@ -2,13 +2,13 @@ name: Develop Branch Workflow
 
 on:
   push:
-    branches: [ develop ]
+    branches: [develop]
     paths-ignore:
-    - '**/*.md'
-    - 'LICENSE'
-    - '.github/**'
-    - '.gitignore'
-    
+      - "**/*.md"
+      - "LICENSE"
+      - ".github/**"
+      - ".gitignore"
+
 jobs:
   Build-Test-Deploy:
     runs-on: ubuntu-latest
@@ -30,7 +30,7 @@ jobs:
         with:
           node-version: 16
           registry-url: https://npm.pkg.github.com/
-          scope: '@us-epa-camd'
+          scope: "@us-epa-camd"
       - name: Configure Env Vars
         run: devops/scripts/environment-variables.sh
         env:
@@ -58,7 +58,11 @@ jobs:
       - name: Configure Env Vars (secrets)
         run: |
           cf set-env $APP_NAME REACT_APP_CAMPD_API_KEY $REACT_APP_CAMPD_API_KEY
+          cf set-env $APP_NAME REACT_APP_EASEY_CAMPD_UI_CLIENT_ID $REACT_APP_CAMPD_CLIENT_ID
+          cf set-env $APP_NAME REACT_APP_EASEY_CAMPD_UI_CLIENT_SECRET $REACT_APP_CAMPD_CLIENT_SECRET
         env:
           REACT_APP_CAMPD_API_KEY: ${{ secrets.CAMPD_NON_PROD_API_KEY }}
+          REACT_APP_CAMPD_CLIENT_ID: ${{ secrets.CLIENT_ID }}
+          REACT_APP_CAMPD_CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
       - name: Deploy
         run: devops/scripts/deploy.sh
