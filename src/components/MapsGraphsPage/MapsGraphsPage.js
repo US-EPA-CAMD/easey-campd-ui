@@ -131,7 +131,9 @@ const Tool = ({ data }) => {
           <p className="margin-0 font-sans-3xs">
             <a
               className="display-block text-white underline-primary-dark hover:underline-accent-cool"
-              href={`mailto:campd-support@camdsupport.com?subject=CAMPD Maps & Graphs Feedback - ${data.name}`}
+              href={`mailto:campd-support@camdsupport.com?subject=CAMPD Maps and Graphs Feedback - ${data.name}`}
+              target="_blank"
+              rel="noopener noreferrer"
             >
               <span className="display-flex flex-align-center">
                 <svg
