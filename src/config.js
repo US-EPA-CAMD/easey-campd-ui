@@ -19,8 +19,8 @@ const config = {
       process.env.REACT_APP_EASEY_CAMPD_UI_DOWNLOAD_LIMIT || "50 GB",
     emissionsSubmissionTestDate:
       process.env.REACT_APP_EASEY_CAMPD_UI_EMISSIONS_SUBMISSION_TEST_DATE,
-    clientId: process.env.REACT_APP_EASEY_CAMPD_UI_CLIENT_ID,
-    clientSecret: process.env.REACT_APP_EASEY_CAMPD_UI_CLIENT_SECRET || "test", //TODO REMOVE THOSE TO CONFIG
+    clientId: process.env.REACT_APP_EASEY_CAMPD_UI_CLIENT_ID || "",
+    clientSecret: process.env.REACT_APP_EASEY_CAMPD_UI_CLIENT_SECRET || "",
   },
   services: {
     auth: {
