@@ -81,9 +81,9 @@ const MapsGraphsPage = () => {
     <>
       {slides.length > 0 && <HeroSlideshow slides={slides} />}
 
-      <section className="position-relative padding-top-2 padding-bottom-4 shadow-1">
+      <section className="position-relative padding-y-1 desktop:padding-bottom-2 shadow-1">
         <div className="grid-container-widescreen">
-          <div className="font-sans-xs mobile-lg:font-sans-md desktop:font-sans-lg line-height-sans-6">
+          <div className="font-sans-xs mobile-lg:font-sans-sm desktop:font-sans-md line-height-sans-6">
             <ReactMarkdown
               children={introText}
               remarkPlugins={[remarkGfm]}
@@ -121,6 +121,8 @@ const Tool = ({ data }) => {
             <a
               className="display-block text-white underline-primary-dark hover:underline-accent-cool"
               href={data.url}
+              target="_blank"
+              rel="noopener noreferrer"
             >
               {data.name}
             </a>
@@ -154,6 +156,8 @@ const Tool = ({ data }) => {
                   className="position-absolute"
                   style={{ inset: "0.25rem" }}
                   href={data.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
                   <img
                     className="width-full height-full"
