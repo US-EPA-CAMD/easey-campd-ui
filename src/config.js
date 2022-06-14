@@ -16,11 +16,18 @@ const config = {
     streamingLimit:
       process.env.REACT_APP_EASEY_CAMPD_UI_STREAMING_LIMIT || 1000000,
     downloadLimit:
-      process.env.REACT_APP_EASEY_CAMPD_UI_DOWNLOAD_LIMIT || '50 GB',
+      process.env.REACT_APP_EASEY_CAMPD_UI_DOWNLOAD_LIMIT || "50 GB",
     emissionsSubmissionTestDate:
       process.env.REACT_APP_EASEY_CAMPD_UI_EMISSIONS_SUBMISSION_TEST_DATE,
+    clientId: process.env.REACT_APP_EASEY_CAMPD_UI_CLIENT_ID,
+    clientSecret: process.env.REACT_APP_EASEY_CAMPD_UI_CLIENT_SECRET || "test", //TODO REMOVE THOSE TO CONFIG
   },
   services: {
+    auth: {
+      uri:
+        process.env.REACT_APP_EASEY_AUTH_API ||
+        "https://api-easey-dev.app.cloud.gov/auth-mgmt",
+    },
     mdm: {
       uri:
         process.env.REACT_APP_EASEY_MDM_API ||
@@ -57,10 +64,10 @@ const config = {
         "https://api-easey-dev.app.cloud.gov/camd-services",
     },
     bulkFiles: {
-      uri: 
+      uri:
         process.env.REACT_APP_EASEY_BULK_DATA_FILES_API ||
-        'https://api.epa.gov/easey/dev/bulk-files'
-    }
+        "https://api.epa.gov/easey/dev/bulk-files",
+    },
   },
 };
 
