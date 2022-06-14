@@ -2,12 +2,7 @@ import axios from "axios";
 import config from "../../config";
 import { refreshClientToken } from "./authApi";
 
-export const clientTokenAxios = async () => {
-  axios.defaults.headers.common = {
-    "x-api-key": config.app.apiKey,
-    "x-client-id": config.app.clientId,
-  };
-
+export const clientTokenAxios = async (options) => {
   if (sessionStorage.getItem("client_token")) {
     if (
       Date.now() > new Date(sessionStorage.getItem("client_token_expiration"))
@@ -18,9 +13,11 @@ export const clientTokenAxios = async () => {
     await refreshClientToken();
   }
 
-  axios.defaults.headers.authorization = `Bearer ${sessionStorage.getItem(
-    "client_token"
-  )}`;
+  options.headers = {
+    authorization: `Bearer ${sessionStorage.getItem("client_token")}`,
+    "x-api-key": config.app.apiKey,
+    "x-client-id": config.app.clientId,
+  };
 
-  return axios;
+  return axios(options);
 };

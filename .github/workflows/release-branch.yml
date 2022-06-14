@@ -2,7 +2,7 @@ name: Release Branch Workflow
 
 on:
   push:
-    branches: [ release/* ]
+    branches: [release/*]
 
 jobs:
   Build-Test-Package:
@@ -22,7 +22,7 @@ jobs:
         with:
           node-version: 16
           registry-url: https://npm.pkg.github.com/
-          scope: '@us-epa-camd'
+          scope: "@us-epa-camd"
       - name: Configure Env Vars
         run: devops/scripts/environment-variables-noTag.sh
         env:
@@ -37,7 +37,7 @@ jobs:
         uses: sonarsource/sonarcloud-github-action@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}          
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       - name: Package App
         run: devops/scripts/package-artifact.sh
         env:
