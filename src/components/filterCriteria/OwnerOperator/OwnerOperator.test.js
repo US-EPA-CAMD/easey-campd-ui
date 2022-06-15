@@ -11,7 +11,7 @@ import OwnerOperator from './OwnerOperator';
 import configureStore from "../../../store/configureStore.dev";
 import { Provider } from "react-redux";
 import initialState from "../../../store/reducers/initialState";
-import { loadOwnerOperators, updateOwnerOperatorSelection } from "../../../store/actions/customDataDownload/filterCriteria";
+import { updateOwnerOperatorSelection } from "../../../store/actions/customDataDownload/filterCriteria";
 import { addAppliedFilter, removeAppliedFilter } from "../../../store/actions/customDataDownload/customDataDownload";
 
 const ownerOperators = [
@@ -60,7 +60,6 @@ describe('Owner Operator Component', () => {
           ownerOperator ={jest.fn()}
           dataSubType ={jest.fn()}
           appliedFilters ={jest.fn()}
-          loadownerOperatorsDispatcher ={loadOwnerOperators}
           updateOwnerOperatorDispatcher ={updateOwnerOperatorSelection}
           addAppliedFilterDispatcher ={addAppliedFilter}
           removeAppliedFilterDispatcher ={removeAppliedFilter}

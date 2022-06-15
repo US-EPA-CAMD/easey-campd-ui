@@ -68,7 +68,6 @@ describe('Account Name/Number Component', () => {
     query = render(
       <Provider store={store}>
         <AccountNameNumber
-          loadAccountNameNumbersDispatcher={jest.fn()}
           updateAccountNameNumberSelectionDispatcher={jest.fn()}
           addAppliedFilterDispatcher={jest.fn()}
           removeAppliedFilterDispatcher={jest.fn()}

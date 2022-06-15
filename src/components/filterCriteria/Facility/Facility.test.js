@@ -10,7 +10,7 @@ import Facility from './Facility';
 import configureStore from "../../../store/configureStore.dev";
 import { Provider } from "react-redux";
 import initialState from "../../../store/reducers/initialState";
-import { loadFacilities, updateFacilitySelection } from "../../../store/actions/customDataDownload/filterCriteria";
+import { updateFacilitySelection } from "../../../store/actions/customDataDownload/filterCriteria";
 import { addAppliedFilter, removeAppliedFilter } from "../../../store/actions/customDataDownload/customDataDownload";
 
 const facilities = [
@@ -305,7 +305,6 @@ describe('Facility Component', () => {
       <Provider 
         store={store}>
         <Facility
-          loadFacilitiesDispatcher ={loadFacilities}
           updateFacilitySelectionDispatcher ={updateFacilitySelection}
           addAppliedFilterDispatcher ={addAppliedFilter}
           removeAppliedFilterDispatcher ={removeAppliedFilter}

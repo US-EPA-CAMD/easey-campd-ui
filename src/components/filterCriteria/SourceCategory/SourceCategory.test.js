@@ -10,7 +10,7 @@ import SourceCategory from './SourceCategory';
 import configureStore from "../../../store/configureStore.dev";
 import { Provider } from "react-redux";
 import initialState from "../../../store/reducers/initialState";
-import { loadSourceCategories, updateSourceCategorySelection } from "../../../store/actions/customDataDownload/filterCriteria";
+import { updateSourceCategorySelection } from "../../../store/actions/customDataDownload/filterCriteria";
 import { addAppliedFilter, removeAppliedFilter } from "../../../store/actions/customDataDownload/customDataDownload";
 
 const sourceCategories = [
@@ -65,7 +65,6 @@ describe('Source Category Component', () => {
       <Provider 
         store={store}>
         <SourceCategory
-          loadSourceCategoriesDispatcher ={loadSourceCategories}
           updateSourceCategorySelectionDispatcher ={updateSourceCategorySelection}
           addAppliedFilterDispatcher ={addAppliedFilter}
           removeAppliedFilterDispatcher ={removeAppliedFilter}

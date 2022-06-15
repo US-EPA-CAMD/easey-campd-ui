@@ -4,7 +4,7 @@ import {Button} from "@trussworks/react-uswds";
 import { Help } from '@material-ui/icons';
 
 import MultiSelectCombobox from '../../MultiSelectCombobox/MultiSelectCombobox';
-import { loadOwnerOperators, updateOwnerOperatorSelection, updateFilterCriteria } from "../../../store/actions/customDataDownload/filterCriteria";
+import { updateOwnerOperatorSelection, updateFilterCriteria } from "../../../store/actions/customDataDownload/filterCriteria";
 import { addAppliedFilter, removeAppliedFilter } from "../../../store/actions/customDataDownload/customDataDownload";
 import { isAddedToFilters } from "../../../utils/selectors/general";
 import { engageFilterLogic } from "../../../utils/selectors/filterLogic";
@@ -136,7 +136,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loadownerOperatorsDispatcher: (dataSubType) => dispatch(loadOwnerOperators(dataSubType)),
     updateOwnerOperatorDispatcher: (ownerOperator) => dispatch(updateOwnerOperatorSelection(ownerOperator)),
     addAppliedFilterDispatcher: (filterToApply) => dispatch(addAppliedFilter(filterToApply)),
     removeAppliedFilterDispatcher: (removedFilter) => dispatch(removeAppliedFilter(removedFilter)),

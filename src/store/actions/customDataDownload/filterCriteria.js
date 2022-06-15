@@ -36,19 +36,6 @@ export function loadProgramsSuccess(programs, bookmarkFilters) {
   };
 }
 
-export function loadPrograms(dataType, showActiveOnly) {
-  return (dispatch) => {
-    dispatch(beginApiCall());
-    return filterCriteriaApi.getPrograms(dataType, showActiveOnly)
-      .then((res) => {
-        dispatch(loadProgramsSuccess(res.data));
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  };
-}
-
 export function updateProgramSelection(program) {
   return {
     type: types.UPDATE_PROGRAM_SELECTION,
@@ -70,20 +57,6 @@ export function loadFacilitiesSuccess(facilities, bookmarkFilters) {
   };
 }
 
-export function loadFacilities() {
-  return (dispatch) => {
-    dispatch(beginApiCall());
-    return filterCriteriaApi
-      .getAllFacilities()
-      .then((res) => {
-        dispatch(loadFacilitiesSuccess(res.data));
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  };
-}
-
 export function updateFacilitySelection(facility) {
   return {
     type: types.UPDATE_FACILITY_SELECTION,
@@ -96,20 +69,6 @@ export function loadUnitTypesSuccess(unitTypes, bookmarkFilters) {
   return {
     type: types.LOAD_UNIT_TYPES_SUCCESS,
     unitType: restructureUnitTypes(unitTypes, bookmarkFilters),
-  };
-}
-
-export function loadUnitTypes() {
-  return (dispatch) => {
-    dispatch(beginApiCall());
-    return filterCriteriaApi
-      .getUnitTypes
-      .then((res) => {
-        dispatch(loadUnitTypesSuccess(res.data));
-      })
-      .catch((err) => {
-        console.error(err);
-      });
   };
 }
 
@@ -128,20 +87,6 @@ export function loadFuelTypesSuccess(fuelTypes, bookmarkFilters) {
   };
 }
 
-export function loadFuelTypes() {
-  return (dispatch) => {
-    dispatch(beginApiCall());
-    return filterCriteriaApi
-      .getFuelTypes
-      .then((res) => {
-        dispatch(loadFuelTypesSuccess(res.data));
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  };
-}
-
 export function updateFuelTypeSelection(fuelType) {
   return {
     type: types.UPDATE_FUEL_TYPE_SELECTION,
@@ -154,20 +99,6 @@ export function loadControlTechnologiesSuccess(controlTechnologies, bookmarkFilt
   return {
     type: types.LOAD_CONTROL_TECHNOLOGIES_SUCCESS,
     controlTechnology: restructureControlTechnologies(controlTechnologies, bookmarkFilters),
-  };
-}
-
-export function loadControlTechnologies() {
-  return (dispatch) => {
-    dispatch(beginApiCall());
-    return filterCriteriaApi
-      .getControlTechnologies
-      .then((res) => {
-        dispatch(loadControlTechnologiesSuccess(res.data));
-      })
-      .catch((err) => {
-        console.error(err);
-      });
   };
 }
 
@@ -192,20 +123,6 @@ export function loadStatesSuccess(states, bookmarkFilters) {
   };
 }
 
-export function loadStates() {
-  return (dispatch) => {
-    dispatch(beginApiCall());
-    return filterCriteriaApi
-      .getStates
-      .then((res) => {
-        dispatch(loadStatesSuccess(res.data));
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  };
-}
-
 export function updateStateSelection(stateTerritory){
   return {
     type: types.UPDATE_STATE_SELECTION,
@@ -218,20 +135,6 @@ export function loadAccountTypesSuccess(accountTypes, bookmarkFilters) {
   return {
     type: types.LOAD_ACCOUNT_TYPES_SUCCESS,
     accountType: restructureAccountTypes(accountTypes, bookmarkFilters),
-  };
-}
-
-export function loadAccountTypes() {
-  return (dispatch) => {
-    dispatch(beginApiCall());
-    return filterCriteriaApi
-      .getAccountTypes
-      .then((res) => {
-        dispatch(loadAccountTypesSuccess(res.data));
-      })
-      .catch((err) => {
-        console.error(err);
-      });
   };
 }
 
@@ -256,20 +159,6 @@ export function loadAccountNameNumbersSuccess(accountNameNumbers, bookmarkFilter
   };
 }
 
-export function loadAccountNameNumbers() {
-  return (dispatch) => {
-    dispatch(beginApiCall());
-    return filterCriteriaApi
-      .getAllAccounts()
-      .then((res) => {
-        dispatch(loadAccountNameNumbersSuccess(res.data));
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  };
-}
-
 export function updateAccountNameNumberSelection(accountNameNumber){
   return {
     type: types.UPDATE_ACCOUNT_NAME_NUMBER_SELECTION,
@@ -291,20 +180,6 @@ export function loadOwnerOperatorsSuccess(ownerOperators, bookmarkFilters) {
   };
 }
 
-export function loadOwnerOperators(dataSubType) {
-  return (dispatch) => {
-    dispatch(beginApiCall());
-    return filterCriteriaApi
-      .getOwnerOperators(dataSubType)
-      .then((res) => {
-        dispatch(loadOwnerOperatorsSuccess(res.data));
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  };
-}
-
 export function updateOwnerOperatorSelection(ownerOperator){
   return {
     type: types.UPDATE_OWNER_OPERATOR_SELECTION,
@@ -323,20 +198,6 @@ export function loadTransactionTypesSuccess(transactionType, bookmarkFilters) {
       enabled: bookmarkFilters? bookmarkFilters?.transactionType.enabled.includes(t.transactionTypeCode) 
         || bookmarkFilters?.transactionType.selected.includes(t.transactionTypeCode) : true,
     }))
-  };
-}
-
-export function loadTransactionTypes() {
-  return (dispatch) => {
-    dispatch(beginApiCall());
-    return filterCriteriaApi
-      .getTransactionTypes
-      .then((res) => {
-        dispatch(loadTransactionTypesSuccess(res.data));
-      })
-      .catch((err) => {
-        console.error(err);
-      });
   };
 }
 
@@ -380,20 +241,6 @@ export function loadSourceCategoriesSuccess(sourceCategory, bookmarkFilters) {
       enabled: bookmarkFilters? bookmarkFilters?.sourceCategory.enabled.includes(t.sourceCategoryDescription) 
         || bookmarkFilters?.sourceCategory.selected.includes(t.sourceCategoryDescription) : true,
     }))
-  };
-}
-
-export function loadSourceCategories() {
-  return (dispatch) => {
-    dispatch(beginApiCall());
-    return filterCriteriaApi
-      .getSourceCategories
-      .then((res) => {
-        dispatch(loadSourceCategoriesSuccess(res.data));
-      })
-      .catch((err) => {
-        console.error(err);
-      });
   };
 }
 
