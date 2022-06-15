@@ -27,7 +27,7 @@ const topics = [{
 const titleUrl =
   `${config.services.content.uri}/campd/help-support/faqs/index.md`;
 const contentUrl =
-  `${config.services.content.uri}/campd/help-support/faqs/topics.md`;
+  `${config.services.content.uri}/campd/help-support/faqs/topics.json`;
 const getTitle = rest.get(titleUrl, (req, res, ctx) => {
   return res(ctx.json('Title text..'));
 });
@@ -54,7 +54,7 @@ describe('FAQs Page Component', () => {
     });
   });
   test('should render title text', async () => {
-    render(
+    const {findByText} = render(
       <MemoryRouter>
         <FaqsPage />
       </MemoryRouter>

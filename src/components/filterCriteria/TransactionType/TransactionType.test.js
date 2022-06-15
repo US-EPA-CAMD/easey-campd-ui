@@ -71,7 +71,6 @@ describe('Transaction Type Component', () => {
       <Provider 
         store={store}>
         <TransactionType
-          loadtransactionTypesDispatcher ={jest.fn()}
           updatetransactionTypeSelectionDispatcher ={jest.fn()}
           addAppliedFilterDispatcher ={jest.fn()}
           removeAppliedFilterDispatcher ={jest.fn()}

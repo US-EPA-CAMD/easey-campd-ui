@@ -18,14 +18,13 @@ import MobileMenu from '../../MobileComponents/MobileMenu'
 import * as constants from '../../../utils/constants/customDataDownload';
 import { loadAllFilters, resetFilter, loadFilterMapping, updateFilterCriteria, updateTimePeriod } from '../../../store/actions/customDataDownload/filterCriteria';
 import hideNav from '../../../store/actions/hideNavAction';
-import { engageFilterLogic } from '../../../utils/selectors/filterLogic';
+import { applyBookmarkFilterTags, engageFilterLogic, getFilterVariable } from '../../../utils/selectors/filterLogic';
 import { getTimePeriodYears } from '../../../utils/selectors/filterCriteria';
 import useCheckWidth from '../../../utils/hooks/useCheckWidth'
 import { metaAdder } from '../../../utils/document/metaAdder';
 import { getBookmarkData } from '../../../utils/api/quartzApi';
 // *** STYLES (individual component)
 import './CustomDataDownload.scss';
-import { filterTagsDict } from '../../../utils/constants/filterTagsDict';
 
 const CustomDataDownload = ({
   addAppliedFilterDispatcher,
@@ -101,35 +100,6 @@ const CustomDataDownload = ({
     }
   }, []);
 
-  const applyBookmarkFilterTags = () => {
-    const bookmarkFilters = bookmarkData.filters;
-    Object.keys(bookmarkFilters).forEach((el) => {
-      const filterCategory = bookmarkFilters[el];
-      const selectedFilters = filterCategory?.selected;
-      const filterTagItem = filterTagsDict[el];
-      const bookmarkDataSubType = bookmarkData.dataSubType;
-      const showOperatingHrsSubtypes = {'Hourly Emissions': true}
-      if (selectedFilters?.length){
-        if (el === 'comboBoxYear'){
-          if (bookmarkData.dataType === 'ALLOWANCE'){
-            if (filterCriteria.timePeriod[el].length) {addAppliedFilterDispatcher({key: 'Vintage Year', values: filterTagItem?.method( filterCriteria.timePeriod[el])});}
-          }else {
-            if (filterCriteria.timePeriod[el].length) {addAppliedFilterDispatcher({key: filterTagItem?.label, values: filterTagItem?.method(filterCriteria.timePeriod[el], selectedFilters)});}}
-        }else {
-          addAppliedFilterDispatcher({key: filterTagItem?.label, values: filterTagItem?.method(filterCriteria[el], selectedFilters)})
-        }
-      } else if (el === 'timePeriod'){
-        if (bookmarkDataSubType === 'Transactions'){
-        addAppliedFilterDispatcher({key: 'Transaction Date', values: filterTagItem?.method(filterCategory)});
-      }else if (bookmarkDataSubType !== 'Transactions'){
-        addAppliedFilterDispatcher({key: filterTagItem?.label, values: filterTagItem?.method(filterCategory)})
-        if (filterCategory.opHrsOnly && showOperatingHrsSubtypes[bookmarkDataSubType]){
-          addAppliedFilterDispatcher({key: filterTagItem?.label, values: ['Operating Hours Only']})
-        }}
-      } 
-    })
-  }
-
   useEffect(()=>{
     if(bookmarkInit && bookmarkData){
       if(selectedDataType === '' && selectedDataSubtype === ''){
@@ -160,7 +130,8 @@ const CustomDataDownload = ({
       setHideFilterMenu(false);
       setHideDataTypeSelector(false)
     }
-  }, [isMobileOrTablet])
+  }, [isMobileOrTablet]);
+
   useEffect(()=>{//console.log(filterCriteria.timePeriod.comboBoxYear); console.log("called");
     const dataSubType = getSelectedDataSubType(constants.DATA_SUBTYPES_MAP[selectedDataType]);
     if(applyClicked && loading ===0){
@@ -190,7 +161,7 @@ const CustomDataDownload = ({
           setComboBoxYearUpdated(false);
         }
         if(comboBoxYearUpdated && bookmarkInit){
-          applyBookmarkFilterTags();
+          applyBookmarkFilterTags(bookmarkData, filterCriteria, addAppliedFilterDispatcher);
           setBookmarkInit(false);
         }
       }else if(bookmarkInit && bookmarkData && filterCriteria.filterMapping.length>0){
@@ -214,7 +185,7 @@ const CustomDataDownload = ({
           month: bookmarkTimePeriod.month,
           quarter: bookmarkTimePeriod.quarter, 
         });
-        applyBookmarkFilterTags();
+        applyBookmarkFilterTags(bookmarkData, filterCriteria, addAppliedFilterDispatcher);
         setBookmarkInit(false);
       }
     }
@@ -400,20 +371,6 @@ const CustomDataDownload = ({
     return entry ? entry.label : '';
   };
 
-  const getFilterVariable = (selectedFilter) => {
-    if (selectedDataSubtype !== '' && selectedFilter !== '') {
-      const filters =
-        constants.FILTERS_MAP[selectedDataType][
-          getSelectedDataSubType(constants.DATA_SUBTYPES_MAP[selectedDataType])
-        ];
-
-      return (
-        filters.filter((el) => el.value === selectedFilter)[0]?.stateVar || ''
-      );
-    }
-    return selectedFilter;
-  };
-
   const mobileDataTypeDisplay = displayMobileDataType? 'width-full tablet:width-mobile-lg minh-viewport'
   : 'display-none desktop:display-block';
   const position = isMobileOrTablet ? 'position-absolute pin-y' : 'position-static';
@@ -479,7 +436,7 @@ const CustomDataDownload = ({
           selectedDataSubtype={getSelectedDataSubType(
             constants.DATA_SUBTYPES_MAP[selectedDataType]
           )}
-          selectedFilter={getFilterVariable(selectedFilter)}
+          selectedFilter={getFilterVariable(selectedFilter, selectedDataType, selectedDataSubtype)}
           closeFlyOutHandler={closeFlyOutHandler}
           getSelectedDataSubType={getSelectedDataSubType}
           appliedFilters={appliedFilters}

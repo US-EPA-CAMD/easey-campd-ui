@@ -90,6 +90,7 @@ const filtersUrl = `${config.services.content.uri}/campd/data/bulk-data-files/fi
 const getFilters = rest.get(filtersUrl, (req, res, ctx) => {
   return res(ctx.json(filtersContent));
 });
+const getUnhandledContent = rest.get(`${config.services.content.uri}/*`, (req, res, ctx) => res(ctx.json('got content')));
 export const handlers = [
   downloadBulkDataFile,
   getUnitTypes,
@@ -109,4 +110,5 @@ export const handlers = [
   getDownloadLimitAlert,
   getBulkDataFiles,
   getFilters,
+  getUnhandledContent
 ];

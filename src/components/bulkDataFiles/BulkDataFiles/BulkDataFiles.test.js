@@ -21,6 +21,7 @@ jest.mock('react-router-dom', () => ({
 /*****
  */
 describe('Manage Bulk Data Files component: ',  () => {
+  afterEach(cleanup)
   test('download button is disabled when no files are selected', () => {
     const { getByRole } = render(
       <Provider store={store}>
@@ -133,7 +134,7 @@ test('file size is updated when files are added or removed', async () => {
 
 
 test('download button is disabled if file size exceeds download limit', async () => {
-  const {findByRole, getByRole} = render(
+  const {findByRole} = render(
     <Provider store={store}>
       <MemoryRouter>
         <BulkDataFiles
@@ -148,10 +149,9 @@ test('download button is disabled if file size exceeds download limit', async ()
     name: /select-all-rows/i
   })
   fireEvent.click(allFiles);
-  const downloadButton = getByRole('button', {
+  expect(findByRole('button', {
     name: /download/i
-  });
-  expect(downloadButton).toBeDisabled();
+  })).resolves.toBeDisabled();
 });
 
 // test('Alert pops up when file size exceeds download limit and is removed when limit is no longer exceeded', async() => {

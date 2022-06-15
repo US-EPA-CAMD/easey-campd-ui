@@ -1,4 +1,7 @@
 import { FILTERS_MAP } from "../constants/customDataDownload";
+import { filterTagsDict } from "../constants/filterTagsDict";
+import * as constants from '../constants/customDataDownload';
+
 import {
   getComboboxSelectedItems,
   getCheckBoxSelectedItems,
@@ -315,4 +318,55 @@ export const filterBulkDataFiles = (selection, tableRecords) =>{
     (selection.quarter === '' || record.metadata?.quarter?.toUpperCase() === selection.quarter.toUpperCase()) &&
     (selection.state === '' || record.metadata?.statecode?.toUpperCase() === selection.state.toUpperCase())
   });
+};
+
+
+export const applyBookmarkFilterTags = (bookmarkData, filterCriteria, addAppliedFilterDispatcher) => {
+  const bookmarkFilters = bookmarkData.filters;
+  Object.keys(bookmarkFilters).forEach((el) => {
+    const filterCategory = bookmarkFilters[el];
+    const selectedFilters = filterCategory?.selected;
+    const filterTagItem = filterTagsDict[el];
+    const bookmarkDataSubType = bookmarkData.dataSubType;
+    const showOperatingHrsSubtypes = {'Hourly Emissions': true}
+    if (selectedFilters?.length){
+      if (el === 'comboBoxYear'){
+        if (bookmarkData.dataType === 'ALLOWANCE'){
+          if (filterCriteria.timePeriod[el].length) {addAppliedFilterDispatcher({key: 'Vintage Year', values: filterTagItem?.method( filterCriteria.timePeriod[el])});}
+        }else {
+          if (filterCriteria.timePeriod[el].length) {addAppliedFilterDispatcher({key: filterTagItem?.label, values: filterTagItem?.method(filterCriteria.timePeriod[el], selectedFilters)});}}
+      }else {
+        addAppliedFilterDispatcher({key: filterTagItem?.label, values: filterTagItem?.method(filterCriteria[el], selectedFilters)})
+      }
+    } else if (el === 'timePeriod'){
+      if (bookmarkDataSubType === 'Transactions'){
+      addAppliedFilterDispatcher({key: 'Transaction Date', values: filterTagItem?.method(filterCategory)});
+    }else if (bookmarkDataSubType !== 'Transactions'){
+      addAppliedFilterDispatcher({key: filterTagItem?.label, values: filterTagItem?.method(filterCategory)})
+      if (filterCategory.opHrsOnly && showOperatingHrsSubtypes[bookmarkDataSubType]){
+        addAppliedFilterDispatcher({key: filterTagItem?.label, values: ['Operating Hours Only']})
+      }}
+    } 
+  })
+};
+
+export const getSelectedDataSubType = (options, selectedDataSubtype) => {
+  const entry = options?.find(
+    (list) => list.value === parseFloat(selectedDataSubtype)
+  );
+  return entry ? entry.label : '';
+};
+
+export  const getFilterVariable = (selectedFilter, selectedDataType, selectedDataSubtype) => {
+  if (selectedDataSubtype !== '' && selectedFilter !== '') {
+    const filters =
+      constants.FILTERS_MAP[selectedDataType][
+        getSelectedDataSubType(constants.DATA_SUBTYPES_MAP[selectedDataType], selectedDataSubtype)
+      ];
+
+    return (
+      filters.filter((el) => el.value === selectedFilter)[0]?.stateVar || ''
+    );
+  }
+  return selectedFilter;
 };
