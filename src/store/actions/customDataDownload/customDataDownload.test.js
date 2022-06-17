@@ -42,15 +42,6 @@ describe('custom data download Async Actions', () => {
       .reply(200, successResponse.data, successResponse.headers);
     const expectedActions = [
       { type: types.BEGIN_API_CALL },
-      {
-        type: types.LOAD_DATA_PREVIEW_SUCCESS,
-        dataPreview: {
-          data: successResponse.data,
-          totalCount: successResponse.headers['x-total-count'],
-          fieldMappings: JSON.parse(successResponse.headers['x-field-mappings']),
-          excludableColumns: JSON.parse(successResponse.headers['x-excludable-columns'])
-        },
-      },
     ];
 
     const store = mockStore(initState.customDataDownload);
