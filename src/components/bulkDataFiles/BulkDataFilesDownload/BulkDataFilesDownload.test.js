@@ -1,8 +1,7 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import BulkDataFilesDownload from './BulkDataFilesDownload';
-import axios from 'axios';
-const { getByRole } = screen;
+const { getByRole, getByText } = screen;
 
 jest.mock('react-markdown', () => ({ children }) => <>{children}</>);
 jest.mock('remark-gfm', () => () => {});
@@ -96,4 +95,15 @@ describe('Bulk data files download component functionality', () => {
     expect(downloadButton).toBeDisabled();
   });
 
+  test('should update file size when files are selected', () => {
+    const {debug} = render(
+      <BulkDataFilesDownload
+        selectedFiles={singleSelectedFile}
+        limitReached={true}
+        fileSize={'6145 bytes'}
+      />
+    );
+    const fileSize = getByText(/size: 6145 bytes/i)
+    expect(fileSize).toBeInTheDocument()
+  })
 });
