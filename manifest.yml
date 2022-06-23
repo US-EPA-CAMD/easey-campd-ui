@@ -5,6 +5,7 @@ applications:
     instances: ((instances))
     buildpacks:
       - nodejs_buildpack
+    command: ((command))
     env:
       OPTIMIZE_MEMORY: true
       REACT_APP_EASEY_CAMPD_UI_ENV: ((environment))

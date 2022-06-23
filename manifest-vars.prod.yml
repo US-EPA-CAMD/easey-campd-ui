@@ -3,3 +3,4 @@ environment: production
 host: campd.epa.gov
 apiHost: api.epa.gov/easey
 googleAnalyticsEnabled: "true"
+command: serve -s build
