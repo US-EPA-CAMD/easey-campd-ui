@@ -23,6 +23,12 @@ function App() {
       const mainContent = document.querySelector('.mainContent');
       mainContent.setAttribute('id', 'main-content');
     });
+    // To avoid css sytling conflicts in production build 
+    // position the link tag to external stylesheet as the last element of head section.
+    const linkTag = document.querySelector('link[rel="stylesheet"]');
+    if (linkTag) {
+      linkTag.parentNode.appendChild(linkTag);
+    }
   };
 
   useEffect(() => {
