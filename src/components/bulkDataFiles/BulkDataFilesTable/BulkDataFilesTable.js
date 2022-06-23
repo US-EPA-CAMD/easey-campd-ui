@@ -76,7 +76,7 @@ const BulkDataFilesTable = ({
     },
     {
       name: 'File Size',
-      selector: row => row.gigaBytes > 0 ? `${row.gigaBytes} GB` : row.megaBytes > 0 ? `${row.megaBytes} MB`: `${row.kiloBytes} KB`,
+      selector: row => row.gigaBytes >= 1 ? `${row.gigaBytes} GB` : row.megaBytes >= 1 ? `${row.megaBytes} MB`: row.kiloBytes >= 1 ? `${row.kiloBytes} KB`: `${row.bytes} Bytes`,
       sortable: true,
     }
   ], []);
@@ -109,7 +109,7 @@ const BulkDataFilesTable = ({
     let currentSize = 0;
     if(selectedFiles.selectedCount > 0){
       selectedFiles.selectedRows.forEach(file => {
-        const maxUnit =  file.gigaBytes > 0 ? `${file.gigaBytes} GB` : file.megaBytes > 0 ? `${file.megaBytes} MB`: file.kiloBytes? `${file.kiloBytes} KB`: `${file.bytes} Bytes`;
+        const maxUnit =  file.gigaBytes >= 1 ? `${file.gigaBytes} GB` : file.megaBytes >= 1 ? `${file.megaBytes} MB`: file.kiloBytes >= 1 ? `${file.kiloBytes} KB`: `${file.bytes} Bytes`;
         const bytes = convertToBytes(maxUnit);
         currentSize += parseFloat(bytes);
       })
