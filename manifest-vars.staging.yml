@@ -2,4 +2,3 @@ instances: 2
 environment: staging
 host: campd-stg.app.cloud.gov
 apiHost: api.epa.gov/easey/staging
-command: NODE_OPTIONS="--max_old_space_size=$(( $MEMORY_AVAILABLE * 75 / 100 ))" serve -s build
