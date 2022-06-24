@@ -3,4 +3,4 @@ environment: production
 host: campd.epa.gov
 apiHost: api.epa.gov/easey
 googleAnalyticsEnabled: "true"
-command: serve -s build
+command: NODE_OPTIONS="--max_old_space_size=$(( $MEMORY_AVAILABLE * 75 / 100 ))" serve -s build
