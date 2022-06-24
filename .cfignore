@@ -1,0 +1,15 @@
+*.md
+src/*
+.github/*
+node_modules/*
+public/*
+.gitignore
+.yarnrc
+docker-compose.yml
+Dockerfile.dev
+LICENSE
+manifest.yml
+manifest-vars.*
+package.json
+sonar-project.properties
+yarn.lock

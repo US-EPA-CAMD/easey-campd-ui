@@ -3,6 +3,7 @@ applications:
     memory: ((memory))M
     disk_quota: ((disk))M
     instances: ((instances))
+    path: build/
     buildpacks:
       - staticfile_buildpack
     env:
