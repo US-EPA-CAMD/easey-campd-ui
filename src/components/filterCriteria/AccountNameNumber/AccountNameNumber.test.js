@@ -61,6 +61,8 @@ initialState.filterCriteria.accountNameNumber = nameNumbers.map((ann) => ({
 }));
 const store = configureStore(initialState);
 let flyOutClosed = false;
+let applyFilterLoading = false;
+
 
 describe('Account Name/Number Component', () => {
   let query;
@@ -74,6 +76,7 @@ describe('Account Name/Number Component', () => {
           removeAppliedFilterDispatcher={jest.fn()}
           closeFlyOutHandler={() => (flyOutClosed = true)}
           renderedHandler={jest.fn()}
+          setApplyFilterLoading={() => applyFilterLoading = true}
         />
       </Provider>
     );
@@ -116,5 +119,6 @@ describe('Account Name/Number Component', () => {
     expect(getAllByTestId("multi-select-option").length).toBe(nameNumbers.length);
     fireEvent.click(getByText("Apply Filter"));
     expect(flyOutClosed).toBe(true);
+    expect(applyFilterLoading).toBe(true);
   });
 });

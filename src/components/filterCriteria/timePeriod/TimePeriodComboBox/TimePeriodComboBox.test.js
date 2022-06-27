@@ -165,6 +165,7 @@ const distinctYears = [...new Set(filterMapping.map(e=>e.vintageYear))];
 initialState.filterCriteria.timePeriod.comboBoxYear = distinctYears.map(year => {return {id:year, label:year, selected:false, enabled:true}});
 const store = configureStore(initialState);
 let flyOutClosed = false;
+let applyFilterLoading = false;
 
 describe('Account Name/Number Component', () => {
   let query;
@@ -178,6 +179,7 @@ describe('Account Name/Number Component', () => {
           closeFlyOutHandler={() => (flyOutClosed = true)}
           renderedHandler={jest.fn()}
           filterToApply="Vintage Year"
+          setApplyFilterLoading={() => applyFilterLoading = true}
         />
       </Provider>
     );
@@ -219,6 +221,6 @@ describe('Account Name/Number Component', () => {
     expect(getByRole("button", {name: "1998"})).toBeDefined();
     expect(getAllByTestId("multi-select-option").length).toBe(distinctYears.length);
     fireEvent.click(getByText("Apply Filter"));
-    expect(flyOutClosed).toBe(true);
+    expect(applyFilterLoading).toBe(true);
   });
 });

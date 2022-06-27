@@ -77,6 +77,8 @@ initialState.filterCriteria.stateTerritory = states.map(s=> ({id: s.stateCode, l
 const store = configureStore(initialState);
 
 let flyOutClosed = false;
+let applyFilterLoading = false;
+
 describe('State/Territory Component', () => {
   let query;
   beforeEach(() => {
@@ -89,6 +91,7 @@ describe('State/Territory Component', () => {
           removeAppliedFilterDispatcher ={removeAppliedFilter}
           closeFlyOutHandler ={()=> flyOutClosed=true}
           renderedHandler={jest.fn()}
+          setApplyFilterLoading={() => applyFilterLoading = true}
         />
       </Provider>);
   });
@@ -127,6 +130,6 @@ describe('State/Territory Component', () => {
     expect(getByRole("button", {name: "Alaska"})).toBeDefined();
     expect(getAllByTestId("multi-select-option").length).toBe(states.length);
     fireEvent.click(getByText("Apply Filter"));
-    expect(flyOutClosed).toBe(true);
+    expect(applyFilterLoading).toBe(true);
   })
 });

@@ -20,6 +20,8 @@ const FilterCriteriaPanel = ({
   selectedDataSubtype,
   selectedFilter,
   closeFlyOutHandler,
+  applyFilterLoading,
+  setApplyFilterLoading,
 }) => {
 
   const [childrenRendered, setChildrenRendered] = useState(false);
@@ -51,81 +53,81 @@ const FilterCriteriaPanel = ({
     setChildrenRendered(true)
   };
   const emissions = {
-    program: <Program closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
-    facility: <Facility closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
-    unitType: <UnitType closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
-    fuelType: <FuelType closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
-    stateTerritory: <StateTerritory closeFlyOutHandler={closeFlyOutHandler}renderedHandler={renderedHandler}/>,
-    controlTechnology: <ControlTechnology closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
+    program: <Program closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} applyFilterLoading={applyFilterLoading} setApplyFilterLoading={setApplyFilterLoading}/>,
+    facility: <Facility closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} applyFilterLoading={applyFilterLoading} setApplyFilterLoading={setApplyFilterLoading}/>,
+    unitType: <UnitType closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} applyFilterLoading={applyFilterLoading} setApplyFilterLoading={setApplyFilterLoading}/>,
+    fuelType: <FuelType closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} applyFilterLoading={applyFilterLoading} setApplyFilterLoading={setApplyFilterLoading}/>,
+    stateTerritory: <StateTerritory closeFlyOutHandler={closeFlyOutHandler}renderedHandler={renderedHandler} applyFilterLoading={applyFilterLoading} setApplyFilterLoading={setApplyFilterLoading}/>,
+    controlTechnology: <ControlTechnology closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} applyFilterLoading={applyFilterLoading} setApplyFilterLoading={setApplyFilterLoading}/>,
   };
 
   const allowances = {
-    facility: <Facility closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
-    stateTerritory: <StateTerritory closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
-    accountType: <AccountType closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
-    accountNameNumber: <AccountNameNumber closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
-    ownerOperator: <OwnerOperator closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
+    facility: <Facility closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} applyFilterLoading={applyFilterLoading} setApplyFilterLoading={setApplyFilterLoading}/>,
+    stateTerritory: <StateTerritory closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} applyFilterLoading={applyFilterLoading} setApplyFilterLoading={setApplyFilterLoading}/>,
+    accountType: <AccountType closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} applyFilterLoading={applyFilterLoading} setApplyFilterLoading={setApplyFilterLoading}/>,
+    accountNameNumber: <AccountNameNumber closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} applyFilterLoading={applyFilterLoading} setApplyFilterLoading={setApplyFilterLoading}/>,
+    ownerOperator: <OwnerOperator closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} applyFilterLoading={applyFilterLoading} setApplyFilterLoading={setApplyFilterLoading}/>,
   };
 
   const compliances = {
-    facility: <Facility closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
-    stateTerritory: <StateTerritory closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
-    ownerOperator: <OwnerOperator closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
-    comboBoxYear: <TimePeriodComboBox closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} filterToApply={'Year'}/>,
+    facility: <Facility closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} applyFilterLoading={applyFilterLoading} setApplyFilterLoading={setApplyFilterLoading}/>,
+    stateTerritory: <StateTerritory closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} applyFilterLoading={applyFilterLoading} setApplyFilterLoading={setApplyFilterLoading}/>,
+    ownerOperator: <OwnerOperator closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} applyFilterLoading={applyFilterLoading} setApplyFilterLoading={setApplyFilterLoading}/>,
+    comboBoxYear: <TimePeriodComboBox closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} applyFilterLoading={applyFilterLoading} setApplyFilterLoading={setApplyFilterLoading} filterToApply={'Year'}/>,
   }
 
   const hourlyEmissions = {
     ...emissions,
-    timePeriod: <TimePeriod closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} filterToApply={'Time Period'}/>,
+    timePeriod: <TimePeriod closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} applyFilterLoading={applyFilterLoading} setApplyFilterLoading={setApplyFilterLoading} filterToApply={'Time Period'}/>,
   };
 
   const dailyEmissions = {
     ...emissions,
-    timePeriod: <TimePeriod closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} showOpHrsOnly={false} filterToApply={'Time Period'}/>,
+    timePeriod: <TimePeriod closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} applyFilterLoading={applyFilterLoading} setApplyFilterLoading={setApplyFilterLoading} showOpHrsOnly={false} filterToApply={'Time Period'}/>,
   }
 
   const monthlyEmissions = {
     ...emissions,
-    timePeriod: <TimePeriod closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} showYear={true} showMonth={true} filterToApply={'Time Period'}/>,
+    timePeriod: <TimePeriod closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} applyFilterLoading={applyFilterLoading} setApplyFilterLoading={setApplyFilterLoading} showYear={true} showMonth={true} filterToApply={'Time Period'}/>,
   }
 
   const quarterlyEmissions = {
     ...emissions,
-    timePeriod: <TimePeriod closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} showYear={true} showQuarter={true} filterToApply={'Time Period'}/>,
+    timePeriod: <TimePeriod closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} applyFilterLoading={applyFilterLoading} setApplyFilterLoading={setApplyFilterLoading} showYear={true} showQuarter={true} filterToApply={'Time Period'}/>,
   }
 
   const annualEmissions = {
     ...emissions,
-    timePeriod: <TimePeriod closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} showYear={true} isAnnual={true} filterToApply={'Time Period'}/>,
+    timePeriod: <TimePeriod closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} applyFilterLoading={applyFilterLoading} setApplyFilterLoading={setApplyFilterLoading} showYear={true} isAnnual={true} filterToApply={'Time Period'}/>,
   }
 
   const ozoneEmissions = {
     ...emissions,
-    timePeriod: <TimePeriod closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} showYear={true} filterToApply={'Time Period'}/>,
+    timePeriod: <TimePeriod closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} applyFilterLoading={applyFilterLoading} setApplyFilterLoading={setApplyFilterLoading} showYear={true} filterToApply={'Time Period'}/>,
   }
 
   //isAnnual is specified for year validation
   const facilityUnitAttributes = {
     ...emissions,
-    timePeriod: <TimePeriod closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} showYear={true} isAnnual = {true} filterToApply={'Time Period'}/>,
-    sourceCategory: <SourceCategory closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
+    timePeriod: <TimePeriod closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} applyFilterLoading={applyFilterLoading} setApplyFilterLoading={setApplyFilterLoading} showYear={true} isAnnual = {true} filterToApply={'Time Period'}/>,
+    sourceCategory: <SourceCategory closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} applyFilterLoading={applyFilterLoading} setApplyFilterLoading={setApplyFilterLoading}/>,
   }
 
   const allownaceAcctInfo = {
     ...allowances,
-    program: <Program closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
+    program: <Program closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} applyFilterLoading={applyFilterLoading} setApplyFilterLoading={setApplyFilterLoading}/>,
   };
 
   const allowanceHoldings = {
     ...allowances,
-    program: <Program closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} showActiveOnly={true}/>,
-    comboBoxYear: <TimePeriodComboBox closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} filterToApply={'Vintage Year'}/>
+    program: <Program closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} applyFilterLoading={applyFilterLoading} setApplyFilterLoading={setApplyFilterLoading} showActiveOnly={true}/>,
+    comboBoxYear: <TimePeriodComboBox closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} applyFilterLoading={applyFilterLoading} setApplyFilterLoading={setApplyFilterLoading} filterToApply={'Vintage Year'}/>
   };
 
   const allownaceTransactions = {
     ...allowances,
-    program: <Program closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
-    comboBoxYear: <TimePeriodComboBox closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} filterToApply={'Vintage Year'}/>,
+    program: <Program closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} applyFilterLoading={applyFilterLoading} setApplyFilterLoading={setApplyFilterLoading}/>,
+    comboBoxYear: <TimePeriodComboBox closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} applyFilterLoading={applyFilterLoading} setApplyFilterLoading={setApplyFilterLoading} filterToApply={'Vintage Year'}/>,
     transactionDate:
       <TimePeriod
         closeFlyOutHandler={closeFlyOutHandler}
@@ -134,11 +136,11 @@ const FilterCriteriaPanel = ({
         isAllowance={true}
         filterToApply={'Transaction Date'}
       />,
-      transactionType: <TransactionType closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
+      transactionType: <TransactionType closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} applyFilterLoading={applyFilterLoading} setApplyFilterLoading={setApplyFilterLoading}/>,
   };
 
   const complianceAllownaceBased = {
-    program: <Program closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler}/>,
+    program: <Program closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} applyFilterLoading={applyFilterLoading} setApplyFilterLoading={setApplyFilterLoading}/>,
     ...compliances
   };
 
