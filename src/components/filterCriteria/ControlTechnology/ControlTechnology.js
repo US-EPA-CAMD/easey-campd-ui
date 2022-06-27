@@ -22,7 +22,9 @@ export const ControlTechnology = ({
   renderedHandler,
   dataType,
   dataSubType,
-  filterCriteria
+  filterCriteria,
+  applyFilterLoading,
+  setApplyFilterLoading,
 }) => {
   const [controlTechnology, setControlTechnologies] = useState(
     JSON.parse(JSON.stringify(storeControlTechnology))
@@ -39,7 +41,7 @@ export const ControlTechnology = ({
   useEffect(()=>{
     if(applyFilterClicked){
       if(filterCriteria.filterMapping.length>0){
-        engageFilterLogic(dataType, dataSubType, filterToApply, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispatcher);
+        engageFilterLogic(dataType, dataSubType, filterToApply, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispatcher, setApplyFilterLoading);
       }
       closeFlyOutHandler();
     }// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -69,9 +71,9 @@ export const ControlTechnology = ({
       setControlTechnologies(newControlTechnologies);
     }
   };
-
-  const handleApplyFilter = () => {
-    updateControlTechnologySelectionDispatcher(controlTechnology);
+  useEffect(()=>{
+    if (applyFilterLoading){
+      updateControlTechnologySelectionDispatcher(controlTechnology);
     if (isAddedToFilters(filterToApply, appliedFilters)) {
       removeAppliedFilterDispatcher(filterToApply);
     }
@@ -80,6 +82,10 @@ export const ControlTechnology = ({
       addAppliedFilterDispatcher({ key: filterToApply, values: selection });
     }
     setApplyFilterClicked(true);
+    }//eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [applyFilterLoading]);
+  const handleApplyFilter = () => {
+    setApplyFilterLoading(true);
   };
 
   return (

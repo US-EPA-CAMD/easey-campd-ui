@@ -222,6 +222,7 @@ const storeControlTechnology = restructureControlTechnologies(
   controlTechnology
 );
 let flyoutClosed = false;
+let applyFilterLoading = false;
 
 describe('Control technology', () => {
   let queries;
@@ -240,6 +241,7 @@ describe('Control technology', () => {
           dataType="EMISSIONS"
           dataSubType="Facility/Unit Attributes"
           filterCriteria={initialState.filterCriteria}
+          setApplyFilterLoading={() => applyFilterLoading = true}
         />
     );
   });
@@ -283,6 +285,6 @@ describe('Control technology', () => {
     expect(selectAllNox.checked).toEqual(true);
     const applyFilterButton = getByText('Apply Filter').closest('button');
     fireEvent.click(applyFilterButton);
-    expect(flyoutClosed).toBe(true);
+    expect(applyFilterLoading).toBe(true);
   });
 });

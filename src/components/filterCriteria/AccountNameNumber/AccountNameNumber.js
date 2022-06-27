@@ -27,7 +27,9 @@ const AccountNameNumber = ({
   dataType,
   dataSubType,
   filterCriteria,
-  updateFilterCriteriaDispatcher
+  updateFilterCriteriaDispatcher,
+  applyFilterLoading,
+  setApplyFilterLoading,
 }) => {
   const [_accountNameNumber, setAccountNameNumber] = useState(JSON.parse(JSON.stringify(accountNameNumber)));
   const [applyFilterClicked, setApplyFilterClicked] = useState(false);
@@ -42,14 +44,15 @@ const AccountNameNumber = ({
   useEffect(()=>{
     if(applyFilterClicked){
       if(filterCriteria.filterMapping.length>0){
-        engageFilterLogic(dataType, dataSubType, filterToApply, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispatcher);
+        engageFilterLogic(dataType, dataSubType, filterToApply, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispatcher, setApplyFilterLoading);
       }
       closeFlyOutHandler();
     }// eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accountNameNumber]);
 
-  const handleApplyFilter = () => {
-    updateAccountNameNumberSelectionDispatcher(_accountNameNumber);
+  useEffect(()=>{
+    if(applyFilterLoading){
+      updateAccountNameNumberSelectionDispatcher(_accountNameNumber);
     if (isAddedToFilters(filterToApply, appliedFilters)) {
       removeAppliedFilterDispatcher(filterToApply);
     }
@@ -61,6 +64,11 @@ const AccountNameNumber = ({
       });
     }
     setApplyFilterClicked(true);
+    }// eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [applyFilterLoading]);
+
+  const handleApplyFilter = () => {
+    setApplyFilterLoading(true);
   };
 
   const onChangeUpdate = (id, updateType) => {

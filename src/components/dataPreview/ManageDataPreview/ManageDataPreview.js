@@ -79,7 +79,7 @@ const ManageDataPreview = ({
   useEffect(()=>{
     if(removedAppliedFilter !== null){
       if(filterCriteria.filterMapping.length>0){
-        engageFilterLogic(dataType, dataSubType, removedAppliedFilter, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispatcher, true);
+        engageFilterLogic(dataType, dataSubType, removedAppliedFilter, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispatcher, null, true);
       }
     }// eslint-disable-next-line react-hooks/exhaustive-deps
   },[appliedFilters]);

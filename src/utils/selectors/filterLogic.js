@@ -286,7 +286,7 @@ export const filterTransactionType = (filterCriteria) =>{
   updateEnabledStatusComboBox(filterCriteria.transactionType, filteredSet);
 };
 
-export const engageFilterLogic = async(dataType, dataSubType, affectedFilter, filterCriteriaCloned, updateFilterCriteriaDispatcher, removedFilter=false) =>{
+export const engageFilterLogic = async(dataType, dataSubType, affectedFilter, filterCriteriaCloned, updateFilterCriteriaDispatcher, setLoadingState, removedFilter=false) =>{
   const fcCopy = JSON.parse(JSON.stringify(filterCriteriaCloned));
   fcCopy.filterLogicEngaged = true;
   await updateFilterCriteriaDispatcher(fcCopy); 
@@ -302,5 +302,10 @@ export const engageFilterLogic = async(dataType, dataSubType, affectedFilter, fi
       obj.updateFilter(filterCriteriaCloned);
     }
   });
-  setTimeout(()=>updateFilterCriteriaDispatcher(filterCriteriaCloned));
+  setTimeout(()=>{
+    updateFilterCriteriaDispatcher(filterCriteriaCloned)
+    if (setLoadingState){
+      setLoadingState(false);
+    }
+  });
 };

@@ -108,6 +108,8 @@ const fuelType = [
   },
 ];
 let flyoutClosed = false;
+let applyFilterLoading = false;
+
 const storeFuelType = restructureFuelTypes(fuelType);
 
 describe('Fuel Type', () => {
@@ -127,6 +129,7 @@ describe('Fuel Type', () => {
           dataType="EMISSIONS"
           dataSubType="Facility/Unit Attributes"
           filterCriteria={initialState.filterCriteria}
+          setApplyFilterLoading={() => applyFilterLoading = true}
         />
     );
   });
@@ -168,6 +171,6 @@ describe('Fuel Type', () => {
     expect(selectAllGas.checked).toEqual(true);
     const applyFilterButton = getByText('Apply Filter').closest('button');
     fireEvent.click(applyFilterButton);
-    expect(flyoutClosed).toBe(true);
+    expect(applyFilterLoading).toBe(true);
   });
 });
