@@ -135,6 +135,8 @@ const FilterCriteriaPanel = ({
         renderedHandler={renderedHandler}
         isAllowance={true}
         filterToApply={'Transaction Date'}
+        applyFilterLoading={applyFilterLoading}
+        setApplyFilterLoading={setApplyFilterLoading}
       />,
       transactionType: <TransactionType closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} applyFilterLoading={applyFilterLoading} setApplyFilterLoading={setApplyFilterLoading}/>,
   };
