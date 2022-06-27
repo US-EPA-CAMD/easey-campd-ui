@@ -21,7 +21,9 @@ const Facility = ({
   dataType,
   dataSubType,
   filterCriteria,
-  updateFilterCriteriaDispatcher
+  updateFilterCriteriaDispatcher,
+  applyFilterLoading,
+  setApplyFilterLoading,
   }) => {
 
   const [stateFacility, setStateFacility] = useState(JSON.parse(JSON.stringify(facility)));
@@ -37,22 +39,28 @@ const Facility = ({
   useEffect(()=>{
     if(applyFilterClicked){
       if(filterCriteria.filterMapping.length>0){
-        engageFilterLogic(dataType, dataSubType, filterToApply, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispatcher);
+        engageFilterLogic(dataType, dataSubType, filterToApply, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispatcher, setApplyFilterLoading);
       }
       closeFlyOutHandler();
     }// eslint-disable-next-line react-hooks/exhaustive-deps
   }, [facility]);
 
+  useEffect(()=>{
+    if(applyFilterLoading){
+      updateFacilitySelectionDispatcher(stateFacility);
+      if(isAddedToFilters(filterToApply, appliedFilters)){
+        removeAppliedFilterDispatcher(filterToApply);
+      }
+      const selection = stateFacility.filter(e=>e.selected)
+      if(selection.length>0){
+        addAppliedFilterDispatcher({key:filterToApply, values:selection.map(e=>e.label)});
+      }
+      setApplyFilterClicked(true);
+    }//eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [applyFilterLoading]);
+
   const handleApplyFilter = () =>{
-    updateFacilitySelectionDispatcher(stateFacility);
-    if(isAddedToFilters(filterToApply, appliedFilters)){
-      removeAppliedFilterDispatcher(filterToApply);
-    }
-    const selection = stateFacility.filter(e=>e.selected)
-    if(selection.length>0){
-      addAppliedFilterDispatcher({key:filterToApply, values:selection.map(e=>e.label)});
-    }
-    setApplyFilterClicked(true);
+    setApplyFilterLoading(true);
   };
 
   const onChangeUpdate = (id, updateType) =>{

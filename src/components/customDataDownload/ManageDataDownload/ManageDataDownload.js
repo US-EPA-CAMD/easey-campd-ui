@@ -84,7 +84,7 @@ const ManageDataDownload = ({
   const isMobileOrTablet = useCheckWidth([0, 1024]);
   const [renderPreviewData, setRenderPreviewData] = useState(false);
   const [removedAppliedFilter, setRemovedAppliedFilter] = useState(null);
-
+  const [applyFilterLoading, setApplyFilterLoading] = useState(false);
   useEffect(() => {
     if (isMobileOrTablet) { 
       setDisplayCancelMobile(true);
@@ -94,10 +94,10 @@ const ManageDataDownload = ({
       setHideDataTypeSelector(false)
     }
   }, [isMobileOrTablet])
-  useEffect(()=>{//console.log(filterCriteria.timePeriod.comboBoxYear); console.log("called");
+  useEffect(()=>{
     const dataSubType = getSelectedDataSubType(constants.DATA_SUBTYPES_MAP[selectedDataType]);
     if(applyClicked && loading === 0 && selectedDataType !== "EMISSIONS" && selectedDataType !== "FACILITY" && dataSubType !== "Transactions"){
-      if((selectedDataType === "COMPLIANCE" || dataSubType === "Holdings") && comboBoxYearUpdated === false){//console.log("updatetime");
+      if((selectedDataType === "COMPLIANCE" || dataSubType === "Holdings") && comboBoxYearUpdated === false){
         const distinctYears = [...new Set(filterCriteria.filterMapping.map(e=>selectedDataType === "COMPLIANCE" ? e.year : e.vintageYear))];
         updateTimePeriodDispatcher({
           ...filterCriteria.timePeriod,
@@ -109,11 +109,14 @@ const ManageDataDownload = ({
         setComboBoxYearUpdated(true);
       }
       if(comboBoxYearUpdated){
-        engageFilterLogic(selectedDataType, dataSubType, null, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispatcher, true);
+        engageFilterLogic(selectedDataType, dataSubType, null, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispatcher, setHandleApplyLoading, true);
         setApplyClicked(false);
         setComboBoxYearUpdated(false);
       }
-    }// eslint-disable-next-line react-hooks/exhaustive-deps
+    } else if (applyClicked){
+      setHandleApplyLoading(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   },[applyClicked, loading, comboBoxYearUpdated])
 
   useEffect(() => {
@@ -186,32 +189,37 @@ const ManageDataDownload = ({
       setFilterClickRef(evtTarget);
     }
   };
-
+  const [handleApplyLoading, setHandleApplyLoading] = useState(false)
+  useEffect(() => {
+    if (handleApplyLoading) {
+        setHideFilterMenu(true)
+        setApplyClicked(true);
+        const dataSubType = getSelectedDataSubType(constants.DATA_SUBTYPES_MAP[selectedDataType]);
+        if (selectedDataType !== '' && selectedDataSubtype !== '') {
+          if(selectedDataType !== "EMISSIONS" && selectedDataType !== "FACILITY" && dataSubType !== "Transactions"){
+            loadFilterMappingDispatcher(selectedDataType, dataSubType);
+          }
+          loadAllFiltersDispatcher(selectedDataType, dataSubType, filterCriteria);
+          setDataTypeApplied(true);
+          setDataSubtypeApplied(true);
+          setAppliedDataType({
+            dataType: selectedDataType,
+            dataSubType: selectedDataSubtype,
+          });
+          if (selectionChange) {
+            removeAppliedFiltersDispatcher(null, true);
+            resetFilterDispatcher(null, true);
+          }
+          setSelectionChange(false);
+          setDisplayCancel(true);
+          updateSelectedDataSubTypeDispatcher(
+            getSelectedDataSubType(constants.DATA_SUBTYPES_MAP[selectedDataType])
+          );
+        }
+    }//eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [handleApplyLoading])
   const handleApplyButtonClick = () => {
-    setHideFilterMenu(true)
-    setApplyClicked(true);
-    const dataSubType = getSelectedDataSubType(constants.DATA_SUBTYPES_MAP[selectedDataType]);
-    if (selectedDataType !== '' && selectedDataSubtype !== '') {
-      if(selectedDataType !== "EMISSIONS" && selectedDataType !== "FACILITY" && dataSubType !== "Transactions"){
-        loadFilterMappingDispatcher(selectedDataType, dataSubType);
-      }
-      loadAllFiltersDispatcher(selectedDataType, dataSubType, filterCriteria);
-      setDataTypeApplied(true);
-      setDataSubtypeApplied(true);
-      setAppliedDataType({
-        dataType: selectedDataType,
-        dataSubType: selectedDataSubtype,
-      });
-      if (selectionChange) {
-        removeAppliedFiltersDispatcher(null, true);
-        resetFilterDispatcher(null, true);
-      }
-      setSelectionChange(false);
-      setDisplayCancel(true);
-      updateSelectedDataSubTypeDispatcher(
-        getSelectedDataSubType(constants.DATA_SUBTYPES_MAP[selectedDataType])
-      );
-    }
+    setHandleApplyLoading(true)
   };
 
   const handlePreviewDataButtonClick = () => {
@@ -335,6 +343,8 @@ const ManageDataDownload = ({
           getSelectedDataSubType={getSelectedDataSubType}
           appliedFilters={appliedFilters}
           handleBackButtonClick={handleBackButtonClick}
+          applyFilterLoading={applyFilterLoading}
+          setApplyFilterLoading={setApplyFilterLoading}
         />
         <ManageDataPreview
           dataType={appliedDataType.dataType}
@@ -349,7 +359,7 @@ const ManageDataDownload = ({
           removedAppliedFilter={removedAppliedFilter}
           setRemovedAppliedFilter={setRemovedAppliedFilter}
         />
-        <RenderSpinner showSpinner={loading || filterCriteria.filterLogicEngaged} />
+        <RenderSpinner showSpinner={loading || filterCriteria.filterLogicEngaged || handleApplyLoading || applyFilterLoading} />
       </div>
     </div>
   );

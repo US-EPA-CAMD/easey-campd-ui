@@ -29,6 +29,8 @@ const AccountType = ({
   dataSubType,
   filterCriteria,
   updateFilterCriteriaDispacher,
+  applyFilterLoading,
+  setApplyFilterLoading,
 }) => {
   const [accountType, setAccountTypes] = useState(
     JSON.parse(JSON.stringify(storeAccountType))
@@ -75,23 +77,30 @@ const AccountType = ({
           dataSubType,
           filterToApply,
           JSON.parse(JSON.stringify(filterCriteria)),
-          updateFilterCriteriaDispacher
+          updateFilterCriteriaDispacher,
+          setApplyFilterLoading,
         );
       }
       closeFlyOutHandler();
     } // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [applyFilterClicked]);
 
-  const handleApplyFilter = () => {
-    updateAccountTypeSelectionDispatcher(accountType);
-    if (isAddedToFilters(filterToApply, appliedFilters)) {
+  useEffect(()=>{
+    if(applyFilterLoading){
+        updateAccountTypeSelectionDispatcher(accountType);
+    if(isAddedToFilters(filterToApply, appliedFilters)) {
       removeAppliedFilterDispatcher(filterToApply);
     }
     const selection = getSelectedIds(accountType);
-    if (selection.length > 0) {
+    if(selection.length > 0) {
       addAppliedFilterDispatcher({ key: filterToApply, values: selection });
     }
     setApplyFilterClicked(true);
+    // setApplyFilterLoading(false);
+    }//eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [applyFilterLoading]);
+  const handleApplyFilter = () => {
+    setApplyFilterLoading(true)
   };
 
   return (

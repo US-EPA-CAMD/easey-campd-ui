@@ -50,6 +50,8 @@ initialState.filterCriteria.ownerOperator = distinctOwnOpers.map(s=> ({id: s, la
 const store = configureStore(initialState);
 
 let flyOutClosed = false;
+let applyFilterLoading = false;
+
 describe('Owner Operator Component', () => {
   let query;
   beforeEach(() => {
@@ -66,6 +68,7 @@ describe('Owner Operator Component', () => {
           removeAppliedFilterDispatcher ={removeAppliedFilter}
           closeFlyOutHandler ={()=> flyOutClosed=true}
           renderedHandler={jest.fn()}
+          setApplyFilterLoading={() => applyFilterLoading = true}
           />
       </Provider>);
   });
@@ -104,6 +107,6 @@ describe('Owner Operator Component', () => {
     expect(getByRole("button", {name: "AES Corporation"})).toBeDefined();
     expect(getAllByTestId("multi-select-option").length).toBe(distinctOwnOpers.length);
     fireEvent.click(getByText("Apply Filter"));
-    expect(flyOutClosed).toBe(true);
+    expect(applyFilterLoading).toBe(true);
   })
 });

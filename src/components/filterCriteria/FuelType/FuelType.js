@@ -22,7 +22,9 @@ export const FuelType = ({
   renderedHandler,
   dataType,
   dataSubType,
-  filterCriteria
+  filterCriteria,
+  applyFilterLoading,
+  setApplyFilterLoading,
 }) => {
   const [fuelType, setFuelTypes] = useState(JSON.parse(JSON.stringify(storeFuelType)));
   const [applyFilterClicked, setApplyFilterClicked] = useState(false);
@@ -37,7 +39,7 @@ export const FuelType = ({
   useEffect(()=>{
     if(applyFilterClicked){
       if(filterCriteria.filterMapping.length>0){
-        engageFilterLogic(dataType, dataSubType, filterToApply, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispatcher);
+        engageFilterLogic(dataType, dataSubType, filterToApply, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispatcher, setApplyFilterLoading);
       }
       closeFlyOutHandler();
     }// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -68,16 +70,22 @@ export const FuelType = ({
     }
   };
 
+  useEffect(()=>{
+    if (applyFilterLoading){
+      updateFuelTypeSelectionDispatcher(fuelType);
+      if (isAddedToFilters(filterToApply, appliedFilters)) {
+        removeAppliedFilterDispatcher(filterToApply);
+      }
+      const selection = getSelectedIds(fuelType);
+      if (selection.length > 0) {
+        addAppliedFilterDispatcher({ key: filterToApply, values: selection });
+      }
+      setApplyFilterClicked(true);
+    }//eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [applyFilterLoading]);
+
   const handleApplyFilter = () => {
-    updateFuelTypeSelectionDispatcher(fuelType);
-    if (isAddedToFilters(filterToApply, appliedFilters)) {
-      removeAppliedFilterDispatcher(filterToApply);
-    }
-    const selection = getSelectedIds(fuelType);
-    if (selection.length > 0) {
-      addAppliedFilterDispatcher({ key: filterToApply, values: selection });
-    }
-    setApplyFilterClicked(true);
+    setApplyFilterLoading(true);
   };
 
   return (

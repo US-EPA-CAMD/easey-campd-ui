@@ -21,7 +21,9 @@ const SourceCategory = ({
   renderedHandler,
   dataType,
   dataSubType,
-  filterCriteria
+  filterCriteria,
+  applyFilterLoading,
+  setApplyFilterLoading,
   }) => {
 
   const [_sourceCategory, setSourceCategory] = useState(JSON.parse(JSON.stringify(sourceCategory)));
@@ -37,22 +39,28 @@ const SourceCategory = ({
   useEffect(()=>{
     if(applyFilterClicked){
       if(filterCriteria.filterMapping.length>0){
-        engageFilterLogic(dataType, dataSubType, filterToApply, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispatcher);
+        engageFilterLogic(dataType, dataSubType, filterToApply, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispatcher, setApplyFilterLoading);
       }
       closeFlyOutHandler();
     }// eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sourceCategory]);
 
+  useEffect(()=>{
+    if(applyFilterLoading){
+      updateSourceCategorySelectionDispatcher(_sourceCategory);
+      if(isAddedToFilters(filterToApply, appliedFilters)){
+        removeAppliedFilterDispatcher(filterToApply);
+      }
+      const selection = _sourceCategory.filter(e=>e.selected)
+      if(selection.length>0){
+        addAppliedFilterDispatcher({key:filterToApply, values:selection.map(e=>e.label)});
+      }
+      setApplyFilterClicked(true);
+    }//eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [applyFilterLoading]);
+
   const handleApplyFilter = () =>{
-    updateSourceCategorySelectionDispatcher(_sourceCategory);
-    if(isAddedToFilters(filterToApply, appliedFilters)){
-      removeAppliedFilterDispatcher(filterToApply);
-    }
-    const selection = _sourceCategory.filter(e=>e.selected)
-    if(selection.length>0){
-      addAppliedFilterDispatcher({key:filterToApply, values:selection.map(e=>e.label)});
-    }
-    setApplyFilterClicked(true);
+    setApplyFilterLoading(true);
   };
 
   const onChangeUpdate = (id, updateType) =>{
