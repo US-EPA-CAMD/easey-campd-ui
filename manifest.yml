@@ -3,9 +3,8 @@ applications:
     memory: ((memory))M
     disk_quota: ((disk))M
     instances: ((instances))
-    path: build/
     buildpacks:
-      - staticfile_buildpack
+      - nodejs_buildpack
     env:
       OPTIMIZE_MEMORY: true
       REACT_APP_EASEY_CAMPD_UI_ENV: ((environment))

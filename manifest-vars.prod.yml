@@ -1,5 +1,5 @@
 instances: 2
-environment: production
+environment: prod
 host: campd.epa.gov
 apiHost: api.epa.gov/easey
 googleAnalyticsEnabled: "true"
