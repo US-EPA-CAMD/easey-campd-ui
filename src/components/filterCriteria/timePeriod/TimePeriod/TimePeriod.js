@@ -98,6 +98,7 @@ export const TimePeriod = ({
         }else{
           window.alert("Data is not available for the selected time period. Enter a new time period.");
           removeAppliedFiltersDispatcher(filterToApply);
+          setApplyFilterLoading(false);
           return;
         }
       }
