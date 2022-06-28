@@ -98,7 +98,12 @@ const HeroSlideshow = ({ slides }) => {
                   )}
 
                   {link && (
-                    <a className="usa-button" href={link.url}>
+                    <a
+                      className="usa-button"
+                      href={link.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
                       {link.text}
                     </a>
                   )}
