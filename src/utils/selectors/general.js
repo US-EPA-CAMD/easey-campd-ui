@@ -1,4 +1,4 @@
-import { constructComboBoxQuery, constructQuery, filterAmpersand } from './filterCriteria';
+import { constructComboBoxQuery, constructQuery, constructTransactionTypeComboBoxQuery, filterAmpersand } from './filterCriteria';
 import config from '../../config';
 import { constructTimePeriodQuery } from './timePeriodQuery';
 import * as constants from '../constants/customDataDownload';
@@ -169,7 +169,7 @@ export const constructRequestUrl = (
     : '';
   const transactionTypeQuery = filterCriteria.transactionType
     ? filterAmpersand(
-        constructComboBoxQuery(filterCriteria.transactionType, 'transactionType', true)
+      constructTransactionTypeComboBoxQuery(filterCriteria.transactionType, 'transactionType', true)
       )
     : '';
   const sourceCategoryQuery = filterCriteria.sourceCategory
