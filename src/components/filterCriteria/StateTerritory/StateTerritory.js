@@ -38,6 +38,8 @@ const StateTerritory = ({
     if(applyFilterClicked){
       if(filterCriteria.filterMapping.length>0){
         engageFilterLogic(dataType, dataSubType, filterToApply, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispatcher, setApplyFilterLoading);
+      } else {
+        setApplyFilterLoading(false)
       }
       closeFlyOutHandler();
     }// eslint-disable-next-line react-hooks/exhaustive-deps

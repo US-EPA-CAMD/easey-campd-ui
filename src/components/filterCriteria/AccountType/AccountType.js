@@ -80,6 +80,8 @@ const AccountType = ({
           updateFilterCriteriaDispacher,
           setApplyFilterLoading,
         );
+      } else {
+        setApplyFilterLoading(false)
       }
       closeFlyOutHandler();
     } // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -101,6 +101,8 @@ export const TimePeriod = ({
           setApplyFilterLoading(false);
           return;
         }
+      } else {
+        setApplyFilterLoading(false)
       }
       closeFlyOutHandler();
     }// eslint-disable-next-line react-hooks/exhaustive-deps
