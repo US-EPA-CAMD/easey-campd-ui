@@ -52,7 +52,7 @@ const FaqsPage = () => {
         a: ({ node, ...props }) => (
           <Link {...props}
           target={isInternalUrl(props)? null: '_blank'}
-          rel= {isInternalUrl(props)? null: '"noopener noreferrer"'}
+          rel= {isInternalUrl(props)? null: 'noopener noreferrer'}
           />
         )
       }}
