@@ -14,6 +14,8 @@ export const initcap = (str) => {
   });
 };
 
+export const isInternalUrl = (props) => props.href[0] === '/';
+
 export const formatDateToApi = (dateString) => {
   //param=mm/dd/yyyy return=yyyy-mm-dd
   if (dateString) {
