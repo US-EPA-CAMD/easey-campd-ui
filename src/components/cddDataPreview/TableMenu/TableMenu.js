@@ -124,7 +124,6 @@ const TableMenu = ({
     search && search.focus();
   };
   const handleClose = (e) => {
-    console.log({anchorEl}, 'close');
     anchorEl && anchorEl.focus();
     setAnchorEl(null);
     setColumnMenuOpen(false);
