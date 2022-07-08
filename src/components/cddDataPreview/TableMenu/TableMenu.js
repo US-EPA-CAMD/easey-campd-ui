@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { List, ListItem, ClickAwayListener } from '@mui/material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisV } from '@fortawesome/free-solid-svg-icons';
@@ -11,6 +11,7 @@ import { updateFilterCriteria } from '../../../store/actions/customDataDownload/
 import { usePopper } from 'react-popper';
 import Portal from '../../Portal/Portal';
 import { handleKeyDown } from '../../../utils/ensure-508/handleKeyDown';
+import useFocusTrap from '../../../utils/hooks/useFocusTrap';
 
 const TableMenu = ({
   topic,
@@ -23,15 +24,21 @@ const TableMenu = ({
   setSelectedColumns,
   selectedColumns,
   excludableColumns,
+
   updateFilterCriteriaDispatcher,
 }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [popperElement, setPopperElement] = useState(null);
   const { styles, attributes } = usePopper(anchorEl, popperElement);
+  const sortRef = useRef(null);
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [columnMenuOpen, setColumnMenuOpen] = useState(false);
   const [sortArrowUp, setSortArrowUp] = useState(false);
+  useFocusTrap('#menuContainer', [menuOpen]);
+  useFocusTrap('#subMenuContainer', [columnMenuOpen]);
+  const [focusSortArrow, setFocusSortArrow] = useState(false);
+  const [keepIconsVisible, setKeepIconsVisible] = useState(false);
 
   const [checkedBoxes, setCheckedBoxes] = useState({});
   const [excludableColumnsState, setExcludableColumnsState] = useState(null);
@@ -41,6 +48,19 @@ const TableMenu = ({
   const [filterMappingsCopy, setFilterMappingsCopy] = useState([]);
   const [closed, setClosed] = useState(true);
   const open = Boolean(anchorEl);
+
+
+  useEffect(() => {
+    if (focusSortArrow) {
+      sortRef.current.focus();
+      setFocusSortArrow(false);
+      setKeepIconsVisible(false);
+    }
+  }, [focusSortArrow]);
+
+  useEffect(() => {
+    keepIconsVisible && setFocusSortArrow(true);
+  }, [keepIconsVisible]);
 
   useEffect(() => {
     const columns = {};
@@ -86,6 +106,7 @@ const TableMenu = ({
       setClosed(false);
     }
   }, [closed, filterCriteria.columnState, checkAll]);
+
   const openMenu = async (event) => {
     columnMenuOpen && setColumnMenuOpen(false);
     setMenuOpen(true);
@@ -103,19 +124,22 @@ const TableMenu = ({
     search && search.focus();
   };
   const handleClose = (e) => {
+    console.log({anchorEl}, 'close');
+    anchorEl && anchorEl.focus();
     setAnchorEl(null);
     setColumnMenuOpen(false);
     setMenuOpen(false);
     setClosed(true);
-    // setCheckedBoxes(applied)
   };
   const handleCloseSubMenu = (e) => {
     if (e.key === 'Tab') {
       return;
     }
     setColumnMenuOpen(false);
+    anchorEl && anchorEl.focus();
     setAnchorEl(null);
   };
+
   const handleSortAsc = (e) => {
     setSortValue(topic.value);
     setSortDesc(false);
@@ -213,23 +237,44 @@ const TableMenu = ({
       <span
         id="icons"
         className="display-flex"
-        style={open ? { visibility: 'visible' } : { display: 'flex' }}
+        style={
+          open || keepIconsVisible
+            ? { visibility: 'visible' }
+            : { display: 'flex' }
+        }
       >
         {sortArrowUp ? (
           <ArrowUpwardSharp
             className="text-base"
             onClick={handleSortDesc}
-            onKeyDown={(e) => handleKeyDown(e, handleSortDesc, 'Enter')}
+            onKeyDown={(e) => {
+              handleKeyDown(e, handleSortDesc, 'Enter');
+              handleKeyDown(e, () => setKeepIconsVisible(true), 'Enter');
+            }}
             id={'icon'}
             tabIndex={0}
+            ref={sortRef}
+            aria-hidden={false}
+            focusable={true}
+            role="button"
+            aria-labelledby="sort by ascending"
+
           />
         ) : (
           <ArrowDownwardSharp
             className="text-base"
             onClick={handleSortAsc}
-            onKeyDown={(e) => handleKeyDown(e, handleSortAsc, 'Enter')}
+            onKeyDown={(e) => {
+              handleKeyDown(e, handleSortAsc, 'Enter');
+              handleKeyDown(e, () => setKeepIconsVisible(true), 'Enter');
+            }}
             id={'icon'}
             tabIndex={0}
+            ref={sortRef}
+            aria-hidden={false}
+            focusable={true}
+            role="button"
+            aria-labelledby="sort by descending"
           />
         )}
         <FontAwesomeIcon
@@ -241,15 +286,19 @@ const TableMenu = ({
           onClick={openMenu}
           onKeyDown={(e) => handleKeyDown(e, openMenu, 'Enter')}
           id={'icon'}
+          aria-hidden={false}
           tabIndex={0}
+          role="button"
+          aria-labelledby={`additional options - ${topic.label}`}
           ref={setAnchorEl}
+          key={topic.label}
         />
       </span>
       {menuOpen ? (
         <Portal>
           <ClickAwayListener onClickAway={handleClose}>
             <List
-              id="subMenuContainer"
+              id="menuContainer"
               ref={setPopperElement}
               onClose={handleClose}
               style={styles.popper}
@@ -315,9 +364,10 @@ const TableMenu = ({
             >
               <div>
                 <div className="form-group margin-1" id="columnMenu">
-                  <div className="text-primary">Find Column</div>
+                  <label for="find column" className="text-primary">Find Column</label>
                   <TextInput
                     placeholder="Column Title"
+                    name="find column"
                     type="search"
                     id="textField"
                     onChange={(e) => {
