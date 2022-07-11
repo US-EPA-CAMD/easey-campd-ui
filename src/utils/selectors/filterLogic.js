@@ -330,13 +330,13 @@ export const engageFilterLogic = (dataType, dataSubType, affectedFilter, filterC
 
 export const filterBulkDataFiles = (selection, tableRecords) =>{
   return tableRecords.filter(record => {
-    return (selection.dataType === '' || record.metadata?.datatype?.toUpperCase() === selection.dataType.toUpperCase()) &&
-    (selection.subType === '' || record.metadata?.datasubtype?.toUpperCase() === selection.subType.toUpperCase()) &&
+    return (selection.dataType === '' || record.metadata?.dataType?.toUpperCase() === selection.dataType.toUpperCase()) &&
+    (selection.subType === '' || record.metadata?.datasubType?.toUpperCase() === selection.subType.toUpperCase()) &&
     (selection.grouping === '' || record.metadata?.grouping?.toUpperCase() === selection.grouping.toUpperCase()) &&
     // eslint-disable-next-line
     (selection.year === '' || record.metadata?.year == selection.year) &&
     (selection.quarter === '' || record.metadata?.quarter?.toUpperCase() === selection.quarter.toUpperCase()) &&
-    (selection.state === '' || record.metadata?.statecode?.toUpperCase() === selection.state.toUpperCase())
+    (selection.state === '' || record.metadata?.stateCode?.toUpperCase() === selection.state.toUpperCase())
   });
 };
 
