@@ -57,7 +57,7 @@ const TableMenu = ({
       const moreOptionsIcon = document.querySelector('.faIcon'+topic.value);
       moreOptionsIcon && moreOptionsIcon.focus();
     }// eslint-disable-next-line
-  }, [focusAfterApply]) 
+  }, [focusAfterApply]);
   useEffect(() => {
     if (focusSortArrow) {
       sortRef.current.focus();
@@ -69,7 +69,7 @@ const TableMenu = ({
     keepIconsVisible && setFocusSortArrow(true);
   }, [keepIconsVisible]);
 
- //effects to manage column selection 
+ //effects to manage column selection
   useEffect(() => {
     const columns = {};
     const requiredColumns = [];
@@ -153,7 +153,7 @@ const TableMenu = ({
     setUnsort(false);
     setSortAsc(true);
     setSortArrowUp(true);
-    handleClose(e);
+    handleClose();
   };
   const handleSortDesc = (e) => {
     setSortArrowUp(false);
@@ -161,7 +161,7 @@ const TableMenu = ({
     setUnsort(false);
     setSortAsc(false);
     setSortDesc(true);
-    handleClose(e);
+    handleClose();
   };
   const handleUnsort = () => {
     setSortValue(topic.value);
@@ -224,7 +224,7 @@ const TableMenu = ({
     updateFilterCriteriaDispatcher(filterCriteriaCloned);
     setSelectedColumns(columnsToDisplay);
     setFocusAfterApply(topic.value);
-    handleClose(true);
+    handleClose();
   };
   const getCheckBoxStatus = (checkbox) => {
     if (checkedBoxes[checkbox]) {
@@ -297,9 +297,9 @@ const TableMenu = ({
             handleKeyDown(e, openMenu, 'Enter')
             handleKeyDown(e, ()=>{
               if(focusAfterApply === topic.value) {
-                setFocusAfterApply(null); setNoLongerActive(true)
-              };
-            }, 'Tab')
+                setFocusAfterApply(null);
+                setNoLongerActive(true);
+              }}, 'Tab')
           }}
           id={'icon'}
           aria-hidden={false}
