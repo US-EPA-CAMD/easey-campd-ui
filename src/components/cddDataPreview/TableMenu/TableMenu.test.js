@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import configureStore from '../../../store/configureStore.dev';
 import initialState from '../../../store/reducers/initialState';
 import userEvent from '@testing-library/user-event';
-const { getByText, getByRole } = screen;
+const { getByText } = screen;
 const fieldMappings = [
   {
     label: 'Year',
@@ -157,7 +157,7 @@ describe('table menu component', () => {
 
 
   test('Clicking on a selectable column unchecks it', async () => {
-    const { container, getAllByRole, debug} = render(
+    const { container, getAllByRole} = render(
       <Provider store={store}>
         <TableMenu
           topic={topic}

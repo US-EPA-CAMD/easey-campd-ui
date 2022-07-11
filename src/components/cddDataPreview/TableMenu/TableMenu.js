@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { List, ListItem, ClickAwayListener } from '@mui/material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisV } from '@fortawesome/free-solid-svg-icons';
@@ -11,6 +11,7 @@ import { updateFilterCriteria } from '../../../store/actions/customDataDownload/
 import { usePopper } from 'react-popper';
 import Portal from '../../Portal/Portal';
 import { handleKeyDown } from '../../../utils/ensure-508/handleKeyDown';
+import useFocusTrap from '../../../utils/hooks/useFocusTrap';
 
 const TableMenu = ({
   topic,
@@ -23,15 +24,22 @@ const TableMenu = ({
   setSelectedColumns,
   selectedColumns,
   excludableColumns,
+  focusAfterApply,
+  setFocusAfterApply,
   updateFilterCriteriaDispatcher,
 }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [popperElement, setPopperElement] = useState(null);
   const { styles, attributes } = usePopper(anchorEl, popperElement);
+  const sortRef = useRef(null);
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [columnMenuOpen, setColumnMenuOpen] = useState(false);
   const [sortArrowUp, setSortArrowUp] = useState(false);
+  useFocusTrap('#menuContainer', [menuOpen]);
+  useFocusTrap('#subMenuContainer', [columnMenuOpen]);
+  const [focusSortArrow, setFocusSortArrow] = useState(false);
+  const [keepIconsVisible, setKeepIconsVisible] = useState(false);
 
   const [checkedBoxes, setCheckedBoxes] = useState({});
   const [excludableColumnsState, setExcludableColumnsState] = useState(null);
@@ -41,7 +49,27 @@ const TableMenu = ({
   const [filterMappingsCopy, setFilterMappingsCopy] = useState([]);
   const [closed, setClosed] = useState(true);
   const open = Boolean(anchorEl);
+  const [noLongerActive, setNoLongerActive] = useState(false)
 
+// 508 effects to manage focus
+  useEffect(() => {
+    if(focusAfterApply === topic.value){
+      const moreOptionsIcon = document.querySelector('.faIcon'+topic.value);
+      moreOptionsIcon && moreOptionsIcon.focus();
+    }// eslint-disable-next-line
+  }, [focusAfterApply]);
+  useEffect(() => {
+    if (focusSortArrow) {
+      sortRef.current.focus();
+      setFocusSortArrow(false);
+      setKeepIconsVisible(false);
+    }
+  }, [focusSortArrow]);
+  useEffect(() => {
+    keepIconsVisible && setFocusSortArrow(true);
+  }, [keepIconsVisible]);
+
+ //effects to manage column selection
   useEffect(() => {
     const columns = {};
     const requiredColumns = [];
@@ -86,6 +114,7 @@ const TableMenu = ({
       setClosed(false);
     }
   }, [closed, filterCriteria.columnState, checkAll]);
+
   const openMenu = async (event) => {
     columnMenuOpen && setColumnMenuOpen(false);
     setMenuOpen(true);
@@ -102,27 +131,29 @@ const TableMenu = ({
     const search = document.querySelector('#textField');
     search && search.focus();
   };
-  const handleClose = (e) => {
+  const handleClose = () => {
+    anchorEl && anchorEl.focus();
     setAnchorEl(null);
     setColumnMenuOpen(false);
     setMenuOpen(false);
     setClosed(true);
-    // setCheckedBoxes(applied)
   };
   const handleCloseSubMenu = (e) => {
     if (e.key === 'Tab') {
       return;
     }
     setColumnMenuOpen(false);
+    anchorEl && anchorEl.focus();
     setAnchorEl(null);
   };
+
   const handleSortAsc = (e) => {
     setSortValue(topic.value);
     setSortDesc(false);
     setUnsort(false);
     setSortAsc(true);
     setSortArrowUp(true);
-    handleClose(e);
+    handleClose();
   };
   const handleSortDesc = (e) => {
     setSortArrowUp(false);
@@ -130,7 +161,7 @@ const TableMenu = ({
     setUnsort(false);
     setSortAsc(false);
     setSortDesc(true);
-    handleClose(e);
+    handleClose();
   };
   const handleUnsort = () => {
     setSortValue(topic.value);
@@ -192,7 +223,8 @@ const TableMenu = ({
     filterCriteriaCloned.columnState = checkedBoxes;
     updateFilterCriteriaDispatcher(filterCriteriaCloned);
     setSelectedColumns(columnsToDisplay);
-    handleClose(true);
+    setFocusAfterApply(topic.value);
+    handleClose();
   };
   const getCheckBoxStatus = (checkbox) => {
     if (checkedBoxes[checkbox]) {
@@ -201,6 +233,7 @@ const TableMenu = ({
 
     return true;
   };
+  const isActiveElement = focusAfterApply === topic.value && !noLongerActive;
   return (
     <div
       className="display-flex"
@@ -213,23 +246,44 @@ const TableMenu = ({
       <span
         id="icons"
         className="display-flex"
-        style={open ? { visibility: 'visible' } : { display: 'flex' }}
+        style={
+          open || keepIconsVisible || isActiveElement
+            ? { visibility: 'visible' }
+            : { display: 'flex' }
+        }
       >
         {sortArrowUp ? (
           <ArrowUpwardSharp
             className="text-base"
             onClick={handleSortDesc}
-            onKeyDown={(e) => handleKeyDown(e, handleSortDesc, 'Enter')}
+            onKeyDown={(e) => {
+              handleKeyDown(e, handleSortDesc, 'Enter');
+              handleKeyDown(e, () => setKeepIconsVisible(true), 'Enter');
+            }}
             id={'icon'}
             tabIndex={0}
+            ref={sortRef}
+            aria-hidden={false}
+            focusable={true}
+            role="button"
+            aria-labelledby="sort by ascending"
+
           />
         ) : (
           <ArrowDownwardSharp
             className="text-base"
             onClick={handleSortAsc}
-            onKeyDown={(e) => handleKeyDown(e, handleSortAsc, 'Enter')}
+            onKeyDown={(e) => {
+              handleKeyDown(e, handleSortAsc, 'Enter');
+              handleKeyDown(e, () => setKeepIconsVisible(true), 'Enter');
+            }}
             id={'icon'}
             tabIndex={0}
+            ref={sortRef}
+            aria-hidden={false}
+            focusable={true}
+            role="button"
+            aria-labelledby="sort by descending"
           />
         )}
         <FontAwesomeIcon
@@ -239,17 +293,30 @@ const TableMenu = ({
           aria-haspopup="true"
           aria-expanded={open ? 'true' : undefined}
           onClick={openMenu}
-          onKeyDown={(e) => handleKeyDown(e, openMenu, 'Enter')}
+          onKeyDown={(e) => {
+            handleKeyDown(e, openMenu, 'Enter')
+            handleKeyDown(e, ()=>{
+              if(focusAfterApply === topic.value) {
+                setFocusAfterApply(null);
+                setNoLongerActive(true);
+              }}, 'Tab')
+          }}
           id={'icon'}
+          aria-hidden={false}
           tabIndex={0}
+          role="button"
+          aria-labelledby={`additional options - ${topic.label}`}
           ref={setAnchorEl}
+          key={topic.label}
+          focusable={true}
+          className={"faIcon"+topic.value}
         />
       </span>
       {menuOpen ? (
         <Portal>
           <ClickAwayListener onClickAway={handleClose}>
             <List
-              id="subMenuContainer"
+              id="menuContainer"
               ref={setPopperElement}
               onClose={handleClose}
               style={styles.popper}
@@ -315,9 +382,10 @@ const TableMenu = ({
             >
               <div>
                 <div className="form-group margin-1" id="columnMenu">
-                  <div className="text-primary">Find Column</div>
+                  <label for="find column" className="text-primary">Find Column</label>
                   <TextInput
                     placeholder="Column Title"
+                    name="find column"
                     type="search"
                     id="textField"
                     onChange={(e) => {

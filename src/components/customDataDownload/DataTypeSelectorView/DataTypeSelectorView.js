@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 
 import { Button, Dropdown, Label } from '@trussworks/react-uswds';
 import { Help } from '@material-ui/icons';
 
 import * as constants from '../../../utils/constants/customDataDownload';
 import { initcap } from '../../../utils/selectors/general';
-import { focusTrap } from "../../../utils/ensure-508/focus-trap";
 import Tooltip from '../../Tooltip/Tooltip';
 import MatsDataCaveat from '../MatsDataCaveat/MatsDataCaveat';
+import useFocusTrap from '../../../utils/hooks/useFocusTrap';
 
 
 const DataTypeSelectorView = ({
@@ -30,35 +30,14 @@ const DataTypeSelectorView = ({
   displayMobileDataType,
   renderPreviewData
 }) => {
-
-  const [firstFocusableEl, setFirstFocusableEl] = useState(null);
   useEffect(() => {
     if ( displayMobileDataType) {
       const tooltip = document.querySelector('#dataTypeTooltip')?.firstChild;
       tooltip && tooltip.focus()
     }
-  }, [displayMobileDataType ])
-
-  useEffect(() => {
-    if(displayMobileDataType){
-      const { firstComponentFocusableElement, handleKeyPress } = focusTrap(".side-nav");
-      // set focus to first element only once
-      if(firstFocusableEl === null && firstComponentFocusableElement){
-        setFirstFocusableEl(firstComponentFocusableElement);
-        firstComponentFocusableElement.focus();
-      }
-      // *** FOCUS TRAP
-      document.addEventListener("keydown", handleKeyPress);
-      // * clean up
-      return () => {
-        document.removeEventListener("keydown", handleKeyPress);
-      };
-    }
-    if(!displayMobileDataType){
-      setFirstFocusableEl(null);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [displayMobileDataType]);
+
+  useFocusTrap(".side-nav", [displayMobileDataType]);
   const showCancelButton = displayCancel || displayCancelMobile;
   const mats = 'MERCURY AND AIR TOXICS EMISSIONS';
 

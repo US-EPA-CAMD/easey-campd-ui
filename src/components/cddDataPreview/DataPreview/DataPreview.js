@@ -28,6 +28,7 @@ export const DataPreview = ({
   const [sortDesc, setSortDesc] = useState(null);
   const [sortValue, setSortValue] = useState(null);
   const [selectedColumns, setSelectedColumns] = useState(null);
+  const [focusAfterApply, setFocusAfterApply] = useState(null);
   useEffect(() => {
     if(dataPreview !== null){
       handleUpdateInAppliedFilters();
@@ -60,6 +61,8 @@ export const DataPreview = ({
           setSelectedColumns={setSelectedColumns}
           selectedColumns={selectedColumns}
           excludableColumns={excludableColumns}
+          focusAfterApply={focusAfterApply}
+          setFocusAfterApply={setFocusAfterApply}
         />
       ),
       selector: el.value,
@@ -76,6 +79,8 @@ export const DataPreview = ({
             setSelectedColumns={setSelectedColumns}
             selectedColumns={selectedColumns}
             excludableColumns={excludableColumns}
+            focusAfterApply={focusAfterApply}
+            setFocusAfterApply={setFocusAfterApply}
           />
         ),
         selector: el.value,
