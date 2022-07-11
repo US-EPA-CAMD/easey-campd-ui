@@ -102,7 +102,7 @@ const TableMenu = ({
         setFilterMappingsCopy(tempFieldMappings);
       }
     } //eslint-disable-next-line
-  }, [excludableColumns, selectedColumns]);
+  }, [excludableColumns, selectedColumns, filterCriteria.columnState]);
 
   useEffect(() => {
     if (closed) {
@@ -382,7 +382,7 @@ const TableMenu = ({
             >
               <div>
                 <div className="form-group margin-1" id="columnMenu">
-                  <label for="find column" className="text-primary">Find Column</label>
+                  <label htmlFor="find column" className="text-primary">Find Column</label>
                   <TextInput
                     placeholder="Column Title"
                     name="find column"

@@ -364,9 +364,16 @@ export const loadAllFilters = (dataType, dataSubType, filterCriteria, bookmarkFi
   }
 };
 
-export const updateFilterCriteria = (filterCriteria) =>{
+export const updateFilterCriteria = (itemsToUpdate) =>{
   return {
     type: types.UPDATE_FILTER_CRITERIA,
-    filterCriteria,
+    itemsToUpdate,
+  }
+};
+
+export const resetFilterCriteriaItems = (itemsToReset) => {
+  return {
+    type: types.RESET_FILTER_CRITERIA_ITEMS,
+    itemsToReset,
   }
 };
