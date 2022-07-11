@@ -24,7 +24,8 @@ const TableMenu = ({
   setSelectedColumns,
   selectedColumns,
   excludableColumns,
-
+  focusAfterApply,
+  setFocusAfterApply,
   updateFilterCriteriaDispatcher,
 }) => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -48,8 +49,15 @@ const TableMenu = ({
   const [filterMappingsCopy, setFilterMappingsCopy] = useState([]);
   const [closed, setClosed] = useState(true);
   const open = Boolean(anchorEl);
+  const [noLongerActive, setNoLongerActive] = useState(false)
 
-
+// 508 effects to manage focus
+  useEffect(() => {
+    if(focusAfterApply === topic.value){
+      const moreOptionsIcon = document.querySelector('.faIcon'+topic.value);
+      moreOptionsIcon && moreOptionsIcon.focus();
+    }// eslint-disable-next-line
+  }, [focusAfterApply]) 
   useEffect(() => {
     if (focusSortArrow) {
       sortRef.current.focus();
@@ -57,11 +65,11 @@ const TableMenu = ({
       setKeepIconsVisible(false);
     }
   }, [focusSortArrow]);
-
   useEffect(() => {
     keepIconsVisible && setFocusSortArrow(true);
   }, [keepIconsVisible]);
 
+ //effects to manage column selection 
   useEffect(() => {
     const columns = {};
     const requiredColumns = [];
@@ -123,7 +131,7 @@ const TableMenu = ({
     const search = document.querySelector('#textField');
     search && search.focus();
   };
-  const handleClose = (e) => {
+  const handleClose = () => {
     anchorEl && anchorEl.focus();
     setAnchorEl(null);
     setColumnMenuOpen(false);
@@ -215,6 +223,7 @@ const TableMenu = ({
     filterCriteriaCloned.columnState = checkedBoxes;
     updateFilterCriteriaDispatcher(filterCriteriaCloned);
     setSelectedColumns(columnsToDisplay);
+    setFocusAfterApply(topic.value);
     handleClose(true);
   };
   const getCheckBoxStatus = (checkbox) => {
@@ -224,6 +233,7 @@ const TableMenu = ({
 
     return true;
   };
+  const isActiveElement = focusAfterApply === topic.value && !noLongerActive;
   return (
     <div
       className="display-flex"
@@ -237,7 +247,7 @@ const TableMenu = ({
         id="icons"
         className="display-flex"
         style={
-          open || keepIconsVisible
+          open || keepIconsVisible || isActiveElement
             ? { visibility: 'visible' }
             : { display: 'flex' }
         }
@@ -283,7 +293,14 @@ const TableMenu = ({
           aria-haspopup="true"
           aria-expanded={open ? 'true' : undefined}
           onClick={openMenu}
-          onKeyDown={(e) => handleKeyDown(e, openMenu, 'Enter')}
+          onKeyDown={(e) => {
+            handleKeyDown(e, openMenu, 'Enter')
+            handleKeyDown(e, ()=>{
+              if(focusAfterApply === topic.value) {
+                setFocusAfterApply(null); setNoLongerActive(true)
+              };
+            }, 'Tab')
+          }}
           id={'icon'}
           aria-hidden={false}
           tabIndex={0}
@@ -291,6 +308,8 @@ const TableMenu = ({
           aria-labelledby={`additional options - ${topic.label}`}
           ref={setAnchorEl}
           key={topic.label}
+          focusable={true}
+          className={"faIcon"+topic.value}
         />
       </span>
       {menuOpen ? (
