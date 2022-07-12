@@ -260,13 +260,13 @@ const TableMenu = ({
               handleKeyDown(e, handleSortDesc, 'Enter');
               handleKeyDown(e, () => setKeepIconsVisible(true), 'Enter');
             }}
-            id={'icon'}
+            id={'sort by ascending'}
             tabIndex={0}
             ref={sortRef}
             aria-hidden={false}
             focusable={true}
             role="button"
-            aria-labelledby="sort by ascending"
+            aria-label="sort by ascending"
 
           />
         ) : (
@@ -277,13 +277,13 @@ const TableMenu = ({
               handleKeyDown(e, handleSortAsc, 'Enter');
               handleKeyDown(e, () => setKeepIconsVisible(true), 'Enter');
             }}
-            id={'icon'}
+            id={'sort by descending'}
             tabIndex={0}
             ref={sortRef}
             aria-hidden={false}
             focusable={true}
             role="button"
-            aria-labelledby="sort by descending"
+            aria-label="sort by descending"
           />
         )}
         <FontAwesomeIcon
@@ -301,11 +301,11 @@ const TableMenu = ({
                 setNoLongerActive(true);
               }}, 'Tab')
           }}
-          id={'icon'}
+          id={`additional options - ${topic.label}`}
           aria-hidden={false}
           tabIndex={0}
           role="button"
-          aria-labelledby={`additional options - ${topic.label}`}
+          aria-label={`additional options - ${topic.label}`}
           ref={setAnchorEl}
           key={topic.label}
           focusable={true}
@@ -387,7 +387,7 @@ const TableMenu = ({
                     placeholder="Column Title"
                     name="find column"
                     type="search"
-                    id="textField"
+                    id="find column"
                     onChange={(e) => {
                       e.stopPropagation();
                       handleSearch(e);
