@@ -301,11 +301,11 @@ const TableMenu = ({
                 setNoLongerActive(true);
               }}, 'Tab')
           }}
-          id={`additional options - ${topic.value}`}
+          id={`additional options - ${topic.label}`}
           aria-hidden={false}
           tabIndex={0}
           role="button"
-          aria-label={`additional options - ${topic.value}`}
+          aria-label={`additional options - ${topic.label}`}
           ref={setAnchorEl}
           key={topic.label}
           focusable={true}
