@@ -1,5 +1,6 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
+
 import TableMenu from './TableMenu';
 import { Provider } from 'react-redux';
 import configureStore from '../../../store/configureStore.dev';
@@ -62,7 +63,7 @@ const store = configureStore(initialState);
 const topic = { label: 'Unit ID', value: 'unitId' };
 describe('table menu component', () => {
   test('renders main menu properly', () => {
-    const { container } = render(
+    render(
       <Provider store={store}>
         <TableMenu
           topic={topic}
@@ -75,9 +76,11 @@ describe('table menu component', () => {
       </Provider>
     );
 
-    const icons = container.querySelectorAll('#icon');
-    expect(icons.length).toEqual(2);
-    fireEvent.click(icons[1]);
+    const additionalOptionsIcon = screen.getByRole('button', {
+      name: /additional options \- unit id/i,
+    });
+    expect(additionalOptionsIcon).toBeInTheDocument();
+    fireEvent.click(additionalOptionsIcon);
 
     const unsortMenuOption = getByText(/unsort/i);
     const sortbyAscMenuOption = getByText(/sort by ASC/i);
@@ -91,7 +94,7 @@ describe('table menu component', () => {
   });
 
   test('lists correct columns, apply button, and input field when customize column menu option is selected', async () => {
-    const { container, findByText, findByRole, getAllByText } = render(
+    const { findByText, findByRole, getAllByText } = render(
       <Provider store={store}>
         <TableMenu
           topic={topic}
@@ -109,8 +112,10 @@ describe('table menu component', () => {
       </Provider>
     );
 
-    const icons = container.querySelectorAll('#icon');
-    fireEvent.click(icons[1]);
+    const additionalOptionsIcon = screen.getByRole('button', {
+      name: /additional options \- unit id/i,
+    });
+    fireEvent.click(additionalOptionsIcon);
     const customizeColumnsMenuOption = getByText(/Customize Columns/i);
     fireEvent.click(customizeColumnsMenuOption);
     const yearColumnOption = getByText(/Year/i);
@@ -121,14 +126,14 @@ describe('table menu component', () => {
     expect(facilityNameColumnOption).toBeInTheDocument();
     expect(unitIDColumnOption).toBeInTheDocument();
     expect(stateColumnOption).toBeInTheDocument();
-    const input = await findByText (/Find Column/i);
+    const input = await findByText(/Find Column/i);
     expect(input).toBeInTheDocument();
     const applyButton = await findByRole('button', { name: /apply/i });
     expect(applyButton).toBeInTheDocument();
   });
 
   test('All columns are checked initially', async () => {
-    const { container, getAllByRole} = render(
+    const { getAllByRole } = render(
       <Provider store={store}>
         <TableMenu
           topic={topic}
@@ -146,18 +151,19 @@ describe('table menu component', () => {
       </Provider>
     );
 
-    const icons = container.querySelectorAll('#icon');
-    fireEvent.click(icons[1]);
+    const additionalOptionsIcon = screen.getByRole('button', {
+      name: /additional options \- unit id/i,
+    });
+    fireEvent.click(additionalOptionsIcon);
     const customizeColumnsMenuOption = getByText(/Customize Columns/i);
     fireEvent.click(customizeColumnsMenuOption);
-    const checkboxes = getAllByRole('checkbox')
+    const checkboxes = getAllByRole('checkbox');
 
-    checkboxes.forEach(checkbox => expect(checkbox.checked).toBe(true));    
+    checkboxes.forEach((checkbox) => expect(checkbox.checked).toBe(true));
   });
 
-
   test('Clicking on a selectable column unchecks it', async () => {
-    const { container, getAllByRole} = render(
+    const { getAllByRole } = render(
       <Provider store={store}>
         <TableMenu
           topic={topic}
@@ -175,8 +181,10 @@ describe('table menu component', () => {
       </Provider>
     );
 
-    const icons = container.querySelectorAll('#icon');
-    fireEvent.click(icons[1]);
+    const additionalOptionsIcon = screen.getByRole('button', {
+      name: /additional options \- unit id/i,
+    });
+    fireEvent.click(additionalOptionsIcon);
     const customizeColumnsMenuOption = getByText(/Customize Columns/i);
     fireEvent.click(customizeColumnsMenuOption);
     const yearColumnOption = getAllByRole('checkbox')[0];
@@ -185,7 +193,7 @@ describe('table menu component', () => {
     expect(yearColumnOption.checked).toBe(false);
   });
   test('search filters down the columns', async () => {
-    const { container, queryByText, getByRole } = render(
+    const { queryByText, getByRole } = render(
       <Provider store={store}>
         <TableMenu
           topic={topic}
@@ -202,18 +210,113 @@ describe('table menu component', () => {
         />
       </Provider>
     );
-    const icons = container.querySelectorAll('#icon');
-    fireEvent.click(icons[1]);
-    const customizeColumnsMenuOption = getByText(/Customize Columns/i)
+    const additionalOptionsIcon = screen.getByRole('button', {
+      name: /additional options \- unit id/i,
+    });
+    fireEvent.click(additionalOptionsIcon);
+    const customizeColumnsMenuOption = getByText(/Customize Columns/i);
     fireEvent.click(customizeColumnsMenuOption);
 
-    const input = getByRole('searchbox')
-    await userEvent.type(input, 'ye')
+    const input = getByRole('searchbox');
+    await userEvent.type(input, 'ye');
     const yearColumnOption = getByText(/Year/i);
     const facilityNameColumnOption = queryByText(/Facility Name/i);
 
     expect(yearColumnOption).toBeInTheDocument();
-    expect(facilityNameColumnOption).toBeNull()
+    expect(facilityNameColumnOption).toBeNull();
   });
-  
+
+  test('can navigate menu using the tab key', () => {
+    const { getByText, getByRole } = render(
+      <Provider store={store}>
+        <TableMenu
+          topic={topic}
+          fieldMappings={fieldMappings}
+          setSortValue={jest.fn()}
+          setSortDesc={jest.fn()}
+          setSortAsc={jest.fn()}
+          setUnsort={jest.fn()}
+          filterCriteria={initialState.filterCriteria}
+          setSelectedColumns={jest.fn()}
+          selectedColumns={null}
+          excludableColumns={fieldMappings}
+          updateFilterCriteriaDispatcher={jest.fn()}
+        />
+      </Provider>
+    );
+    const tableHeader = getByText(/unit id/i);
+    fireEvent.click(tableHeader);
+    userEvent.tab();
+    const sortIcon = getByRole('button', {
+      name: /sort by descending/i,
+    });
+    expect(sortIcon).toHaveFocus();
+    userEvent.tab();
+    const additionalOptionsIcon = screen.getByRole('button', {
+      name: /additional options \- unit id/i,
+    });
+    expect(additionalOptionsIcon).toHaveFocus();
+  });
+
+  test('focus trap works on the menu', async () => {
+    const { getByText, getAllByRole } = render(
+      <Provider store={store}>
+        <TableMenu
+          topic={topic}
+          fieldMappings={fieldMappings}
+          setSortValue={jest.fn()}
+          setSortDesc={jest.fn()}
+          setSortAsc={jest.fn()}
+          setUnsort={jest.fn()}
+          filterCriteria={initialState.filterCriteria}
+          setSelectedColumns={jest.fn()}
+          selectedColumns={null}
+          excludableColumns={fieldMappings}
+          updateFilterCriteriaDispatcher={jest.fn()}
+        />
+      </Provider>
+    );
+
+    const additionalOptionsIcon = screen.getByRole('button', {
+      name: /additional options \- unit id/i,
+    });
+    fireEvent.click(additionalOptionsIcon);
+    const unsortMenuOption = getByText(/unsort/i);
+    expect(unsortMenuOption).toHaveFocus();
+    userEvent.tab();
+    userEvent.tab();
+    userEvent.tab();
+    userEvent.tab();
+    const buttons = getAllByRole('button');
+    expect(buttons[0]).toHaveFocus();
+  });
+});
+
+test('it autofocuses to the input field when column menu is opened', async () => {
+  const { getByText, getByTestId } = render(
+    <Provider store={store}>
+      <TableMenu
+        topic={topic}
+        fieldMappings={fieldMappings}
+        setSortValue={jest.fn()}
+        setSortDesc={jest.fn()}
+        setSortAsc={jest.fn()}
+        setUnsort={jest.fn()}
+        filterCriteria={initialState.filterCriteria}
+        setSelectedColumns={jest.fn()}
+        selectedColumns={null}
+        excludableColumns={fieldMappings}
+        updateFilterCriteriaDispatcher={jest.fn()}
+      />
+    </Provider>
+  );
+
+  const additionalOptionsIcon = screen.getByRole('button', {
+    name: /additional options \- unit id/i,
+  });
+  fireEvent.click(additionalOptionsIcon);
+  const customizeColumnsMenuOption = getByText(/Customize Columns/i);
+  fireEvent.click(customizeColumnsMenuOption);
+  const input = getByTestId(/textInput/i);
+  expect(input).toHaveFocus();
 });
