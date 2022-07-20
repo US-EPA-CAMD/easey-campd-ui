@@ -331,7 +331,7 @@ export const engageFilterLogic = (dataType, dataSubType, affectedFilter, filterC
 export const filterBulkDataFiles = (selection, tableRecords) =>{
   return tableRecords.filter(record => {
     return (selection.dataType === '' || record.metadata?.dataType?.toUpperCase() === selection.dataType.toUpperCase()) &&
-    (selection.subType === '' || record.metadata?.datasubType?.toUpperCase() === selection.subType.toUpperCase()) &&
+    (selection.subType === '' || record.metadata?.dataSubType?.toUpperCase() === selection.subType.toUpperCase()) &&
     (selection.grouping === '' || record.metadata?.grouping?.toUpperCase() === selection.grouping.toUpperCase()) &&
     // eslint-disable-next-line
     (selection.year === '' || record.metadata?.year == selection.year) &&
