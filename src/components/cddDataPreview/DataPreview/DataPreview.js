@@ -5,6 +5,7 @@ import DataPreviewRender from "../DataPreviewRender/DataPreviewRender";
 import { dataPreviewColumns } from "../../../utils/constants/dataPreviewCol";
 import TableMenu from "../TableMenu/TableMenu";
 import { resetFilterCriteriaItems, updateFilterCriteria } from "../../../store/actions/customDataDownload/filterCriteria";
+import { formatTableNumbers } from "../../../utils/selectors/general";
 
 export const DataPreview = ({
   aggregation,
@@ -90,6 +91,7 @@ export const DataPreview = ({
     if (loading === 0 && dataPreview !== null) {
       result = dataPreview.map((d,i)=>{
         d['id'] = i;
+        formatTableNumbers(d, {id: true, year: true, 'startblock': true, 'endblock': true, 'number': true})
         return d;
       });
     }
