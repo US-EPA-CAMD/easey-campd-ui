@@ -107,6 +107,24 @@ export const formatQuartersToApiOrString = (quarterArray, string = false) => {
   });
   return apiQuarterArrayOrString;
 };
+/** cdd data table*/
+export const formatTableNumbers = (data, exceptions = {}) => {
+  const columns = Object.keys(data);
+  columns.forEach((column) => {
+    const columnLowerCase = column.toLowerCase();
+    if (
+      exceptions[columnLowerCase] ||
+      exceptions[columnLowerCase.substring(columnLowerCase.length - 2)] ||
+      exceptions[columnLowerCase.substring(columnLowerCase.length - 4)]
+    ) {
+      return;
+    } else {
+      data[column] = data[column]
+        ? data[column].toLocaleString()
+        : data[column];
+    }
+  });
+};
 
 /** bulk data files*/
 export const formatFileSize = (bytes, decimalPoint) => {
