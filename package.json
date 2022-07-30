@@ -39,6 +39,7 @@
     "set-value": "^4.0.1",
     "shell-quote": "^1.7.3",
     "sockjs": "^0.3.20",
+    "trim": "^0.0.3",
     "uswds": "2.13.0",
     "yargs-parser": "^13.1.2"
   },
