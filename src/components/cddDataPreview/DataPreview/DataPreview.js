@@ -88,19 +88,27 @@ export const DataPreview = ({
 
   const data = useMemo(() => {
     let result = [];
+    const unFormattedResult = [];
+    const exceptions = {id: true, year: true, 'startblock': true, 'endblock': true, 'number': true};
     if (loading === 0 && dataPreview !== null) {
       result = dataPreview.map((d,i)=>{
         d['id'] = i;
-        formatTableNumbers(d, {id: true, year: true, 'startblock': true, 'endblock': true, 'number': true})
-        return d;
+        unFormattedResult.push({...d});
+        const dCopy = {...d}
+        formatTableNumbers(dCopy, exceptions)
+        return dCopy;
       });
     }
     if (unsort) {
       return result;
     } else if (sortAsc) {
-      return result.sort((a, b) => (a[sortValue] > b[sortValue] ? 1 : -1));
+      result = [...unFormattedResult];
+      result.sort((a, b) => (a[sortValue] > b[sortValue] ? 1 : -1)).forEach(el => formatTableNumbers(el, exceptions));
+      return result;
     } else if (sortDesc) {
-      return result.sort((a, b) => (a[sortValue] < b[sortValue] ? 1 : -1));
+      result = [...unFormattedResult];
+      result.sort((a, b) => (a[sortValue] < b[sortValue] ? 1 : -1)).forEach(el => formatTableNumbers(el, exceptions));
+      return result;
     } else {
       return result;
     };
