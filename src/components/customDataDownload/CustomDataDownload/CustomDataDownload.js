@@ -187,6 +187,7 @@ const CustomDataDownload = ({
         });
         applyBookmarkFilterTags(bookmarkData, filterCriteria, addAppliedFilterDispatcher);
         setBookmarkInit(false);
+        setBookmarkData(null);
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
