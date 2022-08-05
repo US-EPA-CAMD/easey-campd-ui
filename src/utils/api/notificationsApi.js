@@ -1,22 +1,25 @@
 import axios from "axios";
-import { handleResponse, handleError } from "./apiUtils";
+import { handleError } from "./apiUtils";
 import config from "../../config";
+import { clientTokenAxios } from "./clientTokenAxios";
 
 axios.defaults.headers.common = {
   "x-api-key": config.app.apiKey,
 };
 
 export const sendNotificationEmail = async (payload) => {
-  let url = `${config.services.notifications.uri}`;
-  url = `${url}/email`;
+  const url = `${config.services.camd.uri}/support/email`;
 
   payload["toEmail"] = config.app.email;
 
-  return axios
-    .post(url, payload)
-    .then(handleResponse)
-    .catch((error) => {
-      handleError(error);
-      throw new Error(error);
+  try {
+    return await clientTokenAxios({
+      method: "POST",
+      url: url,
+      data: payload,
     });
+  } catch (error) {
+    handleError(error);
+    throw new Error(error);
+  }
 };

@@ -12,6 +12,7 @@ import AboutPage from "../AboutPage/AboutPage";
 import TutorialsPage from "../TutorialsPage/TutorialsPage";
 import RelatedResources from "../RelatedResources/RelatedResources";
 import FaqsPage from "../FaqPage/FaqsPage";
+import ContactUsPage from "../ContactUsPage/ContactUsPage"
 import GlossaryPage from "../GlossaryPage/GlossaryPage";
 import config from "../../config";
 
@@ -50,7 +51,7 @@ function App() {
           <Route path="/help-support/about" exact component={AboutPage} />
           <Route path="/help-support/tutorials" exact component={TutorialsPage} />
           <Route path="/help-support/faqs" exact component={FaqsPage} />
-          <Route path="/help-support/contact-us" exact component={() => window.location.href = 'https://www.epa.gov/airmarkets/forms/campd-contact-us'} />
+          <Route path="/help-support/contact-us" exact component={ContactUsPage} />
           <Route path="/*" component={NotFound} />
         </Switch>
       </Layout>

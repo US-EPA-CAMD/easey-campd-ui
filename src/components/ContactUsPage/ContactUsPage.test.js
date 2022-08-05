@@ -62,7 +62,7 @@ const commentTypesUrl =
 const statusTextUrl =
   `${config.services.content.uri}/campd/help-support/contact-us/submit-status-text.json`;
 const emailUrl =
-  "https://api-easey-dev.app.cloud.gov/notifications-mgmt/email";
+  `${config.services.camd.uri}/support/email`;
 
 const getIndex = rest.get(indexUrl, (req, res, ctx) => {
   return res(ctx.json('Title text..'));
@@ -105,6 +105,26 @@ describe('Contact Us Page Component', () => {
       expect(errorMessage).toBeInTheDocument();
     });
 
+    test('should show error message if email format is incorrect', async () => {
+      const { findByText, findByRole, findByTestId } = render(
+        <MemoryRouter>
+          <ContactUsPage/>
+        </MemoryRouter>
+      );
+
+      const emailField = await findByRole('textbox', {
+        name: /email/i,
+      });
+      const commentField = await findByTestId(/textarea/i);
+      const submitButton = await findByText(/Submit/i);
+      fireEvent.change(emailField, { target: { value: 'test..@test.com' } });
+      userEvent.type(commentField, 'testing1234');
+      fireEvent.click(submitButton);
+      const errorMessage = await findByRole('heading', {
+        name: /error/i,
+      });
+      expect(errorMessage).toBeInTheDocument();
+    });
     test('should not show error message if form is filled out correctly', async () => {
       const { findByText, findByRole, findByTestId, queryByRole } = render(
         <MemoryRouter>
