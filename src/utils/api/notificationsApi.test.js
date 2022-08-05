@@ -5,12 +5,6 @@ import * as axios from "axios";
 
 jest.mock("axios");
 
-jest.mock("../../config", () => {
-  return {
-    app: { email: "", apiKey: "" },
-    services: { notifications: { url: "" } },
-  };
-});
 
 describe("Notifications API test", () => {
   test("should render content without error", () => {
