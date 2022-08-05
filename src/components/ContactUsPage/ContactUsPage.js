@@ -7,6 +7,7 @@ import { ContactForm } from '@us-epa-camd/easey-design-system';
 import { metaAdder } from '../../utils/document/metaAdder';
 import getContent from '../../utils/api/getContent';
 import { sendNotificationEmail } from '../../utils/api/notificationsApi';
+import { isEmailValid } from '../../utils/selectors/general';
 
 import './ContactUsPage.scss';
 
@@ -114,6 +115,14 @@ const ContactUsPage = () => {
       setEmailErrorMsg(
         submitStatusText.find(
           (statusText) => statusText.status === 'error-incomplete-fields'
+        ).message
+      );//validates email address
+    } else if (!isEmailValid(fromEmail)){
+      setSubmitStatus(false);
+      setSubmitted(true);
+      setEmailErrorMsg(
+        submitStatusText.find(
+          (statusText) => statusText.status === 'error-invalid-email'
         ).message
       );
     }

@@ -19,6 +19,10 @@ jest.mock('react-markdown', () => ({ children }) => <>{children}</>);
 jest.mock('remark-gfm', () => () => {});
 
 //cdd calls
+const clientTokenUrl = `${config.services.auth.uri}/tokens/client`;
+const getClientToken = rest.get(clientTokenUrl, (req, res, ctx) => {
+  return res(ctx.json({token: '123'}));
+})
 const helperTextUrl =
   'https://api.epa.gov/easey/dev/content-mgmt/campd/data/custom-data-download/helper-text.md';
 const limitTextUrl = `${config.services.content.uri}/campd/data/custom-data-download/download-limit-alert.md`;
@@ -92,6 +96,7 @@ const getFilters = rest.get(filtersUrl, (req, res, ctx) => {
 });
 const getUnhandledContent = rest.get(`${config.services.content.uri}/*`, (req, res, ctx) => res(ctx.json('got content')));
 export const handlers = [
+  getClientToken,
   downloadBulkDataFile,
   getUnitTypes,
   getFacilities,

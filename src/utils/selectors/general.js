@@ -24,6 +24,15 @@ export const initcap = (str) => {
   });
 };
 
+export const isEmailValid = (email) => {
+  const regex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
+  if (regex.test(email)) {
+    return true;
+  }
+  return false;
+};
+
+
 export const formatDateToApi = (dateString) => {
   //param=mm/dd/yyyy return=yyyy-mm-dd
   if (dateString) {
