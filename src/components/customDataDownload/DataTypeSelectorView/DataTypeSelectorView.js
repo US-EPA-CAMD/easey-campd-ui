@@ -40,7 +40,7 @@ const DataTypeSelectorView = ({
   useFocusTrap(".side-nav", [displayMobileDataType]);
   const showCancelButton = displayCancel || displayCancelMobile;
   const mats = 'MERCURY AND AIR TOXICS EMISSIONS';
-
+  const noMatsDataPreview = renderPreviewData.dataType !== mats || !renderPreviewData.display;
   return (
     <>{!hideDataTypeSelector &&
       <>
@@ -58,7 +58,7 @@ const DataTypeSelectorView = ({
           </Tooltip>
         </span>
       </div>
-      {selectedDataType === mats && renderPreviewData.dataType !== mats && (
+      {selectedDataType === mats && noMatsDataPreview && (
         <div className="margin-2 margin-top-0 maxw-mobile-lg">
           <MatsDataCaveat
           styling={'alert-wrapper usa-alert--slim font-sans-3xs desktop:line-height-sans-2'}

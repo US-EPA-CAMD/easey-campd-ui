@@ -187,6 +187,7 @@ const CustomDataDownload = ({
         });
         applyBookmarkFilterTags(bookmarkData, filterCriteria, addAppliedFilterDispatcher);
         setBookmarkInit(false);
+        handlePreviewDataButtonClick();
         setBookmarkData(null);
       }
     }
