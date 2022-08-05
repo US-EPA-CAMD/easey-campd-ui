@@ -379,7 +379,7 @@ const CddDataPreview = ({
           </Alert>
         </div>
       )}
-      {renderPreviewData.dataType === 'MERCURY AND AIR TOXICS EMISSIONS' && (
+      {renderPreviewData.dataType === 'MERCURY AND AIR TOXICS EMISSIONS' && renderPreviewData.display && (
         <div className="margin-2 margin-bottom-0 padding-right-2">
           <MatsDataCaveat
           styling={'alert-wrapper usa-alert--warning font-sans-3xs desktop:line-height-sans-2'}
