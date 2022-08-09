@@ -25,11 +25,24 @@ export const initcap = (str) => {
 };
 
 export const isEmailValid = (email) => {
-  const regex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
-  if (regex.test(email)) {
-    return true;
+  if (email.length <= 2) {
+    return false;
   }
-  return false;
+  const atSymbol = email.indexOf("@");
+  if(atSymbol < 1) {
+    return false;
+  }
+  
+  const dot = email.indexOf(".");
+  if(dot <= atSymbol + 2) {
+    return false;
+  }
+  
+  if (dot === email.length - 1) {
+    return false;
+  }
+  
+  return true;
 };
 
 
