@@ -1,6 +1,9 @@
 .data-display-table{
   .table-tooltip{
     width: 1.5rem;
-    margin-top: 5.2rem;
+    position: absolute;
+    left: -1rem;
+    top: 4.5rem;
+    z-index: 5;
   }
 }
