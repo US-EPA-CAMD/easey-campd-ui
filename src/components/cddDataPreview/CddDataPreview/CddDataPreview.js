@@ -228,7 +228,8 @@ const CddDataPreview = ({
       modalRef.current.toggleModal(null, true);
     }
   };
-
+  const dataPreviewActiveAndRequirementsMet = dataPreview && requirementsMet;
+  
   return (
     <div className="width-full" id="cdd-data-preview">
       <div className={`${isMobileOrTablet && renderPreviewData.display? 'display-none': 'desktop:display-flex flex-row flex-justify bg-base-lightest desktop:padding-x-3 minh-10 padding-0'}`} >
@@ -238,7 +239,7 @@ const CddDataPreview = ({
           </h2>
           <div className='desktop:display-flex desktop:flex-row desktop:flex-justify-end'>
           {!isMobileOrTablet &&
-            <div className={`flex-align-self-center padding-0${dataPreview && requirementsMet? '': ' display-none'}`}>
+            <div className={`flex-align-self-center padding-0${dataPreviewActiveAndRequirementsMet? '': ' display-none'}`}>
               {!hideNav && (
                 <Tooltip
                   content="Bookmark button will be disabled until query is previewed."
