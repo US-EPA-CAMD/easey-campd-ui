@@ -19,6 +19,8 @@ const BulkDataFiles = ({
 }) => {
   const [helperText, setHelperText] = useState(null);
   const [showMobileFilters, setShowMobileFilters] = useState(false);
+  const [previewDataApplied, setPreviewDataApplied] = useState(false);
+  const [backButtonClicked, setBackButtonClicked] = useState(false)
   useEffect(() => {
     document.title = 'Bulk Data Files | CAMPD | US EPA';
     getContent('/campd/data/bulk-data-files/helper-text.md').then(resp => setHelperText(resp.data));
@@ -26,6 +28,13 @@ const BulkDataFiles = ({
       loadBulkDataFilesDispatcher();
     }// eslint-disable-next-line
   }, []);
+
+  useEffect(() => {
+    if (backButtonClicked || previewDataApplied){
+      const filterButton = document.querySelector('#filterButton');
+      filterButton && filterButton.focus();
+    }
+  }, [backButtonClicked, previewDataApplied])
 
   metaAdder(
     'description',
@@ -43,6 +52,11 @@ const BulkDataFiles = ({
         <BulkDataFilesFilters
           dataTableRecords={dataTable}
           updateBulkDataFilesDispacher={updateBulkDataFilesDispacher}
+          previewDataApplied={previewDataApplied}
+          setPreviewDataApplied={setPreviewDataApplied}
+          backButtonClicked={backButtonClicked}
+          setBackButtonClicked={setBackButtonClicked}
+          showMobileFilters={showMobileFilters}
           setShowMobileFilters={setShowMobileFilters}
         />
       </div>
@@ -62,6 +76,7 @@ const BulkDataFiles = ({
           />
           <Button
             className="desktop:display-none"
+            id="filterButton"
             outline="true"
             onClick={()=>setShowMobileFilters(true)}
           >

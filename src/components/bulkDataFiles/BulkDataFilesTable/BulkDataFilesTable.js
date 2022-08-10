@@ -143,13 +143,20 @@ const BulkDataFilesTable = ({
       }
     }
 		return (
-      <Search
-        inputId="bulk-data-files-table-search"
-        label="Search Bulk Data Files Table"
-        placeholder="Keyword"
-        onSubmit={handleSearch}
-        onChange={e => setSearchText(e.target.value)}
-      />
+      <span className="display-block">
+        <Search
+          inputId="bulk-data-files-table-search"
+          label="Search Bulk Data Files Table"
+          placeholder="Keyword"
+          onSubmit={handleSearch}
+          onChange={e => setSearchText(e.target.value)}
+        />
+        <div className="table-tooltip">
+          <Tooltip content='"Selecting All" will select all files in all pages of the table.'>
+            <Help className="text-primary" fontSize="small" />
+          </Tooltip>
+        </div>
+      </span>
 		);// eslint-disable-next-line
 	}, [searchText]);
 
@@ -175,11 +182,6 @@ const BulkDataFilesTable = ({
       />
       <hr className='margin-y-3'/>
       <div className='display-flex'>
-        <div className="table-tooltip">
-          <Tooltip content='"Selecting All" will select all files in all pages of the table.'>
-            <Help className="text-primary" fontSize="small" />
-          </Tooltip>
-        </div>
         <div className='width-full'>
           <DataTable
             columns={columns}

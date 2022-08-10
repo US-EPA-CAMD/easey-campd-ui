@@ -6,10 +6,16 @@ import MobileMenu from '../MobileMenu/MobileMenu';
 import Tooltip from '../../Tooltip/Tooltip';
 import { Help } from '@material-ui/icons';
 import useCheckWidth from '../../../utils/hooks/useCheckWidth'
+import {useFocusTrapWithRef} from '../../../utils/hooks/useFocusTrapWithRef';
 
 const BulkDataFilesFilters = ({
   dataTableRecords,
   updateBulkDataFilesDispacher,
+  previewDataApplied,
+  setPreviewDataApplied,
+  backButtonClicked,
+  setBackButtonClicked,
+  showMobileFilters,
   setShowMobileFilters
 }) => {
   const [initialTableRecords, setInitialTableRecords] = useState(null);
@@ -21,8 +27,6 @@ const BulkDataFilesFilters = ({
   const [statesFiltered, setStatesFiltered]= useState([]);
   const [year, setYear] = useState('');
   const [quarter, setQuarter] = useState('');
-  const [previewDataApplied, setPreviewDataApplied] = useState(false);
-  const [backButtonClicked, setBackButtonClicked] = useState(false)
   const [appliedFilterSelection, setAppliedFilterSelection] = useState({
     dataType: '',
     subType: '',
@@ -59,6 +63,14 @@ const BulkDataFilesFilters = ({
       setInitialTableRecords(dataTableRecords);
     }// eslint-disable-next-line
   }, [dataTableRecords]);
+
+  //508 setting focus on tooltip for mobile or tablet
+  useEffect(() => {
+    if (showMobileFilters) {
+      const tooltip = document.querySelector('#bdfFiltersTooltip')?.firstChild;
+      tooltip && tooltip.focus()
+    }
+  }, [showMobileFilters]);
 
   useEffect(() => {
     if (changeFromAppliedFilters || !isMobileOrTablet) {
@@ -148,8 +160,10 @@ const BulkDataFilesFilters = ({
     }// eslint-disable-next-line
   },[filtersContent, dataType, year]);
 
+  const [trapRef] = useFocusTrapWithRef();
+  const focusTrapActive = isMobileOrTablet && showMobileFilters;
   return (
-    <div className="padding-x-4">
+    <div className="padding-x-4" ref={focusTrapActive? trapRef : null}>
       {filtersContent && 
         (
           <>
@@ -158,6 +172,7 @@ const BulkDataFilesFilters = ({
               htmlFor="data-type"
             >
               {filtersContent.labels[0]}
+              <span id='bdfFiltersTooltip'>
               <Tooltip
                 content="Certain filters selections will cause other filters to display."
                 field="Data Type" 
@@ -166,7 +181,7 @@ const BulkDataFilesFilters = ({
                   className="text-primary margin-left-1"
                   fontSize="small"
                 />
-              </Tooltip>
+              </Tooltip></span>
             </Label>
             <Dropdown
               id="data-type"
