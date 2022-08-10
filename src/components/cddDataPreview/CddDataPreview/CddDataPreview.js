@@ -238,7 +238,7 @@ const CddDataPreview = ({
           </h2>
           <div className='desktop:display-flex desktop:flex-row desktop:flex-justify-end'>
           {!isMobileOrTablet &&
-            <div className="flex-align-self-center padding-0">
+            <div className={`flex-align-self-center padding-0${dataPreview && requirementsMet? '': ' display-none'}`}>
               {!hideNav && (
                 <Tooltip
                   content="Bookmark button will be disabled until query is previewed."

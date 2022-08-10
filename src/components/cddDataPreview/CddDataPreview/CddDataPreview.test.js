@@ -106,9 +106,7 @@ describe('CddDataPreview', () => {
         />
       </Provider>
     );
-    const bookmarkButton = getByRole('button', { name: 'Bookmark' });
-    expect(bookmarkButton).toBeDefined();
-    fireEvent.click(bookmarkButton);
+  
     const bookmarkModal = await findByTestId("modalWindow");
     expect(bookmarkModal).toBeInTheDocument();
     expect(await findByText("Bookmark created")).toBeDefined();
