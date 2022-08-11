@@ -328,11 +328,20 @@ export const engageFilterLogic = (dataType, dataSubType, affectedFilter, filterC
   setTimeout(()=>updateFilterCriteriaDispatcher({filterLogicEngaged: false}));
 };
 
+export const filterGrouping = (record, selection) => {
+  if (record.metadata?.grouping) {
+    return record.metadata?.grouping?.toUpperCase() === selection.grouping.toUpperCase();
+  } else if (selection.grouping === 'State') {
+    return !!record.metadata.stateCode;
+  } else if (selection.grouping === 'Quarterly') {
+    return !!record.metadata.quarter;
+  }
+};
 export const filterBulkDataFiles = (selection, tableRecords) =>{
   return tableRecords.filter(record => {
     return (selection.dataType === '' || record.metadata?.dataType?.toUpperCase() === selection.dataType.toUpperCase()) &&
     (selection.subType === '' || record.metadata?.dataSubType?.toUpperCase() === selection.subType.toUpperCase()) &&
-    (selection.grouping === '' || record.metadata?.grouping?.toUpperCase() === selection.grouping.toUpperCase()) &&
+    (selection.grouping === '' || filterGrouping(record, selection)) &&
     // eslint-disable-next-line
     (selection.year === '' || record.metadata?.year == selection.year) &&
     (selection.quarter === '' || record.metadata?.quarter?.toUpperCase() === selection.quarter.toUpperCase()) &&
