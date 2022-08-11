@@ -163,6 +163,8 @@ const CustomDataDownload = ({
         if(comboBoxYearUpdated && bookmarkInit){
           applyBookmarkFilterTags(bookmarkData, filterCriteria, addAppliedFilterDispatcher);
           setBookmarkInit(false);
+          handlePreviewDataButtonClick();
+          setBookmarkData(null);
         }
       }else if(bookmarkInit && bookmarkData && filterCriteria.filterMapping.length>0){
         let distinctYears =[];
