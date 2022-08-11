@@ -104,9 +104,9 @@ const dataTableRecords = [
       "gigaBytes": 0,
       "metadata": {
         "grouping": "state",
-        "datasubtype": "Daily",
-        "statecode": "AL",
-        "datatype": "EDR",
+        "dataSubType": "Daily",
+        "stateCode": "AL",
+        "dataType": "EDR",
         "year": 2000
       },
       "lastUpdated": "2022-03-02T02:39:01Z"
@@ -120,9 +120,9 @@ const dataTableRecords = [
       "gigaBytes": 0,
       "metadata": {
         "grouping": "state",
-        "datasubtype": "Hourly",
-        "statecode": "AL",
-        "datatype": "EDR",
+        "dataSubType": "Hourly",
+        "stateCode": "AL",
+        "dataType": "EDR",
         "year": 2000
       },
       "lastUpdated": "2022-03-02T02:35:53Z"
@@ -136,9 +136,9 @@ const dataTableRecords = [
       "gigaBytes": 0,
       "metadata": {
         "grouping": "state",
-        "datasubtype": "Daily",
-        "statecode": "FL",
-        "datatype": "EDR",
+        "dataSubType": "Daily",
+        "stateCode": "FL",
+        "dataType": "EDR",
         "year": 2001
       },
       "lastUpdated": "2022-03-02T02:35:54Z"
@@ -152,9 +152,9 @@ const dataTableRecords = [
       "gigaBytes": 0,
       "metadata": {
         "grouping": "state",
-        "datasubtype": "Daily",
-        "statecode": "DC",
-        "datatype": "EDR",
+        "dataSubType": "Daily",
+        "stateCode": "DC",
+        "dataType": "EDR",
         "year": 2005
       },
       "lastUpdated": "2022-03-02T02:58:36Z"
@@ -168,9 +168,9 @@ const dataTableRecords = [
       "gigaBytes": 0,
       "metadata": {
         "grouping": "state",
-        "datasubtype": "Daily",
-        "statecode": "MN",
-        "datatype": "EDR",
+        "dataSubType": "Daily",
+        "stateCode": "MN",
+        "dataType": "EDR",
         "year": 2004
       },
       "lastUpdated": "2022-03-02T02:58:36Z"
@@ -184,9 +184,9 @@ const dataTableRecords = [
       "gigaBytes": 0,
       "metadata": {
         "grouping": "state",
-        "datasubtype": "Daily",
-        "statecode": "TX",
-        "datatype": "EDR",
+        "dataSubType": "Daily",
+        "stateCode": "TX",
+        "dataType": "EDR",
         "year": 2001
       },
       "lastUpdated": "2022-03-02T02:36:28Z"
@@ -203,9 +203,9 @@ const dataTableRecords = [
       "gigaBytes": 0,
       "metadata": {
         "grouping": "state",
-        "datasubtype": "Daily",
-        "statecode": "FL",
-        "datatype": "EDR",
+        "dataSubType": "Daily",
+        "stateCode": "FL",
+        "dataType": "EDR",
         "year": 2003
       },
       "lastUpdated": "2022-03-02T02:36:46Z"
@@ -219,9 +219,9 @@ const dataTableRecords = [
       "gigaBytes": 0,
       "metadata": {
         "grouping": "state",
-        "datasubtype": "Daily",
-        "statecode": "CA",
-        "datatype": "EDR",
+        "dataSubType": "Daily",
+        "stateCode": "CA",
+        "dataType": "EDR",
         "year": 2003
       },
       "lastUpdated": "2022-03-02T02:36:46Z"
@@ -235,9 +235,9 @@ const dataTableRecords = [
       "gigaBytes": 1,
       "metadata": {
         "grouping": "state",
-        "datasubtype": "Daily",
-        "statecode": "CO",
-        "datatype": "EDR",
+        "dataSubType": "Daily",
+        "stateCode": "CO",
+        "dataType": "EDR",
         "year": 2002
       },
       "lastUpdated": "2022-03-02T02:40:39Z"
@@ -251,9 +251,9 @@ const dataTableRecords = [
       "gigaBytes": 0,
       "metadata": {
         "grouping": "state",
-        "datasubtype": "Daily",
-        "statecode": "MI",
-        "datatype": "EDR",
+        "dataSubType": "Daily",
+        "stateCode": "MI",
+        "dataType": "EDR",
         "year": 2001
       },
       "lastUpdated": "2022-03-02T02:49:45Z"
@@ -267,9 +267,9 @@ const dataTableRecords = [
       "gigaBytes": 0,
       "metadata": {
         "grouping": "state",
-        "datasubtype": "Daily",
-        "statecode": "NC",
-        "datatype": "EDR",
+        "dataSubType": "Daily",
+        "stateCode": "NC",
+        "dataType": "EDR",
         "year": 2001
       },
       "lastUpdated": "2022-03-01T20:05:06Z"
@@ -283,9 +283,9 @@ const dataTableRecords = [
       "gigaBytes": 0,
       "metadata": {
         "grouping": "state",
-        "datasubtype": "Daily",
-        "statecode": "AK",
-        "datatype": "EDR",
+        "dataSubType": "Daily",
+        "stateCode": "AK",
+        "dataType": "EDR",
         "year": 2005
       },
       "lastUpdated": "2022-03-01T20:04:56Z"
@@ -304,7 +304,7 @@ describe('BDFF-component',  () => {
         updateBulkDataFilesDispacher= {jest.fn()}
       />
     );
-    const { findByText, findByTestId} = query;
+    const { findByText, findByTestId, getAllByTestId, findByLabelText, getByTestId} = query;
     const dataTypeLabel = await findByText("Data Type");
     expect(dataTypeLabel).toBeTruthy();
     const dataTypeFilter = await findByTestId('dataType-select');
