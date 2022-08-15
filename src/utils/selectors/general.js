@@ -343,7 +343,7 @@ export const formatBookmarkDate = (dt) =>{
 };
 
 export const getBookmarkContent = (dataType, dataSubType, aggregation, filtersMap, filterCriteria) =>{
-  const filters = filtersMap.map(el => el.stateVar);console.log("filters",filters);
+  const filters = filtersMap.map(el => el.stateVar);
   const checkboxItems = ["program", "unitType", "fuelType", "controlTechnology", "accountType"];
   let content = {
     dataType: dataType,
