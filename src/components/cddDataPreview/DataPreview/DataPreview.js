@@ -41,9 +41,9 @@ export const DataPreview = ({
 
 //removing excluded columns on the data preview from the bookmark data
   useEffect(() => {
-    if (filterCriteria.excludeParams){
+    if (filterCriteria.excludeParams.length){
       setWaitForFieldMappings(true)
-      setSelectedColumns([...fieldMappings].filter(el => !filterCriteria.excludeParams.includes(el.value)));
+      if(fieldMappings?.length){setSelectedColumns([...fieldMappings].filter(el => !filterCriteria.excludeParams.includes(el.value)));}
     }//eslint-disable-next-line
   }, [fieldMappings])
 
@@ -58,7 +58,7 @@ export const DataPreview = ({
 
   const columns = useMemo(() =>{
     if (waitForFieldMappings){
-      if(selectedColumns.length) {setWaitForFieldMappings(false)}
+      if(selectedColumns?.length) {setWaitForFieldMappings(false)
       return selectedColumns?.map(el => ({
       name: (
         <TableMenu
@@ -77,7 +77,7 @@ export const DataPreview = ({
       selector: el.value,
       width: dataPreviewColumns[dataSubType][el.label] || '90 px',
       wrap: true,
-    }))
+    }))}
   } else {
     return selectedColumns? selectedColumns.map(el => ({
       name: (
