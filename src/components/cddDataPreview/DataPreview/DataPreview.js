@@ -29,6 +29,7 @@ export const DataPreview = ({
   const [sortAsc, setSortAsc] = useState(null);
   const [sortDesc, setSortDesc] = useState(null);
   const [sortValue, setSortValue] = useState(null);
+  const [waitForFieldMappings, setWaitForFieldMappings] = useState(false);
   const [selectedColumns, setSelectedColumns] = useState(null);
   const [focusAfterApply, setFocusAfterApply] = useState(null);
   useEffect(() => {
@@ -38,14 +39,46 @@ export const DataPreview = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [appliedFilters]);
 
+//removing excluded columns on the data preview from the bookmark data
+  useEffect(() => {
+    if (filterCriteria.excludeParams){
+      setWaitForFieldMappings(true)
+      setSelectedColumns([...fieldMappings].filter(el => !filterCriteria.excludeParams.includes(el.value)));
+    }//eslint-disable-next-line
+  }, [fieldMappings])
+
   useEffect(() =>{
     if(dataPreview === null){
       loadDataPreviewDispacher(dataType, dataSubType, filterCriteria, aggregation);
     }
+    //cleanup reset all state related to column selection
     return () => resetFilterCriteriaItemsDispatcher(['excludeParams', 'selectedColumns', 'columnState'])
     // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]);
+
   const columns = useMemo(() =>{
+    if (waitForFieldMappings){
+      if(selectedColumns.length) {setWaitForFieldMappings(false)}
+      return selectedColumns?.map(el => ({
+      name: (
+        <TableMenu
+          topic={el}
+          setSortAsc={setSortAsc}
+          setSortDesc={setSortDesc}
+          setUnsort={setUnsort}
+          setSortValue={setSortValue}
+          setSelectedColumns={setSelectedColumns}
+          selectedColumns={selectedColumns}
+          excludableColumns={excludableColumns}
+          focusAfterApply={focusAfterApply}
+          setFocusAfterApply={setFocusAfterApply}
+        />
+      ),
+      selector: el.value,
+      width: dataPreviewColumns[dataSubType][el.label] || '90 px',
+      wrap: true,
+    }))
+  } else {
     return selectedColumns? selectedColumns.map(el => ({
       name: (
         <TableMenu
@@ -82,7 +115,7 @@ export const DataPreview = ({
         selector: el.value,
         width: dataPreviewColumns[dataSubType][el.label],
         wrap: true,
-      }))}
+      }))}}
     // eslint-disable-next-line
   ,[fieldMappings, selectedColumns]);
 
@@ -152,3 +185,74 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(DataPreview);
+
+
+/*{
+  "bookmarkData": {
+      "dataType": "COMPLIANCE",
+      "dataSubType": "Allowance Based",
+      "aggregation": "",
+      "filters": {
+          "program": {
+              "selected": [],
+              "enabled": [
+                  "ARP",
+                  "CSNOX",
+                  "CSSO2G2",
+                  "CSNOXOS",
+                  "CSOSG2"
+              ]
+          },
+          "facility": {
+              "selected": [
+                  3
+              ],
+              "enabled": []
+          },
+          "ownerOperator": {
+              "selected": [],
+              "enabled": [
+                  "Alabama Power Company"
+              ]
+          },
+          "stateTerritory": {
+              "selected": [],
+              "enabled": [
+                  "AL"
+              ]
+          },
+          "comboBoxYear": {
+              "selected": [],
+              "enabled": [
+                  "2000",
+                  "2001",
+                  "2002",
+                  "2003",
+                  "2004",
+                  "2005",
+                  "2006",
+                  "2007",
+                  "2008",
+                  "2009",
+                  "2010",
+                  "2011",
+                  "2012",
+                  "2013",
+                  "2014",
+                  "2015",
+                  "2016",
+                  "2017",
+                  "2018",
+                  "2019",
+                  "2020"
+              ]
+          }
+      },
+      "dataPreview": {
+          "excludedColumns": [
+              "facilityName",
+              "facilityId"
+          ]
+      }
+  }
+}*/

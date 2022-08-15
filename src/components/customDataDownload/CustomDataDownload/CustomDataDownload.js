@@ -135,6 +135,9 @@ const CustomDataDownload = ({
   useEffect(()=>{//console.log(filterCriteria.timePeriod.comboBoxYear); console.log("called");
     const dataSubType = getSelectedDataSubType(constants.DATA_SUBTYPES_MAP[selectedDataType]);
     if(applyClicked && loading ===0){
+      if (bookmarkInit && bookmarkData?.dataPreview?.excludedColumns.length){
+        updateFilterCriteriaDispatcher({excludeParams: bookmarkData?.dataPreview?.excludedColumns})
+      }
       if(selectedDataType !== "EMISSIONS" && selectedDataType !== "MERCURY AND AIR TOXICS EMISSIONS" && 
         selectedDataType !== "FACILITY" && dataSubType !== "Transactions"){
         if((selectedDataType === "COMPLIANCE" || dataSubType === "Holdings") && comboBoxYearUpdated === false){//console.log("updatetime");

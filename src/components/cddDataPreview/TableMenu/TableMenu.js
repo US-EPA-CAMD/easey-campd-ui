@@ -84,7 +84,7 @@ const TableMenu = ({
           const label = el.label;
           if (columns[label]) {
             removableColumns[label] = el;
-            removableColumns[label].checked = true;
+            if(!filterCriteria.excludeParams.includes(el.value)){removableColumns[label].checked = true;} else {removableColumns[label].checked = false}
           } else {
             requiredColumns.push(el);
           }
