@@ -312,8 +312,8 @@ describe('BDFF-component',  () => {
     expect(await findByText("Year")).toBeTruthy();
     expect(await findByText("Quarter")).toBeTruthy();
     expect(await findByText("State")).toBeTruthy();
-    // let dataTypeOptions = getAllByTestId('dataType-select-option')
-    // expect(dataTypeOptions[2].selected).toBeTruthy();
+    let dataTypeOptions = getAllByTestId('dataType-select-option')
+    expect(dataTypeOptions[2]).toBeTruthy();
     // const SubTypeFilter = await findByLabelText("Subtype");
     // expect(SubTypeFilter).toBeTruthy();
     // fireEvent.change(getByTestId('subType-select'), { target: { value: 1 } });

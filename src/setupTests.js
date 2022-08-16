@@ -19,5 +19,8 @@ beforeAll(() =>
     },
   })
 );
-beforeEach(() => server.resetHandlers());
+beforeEach(() => {
+  jest.resetModules();
+  server.resetHandlers();
+});
 afterAll(() => server.close());
