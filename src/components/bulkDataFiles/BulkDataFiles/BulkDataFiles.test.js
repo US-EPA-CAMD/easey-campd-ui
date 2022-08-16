@@ -112,7 +112,7 @@ test('sections render without errors', async () => {
 
 
 test('file size is updated when files are added or removed', async () => {
-  const { findByRole, queryByText } = render(
+  const { findByRole, getByText } = render(
     <Provider store={store}>
       <MemoryRouter>
         <BulkDataFiles
@@ -128,7 +128,7 @@ test('file size is updated when files are added or removed', async () => {
   })
   fireEvent.click(checkbox);
   fireEvent.click(checkbox);
-  const updatedFileSize= queryByText(/size:/i)
+  const updatedFileSize= getByText(/size:/i)
   expect(updatedFileSize).toBeInTheDocument();
 });
 
