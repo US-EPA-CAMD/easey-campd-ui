@@ -23,7 +23,10 @@ export const Program = ({
   dataSubType,
   showActiveOnly=false,
   renderedHandler,
-  filterCriteria}) => {
+  filterCriteria,
+  applyFilterLoading,
+  setApplyFilterLoading,
+}) => {
 
   const [program, setPrograms] = useState(JSON.parse(JSON.stringify(getApplicablePrograms(storeProgram, dataSubType))));
   const [applyFilterClicked, setApplyFilterClicked] = useState(false);
@@ -38,7 +41,9 @@ export const Program = ({
   useEffect(()=>{
     if(applyFilterClicked){
       if(filterCriteria.filterMapping.length>0){
-        engageFilterLogic(dataType, dataSubType, filterToApply, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispatcher);
+        engageFilterLogic(dataType, dataSubType, filterToApply, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispatcher, setApplyFilterLoading);
+      } else {
+        setApplyFilterLoading(false)
       }
       closeFlyOutHandler();
     }// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -59,17 +64,24 @@ export const Program = ({
     })
   };
 
+  useEffect(()=>{
+    if(applyFilterLoading){
+      updateProgramSelectionDispatcher(program);
+      if(isAddedToFilters(filterToApply, appliedFilters)){
+        removeAppliedFilterDispatcher(filterToApply);
+      }
+      const selection = getSelectedIds(program);
+      if(selection.length>0){
+        addAppliedFilterDispatcher({key:filterToApply, values:selection});
+      }
+      setApplyFilterClicked(true);
+    }//eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [applyFilterLoading]);
+
   const handleApplyFilter = () =>{
-    updateProgramSelectionDispatcher(program);
-    if(isAddedToFilters(filterToApply, appliedFilters)){
-      removeAppliedFilterDispatcher(filterToApply);
-    }
-    const selection = getSelectedIds(program);
-    if(selection.length>0){
-      addAppliedFilterDispatcher({key:filterToApply, values:selection});
-    }
-    setApplyFilterClicked(true);
+    setApplyFilterLoading(true);
   };
+
 
   return (
     <>

@@ -20,6 +20,7 @@ describe('Emissions TimePeriod Component', () => {
         removeAppliedFiltersDispatcher={jest.fn()}
         closeFlyOutHandler={jest.fn()}
         renderedHandler={jest.fn()}
+        setApplyFilterLoading={jest.fn()}
       />
     );
 
@@ -57,6 +58,7 @@ describe('Emissions TimePeriod Component', () => {
         appliedFilters={['timePeriod']}
         closeFlyOutHandler={jest.fn()}
         renderedHandler={jest.fn()}
+        setApplyFilterLoading={jest.fn()}
       />
     );
     const checkbox = getByRole('checkbox', { checked: true });
@@ -95,6 +97,7 @@ describe('Emissions TimePeriod Component', () => {
         showYear={true}
         isAnnual={true}
         renderedHandler={jest.fn()}
+        setApplyFilterLoading={jest.fn()}
       />
     );
     const textBox = getByTestId('textInput');
@@ -130,6 +133,7 @@ describe('Emissions TimePeriod Component', () => {
         showYear={true}
         showMonth={true}
         renderedHandler={jest.fn()}
+        setApplyFilterLoading={jest.fn()}
       />
     );
     const textBox = getByTestId('textInput');
@@ -168,6 +172,7 @@ describe('Emissions TimePeriod Component', () => {
         showYear={true}
         showQuarter={true}
         renderedHandler={jest.fn()}
+        setApplyFilterLoading={jest.fn()}
       />
     );
     const textBox = getByTestId('textInput');
@@ -206,6 +211,7 @@ describe('Emissions TimePeriod Component', () => {
         showYear={true}
         isAllowance={true}
         renderedHandler={jest.fn()}
+        setApplyFilterLoading={jest.fn()}
       />
     );
     const textBox = getByTestId('textInput');
@@ -236,6 +242,7 @@ describe('Emissions TimePeriod Component', () => {
         showYear={true}
         isAllowance={true}
         renderedHandler={jest.fn()}
+        setApplyFilterLoading={jest.fn()}
       />
     );
     const textBox = getByTestId('textInput');

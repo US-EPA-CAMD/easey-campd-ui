@@ -27,6 +27,8 @@ export const UnitType = ({
   dataType,
   dataSubType,
   filterCriteria,
+  applyFilterLoading,
+  setApplyFilterLoading,
 }) => {
   const [unitType, setUnitTypes] = useState(
     JSON.parse(JSON.stringify(storeUnitType))
@@ -48,8 +50,11 @@ export const UnitType = ({
           dataSubType,
           filterToApply,
           JSON.parse(JSON.stringify(filterCriteria)),
-          updateFilterCriteriaDispatcher
+          updateFilterCriteriaDispatcher,
+          setApplyFilterLoading
         );
+      } else {
+        setApplyFilterLoading(false)
       }
       closeFlyOutHandler();
     } // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -80,17 +85,24 @@ export const UnitType = ({
     }
   };
 
-  const handleApplyFilter = () => {
-    updateUnitTypeSelectionDispatcher(unitType);
-    if (isAddedToFilters(filterToApply, appliedFilters)) {
-      removeAppliedFilterDispatcher(filterToApply);
-    }
-    const selection = getSelectedIds(unitType);
-    if (selection.length > 0) {
-      addAppliedFilterDispatcher({ key: filterToApply, values: selection });
-    }
-    setApplyFilterClicked(true);
+  useEffect(()=>{
+    if(applyFilterLoading){
+      updateUnitTypeSelectionDispatcher(unitType);
+      if (isAddedToFilters(filterToApply, appliedFilters)) {
+        removeAppliedFilterDispatcher(filterToApply);
+      }
+      const selection = getSelectedIds(unitType);
+      if (selection.length > 0) {
+        addAppliedFilterDispatcher({ key: filterToApply, values: selection });
+      }
+      setApplyFilterClicked(true);
+    }//eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [applyFilterLoading]);
+
+  const handleApplyFilter = () =>{
+    setApplyFilterLoading(true);
   };
+
 
   return (
     <>

@@ -22,7 +22,10 @@ const OwnerOperator = ({
   loading,
   updateFilterCriteriaDispatcher,
   closeFlyOutHandler,
-  renderedHandler}) => {
+  renderedHandler,
+  applyFilterLoading,
+  setApplyFilterLoading,
+}) => {
 
   const [_ownerOperator, setOwnerOperator] = useState(JSON.parse(JSON.stringify(ownerOperator)));
   const [applyFilterClicked, setApplyFilterClicked] = useState(false);
@@ -47,15 +50,20 @@ const OwnerOperator = ({
     if(applyFilterClicked){
       if(dataType === "ALLOWANCE" || dataType === "COMPLIANCE"){
         if(filterCriteria.filterMapping.length>0){
-          engageFilterLogic(dataType, dataSubType, filterToApply, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispatcher);
+          engageFilterLogic(dataType, dataSubType, filterToApply, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispatcher, setApplyFilterLoading);
+        } else {
+          setApplyFilterLoading(false)
         }
+      } else {
+        setApplyFilterLoading(false)
       }
       closeFlyOutHandler();
     }// eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ownerOperator]);
 
-  const handleApplyFilter = () =>{
-    updateOwnerOperatorDispatcher(_ownerOperator);
+  useEffect(()=>{
+    if(applyFilterLoading){
+      updateOwnerOperatorDispatcher(_ownerOperator);
     if(isAddedToFilters(filterToApply, appliedFilters)){
       removeAppliedFilterDispatcher(filterToApply);
     }
@@ -64,7 +72,13 @@ const OwnerOperator = ({
       addAppliedFilterDispatcher({key:filterToApply, values:selection.map(e=>e.label)});
     }
     setApplyFilterClicked(true);
+    }//eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [applyFilterLoading]);
+
+  const handleApplyFilter = () =>{
+    setApplyFilterLoading(true);
   };
+
 
   const onChangeUpdate = (id, updateType) =>{
     const opCopy = [..._ownerOperator];

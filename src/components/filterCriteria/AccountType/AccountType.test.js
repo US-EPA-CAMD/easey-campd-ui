@@ -104,6 +104,7 @@ const storeAccountType = restructureAccountTypes(accountType);
 initialState.filterCriteria.accountType = storeAccountType;
 const store = configureStore(initialState);
 let flyoutClosed = false;
+let applyFilterLoading = false;
 
 describe('Account Type', () => {
   let queries;
@@ -118,6 +119,8 @@ describe('Account Type', () => {
           addAppliedFilterDispatcher={jest.fn()}
           removeAppliedFilterDispatcher={jest.fn()}
           renderedHandler={jest.fn()}
+          setApplyFilterLoading={() => applyFilterLoading = true}
+
         />
       </Provider>
     );
@@ -162,6 +165,6 @@ describe('Account Type', () => {
     expect(selectAllRetire.checked).toEqual(true);
     const applyFilterButton = getByText('Apply Filter').closest('button');
     fireEvent.click(applyFilterButton);
-    expect(flyoutClosed).toBe(true);
+    expect(applyFilterLoading).toBe(true);
   });
 });

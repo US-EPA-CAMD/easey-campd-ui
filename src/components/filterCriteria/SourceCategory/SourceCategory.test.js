@@ -58,6 +58,8 @@ const sourceCategories = [
 initialState.filterCriteria.sourceCategory = sourceCategories.map(f=> ({id: f.sourceCategoryCode, label:f.sourceCategoryDescription, selected:false, enabled:true}));
 const store = configureStore(initialState);
 let flyOutClosed = false;
+let applyFilterLoading = false;
+
 describe('Source Category Component', () => {
   let query;
   beforeEach(() => {
@@ -70,6 +72,7 @@ describe('Source Category Component', () => {
           removeAppliedFilterDispatcher ={removeAppliedFilter}
           closeFlyOutHandler ={()=> flyOutClosed=true}
           renderedHandler ={jest.fn()}
+          setApplyFilterLoading={() => applyFilterLoading = true}
         />
       </Provider>);
   });
@@ -110,6 +113,6 @@ describe('Source Category Component', () => {
     expect(getByRole("button", {name: "Automotive Stampings"})).toBeDefined();
     expect(getAllByTestId("multi-select-option").length).toBe(sourceCategories.length);
     fireEvent.click(getByText("Apply Filter"));
-    expect(flyOutClosed).toBe(true);
+    expect(applyFilterLoading).toBe(true);
   })
 });

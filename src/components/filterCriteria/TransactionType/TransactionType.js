@@ -21,7 +21,9 @@ const TransactionType = ({
   dataType,
   dataSubType,
   filterCriteria,
-  updateFilterCriteriaDispatcher
+  updateFilterCriteriaDispatcher,
+  applyFilterLoading,
+  setApplyFilterLoading,
   }) => {
 
   const [_transactionType, setTransactionType] = useState(JSON.parse(JSON.stringify(transactionType)));
@@ -37,22 +39,30 @@ const TransactionType = ({
   useEffect(()=>{
     if(applyFilterClicked){
       if(filterCriteria.filterMapping.length>0){
-        engageFilterLogic(dataType, dataSubType, filterToApply, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispatcher);
+        engageFilterLogic(dataType, dataSubType, filterToApply, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispatcher, setApplyFilterLoading);
+      } else {
+        setApplyFilterLoading(false)
       }
       closeFlyOutHandler();
     }// eslint-disable-next-line react-hooks/exhaustive-deps
   }, [transactionType]);
 
+  useEffect(()=>{
+    if(applyFilterLoading){
+      updatetransactionTypeSelectionDispatcher(_transactionType);
+      if(isAddedToFilters(filterToApply, appliedFilters)){
+        removeAppliedFilterDispatcher(filterToApply);
+      }
+      const selection = _transactionType.filter(e=>e.selected)
+      if(selection.length>0){
+        addAppliedFilterDispatcher({key:filterToApply, values:selection.map(e=>e.label)});
+      }
+      setApplyFilterClicked(true);
+    }//eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [applyFilterLoading]);
+
   const handleApplyFilter = () =>{
-    updatetransactionTypeSelectionDispatcher(_transactionType);
-    if(isAddedToFilters(filterToApply, appliedFilters)){
-      removeAppliedFilterDispatcher(filterToApply);
-    }
-    const selection = _transactionType.filter(e=>e.selected)
-    if(selection.length>0){
-      addAppliedFilterDispatcher({key:filterToApply, values:selection.map(e=>e.label)});
-    }
-    setApplyFilterClicked(true);
+    setApplyFilterLoading(true);
   };
 
   const onChangeUpdate = (id, updateType) =>{

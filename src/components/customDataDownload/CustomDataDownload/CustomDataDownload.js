@@ -88,7 +88,7 @@ const CustomDataDownload = ({
   const [removedAppliedFilter, setRemovedAppliedFilter] = useState(null);
   const [ bookmarkData, setBookmarkData ] = useState(null);
   const [ bookmarkInit, setBookmarkInit ] = useState(false);
-
+  const [applyFilterLoading, setApplyFilterLoading] = useState(false);
   useEffect(() => {
     document.title = 'Custom Data Download | CAMPD | US EPA';
     const params = new Proxy(new URLSearchParams(window.location.search), {
@@ -159,7 +159,7 @@ const CustomDataDownload = ({
           setComboBoxYearUpdated(true);
         }
         if(comboBoxYearUpdated && !bookmarkInit){
-          engageFilterLogic(selectedDataType, dataSubType, null, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispatcher, true);
+          engageFilterLogic(selectedDataType, dataSubType, null, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispatcher, setHandleApplyLoading, true);
           setApplyClicked(false);
           setComboBoxYearUpdated(false);
         }
@@ -195,10 +195,60 @@ const CustomDataDownload = ({
         handlePreviewDataButtonClick();
         setBookmarkData(null);
       }
+    }else if (applyClicked){
+      setHandleApplyLoading(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   },[applyClicked, loading, comboBoxYearUpdated, bookmarkData])
-
+  const [handleApplyLoading, setHandleApplyLoading] = useState(false)
+  
+  useEffect(() => {
+    if (handleApplyLoading) {
+      setHideFilterMenu(true)
+      setApplyClicked(true);
+      const dataSubType = getSelectedDataSubType(constants.DATA_SUBTYPES_MAP[selectedDataType]);
+      if (selectedDataType !== '' && selectedDataSubtype !== '') {
+        if(selectedDataType !== "EMISSIONS" && selectedDataType !== "FACILITY" && selectedDataType !== "MERCURY AND AIR TOXICS EMISSIONS" && dataSubType !== "Transactions"){
+          loadFilterMappingDispatcher(selectedDataType, dataSubType);
+        }else if(bookmarkInit && bookmarkData){
+          const { startDate, endDate, year } = bookmarkData.filters.timePeriod;
+          if(bookmarkData.filters.timePeriod.year.yearArray.length > 0){
+            loadFilterMappingDispatcher(bookmarkData.dataType, bookmarkData.dataSubType, getTimePeriodYears(null, null, year.yearString));
+          }else{
+            if(bookmarkData.dataType === "MERCURY AND AIR TOXICS EMISSIONS" || bookmarkData.dataSubType === "Transactions"){
+              loadFilterMappingDispatcher(bookmarkData.dataType, bookmarkData.dataSubType, [startDate, endDate])
+            }else{
+              loadFilterMappingDispatcher(bookmarkData.dataType, bookmarkData.dataSubType, getTimePeriodYears(startDate, endDate));
+            }
+          }
+        }
+        loadAllFiltersDispatcher(selectedDataType, dataSubType, filterCriteria, bookmarkData?.filters);
+        setDataTypeApplied(true);
+        setDataSubtypeApplied(true);
+        setAppliedDataType({
+          dataType: selectedDataType,
+          dataSubType: selectedDataSubtype,
+          aggregation: selectedAggregation,
+        });
+        updateSelectedAggregationDispatcher(selectedAggregation);
+        if (selectionChange) {
+          if(!onlyAggregationChanged){
+            removeAppliedFiltersDispatcher(null, true);
+            resetFilterDispatcher(null, true);
+          }
+          if (selectedDataType !== "EMISSIONS"){
+            setSelectedAggregation('');
+            updateSelectedAggregationDispatcher("");
+          }
+        }
+        setSelectionChange(false);
+        setDisplayCancel(true);
+        updateSelectedDataSubTypeDispatcher(
+          getSelectedDataSubType(constants.DATA_SUBTYPES_MAP[selectedDataType])
+        );
+      }
+    }//eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [handleApplyLoading])
   useEffect(() => {
     const noAggregationChange = appliedDataType.aggregation === selectedAggregation || !selectedAggregation;
     const aggregationChange = appliedDataType.aggregation !== selectedAggregation;
@@ -287,49 +337,7 @@ const CustomDataDownload = ({
   };
 
   const handleApplyButtonClick = () => {
-    setHideFilterMenu(true)
-    setApplyClicked(true);
-    const dataSubType = getSelectedDataSubType(constants.DATA_SUBTYPES_MAP[selectedDataType]);
-    if (selectedDataType !== '' && selectedDataSubtype !== '') {
-      if(selectedDataType !== "EMISSIONS" && selectedDataType !== "FACILITY" && selectedDataType !== "MERCURY AND AIR TOXICS EMISSIONS" && dataSubType !== "Transactions"){
-        loadFilterMappingDispatcher(selectedDataType, dataSubType);
-      }else if(bookmarkInit && bookmarkData){
-        const { startDate, endDate, year } = bookmarkData.filters.timePeriod;
-        if(bookmarkData.filters.timePeriod.year.yearArray.length > 0){
-          loadFilterMappingDispatcher(bookmarkData.dataType, bookmarkData.dataSubType, getTimePeriodYears(null, null, year.yearString));
-        }else{
-          if(bookmarkData.dataType === "MERCURY AND AIR TOXICS EMISSIONS" || bookmarkData.dataSubType === "Transactions"){
-            loadFilterMappingDispatcher(bookmarkData.dataType, bookmarkData.dataSubType, [startDate, endDate])
-          }else{
-            loadFilterMappingDispatcher(bookmarkData.dataType, bookmarkData.dataSubType, getTimePeriodYears(startDate, endDate));
-          }
-        }
-      }
-      loadAllFiltersDispatcher(selectedDataType, dataSubType, filterCriteria, bookmarkData?.filters);
-      setDataTypeApplied(true);
-      setDataSubtypeApplied(true);
-      setAppliedDataType({
-        dataType: selectedDataType,
-        dataSubType: selectedDataSubtype,
-        aggregation: selectedAggregation,
-      });
-      updateSelectedAggregationDispatcher(selectedAggregation);
-      if (selectionChange) {
-        if(!onlyAggregationChanged){
-          removeAppliedFiltersDispatcher(null, true);
-          resetFilterDispatcher(null, true);
-        }
-        if (selectedDataType !== "EMISSIONS"){
-          setSelectedAggregation('');
-          updateSelectedAggregationDispatcher("");
-        }
-      }
-      setSelectionChange(false);
-      setDisplayCancel(true);
-      updateSelectedDataSubTypeDispatcher(
-        getSelectedDataSubType(constants.DATA_SUBTYPES_MAP[selectedDataType])
-      );
-    }
+    setHandleApplyLoading(true)
   };
 
   const handlePreviewDataButtonClick = () => {
@@ -448,6 +456,8 @@ const CustomDataDownload = ({
           getSelectedDataSubType={getSelectedDataSubType}
           appliedFilters={appliedFilters}
           handleBackButtonClick={handleBackButtonClick}
+          applyFilterLoading={applyFilterLoading}
+          setApplyFilterLoading={setApplyFilterLoading}
         />
         <CddDataPreview
           dataType={appliedDataType.dataType}
@@ -462,7 +472,7 @@ const CustomDataDownload = ({
           removedAppliedFilter={removedAppliedFilter}
           setRemovedAppliedFilter={setRemovedAppliedFilter}
         />
-        <RenderSpinner showSpinner={loading || filterCriteria.filterLogicEngaged || bookmarkInit} />
+        <RenderSpinner showSpinner={loading || filterCriteria.filterLogicEngaged || bookmarkInit || handleApplyLoading || applyFilterLoading } />
       </div>
     </div>
   );
