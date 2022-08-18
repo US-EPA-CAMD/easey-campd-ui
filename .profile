@@ -17,3 +17,5 @@ done
 echo "}" >> ./env-config.js
 
 cp ./env-config.js ./build
+cd ./build/static/css
+cp ./main.*.css ./main.css
