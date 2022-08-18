@@ -48,6 +48,7 @@ export const TimePeriod = ({
   filterCriteria,
   updateFilterCriteriaDispatcher,
   loading,
+  setApplyFilterLoading
 }) => {
   const [formState, setFormState] = useState({
     startDate: formatDateToUi(timePeriod.startDate),
@@ -93,12 +94,15 @@ export const TimePeriod = ({
             });
             filterCriteriaCloned.timePeriod.comboBoxYear = distinctYears.map(year => {return {id:year, label:year, selected:false, enabled:true}});
           }
-          engageFilterLogic(dataType, dataSubType, filterToApply, filterCriteriaCloned, updateFilterCriteriaDispatcher);
+          engageFilterLogic(dataType, dataSubType, filterToApply, filterCriteriaCloned, updateFilterCriteriaDispatcher, setApplyFilterLoading);
         }else{
           window.alert("Data is not available for the selected time period. Enter a new time period.");
           removeAppliedFiltersDispatcher(filterToApply);
+          setApplyFilterLoading(false);
           return;
         }
+      } else {
+        setApplyFilterLoading(false)
       }
       closeFlyOutHandler();
     }// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -244,6 +248,7 @@ export const TimePeriod = ({
     evt.preventDefault();
     validateInput();
     setApplyFilterClicked(true);
+    setApplyFilterLoading(true)
   };
 
   const handleStartDateUpdate = (value) => {

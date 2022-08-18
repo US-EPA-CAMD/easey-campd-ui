@@ -22,7 +22,9 @@ const TimePeriodComboBox = ({
   dataType,
   dataSubType,
   filterCriteria,
-  updateFilterCriteriaDispatcher
+  updateFilterCriteriaDispatcher,
+  applyFilterLoading,
+  setApplyFilterLoading,
   }) => {
 
   const [yearsArray, setYearsArray] = useState(JSON.parse(JSON.stringify(timePeriod.comboBoxYear)));
@@ -48,26 +50,36 @@ const TimePeriodComboBox = ({
     if(applyFilterClicked){
       if(dataSubType === "Holdings" || dataSubType === "Transactions" || dataType === "COMPLIANCE"){
         if(filterCriteria.filterMapping.length>0){
-          engageFilterLogic(dataType, dataSubType, filterToApply, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispatcher);
+          engageFilterLogic(dataType, dataSubType, filterToApply, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispatcher, setApplyFilterLoading);
+        } else {
+          setApplyFilterLoading(false)
         }
+      } else {
+        setApplyFilterLoading(false)
       }
       closeFlyOutHandler();
     }// eslint-disable-next-line react-hooks/exhaustive-deps
   }, [timePeriod.comboBoxYear]);
 
+  useEffect(()=>{
+    if(applyFilterLoading){
+      updateTimePeriodDispatcher({
+        ...timePeriod,
+        comboBoxYear: yearsArray
+      });
+      if(isAddedToFilters(filterToApply, appliedFilters)){
+        removeAppliedFilterDispatcher(filterToApply);
+      }
+      const selection = yearsArray.filter(e=>e.selected)
+      if(selection.length>0){
+        addAppliedFilterDispatcher({key:filterToApply, values: selection.map(e=>e.label)})
+      }
+      setApplyFilterClicked(true);
+    }//eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [applyFilterLoading]);
+
   const handleApplyFilter = () =>{
-    updateTimePeriodDispatcher({
-      ...timePeriod,
-      comboBoxYear: yearsArray
-    });
-    if(isAddedToFilters(filterToApply, appliedFilters)){
-      removeAppliedFilterDispatcher(filterToApply);
-    }
-    const selection = yearsArray.filter(e=>e.selected)
-    if(selection.length>0){
-      addAppliedFilterDispatcher({key:filterToApply, values: selection.map(e=>e.label)})
-    }
-    setApplyFilterClicked(true);
+    setApplyFilterLoading(true);
   };
 
   const onChangeUpdate = (id, updateType) =>{

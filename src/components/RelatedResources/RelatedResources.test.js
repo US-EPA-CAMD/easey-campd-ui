@@ -101,6 +101,7 @@ describe('Related Resources Page Component', () => {
 
     //additionalDataTools.forEach((element) => {
       const element =additionalDataTools[0];
+    // additionalDataTools.forEach(async(element) => {
       const container = await findAllByText(`${element.name}`);
       expect(container).toBeTruthy();
     //});

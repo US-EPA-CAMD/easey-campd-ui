@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, cleanup } from '@testing-library/react';
+import { render, fireEvent, cleanup, waitFor } from '@testing-library/react';
 import { Program } from './Program';
 import {restructurePrograms} from "../../../utils/selectors/filterCriteria";
 import initialState from '../../../store/reducers/initialState';
@@ -211,6 +211,7 @@ const program = [
 ];
 const storeProgam = restructurePrograms(program);
 let flyoutClosed = false;
+let applyFilterLoading = false;
 
 describe("Hourly Emissions Program", () => {
   let queries;
@@ -229,6 +230,7 @@ describe("Hourly Emissions Program", () => {
           dataType="EMISSIONS"
           dataSubType="Facility/Unit Attributes"
           filterCriteria={initialState.filterCriteria}
+          setApplyFilterLoading={() => applyFilterLoading = true}
           />
       );
   });
@@ -246,14 +248,14 @@ describe("Hourly Emissions Program", () => {
 
   });
 
-  it("handles checkbox selection appropriately", () => {
+  it("handles checkbox selection appropriately", async () => {
     const { getByRole, getByText } = queries;
     const arpCheckbox = getByRole('checkbox', {name:"Acid Rain Program (ARP)"});
     fireEvent.click(arpCheckbox);
     expect(arpCheckbox.checked).toEqual(true);
     const applyFilterButton = getByText('Apply Filter').closest('button');
     fireEvent.click(applyFilterButton);
-    expect(flyoutClosed).toBe(true);
+    expect(applyFilterLoading).toBe(true);
   });
 
 });

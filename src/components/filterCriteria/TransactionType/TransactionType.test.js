@@ -64,6 +64,8 @@ const transactionTypes = [
 initialState.filterCriteria.transactionType = transactionTypes.map(f=> ({id: f.transactionTypeDescription, label:f.transactionTypeDescription, selected:false, enabled:true}));
 const store = configureStore(initialState);
 let flyOutClosed = false;
+let applyFilterLoading = false;
+
 describe('Transaction Type Component', () => {
   let query;
   beforeEach(() => {
@@ -76,6 +78,7 @@ describe('Transaction Type Component', () => {
           removeAppliedFilterDispatcher ={jest.fn()}
           closeFlyOutHandler ={()=> flyOutClosed=true}
           renderedHandler ={jest.fn()}
+          setApplyFilterLoading={() => applyFilterLoading = true}
         />
       </Provider>);
   });
@@ -116,6 +119,6 @@ describe('Transaction Type Component', () => {
     expect(getByRole("button", {name: "Conservation Issuance"})).toBeDefined();
     expect(getAllByTestId("multi-select-option").length).toBe(transactionTypes.length);
     fireEvent.click(getByText("Apply Filter"));
-    expect(flyOutClosed).toBe(true);
+    expect(applyFilterLoading).toBe(true);
   })
 });
