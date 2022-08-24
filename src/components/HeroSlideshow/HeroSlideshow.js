@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { Link as USWDSLink } from "@trussworks/react-uswds";
@@ -21,6 +21,7 @@ import "./HeroSlideshow.scss";
 const HeroSlideshow = ({ slides }) => {
   const containerRef = useRef(null);
   const navContainerRef = useRef(null);
+  const [currentSlideIndex, setCurrentSlideIndex] = useState(0)
 
   useEffect(() => {
     if (!containerRef.current || !navContainerRef.current) return;
@@ -41,6 +42,7 @@ const HeroSlideshow = ({ slides }) => {
     // stop autoplay after it has looped once through all slides
     slider.events.on("transitionEnd", function (eventInfo, eventName) {
       const info = slider.getInfo();
+      setCurrentSlideIndex(info.displayIndex -1)
       if (info.displayIndex === 1) slider.pause();
     });
 
@@ -49,11 +51,29 @@ const HeroSlideshow = ({ slides }) => {
     };
   }, []);
 
+  //looks for clones of slides and sets tab index for links and buttons on the clones 
+  useEffect(() => {
+    const currentSlideAndDuplicatesArray = Array.from(document.querySelectorAll('.index_'+currentSlideIndex));
+    if (currentSlideAndDuplicatesArray.length > 1){
+      currentSlideAndDuplicatesArray.forEach(el=>{
+        if (el !== document.querySelector('.tns-slide-active')) {
+          const buttons = Array.from(el.querySelectorAll('.usa-button'));
+          const links = Array.from(el.querySelectorAll('.usa-link'));
+          buttons.forEach(button=> button.tabIndex = -1)
+          links.forEach(link=> link.tabIndex = -1)
+          console.log(el.querySelectorAll('.usa-button'), 'not active');
+          el.className = el.className + ' display-none'
+        }
+      })
+    }
+  }, [currentSlideIndex])
+
   if (!slides || slides.length === 0) return null;
 
   // NOTE: setting fontSize on list item via inline style below to support Jest
   // tests, as the 'tiny-slider' library uses it explicitly in it's initSheet()
   // method (see addCSSRule), and 'jsdom' doesn't implement the CSS cascade
+
 
   return (
     <div className="hero-slideshow">
@@ -61,7 +81,7 @@ const HeroSlideshow = ({ slides }) => {
         {slides.map(({ image, title, callout, text, link }, index) => (
           <li
             key={index}
-            className="hero-slideshow__item"
+            className={`hero-slideshow__item index_${index}`}
             style={{ fontSize: "inherit" }}
           >
             <section
@@ -91,6 +111,7 @@ const HeroSlideshow = ({ slides }) => {
                             {...props}
                             target="_blank"
                             rel="noopener noreferrer"
+                            tabIndex={currentSlideIndex === index? 0 : -1}
                           />
                         ),
                       }}
@@ -103,6 +124,7 @@ const HeroSlideshow = ({ slides }) => {
                       href={link.url}
                       target="_blank"
                       rel="noopener noreferrer"
+                      tabIndex={currentSlideIndex === index? 0 : -1}
                     >
                       {link.text}
                     </a>
