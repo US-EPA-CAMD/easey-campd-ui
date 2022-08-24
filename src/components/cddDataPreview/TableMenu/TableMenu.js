@@ -43,7 +43,6 @@ const TableMenu = ({
 
   const [checkedBoxes, setCheckedBoxes] = useState({});
   const [excludableColumnsState, setExcludableColumnsState] = useState(null);
-  const [nonExcludableColumns, setNonExcludableColumns] = useState([]);
   const [filteredColumns, setFilteredColumns] = useState([]);
   const [checkAll, setCheckAll] = useState(null);
   const [filterMappingsCopy, setFilterMappingsCopy] = useState([]);
@@ -97,7 +96,6 @@ const TableMenu = ({
           setCheckedBoxes(removableColumns);
         }
         setCheckAll(removableColumns);
-        setNonExcludableColumns(requiredColumns);
         setFilteredColumns(tempFieldMappings);
         setFilterMappingsCopy(tempFieldMappings);
       }
@@ -216,7 +214,7 @@ const TableMenu = ({
         excludedColumns.push(checkedBoxes[label].value);
       }
     });
-    const columnsToDisplay = [...columns, ...nonExcludableColumns];
+    const columnsToDisplay = [...fieldMappings].filter(el => !excludedColumns.includes(el.value));
     const filterCriteriaCloned = JSON.parse(JSON.stringify(filterCriteria));
     filterCriteriaCloned.excludeParams = excludedColumns;
     filterCriteriaCloned.selectedColumns = columnsToDisplay;
