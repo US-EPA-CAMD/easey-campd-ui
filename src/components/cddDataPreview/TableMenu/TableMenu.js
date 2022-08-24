@@ -71,7 +71,6 @@ const TableMenu = ({
  //effects to manage column selection
   useEffect(() => {
     const columns = {};
-    const requiredColumns = [];
     const removableColumns = {};
 
     if (excludableColumns) {
@@ -84,8 +83,6 @@ const TableMenu = ({
           if (columns[label]) {
             removableColumns[label] = el;
             if(!filterCriteria.excludeParams.includes(el.value)){removableColumns[label].checked = true;} else {removableColumns[label].checked = false}
-          } else {
-            requiredColumns.push(el);
           }
         });
         if (filterCriteria.columnState) {
