@@ -61,8 +61,11 @@ const HeroSlideshow = ({ slides }) => {
           const links = Array.from(el.querySelectorAll('.usa-link'));
           buttons.forEach(button=> button.tabIndex = -1)
           links.forEach(link=> link.tabIndex = -1)
-          console.log(el.querySelectorAll('.usa-button'), 'not active');
-          el.className = el.className + ' display-none'
+        } else {
+          const buttons = Array.from(el.querySelectorAll('.usa-button'));
+          const links = Array.from(el.querySelectorAll('.usa-link'));
+          buttons.forEach(button=> button.tabIndex = 0)
+          links.forEach(link=> link.tabIndex = 0)
         }
       })
     }
