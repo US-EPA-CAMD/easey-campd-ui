@@ -56,14 +56,12 @@ const HeroSlideshow = ({ slides }) => {
     const currentSlideAndDuplicatesArray = Array.from(document.querySelectorAll('.index_'+currentSlideIndex));
     if (currentSlideAndDuplicatesArray.length > 1){
       currentSlideAndDuplicatesArray.forEach(el=>{
+        const buttons = Array.from(el.querySelectorAll('.usa-button'));
+        const links = Array.from(el.querySelectorAll('.usa-link'));
         if (el !== document.querySelector('.tns-slide-active')) {
-          const buttons = Array.from(el.querySelectorAll('.usa-button'));
-          const links = Array.from(el.querySelectorAll('.usa-link'));
           buttons.forEach(button=> button.tabIndex = -1)
           links.forEach(link=> link.tabIndex = -1)
         } else {
-          const buttons = Array.from(el.querySelectorAll('.usa-button'));
-          const links = Array.from(el.querySelectorAll('.usa-link'));
           buttons.forEach(button=> button.tabIndex = 0)
           links.forEach(link=> link.tabIndex = 0)
         }
