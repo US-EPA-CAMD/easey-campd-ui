@@ -269,6 +269,19 @@ export const constructComboBoxQuery = (filterState, queryString, transactions=fa
   return query.length > 0 ? `&${queryString}=${query}` : '';
 }
 
+export const constructTransactionTypeComboBoxQuery = (filterState, queryString, transactions=false) =>{
+  const selection = filterState.filter(f=> f.selected);
+  let query='';
+  selection.forEach((f,i)=>{
+    if(i===selection.length-1){
+      query = `${query}${f.label}`;
+    }else{
+      query = `${query}${f.label}|`;
+    }
+  });
+  return query.length > 0 ? `&${queryString}=${query}` : '';
+}
+
 export const filterAmpersand = (string) => {
   let query = '';
   string.split('').forEach((s, i) => {

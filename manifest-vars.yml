@@ -3,7 +3,7 @@ name: campd-ui
 memory: 2048
 disk: 2048
 instances: 1
-environment: development
+environment: dev
 host: campd-dev.app.cloud.gov
 apiHost: api.epa.gov/easey/dev
 googleAnalyticsContainerId: "GTM-L8ZB"

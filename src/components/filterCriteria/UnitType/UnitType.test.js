@@ -161,6 +161,8 @@ const unitType = [
 ];
 const storeUnitType = restructureUnitTypes(unitType);
 let flyoutClosed = false;
+let applyFilterLoading = false;
+
 describe('Unit Type', () => {
   let queries;
   beforeEach(() => {
@@ -178,6 +180,7 @@ describe('Unit Type', () => {
         dataType="EMISSIONS"
         dataSubType="Facility/Unit Attributes"
         filterCriteria={initialState.filterCriteria}
+        setApplyFilterLoading={() => applyFilterLoading = true}
       />
     );
   });
@@ -217,6 +220,6 @@ describe('Unit Type', () => {
     expect(selectAllBoilers.checked).toEqual(true);
     const applyFilterButton = getByText('Apply Filter').closest('button');
     fireEvent.click(applyFilterButton);
-    expect(flyoutClosed).toBe(true);
+    expect(applyFilterLoading).toBe(true);
   });
 });

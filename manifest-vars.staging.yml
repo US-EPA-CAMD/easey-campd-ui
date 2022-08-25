@@ -1,4 +1,6 @@
+memory: 64
 instances: 2
 environment: staging
 host: campd-stg.app.cloud.gov
 apiHost: api.epa.gov/easey/staging
+buildpack: nginx_buildpack

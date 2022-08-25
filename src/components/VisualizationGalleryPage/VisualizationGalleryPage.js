@@ -119,7 +119,7 @@ const Tool = ({ data }) => {
     <div className="margin-bottom-4">
       <div className="overflow-hidden radius-md shadow-2 bg-white">
         <div className="display-flex flex-align-center flex-justify padding-y-105 padding-x-2 bg-primary-dark">
-          <p className="margin-0 text-bold font-sans-lg">
+          <h2 className="margin-0 text-bold font-sans-lg">
             <a
               className="display-block text-white underline-primary-dark hover:underline-accent-cool"
               href={data.url}
@@ -128,7 +128,7 @@ const Tool = ({ data }) => {
             >
               {data.name}
             </a>
-          </p>
+          </h2>
 
           <p className="margin-0 font-sans-3xs">
             <a
@@ -136,6 +136,7 @@ const Tool = ({ data }) => {
               href={`mailto:campd-support@camdsupport.com?subject=CAMPD Visualization Gallery Feedback - ${data.name}`}
               target="_blank"
               rel="noopener noreferrer"
+              aria-label={`Provide Feedback for ${data.name}`}
             >
               <span className="display-flex flex-align-center">
                 <svg
@@ -199,6 +200,7 @@ const Tool = ({ data }) => {
                     href={data.source.url}
                     target="_blank"
                     rel="noopener noreferrer"
+                    aria-label={data.source.url? `Github Repository for ${data.name}` : ''}
                   >
                     {data.source.text}
                   </USWDSLink>

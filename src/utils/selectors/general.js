@@ -1,6 +1,7 @@
 import {
   addExcludeParams,
   constructComboBoxQuery,
+  constructTransactionTypeComboBoxQuery,
   constructQuery,
   filterAmpersand,
   getCheckBoxEnabledItems,
@@ -263,7 +264,7 @@ export const constructRequestUrl = (
     : '';
   const transactionTypeQuery = filterCriteria.transactionType
     ? filterAmpersand(
-        constructComboBoxQuery(filterCriteria.transactionType, 'transactionType', true)
+      constructTransactionTypeComboBoxQuery(filterCriteria.transactionType, 'transactionType', true)
       )
     : '';
   const sourceCategoryQuery = filterCriteria.sourceCategory

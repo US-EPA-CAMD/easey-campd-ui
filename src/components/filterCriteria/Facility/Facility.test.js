@@ -298,6 +298,8 @@ const facilities = [
 initialState.filterCriteria.facility = facilities.map(f=> ({id: f.facilityId, label:`${f.facilityName} (${f.facilityId})`, selected:false, enabled:true}));
 const store = configureStore(initialState);
 let flyOutClosed = false;
+let applyFilterLoading = false;
+
 describe('Facility Component', () => {
   let query;
   beforeEach(() => {
@@ -310,6 +312,7 @@ describe('Facility Component', () => {
           removeAppliedFilterDispatcher ={removeAppliedFilter}
           closeFlyOutHandler ={()=> flyOutClosed=true}
           renderedHandler ={jest.fn()}
+          setApplyFilterLoading={() => applyFilterLoading = true}
         />
       </Provider>);
   });
@@ -350,6 +353,6 @@ describe('Facility Component', () => {
     expect(getByRole("button", {name: "Barry (3)"})).toBeDefined();
     expect(getAllByTestId("multi-select-option").length).toBe(facilities.length);
     fireEvent.click(getByText("Apply Filter"));
-    expect(flyOutClosed).toBe(true);
+    expect(applyFilterLoading).toBe(true);
   })
 });
