@@ -4,10 +4,11 @@ import {
   formatQuartersToApiOrString,
 } from './general';
 
-export const constructTimePeriodQuery = (dataSubType, filterCriteria) => {
+export const constructTimePeriodQuery = (dataSubType, filterCriteria, isMatsDataType) => {
   switch (dataSubType.toLowerCase()) {
     case 'hourly emissions':
-      return `&beginDate=${filterCriteria.timePeriod.startDate}&endDate=${filterCriteria.timePeriod.endDate}&operatingHoursOnly=${filterCriteria.timePeriod.opHrsOnly}`;
+      return isMatsDataType? `${constructQuery(filterCriteria.timePeriod.year.yearArray, 'year', true)}` 
+      : `&beginDate=${filterCriteria.timePeriod.startDate}&endDate=${filterCriteria.timePeriod.endDate}&operatingHoursOnly=${filterCriteria.timePeriod.opHrsOnly}`;
     case 'daily emissions':
       return `&beginDate=${filterCriteria.timePeriod.startDate}&endDate=${filterCriteria.timePeriod.endDate}`;
     case 'monthly emissions':
