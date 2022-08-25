@@ -19,7 +19,7 @@ const HomePage = () => {
   const [whatIsNewContent, setWhatIsNewContent] = useState();
   const [whatIsNewTitle, setWhatIsNewTitle] = useState();
   const [dataCard, setDataCard] = useState();
-  const [mapsGraphsCard, setMapsGraphsCard] = useState();
+  const [visualGalleryCard, setvisualGalleryCard] = useState();
 
   useEffect(() => {
     getContent("/campd/home/what-is-new-content.md").then((resp) =>
@@ -31,8 +31,8 @@ const HomePage = () => {
     getContent("/campd/home/data-card.md").then((resp) =>
       setDataCard(resp.data)
     );
-    getContent("/campd/home/maps-and-graphs-card.md").then((resp) =>
-      setMapsGraphsCard(resp.data)
+    getContent("/campd/home/visualization-gallery-card.md").then((resp) =>
+      setvisualGalleryCard(resp.data)
     );
   }, []);
 
@@ -148,8 +148,8 @@ const HomePage = () => {
         </div>
         <div className="padding-y-1 padding-x-1 display-flex flex-row flex-align-start text-base-darkest order-3 grid-col-12 desktop:grid-col-4">
           <ReactMarkdown
-            className="maps-and-graphs-card"
-            children={mapsGraphsCard}
+            className="visualization-gallery-card"
+            children={visualGalleryCard}
             remarkPlugins={[remarkGfm]}
             components={{// eslint-disable-next-line
               img: ({node, ...props}) => <img {...props} alt=""/>,
@@ -173,7 +173,7 @@ const HomePage = () => {
                     type="button"
                     onClick={() => history.push(props.href)}
                     role="link"
-                    rel={"Maps and Graphs"}
+                    rel={"Visualization Gallery"}
                     title={props.children[0]}
                   >
                     {props.children[0]}

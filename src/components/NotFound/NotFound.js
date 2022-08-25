@@ -9,7 +9,7 @@ const NotFound = () => {
         <h3>We want to help you find what you are looking for.</h3>
         <h3>
           Try locating this information from the{" "}
-          <Link to="/"> EPA home page.</Link>
+          <Link to="/"> CAMPD home page.</Link>
         </h3>
       </div>
     </div>

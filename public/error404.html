@@ -107,15 +107,17 @@
                       A program of the U.S. EPA</div>
                   </em>
                 </div>
-                <div class="display-flex flex-column flex-align-end">
-                  <nav class="usa-nav margin-top-5">
+                <div class="display-flex flex-column flex-align-end padding-top-2">
+                  <nav class="usa-nav">
                     <ul class="usa-nav__primary usa-accordion">
                       <li class="usa-nav__primary-item"><a title="HOME" aria-label="HOME" href="/"
                           style="font-size: 24px;">HOME</a></li>
                       <li class="usa-nav__primary-item"><a title="DATA" aria-label="DATA HOME"
                           href="/data" style="font-size: 24px;">DATA</a></li>
-                      <li class="usa-nav__primary-item"><a title="MAPS &amp; GRAPHS" aria-label="MAPS &amp; GRAPHS"
-                          href="/maps-graphs" style="font-size: 24px;">MAPS &amp; GRAPHS</a></li>
+                      <li class="usa-nav__primary-item"><a title="VISUALIZATION GALLERY" aria-label="VISUALIZATION GALLERY"
+                          href="/visualization-gallery" style="font-size: 24px;">VIZ GALLERY</a></li>
+                      <li class="usa-nav__primary-item"><a title="HELP & SUPPORT" aria-label="HELP & SUPPORT"
+                          href="/help-support/about" style="font-size: 24px;">HELP & SUPPORT</a></li>
                     </ul>
                   </nav>
                 </div>
@@ -128,14 +130,14 @@
             <div class="center">
               <h1>Sorry, but this web page does not exist.</h1>
               <h3>We want to help you find what you are looking for.</h3>
-              <h3>Try locating this information from the <a href="/"> EPA home page.</a></h3>
+              <h3>Try locating this information from the <a href="/"> CAMPD home page.</a></h3>
             </div>
           </div>
         </main>
         <div class="position-fixed bottom-0 width-full">
           <div class="display-flex flex-column bg-base-lightest">
             <div class="flex-align-self-end">
-              <p class="margin-0 padding-y-1 padding-right-2">v1.0.64 published Fri Jul 01 2022</p>
+              <p id="version-banner" class="margin-0 padding-y-1 padding-right-2"></p>
             </div>
           </div>
         </div>
@@ -152,5 +154,8 @@
     envBanner.hidden = false;
     envBanner.innerHTML = `EPA ${window._env_.REACT_APP_EASEY_CAMPD_UI_ENV} environment: The content on this page is NOT production data and this site is being used for <b>development</b> and/or <b>testing</b> purposes only.`;
   }
+
+  var verBanner = document.getElementById('version-banner');  
+  envBanner.innerHTML = `${window._env_.REACT_APP_EASEY_CAMPD_UI_VERSION} published ${window._env_.REACT_APP_EASEY_CAMPD_UI_PUBLISHED}`;
 </script>
 </html>

@@ -8,12 +8,12 @@ import { metaAdder } from "../../utils/document/metaAdder";
 import getContent from "../../utils/api/getContent";
 import HeroSlideshow from "../HeroSlideshow/HeroSlideshow";
 
-const MapsGraphsPage = () => {
+const VisualizationGalleryPage = () => {
   useEffect(() => {
-    document.title = "Maps & Graphs | CAMPD | US EPA";
+    document.title = "Visualization Gallery | CAMPD | US EPA";
     metaAdder(
       "description",
-      "The maps & graphs gallery allows users to browse and interact with a variety of tools to visualize emissions trading program data."
+      "The Visualization Gallery allows users to browse and interact with a variety of tools to visualize emissions trading program data."
     );
     metaAdder(
       "keywords",
@@ -25,22 +25,24 @@ const MapsGraphsPage = () => {
   const [slides, setSlides] = useState([]);
   const [tools, setTools] = useState([]);
 
+  const vizGalleryContentBasePath = '/campd/visualization-gallery';
+
   useEffect(() => {
-    getContent("/campd/maps-graphs/intro-text.md").then((resp) =>
+    getContent(`${vizGalleryContentBasePath}/intro-text.md`).then((resp) =>
       setIntroText(resp.data)
     );
 
-    getContent("/campd/maps-graphs/slides.json").then((resp) => {
+    getContent(`${vizGalleryContentBasePath}/slides.json`).then((resp) => {
       Promise.all(
         resp.data.map((slide) => {
           return Promise.all([
             slide.image
-              ? getContent(`/campd/maps-graphs/${slide.image}`).then(
+              ? getContent(`${vizGalleryContentBasePath}/${slide.image}`).then(
                   (imgResp) => imgResp.config.url
                 )
               : Promise.resolve(""),
             slide.text
-              ? getContent(`/campd/maps-graphs/${slide.text}`).then(
+              ? getContent(`${vizGalleryContentBasePath}/${slide.text}`).then(
                   (textResp) => textResp.data
                 )
               : Promise.resolve(""),
@@ -53,17 +55,17 @@ const MapsGraphsPage = () => {
       });
     });
 
-    getContent("/campd/maps-graphs/tools.json").then((resp) => {
+    getContent(`${vizGalleryContentBasePath}/tools.json`).then((resp) => {
       Promise.all(
         resp.data.map((tool) => {
           return Promise.all([
             tool.image
-              ? getContent(`/campd/maps-graphs/${tool.image}`).then(
+              ? getContent(`${vizGalleryContentBasePath}/${tool.image}`).then(
                   (imgResp) => imgResp.config.url
                 )
               : Promise.resolve(""),
             tool.description
-              ? getContent(`/campd/maps-graphs/${tool.description}`).then(
+              ? getContent(`${vizGalleryContentBasePath}/${tool.description}`).then(
                   (descResp) => descResp.data
                 )
               : Promise.resolve(""),
@@ -131,7 +133,7 @@ const Tool = ({ data }) => {
           <p className="margin-0 font-sans-3xs">
             <a
               className="display-block text-white underline-primary-dark hover:underline-accent-cool"
-              href={`mailto:campd-support@camdsupport.com?subject=CAMPD Maps and Graphs Feedback - ${data.name}`}
+              href={`mailto:campd-support@camdsupport.com?subject=CAMPD Visualization Gallery Feedback - ${data.name}`}
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -220,4 +222,4 @@ const Tool = ({ data }) => {
   );
 };
 
-export default MapsGraphsPage;
+export default VisualizationGalleryPage;

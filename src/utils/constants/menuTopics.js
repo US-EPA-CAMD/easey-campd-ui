@@ -5,43 +5,21 @@ export const subHeaderMenuList = [
   },
   {
     label: 'DATA',
-    items: [
-      { menu: 'Data Home', link: '/data' },
-      { menu: 'Custom Data Download', link: '/data/custom-data-download' },
-      { menu: 'Bulk Data Files', link: '/data/bulk-data-files' },
-      { menu: 'APIs', link: { pathname: "https://www.epa.gov/airmarkets/cam-api-portal" }, target: '_blank'},
-    ],
-  },  
-  {
-    label: 'MAPS & GRAPHS',
-    items: [{ menu: 'notMenu', link: '/maps-graphs' }],
-  },
-];
-
-export const subHeaderUtilityList = [
-  {
-    label: 'Resources',
-    items: [
-      { menu: 'Glossary', link: '/resources/glossary' },
-      { menu: 'Related Resources', link: '/resources/related-resources' },
-    ],
+    items: [{ menu: 'notMenu', link: '/data' }],
   },
   {
-    label: 'Help/Support',
+    label: 'VIZ GALLERY',
+    items: [{ menu: 'notMenu', link: '/visualization-gallery' }],
+  },
+  {
+    label: 'HELP/SUPPORT',
     items: [
       { menu: 'About CAMPD', link: '/help-support/about' },
       { menu: 'Tutorials', link: '/help-support/tutorials' },
       { menu: 'FAQs', link: '/help-support/faqs' },
       { menu: 'Contact Us', link: '/help-support/contact-us' },
-    ],
-  },
-  {
-    label: 'Regulatory Partners',
-    items: [
-      {
-        menu: 'Coming Soon - Information and resources for Regulatory Partners',
-        link: '#',
-      },
+      { menu: 'Glossary', link: '/help-support/glossary' },
+      { menu: 'Related Resources', link: '/help-support/related-resources' },
     ],
   },
 ];

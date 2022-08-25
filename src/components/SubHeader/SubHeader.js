@@ -4,10 +4,7 @@ import { Header, Title, Button } from "@trussworks/react-uswds";
 
 import SubHeaderInfo from "../SubHeaderInfo/SubHeaderInfo";
 import SubHeaderNav from "../SubHeaderNav/SubHeaderNav";
-import {
-  subHeaderMenuList,
-  subHeaderUtilityList,
-} from "../../utils/constants/menuTopics";
+import { subHeaderMenuList } from "../../utils/constants/menuTopics";
 import useCheckWidth from "../../utils/hooks/useCheckWidth";
 import SubHeaderNavMobile from "../SubHeaderNavMobile/SubHeaderNavMobile";
 
@@ -146,18 +143,18 @@ const SubHeader = () => {
             </Button>
             <SubHeaderNavMobile
               subHeaderMenuList={subHeaderMenuList}
-              subHeaderUtilityList={subHeaderUtilityList}
+              subHeaderUtilityList={[]}
               showMobileMenu={showMobileMenu}
               pathname={pathname}
             />
           </div>
           <div
-            className="display-flex flex-column flex-align-end"
+            className="display-flex flex-column flex-align-end padding-top-2"
             id="sub-header-nav"
           >
             <SubHeaderNav
               pathname={pathname}
-              menuList={subHeaderUtilityList}
+              menuList={[]}
               navDropdownOpen={navDropdownOpen.utility}
               handleToggleNavDropdown={handleToggleNavDropdown}
               handleCloseNavDropdown={handleCloseNavDropdown}
