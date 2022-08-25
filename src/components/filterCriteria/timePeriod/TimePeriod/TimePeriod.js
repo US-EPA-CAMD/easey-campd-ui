@@ -50,6 +50,9 @@ export const TimePeriod = ({
   loading,
   setApplyFilterLoading
 }) => {
+  if (dataType === "MERCURY AND AIR TOXICS EMISSIONS"){
+    showYear = true;
+  }
   const [formState, setFormState] = useState({
     startDate: formatDateToUi(timePeriod.startDate),
     endDate: formatDateToUi(timePeriod.endDate),
