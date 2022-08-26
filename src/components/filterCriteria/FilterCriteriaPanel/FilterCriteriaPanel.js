@@ -114,8 +114,7 @@ const FilterCriteriaPanel = ({
   }
 
   const matsHourlyEmissions = {
-    ...emissions,
-    timePeriod: <TimePeriod closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} applyFilterLoading={applyFilterLoading} setApplyFilterLoading={setApplyFilterLoading} showYear={true} filterToApply={'Time Period'}/>,
+    ...emissions
   }
 
   const allownaceAcctInfo = {
