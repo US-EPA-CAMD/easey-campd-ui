@@ -50,6 +50,7 @@ export const TimePeriod = ({
   loading,
   setApplyFilterLoading
 }) => {
+
   const [formState, setFormState] = useState({
     startDate: formatDateToUi(timePeriod.startDate),
     endDate: formatDateToUi(timePeriod.endDate),
@@ -208,8 +209,10 @@ export const TimePeriod = ({
       loadFilterMappingDispatcher(dataType, dataSubType, getTimePeriodYears(null, null, formState.year));
     }
     else
-      if(dataSubType === "Transactions" || matsDataType){
+      if(dataSubType === "Transactions"){
         loadFilterMappingDispatcher(dataType, dataSubType, [formatDateToApi(formState.startDate), formatDateToApi(formState.endDate)]);
+      } else if (matsDataType){
+        loadFilterMappingDispatcher(dataType, dataSubType, getTimePeriodYears(formatDateToApi(formState.startDate), formatDateToApi(formState.endDate), null));
       }else{
         loadFilterMappingDispatcher(dataType, dataSubType, getTimePeriodYears(formatDateToApi(formState.startDate), formatDateToApi(formState.endDate)));
       }
