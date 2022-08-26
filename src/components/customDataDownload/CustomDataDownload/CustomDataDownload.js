@@ -215,8 +215,10 @@ const CustomDataDownload = ({
           if(bookmarkData.filters.timePeriod.year.yearArray.length > 0){
             loadFilterMappingDispatcher(bookmarkData.dataType, bookmarkData.dataSubType, getTimePeriodYears(null, null, year.yearString));
           }else{
-            if(bookmarkData.dataType === "MERCURY AND AIR TOXICS EMISSIONS" || bookmarkData.dataSubType === "Transactions"){
+            if(bookmarkData.dataSubType === "Transactions"){
               loadFilterMappingDispatcher(bookmarkData.dataType, bookmarkData.dataSubType, [startDate, endDate])
+            }else if(bookmarkData.dataType === "MERCURY AND AIR TOXICS EMISSIONS" ){
+              loadFilterMappingDispatcher(bookmarkData.dataType, dataSubType, getTimePeriodYears(startDate, endDate, null));
             }else{
               loadFilterMappingDispatcher(bookmarkData.dataType, bookmarkData.dataSubType, getTimePeriodYears(startDate, endDate));
             }
