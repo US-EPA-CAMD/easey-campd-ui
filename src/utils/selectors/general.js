@@ -309,7 +309,6 @@ export const constructRequestUrl = (
   const url = `${apiService}${apiPath}${subTypeService}${aggregationService}?${pagination}${constructTimePeriodQuery(
     dataSubType,
     filterCriteria,
-    dataType === "MERCURY AND AIR TOXICS EMISSIONS"
   )}${programQuery}${facilityQuery}${stateTerritoryQuery}${unitTypeQuery}${fuelTypeQuery}${controlTechnologyQuery}
 ${accountNameNumberQuery}${accountTypeQuery}${ownerOperatorQuery}${transactionTypeQuery}${sourceCategoryQuery}${excludeParams}`;
   console.log(url.replace(/\r?\n|\r/g, ''));

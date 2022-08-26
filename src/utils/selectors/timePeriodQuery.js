@@ -4,7 +4,7 @@ import {
   formatQuartersToApiOrString,
 } from './general';
 
-export const constructTimePeriodQuery = (dataSubType, filterCriteria, isMatsDataType) => {
+export const constructTimePeriodQuery = (dataSubType, filterCriteria) => {
   switch (dataSubType.toLowerCase()) {
     case 'hourly emissions':
       return `&beginDate=${filterCriteria.timePeriod.startDate}&endDate=${filterCriteria.timePeriod.endDate}&operatingHoursOnly=${filterCriteria.timePeriod.opHrsOnly}`;
