@@ -6,16 +6,19 @@ import { useHistory } from 'react-router-dom';
 import { metaAdder } from '../../utils/document/metaAdder';
 import getContent from "../../utils/api/getContent";
 import "./DataLandingPage.scss";
+import setApiError from '../../store/actions/setApiErrorAction';
+import { connect } from 'react-redux';
 
 
-const DataLandingPage = () => {
+const DataLandingPage = ({setApiErrorDispatcher}) => {
   const [header, setHeader] = useState(null);
   const [content, setContent] = useState(null);
 
   useEffect(() => {
     document.title = 'Data | CAMPD | US EPA';
-    getContent("/campd/data/home/header.md").then((resp) => setHeader(resp.data));
-    getContent("/campd/data/home/index.json").then((resp) => setContent(resp.data));
+    getContent("/campd/data/home/header.md", setApiErrorDispatcher).then((resp) => resp && setHeader(resp.data));
+    getContent("/campd/data/home/index.json", setApiErrorDispatcher).then((resp) => resp && setContent(resp.data));
+    //eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   metaAdder(
@@ -80,4 +83,6 @@ const DataLandingPage = () => {
   );
 };
 
-export default DataLandingPage;
+const mapDispatchToProps = (dispatch) => ({setApiErrorDispatcher: (api, state, errorMessage) => dispatch(setApiError(api, state, errorMessage))});
+
+export default connect(null, mapDispatchToProps)(DataLandingPage);

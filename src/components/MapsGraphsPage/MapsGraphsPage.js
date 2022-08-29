@@ -7,8 +7,10 @@ import icons from "uswds/dist/img/sprite.svg";
 import { metaAdder } from "../../utils/document/metaAdder";
 import getContent from "../../utils/api/getContent";
 import HeroSlideshow from "../HeroSlideshow/HeroSlideshow";
+import setApiError from "../../store/actions/setApiErrorAction";
+import { connect } from "react-redux";
 
-const MapsGraphsPage = () => {
+const MapsGraphsPage = ({setApiErrorDispatcher}) => {
   useEffect(() => {
     document.title = "Maps & Graphs | CAMPD | US EPA";
     metaAdder(
@@ -26,12 +28,12 @@ const MapsGraphsPage = () => {
   const [tools, setTools] = useState([]);
 
   useEffect(() => {
-    getContent("/campd/maps-graphs/intro-text.md").then((resp) =>
-      setIntroText(resp.data)
+    getContent("/campd/maps-graphs/intro-text.md", setApiErrorDispatcher).then((resp) =>
+      resp && setIntroText(resp.data)
     );
 
     getContent("/campd/maps-graphs/slides.json").then((resp) => {
-      Promise.all(
+      resp && Promise.all(
         resp.data.map((slide) => {
           return Promise.all([
             slide.image
@@ -53,8 +55,8 @@ const MapsGraphsPage = () => {
       });
     });
 
-    getContent("/campd/maps-graphs/tools.json").then((resp) => {
-      Promise.all(
+    getContent("/campd/maps-graphs/tools.json", setApiErrorDispatcher).then((resp) => {
+      resp && Promise.all(
         resp.data.map((tool) => {
           return Promise.all([
             tool.image
@@ -74,7 +76,7 @@ const MapsGraphsPage = () => {
       ).then((fetchedTools) => {
         setTools(fetchedTools);
       });
-    });
+    });//eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -222,4 +224,6 @@ const Tool = ({ data }) => {
   );
 };
 
-export default MapsGraphsPage;
+const mapDispatchToProps = (dispatch) => ({setApiErrorDispatcher: (api, state, errorMessage) => dispatch(setApiError(api, state, errorMessage))});
+
+export default connect(null, mapDispatchToProps)(MapsGraphsPage);

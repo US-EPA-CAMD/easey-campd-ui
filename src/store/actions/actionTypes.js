@@ -42,6 +42,9 @@ export const UPDATE_SELECTED_AGGREGATION = "UPDATE_SELECTED_AGGREGATION";
 //API call
 export const BEGIN_API_CALL = "BEGIN_API_CALL";
 
+//API errors
+export const API_ERRORS = "API_ERRORS";
+
 //hideNav
 export const HIDE_NAV = "HIDE_NAV";
 

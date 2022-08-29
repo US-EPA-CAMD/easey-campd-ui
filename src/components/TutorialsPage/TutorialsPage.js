@@ -8,9 +8,11 @@ import getContent from '../../utils/api/getContent';
 
 import './TutorialsPage.scss';
 import { isInternalUrl } from '../../utils/selectors/general';
+import setApiError from '../../store/actions/setApiErrorAction';
+import { connect } from 'react-redux';
 
 
-const TutorialsPage = () => {
+const TutorialsPage = ({setApiErrorDispatcher}) => {
   const [mainContent, setMainContent] = useState();
 
   useEffect(() => {
@@ -27,9 +29,9 @@ const TutorialsPage = () => {
   );
 
   useEffect(() => {
-    getContent('/campd/help-support/tutorials/index.md').then((resp) =>
-      setMainContent(resp.data)
-    );
+    getContent('/campd/help-support/tutorials/index.md', setApiErrorDispatcher).then((resp) =>
+      resp && setMainContent(resp.data)
+    );//eslint-disable-next-line
   }, []);
 
   return (
@@ -50,4 +52,7 @@ const TutorialsPage = () => {
   );
 };
 
-export default TutorialsPage;
+const mapDispatchToProps = (dispatch) => ({setApiErrorDispatcher: (api, state, errorMessage) => dispatch(setApiError(api, state, errorMessage))});
+
+export default connect(null, mapDispatchToProps)(TutorialsPage);
+

@@ -1,6 +1,7 @@
 import * as types from "../actionTypes";
 import { beginApiCall } from '../apiStatusActions';
 import mapSelectionToApiCall from '../../../utils/api/dataPreviewApi';
+import setApiError from "../setApiErrorAction";
 
 export function updateSelectedDataType(dataType) {
   return {
@@ -62,7 +63,7 @@ export function loadDataPreviewSuccess(data, totalCount, fieldMappings, excludab
 export function loadDataPreview(dataType, dataSubType, filterCriteria, aggregation) {
   return (dispatch) => {
     dispatch(beginApiCall());
-    return mapSelectionToApiCall(dataType, dataSubType, filterCriteria, aggregation)
+    return mapSelectionToApiCall(dataType, dataSubType, filterCriteria, aggregation, () => dispatch(setApiError('dataPreview', true)))
     .then((res) => {
       const excludableColumns = res.headers?.['x-excludable-columns']?  JSON.parse(res.headers['x-excludable-columns']) : [];
       dispatch(
@@ -71,6 +72,7 @@ export function loadDataPreview(dataType, dataSubType, filterCriteria, aggregati
     })
     .catch((err) => {
       console.error(err);
+      setApiError('dataPreview', true)
     });
   };
 }
