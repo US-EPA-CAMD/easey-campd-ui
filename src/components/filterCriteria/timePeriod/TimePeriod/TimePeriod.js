@@ -72,14 +72,15 @@ export const TimePeriod = ({
   const [applyFilterClicked, setApplyFilterClicked] = useState(false);
   const matsDataType = dataType === "MERCURY AND AIR TOXICS EMISSIONS";
   useEffect(() => {
+    const formIsValid = isFormValid();
     if (applyFilterClicked) {
-      if (isFormValid() && verifyFilterLogic()) {
+      if (formIsValid && verifyFilterLogic()) {
         if (showYear) {
           updateYearHelper();
         } else {
           updateFullDateHelper();
         }
-      } else if (!isFormValid()) {
+      } else if (!formIsValid) {
         setApplyFilterLoading(false);
       }
     }
