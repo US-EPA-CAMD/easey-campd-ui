@@ -218,7 +218,7 @@ const CustomDataDownload = ({
             if(bookmarkData.dataSubType === "Transactions"){
               loadFilterMappingDispatcher(bookmarkData.dataType, bookmarkData.dataSubType, [startDate, endDate])
             }else if(bookmarkData.dataType === "MERCURY AND AIR TOXICS EMISSIONS" ){
-              loadFilterMappingDispatcher(bookmarkData.dataType, dataSubType, getTimePeriodYears(startDate, endDate, null));
+              loadFilterMappingDispatcher(bookmarkData.dataType, bookmarkData.dataSubType, getTimePeriodYears(startDate, endDate, null));
             }else{
               loadFilterMappingDispatcher(bookmarkData.dataType, bookmarkData.dataSubType, getTimePeriodYears(startDate, endDate));
             }
@@ -249,6 +249,7 @@ const CustomDataDownload = ({
           getSelectedDataSubType(constants.DATA_SUBTYPES_MAP[selectedDataType])
         );
       }
+      setHandleApplyLoading(false);
     }//eslint-disable-next-line react-hooks/exhaustive-deps
   }, [handleApplyLoading])
   useEffect(() => {
