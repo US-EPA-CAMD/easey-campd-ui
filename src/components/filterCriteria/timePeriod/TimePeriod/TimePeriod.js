@@ -72,11 +72,15 @@ export const TimePeriod = ({
   const [applyFilterClicked, setApplyFilterClicked] = useState(false);
   const matsDataType = dataType === "MERCURY AND AIR TOXICS EMISSIONS";
   useEffect(() => {
-    if(applyFilterClicked && isFormValid() && verifyFilterLogic()){
-      if(showYear){
-        updateYearHelper()
-      }else{
-        updateFullDateHelper()
+    if (applyFilterClicked) {
+      if (isFormValid() && verifyFilterLogic()) {
+        if (showYear) {
+          updateYearHelper();
+        } else {
+          updateFullDateHelper();
+        }
+      } else if (!isFormValid()) {
+        setApplyFilterLoading(false);
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
