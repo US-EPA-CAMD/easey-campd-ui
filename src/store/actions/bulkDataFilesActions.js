@@ -1,6 +1,7 @@
 import * as types from './actionTypes';
 import * as quartzApi from '../../utils/api/quartzApi';
 import { beginApiCall } from './apiStatusActions';
+import setApiError from './setApiErrorAction';
 
 export function loadBulkDataFilesSuccess(bulkDataFiles) {
   return {
@@ -13,11 +14,12 @@ export function loadBulkDataFiles() {
   return (dispatch) => {
     dispatch(beginApiCall());
     return quartzApi
-      .getBulkDataFilesList()
+      .getBulkDataFilesList(()=>dispatch(setApiError('bulkDataFiles', true)))
       .then((res) => {
-        dispatch(loadBulkDataFilesSuccess(res.data));
+        if(res){dispatch(loadBulkDataFilesSuccess(res.data))};
       })
       .catch((err) => {
+        dispatch(setApiError('bulkDataFiles', true))
         console.error(err);
       });
   };

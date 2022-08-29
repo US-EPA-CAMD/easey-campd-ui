@@ -10,11 +10,13 @@ import remarkGfm from 'remark-gfm';
 import { Button, Link } from '@trussworks/react-uswds';
 import "./BulkDataFiles.scss";
 import RenderSpinner from '../../RenderSpinner/RenderSpinner';
+import setApiError from '../../../store/actions/setApiErrorAction';
 
 const BulkDataFiles = ({
   dataTable,
   loading,
   loadBulkDataFilesDispatcher,
+  setApiErrorDispatcher,
   updateBulkDataFilesDispacher
 }) => {
   const [helperText, setHelperText] = useState(null);
@@ -23,7 +25,7 @@ const BulkDataFiles = ({
   const [backButtonClicked, setBackButtonClicked] = useState(false)
   useEffect(() => {
     document.title = 'Bulk Data Files | CAMPD | US EPA';
-    getContent('/campd/data/bulk-data-files/helper-text.md').then(resp => setHelperText(resp.data));
+    getContent('/campd/data/bulk-data-files/helper-text.md', setApiErrorDispatcher).then(resp => setHelperText(resp?.data));
     if(dataTable === null){
       loadBulkDataFilesDispatcher();
     }// eslint-disable-next-line
@@ -102,6 +104,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     loadBulkDataFilesDispatcher: () => dispatch(loadBulkDataFiles()),
+    setApiErrorDispatcher: (api, state, errorMessage) => dispatch(setApiError(api, state, errorMessage)),
     updateBulkDataFilesDispacher: (tableRecords) => dispatch(updateBulkDataFiles(tableRecords))
   };
 };

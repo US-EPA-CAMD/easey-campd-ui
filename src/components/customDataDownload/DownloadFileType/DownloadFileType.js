@@ -7,12 +7,13 @@ import config from "../../../config";
 import { constructRequestUrl } from "../../../utils/selectors/general";
 import RenderSpinner from "../../RenderSpinner/RenderSpinner";
 import "./DownloadFileType.scss";
+import setApiErrorAction from "../../../store/actions/setApiErrorAction";
 
 axios.defaults.headers.common = {
   "x-api-key": config.app.apiKey,
 };
 
-const DownloadFileType = ({ aggregation, dataType, dataSubType, filterCriteria, totalCount, setApiError}) => {
+const DownloadFileType = ({ aggregation, dataType, dataSubType, filterCriteria, totalCount, setApiError, setApiErrorDispatcher}) => {
   const [fileType, setFileType] = useState('text/csv');
   const [loading, setLoading] = useState(false);
 
@@ -64,6 +65,7 @@ const DownloadFileType = ({ aggregation, dataType, dataSubType, filterCriteria, 
         console.log(error);
         setLoading(false);
         setApiError(true);
+        setApiErrorDispatcher('download', true)
       });
   };
 
@@ -119,4 +121,6 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, null)(DownloadFileType);
+const mapDispatchToProps = (dispatch) => ({setApiErrorDispatcher: (api, state, errorMessage) => dispatch(setApiErrorAction(api, state, errorMessage))});
+
+export default connect(mapStateToProps, mapDispatchToProps)(DownloadFileType);

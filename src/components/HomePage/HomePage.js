@@ -14,26 +14,28 @@ import { metaAdder } from "../../utils/document/metaAdder";
 import "./HomePage.scss";
 import getContent from "../../utils/api/getContent";
 import config from '../../config';
+import setApiError from "../../store/actions/setApiErrorAction";
+import { connect } from "react-redux";
 
-const HomePage = () => {
+const HomePage = ({setApiErrorDispatcher}) => {
   const [whatIsNewContent, setWhatIsNewContent] = useState();
   const [whatIsNewTitle, setWhatIsNewTitle] = useState();
   const [dataCard, setDataCard] = useState();
   const [mapsGraphsCard, setMapsGraphsCard] = useState();
 
   useEffect(() => {
-    getContent("/campd/home/what-is-new-content.md").then((resp) =>
-      setWhatIsNewContent(resp.data)
+    getContent("/campd/home/what-is-new-content.md", setApiErrorDispatcher).then((resp) =>
+      resp && setWhatIsNewContent(resp.data)
     );
-    getContent("/campd/home/what-is-new-title.md").then((resp) =>
-      setWhatIsNewTitle(resp.data)
+    getContent("/campd/home/what-is-new-title.md", setApiErrorDispatcher).then((resp) =>
+      resp && setWhatIsNewTitle(resp.data)
     );
-    getContent("/campd/home/data-card.md").then((resp) =>
-      setDataCard(resp.data)
+    getContent("/campd/home/data-card.md", setApiErrorDispatcher).then((resp) =>
+      resp && setDataCard(resp.data)
     );
-    getContent("/campd/home/maps-and-graphs-card.md").then((resp) =>
-      setMapsGraphsCard(resp.data)
-    );
+    getContent("/campd/home/maps-and-graphs-card.md", setApiErrorDispatcher).then((resp) =>
+      resp && setMapsGraphsCard(resp.data)
+    );//eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const [progressTitle, setProgressTitle] = useState("");
@@ -224,4 +226,6 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+const mapDispatchToProps = (dispatch) => ({setApiErrorDispatcher: (api, state, errorMessage) => dispatch(setApiError(api, state, errorMessage))});
+
+export default connect(null, mapDispatchToProps)(HomePage);
