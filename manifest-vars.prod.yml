@@ -1,5 +1,7 @@
+memory: 64
 instances: 2
 environment: prod
 host: campd.epa.gov
 apiHost: api.epa.gov/easey
+buildpack: nginx_buildpack
 googleAnalyticsEnabled: "true"

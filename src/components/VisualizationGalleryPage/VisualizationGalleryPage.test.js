@@ -5,12 +5,12 @@ import { rest } from "msw";
 import { setupServer } from "msw/node";
 
 import config from "../../config";
-import MapsGraphsPage from "./MapsGraphsPage";
+import VisualizationGalleryPage from "./VisualizationGalleryPage";
 
 jest.mock("react-markdown", () => ({ children }) => <>{children}</>);
 jest.mock("remark-gfm", () => () => {});
 
-const contentUrl = `${config.services.content.uri}/campd/maps-graphs`;
+const contentUrl = `${config.services.content.uri}/campd/visualization-gallery`;
 
 const slides = [
   {
@@ -50,7 +50,7 @@ const tools = [
 
 const server = new setupServer(
   rest.get(`${contentUrl}/intro-text.md`, (req, res, ctx) => {
-    return res(ctx.json("Maps & Graphs is a collection..."));
+    return res(ctx.json("Visualization Gallery is a collection..."));
   }),
   rest.get(`${contentUrl}/slides.json`, (req, res, ctx) => {
     return res(ctx.json(slides));
@@ -66,7 +66,7 @@ const server = new setupServer(
   })
 );
 
-describe("Maps and Graphs Page Component", () => {
+describe("Visualization Gallery Page Component", () => {
   beforeAll(() => server.listen());
   afterEach(() => server.resetHandlers());
   afterAll(() => server.close());
@@ -74,11 +74,11 @@ describe("Maps and Graphs Page Component", () => {
   test("should render content without error", async () => {
     const { findByText, findByRole, findAllByRole } = render(
       <MemoryRouter>
-        <MapsGraphsPage />
+        <VisualizationGalleryPage />
       </MemoryRouter>
     );
 
-    const introText = await findByText("Maps & Graphs is a collection...");
+    const introText = await findByText("Visualization Gallery is a collection...");
     expect(introText).toBeDefined();
 
     // advance to the second slide

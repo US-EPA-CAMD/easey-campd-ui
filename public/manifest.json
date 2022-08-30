@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "CAMPD",
+  "name": "Clean Air Markets Program Data (CAMPD)",
   "icons": [
     {
       "src": "favicon.ico",

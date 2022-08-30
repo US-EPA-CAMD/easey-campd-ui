@@ -51,7 +51,7 @@ describe('SubHeader', () => {
     const header = getByText('Clean Air Markets Program Data');
     const home = getByText('HOME');
     const data = getByText('DATA');
-    const analysis = getByText('MAPS & GRAPHS');
+    const analysis = getByText('VISUALIZATION GALLERY');
 
     expect(header).toBeTruthy();
     expect(home).toBeTruthy();

@@ -1,4 +1,6 @@
+memory: 64
 instances: 1
 environment: test
 host: campd-tst.app.cloud.gov
 apiHost: api.epa.gov/easey/test
+buildpack: nginx_buildpack

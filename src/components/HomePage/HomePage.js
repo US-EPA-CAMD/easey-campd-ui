@@ -21,7 +21,7 @@ const HomePage = ({setApiErrorDispatcher}) => {
   const [whatIsNewContent, setWhatIsNewContent] = useState();
   const [whatIsNewTitle, setWhatIsNewTitle] = useState();
   const [dataCard, setDataCard] = useState();
-  const [mapsGraphsCard, setMapsGraphsCard] = useState();
+  const [visualGalleryCard, setvisualGalleryCard] = useState();
 
   useEffect(() => {
     getContent("/campd/home/what-is-new-content.md", setApiErrorDispatcher).then((resp) =>
@@ -33,8 +33,8 @@ const HomePage = ({setApiErrorDispatcher}) => {
     getContent("/campd/home/data-card.md", setApiErrorDispatcher).then((resp) =>
       resp && setDataCard(resp.data)
     );
-    getContent("/campd/home/maps-and-graphs-card.md", setApiErrorDispatcher).then((resp) =>
-      resp && setMapsGraphsCard(resp.data)
+    getContent("/campd/home/visualization-gallery-card.md", setApiErrorDispatcher).then((resp) =>
+      resp && setvisualGalleryCard(resp.data)
     );//eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -150,8 +150,8 @@ const HomePage = ({setApiErrorDispatcher}) => {
         </div>
         <div className="padding-y-1 padding-x-1 display-flex flex-row flex-align-start text-base-darkest order-3 grid-col-12 desktop:grid-col-4">
           <ReactMarkdown
-            className="maps-and-graphs-card"
-            children={mapsGraphsCard}
+            className="visualization-gallery-card"
+            children={visualGalleryCard}
             remarkPlugins={[remarkGfm]}
             components={{// eslint-disable-next-line
               img: ({node, ...props}) => <img {...props} alt=""/>,
@@ -175,7 +175,7 @@ const HomePage = ({setApiErrorDispatcher}) => {
                     type="button"
                     onClick={() => history.push(props.href)}
                     role="link"
-                    rel={"Maps and Graphs"}
+                    rel={"Visualization Gallery"}
                     title={props.children[0]}
                   >
                     {props.children[0]}

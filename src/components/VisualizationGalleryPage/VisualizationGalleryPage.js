@@ -10,12 +10,12 @@ import HeroSlideshow from "../HeroSlideshow/HeroSlideshow";
 import setApiError from "../../store/actions/setApiErrorAction";
 import { connect } from "react-redux";
 
-const MapsGraphsPage = ({setApiErrorDispatcher}) => {
+const VisualizationGalleryPage = ({setApiErrorDispatcher}) => {
   useEffect(() => {
-    document.title = "Maps & Graphs | CAMPD | US EPA";
+    document.title = "Visualization Gallery | CAMPD | US EPA";
     metaAdder(
       "description",
-      "The maps & graphs gallery allows users to browse and interact with a variety of tools to visualize emissions trading program data."
+      "The Visualization Gallery allows users to browse and interact with a variety of tools to visualize emissions trading program data."
     );
     metaAdder(
       "keywords",
@@ -27,22 +27,24 @@ const MapsGraphsPage = ({setApiErrorDispatcher}) => {
   const [slides, setSlides] = useState([]);
   const [tools, setTools] = useState([]);
 
+  const vizGalleryContentBasePath = '/campd/visualization-gallery';
+
   useEffect(() => {
-    getContent("/campd/maps-graphs/intro-text.md", setApiErrorDispatcher).then((resp) =>
+    getContent(`${vizGalleryContentBasePath}/intro-text.md`, setApiErrorDispatcher).then((resp) =>
       resp && setIntroText(resp.data)
     );
 
-    getContent("/campd/maps-graphs/slides.json").then((resp) => {
+    getContent(`${vizGalleryContentBasePath}/slides.json`, setApiErrorDispatcher).then((resp) => {
       resp && Promise.all(
         resp.data.map((slide) => {
           return Promise.all([
             slide.image
-              ? getContent(`/campd/maps-graphs/${slide.image}`).then(
+              ? getContent(`${vizGalleryContentBasePath}/${slide.image}`, setApiErrorDispatcher).then(
                   (imgResp) => imgResp.config.url
                 )
               : Promise.resolve(""),
             slide.text
-              ? getContent(`/campd/maps-graphs/${slide.text}`).then(
+              ? getContent(`${vizGalleryContentBasePath}/${slide.text}`, setApiErrorDispatcher).then(
                   (textResp) => textResp.data
                 )
               : Promise.resolve(""),
@@ -55,17 +57,17 @@ const MapsGraphsPage = ({setApiErrorDispatcher}) => {
       });
     });
 
-    getContent("/campd/maps-graphs/tools.json", setApiErrorDispatcher).then((resp) => {
+    getContent(`${vizGalleryContentBasePath}/tools.json`, setApiErrorDispatcher).then((resp) => {
       resp && Promise.all(
         resp.data.map((tool) => {
           return Promise.all([
             tool.image
-              ? getContent(`/campd/maps-graphs/${tool.image}`).then(
+              ? getContent(`${vizGalleryContentBasePath}/${tool.image}`, setApiErrorDispatcher).then(
                   (imgResp) => imgResp.config.url
                 )
               : Promise.resolve(""),
             tool.description
-              ? getContent(`/campd/maps-graphs/${tool.description}`).then(
+              ? getContent(`${vizGalleryContentBasePath}/${tool.description}`, setApiErrorDispatcher).then(
                   (descResp) => descResp.data
                 )
               : Promise.resolve(""),
@@ -133,7 +135,7 @@ const Tool = ({ data }) => {
           <p className="margin-0 font-sans-3xs">
             <a
               className="display-block text-white underline-primary-dark hover:underline-accent-cool"
-              href={`mailto:campd-support@camdsupport.com?subject=CAMPD Maps and Graphs Feedback - ${data.name}`}
+              href={`mailto:campd-support@camdsupport.com?subject=CAMPD Visualization Gallery Feedback - ${data.name}`}
               target="_blank"
               rel="noopener noreferrer"
               aria-label={`Provide Feedback for ${data.name}`}
@@ -226,4 +228,4 @@ const Tool = ({ data }) => {
 
 const mapDispatchToProps = (dispatch) => ({setApiErrorDispatcher: (api, state, errorMessage) => dispatch(setApiError(api, state, errorMessage))});
 
-export default connect(null, mapDispatchToProps)(MapsGraphsPage);
+export default connect(null, mapDispatchToProps)(VisualizationGalleryPage);

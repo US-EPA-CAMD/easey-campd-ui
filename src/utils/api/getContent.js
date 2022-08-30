@@ -1,6 +1,7 @@
 import axios from 'axios';
 import config from '../../config';
 import { handleError, handleResponse } from './apiUtils';
+
 const getContent = async (path, setApiError) => {
   const url = `${config.services.content.uri}${path}`;
 
@@ -12,7 +13,6 @@ const getContent = async (path, setApiError) => {
       if(setApiError){
         setApiError('contentManager', true)
       }
-      // throw new Error(error);
     });
 };
 
