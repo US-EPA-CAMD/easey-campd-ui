@@ -49,6 +49,7 @@ export default {
     download: {state: false, message: ''},
     filterLogic: {state: false, message: ''},
     MDMRetrieval: {state: false, message: ''},
+    s3Outage: {state: false, message: ''},
   },
   apiCallsInProgress: 0,
   hideNav: false
