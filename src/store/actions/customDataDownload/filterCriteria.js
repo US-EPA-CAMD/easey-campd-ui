@@ -226,6 +226,7 @@ export function loadFilterMapping(dataType, dataSubType, yearsArray=[]) {
         dispatch(loadFilterMappingSuccess(res.data));
       })
       .catch((err) => {
+        dispatch(setApiError('filterLogic', true));
         console.error(err);
       });
   };
