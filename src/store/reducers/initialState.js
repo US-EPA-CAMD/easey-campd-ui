@@ -42,6 +42,15 @@ export default {
   bulkDataFiles:{
     dataTable: null
   },
+  apiErrors: {
+    bulkDataFiles: {state: false, message: ''},
+    contentManager: {state: false, message: ''},
+    dataPreview: {state: false, message: ''},
+    download: {state: false, message: ''},
+    filterLogic: {state: false, message: ''},
+    MDMRetrieval: {state: false, message: ''},
+    s3Outage: {state: false, message: ''},
+  },
   apiCallsInProgress: 0,
   hideNav: false
 };

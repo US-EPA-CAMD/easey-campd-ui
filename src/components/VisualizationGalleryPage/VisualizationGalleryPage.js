@@ -7,8 +7,10 @@ import icons from "uswds/dist/img/sprite.svg";
 import { metaAdder } from "../../utils/document/metaAdder";
 import getContent from "../../utils/api/getContent";
 import HeroSlideshow from "../HeroSlideshow/HeroSlideshow";
+import setApiError from "../../store/actions/setApiErrorAction";
+import { connect } from "react-redux";
 
-const VisualizationGalleryPage = () => {
+const VisualizationGalleryPage = ({setApiErrorDispatcher}) => {
   useEffect(() => {
     document.title = "Visualization Gallery | CAMPD | US EPA";
     metaAdder(
@@ -28,21 +30,21 @@ const VisualizationGalleryPage = () => {
   const vizGalleryContentBasePath = '/campd/visualization-gallery';
 
   useEffect(() => {
-    getContent(`${vizGalleryContentBasePath}/intro-text.md`).then((resp) =>
-      setIntroText(resp.data)
+    getContent(`${vizGalleryContentBasePath}/intro-text.md`, setApiErrorDispatcher).then((resp) =>
+      resp && setIntroText(resp.data)
     );
 
-    getContent(`${vizGalleryContentBasePath}/slides.json`).then((resp) => {
-      Promise.all(
+    getContent(`${vizGalleryContentBasePath}/slides.json`, setApiErrorDispatcher).then((resp) => {
+      resp && Promise.all(
         resp.data.map((slide) => {
           return Promise.all([
             slide.image
-              ? getContent(`${vizGalleryContentBasePath}/${slide.image}`).then(
+              ? getContent(`${vizGalleryContentBasePath}/${slide.image}`, setApiErrorDispatcher).then(
                   (imgResp) => imgResp.config.url
                 )
               : Promise.resolve(""),
             slide.text
-              ? getContent(`${vizGalleryContentBasePath}/${slide.text}`).then(
+              ? getContent(`${vizGalleryContentBasePath}/${slide.text}`, setApiErrorDispatcher).then(
                   (textResp) => textResp.data
                 )
               : Promise.resolve(""),
@@ -55,17 +57,17 @@ const VisualizationGalleryPage = () => {
       });
     });
 
-    getContent(`${vizGalleryContentBasePath}/tools.json`).then((resp) => {
-      Promise.all(
+    getContent(`${vizGalleryContentBasePath}/tools.json`, setApiErrorDispatcher).then((resp) => {
+      resp && Promise.all(
         resp.data.map((tool) => {
           return Promise.all([
             tool.image
-              ? getContent(`${vizGalleryContentBasePath}/${tool.image}`).then(
+              ? getContent(`${vizGalleryContentBasePath}/${tool.image}`, setApiErrorDispatcher).then(
                   (imgResp) => imgResp.config.url
                 )
               : Promise.resolve(""),
             tool.description
-              ? getContent(`${vizGalleryContentBasePath}/${tool.description}`).then(
+              ? getContent(`${vizGalleryContentBasePath}/${tool.description}`, setApiErrorDispatcher).then(
                   (descResp) => descResp.data
                 )
               : Promise.resolve(""),
@@ -76,7 +78,7 @@ const VisualizationGalleryPage = () => {
       ).then((fetchedTools) => {
         setTools(fetchedTools);
       });
-    });
+    });//eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -224,4 +226,6 @@ const Tool = ({ data }) => {
   );
 };
 
-export default VisualizationGalleryPage;
+const mapDispatchToProps = (dispatch) => ({setApiErrorDispatcher: (api, state, errorMessage) => dispatch(setApiError(api, state, errorMessage))});
+
+export default connect(null, mapDispatchToProps)(VisualizationGalleryPage);

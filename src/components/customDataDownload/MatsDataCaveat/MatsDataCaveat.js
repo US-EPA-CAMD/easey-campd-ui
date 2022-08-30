@@ -4,16 +4,18 @@ import remarkGfm from 'remark-gfm';
 import { Alert, Link as USWDSLink } from '@trussworks/react-uswds';
 
 import getContent from '../../../utils/api/getContent';
+import { connect } from 'react-redux';
+import setApiError from '../../../store/actions/setApiErrorAction';
 
-const MatsDataCaveat = ({styling}) => {
+const MatsDataCaveat = ({setApiErrorDispatcher, styling}) => {
   const [matsCaveat, setMatsCaveat] = useState();
   useEffect(() => {
-    getContent('/campd/data/custom-data-download/mats-data-caveat.md').then(
-      (resp) => setMatsCaveat(resp.data)
-    );
+    getContent('/campd/data/custom-data-download/mats-data-caveat.md', setApiErrorDispatcher).then(
+      (resp) => resp && setMatsCaveat(resp.data)
+    );//eslint-disable-next-line
   }, []);
 
-  return (
+  return (matsCaveat? 
     <Alert
       className={styling}
       type="warning"
@@ -29,8 +31,10 @@ const MatsDataCaveat = ({styling}) => {
           p: 'span',
         }}
       />
-    </Alert>
+    </Alert> : null
   );
 };
 
-export default MatsDataCaveat;
+const mapDispatchToProps = (dispatch) => ({setApiErrorDispatcher: (api, state, errorMessage) => dispatch(setApiError(api, state, errorMessage))});
+
+export default connect(null, mapDispatchToProps)(MatsDataCaveat);

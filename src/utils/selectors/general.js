@@ -308,7 +308,7 @@ export const constructRequestUrl = (
   const aggregationService = aggregationLink? '/'+ aggregationLink : '';
   const url = `${apiService}${apiPath}${subTypeService}${aggregationService}?${pagination}${constructTimePeriodQuery(
     dataSubType,
-    filterCriteria
+    filterCriteria,
   )}${programQuery}${facilityQuery}${stateTerritoryQuery}${unitTypeQuery}${fuelTypeQuery}${controlTechnologyQuery}
 ${accountNameNumberQuery}${accountTypeQuery}${ownerOperatorQuery}${transactionTypeQuery}${sourceCategoryQuery}${excludeParams}`;
   console.log(url.replace(/\r?\n|\r/g, ''));

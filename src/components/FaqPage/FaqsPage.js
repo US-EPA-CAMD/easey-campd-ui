@@ -6,7 +6,9 @@ import formatAccordionTitles from '../../utils/ensure-508/formatAccordionTitles'
 import { metaAdder } from '../../utils/document/metaAdder';
 import getContent from "../../utils/api/getContent";
 import { isInternalUrl } from '../../utils/selectors/general';
-const FaqsPage = () => {
+import setApiError from '../../store/actions/setApiErrorAction';
+import { connect } from 'react-redux';
+const FaqsPage = ({setApiErrorDispatcher}) => {
 
   const [description, setDescription] = useState(null)
   const [topics, setTopics] = useState([]);
@@ -15,13 +17,13 @@ const FaqsPage = () => {
     document.title = 'FAQs | CAMPD | US EPA';
   }, []);
   useEffect(() => {
-    getContent('/campd/help-support/faqs/index.md').then((resp) =>
-      setDescription(resp.data)
+    getContent('/campd/help-support/faqs/index.md', setApiErrorDispatcher).then((resp) =>
+      resp && setDescription(resp.data)
     );
-    getContent('/campd/help-support/faqs/topics.json').then((resp) =>
-      setTopics(resp.data)
+    getContent('/campd/help-support/faqs/topics.json', setApiErrorDispatcher).then((resp) =>
+      resp && setTopics(resp.data)
     );
-    formatAccordionTitles();
+    //eslint-disable-next-line
   }, []);
   useEffect(() => {
     formatAccordionTitles(); //eslint-disable-next-line react-hooks/exhaustive-deps
@@ -86,4 +88,6 @@ const FaqsPage = () => {
   );
 };
 
-export default FaqsPage;
+const mapDispatchToProps = (dispatch) => ({setApiErrorDispatcher: (api, state, errorMessage) => dispatch(setApiError(api, state, errorMessage))});
+
+export default connect(null, mapDispatchToProps)(FaqsPage);

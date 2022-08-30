@@ -17,8 +17,11 @@ import getContent from '../../../utils/api/getContent';
 import ReactMarkdown from 'react-markdown';
 import { Alert, Search} from '@trussworks/react-uswds';
 import Tooltip from '../../Tooltip/Tooltip';
+import setApiError from '../../../store/actions/setApiErrorAction';
+import { connect } from 'react-redux';
 const BulkDataFilesTable = ({
-  dataTableRecords
+  dataTableRecords,
+  setApiErrorDispatcher
 }) => {
   const tableMsg = (<span aria-live="assertive">There are no records to display</span>)
   const [searchText, setSearchText] = useState('');
@@ -94,13 +97,15 @@ const BulkDataFilesTable = ({
   }, [dataTableRecords]);
 
   useEffect(() => {
-    getContent('/campd/data/bulk-data-files/download-limit-alert.md').then(
+    getContent('/campd/data/bulk-data-files/download-limit-alert.md', setApiErrorDispatcher).then(
       (resp) => {
-        let limitText = resp.data;
-        if (limitText.includes('[limit-configuration]')) {
-          limitText = limitText.replace('[limit-configuration]', downloadLimit);
+        if (resp){
+          let limitText = resp.data;
+          if (limitText.includes('[limit-configuration]')) {
+            limitText = limitText.replace('[limit-configuration]', downloadLimit);
+          }
+          setLimitAlert(limitText);
         }
-        setLimitAlert(limitText);
       }
     );//eslint-disable-next-line
   }, []);
@@ -207,4 +212,10 @@ const BulkDataFilesTable = ({
   );
 };
 
-export default BulkDataFilesTable;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setApiErrorDispatcher: (api, state, errorMessage) => dispatch(setApiError(api, state, errorMessage)),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(BulkDataFilesTable);

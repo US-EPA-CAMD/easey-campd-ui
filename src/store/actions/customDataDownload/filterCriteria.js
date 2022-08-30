@@ -9,6 +9,7 @@ import {
   restructureAccountTypes,
 } from '../../../utils/selectors/filterCriteria';
 import {FILTERS_MAP, API_CALLING_FILTERS} from "../../../utils/constants/customDataDownload";
+import setApiError from '../setApiErrorAction';
 
 export function resetFilter(filterToReset, resetAll = false) {
   return {
@@ -225,6 +226,7 @@ export function loadFilterMapping(dataType, dataSubType, yearsArray=[]) {
         dispatch(loadFilterMappingSuccess(res.data));
       })
       .catch((err) => {
+        dispatch(setApiError('filterLogic', true));
         console.error(err);
       });
   };
@@ -360,6 +362,7 @@ export const loadAllFilters = (dataType, dataSubType, filterCriteria, bookmarkFi
       })
       .catch((err) => {
         console.error(err);
+        dispatch(setApiError('MDMRetrieval', true))
       });
   }
 };

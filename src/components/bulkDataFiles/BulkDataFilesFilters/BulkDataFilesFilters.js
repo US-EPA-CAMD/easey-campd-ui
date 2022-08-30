@@ -7,6 +7,8 @@ import Tooltip from '../../Tooltip/Tooltip';
 import { Help } from '@material-ui/icons';
 import useCheckWidth from '../../../utils/hooks/useCheckWidth'
 import {useFocusTrapWithRef} from '../../../utils/hooks/useFocusTrapWithRef';
+import { connect } from 'react-redux';
+import setApiError from '../../../store/actions/setApiErrorAction';
 
 const BulkDataFilesFilters = ({
   dataTableRecords,
@@ -16,7 +18,8 @@ const BulkDataFilesFilters = ({
   backButtonClicked,
   setBackButtonClicked,
   showMobileFilters,
-  setShowMobileFilters
+  setShowMobileFilters,
+  setApiErrorDispatcher
 }) => {
   const [initialTableRecords, setInitialTableRecords] = useState(null);
   const [filtersContent, setFiltersContent] = useState(null);
@@ -57,7 +60,7 @@ const BulkDataFilesFilters = ({
   const changeFromAppliedFilters = isMobileOrTablet && dataType !== appliedFilterSelection.dataType;
   useEffect(() => {
     if(filtersContent === null){
-      getContent('/campd/data/bulk-data-files/filters-content.json').then(resp => setFiltersContent(resp.data));
+      getContent('/campd/data/bulk-data-files/filters-content.json', setApiErrorDispatcher).then(resp => setFiltersContent(resp?.data));
     }
     if(dataTableRecords && initialTableRecords === null){
       setInitialTableRecords(dataTableRecords);
@@ -384,4 +387,6 @@ const BulkDataFilesFilters = ({
   );
 };
 
-export default BulkDataFilesFilters;
+const mapDispatchToProps = (dispatch) => ({setApiErrorDispatcher: (api, state, errorMessage) => dispatch(setApiError(api, state, errorMessage))});
+
+export default connect(null, mapDispatchToProps)(BulkDataFilesFilters);

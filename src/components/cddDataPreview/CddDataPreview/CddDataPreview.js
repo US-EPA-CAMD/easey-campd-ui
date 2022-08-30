@@ -32,6 +32,7 @@ import config from "../../../config";
 import getContent  from '../../../utils/api/getContent';
 import MatsDataCaveat from '../../customDataDownload/MatsDataCaveat/MatsDataCaveat';
 import "./CddDataPreview.scss";
+import setApiError from '../../../store/actions/setApiErrorAction';
 
 const CddDataPreview = ({
   aggregation,
@@ -58,7 +59,8 @@ const CddDataPreview = ({
   totalCount,
   dataPreview,
   removedAppliedFilter,
-  setRemovedAppliedFilter
+  setRemovedAppliedFilter,
+  setApiErrorDispatcher
 }) => {
   const [requirementsMet, setRequirementsMet] = useState(false);
   const [helperText, setHelperText] = useState(null);
@@ -70,23 +72,25 @@ const CddDataPreview = ({
   const modalRef = useRef();
 
   useEffect(() => {
-    getContent('/campd/data/custom-data-download/helper-text.md').then(resp => setHelperText(resp.data));
-    getContent('/campd/data/custom-data-download/api-error-alert.md').then(resp => setApiErrorAlert(resp.data));
-    getContent('/campd/data/custom-data-download/download-limit-alert.md').then(
+    getContent('/campd/data/custom-data-download/helper-text.md', setApiErrorDispatcher).then(resp => setHelperText(resp?.data));
+    getContent('/campd/data/custom-data-download/api-error-alert.md', setApiErrorDispatcher).then(resp => setApiErrorAlert(resp?.data));
+    getContent('/campd/data/custom-data-download/download-limit-alert.md', setApiErrorDispatcher).then(
       (resp) => {
-        let limitText = resp.data;
-        if (limitText.includes('[limit-configuration]')) {
-          limitText = limitText.replace(
-            '[limit-configuration]',
-            String(config.app.streamingLimit).replace(
-              /\B(?=(\d{3})+(?!\d))/g,
-              ','
-            )
-          );
+        if (resp){
+          let limitText = resp.data;
+          if (limitText.includes('[limit-configuration]')) {
+            limitText = limitText.replace(
+              '[limit-configuration]',
+              String(config.app.streamingLimit).replace(
+                /\B(?=(\d{3})+(?!\d))/g,
+                ','
+              )
+            );
+          }
+          setLimitAlert(limitText);
         }
-        setLimitAlert(limitText);
       }
-    );
+    );//eslint-disable-next-line
   }, []);
   
   useEffect(() => {
@@ -445,6 +449,8 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(removeAppliedFilter(removedFilter, removeAll, opHours)),
     resetFiltersDispatcher: (filterToReset, resetAll) =>
       dispatch(resetFilter(filterToReset, resetAll)),
+    setApiErrorDispatcher: (api, state, errorMessage) =>
+      dispatch(setApiError(api, state, errorMessage)),
     updateTimePeriodDispatcher: (timePeriod) =>
       dispatch(updateTimePeriod(timePeriod)),
     updateFilterCriteriaDispatcher: (filterCriteria) =>

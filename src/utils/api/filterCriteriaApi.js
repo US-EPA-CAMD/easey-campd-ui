@@ -69,10 +69,12 @@ export function getOwnerOperators(dataSubType) {
 
 export async function getFilterMapping(dataType, dataSubType, yearSet=[]) {
   let url;
-  if(dataType === "EMISSIONS" || dataType === "FACILITY"){
+  if(dataType === "EMISSIONS"){
+    url = `${config.services.emissions.uri}/emissions/apportioned/attributes/applicable?year=${getPipeDelimitedYears(yearSet)}`
+  }else if (dataType === "FACILITY"){
     url = `${config.services.facilities.uri}/facilities/attributes/applicable?year=${getPipeDelimitedYears(yearSet)}`;
   }else if(dataType === "MERCURY AND AIR TOXICS EMISSIONS"){
-    url = `${config.services.emissions.uri}/emissions/apportioned/mats/attributes/applicable?beginDate=${yearSet[0]}&endDate=${yearSet[1]}`
+    url = `${config.services.emissions.uri}/emissions/apportioned/mats/attributes/applicable?year=${getPipeDelimitedYears(yearSet)}`
   }else if(dataType === "ALLOWANCE"){
     if(dataSubType === "Holdings"){
       url = `${config.services.account.uri}/allowance-holdings/attributes/applicable`;

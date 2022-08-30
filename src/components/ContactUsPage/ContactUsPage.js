@@ -10,8 +10,10 @@ import { sendNotificationEmail } from '../../utils/api/notificationsApi';
 import { isEmailValid } from '../../utils/selectors/general';
 
 import './ContactUsPage.scss';
+import { connect } from 'react-redux';
+import setApiError from '../../store/actions/setApiErrorAction';
 
-const ContactUsPage = () => {
+const ContactUsPage = ({setApiErrorDispatcher}) => {
   const [mainContent, setMainContent] = useState();
   const [commentTypes, setCommentTypes] = useState([]);
   const [submitStatusText, setSubmitStatusText] = useState([]);
@@ -40,7 +42,7 @@ const ContactUsPage = () => {
         h4Tag.outerHTML = `<h2> ${h4Tag.innerHTML} </h2>`;
       } else {
         const h2Tag = document.querySelector('h2');
-        h2Tag.outerHTML = `<h2> ${submitStatus ? 'Success' : 'Error'} </h2>`;
+        if (h2Tag) {h2Tag.outerHTML = `<h2> ${submitStatus ? 'Success' : 'Error'} </h2>`};
       }
     }
   }, [submitted, submitStatus]);
@@ -52,44 +54,46 @@ const ContactUsPage = () => {
   metaAdder('keywords', 'CAMPD, CAMD, help, contact, support, ticket');
 
   useEffect(() => {
-    getContent('/campd/help-support/contact-us/index.md').then((resp) =>
-      setMainContent(resp.data)
+    getContent('/campd/help-support/contact-us/index.md', setApiErrorDispatcher).then((resp) =>
+    resp && setMainContent(resp.data)
     );
 
-    getContent('/campd/help-support/contact-us/comment-types.json').then(
-      (resp) => setCommentTypes(resp.data)
+    getContent('/campd/help-support/contact-us/comment-types.json', setApiErrorDispatcher).then(
+      (resp) => resp && setCommentTypes(resp.data)
     );
 
-    getContent('/campd/help-support/contact-us/submit-status-text.json').then(
+    getContent('/campd/help-support/contact-us/submit-status-text.json', setApiErrorDispatcher).then(
       (resp) => {
-        const modifiedStatusObject = resp.data.map((status) => {
-          if (status.hasOwnProperty('email')) {
-            const splitMessage = status.message.split('[email]');
-            return {
-              status: status.status,
-              message: (
-                <span>
-                  {splitMessage[0]}
-                  <USWDSLink
-                    to="#"
-                    onClick={(e) => {
-                      window.location = `mailto:${status.email}`;
-                      e.preventDefault();
-                    }}
-                  >
-                    {status.email}
-                  </USWDSLink>
-                  {splitMessage[1]}
-                </span>
-              ),
-            };
-          } else {
-            return status;
-          }
-        });
-        setSubmitStatusText(modifiedStatusObject);
+        if (resp){
+          const modifiedStatusObject = resp.data.map((status) => {
+            if (status.hasOwnProperty('email')) {
+              const splitMessage = status.message.split('[email]');
+              return {
+                status: status.status,
+                message: (
+                  <span>
+                    {splitMessage[0]}
+                    <USWDSLink
+                      to="#"
+                      onClick={(e) => {
+                        window.location = `mailto:${status.email}`;
+                        e.preventDefault();
+                      }}
+                    >
+                      {status.email}
+                    </USWDSLink>
+                    {splitMessage[1]}
+                  </span>
+                ),
+              };
+            } else {
+              return status;
+            }
+          });
+          setSubmitStatusText(modifiedStatusObject);
+        }
       }
-    );
+    );//eslint-disable-next-line
   }, []);
 
   const onSubmitHandler = () => {
@@ -144,6 +148,7 @@ const ContactUsPage = () => {
 
         // Error returned
         .catch((error) => {
+          setApiErrorDispatcher('contactUs', true);
           setSubmitStatus(false);
           setSubmitted(true);
           setEmailErrorMsg(
@@ -188,4 +193,10 @@ const ContactUsPage = () => {
   );
 };
 
-export default ContactUsPage;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setApiErrorDispatcher: (api, state, errorMessage) => dispatch(setApiError(api, state, errorMessage)),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(ContactUsPage);

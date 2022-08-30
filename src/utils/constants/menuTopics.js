@@ -12,14 +12,14 @@ export const subHeaderMenuList = [
     items: [{ menu: 'notMenu', link: '/visualization-gallery' }],
   },
   {
-    label: 'HELP/SUPPORT',
+    label: 'HELP & SUPPORT',
     items: [
       { menu: 'About CAMPD', link: '/help-support/about' },
       { menu: 'Tutorials', link: '/help-support/tutorials' },
       { menu: 'FAQs', link: '/help-support/faqs' },
-      { menu: 'Contact Us', link: '/help-support/contact-us' },
       { menu: 'Glossary', link: '/help-support/glossary' },
       { menu: 'Related Resources', link: '/help-support/related-resources' },
+      { menu: 'Contact Us', link: '/help-support/contact-us' },
     ],
   },
 ];

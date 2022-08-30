@@ -6,15 +6,17 @@ import { Button } from '@trussworks/react-uswds';
 import getContent from '../../utils/api/getContent';
 import { metaAdder } from '../../utils/document/metaAdder';
 import './GlossaryPage.scss';
+import setApiError from '../../store/actions/setApiErrorAction';
+import { connect } from 'react-redux';
 
-const GlossaryPage = () => {
+const GlossaryPage = ({setApiErrorDispatcher}) => {
   const [mainContent, setMainContent] = useState(null);
 
   useEffect(() => {
-    getContent('/campd/resources/glossary/index.md').then((resp) =>
-      setMainContent(resp.data)
+    getContent('/campd/resources/glossary/index.md', setApiErrorDispatcher).then((resp) =>
+      resp && setMainContent(resp.data)
     );
-    document.title = 'Glossary | CAMPD | US EPA';
+    document.title = 'Glossary | CAMPD | US EPA';//eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   metaAdder(
@@ -57,4 +59,6 @@ const GlossaryPage = () => {
   );
 };
 
-export default GlossaryPage;
+const mapDispatchToProps = (dispatch) => ({setApiErrorDispatcher: (api, state, errorMessage) => dispatch(setApiError(api, state, errorMessage))});
+
+export default connect(null, mapDispatchToProps)(GlossaryPage);
