@@ -149,7 +149,7 @@ const SubHeader = () => {
             />
           </div>
           <div
-            className="display-flex flex-column flex-align-end padding-top-2 text-no-wra"
+            className="display-flex flex-column flex-align-end padding-top-2 text-no-wrap"
             id="sub-header-nav"
           >
             <SubHeaderNav
