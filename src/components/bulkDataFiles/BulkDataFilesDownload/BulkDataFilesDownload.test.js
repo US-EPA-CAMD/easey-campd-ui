@@ -1,7 +1,13 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import BulkDataFilesDownload from './BulkDataFilesDownload';
+import { Provider } from 'react-redux';
+import { MemoryRouter } from 'react-router';
+import initialState from '../../../store/reducers/initialState';
+import configureStore from '../../../store/configureStore.dev';
 const { getByRole, getByText } = screen;
+
+let store = configureStore(initialState);
 
 jest.mock('react-markdown', () => ({ children }) => <>{children}</>);
 jest.mock('remark-gfm', () => () => {});
@@ -36,7 +42,12 @@ const selectedFiles = {
     },
   ],
 };
-const overLimitFiles = Object.assign({}, selectedFiles, selectedFiles.selectedRows = [...selectedFiles.selectedRows, {
+const overLimitFiles = Object.assign(
+  {},
+  selectedFiles,
+  (selectedFiles.selectedRows = [
+    ...selectedFiles.selectedRows,
+    {
       filename: 'compliance-txso2.csv',
       s3Path: 'compliance/compliance-txso2.csv',
       bytes: 0,
@@ -47,16 +58,25 @@ const overLimitFiles = Object.assign({}, selectedFiles, selectedFiles.selectedRo
       description: 'Texas SO2 Trading Program Annual Reconciliation Data',
       metadata: {},
       id: 7,
-    }]);
-const singleSelectedFile = Object.assign({}, selectedFiles, [selectedFiles.selectedRows[0]])
+    },
+  ])
+);
+const singleSelectedFile = Object.assign({}, selectedFiles, [
+  selectedFiles.selectedRows[0],
+]);
 describe('Bulk data files download component functionality', () => {
   test('download button should be disabled if no files are selected', () => {
     render(
-      <BulkDataFilesDownload
-        selectedFiles={{}}
-        limitReached={false}
-        fileSize={0}
-      />
+      <Provider store={store}>
+        <MemoryRouter>
+          <BulkDataFilesDownload
+            selectedFiles={{}}
+            setApiErrorDispatcher={jest.fn()}
+            limitReached={false}
+            fileSize={0}
+          />
+        </MemoryRouter>
+      </Provider>
     );
 
     const downloadButton = getByRole('button', {
@@ -67,11 +87,16 @@ describe('Bulk data files download component functionality', () => {
 
   test('download button should be enabled if files are selected', () => {
     render(
-      <BulkDataFilesDownload
-        selectedFiles={selectedFiles}
-        limitReached={false}
-        fileSize={'697.23 KB'}
-      />
+      <Provider store={store}>
+        <MemoryRouter>
+          <BulkDataFilesDownload
+            selectedFiles={selectedFiles}
+            limitReached={false}
+            fileSize={'697.23 KB'}
+            setApiErrorDispatcher={jest.fn()}
+          />
+        </MemoryRouter>
+      </Provider>
     );
 
     const downloadButton = getByRole('button', {
@@ -82,11 +107,16 @@ describe('Bulk data files download component functionality', () => {
 
   test('download button should be disabled if file size exceeds limit', () => {
     render(
-      <BulkDataFilesDownload
-        selectedFiles={overLimitFiles}
-        limitReached={true}
-        fileSize={'697.23 GB'}
-      />
+      <Provider store={store}>
+        <MemoryRouter>
+          <BulkDataFilesDownload
+            selectedFiles={overLimitFiles}
+            limitReached={true}
+            fileSize={'697.23 GB'}
+            setApiErrorDispatcher={jest.fn()}
+          />
+        </MemoryRouter>
+      </Provider>
     );
 
     const downloadButton = getByRole('button', {
@@ -96,14 +126,19 @@ describe('Bulk data files download component functionality', () => {
   });
 
   test('should update file size when files are selected', () => {
-    const {debug} = render(
-      <BulkDataFilesDownload
-        selectedFiles={singleSelectedFile}
-        limitReached={true}
-        fileSize={'6145 bytes'}
-      />
+    const { debug } = render(
+      <Provider store={store}>
+        <MemoryRouter>
+          <BulkDataFilesDownload
+            selectedFiles={singleSelectedFile}
+            limitReached={true}
+            fileSize={'6145 bytes'}
+            setApiErrorDispatcher={jest.fn()}
+          />
+        </MemoryRouter>
+      </Provider>
     );
-    const fileSize = getByText(/size: 6145 bytes/i)
-    expect(fileSize).toBeInTheDocument()
-  })
+    const fileSize = getByText(/size: 6145 bytes/i);
+    expect(fileSize).toBeInTheDocument();
+  });
 });

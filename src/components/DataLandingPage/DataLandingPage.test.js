@@ -5,7 +5,11 @@ import { MemoryRouter } from 'react-router-dom';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 import config from '../../config';
+import configureStore from '../../store/configureStore.dev';
+import initialState from '../../store/reducers/initialState';
+import { Provider } from 'react-redux';
 
+let store = configureStore(initialState);
 jest.mock('react-markdown', () => ({ children }) => <>{children}</>);
 jest.mock('remark-gfm', () => () => {});
 
@@ -56,7 +60,12 @@ afterAll(() => server.close());
 
 describe('Data Landing Page Component', () => {
     test("should render content without error", async () => {
-      const {findByText, findAllByRole} = render(<MemoryRouter><DataLandingPage/></MemoryRouter>);
+      const {findByText, findAllByRole} = render(
+      <Provider store={store}>
+        <MemoryRouter>
+          <DataLandingPage setApiErrorDispatcher={jest.fn()} />
+        </MemoryRouter>
+      </Provider>);
       const links = await findAllByRole("link");
       const header = await findByText("Data Access Methods");
       expect(header).toBeDefined();

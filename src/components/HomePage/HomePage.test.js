@@ -5,7 +5,11 @@ import { MemoryRouter } from "react-router-dom";
 import { rest } from "msw";
 import { setupServer } from "msw/node";
 import config from "../../config";
+import configureStore from "../../store/configureStore.dev";
+import initialState from "../../store/reducers/initialState";
+import { Provider } from "react-redux";
 
+let store = configureStore(initialState);
 jest.mock("react-markdown", () => ({ children }) => <>{children}</>);
 jest.mock("remark-gfm", () => () => {});
 
@@ -48,9 +52,11 @@ describe("Home Page Component", () => {
 
   it("should render content without error", async () => {
     const { findByText, findAllByRole } = render(
-      <MemoryRouter>
-        <HomePage />
-      </MemoryRouter>
+      <Provider store={store}>
+        <MemoryRouter>
+          <HomePage setApiErrorDispatcher={jest.fn()} />
+        </MemoryRouter>
+      </Provider>
     );
     const data = await findByText("Data");
     const visualGallery = await findByText("Visualization Gallery");

@@ -42,6 +42,7 @@ describe('custom data download Async Actions', () => {
       .reply(200, successResponse.data, successResponse.headers);
     const expectedActions = [
       { type: types.BEGIN_API_CALL },
+      { type: types.API_ERRORS, payload: {api: 'dataPreview', state: true, errorMessage: ''}}
     ];
 
     const store = mockStore(initState.customDataDownload);
