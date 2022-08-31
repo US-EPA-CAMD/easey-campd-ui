@@ -138,7 +138,7 @@ const BulkDataFilesTable = ({
     }
     const handleSearch = (e) =>{
       e.preventDefault();
-      const filteredItems = searchedItems.filter(
+      const filteredItems = data.filter(
         item => item.metadata.description? item.filename.toLowerCase().includes(searchText.toLowerCase()) || item.metadata.description.toLowerCase().includes(searchText.toLowerCase())
         : item.filename.toLowerCase().includes(searchText.toLowerCase()) 
       );
