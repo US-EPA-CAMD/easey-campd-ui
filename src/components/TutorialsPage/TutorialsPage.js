@@ -55,4 +55,3 @@ const TutorialsPage = ({setApiErrorDispatcher}) => {
 const mapDispatchToProps = (dispatch) => ({setApiErrorDispatcher: (api, state, errorMessage) => dispatch(setApiError(api, state, errorMessage))});
 
 export default connect(null, mapDispatchToProps)(TutorialsPage);
-

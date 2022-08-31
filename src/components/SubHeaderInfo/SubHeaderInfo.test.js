@@ -5,7 +5,11 @@ import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 import { MemoryRouter } from 'react-router-dom';
 import config from '../../config';
+import configureStore from '../../store/configureStore.dev';
+import initialState from '../../store/reducers/initialState';
+import { Provider } from 'react-redux';
 
+let store = configureStore(initialState);
 jest.mock('react-markdown', () => ({ children }) => <>{children}</>);
 jest.mock('react-markdown-v4', () => ({ children }) => <>{children}</>);
 jest.mock('remark-gfm', () => () => {});
@@ -29,9 +33,11 @@ describe('Sub-header Info Component', () => {
   afterAll(() => server.close());
   test("should render title without error", async () => {
     const {findByText} = render(
-    <MemoryRouter>
-      <SubHeaderInfo/>
-    </MemoryRouter>);
+    <Provider store={store}>
+      <MemoryRouter>
+        <SubHeaderInfo setApiErrorDispatcher={jest.fn()} />
+      </MemoryRouter>
+    </Provider>);
     const header = await findByText('Title text..');
     expect(header).toBeInTheDocument();
   });

@@ -8,6 +8,10 @@ import BulkDataFilesTable from './BulkDataFilesTable';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 import config from '../../../config';
+import { MemoryRouter } from 'react-router';
+import { Provider } from 'react-redux';
+import configureStore from '../../../store/configureStore.dev';
+import initialState from '../../../store/reducers/initialState';
 
 jest.mock('react-markdown', () => ({ children }) => <>{children}</>);
 jest.mock('remark-gfm', () => () => {});
@@ -17,6 +21,7 @@ const getDownloadLimitAlert = rest.get(downloadLimitAlertUrl, (req, res, ctx) =>
   return res(ctx.json('Download Limit Alert'));
 });
 const server = new setupServer(getDownloadLimitAlert);
+let store = configureStore(initialState);
 
 const dataTableRecords =[
   {
@@ -171,9 +176,15 @@ describe('Bulk data files data table component', () => {
   let query;
   beforeEach(() => {
     query = render(
-      <BulkDataFilesTable
-        dataTableRecords={dataTableRecords}
-      />);
+      <Provider store={store}>
+        <MemoryRouter>
+          <BulkDataFilesTable
+            dataTableRecords={dataTableRecords}
+            setApiErrorDispatcher={jest.fn()}
+          />
+        </MemoryRouter>
+      </Provider>
+    );
   });
 
   afterEach(cleanup);

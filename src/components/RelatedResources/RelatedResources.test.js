@@ -6,7 +6,11 @@ import RelatedResources from './RelatedResources';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 import config from '../../config';
+import { Provider } from 'react-redux';
+import configureStore from '../../store/configureStore.dev';
+import initialState from '../../store/reducers/initialState';
 
+let store = configureStore(initialState);
 jest.mock('react-markdown', () => ({ children }) => <>{children}</>);
 jest.mock('remark-gfm', () => () => {});
 
@@ -85,18 +89,22 @@ afterAll(() => server.close());
 describe('Related Resources Page Component', () => {
   test('should render content introduction without error', async () => {
     const { findByText } = render(
-      <MemoryRouter>
-        <RelatedResources />
-      </MemoryRouter>
+      <Provider store={store}>
+        <MemoryRouter>
+          <RelatedResources setApiErrorDispatcher={jest.fn()} />
+        </MemoryRouter>
+      </Provider>
     );
     const heading = await findByText('This is related resources intro..');
     expect(heading).toBeInTheDocument();
   });
   test('should render additional data tools list without error', async () => {
     const { findAllByText } = render(
-      <MemoryRouter>
-        <RelatedResources />
-      </MemoryRouter>
+      <Provider store={store}>
+        <MemoryRouter>
+          <RelatedResources setApiErrorDispatcher={jest.fn()} />
+        </MemoryRouter>
+      </Provider>
     );
 
     //additionalDataTools.forEach((element) => {

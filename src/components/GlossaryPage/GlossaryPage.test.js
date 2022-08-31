@@ -5,7 +5,11 @@ import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 import GlossaryPage from './GlossaryPage';
 import config from '../../config';
+import configureStore from '../../store/configureStore.dev';
+import initialState from '../../store/reducers/initialState';
+import { Provider } from 'react-redux';
 
+let store = configureStore(initialState);
 jest.mock('react-markdown', () => ({ children }) => <>{children}</>);
 jest.mock('remark-gfm', () => () => {});
 
@@ -41,9 +45,11 @@ afterAll(() => server.close());
 describe('Glossary page functionality', () => {
   test('should render content without error', async () => {
     const { findByText } = render(
-      <MemoryRouter>
-        <GlossaryPage />
-      </MemoryRouter>
+      <Provider store={store}>
+        <MemoryRouter>
+          <GlossaryPage setApiErrorDispatcher={jest.fn()} />
+        </MemoryRouter>
+      </Provider>
     );
     const content = await findByText(glossaryContent);
     expect(content).toBeInTheDocument();

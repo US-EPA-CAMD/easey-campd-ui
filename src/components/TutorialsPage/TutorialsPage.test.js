@@ -9,7 +9,11 @@ import { setupServer } from 'msw/node';
 
 import TutorialsPage from './TutorialsPage';
 import config from '../../config';
+import { Provider } from 'react-redux';
+import configureStore from '../../store/configureStore.dev';
+import initialState from '../../store/reducers/initialState';
 
+let store = configureStore(initialState);
 jest.mock('react-markdown', () => ({ children }) => <>{children}</>);
 jest.mock('remark-gfm', () => () => {});
 
@@ -29,9 +33,11 @@ describe('Tutorials Page Component', () => {
   afterAll(() => server.close());
   it('should render content without error', async () => {
     const { findByText } = render(
-      <MemoryRouter>
-        <TutorialsPage />
-      </MemoryRouter>
+      <Provider store={store}>
+        <MemoryRouter>
+          <TutorialsPage setApiErrorDispatcher={jest.fn()} />
+        </MemoryRouter>
+      </Provider>
     );
 
     const aboutHeading = await findByText('this is campd');

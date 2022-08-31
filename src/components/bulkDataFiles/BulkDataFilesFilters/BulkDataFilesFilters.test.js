@@ -4,6 +4,12 @@ import BulkDataFilesFilters from './BulkDataFilesFilters';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 import config from '../../../config';
+import { Provider } from 'react-redux';
+import { MemoryRouter } from 'react-router';
+import configureStore from '../../../store/configureStore.dev';
+import initialState from '../../../store/reducers/initialState';
+
+let store = configureStore(initialState);
 
 jest.mock('react-markdown', () => ({ children }) => <>{children}</>);
 jest.mock('remark-gfm', () => () => {});
@@ -298,11 +304,16 @@ afterAll(() => server.close());
 describe('BDFF-component',  () => {
   test('filters render without errors', async () => {
     const query = render(
-      <BulkDataFilesFilters
-        dataTableRecords={dataTableRecords}
-        loadBulkDataFilesDispatcher= {jest.fn()}
-        updateBulkDataFilesDispacher= {jest.fn()}
-      />
+      <Provider store={store}>
+        <MemoryRouter>
+          <BulkDataFilesFilters
+            dataTableRecords={dataTableRecords}
+            loadBulkDataFilesDispatcher={jest.fn()}
+            updateBulkDataFilesDispacher={jest.fn()}
+            setApiErrorDispatcher={jest.fn()}
+          />
+        </MemoryRouter>
+      </Provider>
     );
     const { findByText, findByTestId, getAllByTestId, findByLabelText, getByTestId} = query;
     const dataTypeLabel = await findByText("Data Type");

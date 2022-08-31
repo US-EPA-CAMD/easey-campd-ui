@@ -6,7 +6,11 @@ import { setupServer } from "msw/node";
 
 import config from "../../config";
 import VisualizationGalleryPage from "./VisualizationGalleryPage";
+import configureStore from "../../store/configureStore.dev";
+import initialState from "../../store/reducers/initialState";
+import { Provider } from "react-redux";
 
+let store = configureStore(initialState);
 jest.mock("react-markdown", () => ({ children }) => <>{children}</>);
 jest.mock("remark-gfm", () => () => {});
 
@@ -73,9 +77,11 @@ describe("Visualization Gallery Page Component", () => {
 
   test("should render content without error", async () => {
     const { findByText, findByRole, findAllByRole } = render(
-      <MemoryRouter>
-        <VisualizationGalleryPage />
-      </MemoryRouter>
+      <Provider store={store}>
+        <MemoryRouter>
+          <VisualizationGalleryPage setApiErrorDispatcher={jest.fn()} />
+        </MemoryRouter>
+      </Provider>
     );
 
     const introText = await findByText("Visualization Gallery is a collection...");

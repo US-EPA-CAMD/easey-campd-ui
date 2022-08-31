@@ -8,7 +8,11 @@ import userEvent from '@testing-library/user-event'
 
 import ContactUsPage from './ContactUsPage';
 import config from '../../config';
+import configureStore from '../../store/configureStore.dev';
+import initialState from '../../store/reducers/initialState';
+import { Provider } from 'react-redux';
 
+let store = configureStore(initialState);
 jest.mock('react-markdown', () => ({ children }) => <>{children}</>);
 jest.mock('remark-gfm', () => () => {});
 
@@ -86,9 +90,11 @@ describe('Contact Us Page Component', () => {
   describe('form validation', () => {
     test('should show error message if any field is incomplete', async () => {
       const { findByText, findByRole, findByTestId } = render(
-        <MemoryRouter>
-          <ContactUsPage/>
-        </MemoryRouter>
+        <Provider store={store}>
+          <MemoryRouter>
+            <ContactUsPage setApiErrorDispatcher={jest.fn()} />
+          </MemoryRouter>
+        </Provider>
       );
 
       const emailField = await findByRole('textbox', {
@@ -107,9 +113,11 @@ describe('Contact Us Page Component', () => {
 
     test('should show error message if email format is incorrect', async () => {
       const { findByText, findByRole, findByTestId } = render(
-        <MemoryRouter>
-          <ContactUsPage/>
-        </MemoryRouter>
+        <Provider store={store}>
+          <MemoryRouter>
+            <ContactUsPage setApiErrorDispatcher={jest.fn()} />
+          </MemoryRouter>
+        </Provider>
       );
 
       const emailField = await findByRole('textbox', {
@@ -127,9 +135,11 @@ describe('Contact Us Page Component', () => {
     });
     test('should not show error message if form is filled out correctly', async () => {
       const { findByText, findByRole, findByTestId, queryByRole } = render(
-        <MemoryRouter>
-          <ContactUsPage/>
-        </MemoryRouter>
+        <Provider store={store}>
+          <MemoryRouter>
+            <ContactUsPage setApiErrorDispatcher={jest.fn()} />
+          </MemoryRouter>
+        </Provider>
       );
 
       const emailField = await findByRole('textbox', {
@@ -152,9 +162,11 @@ describe('Contact Us Page Component', () => {
   describe('api', () => {
     it('should render content without error', async () => {
     const { findByText } = render(
+    <Provider store={store}>
       <MemoryRouter>
-        <ContactUsPage />
+        <ContactUsPage setApiErrorDispatcher={jest.fn()} />
       </MemoryRouter>
+    </Provider>
     );
 
     commentTypes.forEach( async (element) => {
@@ -166,5 +178,5 @@ describe('Contact Us Page Component', () => {
     });
   });
   })
-  
+
 });
