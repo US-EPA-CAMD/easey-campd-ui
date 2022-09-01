@@ -81,10 +81,7 @@ const CddDataPreview = ({
           if (limitText.includes('[limit-configuration]')) {
             limitText = limitText.replace(
               '[limit-configuration]',
-              String(config.app.streamingLimit).replace(
-                /\B(?=(\d{3})+(?!\d))/g,
-                ','
-              )
+              parseInt(config.app.streamingLimit).toLocaleString()
             );
           }
           setLimitAlert(limitText);
