@@ -1,6 +1,6 @@
 #THIS FILE SHOULD CONTAIN DEV SETTINGS AND CI/CD WORKFLOW WILL CHANGE SETTINGS BASED ON ENV
 name: campd-ui
-memory: 2048
+memory: 64
 disk: 2048
 instances: 1
 environment: dev
@@ -9,4 +9,3 @@ apiHost: api.epa.gov/easey/dev
 googleAnalyticsContainerId: "GTM-L8ZB"
 googleAnalyticsEnabled: "false"
 streamingLimit: 1000000
-buildpack: nodejs_buildpack

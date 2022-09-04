@@ -12,7 +12,7 @@ export const subHeaderMenuList = [
     items: [{ menu: 'notMenu', link: '/visualization-gallery' }],
   },
   {
-    label: 'HELP & SUPPORT',
+    label: 'HELP/SUPPORT',
     items: [
       { menu: 'About CAMPD', link: '/help-support/about' },
       { menu: 'Tutorials', link: '/help-support/tutorials' },
