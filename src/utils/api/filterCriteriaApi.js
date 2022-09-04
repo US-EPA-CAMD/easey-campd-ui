@@ -9,13 +9,14 @@ axios.defaults.headers.common = {
 
 export async function getDataFromMDM(endpoint) {
   const url = `${config.services.mdm.uri}/${endpoint}`;
-  console.log(url);
   return axios.get(url).then(handleResponse).catch(handleError);
 }
 
 export const getPrograms = (dataType, showActiveOnly) => {
   if (showActiveOnly) {
     return getDataFromMDM("programs?allowanceUIFilter=true&isActive=true");
+  } else if (dataType === "FACILITY") {
+    return getDataFromMDM("programs");
   } else if (dataType === "EMISSIONS") {
     return getDataFromMDM("programs?emissionsUIFilter=true");
   } else if (dataType === "ALLOWANCE") {
