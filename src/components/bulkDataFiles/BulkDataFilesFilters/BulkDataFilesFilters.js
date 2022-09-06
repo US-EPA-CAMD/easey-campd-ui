@@ -19,7 +19,8 @@ const BulkDataFilesFilters = ({
   setBackButtonClicked,
   showMobileFilters,
   setShowMobileFilters,
-  setApiErrorDispatcher
+  setApiErrorDispatcher,
+  setClearAllFiles,
 }) => {
   const [initialTableRecords, setInitialTableRecords] = useState(null);
   const [filtersContent, setFiltersContent] = useState(null);
@@ -140,6 +141,7 @@ const BulkDataFilesFilters = ({
     if (isMobileOrTablet) {
       setPreviewDataApplied(true);
     }
+    setClearAllFiles(true)
     const dataTypeSelector = document.querySelector('#data-type');
     dataTypeSelector.focus();
   };

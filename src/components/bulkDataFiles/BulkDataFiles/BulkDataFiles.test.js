@@ -132,6 +132,27 @@ test('file size is updated when files are added or removed', async () => {
   expect(updatedFileSize).toBeInTheDocument();
 });
 
+test('file size is reset when filters are cleared', async () => {
+  const { findByRole, getByText, getAllByText } = render(
+    <Provider store={store}>
+      <MemoryRouter>
+        <BulkDataFiles
+          loadBulkDataFilesDispatcher= {jest.fn()}
+          updateBulkDataFilesDispacher={jest.fn()}
+          dataTable={dataTable}
+        />
+      </MemoryRouter>
+    </Provider>
+  );
+  const checkbox = await findByRole('checkbox', {
+    name: /select-row-4/i
+  })
+  fireEvent.click(checkbox)
+  const clearAllButton = getAllByText(/clear all/i)[0];
+  fireEvent.click(clearAllButton);
+  const updatedFileSize= getByText(/size:/i)
+  expect(updatedFileSize).toBeInTheDocument()
+});
 
 test('download button is disabled if file size exceeds download limit', async () => {
   const {findByRole} = render(
