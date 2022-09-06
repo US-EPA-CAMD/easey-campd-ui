@@ -22,7 +22,8 @@ const BulkDataFiles = ({
   const [helperText, setHelperText] = useState(null);
   const [showMobileFilters, setShowMobileFilters] = useState(false);
   const [previewDataApplied, setPreviewDataApplied] = useState(false);
-  const [backButtonClicked, setBackButtonClicked] = useState(false)
+  const [backButtonClicked, setBackButtonClicked] = useState(false);
+  const [clearAllFiles, setClearAllFiles] = useState(false);
   useEffect(() => {
     document.title = 'Bulk Data Files | CAMPD | US EPA';
     getContent('/campd/data/bulk-data-files/helper-text.md', setApiErrorDispatcher).then(resp => setHelperText(resp?.data));
@@ -30,6 +31,10 @@ const BulkDataFiles = ({
       loadBulkDataFilesDispatcher();
     }// eslint-disable-next-line
   }, []);
+
+  useEffect(() => {
+    if (clearAllFiles) {setClearAllFiles(false)}
+  }, [clearAllFiles])
 
   useEffect(() => {
     if (backButtonClicked || previewDataApplied){
@@ -60,6 +65,7 @@ const BulkDataFiles = ({
           setBackButtonClicked={setBackButtonClicked}
           showMobileFilters={showMobileFilters}
           setShowMobileFilters={setShowMobileFilters}
+          setClearAllFiles={setClearAllFiles}
         />
       </div>
       <div className={`grid-col-fill ${showMobileFilters ? 'display-none tablet:display-block' : ''}`} id='content'>
@@ -88,6 +94,7 @@ const BulkDataFiles = ({
         <div className='margin-1 grid-row'>
           <BulkDataFilesTable
             dataTableRecords ={JSON.parse(JSON.stringify(dataTable))}
+            clearAllFiles={clearAllFiles}
           />
         </div>
       </div>

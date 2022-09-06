@@ -20,8 +20,9 @@ import Tooltip from '../../Tooltip/Tooltip';
 import setApiError from '../../../store/actions/setApiErrorAction';
 import { connect } from 'react-redux';
 const BulkDataFilesTable = ({
+  clearAllFiles,
   dataTableRecords,
-  setApiErrorDispatcher
+  setApiErrorDispatcher,
 }) => {
   const tableMsg = (<span aria-live="assertive">There are no records to display</span>)
   const [searchText, setSearchText] = useState('');
@@ -189,6 +190,7 @@ const BulkDataFilesTable = ({
       <div className='display-flex'>
         <div className='width-full'>
           <DataTable
+            clearSelectedRows={clearAllFiles}
             columns={columns}
             data={searchedItems}
             noHeader={true}
