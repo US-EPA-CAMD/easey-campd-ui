@@ -71,10 +71,9 @@ const additionalDataTools = [
   },
 ];
 
-const additionalToolsUrl =
-  `${config.services.content.uri}/campd/resources/related-resources/additional-data-tools.json`;
-const contentIntroUrl =
-  `${config.services.content.uri}/campd/resources/related-resources/index.md`;
+const baseUrl = `${config.services.content.uri}/campd/help-support/related-resources`;
+const contentIntroUrl = `${baseUrl}/index.md`;
+const additionalToolsUrl = `${baseUrl}/additional-data-tools.json`;
 const getAdditionalToolsUrl = rest.get(additionalToolsUrl, (req, res, ctx) => {
   return res(ctx.json(additionalDataTools));
 });
