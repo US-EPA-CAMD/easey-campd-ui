@@ -47,7 +47,7 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.ARTIFACTS_STORAGE_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.ARTIFACTS_STORAGE_SECRET_ACCESS_KEY }}
-  
+
   Test-Deployment:
     needs: Build-Test-Package
     runs-on: ubuntu-latest
@@ -84,9 +84,13 @@ jobs:
         run: devops/scripts/cf-app-init.sh
       - name: Configure Env Vars (secrets)
         run: |
+          cf set-env $APP_NAME REACT_APP_EASEY_CAMPD_UI_CLIENT_ID $REACT_APP_CAMPD_CLIENT_ID
+          cf set-env $APP_NAME REACT_APP_EASEY_CAMPD_UI_CLIENT_SECRET $REACT_APP_CAMPD_CLIENT_SECRET
           cf set-env $APP_NAME REACT_APP_CAMPD_API_KEY $REACT_APP_CAMPD_API_KEY
         env:
           REACT_APP_CAMPD_API_KEY: ${{ secrets.CAMPD_NON_PROD_API_KEY }}
+          REACT_APP_CAMPD_CLIENT_ID: ${{ secrets.CLIENT_ID }}
+          REACT_APP_CAMPD_CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
       - name: Deployment
         run: |
           devops/scripts/deploy.sh
@@ -128,12 +132,16 @@ jobs:
       - name: Configure Env Vars (secrets)
         run: |
           cf set-env $APP_NAME REACT_APP_CAMPD_API_KEY $REACT_APP_CAMPD_API_KEY
+          cf set-env $APP_NAME REACT_APP_EASEY_CAMPD_UI_CLIENT_ID $REACT_APP_CAMPD_CLIENT_ID
+          cf set-env $APP_NAME REACT_APP_EASEY_CAMPD_UI_CLIENT_SECRET $REACT_APP_CAMPD_CLIENT_SECRET
         env:
           REACT_APP_CAMPD_API_KEY: ${{ secrets.CAMPD_NON_PROD_API_KEY }}
+          REACT_APP_CAMPD_CLIENT_ID: ${{ secrets.CLIENT_ID }}
+          REACT_APP_CAMPD_CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
       - name: Deployment
         run: |
           devops/scripts/deploy.sh
-  
+
   Stage-Deployment:
     needs: Build-Test-Package
     runs-on: ubuntu-latest
@@ -171,8 +179,12 @@ jobs:
       - name: Configure Env Vars (secrets)
         run: |
           cf set-env $APP_NAME REACT_APP_CAMPD_API_KEY $REACT_APP_CAMPD_API_KEY
+          cf set-env $APP_NAME REACT_APP_EASEY_CAMPD_UI_CLIENT_ID $REACT_APP_CAMPD_CLIENT_ID
+          cf set-env $APP_NAME REACT_APP_EASEY_CAMPD_UI_CLIENT_SECRET $REACT_APP_CAMPD_CLIENT_SECRET
         env:
           REACT_APP_CAMPD_API_KEY: ${{ secrets.CAMPD_NON_PROD_API_KEY }}
+          REACT_APP_CAMPD_CLIENT_ID: ${{ secrets.CLIENT_ID }}
+          REACT_APP_CAMPD_CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
       - name: Deployment
         run: |
           devops/scripts/deploy.sh
