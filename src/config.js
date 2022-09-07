@@ -94,7 +94,7 @@ const config = {
     },
     bulkFiles: {
       uri: getConfigValue(
-        "REACT_APP_EASEY_BULK_DATA_FILES_API",
+        "REACT_APP_EASEY_BULK_FILES_API",
         "https://api.epa.gov/easey/dev/bulk-files"
       ),
     },
