@@ -4,8 +4,8 @@ import initialState from './initialState';
 
 const apiErrors = (reduxState = initialState.apiErrors, action) => {
   if (action.type === types.API_ERRORS) {
-    const {api, state, errorMessage } = action.payload;
-    return Object.assign({}, reduxState, { [api]: {state, message: errorMessage} });
+    const {api, state } = action.payload;
+    return Object.assign({}, reduxState, { [api]: state });
   }
   return reduxState;
 };

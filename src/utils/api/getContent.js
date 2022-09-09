@@ -3,7 +3,7 @@ import config from '../../config';
 import { handleError, handleResponse } from './apiUtils';
 
 const getContent = async (path, setApiError) => {
-  const url = `${config.services.content.uri}${path}`;
+  const url = `${config.services.content.uri}${path}2`;
 
   return axios
     .get(url)
