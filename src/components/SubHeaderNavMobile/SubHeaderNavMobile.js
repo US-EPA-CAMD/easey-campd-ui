@@ -54,7 +54,7 @@ const SubHeaderNavMobile = ({
     links.forEach((link, index) => {
       if (!items[index].subItems) {
         const svg = link.querySelector("svg");
-        link.removeChild(svg);
+        svg && link.removeChild(svg);
       }
     });
   }, [showMobileMenu, populateItems]);
