@@ -29,6 +29,27 @@ const limitTextUrl = `${config.services.content.uri}/campd/data/custom-data-down
 const getLimitText = rest.get(limitTextUrl, (req, res, ctx) => {
   return res(ctx.json('this is CDD download limit'));
 });
+const apiErrorsMessagesUrl = `${config.services.content.uri}/campd/api-error-messages.json`;
+const getApiErrorMessages = rest.get(apiErrorsMessagesUrl, (req, res, ctx) =>
+  ctx.json({
+    contentManager:
+      'All of the content on this page may not be available. If you continue to encounter this issue, contact CAMPD support: campd-support@camdsupport.com',
+    filterLogic:
+      "We're currently experiencing technical issues. If you continue to encounter this issue, contact CAMPD support: campd-support@camdsupport.com",
+    MDMRetrieval:
+      "We're currently experiencing technical issues. If you continue to encounter this issue, contact CAMPD support: campd-support@camdsupport.com",
+    dataPreview:
+      "We're currently experiencing technical issues. If you continue to encounter this issue, contact CAMPD support: campd-support@camdsupport.com",
+    download:
+      "We're currently experiencing technical issues. If you continue to encounter this issue, contact CAMPD support: campd-support@camdsupport.com",
+    bulkDataFiles:
+      "We're currently experiencing technical issues. If you continue to encounter this issue, contact CAMPD support: campd-support@camdsupport.com",
+    contactUs:
+      'All of the content on this page may not be available. If you continue to encounter this issue, contact CAMPD support: campd-support@camdsupport.com',
+    s3Outage:
+      'All of the content on this page may not be available. If you continue to encounter this issue, contact CAMPD support: campd-support@camdsupport.com',
+  })
+);
 const bulkDataFileDownloadUrl = `${config.services.bulkFiles.uri}/*`;
 const downloadBulkDataFile = rest.get(bulkDataFileDownloadUrl, (req, res, ctx) => {
   return res(ctx.status(200),ctx.json());
@@ -98,6 +119,7 @@ const getUnhandledContent = rest.get(`${config.services.content.uri}/*`, (req, r
 export const handlers = [
   getClientToken,
   downloadBulkDataFile,
+  getApiErrorMessages,
   getUnitTypes,
   getFacilities,
   getOwnerOperators,

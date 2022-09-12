@@ -37,7 +37,7 @@ const BulkDataFiles = ({
     if (dataTable) {
       result = dataTable.map((d, i)=>{
         let dCopy = {...d}
-        dCopy['id'] = d.filename;
+        dCopy.id = d.filename;
         dCopy.key=d.filename;
         return dCopy;
       });

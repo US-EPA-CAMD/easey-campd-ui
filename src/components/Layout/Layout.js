@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { connect } from 'react-redux';
-import { Link, SiteAlert } from "@trussworks/react-uswds";
+import { Link } from "@trussworks/react-uswds";
 
 import { Header } from "@us-epa-camd/easey-design-system";
 import { AppVersion } from "@us-epa-camd/easey-design-system";
@@ -9,37 +9,15 @@ import SubHeader from "../SubHeader/SubHeader";
 import config from "../../config";
 
 import "./Layout.scss";
-import { useEffect } from "react";
-import { useRef } from "react";
-import { errorMessages } from "../../utils/constants/errorMessages";
+import ApiErrorAlert from "../ApiErrorAlert/ApiErrorAlert";
 
-const Layout = ({apiErrors, children, hideNav}) => {
+const Layout = ({children, hideNav}) => {
   const childrenWithProps = React.Children.map(children, (child) =>
     React.cloneElement(child)
   );
-  const [errors, setErrors] = useState([]);
-  const apiErrorsRef = useRef(null);
-  useEffect(() =>{
-    const errorItems = [];
-    Object.keys(apiErrors).forEach((error) => apiErrors[error].state? errorItems.push(error): null);
-    errorItems.length && setErrors(errorItems)
-  }, [apiErrors]);
-
-  useEffect(() => {
-    if (errors.length && apiErrorsRef.current){
-      apiErrorsRef.current.scrollIntoView()
-    }
-  }, [errors])
 
   return (
     <div className="react-transition fade-in padding-bottom-5">
-      {errors.length
-        ? <div id="api-error-banner" ref={apiErrorsRef}>{errors.map((api) => (
-            <SiteAlert variant="info" key={api}  aria-live="assertive">
-              {errorMessages[api]}
-            </SiteAlert>
-          ))}</div>
-        : null}
       <div id="skipNav">
         <Link className="skip-to-content-link" href={'#main-content'}>
           Skip to Content
@@ -50,6 +28,7 @@ const Layout = ({apiErrors, children, hideNav}) => {
           <Header environment={config.app.env} />
         </div>
         <SubHeader />
+        <ApiErrorAlert />
       </div>
       <main className="mainContent" id="main-content" role="main">
         {childrenWithProps}
@@ -64,5 +43,5 @@ const Layout = ({apiErrors, children, hideNav}) => {
   );
 };
 
-const mapStateToProps = (state) => ({hideNav: state.hideNav, apiErrors: state.apiErrors,})
+const mapStateToProps = (state) => ({hideNav: state.hideNav})
 export default connect(mapStateToProps, null)(Layout);
