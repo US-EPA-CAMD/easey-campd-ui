@@ -28,7 +28,7 @@ const Layout = ({children, hideNav}) => {
           <Header environment={config.app.env} />
         </div>
         <SubHeader />
-        <ApiErrorAlert parentComponent={'Layout'}/>
+        <ApiErrorAlert />
       </div>
       <main className="mainContent" id="main-content" role="main">
         {childrenWithProps}

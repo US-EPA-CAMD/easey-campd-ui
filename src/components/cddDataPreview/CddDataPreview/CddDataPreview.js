@@ -234,7 +234,6 @@ const CddDataPreview = ({
   
   return (
     <div className="width-full" id="cdd-data-preview">
-      <ApiErrorAlert parentComponentPath={'/data/custom-data-download'}/>
       <div className={`${isMobileOrTablet && renderPreviewData.display? 'display-none': 'desktop:display-flex flex-row flex-justify bg-base-lightest desktop:padding-x-3 minh-10 padding-0'}`} >
         <div className="tablet:display-flex tablet:flex-row tablet:flex-justify tablet:width-full">
           <h2 className="flex-align-self-center font-sans-xl text-bold margin-0 padding-x-2 tablet:padding-x-4 desktop:padding-x-0">
@@ -367,6 +366,7 @@ const CddDataPreview = ({
           </div>
         </div>
       )}
+      <ApiErrorAlert parentComponentPath={'/data/custom-data-download'}/>
       {requirementsMet && totalCount !== null && Number(totalCount) > Number(config.app.streamingLimit) && (
         <div className='padding-x-2 padding-top-3 margin-right-2'>
           <Alert type="warning" aria-live="assertive">

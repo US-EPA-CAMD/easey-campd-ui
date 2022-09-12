@@ -50,6 +50,7 @@ export default {
     filterLogic: false,
     MDMRetrieval: false,
     s3Outage: false,
+    errorMessages: null,
   },
   apiCallsInProgress: 0,
   hideNav: false
