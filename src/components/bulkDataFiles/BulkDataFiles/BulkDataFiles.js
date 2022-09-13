@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { connect } from 'react-redux';
 import { metaAdder } from '../../../utils/document/metaAdder';
-import { loadBulkDataFiles, updateBulkDataFiles } from "../../../store/actions/bulkDataFilesActions";
+import { loadBulkDataFiles } from "../../../store/actions/bulkDataFilesActions";
 import BulkDataFilesTable from "../BulkDataFilesTable/BulkDataFilesTable";
 import getContent from '../../../utils/api/getContent';
 import BulkDataFilesFilters from "../BulkDataFilesFilters/BulkDataFilesFilters";
@@ -17,12 +17,13 @@ const BulkDataFiles = ({
   loading,
   loadBulkDataFilesDispatcher,
   setApiErrorDispatcher,
-  updateBulkDataFilesDispacher
 }) => {
   const [helperText, setHelperText] = useState(null);
   const [showMobileFilters, setShowMobileFilters] = useState(false);
   const [previewDataApplied, setPreviewDataApplied] = useState(false);
-  const [backButtonClicked, setBackButtonClicked] = useState(false)
+  const [backButtonClicked, setBackButtonClicked] = useState(false);
+  const [searchedItems, setSearchedItems] = useState([]);
+  const [clearAllFiles, setClearAllFiles] = useState(false);
   useEffect(() => {
     document.title = 'Bulk Data Files | CAMPD | US EPA';
     getContent('/campd/data/bulk-data-files/helper-text.md', setApiErrorDispatcher).then(resp => setHelperText(resp?.data));
@@ -30,6 +31,24 @@ const BulkDataFiles = ({
       loadBulkDataFilesDispatcher();
     }// eslint-disable-next-line
   }, []);
+
+  const dataForDataTable = useMemo(() => {
+    let result = [];
+    if (dataTable) {
+      result = dataTable.map((d, i)=>{
+        let dCopy = {...d}
+        dCopy.id = d.filename;
+        dCopy.key=d.filename;
+        return dCopy;
+      });
+      setSearchedItems(result);
+    }
+    return result;
+  }, [dataTable]);
+
+  useEffect(() => {
+    if (clearAllFiles) {setClearAllFiles(false)}
+  }, [clearAllFiles])
 
   useEffect(() => {
     if (backButtonClicked || previewDataApplied){
@@ -53,13 +72,14 @@ const BulkDataFiles = ({
       <div className={`grid-col-3 bg-base-lighter margin-0 display-${showMobileFilters? 'grid width-mobile-lg  minh-viewport': 'none  side-nav-height'} desktop:display-block`} id='filters'>
         <BulkDataFilesFilters
           dataTableRecords={dataTable}
-          updateBulkDataFilesDispacher={updateBulkDataFilesDispacher}
           previewDataApplied={previewDataApplied}
           setPreviewDataApplied={setPreviewDataApplied}
           backButtonClicked={backButtonClicked}
           setBackButtonClicked={setBackButtonClicked}
           showMobileFilters={showMobileFilters}
           setShowMobileFilters={setShowMobileFilters}
+          setClearAllFiles={setClearAllFiles}
+          data={dataForDataTable}
         />
       </div>
       <div className={`grid-col-fill ${showMobileFilters ? 'display-none tablet:display-block' : ''}`} id='content'>
@@ -88,6 +108,10 @@ const BulkDataFiles = ({
         <div className='margin-1 grid-row'>
           <BulkDataFilesTable
             dataTableRecords ={JSON.parse(JSON.stringify(dataTable))}
+            clearAllFiles={clearAllFiles}
+            data={dataForDataTable}
+            searchedItems={searchedItems}
+            setSearchedItems={setSearchedItems}
           />
         </div>
       </div>
@@ -105,7 +129,6 @@ const mapDispatchToProps = (dispatch) => {
   return {
     loadBulkDataFilesDispatcher: () => dispatch(loadBulkDataFiles()),
     setApiErrorDispatcher: (api, state, errorMessage) => dispatch(setApiError(api, state, errorMessage)),
-    updateBulkDataFilesDispacher: (tableRecords) => dispatch(updateBulkDataFiles(tableRecords))
   };
 };
 

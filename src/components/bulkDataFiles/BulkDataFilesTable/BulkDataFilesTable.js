@@ -20,14 +20,15 @@ import Tooltip from '../../Tooltip/Tooltip';
 import setApiError from '../../../store/actions/setApiErrorAction';
 import { connect } from 'react-redux';
 const BulkDataFilesTable = ({
+  clearAllFiles,
   dataTableRecords,
-  setApiErrorDispatcher
+  setApiErrorDispatcher,
+  data, searchedItems, setSearchedItems
 }) => {
   const tableMsg = (<span aria-live="assertive">There are no records to display</span>)
   const [searchText, setSearchText] = useState('');
   const prevSearchText = usePrevious(searchText);
   const [noDataMsg, setNoDataMsg] = useState(tableMsg);
-  const [searchedItems, setSearchedItems] = useState([]);
   const [selectedFiles, setSelectedFiles] = useState({});
   const [fileSize, setFileSize] = useState(0);
   const [limitAlert, setLimitAlert] = useState(null);
@@ -83,18 +84,6 @@ const BulkDataFilesTable = ({
       sortable: true,
     }
   ], []);
-
-  const data = useMemo(() => {
-    let result = [];
-    if (dataTableRecords) {
-      result = dataTableRecords.map((d,i)=>{
-        d['id'] = i;
-        return d;
-      });
-      setSearchedItems(result);
-    }
-    return result;
-  }, [dataTableRecords]);
 
   useEffect(() => {
     getContent('/campd/data/bulk-data-files/download-limit-alert.md', setApiErrorDispatcher).then(
@@ -166,7 +155,7 @@ const BulkDataFilesTable = ({
 	}, [searchText]);
 
   return (
-    <div className="data-display-table grid-col-fill margin-x-2">
+    <div className="data-display-table grid-col-fill margin-x-2 padding-x-1">
       {limitReached ? (
         <div className="padding-top-3">
           <Alert type="warning" aria-live="assertive">
@@ -189,6 +178,7 @@ const BulkDataFilesTable = ({
       <div className='display-flex'>
         <div className='width-full'>
           <DataTable
+            clearSelectedRows={clearAllFiles}
             columns={columns}
             data={searchedItems}
             noHeader={true}

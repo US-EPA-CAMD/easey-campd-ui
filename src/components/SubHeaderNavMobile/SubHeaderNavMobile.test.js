@@ -7,7 +7,7 @@ import {
 } from '../../utils/constants/menuTopics';
 
 describe('SubHeaderNavMobile', () => {
-  xtest('renders without errors', () => {
+  test('renders without errors', () => {
     const query = render(
       <SubHeaderNavMobile
         showMobileMenu={true}

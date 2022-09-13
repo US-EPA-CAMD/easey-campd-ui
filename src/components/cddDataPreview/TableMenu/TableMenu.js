@@ -320,6 +320,7 @@ const TableMenu = ({
               component="nav"
               aria-labelledby="submenu"
               onKeyDown={(e) => handleKeyDown(e, handleClose, 'Escape')}
+              className="z-top"
             >
               <ListItem
                 onClick={handleUnsort}
@@ -374,6 +375,7 @@ const TableMenu = ({
               component="nav"
               aria-labelledby="submenu"
               onKeyDown={(e) => handleKeyDown(e, handleClose, 'Escape')}
+              className="z-top"
             >
               <div>
                 <div className="form-group margin-1" id="columnMenu">

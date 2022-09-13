@@ -33,6 +33,7 @@ import getContent  from '../../../utils/api/getContent';
 import MatsDataCaveat from '../../customDataDownload/MatsDataCaveat/MatsDataCaveat';
 import "./CddDataPreview.scss";
 import setApiError from '../../../store/actions/setApiErrorAction';
+import ApiErrorAlert from '../../ApiErrorAlert/ApiErrorAlert';
 
 const CddDataPreview = ({
   aggregation,
@@ -365,6 +366,7 @@ const CddDataPreview = ({
           </div>
         </div>
       )}
+      <ApiErrorAlert parentComponentPath={'/data/custom-data-download'}/>
       {requirementsMet && totalCount !== null && Number(totalCount) > Number(config.app.streamingLimit) && (
         <div className='padding-x-2 padding-top-3 margin-right-2'>
           <Alert type="warning" aria-live="assertive">

@@ -9,17 +9,20 @@ import useCheckWidth from '../../../utils/hooks/useCheckWidth'
 import {useFocusTrapWithRef} from '../../../utils/hooks/useFocusTrapWithRef';
 import { connect } from 'react-redux';
 import setApiError from '../../../store/actions/setApiErrorAction';
+import { updateBulkDataFiles } from '../../../store/actions/bulkDataFilesActions';
 
 const BulkDataFilesFilters = ({
+  data,
   dataTableRecords,
-  updateBulkDataFilesDispacher,
+  updateBulkDataFilesDispatcher,
   previewDataApplied,
   setPreviewDataApplied,
   backButtonClicked,
   setBackButtonClicked,
   showMobileFilters,
   setShowMobileFilters,
-  setApiErrorDispatcher
+  setApiErrorDispatcher,
+  setClearAllFiles,
 }) => {
   const [initialTableRecords, setInitialTableRecords] = useState(null);
   const [filtersContent, setFiltersContent] = useState(null);
@@ -63,7 +66,7 @@ const BulkDataFilesFilters = ({
       getContent('/campd/data/bulk-data-files/filters-content.json', setApiErrorDispatcher).then(resp => setFiltersContent(resp?.data));
     }
     if(dataTableRecords && initialTableRecords === null){
-      setInitialTableRecords(dataTableRecords);
+      setInitialTableRecords(JSON.parse(JSON.stringify(data)));
     }// eslint-disable-next-line
   }, [dataTableRecords]);
 
@@ -109,7 +112,7 @@ const BulkDataFilesFilters = ({
     if(isMobileOrTablet){
       if (previewDataApplied && initialTableRecords){
         const filteredRecords = filterBulkDataFiles(selection, initialTableRecords);
-        updateBulkDataFilesDispacher(filteredRecords);
+        updateBulkDataFilesDispatcher(JSON.parse(JSON.stringify(filteredRecords)));
         updateAppliedFilterSelection()
         setPreviewDataApplied(false)
       } else if (backButtonClicked){
@@ -123,7 +126,7 @@ const BulkDataFilesFilters = ({
       }
     } else if(initialTableRecords){
       const filteredRecords = filterBulkDataFiles(selection, initialTableRecords);
-      updateBulkDataFilesDispacher(filteredRecords);
+      updateBulkDataFilesDispatcher(JSON.parse(JSON.stringify(filteredRecords)));
       updateAppliedFilterSelection()
       //console.log(filteredRecords);
     }
@@ -140,8 +143,17 @@ const BulkDataFilesFilters = ({
     if (isMobileOrTablet) {
       setPreviewDataApplied(true);
     }
+    setClearAllFiles(true)
     const dataTypeSelector = document.querySelector('#data-type');
     dataTypeSelector.focus();
+  };
+
+  const handleDataTypeChange = (e) => {
+     if (window.confirm("Changing the Data Type will clear out file and filter selections. Do you want to proceed?")){
+      setClearAllFiles(true);
+      setDataType(e.target.value);
+    }
+    return;
   };
 
   useEffect(()=>{
@@ -188,7 +200,7 @@ const BulkDataFilesFilters = ({
             </Label>
             <Dropdown
               id="data-type"
-              onChange={(evt)=>setDataType(evt.target.value)}
+              onChange={handleDataTypeChange}
               value={dataType}
               data-testid="dataType-select"
             >
@@ -387,6 +399,9 @@ const BulkDataFilesFilters = ({
   );
 };
 
-const mapDispatchToProps = (dispatch) => ({setApiErrorDispatcher: (api, state, errorMessage) => dispatch(setApiError(api, state, errorMessage))});
+const mapDispatchToProps = (dispatch) => ({
+  setApiErrorDispatcher: (api, state, errorMessage) => dispatch(setApiError(api, state, errorMessage)),
+  updateBulkDataFilesDispatcher: (tableRecords) => dispatch(updateBulkDataFiles(tableRecords))
+});
 
 export default connect(null, mapDispatchToProps)(BulkDataFilesFilters);
