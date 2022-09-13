@@ -11,10 +11,12 @@ const RelatedResources = () => {
   const [contentIntro, setContentIntro] = useState(null);
   const [additionalDataTools, setAdditionalDataTools] = useState([]);
 
+  const relatedResourcesPath = '/campd/help-support/related-resources';
+
   useEffect(() => {
     document.title = 'Related Resources | CAMPD | US EPA';
-    getContent('/campd/resources/related-resources/additional-data-tools.json').then((resp) => setAdditionalDataTools(resp.data));
-    getContent('/campd/resources/related-resources/index.md').then((resp) => setContentIntro(resp.data));
+    getContent(`${relatedResourcesPath}/additional-data-tools.json`).then((resp) => setAdditionalDataTools(resp.data));
+    getContent(`${relatedResourcesPath}/index.md`).then((resp) => setContentIntro(resp.data));
   }, []);
 
   metaAdder(

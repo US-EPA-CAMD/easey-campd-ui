@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
@@ -13,12 +13,10 @@ let store = configureStore(initialState);
 jest.mock('react-markdown', () => ({ children }) => <>{children}</>);
 jest.mock('remark-gfm', () => () => {});
 
-const contentUrl =
-  `${config.services.content.uri}/campd/resources/glossary/index.md`;
-const pdfUrl =
-  `${config.services.content.uri}/campd/resources/glossary/CAMPD-Glossary.pdf`;
-const csvUrl =
-  `${config.services.content.uri}/campd/resources/glossary/CAMPD-Glossary.xlsx`;
+const baseUrl = `${config.services.content.uri}/campd/help-support/glossary`;
+const contentUrl = `${baseUrl}/index.md`;
+const pdfUrl = `${baseUrl}/CAMPD-Glossary.pdf`;
+const csvUrl = `${baseUrl}/CAMPD-Glossary.xlsx`;
 
 const glossaryContent = `Glossary Content`;
 

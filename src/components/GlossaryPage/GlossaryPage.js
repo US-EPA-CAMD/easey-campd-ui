@@ -13,7 +13,7 @@ const GlossaryPage = ({setApiErrorDispatcher}) => {
   const [mainContent, setMainContent] = useState(null);
 
   useEffect(() => {
-    getContent('/campd/resources/glossary/index.md', setApiErrorDispatcher).then((resp) =>
+    getContent('/campd/help-support/glossary/index.md', setApiErrorDispatcher).then((resp) =>
       resp && setMainContent(resp.data)
     );
     document.title = 'Glossary | CAMPD | US EPA';//eslint-disable-next-line react-hooks/exhaustive-deps
