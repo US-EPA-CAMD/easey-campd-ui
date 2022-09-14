@@ -117,7 +117,7 @@ const HomePage = ({setApiErrorDispatcher}) => {
             children={dataCard}
             remarkPlugins={[remarkGfm]}
             components={{
-              img: ({node, ...props}) => <img {...props} alt=""/>,
+              img: ({node, ...props}) => <img {...props} alt="" id="data-icon"/>,
               // eslint-disable-next-line
               table: ({node, ...props}) => <table {...props} role="Presentation"/>,
               th: ({node, ...props}) => <td {...props}/>,
@@ -154,7 +154,7 @@ const HomePage = ({setApiErrorDispatcher}) => {
             children={visualGalleryCard}
             remarkPlugins={[remarkGfm]}
             components={{// eslint-disable-next-line
-              img: ({node, ...props}) => <img {...props} alt=""/>,
+              img: ({node, ...props}) => <img {...props} alt="" id="viz-gallery-icon"/>,
               // eslint-disable-next-line
               table: ({node, ...props}) => <table {...props} role="Presentation"/>,
               th: ({node, ...props}) => <td {...props}/>,
