@@ -149,11 +149,7 @@ const BulkDataFilesFilters = ({
   };
 
   const handleDataTypeChange = (e) => {
-     if (window.confirm("Changing the Data Type will clear out file and filter selections. Do you want to proceed?")){
-      setClearAllFiles(true);
       setDataType(e.target.value);
-    }
-    return;
   };
 
   useEffect(()=>{
