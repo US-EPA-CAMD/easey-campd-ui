@@ -47,7 +47,7 @@ const config = {
     auth: {
       uri: getConfigValue(
         "REACT_APP_EASEY_AUTH_API",
-        "https://api-easey-dev.app.cloud.gov/auth-mgmt"
+        "https://api.epa.gov/easey/dev/auth-mgmt"
       ),
     },
     mdm: {
@@ -89,7 +89,7 @@ const config = {
     camd: {
       uri: getConfigValue(
         "REACT_APP_EASEY_CAMD_API",
-        "https://api-easey-dev.app.cloud.gov/camd-services"
+        "https://api.epa.gov/easey/dev/camd-services",
       ),
     },
     bulkFiles: {
