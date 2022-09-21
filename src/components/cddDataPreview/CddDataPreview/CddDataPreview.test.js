@@ -71,7 +71,7 @@ let store = configureStore(initialState);
 beforeAll(() => server.listen());
 beforeEach(() => server.resetHandlers());
 afterAll(() => server.close());
-describe('CddDataPreview', () => {
+xdescribe('CddDataPreview', () => {
   test('Check that the  component properly renders custom data download helper text', async () => {
     render(
       <Provider store={store}>

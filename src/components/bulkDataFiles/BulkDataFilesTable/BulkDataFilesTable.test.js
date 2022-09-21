@@ -179,8 +179,12 @@ describe('Bulk data files data table component', () => {
       <Provider store={store}>
         <MemoryRouter>
           <BulkDataFilesTable
+            clearAllFiles={jest.fn()}
             dataTableRecords={dataTableRecords}
+            data={dataTableRecords}
             setApiErrorDispatcher={jest.fn()}
+            searchedItems={dataTableRecords}
+            setSearchedItems={jest.fn()}
           />
         </MemoryRouter>
       </Provider>

@@ -1,5 +1,7 @@
+import config from "../../config";
+
 export const unitTypes = {
-  url: 'https://api-easey-dev.app.cloud.gov/master-data-mgmt/unit-types',
+  url: `${config.services.mdm}/unit-types`,
   data: [
     {
       unitTypeCode: 'AF',
@@ -26,7 +28,7 @@ export const unitTypes = {
 };
 
 export const fuelTypes = {
-  url: 'https://api-easey-dev.app.cloud.gov/master-data-mgmt/fuel-types',
+  url: `${config.services.mdm}/fuel-types`,
   data: [
     {
       fuelTypeCode: 'C',
@@ -50,7 +52,7 @@ export const fuelTypes = {
 };
 
 export const states = {
-  url: 'https://api-easey-dev.app.cloud.gov/master-data-mgmt/states',
+  url: `${config.services.mdm}/states`,
   data: [
     { stateCode: 'AK', stateName: 'Alaska', epaRegion: 10 },
     { stateCode: 'AL', stateName: 'Alabama', epaRegion: 4 },
@@ -116,7 +118,7 @@ export const states = {
 };
 
 export const controlTechnologies = {
-  url: 'https://api-easey-dev.app.cloud.gov/master-data-mgmt/control-technologies',
+  url: `${config.services.mdm}/control-technologies`,
   data: [
     {
       controlCode: 'APAC',
@@ -141,7 +143,7 @@ export const controlTechnologies = {
 };
 
 export const accountTypes = {
-  url: 'https://api-easey-dev.app.cloud.gov/master-data-mgmt/account-types?exclude=SHOLD|OVERDF',
+  url: `${config.services.mdm}/account-types?exclude=SHOLD|OVERDF`,
   data: [
     {
       accountTypeCode: 'CASURR',
@@ -177,7 +179,7 @@ export const accountTypes = {
 };
 
 export const transactionTypes = {
-  url: 'https://api-easey-dev.app.cloud.gov/master-data-mgmt/transaction-types',
+  url: `${config.services.mdm}/transaction-types`,
   data: [
     {
       transactionTypeCode: 'AD',
@@ -208,7 +210,7 @@ export const transactionTypes = {
 };
 
 export const sourceCategories = {
-  url: 'https://api-easey-dev.app.cloud.gov/master-data-mgmt/source-categories',
+  url: `${config.services.mdm}/source-categories`,
   data: [
     {
       sourceCategoryCode: 'AUTSTMP',
@@ -233,7 +235,7 @@ export const sourceCategories = {
   ],
 };
 export const attributes = {
-  url: 'https://api-easey-dev.app.cloud.gov/account-mgmt/emissions-compliance/attributes/applicable',
+  url: `${config.services.account}/emissions-compliance/attributes/applicable`,
   data: [
     {
       year: 1996,
@@ -377,7 +379,7 @@ export const attributes = {
   ],
 };
 export const facilities = {
-  url: 'https://api-easey-dev.app.cloud.gov/facilities-mgmt/facilities',
+  url: `${config.services.facilities}/facilities`,
   data: [
     {
       facilityRecordId: 1,
@@ -409,7 +411,7 @@ export const facilities = {
 };
 
 export const ownerOperators = {
-  url: 'https://api-easey-dev.app.cloud.gov/account-mgmt/emissions-compliance/owner-operators',
+  url: `${config.services.account}/emissions-compliance/owner-operators`,
   data: [
     { ownerOperator: '5380 Frontier Ave Energy Company LLC', ownType: 'OPR' },
     { ownerOperator: '5380 Frontier Ave Energy Company LLC', ownType: 'OWN' },

@@ -116,8 +116,10 @@ const CustomDataDownload = ({
 
   useEffect(() => {
     const resetFilters = () => {
+      setSelectedDataSubtype('');
       resetFilterDispatcher(null, true);
       removeAppliedFiltersDispatcher(null, true);
+      updateSelectedDataTypeDispatcher('');
     };
     return () => resetFilters(); // eslint-disable-next-line
   }, []);

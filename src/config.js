@@ -53,31 +53,31 @@ const config = {
     mdm: {
       uri: getConfigValue(
         "REACT_APP_EASEY_MDM_API",
-        "https://api-easey-dev.app.cloud.gov/master-data-mgmt"
+        "https://api.epa.gov/easey/dev/master-data-mgmt"
       ),
     },
     facilities: {
       uri: getConfigValue(
         "REACT_APP_EASEY_FACILITIES_API",
-        "https://api-easey-dev.app.cloud.gov/facilities-mgmt"
+        "https://api.epa.gov/easey/dev/facilities-mgmt"
       ),
     },
     emissions: {
       uri: getConfigValue(
         "REACT_APP_EASEY_EMISSIONS_API",
-        "https://api-easey-dev.app.cloud.gov/emissions-mgmt"
+        "https://api.epa.gov/easey/dev/emissions-mgmt"
       ),
     },
     account: {
       uri: getConfigValue(
         "REACT_APP_EASEY_ACCOUNT_API",
-        "https://api-easey-dev.app.cloud.gov/account-mgmt"
+        "https://api.epa.gov/easey/dev/account-mgmt"
       ),
     },
     streaming: {
       uri: getConfigValue(
         "REACT_APP_EASEY_STREAMING_API",
-        "https://api-easey-dev.app.cloud.gov/streaming-services"
+        "https://api.epa.gov/easey/dev/streaming-services"
       ),
     },
     content: {
