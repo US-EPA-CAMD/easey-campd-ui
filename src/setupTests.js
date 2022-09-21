@@ -5,6 +5,7 @@
 import '@testing-library/jest-dom/extend-expect';
 import { server } from './mocks/server';
 import React from 'react';
+import { cleanup } from '@testing-library/react';
 global.XMLHttpRequest = undefined;
 
 jest.mock('react-markdown', () => ({ children }) => <>{children}</>);
@@ -32,4 +33,5 @@ beforeEach(() => {
   jest.resetModules();
   server.resetHandlers();
 });
+afterEach(cleanup)
 afterAll(() => server.close());
