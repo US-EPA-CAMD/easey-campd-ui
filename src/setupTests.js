@@ -5,10 +5,20 @@
 import '@testing-library/jest-dom/extend-expect';
 import { server } from './mocks/server';
 import React from 'react';
+import { cleanup } from '@testing-library/react';
 global.XMLHttpRequest = undefined;
 
 jest.mock('react-markdown', () => ({ children }) => <>{children}</>);
 jest.mock('remark-gfm', () => () => {});
+jest.mock('react-router', () => ({
+  ...jest.requireActual('react-router'),
+  useLocation: jest.fn().mockImplementation(() => ({
+    pathname: '/data/custom-data-download',
+    search: '',
+    hash: '',
+    state: null,
+  })),
+}));
 beforeAll(() =>
   server.listen({
     onUnhandledRequest(req) {
@@ -23,4 +33,5 @@ beforeEach(() => {
   jest.resetModules();
   server.resetHandlers();
 });
+afterEach(cleanup)
 afterAll(() => server.close());

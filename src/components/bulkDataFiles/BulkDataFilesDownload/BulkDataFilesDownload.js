@@ -13,7 +13,8 @@ const BulkDataFilesDownload = ({ selectedFiles, fileSize, limitReached, setApiEr
   const [initDownload, setInitDownload] = useState(false);
   const [loading, setLoading] = useState(false);
   const [spinnerDelay, setSpinnerDelay] = useState(null);
-  const [spinnerDelayHasElapsed, setSpinnerDelayHasElapsed] = useState(false);
+  // const [spinnerDelayHasElapsed, setSpinnerDelayHasElapsed] = useState(false);
+  const { 1: setSpinnerDelayHasElapsed }= useState(false);
   useTimeout(() => {setSpinnerDelayHasElapsed(true)}, spinnerDelay);
 
   //clears timer for spinner delay

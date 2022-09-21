@@ -1,6 +1,6 @@
 import React from "react";
 import CustomDataDownload from "./CustomDataDownload";
-import { render, fireEvent } from "@testing-library/react";
+import { render, fireEvent, cleanup } from "@testing-library/react";
 import configureStore from "../../../store/configureStore.dev";
 import { Provider } from "react-redux";
 import initialState from "../../../store/reducers/initialState";
@@ -12,8 +12,22 @@ initialState.filterCriteria.stateTerritory = [
 const store = configureStore(initialState);
 
 const matsDataType = 'MERCURY AND AIR TOXICS EMISSIONS';
-const complianceDataType = 'COMPLIANCE'
+const complianceDataType = 'COMPLIANCE';
 
+const mockUseLocationValue = {
+  pathname: "/data/custom-data-download",
+  search: '',
+  hash: '',
+  state: null
+}
+jest.mock('react-router', () => ({
+  ...jest.requireActual("react-router"),
+  useLocation: jest.fn().mockImplementation(() => {
+      return mockUseLocationValue;
+  })
+}));
+jest.spyOn(React, 'useRef').mockReturnValueOnce({ current: {scrollIntoView : jest.fn()} });
+afterEach(cleanup);
 describe("CustomDataDownload", () => {
   test("Check that the  component properly renders", () => {
     const { getByTestId } = render(<Provider store={store}><CustomDataDownload /></Provider>);

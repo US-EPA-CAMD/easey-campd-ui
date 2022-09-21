@@ -23,8 +23,15 @@ const clientTokenUrl = `${config.services.auth.uri}/tokens/client`;
 const getClientToken = rest.get(clientTokenUrl, (req, res, ctx) => {
   return res(ctx.json({token: '123'}));
 })
+const refreshClientToken = rest.post(clientTokenUrl, (req, res, ctx) => {
+  sessionStorage.setItem("client_token", '123');
+  sessionStorage.setItem("client_token_expiration", new Date() + 5);
+  return res(ctx.json({token: '123'}));
+})
+const logErrorUrl = `${config.services.camd.uri}/logging/error`;
+const logError = rest.post(logErrorUrl, (req, res, ctx) =>  res(ctx.status(200)));
 const helperTextUrl =
-  'https://api.epa.gov/easey/dev/content-mgmt/campd/data/custom-data-download/helper-text.md';
+`${config.services.content.uri}/campd/data/custom-data-download/helper-text.md`;
 const limitTextUrl = `${config.services.content.uri}/campd/data/custom-data-download/download-limit-alert.md`;
 const getLimitText = rest.get(limitTextUrl, (req, res, ctx) => {
   return res(ctx.json('this is CDD download limit'));
@@ -50,6 +57,9 @@ const getApiErrorMessages = rest.get(apiErrorsMessagesUrl, (req, res, ctx) =>
       'All of the content on this page may not be available. If you continue to encounter this issue, contact CAMPD support: campd-support@camdsupport.com',
   })
 );
+
+const emissionsApplicableAttributesUrl = `${config.services.emissions}/applicable/*`
+const getEmissionsApplicableAttributes = rest.get(emissionsApplicableAttributesUrl, (req, res, ctx)=>res(ctx.json([])));
 const bulkDataFileDownloadUrl = `${config.services.bulkFiles.uri}/*`;
 const downloadBulkDataFile = rest.get(bulkDataFileDownloadUrl, (req, res, ctx) => {
   return res(ctx.status(200),ctx.json());
@@ -85,13 +95,19 @@ const getTransactionTypes = rest.get(transactionTypes.url, (req, res, ctx) => {
 const getSourceCategories = rest.get(sourceCategories.url, (req, res, ctx) => {
   return res(ctx.json(sourceCategories.data));
 });
-const getAttributes = rest.get(attributes.url, (req, res, ctx) => {
+const getAttributes = rest.get('https://api.epa.gov/easey/dev/account-mgmt/emissions-compliance/attributes/applicable',//attributes.url
+ (req, res, ctx) => {
+  console.log('got attributes');
   return res(ctx.json(attributes.data));
 });
-const getFacilities = rest.get(facilities.url, (req, res, ctx) => {
+const getFacilities = rest.get('https://api.epa.gov/easey/dev/facilities-mgmt/facilities',//facilities.url, 
+  (req, res, ctx) => {
+  console.log('got facilities');
   return res(ctx.json(facilities.data));
 });
-const getOwnerOperators = rest.get(ownerOperators.url, (req, res, ctx) => {
+const getOwnerOperators = rest.get('https://api.epa.gov/easey/dev/account-mgmt/emissions-compliance/owner-operators',//ownerOperators.url,
+   (req, res, ctx) => {
+  console.log('got ownerOperators');
   return res(ctx.json(ownerOperators.data));
 });
 
@@ -117,7 +133,9 @@ const getFilters = rest.get(filtersUrl, (req, res, ctx) => {
 });
 const getUnhandledContent = rest.get(`${config.services.content.uri}/*`, (req, res, ctx) => res(ctx.json('got content')));
 export const handlers = [
+  getEmissionsApplicableAttributes,
   getClientToken,
+  refreshClientToken,
   downloadBulkDataFile,
   getApiErrorMessages,
   getUnitTypes,
@@ -137,5 +155,6 @@ export const handlers = [
   getDownloadLimitAlert,
   getBulkDataFiles,
   getFilters,
-  getUnhandledContent
+  getUnhandledContent,
+  logError
 ];
