@@ -47,6 +47,7 @@ describe('FilterCriteria Component', () => {
       <MemoryRouter>
         <Provider store={store}>
           <FilterCriteria
+            filterCriteria={filterCriteria}
             dataSubtypeApplied={true}
             selectedDataType="EMISSIONS"
             getSelectedDataSubType={jest
@@ -73,6 +74,7 @@ describe('FilterCriteria Component', () => {
       <MemoryRouter>
         <Provider store={store}>
         <FilterCriteria
+            filterCriteria={filterCriteria}
           dataSubtypeApplied={true}
           selectedDataType="EMISSIONS"
           getSelectedDataSubType={jest
@@ -97,6 +99,7 @@ describe('FilterCriteria Component', () => {
       <MemoryRouter>
         <Provider store={store}>
         <FilterCriteria
+          filterCriteria={filterCriteria}
           dataSubtypeApplied={true}
           selectedDataType="EMISSIONS"
           getSelectedDataSubType={jest
@@ -123,6 +126,7 @@ describe('FilterCriteria Component', () => {
       <MemoryRouter>
         <Provider store={store}>
         <FilterCriteria
+          filterCriteria={{...filterCriteria, stateTerritory: [{enabled: true}]}}
           dataSubtypeApplied={true}
           selectedDataType="EMISSIONS"
           getSelectedDataSubType={jest
@@ -229,4 +233,53 @@ describe('FilterCriteria Component', () => {
    expect(stateTerritoryFilter).not.toBeDisabled();
   });
   
+  test('facility count should be number of facilities selected if facilities are selected', () => {
+    const { getByTestId, getByText } = render(
+      <MemoryRouter>
+        <Provider store={store}>
+        <FilterCriteria
+          dataSubtypeApplied={true}
+          selectedDataType="EMISSIONS"
+          getSelectedDataSubType={jest
+            .fn()
+            .mockImplementation(() => 'Hourly Emissions')}
+          handleFilterButtonClick={jest.fn()}
+          filterCriteria={{...filterCriteria, facility: [{enabled: true}, {enabled: true}, {enabled: true}]}}
+          activeFilter="Time Period"
+          appliedFilters={[{key: 'Facility', values:['facility1', 'facility2']}]}
+        />
+        </Provider>
+      </MemoryRouter>
+    );
+    const facilityCount = getByTestId('facilityCount');
+    const facilityCountValue = getByText('2');
+  expect(facilityCount).toBeInTheDocument();
+  expect(facilityCountValue).toBeInTheDocument();
+  });
+
+
+  test('facility count should be number of enabled facilities if no facilities are selected', () => {
+    const { getByTestId, getByText } = render(
+      <MemoryRouter>
+        <Provider store={store}>
+        <FilterCriteria
+          dataSubtypeApplied={true}
+          selectedDataType="EMISSIONS"
+          getSelectedDataSubType={jest
+            .fn()
+            .mockImplementation(() => 'Hourly Emissions')}
+          handleFilterButtonClick={jest.fn()}
+          filterCriteria={{...filterCriteria, facility: [{enabled: true}, {enabled: true}, {enabled: true}]}}
+          activeFilter="Time Period"
+          appliedFilters={[]}
+        />
+        </Provider>
+      </MemoryRouter>
+    );
+  const facilityCount = getByTestId('facilityCount');
+  const facilityCountValue = getByText('3');
+
+  expect(facilityCount).toBeInTheDocument();
+  expect(facilityCountValue).toBeInTheDocument();
+  });
 });

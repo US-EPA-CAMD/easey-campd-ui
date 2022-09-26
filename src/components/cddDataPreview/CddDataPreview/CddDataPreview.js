@@ -61,7 +61,8 @@ const CddDataPreview = ({
   dataPreview,
   removedAppliedFilter,
   setRemovedAppliedFilter,
-  setApiErrorDispatcher
+  setApiErrorDispatcher,
+  setApplyFilterLoading
 }) => {
   const [requirementsMet, setRequirementsMet] = useState(false);
   const [helperText, setHelperText] = useState(null);
@@ -117,7 +118,7 @@ const CddDataPreview = ({
   useEffect(()=>{
     if(removedAppliedFilter !== null){
       if(filterCriteria.filterMapping.length>0){
-        engageFilterLogic(dataType, dataSubType, removedAppliedFilter, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispatcher, null, true);
+        engageFilterLogic(dataType, dataSubType, removedAppliedFilter, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispatcher, setApplyFilterLoading, true);
       }
     }// eslint-disable-next-line react-hooks/exhaustive-deps
   },[appliedFilters]);
@@ -168,6 +169,9 @@ const CddDataPreview = ({
       resetFiltersDispatcher(filterType);
       removeAppliedFiltersDispatcher(filterType);
       setRemovedAppliedFilter(filterType);
+      if(filterType){
+        setApplyFilterLoading(true);
+      }
     }
     handleUpdateInAppliedFilters();
   };
