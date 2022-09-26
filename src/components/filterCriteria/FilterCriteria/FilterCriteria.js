@@ -21,6 +21,7 @@ import {
   updateFilterCriteria,
 } from '../../../store/actions/customDataDownload/filterCriteria';
 import MatsDataCaveat from "../../customDataDownload/MatsDataCaveat/MatsDataCaveat";
+import { getComboboxEnabledItems } from "../../../utils/selectors/filterCriteria";
 
 const FilterCriteria = ({
     dataSubtypeApplied,
@@ -37,8 +38,11 @@ const FilterCriteria = ({
     hideFilterMenu,
     setRemovedAppliedFilter,
     renderPreviewData,
+    selectionChange,
   }) => { 
     const [firstFocusableEl, setFirstFocusableEl] = useState(null);
+    const [facilityCount, setFacilityCount] = useState(0);
+    const [appliedFacilities, setAppliedFacilities] = useState(0);
     const mats = 'MERCURY AND AIR TOXICS EMISSIONS';
     useEffect(() => {
       if (isMobileOrTablet && !hideFilterMenu) {
@@ -46,6 +50,8 @@ const FilterCriteria = ({
         filtersTooltip && filtersTooltip.focus();
       }
     }, [isMobileOrTablet, hideFilterMenu]);
+
+    //focus trap
     useEffect(() => {
       if(isMobileOrTablet && !hideFilterMenu){
         const { firstComponentFocusableElement, handleKeyPress } = focusTrap(".side-nav");
@@ -66,6 +72,28 @@ const FilterCriteria = ({
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isMobileOrTablet && !hideFilterMenu]);
+
+    useEffect(() =>{
+      if (appliedFilters.length){
+        const appliedFacilityFilters = appliedFilters.find(el=> el.key === 'Facility');
+        if (appliedFacilityFilters) {setAppliedFacilities(appliedFacilityFilters.values.length)}
+        else { setAppliedFacilities(0)};
+      } else {
+        if (appliedFacilities){
+          setAppliedFacilities(0)
+        }
+      }//eslint-disable-next-line
+    }, [appliedFilters])
+    
+    //cleanup
+    useEffect(()=>()=>{setFacilityCount(0);
+      setAppliedFacilities(0)}, []);
+    useEffect(()=> {
+      if (selectionChange && facilityCount){
+        setFacilityCount(0);
+      }// eslint-disable-next-line
+    }, [selectionChange])
+
     const removeFilter = (filterType) => {
       resetFiltersDispatcher(filterType);
       removeAppliedFiltersDispatcher(filterType);
@@ -105,6 +133,11 @@ const FilterCriteria = ({
       if (!listItem) {
         return false;
       }
+      if (item === 'facility'){
+        const count = getComboboxEnabledItems(listItem).length;
+        if (facilityCount !== count && !appliedFacilities) {setFacilityCount(count);}
+        return count > 0? false : true;
+      }
       return checkSelectableData(listItem);
     };
 
@@ -140,6 +173,9 @@ const FilterCriteria = ({
               </Tooltip>
             </span>
           </div>
+          {filterCriteria.facility.length ? <div className="facility-count padding-left-2">
+            <div>Facility Count: <span className="text-bold" data-testid="facilityCount">{appliedFacilities|| facilityCount || filterCriteria.facility.length}</span></div>
+          </div> : null}
           {isMobileOrTablet && selectedDataType === mats && renderPreviewData.dataType !== mats && (
             <div className="margin-2 margin-bottom-0">
               <MatsDataCaveat />

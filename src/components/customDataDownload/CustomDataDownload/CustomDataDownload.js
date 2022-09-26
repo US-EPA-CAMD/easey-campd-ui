@@ -440,6 +440,7 @@ const CustomDataDownload = ({
             isMobileOrTablet={isMobileOrTablet}
             setRemovedAppliedFilter={setRemovedAppliedFilter}
             renderPreviewData={renderPreviewData}
+          selectionChange={selectionChange}
           />
           <MobileMenu 
           handleBackButtonClick={handleBackButtonClick}
@@ -476,6 +477,7 @@ const CustomDataDownload = ({
           isMobileOrTablet={isMobileOrTablet}
           removedAppliedFilter={removedAppliedFilter}
           setRemovedAppliedFilter={setRemovedAppliedFilter}
+          setApplyFilterLoading={setApplyFilterLoading}
         />
         <RenderSpinner showSpinner={loading || filterCriteria.filterLogicEngaged || bookmarkInit || handleApplyLoading || applyFilterLoading } />
       </div>
