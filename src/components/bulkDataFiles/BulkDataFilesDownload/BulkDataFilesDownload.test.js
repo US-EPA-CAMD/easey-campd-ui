@@ -9,8 +9,6 @@ const { getByRole, getByText } = screen;
 
 let store = configureStore(initialState);
 
-jest.mock('react-markdown', () => ({ children }) => <>{children}</>);
-jest.mock('remark-gfm', () => () => {});
 const selectedFiles = {
   allSelected: false,
   selectedCount: 2,

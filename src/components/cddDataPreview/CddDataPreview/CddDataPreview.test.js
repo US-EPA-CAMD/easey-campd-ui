@@ -67,11 +67,25 @@ initialState.customDataDownload.dataPreview = [
 initialState.customDataDownload.totalCount = "50";
 initialState.customDataDownload.fieldMappings = [{"label":"Test","value":"test"},{"label":"Test2","value":"test2"}];
 let store = configureStore(initialState);
+const mockUseLocationValue = {
+  pathname: "/data/custom-data-download",
+  search: '',
+  hash: '',
+  state: null
+}
+jest.mock('react-router', () => ({
+  ...jest.requireActual("react-router"),
+  useLocation: jest.fn().mockImplementation(() => {
+      return mockUseLocationValue;
+  })
+}));
 
+
+jest.spyOn(React, 'useRef').mockReturnValueOnce({ current: {scrollIntoView : jest.fn()} });
 beforeAll(() => server.listen());
 beforeEach(() => server.resetHandlers());
 afterAll(() => server.close());
-xdescribe('CddDataPreview', () => {
+describe('CddDataPreview', () => {
   test('Check that the  component properly renders custom data download helper text', async () => {
     render(
       <Provider store={store}>

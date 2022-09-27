@@ -93,6 +93,59 @@ describe('table menu component', () => {
     expect(customizeColumnsMenuOption).toBeInTheDocument();
   });
 
+  test('sort by ascending icon appears when items are sort by descending order', ()=>{
+    render(
+      <Provider store={store}>
+        <TableMenu
+          topic={topic}
+          fieldMappings={fieldMappings}
+          setSortValue={jest.fn()}
+          setSortDesc={jest.fn()}
+          setSortAsc={jest.fn()}
+          setUnsort={jest.fn()}
+        />
+      </Provider>
+    );
+
+    const additionalOptionsIcon = screen.getByRole('button', {
+      name: /additional options \- unit id/i,
+    });
+    fireEvent.click(additionalOptionsIcon);
+
+    const sortbyDescMenuOption = getByText(/sort by DESC/i);
+    fireEvent.click(sortbyDescMenuOption);
+    const sortByDescIcon = screen.getByRole('button', {
+      name: /sort by descending/i,
+    });
+    expect(sortByDescIcon).toBeInTheDocument()
+  });
+
+  test('sort by descending order icon changes to sort by ascending order icon when selected', ()=>{
+    const {getByRole} = render(
+      <Provider store={store}>
+        <TableMenu
+          topic={topic}
+          fieldMappings={fieldMappings}
+          setSortValue={jest.fn()}
+          setSortDesc={jest.fn()}
+          setSortAsc={jest.fn()}
+          setUnsort={jest.fn()}
+        />
+      </Provider>
+    );
+
+    const tableHeader = getByText(/unit id/i);
+    fireEvent.click(tableHeader);
+    userEvent.tab();
+    const sortByDescIcon = getByRole('button', {
+      name: /sort by descending/i,
+    });
+    fireEvent.click(sortByDescIcon);
+    const sortByAscIcon = getByRole('button', {
+      name: /sort by ascending/i,
+    });
+    expect(sortByAscIcon).toBeInTheDocument();
+  });
   test('lists correct columns, apply button, and input field when customize column menu option is selected', async () => {
     const { findByText, findByRole, getAllByText } = render(
       <Provider store={store}>
