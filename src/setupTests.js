@@ -10,6 +10,8 @@ global.XMLHttpRequest = undefined;
 
 jest.mock('react-markdown', () => ({ children }) => <>{children}</>);
 jest.mock('remark-gfm', () => () => {});
+jest.mock('react-markdown-v4', () => ({ children }) => <>{children}</>);
+jest.mock('remark-sub-super', () => () => {});
 jest.mock('react-router', () => ({
   ...jest.requireActual('react-router'),
   useLocation: jest.fn().mockImplementation(() => ({
@@ -19,6 +21,7 @@ jest.mock('react-router', () => ({
     state: null,
   })),
 }));
+
 beforeAll(() =>
   server.listen({
     onUnhandledRequest(req) {

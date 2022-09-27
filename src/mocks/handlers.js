@@ -131,6 +131,21 @@ const filtersUrl = `${config.services.content.uri}/campd/data/bulk-data-files/fi
 const getFilters = rest.get(filtersUrl, (req, res, ctx) => {
   return res(ctx.json(filtersContent));
 });
+const submissionUrl = `${config.services.emissions.uri}/emissions/submission-progress?submissionPeriod`;
+const getSubmissionProgress = rest.get(submissionUrl, (req, res, ctx) => {
+  return res(ctx.json({year: 2022, quarterName: 'second', percentage: '30%'}))
+})
+const titleUrlLayout =
+  `${config.services.content.uri}/campd/home/main-title.md`;
+const contentUrlLayout =
+  `${config.services.content.uri}/campd/home/main-content.md`;
+const getTitleLayout = rest.get(titleUrlLayout, (req, res, ctx) => {
+  return res(ctx.json('Title text..'));
+});
+const getContentLayout = rest.get(contentUrlLayout, (req, res, ctx) => {
+  return res(ctx.json('Content text..'));
+});
+
 const getUnhandledContent = rest.get(`${config.services.content.uri}/*`, (req, res, ctx) => res(ctx.json('got content')));
 export const handlers = [
   getEmissionsApplicableAttributes,
@@ -155,6 +170,9 @@ export const handlers = [
   getDownloadLimitAlert,
   getBulkDataFiles,
   getFilters,
+  getContentLayout,
+  getTitleLayout,
+  getSubmissionProgress,
   getUnhandledContent,
   logError
 ];
