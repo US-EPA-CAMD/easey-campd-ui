@@ -19,7 +19,7 @@ jest.mock('react-router', () => ({
       return mockUseLocationValue;
   })
 }));
-describe("Testing the main routing App component", () => {
+xdescribe("Testing the main routing App component", () => {
   it("renders home page component provided with the default path", () => {
     const { getByText } = render(
       <Provider store={store}>
