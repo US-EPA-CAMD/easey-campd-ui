@@ -342,7 +342,6 @@ const CddDataPreview = ({
               className="float-left"
               modalRef={modalRef}
               closer
-              aria-labelledby="close-bookmark-modal"
             >
               Ok
             </ModalToggleButton>
