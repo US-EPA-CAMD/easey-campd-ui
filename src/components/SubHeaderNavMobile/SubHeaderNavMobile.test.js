@@ -3,7 +3,6 @@ import { render } from '@testing-library/react';
 import SubHeaderNavMobile from './SubHeaderNavMobile';
 import {
   subHeaderMenuList,
-  subHeaderUtilityList,
 } from '../../utils/constants/menuTopics';
 
 describe('SubHeaderNavMobile', () => {
@@ -12,7 +11,7 @@ describe('SubHeaderNavMobile', () => {
       <SubHeaderNavMobile
         showMobileMenu={true}
         subHeaderMenuList={subHeaderMenuList}
-        subHeaderUtilityList={subHeaderUtilityList}
+        subHeaderUtilityList={[]}
         pathname="/data"
       />
     );
