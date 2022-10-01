@@ -20,5 +20,6 @@ applications:
       REACT_APP_GOOGLE_ANALYTICS_CONTAINER_ID: ((googleAnalyticsContainerId))
       REACT_APP_GOOGLE_ANALYTICS_ENABLED: ((googleAnalyticsEnabled))
       REACT_APP_EASEY_CAMPD_UI_STREAMING_LIMIT: ((streamingLimit))
+      REACT_APP_EASEY_CAMPD_UI_EMAIL: ((supportEmail))
     routes:
       - route: ((host))

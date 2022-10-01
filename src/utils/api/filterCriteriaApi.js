@@ -14,26 +14,26 @@ export async function getDataFromMDM(endpoint) {
 
 export const getPrograms = (dataType, showActiveOnly) => {
   if (showActiveOnly) {
-    return getDataFromMDM("programs?allowanceUIFilter=true&isActive=true");
+    return getDataFromMDM("program-codes?allowanceUIFilter=true&isActive=true");
   } else if (dataType === "FACILITY") {
-    return getDataFromMDM("programs");
+    return getDataFromMDM("program-codes");
   } else if (dataType === "EMISSIONS") {
-    return getDataFromMDM("programs?emissionsUIFilter=true");
+    return getDataFromMDM("program-codes?emissionsUIFilter=true");
   } else if (dataType === "ALLOWANCE") {
-    return getDataFromMDM("programs?allowanceUIFilter=true");
+    return getDataFromMDM("program-codes?allowanceUIFilter=true");
   } else if (dataType === "COMPLIANCE") {
-    return getDataFromMDM("programs?complianceUIFilter=true");
+    return getDataFromMDM("program-codes?complianceUIFilter=true");
   } else {
-    return getDataFromMDM("programs?exclude=MATS");
+    return getDataFromMDM("program-codes?exclude=MATS");
   }
 };
-export const getUnitTypes = getDataFromMDM('unit-types');
-export const getFuelTypes = getDataFromMDM('fuel-types');
-export const getStates = getDataFromMDM('states');
-export const getControlTechnologies = getDataFromMDM('control-technologies');
-export const getAccountTypes = getDataFromMDM('account-types?exclude=SHOLD|OVERDF');
-export const getTransactionTypes = getDataFromMDM('transaction-types');
-export const getSourceCategories = getDataFromMDM('source-categories');
+export const getUnitTypes = getDataFromMDM('unit-type-codes');
+export const getFuelTypes = getDataFromMDM('fuel-type-codes');
+export const getStates = getDataFromMDM('state-codes');
+export const getControlTechnologies = getDataFromMDM('control-codes');
+export const getAccountTypes = getDataFromMDM('account-type-codes?exclude=SHOLD|OVERDF');
+export const getTransactionTypes = getDataFromMDM('transaction-type-codes');
+export const getSourceCategories = getDataFromMDM('source-category-codes');
 
 export async function getAllFacilities() {
   const url = `${config.services.facilities.uri}/facilities`;
