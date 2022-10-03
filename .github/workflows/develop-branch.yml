@@ -55,8 +55,8 @@ jobs:
       - name: Configure Env Vars (secrets)
         run: scripts/environment-variables-secrets.sh
         env:
+          CAMPD_API_KEY: ${{ secrets.API_KEY }}
           CAMPD_CLIENT_ID: ${{ secrets.CLIENT_ID }}
           CAMPD_CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
-          CAMPD_API_KEY: ${{ secrets.CAMPD_NON_PROD_API_KEY }}
       - name: Deploy
         run: devops/scripts/deploy.sh
