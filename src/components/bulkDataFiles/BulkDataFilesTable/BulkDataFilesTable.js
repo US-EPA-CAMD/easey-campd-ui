@@ -41,7 +41,7 @@ const BulkDataFilesTable = ({
       arrowBackSvg[0].setAttribute("viewBox","0 0 24 14")
     }
     setTimeout(() => {
-      ensure508();
+      ensure508(false, true);
       const table = document.querySelector('[role="table"]')
       if (table){
         table.setAttribute("aria-label", 'Bulk Data File selection table')}
@@ -82,6 +82,7 @@ const BulkDataFilesTable = ({
       name: 'File Size',
       selector: row => row.gigaBytes >= 1 ? `${row.gigaBytes} GB` : row.megaBytes >= 1 ? `${row.megaBytes} MB`: row.kiloBytes >= 1 ? `${row.kiloBytes} KB`: `${row.bytes} Bytes`,
       sortable: true,
+      sortFunction: (rowA, rowB) => Number(rowA.bytes) < Number(rowB.bytes) ? 1 : -1,
     }
   ], []);
 
@@ -193,7 +194,7 @@ const BulkDataFilesTable = ({
             noDataComponent={noDataMsg}
             pagination
             paginationRowsPerPageOptions={[10, 25, 50, 100]}
-            sortIcon={<ArrowDownwardSharp className="margin-left-2 text-primary" />}
+            sortIcon={<ArrowDownwardSharp className="margin-left-2 text-primary" id='bdfSortIcon' />}
             onSelectedRowsChange={handleSelectedFiles}
           />
         </div>

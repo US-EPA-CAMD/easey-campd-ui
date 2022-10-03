@@ -6,17 +6,21 @@
  *
  *       Inputs:
  *              triggerAddAriaLabelToDatatable - flag whether or not it will use addAriaLabelToDatatable()
+ *              bulkDataFilesTable -  flag to add button to column headers
  *       Outputs:
  *              none
  *****************************************************/
- export const ensure508 = (triggerAddAriaLabelToDatatable = false) => {
+ export const ensure508 = (triggerAddAriaLabelToDatatable = false, bulkDataFilesTable=false) => {
   if (triggerAddAriaLabelToDatatable) {
     // *** add aria label to all data tables
     addAriaLabelToDatatable();
   }
 
+  // *** adds button role to column headers
+  if (bulkDataFilesTable) {AddButtonToColumnHeaders()}
+
   // *** add aria sorted-by to data tables
-  addInitialAriaSort();
+  // addInitialAriaSort(); no longer needed
 
   // *** change auto-generated attribute value
   changeGridCellAttributeValue();
@@ -63,6 +67,33 @@ export const changeGridCellAttributeValue = () => {
 };
 
 /*****************************************************
+ * AddButtonToColumnHeaders:
+ *
+ *   This function adds a button to column header, and changes id for the button and parent element so it it reachable to screen readers
+ *
+ *       Inputs:
+ *              none
+ *       Outputs:
+ *              none
+ *****************************************************/
+ export const AddButtonToColumnHeaders = () => {
+  setTimeout(() => {
+    document.querySelectorAll(`.rdt_TableCol_Sortable`).forEach((element) => {
+      const button = document.createElement('button');
+      const title = element.firstChild;
+      const label =title.innerText;
+      element.setAttribute('aria-label', `click to sort ${label}`);
+      button.className = 'button_header';
+      button.innerHTML = title.innerHTML;
+      button.id = label + ' button';
+      element.id = label;
+      button.tabIndex = -1;
+      element.replaceChild(button, title)
+    });
+  });
+};
+
+/*****************************************************
  * addAriaLabelToDatatable:
  *
  *   This function is used to initially set aria-sort attribute appropriately
@@ -95,42 +126,42 @@ export const addAriaLabelToDatatable = () => {
  *       Outputs:
  *              none
  *****************************************************/
-export const addInitialAriaSort = () => {
-  setTimeout(() => {
-    document.querySelectorAll(`.rdt_TableCol_Sortable`).forEach((column) => {
-      // *** traverse all sort icons
-      if (column.querySelectorAll(".__rdt_custom_sort_icon__").length > 0) {
-        // *** isolate the svg element of the icon
-        const sortIcon = column.querySelector(".MuiSvgIcon-root");
+// export const addInitialAriaSort = () => {
+//   setTimeout(() => {
+//     document.querySelectorAll(`.rdt_TableCol_Sortable`).forEach((column) => {
+//       // *** traverse all sort icons
+//       if (column.querySelectorAll(".__rdt_custom_sort_icon__").length > 0) {
+//         // *** isolate the svg element of the icon
+//         const sortIcon = column.querySelector(".MuiSvgIcon-root");
 
-        // *** if svg element is displayed, set
-        if (window.getComputedStyle(sortIcon).opacity === "1") {
-          if (
-            column
-              .querySelector(".__rdt_custom_sort_icon__")
-              .classList?.contains("asc")
-          ) {
-            column
-              .closest(`.rdt_TableCol_Sortable`)
-              .setAttribute("aria-sort", "ascending");
-          } else if (
-            column
-              .querySelector(".__rdt_custom_sort_icon__")
-              .classList?.contains("desc")
-          ) {
-            column
-              .closest(`.rdt_TableCol_Sortable`)
-              .setAttribute("aria-sort", "descending");
-          }
-        }else {
-          column
-            .closest(`.rdt_TableCol_Sortable`)
-            .setAttribute("aria-sort", "none");
-        }
-      }
-    });
-  });
-};
+//         // *** if svg element is displayed, set
+//         if (window.getComputedStyle(sortIcon).opacity === "1") {
+//           if (
+//             column
+//               .querySelector(".__rdt_custom_sort_icon__")
+//               .classList?.contains("asc")
+//           ) {
+//             column
+//               .closest(`.rdt_TableCol_Sortable`)
+//               .setAttribute("aria-sort", "ascending");
+//           } else if (
+//             column
+//               .querySelector(".__rdt_custom_sort_icon__")
+//               .classList?.contains("desc")
+//           ) {
+//             column
+//               .closest(`.rdt_TableCol_Sortable`)
+//               .setAttribute("aria-sort", "descending");
+//           }
+//         }else {
+//           column
+//             .closest(`.rdt_TableCol_Sortable`)
+//             .setAttribute("aria-sort", "none");
+//         }
+//       }
+//     });
+//   });
+// };
 
 /*****************************************************
  * setAriaSort:
@@ -148,14 +179,14 @@ export const setAriaSort = (event) => {
 
   // *** disregard any events that don't result in sorting
   if (
-    (event.type === "keydown" && event.key !== "Enter") ||
+    (event.type === "keydown" && event.key === "Enter") ||
     event.type === "click"
   ) {
 
     // *** make sure aria-sort attribute is set
     document.querySelectorAll(`.rdt_TableCol_Sortable`).forEach((column) => {
       if(column === currentColumn){
-        if(currentColumn.ariaSort === "none"){
+        if(!currentColumn.ariaSort || currentColumn.ariaSort === "none"){
           if(sortIcon?.classList?.contains("asc")){
             currentColumn.ariaSort = "ascending";
           }else if(sortIcon?.classList?.contains("desc")){
@@ -169,7 +200,7 @@ export const setAriaSort = (event) => {
           }
         }
       }else{
-        column.ariaSort = "none";
+        column.removeAttribute("aria-sort");
       }
     });
   }
