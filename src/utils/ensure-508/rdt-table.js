@@ -10,7 +10,7 @@
  *       Outputs:
  *              none
  *****************************************************/
- export const ensure508 = (triggerAddAriaLabelToDatatable = false, bulkDataFilesTable) => {
+ export const ensure508 = (triggerAddAriaLabelToDatatable = false, bulkDataFilesTable=false) => {
   if (triggerAddAriaLabelToDatatable) {
     // *** add aria label to all data tables
     addAriaLabelToDatatable();
