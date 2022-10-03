@@ -8,6 +8,9 @@ require('dotenv').config();
 
 export const config = {
   app: {
+    test: getConfigValue(
+      'TO_BE_REMOVED',
+    ),
     apiKey: getConfigValue(
       'REACT_APP_EASEY_CAMPD_UI_API_KEY',
     ),
