@@ -1,5 +1,5 @@
 import * as types from './actionTypes';
-import * as quartzApi from '../../utils/api/quartzApi';
+import * as camdApi from '../../utils/api/camdApi';
 import { beginApiCall } from './apiStatusActions';
 import setApiError from './setApiErrorAction';
 
@@ -13,7 +13,7 @@ export function loadBulkDataFilesSuccess(bulkDataFiles) {
 export function loadBulkDataFiles() {
   return (dispatch) => {
     dispatch(beginApiCall());
-    return quartzApi
+    return camdApi
       .getBulkDataFilesList(()=>dispatch(setApiError('bulkDataFiles', true)))
       .then((res) => {
         if(res){dispatch(loadBulkDataFilesSuccess(res.data))};

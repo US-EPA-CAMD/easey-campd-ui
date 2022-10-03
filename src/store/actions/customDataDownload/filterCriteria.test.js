@@ -1339,22 +1339,22 @@ const states = [
 describe("Filter Criteria Async Actions", () => {
   afterEach(cleanup);
   mock
-  .onGet(`${config.services.mdm.uri}/programs?exclude=MATS`)
+  .onGet(`${config.services.mdm.uri}/program-codes?exclude=MATS`)
   .reply(200, program);
   mock
   .onGet(`${config.services.facilities.uri}/facilities`)
   .reply(200, facilities);
   mock
-  .onGet(`${config.services.mdm.uri}/control-technologies`)
+  .onGet(`${config.services.mdm.uri}/control-codes`)
   .reply(200, controlTechnologies);
   mock
-  .onGet(`${config.services.mdm.uri}/fuel-types`)
+  .onGet(`${config.services.mdm.uri}/fuel-type-codes`)
   .reply(200, fuelTypes);
   mock
-  .onGet(`${config.services.mdm.uri}/states`)
+  .onGet(`${config.services.mdm.uri}/state-codes`)
   .reply(200, states)
   mock
-  .onGet(`${config.services.mdm.uri}/unit-types`)
+  .onGet(`${config.services.mdm.uri}/unit-type-codes`)
   .reply(200, unitTypes);
   test("should create appropriate action when update time period action is dispatched", () => {
     const timePeriod = {

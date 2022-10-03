@@ -1,7 +1,7 @@
 import config from "../../config";
 
 export const unitTypes = {
-  url: `${config.services.mdm}/unit-types`,
+  url: `${config.services.mdm}/unit-type-codes`,
   data: [
     {
       unitTypeCode: 'AF',
@@ -28,7 +28,7 @@ export const unitTypes = {
 };
 
 export const fuelTypes = {
-  url: `${config.services.mdm}/fuel-types`,
+  url: `${config.services.mdm}/fuel-type-codes`,
   data: [
     {
       fuelTypeCode: 'C',
@@ -52,7 +52,7 @@ export const fuelTypes = {
 };
 
 export const states = {
-  url: `${config.services.mdm}/states`,
+  url: `${config.services.mdm}/state-codes`,
   data: [
     { stateCode: 'AK', stateName: 'Alaska', epaRegion: 10 },
     { stateCode: 'AL', stateName: 'Alabama', epaRegion: 4 },
@@ -118,7 +118,7 @@ export const states = {
 };
 
 export const controlTechnologies = {
-  url: `${config.services.mdm}/control-technologies`,
+  url: `${config.services.mdm}/control-codes`,
   data: [
     {
       controlCode: 'APAC',
@@ -143,7 +143,7 @@ export const controlTechnologies = {
 };
 
 export const accountTypes = {
-  url: `${config.services.mdm}/account-types?exclude=SHOLD|OVERDF`,
+  url: `${config.services.mdm}/account-type-codes?exclude=SHOLD|OVERDF`,
   data: [
     {
       accountTypeCode: 'CASURR',
@@ -179,7 +179,7 @@ export const accountTypes = {
 };
 
 export const transactionTypes = {
-  url: `${config.services.mdm}/transaction-types`,
+  url: `${config.services.mdm}/transaction-type-codes`,
   data: [
     {
       transactionTypeCode: 'AD',
@@ -210,7 +210,7 @@ export const transactionTypes = {
 };
 
 export const sourceCategories = {
-  url: `${config.services.mdm}/source-categories`,
+  url: `${config.services.mdm}/source-category-codes`,
   data: [
     {
       sourceCategoryCode: 'AUTSTMP',

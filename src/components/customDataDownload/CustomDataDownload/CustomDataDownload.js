@@ -22,7 +22,7 @@ import { applyBookmarkFilterTags, engageFilterLogic, getFilterVariable } from '.
 import { getTimePeriodYears } from '../../../utils/selectors/filterCriteria';
 import useCheckWidth from '../../../utils/hooks/useCheckWidth'
 import { metaAdder } from '../../../utils/document/metaAdder';
-import { getBookmarkData } from '../../../utils/api/quartzApi';
+import { getBookmarkData } from '../../../utils/api/camdApi';
 // *** STYLES (individual component)
 import './CustomDataDownload.scss';
 

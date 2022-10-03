@@ -6,7 +6,7 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
 import { ModalToggleButton, Modal, ModalHeading, ModalFooter } from '@trussworks/react-uswds';
-import { createBookmark } from '../../../utils/api/quartzApi';
+import { createBookmark } from '../../../utils/api/camdApi';
 import DataPreview from '../DataPreview/DataPreview';
 import FilterTags from '../../FilterTags/FilterTags';
 import { isAddedToFilters, formatBookmarkDate, getBookmarkContent, initcap } from '../../../utils/selectors/general';
@@ -346,7 +346,6 @@ const CddDataPreview = ({
               className="float-left"
               modalRef={modalRef}
               closer
-              aria-labelledby="close-bookmark-modal"
             >
               Ok
             </ModalToggleButton>

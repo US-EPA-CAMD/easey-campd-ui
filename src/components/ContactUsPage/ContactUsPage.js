@@ -6,7 +6,7 @@ import { ContactForm } from '@us-epa-camd/easey-design-system';
 
 import { metaAdder } from '../../utils/document/metaAdder';
 import getContent from '../../utils/api/getContent';
-import { sendNotificationEmail } from '../../utils/api/notificationsApi';
+import { sendSupportEmail } from '../../utils/api/camdApi';
 import { isEmailValid } from '../../utils/selectors/general';
 
 import './ContactUsPage.scss';
@@ -139,7 +139,7 @@ const ContactUsPage = ({setApiErrorDispatcher}) => {
         message: message,
       };
 
-      sendNotificationEmail(payload)
+      sendSupportEmail(payload)
         // Successful submission
         .then((res) => {
           setSubmitStatus(true);
