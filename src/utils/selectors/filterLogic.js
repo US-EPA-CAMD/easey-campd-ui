@@ -301,32 +301,34 @@ export const filterTransactionType = (filterCriteria) =>{
   return filterCriteria.transactionType;
 };
 
+const checkComboBoxYear = (stateVar, clonedFilterCriteria, obj, updatedFilterCriteria) => {
+  if (stateVar !== 'comboBoxYear'){
+      updatedFilterCriteria[stateVar] = obj.updateFilter(clonedFilterCriteria)
+    } else {
+      updatedFilterCriteria.timePeriod = {
+        ...clonedFilterCriteria.timePeriod,
+        [stateVar] : obj.updateFilter(clonedFilterCriteria)
+      }
+    }
+}
+
 export const engageFilterLogic = (dataType, dataSubType, affectedFilter, filterCriteriaCloned, updateFilterCriteriaDispatcher, setLoadingState, removedFilter=false) => {
-  updateFilterCriteriaDispatcher({filterLogicEngaged: true})
+  // updateFilterCriteriaDispatcher({filterLogicEngaged: true})
   const filters = FILTERS_MAP[dataType][dataSubType];
   populateSelections(filterCriteriaCloned, dataSubType);
   const updatedFilterCriteria = {}
   filters.forEach(obj =>{
     const {stateVar} = obj
     if(removedFilter){
-      if(obj.hasOwnProperty("updateFilter")){
-        updatedFilterCriteria[stateVar] = obj.updateFilter(filterCriteriaCloned)
-      }
+      obj.hasOwnProperty("updateFilter") && checkComboBoxYear(stateVar, filterCriteriaCloned, obj, updatedFilterCriteria);
     }
     else if(obj.hasOwnProperty("updateFilter") && affectedFilter !== obj.value){
-      if (stateVar !== 'comboBoxYear'){
-        updatedFilterCriteria[stateVar] = obj.updateFilter(filterCriteriaCloned)
-      } else {
-        updatedFilterCriteria.timePeriod = {
-          ...filterCriteriaCloned.timePeriod,
-          [stateVar] : obj.updateFilter(filterCriteriaCloned)
-        }
-      }
+      checkComboBoxYear(stateVar, filterCriteriaCloned, obj, updatedFilterCriteria);
     }
   });
   updateFilterCriteriaDispatcher(updatedFilterCriteria)
   setTimeout(()=>{
-    updateFilterCriteriaDispatcher({filterLogicEngaged: false});
+    // updateFilterCriteriaDispatcher({filterLogicEngaged: false});
     if (setLoadingState){
       setLoadingState(false);
     };

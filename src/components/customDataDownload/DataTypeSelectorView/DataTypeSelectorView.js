@@ -81,6 +81,9 @@ const DataTypeSelectorView = ({
                   outline="true"
                   className="margin-right-0 grid-col-4"
                   onClick={handleChangeButtonClick}
+                  aria-label="change-data-type"
+                  id="change-data-type-button"
+                  autoFocus
                 >
                   Change
                 </Button>

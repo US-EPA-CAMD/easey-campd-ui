@@ -35,7 +35,6 @@ const TableMenu = ({
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [columnMenuOpen, setColumnMenuOpen] = useState(false);
-  const [sortArrowUp, setSortArrowUp] = useState(false);
   useFocusTrap('#menuContainer', [menuOpen]);
   useFocusTrap('#subMenuContainer', [columnMenuOpen]);
   const [focusSortArrow, setFocusSortArrow] = useState(false);
@@ -48,8 +47,8 @@ const TableMenu = ({
   const [filterMappingsCopy, setFilterMappingsCopy] = useState([]);
   const [closed, setClosed] = useState(true);
   const open = Boolean(anchorEl);
-  const [noLongerActive, setNoLongerActive] = useState(false)
-
+  const [noLongerActive, setNoLongerActive] = useState(false);
+  const { sortArrowUp } = filterCriteria;
 // 508 effects to manage focus
   useEffect(() => {
     if(focusAfterApply === topic.value){
@@ -147,23 +146,25 @@ const TableMenu = ({
     setSortDesc(false);
     setUnsort(false);
     setSortAsc(true);
-    setSortArrowUp(true);
+    updateFilterCriteriaDispatcher({sortArrowUp: topic.value});
+    updateAriaSort(e, 'ascending')
     handleClose();
   };
   const handleSortDesc = (e) => {
-    setSortArrowUp(false);
-    setSortValue(topic.value);
+    updateFilterCriteriaDispatcher({sortArrowUp: null});
     setUnsort(false);
     setSortAsc(false);
     setSortDesc(true);
+    updateAriaSort(e, 'descending')
     handleClose();
   };
-  const handleUnsort = () => {
+  const handleUnsort = (e) => {
     setSortValue(topic.value);
     setSortAsc(false);
     setSortDesc(false);
     setUnsort(true);
-    setSortArrowUp(false);
+    updateFilterCriteriaDispatcher({sortArrowUp: null});
+    updateAriaSort(e, 'none', true)
     handleClose();
   };
 
@@ -228,6 +229,12 @@ const TableMenu = ({
 
     return true;
   };
+  const columnId = `column-${topic.value}`;
+  const currentColumn = document.querySelector(`#` + columnId);
+  const updateAriaSort = (e, value, remove=false) => {
+    if(!remove){currentColumn.ariaSort = value} else if (currentColumn.ariaSort){
+      currentColumn.removeAttribute("aria-sort");}
+  };
   const isActiveElement = focusAfterApply === topic.value && !noLongerActive;
   return (
     <div
@@ -242,12 +249,12 @@ const TableMenu = ({
         id="icons"
         className="display-flex"
         style={
-          open || keepIconsVisible || isActiveElement
+          open || keepIconsVisible || isActiveElement || currentColumn?.ariaSort
             ? { visibility: 'visible' }
             : { display: 'flex' }
         }
       >
-        {sortArrowUp ? (
+        {sortArrowUp === topic.value ? (
           <ArrowUpwardSharp
             className="text-base"
             onClick={handleSortDesc}
