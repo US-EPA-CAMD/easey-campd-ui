@@ -61,7 +61,8 @@ const CddDataPreview = ({
   dataPreview,
   removedAppliedFilter,
   setRemovedAppliedFilter,
-  setApiErrorDispatcher
+  setApiErrorDispatcher,
+  setApplyFilterLoading,
 }) => {
   const [requirementsMet, setRequirementsMet] = useState(false);
   const [helperText, setHelperText] = useState(null);
@@ -149,6 +150,7 @@ const CddDataPreview = ({
   };
 
   const onFilterTagRemovedHandler = (filterType, label) => {
+    setApplyFilterLoading(true);
     if (filterType === 'Time Period' || filterType === "Transaction Date") {
       if(label === "Operating Hours Only"){
         updateTimePeriodDispatcher({
@@ -170,6 +172,7 @@ const CddDataPreview = ({
       setRemovedAppliedFilter(filterType);
     }
     handleUpdateInAppliedFilters();
+    setTimeout(() => {setApplyFilterLoading(false)})
   };
 
   const onFilterTagClearAllHandler = () => {
