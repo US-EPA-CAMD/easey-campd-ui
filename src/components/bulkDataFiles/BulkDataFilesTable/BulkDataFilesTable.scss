@@ -6,6 +6,7 @@
     top: 4.5rem;
     z-index: 5;
   }
+
 }
 
 #bdfTable {
@@ -19,5 +20,11 @@
     position: sticky !important;
     top: 5rem;
     z-index: 2;
-  }
+  }  
+  
+  .rdt_TableHead {
+  top: 8rem !important;
+  z-index: 3 !important;
 }
+}
+
