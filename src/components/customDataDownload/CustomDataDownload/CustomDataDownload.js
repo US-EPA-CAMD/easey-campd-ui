@@ -89,6 +89,7 @@ const CustomDataDownload = ({
   const [ bookmarkData, setBookmarkData ] = useState(null);
   const [ bookmarkInit, setBookmarkInit ] = useState(false);
   const [applyFilterLoading, setApplyFilterLoading] = useState(false);
+  const [handleApplyLoading, setHandleApplyLoading] = useState(false);
   useEffect(() => {
     document.title = 'Custom Data Download | CAMPD | US EPA';
     const params = new Proxy(new URLSearchParams(window.location.search), {
@@ -202,11 +203,10 @@ const CustomDataDownload = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   },[applyClicked, loading, comboBoxYearUpdated, bookmarkData])
-  const [handleApplyLoading, setHandleApplyLoading] = useState(false)
-  
+
   useEffect(() => {
     if (handleApplyLoading) {
-      setHideFilterMenu(true)
+      setHideFilterMenu(true);
       setApplyClicked(true);
       const dataSubType = getSelectedDataSubType(constants.DATA_SUBTYPES_MAP[selectedDataType]);
       if (selectedDataType !== '' && selectedDataSubtype !== '') {
@@ -252,6 +252,10 @@ const CustomDataDownload = ({
         );
       }
       setHandleApplyLoading(false);
+      setTimeout(() => {
+        const changeDataTypeButton = document.querySelector('#change-data-type-button');
+        changeDataTypeButton && changeDataTypeButton.focus()
+      })
     }//eslint-disable-next-line react-hooks/exhaustive-deps
   }, [handleApplyLoading])
   useEffect(() => {

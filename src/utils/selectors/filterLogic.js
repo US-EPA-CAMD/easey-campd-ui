@@ -313,7 +313,7 @@ const checkComboBoxYear = (stateVar, clonedFilterCriteria, obj, updatedFilterCri
 }
 
 export const engageFilterLogic = (dataType, dataSubType, affectedFilter, filterCriteriaCloned, updateFilterCriteriaDispatcher, setLoadingState, removedFilter=false) => {
-  updateFilterCriteriaDispatcher({filterLogicEngaged: true})
+  // updateFilterCriteriaDispatcher({filterLogicEngaged: true})
   const filters = FILTERS_MAP[dataType][dataSubType];
   populateSelections(filterCriteriaCloned, dataSubType);
   const updatedFilterCriteria = {}
@@ -328,7 +328,7 @@ export const engageFilterLogic = (dataType, dataSubType, affectedFilter, filterC
   });
   updateFilterCriteriaDispatcher(updatedFilterCriteria)
   setTimeout(()=>{
-    updateFilterCriteriaDispatcher({filterLogicEngaged: false});
+    // updateFilterCriteriaDispatcher({filterLogicEngaged: false});
     if (setLoadingState){
       setLoadingState(false);
     };

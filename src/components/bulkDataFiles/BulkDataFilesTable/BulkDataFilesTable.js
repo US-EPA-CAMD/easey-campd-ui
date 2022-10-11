@@ -156,7 +156,7 @@ const BulkDataFilesTable = ({
 	}, [searchText]);
 
   return (
-    <div className="data-display-table grid-col-fill margin-x-2 padding-left-2">
+    <div className="data-display-table grid-col-fill margin-x-2 padding-left-2" id="bdfTable">
       {limitReached ? (
         <div className="padding-top-3">
           <Alert type="warning" aria-live="assertive">
