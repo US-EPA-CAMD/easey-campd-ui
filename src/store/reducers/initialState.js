@@ -37,6 +37,7 @@ export default {
     excludeParams: [],
     selectedColumns: [],
     columnState: null,
+    sortArrowUp: null,
     filterLogicEngaged: false
   },
   bulkDataFiles:{

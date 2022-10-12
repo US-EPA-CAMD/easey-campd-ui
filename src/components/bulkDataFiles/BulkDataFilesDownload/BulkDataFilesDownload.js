@@ -75,7 +75,9 @@ const BulkDataFilesDownload = ({ selectedFiles, fileSize, limitReached, setApiEr
   return (
     <div 
       aria-live="assertive"
-      className="download-wrapper height-10 border-2px radius-lg bg-primary-lighter border-primary display-flex flex-row flex-align-center font-sans-sm margin-top-2 padding-x-2">
+      className="download-wrapper height-10 border-2px radius-lg bg-primary-lighter border-primary display-flex flex-row flex-align-center font-sans-sm margin-top-2 padding-x-2"
+      id="bdfDownload"
+      >
       <RenderSpinner showSpinner={loading}/>
       <div className="grid-col flex-1">
         Files selected: {selectedFiles?.selectedCount || ''}

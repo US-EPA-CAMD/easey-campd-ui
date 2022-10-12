@@ -19,6 +19,12 @@
     white-space: normal !important;
     overflow: visible !important;
   }
+  .button_header{
+    background: none;
+    outline: inherit;
+    border: none;
+    font-weight: bold !important;
+  }
   .rdt_TableRow {
     border-top: solid 1px $epa-navy !important;
     border-bottom: solid 1px $epa-navy !important;
@@ -53,6 +59,9 @@
       :focus-within{
         #icons {
           visibility: visible !important;
+        }
+        #bdfSortIcon {
+          opacity: 1 !important;
         }
 
       }
