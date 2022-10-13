@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { connect } from "react-redux";
 import {Button} from "@trussworks/react-uswds";
 import { Help } from '@material-ui/icons';
@@ -22,12 +22,12 @@ const Facility = ({
   dataSubType,
   filterCriteria,
   updateFilterCriteriaDispatcher,
-  applyFilterLoading,
   setApplyFilterLoading,
   }) => {
 
   const [stateFacility, setStateFacility] = useState(JSON.parse(JSON.stringify(facility)));
-  const [applyFilterClicked, setApplyFilterClicked] = useState(false);
+  const fcRef = useRef(filterCriteria);
+  fcRef.current = filterCriteria;
   const filterToApply = "Facility";
 
   useEffect(()=>{
@@ -36,33 +36,16 @@ const Facility = ({
     }// eslint-disable-next-line react-hooks/exhaustive-deps
   },[stateFacility]);
 
-  useEffect(()=>{
-    if(applyFilterClicked){
-      if(filterCriteria.filterMapping.length>0){
-        engageFilterLogic(dataType, dataSubType, filterToApply, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispatcher, setApplyFilterLoading);
+  const handleApplyFilter = () =>{
+    setApplyFilterLoading(true);
+    setTimeout(async()=>{await updateFilters();
+      if(fcRef.current.filterMapping.length>0){
+        engageFilterLogic(dataType, dataSubType, filterToApply, JSON.parse(JSON.stringify(fcRef.current)), updateFilterCriteriaDispatcher, setApplyFilterLoading);
       } else {
         setApplyFilterLoading(false)
       }
       closeFlyOutHandler();
-    }// eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [facility]);
-
-  useEffect(()=>{
-    if(applyFilterLoading){
-      updateFacilitySelectionDispatcher(stateFacility);
-      if(isAddedToFilters(filterToApply, appliedFilters)){
-        removeAppliedFilterDispatcher(filterToApply);
-      }
-      const selection = stateFacility.filter(e=>e.selected)
-      if(selection.length>0){
-        addAppliedFilterDispatcher({key:filterToApply, values:selection.map(e=>e.label)});
-      }
-      setApplyFilterClicked(true);
-    }//eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [applyFilterLoading]);
-
-  const handleApplyFilter = () =>{
-    setApplyFilterLoading(true);
+    });
   };
 
   const onChangeUpdate = (id, updateType) =>{
@@ -73,7 +56,15 @@ const Facility = ({
     }
     setStateFacility([...stateCopy]);
   }
-
+  const updateFilters = () => {
+    updateFacilitySelectionDispatcher(stateFacility);
+    if(isAddedToFilters(filterToApply, appliedFilters)){
+      removeAppliedFilterDispatcher(filterToApply);
+    }
+    const selection = stateFacility.filter(e=>e.selected)
+    if(selection.length>0){
+      addAppliedFilterDispatcher({key:filterToApply, values:selection.map(e=>e.label)});
+    }}
   return (
     <>
       <div className="panel-header padding-top-2 margin-x-2">
