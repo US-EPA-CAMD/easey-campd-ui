@@ -75,7 +75,7 @@ const AccountType = ({
       if(fcRef.current.filterMapping.length>0){
         engageFilterLogic(dataType, dataSubType, filterToApply, JSON.parse(JSON.stringify(fcRef.current)), updateFilterCriteriaDispatcher, setApplyFilterLoading);
       } else {
-        setApplyFilterLoading(false)
+        setApplyFilterLoading(false);
       }
       closeFlyOutHandler();
     });
