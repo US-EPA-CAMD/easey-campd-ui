@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { connect } from "react-redux";
 import {Button} from "@trussworks/react-uswds";
 import { Help } from '@material-ui/icons';
@@ -22,12 +22,12 @@ const SourceCategory = ({
   dataType,
   dataSubType,
   filterCriteria,
-  applyFilterLoading,
   setApplyFilterLoading,
   }) => {
 
   const [_sourceCategory, setSourceCategory] = useState(JSON.parse(JSON.stringify(sourceCategory)));
-  const [applyFilterClicked, setApplyFilterClicked] = useState(false);
+  const fcRef = useRef(filterCriteria);
+  fcRef.current = filterCriteria;
   const filterToApply = "Source Category";
 
   useEffect(()=>{
@@ -36,33 +36,17 @@ const SourceCategory = ({
     }// eslint-disable-next-line react-hooks/exhaustive-deps
   },[_sourceCategory]);
 
-  useEffect(()=>{
-    if(applyFilterClicked){
-      if(filterCriteria.filterMapping.length>0){
-        engageFilterLogic(dataType, dataSubType, filterToApply, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispatcher, setApplyFilterLoading);
+  const handleApplyFilter = () =>{
+    setApplyFilterLoading(true);
+    setTimeout(async()=>{
+      await updateFilters();
+      if(fcRef.current.filterMapping.length>0){
+        engageFilterLogic(dataType, dataSubType, filterToApply, JSON.parse(JSON.stringify(fcRef.current)), updateFilterCriteriaDispatcher, setApplyFilterLoading);
       } else {
         setApplyFilterLoading(false)
       }
       closeFlyOutHandler();
-    }// eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sourceCategory]);
-
-  useEffect(()=>{
-    if(applyFilterLoading){
-      updateSourceCategorySelectionDispatcher(_sourceCategory);
-      if(isAddedToFilters(filterToApply, appliedFilters)){
-        removeAppliedFilterDispatcher(filterToApply);
-      }
-      const selection = _sourceCategory.filter(e=>e.selected)
-      if(selection.length>0){
-        addAppliedFilterDispatcher({key:filterToApply, values:selection.map(e=>e.label)});
-      }
-      setApplyFilterClicked(true);
-    }//eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [applyFilterLoading]);
-
-  const handleApplyFilter = () =>{
-    setApplyFilterLoading(true);
+    })
   };
 
   const onChangeUpdate = (id, updateType) =>{
@@ -73,6 +57,16 @@ const SourceCategory = ({
     }
     setSourceCategory([...stateCopy]);
   }
+
+  const updateFilters = () => {
+    updateSourceCategorySelectionDispatcher(_sourceCategory);
+      if(isAddedToFilters(filterToApply, appliedFilters)){
+        removeAppliedFilterDispatcher(filterToApply);
+      }
+      const selection = _sourceCategory.filter(e=>e.selected)
+      if(selection.length>0){
+        addAppliedFilterDispatcher({key:filterToApply, values:selection.map(e=>e.label)});
+      }}
 
   return (
     <>
