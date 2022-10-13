@@ -323,6 +323,7 @@ const CustomDataDownload = ({
     setDataSubtypeApplied(false);
     setDisplayFilters(false);
     setActiveFilter(false);
+    applyClicked && setApplyClicked(false);
   };
 
   const handleBackButtonClick = () => {
@@ -404,6 +405,7 @@ const CustomDataDownload = ({
 
   const mobileDataTypeDisplay = displayMobileDataType? 'width-full tablet:width-mobile-lg minh-viewport'
   : 'display-none desktop:display-block';
+  const applyClickedLoading = selectedDataType === "COMPLIANCE" || getSelectedDataSubType(constants.DATA_SUBTYPES_MAP[selectedDataType]) === "Holdings"? applyClicked : false;
   const position = isMobileOrTablet ? 'position-absolute pin-y' : 'position-static';
   return (
     <div className="position-relative">
@@ -489,7 +491,7 @@ const CustomDataDownload = ({
           setRemovedAppliedFilter={setRemovedAppliedFilter}
           setApplyFilterLoading={setApplyFilterLoading}
         />
-        <RenderSpinner showSpinner={loading || filterCriteria.filterLogicEngaged || bookmarkInit || handleApplyLoading || applyFilterLoading || localLoading || comboBoxYearUpdated|| applyClicked } />
+        <RenderSpinner showSpinner={loading || filterCriteria.filterLogicEngaged || bookmarkInit || handleApplyLoading || applyFilterLoading || localLoading || comboBoxYearUpdated|| applyClickedLoading } />
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import { Button } from '@trussworks/react-uswds';
 import { Help } from '@material-ui/icons';
@@ -28,11 +28,11 @@ const AccountNameNumber = ({
   dataSubType,
   filterCriteria,
   updateFilterCriteriaDispatcher,
-  applyFilterLoading,
   setApplyFilterLoading,
 }) => {
   const [_accountNameNumber, setAccountNameNumber] = useState(JSON.parse(JSON.stringify(accountNameNumber)));
-  const [applyFilterClicked, setApplyFilterClicked] = useState(false);
+  const fcRef = useRef(filterCriteria);
+  fcRef.current = filterCriteria;
   const filterToApply = 'Account Name/Number';
 
   useEffect(()=>{
@@ -41,36 +41,17 @@ const AccountNameNumber = ({
     }// eslint-disable-next-line react-hooks/exhaustive-deps
   },[_accountNameNumber]);
 
-  useEffect(()=>{
-    if(applyFilterClicked){
-      if(filterCriteria.filterMapping.length>0){
-        engageFilterLogic(dataType, dataSubType, filterToApply, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispatcher, setApplyFilterLoading);
+  const handleApplyFilter = () => {
+    setApplyFilterLoading(true);
+    setApplyFilterLoading(true);
+    setTimeout(async()=>{await updateFilters();
+      if(fcRef.current.filterMapping.length>0){
+        engageFilterLogic(dataType, dataSubType, filterToApply, JSON.parse(JSON.stringify(fcRef.current)), updateFilterCriteriaDispatcher, setApplyFilterLoading);
       } else {
         setApplyFilterLoading(false)
       }
       closeFlyOutHandler();
-    }// eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [accountNameNumber]);
-
-  useEffect(()=>{
-    if(applyFilterLoading){
-      updateAccountNameNumberSelectionDispatcher(_accountNameNumber);
-    if (isAddedToFilters(filterToApply, appliedFilters)) {
-      removeAppliedFilterDispatcher(filterToApply);
-    }
-    const selection = _accountNameNumber.filter((e) => e.selected);
-    if (selection.length > 0) {
-      addAppliedFilterDispatcher({
-        key: filterToApply,
-        values: selection.map((e) => e.label),
-      });
-    }
-    setApplyFilterClicked(true);
-    }// eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [applyFilterLoading]);
-
-  const handleApplyFilter = () => {
-    setApplyFilterLoading(true);
+    });
   };
 
   const onChangeUpdate = (id, updateType) => {
@@ -81,6 +62,19 @@ const AccountNameNumber = ({
     }
     setAccountNameNumber([...stateCopy]);
   };
+  const updateFilters = () => {
+    updateAccountNameNumberSelectionDispatcher(_accountNameNumber);
+    if (isAddedToFilters(filterToApply, appliedFilters)) {
+      removeAppliedFilterDispatcher(filterToApply);
+    }
+    const selection = _accountNameNumber.filter((e) => e.selected);
+    if (selection.length > 0) {
+      addAppliedFilterDispatcher({
+        key: filterToApply,
+        values: selection.map((e) => e.label),
+      });
+    }
+  }
 
   return (
     <>
