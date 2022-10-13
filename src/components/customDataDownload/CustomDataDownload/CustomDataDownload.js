@@ -214,7 +214,6 @@ const CustomDataDownload = ({
   const changeDataTypeButton = document.querySelector('#change-data-type-button');
   useEffect(() => {
     setTimeout(() =>{if (handleApplyLoading) {
-      console.log('check before execution');
       setHideFilterMenu(true);
       setApplyClicked(true);
       const dataSubType = getSelectedDataSubType(constants.DATA_SUBTYPES_MAP[selectedDataType]);
