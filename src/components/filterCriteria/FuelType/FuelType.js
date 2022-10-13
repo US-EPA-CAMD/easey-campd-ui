@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import { Button } from '@trussworks/react-uswds';
 import { Help } from '@material-ui/icons';
@@ -23,11 +23,11 @@ export const FuelType = ({
   dataType,
   dataSubType,
   filterCriteria,
-  applyFilterLoading,
   setApplyFilterLoading,
 }) => {
   const [fuelType, setFuelTypes] = useState(JSON.parse(JSON.stringify(storeFuelType)));
-  const [applyFilterClicked, setApplyFilterClicked] = useState(false);
+  const fcRef = useRef(filterCriteria);
+  fcRef.current = filterCriteria;
   const filterToApply = 'Unit Fuel Type';
 
   useEffect(() => {
@@ -35,17 +35,6 @@ export const FuelType = ({
       renderedHandler();
     }// eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fuelType]);
-
-  useEffect(()=>{
-    if(applyFilterClicked){
-      if(filterCriteria.filterMapping.length>0){
-        engageFilterLogic(dataType, dataSubType, filterToApply, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispatcher, setApplyFilterLoading);
-      } else {
-        setApplyFilterLoading(false)
-      }
-      closeFlyOutHandler();
-    }// eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [applyFilterClicked]);
 
   const onSelectAllFuelTypesHandler = (e) => {
     const newFuelTypes = [...fuelType];
@@ -72,9 +61,20 @@ export const FuelType = ({
     }
   };
 
-  useEffect(()=>{
-    if (applyFilterLoading){
-      updateFuelTypeSelectionDispatcher(fuelType);
+  const handleApplyFilter = () => {
+    setApplyFilterLoading(true);
+    setTimeout(async()=>{await updateFilters();
+      if(fcRef.current.filterMapping.length>0){
+        engageFilterLogic(dataType, dataSubType, filterToApply, JSON.parse(JSON.stringify(fcRef.current)), updateFilterCriteriaDispatcher, setApplyFilterLoading);
+      } else {
+        setApplyFilterLoading(false)
+      }
+      closeFlyOutHandler();
+    });
+  };
+
+  const updateFilters = () => {
+    updateFuelTypeSelectionDispatcher(fuelType);
       if (isAddedToFilters(filterToApply, appliedFilters)) {
         removeAppliedFilterDispatcher(filterToApply);
       }
@@ -82,13 +82,7 @@ export const FuelType = ({
       if (selection.length > 0) {
         addAppliedFilterDispatcher({ key: filterToApply, values: selection });
       }
-      setApplyFilterClicked(true);
-    }//eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [applyFilterLoading]);
-
-  const handleApplyFilter = () => {
-    setApplyFilterLoading(true);
-  };
+  }
 
   return (
     <>
