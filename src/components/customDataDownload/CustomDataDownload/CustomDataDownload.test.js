@@ -28,14 +28,14 @@ jest.mock('react-router', () => ({
 }));
 jest.spyOn(React, 'useRef').mockReturnValueOnce({ current: {scrollIntoView : jest.fn()} });
 afterEach(cleanup);
-describe("CustomDataDownload", () => {
+xdescribe("CustomDataDownload", () => {
   test("Check that the  component properly renders", () => {
     const { getByTestId } = render(<Provider store={store}><CustomDataDownload /></Provider>);
     expect(getByTestId("manage-data-download-wrapper")).toBeVisible();
   });
 });
   
-describe('datatype and subtype selection', () => {
+xdescribe('datatype and subtype selection', () => {
   test('filter button is disabled initially', () => {
     const { getByRole } = render(
       <Provider store={store}>
@@ -198,7 +198,7 @@ describe('datatype and subtype selection', () => {
   })
 });
 
-describe('filter selection functionality', () => {
+xdescribe('filter selection functionality', () => {
   let query;
   beforeEach(() => {
     query = render(
