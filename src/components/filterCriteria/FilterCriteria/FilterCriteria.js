@@ -173,7 +173,7 @@ const FilterCriteria = ({
               </Tooltip>
             </span>
           </div>
-          {filterCriteria.facility.length ? <div className="facility-count padding-left-2">
+          {filterCriteria.facility.length && appliedFilters.length? <div className="facility-count padding-left-2">
             <div>Facility Count: <span className="text-bold" data-testid="facilityCount">{appliedFacilities|| facilityCount || filterCriteria.facility.length}</span></div>
           </div> : null}
           {isMobileOrTablet && selectedDataType === mats && renderPreviewData.dataType !== mats && (
