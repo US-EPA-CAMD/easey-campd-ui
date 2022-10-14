@@ -204,35 +204,6 @@ describe('FilterCriteria Component', () => {
    expect(stateTerritoryFilter).not.toBeDisabled();
   });
   
-  test('state territory filter should be enabled if it has enabled items', () => {
-    initialState.filterCriteria.stateTerritory = [{
-      enabled: true,
-      id: 'AK',
-      label: 'Alaska',
-      selected: false
-    }]
-    const { getByRole } = render(
-      <MemoryRouter>
-        <Provider store={store}>
-        <FilterCriteria
-          dataSubtypeApplied={true}
-          selectedDataType="COMPLIANCE"
-          getSelectedDataSubType={jest
-            .fn()
-            .mockImplementation(() => 'Emissions Based')}
-          handleFilterButtonClick={jest.fn()}
-          appliedFilters={[]}
-          filterCriteria={initialState.filterCriteria}
-        />
-        </Provider>
-      </MemoryRouter>
-    );
-    const stateTerritoryFilter = getByRole('button', {
-      name: 'STATE/TERRITORY (Optional)',
-    });  
-   expect(stateTerritoryFilter).not.toBeDisabled();
-  });
-  
   test('facility count should be number of facilities selected if facilities are selected', () => {
     const { getByTestId, getByText } = render(
       <MemoryRouter>
@@ -257,9 +228,32 @@ describe('FilterCriteria Component', () => {
   expect(facilityCountValue).toBeInTheDocument();
   });
 
-
-  test('facility count should be number of enabled facilities if no facilities are selected', () => {
+  test('facility count should be number of facilities enabled if other filters are selected', () => {
     const { getByTestId, getByText } = render(
+      <MemoryRouter>
+        <Provider store={store}>
+        <FilterCriteria
+          dataSubtypeApplied={true}
+          selectedDataType="EMISSIONS"
+          getSelectedDataSubType={jest
+            .fn()
+            .mockImplementation(() => 'Hourly Emissions')}
+          handleFilterButtonClick={jest.fn()}
+          filterCriteria={{...filterCriteria, facility: [{enabled: true}, {enabled: true}, {enabled: true}]}}
+          activeFilter="Time Period"
+          appliedFilters={[{key: 'stateTerritory', values:['state1', 'state2']}]}
+        />
+        </Provider>
+      </MemoryRouter>
+    );
+    const facilityCount = getByTestId('facilityCount');
+    const facilityCountValue = getByText('3');
+  expect(facilityCount).toBeInTheDocument();
+  expect(facilityCountValue).toBeInTheDocument();
+  });
+
+  test('facility count should not display if no facilities are selected', () => {
+    const { queryByTestId } = render(
       <MemoryRouter>
         <Provider store={store}>
         <FilterCriteria
@@ -276,10 +270,8 @@ describe('FilterCriteria Component', () => {
         </Provider>
       </MemoryRouter>
     );
-  const facilityCount = getByTestId('facilityCount');
-  const facilityCountValue = getByText('3');
+  const facilityCount = queryByTestId('facilityCount');
 
-  expect(facilityCount).toBeInTheDocument();
-  expect(facilityCountValue).toBeInTheDocument();
+  expect(facilityCount).not.toBeInTheDocument();
   });
 });

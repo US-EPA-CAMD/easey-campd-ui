@@ -1368,7 +1368,7 @@ describe("Filter Criteria Async Actions", () => {
     expect(actionDispached).toEqual(expectedAction);
   });
 
-  test('should create BEGIN_API_CALL and load relevant filters', () => {
+  xtest('should create BEGIN_API_CALL and load relevant filters', () => {
     const expectedActions = [
       { type: 'BEGIN_API_CALL' },
       { type: 'BEGIN_API_CALL' },
