@@ -1,5 +1,5 @@
 // *** GLOBAL FUNCTIONAL IMPORTS
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 
 import {
@@ -90,6 +90,8 @@ const CustomDataDownload = ({
   const [ bookmarkInit, setBookmarkInit ] = useState(false);
   const [applyFilterLoading, setApplyFilterLoading] = useState(false);
   const [handleApplyLoading, setHandleApplyLoading] = useState(false);
+  const [localLoading, setLocalLoading] = useState(false);
+
   useEffect(() => {
     document.title = 'Custom Data Download | CAMPD | US EPA';
     const params = new Proxy(new URLSearchParams(window.location.search), {
@@ -135,9 +137,11 @@ const CustomDataDownload = ({
     }
   }, [isMobileOrTablet]);
 
+  const fcRef = useRef(filterCriteria);
+  fcRef.current = filterCriteria;
   useEffect(()=>{//console.log(filterCriteria.timePeriod.comboBoxYear); console.log("called");
     const dataSubType = getSelectedDataSubType(constants.DATA_SUBTYPES_MAP[selectedDataType]);
-    if(applyClicked && loading ===0){
+    if(applyClicked && loading ===0 && !handleApplyLoading){
       if (bookmarkInit && bookmarkData?.dataPreview?.excludedColumns.length){
         updateFilterCriteriaDispatcher({excludeParams: bookmarkData?.dataPreview?.excludedColumns})
       }
@@ -162,9 +166,13 @@ const CustomDataDownload = ({
           setComboBoxYearUpdated(true);
         }
         if(comboBoxYearUpdated && !bookmarkInit){
-          engageFilterLogic(selectedDataType, dataSubType, null, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispatcher, setHandleApplyLoading, true);
+          const executeFilterLogic = async() => {
+            await setLocalLoading(true)
+            engageFilterLogic(selectedDataType, dataSubType, null, JSON.parse(JSON.stringify(fcRef.current)), updateFilterCriteriaDispatcher, setLocalLoading, true);
           setApplyClicked(false);
-          setComboBoxYearUpdated(false);
+          setComboBoxYearUpdated(false);}
+          executeFilterLogic()
+          setTimeout(()=>changeDataTypeButton && changeDataTypeButton.focus())
         }
         if(comboBoxYearUpdated && bookmarkInit){
           applyBookmarkFilterTags(bookmarkData, filterCriteria, addAppliedFilterDispatcher);
@@ -203,9 +211,9 @@ const CustomDataDownload = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   },[applyClicked, loading, comboBoxYearUpdated, bookmarkData])
-
+  const changeDataTypeButton = document.querySelector('#change-data-type-button');
   useEffect(() => {
-    if (handleApplyLoading) {
+    setTimeout(() =>{if (handleApplyLoading) {
       setHideFilterMenu(true);
       setApplyClicked(true);
       const dataSubType = getSelectedDataSubType(constants.DATA_SUBTYPES_MAP[selectedDataType]);
@@ -253,10 +261,9 @@ const CustomDataDownload = ({
       }
       setHandleApplyLoading(false);
       setTimeout(() => {
-        const changeDataTypeButton = document.querySelector('#change-data-type-button');
         changeDataTypeButton && changeDataTypeButton.focus()
       })
-    }//eslint-disable-next-line react-hooks/exhaustive-deps
+    }})//eslint-disable-next-line react-hooks/exhaustive-deps
   }, [handleApplyLoading])
   useEffect(() => {
     const noAggregationChange = appliedDataType.aggregation === selectedAggregation || !selectedAggregation;
@@ -316,6 +323,7 @@ const CustomDataDownload = ({
     setDataSubtypeApplied(false);
     setDisplayFilters(false);
     setActiveFilter(false);
+    applyClicked && setApplyClicked(false);
   };
 
   const handleBackButtonClick = () => {
@@ -397,6 +405,7 @@ const CustomDataDownload = ({
 
   const mobileDataTypeDisplay = displayMobileDataType? 'width-full tablet:width-mobile-lg minh-viewport'
   : 'display-none desktop:display-block';
+  const applyClickedLoading = selectedDataType === "COMPLIANCE" || getSelectedDataSubType(constants.DATA_SUBTYPES_MAP[selectedDataType]) === "Holdings"? applyClicked : false;
   const position = isMobileOrTablet ? 'position-absolute pin-y' : 'position-static';
   return (
     <div className="position-relative">
@@ -482,7 +491,7 @@ const CustomDataDownload = ({
           setRemovedAppliedFilter={setRemovedAppliedFilter}
           setApplyFilterLoading={setApplyFilterLoading}
         />
-        <RenderSpinner showSpinner={loading || filterCriteria.filterLogicEngaged || bookmarkInit || handleApplyLoading || applyFilterLoading } />
+        <RenderSpinner showSpinner={loading || filterCriteria.filterLogicEngaged || bookmarkInit || handleApplyLoading || applyFilterLoading || localLoading || comboBoxYearUpdated|| applyClickedLoading } />
       </div>
     </div>
   );

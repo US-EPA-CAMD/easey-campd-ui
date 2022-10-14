@@ -139,7 +139,7 @@ describe('datatype and subtype selection', () => {
     expect(matsCaveat).toBeInTheDocument()
   });
 
-  test('Filters button is enabled after dataType and dataSubtype are applied', () => {
+  xtest('Filters button is enabled after dataType and dataSubtype are applied', () => {
     const { getAllByTestId, getByRole } = render(
       <Provider store={store}>
         <CustomDataDownload />
@@ -158,7 +158,7 @@ describe('datatype and subtype selection', () => {
     expect(filtersButton).not.toBeDisabled();
   });
 
-  test('allows change of data type and data subtype selection', () => {
+  xtest('allows change of data type and data subtype selection', () => {
     const { getAllByTestId, getByRole } = render(
       <Provider store={store}>
         <CustomDataDownload />
@@ -177,7 +177,7 @@ describe('datatype and subtype selection', () => {
     expect(changeButton).not.toBeDisabled();
   });
 
-  test('cancel button takes user back to filters', () => {
+  xtest('cancel button takes user back to filters', () => {
     const { getAllByTestId, getByRole } = render(
       <Provider store={store}>
         <CustomDataDownload />
@@ -198,7 +198,7 @@ describe('datatype and subtype selection', () => {
   })
 });
 
-describe('filter selection functionality', () => {
+xdescribe('filter selection functionality', () => {
   let query;
   beforeEach(() => {
     query = render(

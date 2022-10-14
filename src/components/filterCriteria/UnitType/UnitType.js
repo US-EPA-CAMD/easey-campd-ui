@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import { Button } from '@trussworks/react-uswds';
 
@@ -27,13 +27,13 @@ export const UnitType = ({
   dataType,
   dataSubType,
   filterCriteria,
-  applyFilterLoading,
   setApplyFilterLoading,
 }) => {
   const [unitType, setUnitTypes] = useState(
     JSON.parse(JSON.stringify(storeUnitType))
   );
-  const [applyFilterClicked, setApplyFilterClicked] = useState(false);
+  const fcRef = useRef(filterCriteria);
+  fcRef.current = filterCriteria;
   const filterToApply = 'Unit Type';
 
   useEffect(() => {
@@ -42,23 +42,6 @@ export const UnitType = ({
     } // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [unitType]);
 
-  useEffect(() => {
-    if (applyFilterClicked) {
-      if (filterCriteria.filterMapping.length > 0) {
-        engageFilterLogic(
-          dataType,
-          dataSubType,
-          filterToApply,
-          JSON.parse(JSON.stringify(filterCriteria)),
-          updateFilterCriteriaDispatcher,
-          setApplyFilterLoading
-        );
-      } else {
-        setApplyFilterLoading(false)
-      }
-      closeFlyOutHandler();
-    } // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [applyFilterClicked]);
 
   const onSelectAllUnitTypesHandler = (e) => {
     const newUnitTypes = [...unitType];
@@ -85,9 +68,21 @@ export const UnitType = ({
     }
   };
 
-  useEffect(()=>{
-    if(applyFilterLoading){
-      updateUnitTypeSelectionDispatcher(unitType);
+  const handleApplyFilter = () =>{
+    setApplyFilterLoading(true);
+    setApplyFilterLoading(true);
+    setTimeout(async()=>{await updateFilters();
+      if(fcRef.current.filterMapping.length>0){
+        engageFilterLogic(dataType, dataSubType, filterToApply, JSON.parse(JSON.stringify(fcRef.current)), updateFilterCriteriaDispatcher, setApplyFilterLoading);
+      } else {
+        setApplyFilterLoading(false)
+      }
+      closeFlyOutHandler();
+    })
+  };
+
+  const updateFilters = () => {
+    updateUnitTypeSelectionDispatcher(unitType);
       if (isAddedToFilters(filterToApply, appliedFilters)) {
         removeAppliedFilterDispatcher(filterToApply);
       }
@@ -95,14 +90,7 @@ export const UnitType = ({
       if (selection.length > 0) {
         addAppliedFilterDispatcher({ key: filterToApply, values: selection });
       }
-      setApplyFilterClicked(true);
-    }//eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [applyFilterLoading]);
-
-  const handleApplyFilter = () =>{
-    setApplyFilterLoading(true);
-  };
-
+  }
 
   return (
     <>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { connect } from "react-redux";
 import {Button} from "@trussworks/react-uswds";
 import { Help } from '@material-ui/icons';
@@ -23,13 +23,12 @@ const TimePeriodComboBox = ({
   dataSubType,
   filterCriteria,
   updateFilterCriteriaDispatcher,
-  applyFilterLoading,
   setApplyFilterLoading,
   }) => {
 
   const [yearsArray, setYearsArray] = useState(JSON.parse(JSON.stringify(timePeriod.comboBoxYear)));
-  const [applyFilterClicked, setApplyFilterClicked] = useState(false);
-
+  const fcRef = useRef(filterCriteria);
+  fcRef.current = filterCriteria;
   let tooltip;
 
   if (dataType === "ALLOWANCE") {
@@ -46,40 +45,36 @@ const TimePeriodComboBox = ({
     }// eslint-disable-next-line react-hooks/exhaustive-deps
   },[yearsArray]);
 
-  useEffect(()=>{
-    if(applyFilterClicked){
-      if(dataSubType === "Holdings" || dataSubType === "Transactions" || dataType === "COMPLIANCE"){
-        if(filterCriteria.filterMapping.length>0){
-          engageFilterLogic(dataType, dataSubType, filterToApply, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispatcher, setApplyFilterLoading);
-        } else {
-          setApplyFilterLoading(false)
-        }
-      } else {
-        setApplyFilterLoading(false)
-      }
-      closeFlyOutHandler();
-    }// eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [timePeriod.comboBoxYear]);
 
-  useEffect(()=>{
-    if(applyFilterLoading){
-      updateTimePeriodDispatcher({
-        ...timePeriod,
-        comboBoxYear: yearsArray
-      });
-      if(isAddedToFilters(filterToApply, appliedFilters)){
-        removeAppliedFilterDispatcher(filterToApply);
-      }
-      const selection = yearsArray.filter(e=>e.selected)
-      if(selection.length>0){
-        addAppliedFilterDispatcher({key:filterToApply, values: selection.map(e=>e.label)})
-      }
-      setApplyFilterClicked(true);
-    }//eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [applyFilterLoading]);
+  const updateFilters = () => {
+    updateTimePeriodDispatcher({
+      ...timePeriod,
+      comboBoxYear: yearsArray
+    });
+    if(isAddedToFilters(filterToApply, appliedFilters)){
+      removeAppliedFilterDispatcher(filterToApply);
+    }
+    const selection = yearsArray.filter(e=>e.selected)
+    if(selection.length>0){
+      addAppliedFilterDispatcher({key:filterToApply, values: selection.map(e=>e.label)})
+    }
+  }
 
   const handleApplyFilter = () =>{
     setApplyFilterLoading(true);
+    setTimeout(async()=>{
+        await updateFilters();
+        if(dataSubType === "Holdings" || dataSubType === "Transactions" || dataType === "COMPLIANCE"){
+          if(fcRef.current.filterMapping.length>0){
+            engageFilterLogic(dataType, dataSubType, filterToApply, JSON.parse(JSON.stringify(fcRef.current)), updateFilterCriteriaDispatcher, setApplyFilterLoading);
+          } else {
+            setApplyFilterLoading(false)
+          }
+        } else {
+          setApplyFilterLoading(false)
+        }
+        closeFlyOutHandler();
+      })
   };
 
   const onChangeUpdate = (id, updateType) =>{
