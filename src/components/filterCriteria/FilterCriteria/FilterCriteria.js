@@ -44,6 +44,8 @@ const FilterCriteria = ({
     const [facilityCount, setFacilityCount] = useState(0);
     const [appliedFacilities, setAppliedFacilities] = useState(0);
     const mats = 'MERCURY AND AIR TOXICS EMISSIONS';
+    const emissionDataTypes = selectedDataType === 'EMISSIONS' || selectedDataType === 'FACILITY' || selectedDataType === mats;
+
     useEffect(() => {
       if (isMobileOrTablet && !hideFilterMenu) {
         const filtersTooltip = document.querySelector('#filtersTooltip')?.firstChild
@@ -142,7 +144,7 @@ const FilterCriteria = ({
     };
 
     const checkDisabled = (filter) => {
-      if (selectedDataType === 'EMISSIONS' || selectedDataType === 'FACILITY' || selectedDataType === 'MERCURY AND AIR TOXICS EMISSIONS' ||
+      if (emissionDataTypes ||
         getSelectedDataSubType(constants.DATA_SUBTYPES_MAP[selectedDataType]) === "Transactions") {
         if (filter.value === 'Time Period' || filter.value === "Transaction Date") {
           return false;
@@ -173,7 +175,7 @@ const FilterCriteria = ({
               </Tooltip>
             </span>
           </div>
-          {filterCriteria.facility.length && appliedFilters.length? <div className="facility-count padding-left-2">
+          {emissionDataTypes && filterCriteria.facility.length && appliedFilters.length? <div className="facility-count padding-left-2">
             <div>Facility Count: <span className="text-bold" data-testid="facilityCount">{appliedFacilities|| facilityCount || filterCriteria.facility.length}</span></div>
           </div> : null}
           {isMobileOrTablet && selectedDataType === mats && renderPreviewData.dataType !== mats && (
