@@ -16,8 +16,9 @@
     addAriaLabelToDatatable();
   }
 
-  // *** adds button role to column headers
-  if (bulkDataFilesTable) {AddButtonToColumnHeaders()}
+  // *** adds button role to column headers for bulk data files table and aria label for other tables
+  if (bulkDataFilesTable) {AddButtonToColumnHeaders()
+  }else {addAriaLabelToColumnHeader()}
 
   // *** add aria sorted-by to data tables
   // addInitialAriaSort(); no longer needed
@@ -115,53 +116,6 @@ export const addAriaLabelToDatatable = () => {
     }
   });
 };
-
-/*****************************************************
- * addInitialAriaSort:
- *
- *   This function is used to initially set aria-sort attribute appropriately
- *
- *       Inputs:
- *              none
- *       Outputs:
- *              none
- *****************************************************/
-// export const addInitialAriaSort = () => {
-//   setTimeout(() => {
-//     document.querySelectorAll(`.rdt_TableCol_Sortable`).forEach((column) => {
-//       // *** traverse all sort icons
-//       if (column.querySelectorAll(".__rdt_custom_sort_icon__").length > 0) {
-//         // *** isolate the svg element of the icon
-//         const sortIcon = column.querySelector(".MuiSvgIcon-root");
-
-//         // *** if svg element is displayed, set
-//         if (window.getComputedStyle(sortIcon).opacity === "1") {
-//           if (
-//             column
-//               .querySelector(".__rdt_custom_sort_icon__")
-//               .classList?.contains("asc")
-//           ) {
-//             column
-//               .closest(`.rdt_TableCol_Sortable`)
-//               .setAttribute("aria-sort", "ascending");
-//           } else if (
-//             column
-//               .querySelector(".__rdt_custom_sort_icon__")
-//               .classList?.contains("desc")
-//           ) {
-//             column
-//               .closest(`.rdt_TableCol_Sortable`)
-//               .setAttribute("aria-sort", "descending");
-//           }
-//         }else {
-//           column
-//             .closest(`.rdt_TableCol_Sortable`)
-//             .setAttribute("aria-sort", "none");
-//         }
-//       }
-//     });
-//   });
-// };
 
 /*****************************************************
  * setAriaSort:
@@ -269,3 +223,22 @@ export const setCheckboxToReferenceColumn = (data, coulmnToReference, selectAllR
     });
   });
 };
+
+/*****************************************************
+ * addAriaLabelToColumnHeader:
+ *
+ *   This function adds aria label to column header so users know column is sortable
+ *
+ *       Inputs:
+ *              none
+ *       Outputs:
+ *              none
+ *****************************************************/
+export const addAriaLabelToColumnHeader = () => {
+  setTimeout(() => {
+    document.querySelectorAll(".rdt_TableCol_Sortable").forEach((element) => {
+      const columnName =  element.querySelector('#tableMenuContainer')?.innerText;
+      columnName && element.setAttribute('aria-label', `click to sort ${columnName}`);
+    });
+  });
+}
