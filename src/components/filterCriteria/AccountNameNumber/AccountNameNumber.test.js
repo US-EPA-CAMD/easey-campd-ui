@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import configureStore from '../../../store/configureStore.dev';
 import initialState from '../../../store/reducers/initialState';
 import AccountNameNumber from './AccountNameNumber';
+import userEvent from '@testing-library/user-event';
 
 const nameNumbers = [
   {
@@ -113,11 +114,38 @@ describe('Account Name/Number Component', () => {
     expect(within(getByTestId("multi-select-listbox")).getAllByTestId('multi-select-option').length).toBe(1);
     fireEvent.keyDown(searchbox, {key: 'Tab', code: 9});
     fireEvent.keyDown(searchbox, {key: 'Enter', code: 'Enter'})
-    fireEvent.click(getByTestId("multi-select-option"));
+    fireEvent.click(getAllByTestId("multi-select-option")[0]);
     expect(getByRole("button", {name: "Auction Reserve (000000000001)"})).toBeDefined();
     expect(getAllByTestId("multi-select-option").length).toBe(nameNumbers.length);
     fireEvent.click(getByText("Apply Filter"));
     expect(flyOutClosed).toBe(true);
     expect(applyFilterLoading).toBe(true);
   });
+
+  describe('pipe separated lists', ()=>{
+    test('It should handle pipe separated lists', () => {
+      const { getByTestId, getByRole, getByText} = query;
+      const searchbox = getByTestId("input-search");
+      searchbox.focus();
+      fireEvent.click(searchbox);
+      userEvent.type(searchbox, '000000000001|000000000002|000000000003|')
+      fireEvent.keyDown(searchbox, {key: 'Enter', code: 'Enter'})
+      expect(getByRole("button", {name: "Auction Reserve (000000000001)"})).toBeDefined();
+      expect(getByRole("button", {name: "Direct Sale Reserve (000000000002)"})).toBeDefined();
+      expect(getByRole("button", {name: "Small Diesel Reserve (000000000003)"})).toBeDefined();
+      fireEvent.click(getByText("Apply Filter"));
+      expect(applyFilterLoading).toBe(true);
+    })
+    test('It should show alert if no enteries are valid', () => {
+      const { getByTestId} = query;
+      const searchbox = getByTestId("input-search");
+      searchbox.focus();
+      fireEvent.click(searchbox);
+      userEvent.type(searchbox, 'sds|sdcs|dsc|');
+      fireEvent.keyDown(searchbox, {key: 'Enter', code: 'Enter'});
+      const alert = getByTestId("alert")
+      expect(alert).toBeInTheDocument()
+    })
+  })
+  
 });
