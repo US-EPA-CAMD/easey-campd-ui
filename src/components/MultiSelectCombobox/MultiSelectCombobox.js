@@ -152,7 +152,7 @@ const MultiSelectCombobox = ({
     itemsCopy.forEach((item) => {
       const {label, id} = item;
       const name = label.split('(')[0].slice(0, -1).toLowerCase()
-      if (searchValueObj[id] || searchValueObj[label.toLowerCase()] || searchValueObj[name]) {
+      if (searchValueObj[id] || searchValueObj[name]) {
         item.selected = true;
         filteredItems.push(item);
         if(searchValueObj[id]) {searchValueObj[id] = 'valid'};
