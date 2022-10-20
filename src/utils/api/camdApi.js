@@ -1,6 +1,6 @@
 import axios from "axios";
-import { handleError } from "./apiUtils";
 import config from "../../config";
+import { handleError } from "./apiUtils";
 import { clientTokenAxios } from "./clientTokenAxios";
 
 axios.defaults.headers.common = {
@@ -11,9 +11,14 @@ export const getBulkDataFilesList = async () => {
   const url = `${config.services.camd.uri}/bulk-files`;
 
   try {
-    return await clientTokenAxios({
-      method: "GET",
-      url: url,
+    return await axios.get(url, {
+      transformRequest: (data, headers) => {
+        headers.common = {
+          "cache-control": "Public",
+          "x-api-key": config.app.apiKey,
+        };
+        return data;
+      }
     });
   } catch (error) {
     handleError(error);
@@ -40,7 +45,7 @@ export const getBookmarkData = async (id) => {
   const url = `${config.services.camd.uri}/bookmarks/${id}`;
 
   try {
-    return await clientTokenAxios({
+    return await axios({
       method: "GET",
       url: url,
     });
