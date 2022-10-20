@@ -216,108 +216,51 @@ const MultiSelectCombobox = ({
     }
     return null;
   }
+
+
   return (
     <>
     {validationError? <Alert role="alert" type="info">{validationError}</Alert>: null}
       <Label id={`${entity}-label`} htmlFor={`${entity}-searchbox`}>
         {label}{comboBoxTooltip()}
       </Label>
-      <div
-        role="combobox"
-        name={entity}
-        aria-haspopup="listbox"
-        aria-controls={`${entity}-searchbox`}
-        aria-expanded={showListBox}
-        aria-owns="listbox"
-        id="multi-select-combobox"
-        className="margin-top-1 margin-bottom-2 border-1px bg-white"
-      >
+      <div role="combobox" name={entity} aria-haspopup="listbox" aria-controls={`${entity}-searchbox`} aria-expanded={showListBox} aria-owns="listbox"
+          id="multi-select-combobox" className="margin-top-1 margin-bottom-2 border-1px bg-white">
         <div className="margin-x-05 margin-top-05 display-block maxh-card overflow-y-scroll">
-          {selectedItems.length > 0 && selectedItems.map((i) => i.component)}
+          {selectedItems.length>0 && selectedItems.map(i=>i.component)}
         </div>
-        <input
-          autoFocus
-          id={`${entity}-searchbox`}
-          type="text"
-          aria-labelledby={`${entity}-label`}
-          autoComplete="off"
-          aria-autocomplete="list"
-          aria-controls="listbox"
-          aria-activedescendant="listbox"
-          ref={inputRef}
-          className="search position-static bg-white border-0 width-full height-4 padding-x-1"
-          data-testid="input-search"
-          value={filter}
-          onChange={(e) => onSearchHandler(e.target.value)}
-          onClick={() => setShowListBox(true)}
-          onKeyDown={(e) => handleKeyDown(e)}
-        />
-        <FontAwesomeIcon
-          icon={faCaretDown}
-          className="pin-right margin-right-4 padding-top-05"
-          onClick={() => setShowListBox(true)}
-        />
-        {showListBox && (
-          <ul
-            aria-multiselectable="true"
-            role="listbox"
-            aria-labelledby={`${entity}-label`}
-            id="listbox"
-            data-testid="multi-select-listbox"
-            tabIndex="-1"
-            className="list-box bg-white display-block height-mobile width-full overflow-y-scroll overflow-x-hidden border-top"
-          >
-            {data.length > 0 ? (
-              data.map((item, i) => (
-                <li
-                  key={i}
-                  role="option"
-                  aria-selected={item.selected}
-                  data-id={item.id}
-                  tabIndex="0"
-                  data-label={item.label}
-                  data-testid="multi-select-option"
-                  className={
-                    item.selected
-                      ? 'item selected padding-y-1 padding-x-2 border-top-0 display-flex flex-row flex-justify'
-                      : 'item padding-y-1 padding-x-2 border-top-0 display-flex flex-row flex-justify'
-                  }
-                  onClick={optionClickHandler}
-                  onKeyDown={(e) => handleKeyDown(e)}
-                >
-                  <span
-                    data-id={item.id}
-                    data-label={item.label}
-                    className="option-label width-mobile"
-                  >
-                    {item.label}
-                  </span>
-                  {item.selected ? (
-                    <FontAwesomeIcon icon={faCheck} color="#005ea2" />
-                  ) : null}
-                </li>
-              ))
-            ) : (
-              <span className="padding-x-2 padding-top-2">
-                No {entity.replace('-', ' ')} match your search.
-              </span>
-            )}
-          </ul>
-        )}
-      </div>
-      {window.addEventListener('click', function (e) {
-        const multiSelectComboboxDiv = document.getElementById(
-          'multi-select-combobox'
-        );
-        if (
-          multiSelectComboboxDiv &&
-          !multiSelectComboboxDiv.contains(e.target)
-        ) {
-          setShowListBox(false);
+        <input autoFocus id={`${entity}-searchbox`} ref={inputRef} type="text" aria-labelledby={`${entity}-label`} autoComplete="off" aria-autocomplete="list" aria-controls="listbox" aria-activedescendant="listbox"
+          className="search position-static bg-white border-0 width-full height-4 padding-x-1" data-testid="input-search"
+          value={filter} onChange={(e)=>onSearchHandler(e.target.value)} onClick={()=>setShowListBox(true)} onKeyDown={(e)=>handleKeyDown(e)}/>
+          <FontAwesomeIcon icon={faCaretDown} className="pin-right margin-right-4 padding-top-05" onClick={()=>setShowListBox(true)}/>
+        {showListBox &&
+          <ul aria-multiselectable="true" role="listbox" aria-labelledby={`${entity}-label`} id="listbox" data-testid="multi-select-listbox" tabIndex="-1"
+            className="list-box bg-white display-block height-mobile width-full overflow-y-scroll overflow-x-hidden border-top">
+          {data.length>0? data.map((item,i)=>
+            (<li key={i} role="option" aria-selected={item.selected} data-id={item.id} tabIndex="0" data-label={item.label} data-testid="multi-select-option"
+                className={item.selected?"item selected padding-y-1 padding-x-2 border-top-0 display-flex flex-row flex-justify"
+                  :"item padding-y-1 padding-x-2 border-top-0 display-flex flex-row flex-justify"}
+                onClick={optionClickHandler} onKeyDown={(e)=>handleKeyDown(e)}>
+              <span data-id={item.id} data-label={item.label} className="option-label width-mobile">{item.label}</span>
+              {item.selected? <FontAwesomeIcon icon={faCheck} color="#005ea2"/>: null}
+            </li>)
+          ):
+            (<span className="padding-x-2 padding-top-2">No {entity.replace("-"," ")} match your search.</span>)
+          }
+        </ul>
         }
-      })}
+      </div>
+      {
+        window.addEventListener('click', function(e) {
+          const multiSelectComboboxDiv = document.getElementById('multi-select-combobox');
+          if (multiSelectComboboxDiv && !multiSelectComboboxDiv.contains(e.target)){
+            setShowListBox(false);
+          }
+        })
+      }
     </>
-  );
+  )
 };
 
 export default MultiSelectCombobox;
+
