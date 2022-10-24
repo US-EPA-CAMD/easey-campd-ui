@@ -10,7 +10,7 @@ import configureStore from "./store/configureStore.dev";
 
 const store = configureStore();
 
-if (config.app.googleAnalyticsEnabled === "true") {
+if (config.app.googleAnalyticsEnabled) {
   let tagManagerArgs = { gtmId: config.app.googleAnalyticsContainerId };
 
   TagManager.initialize(tagManagerArgs);
