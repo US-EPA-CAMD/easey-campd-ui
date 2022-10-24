@@ -1,10 +1,12 @@
 import React, {useState, useRef, useEffect} from "react";
-import {Label} from '@trussworks/react-uswds';
+import {Alert, Label} from '@trussworks/react-uswds';
 import PillButton from "../PillButton/PillButton";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown, faCheck } from '@fortawesome/free-solid-svg-icons';
 import { getComboboxEnabledItems } from "../../utils/selectors/filterCriteria";
 import "./MultiSelectCombobox.scss";
+import Tooltip from "../Tooltip/Tooltip";
+import { Help } from "@material-ui/icons";
 
 const MultiSelectCombobox = ({
   items,
@@ -18,8 +20,11 @@ const MultiSelectCombobox = ({
   const [ data, setData ]= useState(JSON.parse(JSON.stringify(getComboboxEnabledItems(items))));
   const [ showListBox , setShowListBox ] = useState(false);
   const [ selectedItems, setSelectedItems ] = useState([]);
+  const [validationError, setValidationError ] = useState(null);
   const selectedItemsRef = useRef(selectedItems);
-  const [stillMounted, setStillMounted] = useState(true)
+  const inputRef = useRef(null);
+  const [stillMounted, setStillMounted] = useState(true);
+  const isFacilities = entity === 'facilities', isAccounts = entity === 'accounts';
 
   useEffect(() => {
     populateSelectedItems();
@@ -27,7 +32,7 @@ const MultiSelectCombobox = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const onSearchHanlder =(value) =>{
+  const onSearchHandler =(value) =>{
     const lowercasedFilter = value.toLowerCase();
     let filteredData = _items;
     if(value.length>0){
@@ -68,6 +73,7 @@ const MultiSelectCombobox = ({
     if(e.target.getAttribute("data-id") === null){
       return;
     }
+    validationError && setValidationError(null);
     const id = e.target.getAttribute("data-id");
     const optionLabel = e.target.getAttribute("data-label");
     if(!selectedItems.find(s=> s.id.toString()===id.toString())){
@@ -84,7 +90,7 @@ const MultiSelectCombobox = ({
         }
       ];
       selectedItemsRef.current = _selectedItems;
-      onSearchHanlder('');
+      onSearchHandler('');
       setSelectedItems(_selectedItems);
       updateListDataOnChange(id, "add");
       onChangeUpdate(id, "add");
@@ -121,6 +127,10 @@ const MultiSelectCombobox = ({
 
   const handleKeyDown = (event) => {
     if(event.key === 'Enter'){
+      //** allows pipe delimited list */
+      if((isFacilities || isAccounts) && inputRef?.current?.value?.length){
+        selectItemsFromPipeSeparatedList();
+      }
       if(!showListBox){
         setShowListBox(true);
       }else{
@@ -134,20 +144,94 @@ const MultiSelectCombobox = ({
       }
     }
   }
+  const selectItemsFromPipeSeparatedList = () => {
+    validationError && setValidationError(null);
+    const searchValueArray = inputRef.current.value.toLowerCase().split('|').filter(el=> el !== '' && el !== ' '),
+      searchValueObj = searchValueArray.reduce((acc, curr) => ({ ...acc, [curr]: true }), {}),
+      filteredItems = [], itemsCopy = [..._items], invalidEntries = [];
+    itemsCopy.forEach((item) => {
+      const {label, id} = item;
+      const name = label.split('(')[0].slice(0, -1).toLowerCase()
+      if (searchValueObj[id] || searchValueObj[name]) {
+        item.selected = true;
+        filteredItems.push(item);
+        if(searchValueObj[id]) {searchValueObj[id] = 'valid'};
+        if(searchValueObj[label.toLowerCase()]) {searchValueObj[label.toLowerCase()] = 'valid'};
+        if(searchValueObj[name]) {searchValueObj[name] = 'valid'};
+      }
+    });
+    if (searchValueArray.length !== filteredItems.length) {
+      searchValueArray.forEach((el) => {
+        if (searchValueObj[el] !== 'valid') {invalidEntries.push(el)}
+      })
+    }
+    if(searchValueArray.length > 1 || filteredItems.length){_setItems([...itemsCopy]);
+    if (!filteredItems.length){
+      isFacilities && setValidationError('No Facility Name/ID Matched your search. Please try again');
+      isAccounts && setValidationError('No Account Names or Numbers Matched your search. Please try again');
+      return
+    }
+    setData([...itemsCopy]);
+    const _selectedItems = [];
+    filteredItems.forEach((item) => {
+      const {label, id} = item;
+      const itemComponent = {
+        id,
+        component:
+        <PillButton
+          key={id}
+          index={id}
+          label={label}
+          onRemove={onRemoveHanlder}
+          disableButton={true}
+        />
+        }
+        if (!selectedItems.find(s=> s.id.toString()===id.toString())){_selectedItems.push(itemComponent)};
+        updateListDataOnChange(id, "add");
+        onChangeUpdate(id, "add");
+    });
+    const updatedSelectedItems = [...selectedItems, ..._selectedItems];
+    onSearchHandler('');
+    if (_selectedItems.length){
+      selectedItemsRef.current = updatedSelectedItems;
+      setSelectedItems(updatedSelectedItems);
+    }
+    if(invalidEntries.length){
+      let entries = '';
+      invalidEntries.forEach((entry, i) => {
+        if (i === 0){entries += `"${entry}"`
+        }else if(i !== invalidEntries.length-1){entries += `, "${entry}"`} else {entries += `, and "${entry}"`}
+      })
+      isFacilities && setValidationError(`Your search for ${entries} returned no results. Please try again with a valid Facility Name/ORIS Code`);
+      isAccounts && setValidationError(`Your search for ${entries} returned no results. Please try again with a valid Account Name/Number)`);
+    }}
+  };
+  const comboBoxTooltip = () => {
+    if (isFacilities) {
+      return <Tooltip content={'Paste into the search box a pipe delimited list of facility names or IDs (ORIS Codes) for quicker query building (e.g., Barry|Gadsden|Colbert).'} field={`${label} combo box`}>
+        <Help className="text-primary margin-left-1" fontSize="small" /></Tooltip>
+    } else if (isAccounts) {
+      return <Tooltip content={'Paste into the search box a pipe delimited list of account names or numbers for quicker query building (e.g., Barry|Gadsden|Colbert).'} field={`${label} combo box`} >
+        <Help className="text-primary margin-left-1" fontSize="small" /></Tooltip>
+    }
+    return null;
+  }
+
 
   return (
     <>
+    {validationError? <Alert role="alert" type="info">{validationError}</Alert>: null}
       <Label id={`${entity}-label`} htmlFor={`${entity}-searchbox`}>
-        {label}
+        {label}{comboBoxTooltip()}
       </Label>
       <div role="combobox" name={entity} aria-haspopup="listbox" aria-controls={`${entity}-searchbox`} aria-expanded={showListBox} aria-owns="listbox"
           id="multi-select-combobox" className="margin-top-1 margin-bottom-2 border-1px bg-white">
         <div className="margin-x-05 margin-top-05 display-block maxh-card overflow-y-scroll">
           {selectedItems.length>0 && selectedItems.map(i=>i.component)}
         </div>
-        <input autoFocus id={`${entity}-searchbox`} type="text" aria-labelledby={`${entity}-label`} autoComplete="off" aria-autocomplete="list" aria-controls="listbox" aria-activedescendant="listbox"
+        <input autoFocus id={`${entity}-searchbox`} ref={inputRef} type="text" aria-labelledby={`${entity}-label`} autoComplete="off" aria-autocomplete="list" aria-controls="listbox" aria-activedescendant="listbox"
           className="search position-static bg-white border-0 width-full height-4 padding-x-1" data-testid="input-search"
-          value={filter} onChange={(e)=>onSearchHanlder(e.target.value)} onClick={()=>setShowListBox(true)} onKeyDown={(e)=>handleKeyDown(e)}/>
+          value={filter} onChange={(e)=>onSearchHandler(e.target.value)} onClick={()=>setShowListBox(true)} onKeyDown={(e)=>handleKeyDown(e)}/>
           <FontAwesomeIcon icon={faCaretDown} className="pin-right margin-right-4 padding-top-05" onClick={()=>setShowListBox(true)}/>
         {showListBox &&
           <ul aria-multiselectable="true" role="listbox" aria-labelledby={`${entity}-label`} id="listbox" data-testid="multi-select-listbox" tabIndex="-1"
