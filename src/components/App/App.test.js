@@ -5,6 +5,8 @@ import { Provider } from "react-redux";
 import App from './App';
 import configureStore from "../../store/configureStore.dev";
 import config from "../../config";
+import { createMemoryHistory } from "history";
+import { Router } from "react-router";
 
 const store = configureStore();
 const mockUseLocationValue = {
@@ -19,16 +21,22 @@ jest.mock('react-router', () => ({
       return mockUseLocationValue;
   })
 }));
-xdescribe("Testing the main routing App component", () => {
-  it("renders home page component provided with the default path", () => {
-    const { getByText } = render(
+describe("Testing the main routing App component", () => {
+  test("renders home page component provided with the default path", async () => {
+    const history = createMemoryHistory({initialEntries : [`${config.app.path}/data/custom-data-download`]});
+    const { findByText } = render(
       <Provider store={store}>
-        <MemoryRouter initialEntries={[`${config.app.path}/data/custom-data-download`]}>
+        {/* <MemoryRouter initialEntries={[`${config.app.path}/does-not-exist`]}>
             <App />
-        </MemoryRouter>
+        </MemoryRouter> */}
+        <Router history={history}>
+          <App />
+        </Router>,
+        node
       </Provider>
     );
-    const textInHomePage = getByText("Custom Data Download");
-    expect(textInHomePage).toBeInTheDocument();
+    expect(history.location.pathname).toBe(`${config.app.path}/data/custom-data-download`);
+    // const textInHomePage = await findByText("Custom Data Download");
+    // expect(textInHomePage).toBeInTheDocument();
   });
 });

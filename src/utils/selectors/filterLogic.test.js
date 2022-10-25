@@ -1,7 +1,7 @@
 import React from 'react';
 import initialState from '../../store/reducers/initialState';
 import { updateFilterCriteria } from '../../store/actions/customDataDownload/filterCriteria';
-import { engageFilterLogic } from './filterLogic';
+import { engageFilterLogic, applyBookmarkFilterTags } from './filterLogic';
 import {
   restructurePrograms,
   restructureUnitTypes,
@@ -2277,4 +2277,15 @@ describe('Emissions Filter logic functions', () => {
     );
     expect(clonedFilterCritera).not.toBe(initialState.filterCriteria);
   });
+
+  test("testing applyBookmarkFilterTags", () => {
+    const bookmarkData = {"dataType":"EMISSIONS","dataSubType":"Annual Emissions","aggregation":"","filters":{"timePeriod":{"startDate":null,"endDate":null,
+    "opHrsOnly":true,"year":{"yearArray":[2019],"yearString":"2019"},"month":[],"quarter":[]},"program":{"selected":["ARP","CSNOX"],"enabled":[]},
+    "stateTerritory":{"selected":["CA"],"enabled":[]},"facility":{"selected":[55625],"enabled":[55499,55508,55510,55512,55513,55626,55627,10294,55855,55810,
+      55963,56639,56914,57027]},"unitType":{"selected":["CT"],"enabled":[]},"fuelType":{"selected":[],"enabled":["PNG"]},
+      "controlTechnology":{"selected":["NH3"],"enabled":["SCR"]}},"dataPreview":{"excludedColumns":[]}};
+      const dispacher = jest.fn();
+      applyBookmarkFilterTags(bookmarkData, initialState.filterCriteria, dispacher);
+      expect(dispacher).toHaveBeenCalled();
+  })
 });
