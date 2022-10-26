@@ -9,8 +9,9 @@ import getContent from "../../utils/api/getContent";
 import HeroSlideshow from "../HeroSlideshow/HeroSlideshow";
 import setApiError from "../../store/actions/setApiErrorAction";
 import { connect } from "react-redux";
+import { getCurrentDate } from "../../utils/functions";
 
-const VisualizationGalleryPage = ({setApiErrorDispatcher}) => {
+const VisualizationGalleryPage = ({ setApiErrorDispatcher }) => {
   useEffect(() => {
     document.title = "Visualization Gallery | CAMPD | US EPA";
     metaAdder(
@@ -27,58 +28,71 @@ const VisualizationGalleryPage = ({setApiErrorDispatcher}) => {
   const [slides, setSlides] = useState([]);
   const [tools, setTools] = useState([]);
 
-  const vizGalleryContentBasePath = '/campd/visualization-gallery';
+  const vizGalleryContentBasePath = "/campd/visualization-gallery";
 
   useEffect(() => {
-    getContent(`${vizGalleryContentBasePath}/intro-text.md`, setApiErrorDispatcher).then((resp) =>
-      resp && setIntroText(resp.data)
-    );
+    getContent(
+      `${vizGalleryContentBasePath}/intro-text.md`,
+      setApiErrorDispatcher
+    ).then((resp) => resp && setIntroText(resp.data));
 
-    getContent(`${vizGalleryContentBasePath}/slides.json`, setApiErrorDispatcher).then((resp) => {
-      resp && Promise.all(
-        resp.data.map((slide) => {
-          return Promise.all([
-            slide.image
-              ? getContent(`${vizGalleryContentBasePath}/${slide.image}`, setApiErrorDispatcher).then(
-                  (imgResp) => imgResp.config.url
-                )
-              : Promise.resolve(""),
-            slide.text
-              ? getContent(`${vizGalleryContentBasePath}/${slide.text}`, setApiErrorDispatcher).then(
-                  (textResp) => textResp.data
-                )
-              : Promise.resolve(""),
-          ]).then(([image, text]) => {
-            return { ...slide, image, text };
-          });
-        })
-      ).then((fetchedSlides) => {
-        setSlides(fetchedSlides);
-      });
+    getContent(
+      `${vizGalleryContentBasePath}/slides.json`,
+      setApiErrorDispatcher
+    ).then((resp) => {
+      resp &&
+        Promise.all(
+          resp.data.map((slide) => {
+            return Promise.all([
+              slide.image
+                ? getContent(
+                    `${vizGalleryContentBasePath}/${slide.image}`,
+                    setApiErrorDispatcher
+                  ).then((imgResp) => imgResp.config.url)
+                : Promise.resolve(""),
+              slide.text
+                ? getContent(
+                    `${vizGalleryContentBasePath}/${slide.text}`,
+                    setApiErrorDispatcher
+                  ).then((textResp) => textResp.data)
+                : Promise.resolve(""),
+            ]).then(([image, text]) => {
+              return { ...slide, image, text };
+            });
+          })
+        ).then((fetchedSlides) => {
+          setSlides(fetchedSlides);
+        });
     });
 
-    getContent(`${vizGalleryContentBasePath}/tools.json`, setApiErrorDispatcher).then((resp) => {
-      resp && Promise.all(
-        resp.data.map((tool) => {
-          return Promise.all([
-            tool.image
-              ? getContent(`${vizGalleryContentBasePath}/${tool.image}`, setApiErrorDispatcher).then(
-                  (imgResp) => imgResp.config.url
-                )
-              : Promise.resolve(""),
-            tool.description
-              ? getContent(`${vizGalleryContentBasePath}/${tool.description}`, setApiErrorDispatcher).then(
-                  (descResp) => descResp.data
-                )
-              : Promise.resolve(""),
-          ]).then(([image, description]) => {
-            return { ...tool, image, description };
-          });
-        })
-      ).then((fetchedTools) => {
-        setTools(fetchedTools);
-      });
-    });//eslint-disable-next-line react-hooks/exhaustive-deps
+    getContent(
+      `${vizGalleryContentBasePath}/tools.json`,
+      setApiErrorDispatcher
+    ).then((resp) => {
+      resp &&
+        Promise.all(
+          resp.data.map((tool) => {
+            return Promise.all([
+              tool.image
+                ? getContent(
+                    `${vizGalleryContentBasePath}/${tool.image}`,
+                    setApiErrorDispatcher
+                  ).then((imgResp) => imgResp.config.url)
+                : Promise.resolve(""),
+              tool.description
+                ? getContent(
+                    `${vizGalleryContentBasePath}/${tool.description}`,
+                    setApiErrorDispatcher
+                  ).then((descResp) => descResp.data)
+                : Promise.resolve(""),
+            ]).then(([image, description]) => {
+              return { ...tool, image, description };
+            });
+          })
+        ).then((fetchedTools) => {
+          setTools(fetchedTools);
+        });
+    }); //eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -202,7 +216,11 @@ const Tool = ({ data }) => {
                     href={data.source.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    aria-label={data.source.url? `Github Repository for ${data.name}` : ''}
+                    aria-label={
+                      data.source.url
+                        ? `Github Repository for ${data.name}`
+                        : ""
+                    }
                   >
                     {data.source.text}
                   </USWDSLink>
@@ -215,7 +233,9 @@ const Tool = ({ data }) => {
 
                 <p>
                   <strong>Date Last Updated:</strong>&nbsp;&nbsp;
-                  {data.updated}
+                  {data.updated === "CURRENT_DATE"
+                    ? getCurrentDate()
+                    : data.updated}
                 </p>
               </div>
             </div>
@@ -226,6 +246,9 @@ const Tool = ({ data }) => {
   );
 };
 
-const mapDispatchToProps = (dispatch) => ({setApiErrorDispatcher: (api, state, errorMessage) => dispatch(setApiError(api, state, errorMessage))});
+const mapDispatchToProps = (dispatch) => ({
+  setApiErrorDispatcher: (api, state, errorMessage) =>
+    dispatch(setApiError(api, state, errorMessage)),
+});
 
 export default connect(null, mapDispatchToProps)(VisualizationGalleryPage);

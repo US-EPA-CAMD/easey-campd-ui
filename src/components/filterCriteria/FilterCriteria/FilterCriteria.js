@@ -1,169 +1,199 @@
 import React, { useEffect, useState } from "react";
-import { connect } from "react-redux"
+import { connect } from "react-redux";
 import * as constants from "../../../utils/constants/customDataDownload";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faWindowClose } from '@fortawesome/free-solid-svg-icons';
+import { faWindowClose } from "@fortawesome/free-solid-svg-icons";
 import { Button } from "@trussworks/react-uswds";
-import { Help, Tune } from '@material-ui/icons';
+import { Help, Tune } from "@material-ui/icons";
 
 import "./FilterCriteria.scss";
 import { isAddedToFilters } from "../../../utils/selectors/general";
 import { focusTrap } from "../../../utils/ensure-508/focus-trap";
-import Tooltip from '../../Tooltip/Tooltip';
+import Tooltip from "../../Tooltip/Tooltip";
 
 import {
   resetDataPreview,
   removeAppliedFilter,
-} from '../../../store/actions/customDataDownload/customDataDownload';
+} from "../../../store/actions/customDataDownload/customDataDownload";
 import {
   resetFilter,
   updateTimePeriod,
   updateFilterCriteria,
-} from '../../../store/actions/customDataDownload/filterCriteria';
+} from "../../../store/actions/customDataDownload/filterCriteria";
 import MatsDataCaveat from "../../customDataDownload/MatsDataCaveat/MatsDataCaveat";
 import { getComboboxEnabledItems } from "../../../utils/selectors/filterCriteria";
 
 const FilterCriteria = ({
-    dataSubtypeApplied,
-    selectedDataType,
-    getSelectedDataSubType,
-    handleFilterButtonClick,
-    activeFilter,
-    appliedFilters,
-    filterCriteria,
-    resetFiltersDispatcher,
-    removeAppliedFiltersDispatcher,
-    resetDataPreviewDispatcher,
-    isMobileOrTablet,
-    hideFilterMenu,
-    setRemovedAppliedFilter,
-    renderPreviewData,
-    selectionChange,
-  }) => { 
-    const [firstFocusableEl, setFirstFocusableEl] = useState(null);
-    const [facilityCount, setFacilityCount] = useState(0);
-    const [appliedFacilities, setAppliedFacilities] = useState(0);
-    const mats = 'MERCURY AND AIR TOXICS EMISSIONS';
-    const emissionDataTypes = selectedDataType === 'EMISSIONS' || selectedDataType === 'FACILITY' || selectedDataType === mats;
+  dataSubtypeApplied,
+  selectedDataType,
+  getSelectedDataSubType,
+  handleFilterButtonClick,
+  activeFilter,
+  appliedFilters,
+  filterCriteria,
+  resetFiltersDispatcher,
+  removeAppliedFiltersDispatcher,
+  resetDataPreviewDispatcher,
+  isMobileOrTablet,
+  hideFilterMenu,
+  setRemovedAppliedFilter,
+  renderPreviewData,
+  selectionChange,
+}) => {
+  const [firstFocusableEl, setFirstFocusableEl] = useState(null);
+  const [facilityCount, setFacilityCount] = useState(0);
+  const [appliedFacilities, setAppliedFacilities] = useState(0);
+  const mats = "MERCURY AND AIR TOXICS EMISSIONS";
+  const emissionDataTypes =
+    selectedDataType === "EMISSIONS" ||
+    selectedDataType === "FACILITY" ||
+    selectedDataType === mats;
 
-    useEffect(() => {
-      if (isMobileOrTablet && !hideFilterMenu) {
-        const filtersTooltip = document.querySelector('#filtersTooltip')?.firstChild
-        filtersTooltip && filtersTooltip.focus();
-      }
-    }, [isMobileOrTablet, hideFilterMenu]);
+  useEffect(() => {
+    if (isMobileOrTablet && !hideFilterMenu) {
+      const filtersTooltip =
+        document.querySelector("#filtersTooltip")?.firstChild;
+      filtersTooltip && filtersTooltip.focus();
+    }
+  }, [isMobileOrTablet, hideFilterMenu]);
 
-    //focus trap
-    useEffect(() => {
-      if(isMobileOrTablet && !hideFilterMenu){
-        const { firstComponentFocusableElement, handleKeyPress } = focusTrap(".side-nav");
-        // set focus to first element only once
-        if(firstFocusableEl === null && firstComponentFocusableElement){
-          setFirstFocusableEl(firstComponentFocusableElement);
-          firstComponentFocusableElement.focus();
-        }
-        // *** FOCUS TRAP
-        document.addEventListener("keydown", handleKeyPress);
-        // * clean up
-        return () => {
-          document.removeEventListener("keydown", handleKeyPress);
-        };
+  //focus trap
+  useEffect(() => {
+    if (isMobileOrTablet && !hideFilterMenu) {
+      const { firstComponentFocusableElement, handleKeyPress } =
+        focusTrap(".side-nav");
+      // set focus to first element only once
+      if (firstFocusableEl === null && firstComponentFocusableElement) {
+        setFirstFocusableEl(firstComponentFocusableElement);
+        firstComponentFocusableElement.focus();
       }
-      if(!isMobileOrTablet || !hideFilterMenu){
-        setFirstFocusableEl(null);
-      }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isMobileOrTablet && !hideFilterMenu]);
+      // *** FOCUS TRAP
+      document.addEventListener("keydown", handleKeyPress);
+      // * clean up
+      return () => {
+        document.removeEventListener("keydown", handleKeyPress);
+      };
+    }
+    if (!isMobileOrTablet || !hideFilterMenu) {
+      setFirstFocusableEl(null);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isMobileOrTablet && !hideFilterMenu]);
 
-    useEffect(() =>{
-      if (appliedFilters.length){
-        const appliedFacilityFilters = appliedFilters.find(el=> el.key === 'Facility');
-        if (appliedFacilityFilters) {setAppliedFacilities(appliedFacilityFilters.values.length)}
-        else { setAppliedFacilities(0)};
+  useEffect(() => {
+    if (appliedFilters.length) {
+      const appliedFacilityFilters = appliedFilters.find(
+        (el) => el.key === "Facility"
+      );
+      if (appliedFacilityFilters) {
+        setAppliedFacilities(appliedFacilityFilters.values.length);
       } else {
-        if (appliedFacilities){
-          setAppliedFacilities(0)
-        }
-      }//eslint-disable-next-line
-    }, [appliedFilters])
-    
-    //cleanup
-    useEffect(()=>()=>{setFacilityCount(0);
-      setAppliedFacilities(0)}, []);
-    useEffect(()=> {
-      if (selectionChange && facilityCount){
-        setFacilityCount(0);
-      }// eslint-disable-next-line
-    }, [selectionChange])
+        setAppliedFacilities(0);
+      }
+    } else {
+      if (appliedFacilities) {
+        setAppliedFacilities(0);
+      }
+    } //eslint-disable-next-line
+  }, [appliedFilters]);
 
-    const removeFilter = (filterType) => {
-      resetFiltersDispatcher(filterType);
-      removeAppliedFiltersDispatcher(filterType);
-      setRemovedAppliedFilter(filterType);
-      resetDataPreviewDispatcher();
-    };
-    const checkSelectableData = (listItem) => {
-      let enabled = 0;
-      for (const el of listItem) {
-        if (enabled) {
-          break;
-        }
-        if (el.items) {
-          for (const filterItem of el.items) {
-            if (filterItem.enabled) {
-              enabled++;
-              break;
-            }
+  //cleanup
+  useEffect(
+    () => () => {
+      setFacilityCount(0);
+      setAppliedFacilities(0);
+    },
+    []
+  );
+  useEffect(() => {
+    if (selectionChange && facilityCount) {
+      setFacilityCount(0);
+    } // eslint-disable-next-line
+  }, [selectionChange]);
+
+  const removeFilter = (filterType) => {
+    resetFiltersDispatcher(filterType);
+    removeAppliedFiltersDispatcher(filterType);
+    setRemovedAppliedFilter(filterType);
+    resetDataPreviewDispatcher();
+  };
+  const checkSelectableData = (listItem) => {
+    let enabled = 0;
+    for (const el of listItem) {
+      if (enabled) {
+        break;
+      }
+      if (el.items) {
+        for (const filterItem of el.items) {
+          if (filterItem.enabled) {
+            enabled++;
+            break;
           }
         }
-        if (el.enabled) {
-          enabled++;
-          break;
-        }
       }
-      return enabled === 0;
-    };
-    const validateInput = (list, item) => {
-      if (!item || !list) {
-        return false;
+      if (el.enabled) {
+        enabled++;
+        break;
       }
-      let listItem = list[item];
+    }
+    return enabled === 0;
+  };
+  const validateInput = (list, item) => {
+    if (!item || !list) {
+      return false;
+    }
+    let listItem = list[item];
 
-      if (item === 'comboBoxYear') {
-        listItem = list.timePeriod.comboBoxYear;
+    if (item === "comboBoxYear") {
+      listItem = list.timePeriod.comboBoxYear;
+    }
+    if (!listItem) {
+      return false;
+    }
+    if (item === "facility") {
+      const count = getComboboxEnabledItems(listItem).length;
+      if (facilityCount !== count && !appliedFacilities) {
+        setFacilityCount(count);
       }
-      if (!listItem) {
-        return false;
-      }
-      if (item === 'facility'){
-        const count = getComboboxEnabledItems(listItem).length;
-        if (facilityCount !== count && !appliedFacilities) {setFacilityCount(count);}
-        return count > 0? false : true;
-      }
-      return checkSelectableData(listItem);
-    };
+      return count > 0 ? false : true;
+    }
+    return checkSelectableData(listItem);
+  };
 
-    const checkDisabled = (filter) => {
-      if (emissionDataTypes ||
-        getSelectedDataSubType(constants.DATA_SUBTYPES_MAP[selectedDataType]) === "Transactions") {
-        if (filter.value === 'Time Period' || filter.value === "Transaction Date") {
-          return false;
-        } else if(getSelectedDataSubType(constants.DATA_SUBTYPES_MAP[selectedDataType]) === "Transactions") {
-          if (!isAddedToFilters('Transaction Date', appliedFilters)) return true;
-        }else if (!isAddedToFilters('Time Period', appliedFilters)) {
-          return true;
-        }
+  const checkDisabled = (filter) => {
+    if (
+      emissionDataTypes ||
+      getSelectedDataSubType(constants.DATA_SUBTYPES_MAP[selectedDataType]) ===
+        "Transactions"
+    ) {
+      if (
+        filter.value === "Time Period" ||
+        filter.value === "Transaction Date"
+      ) {
+        return false;
+      } else if (
+        getSelectedDataSubType(
+          constants.DATA_SUBTYPES_MAP[selectedDataType]
+        ) === "Transactions"
+      ) {
+        if (!isAddedToFilters("Transaction Date", appliedFilters)) return true;
+      } else if (!isAddedToFilters("Time Period", appliedFilters)) {
+        return true;
       }
-      return validateInput(filterCriteria, filter.stateVar);
-    };
-    const showMenu = isMobileOrTablet ? !hideFilterMenu && dataSubtypeApplied : dataSubtypeApplied;
+    }
+    return validateInput(filterCriteria, filter.stateVar);
+  };
+  const showMenu = isMobileOrTablet
+    ? !hideFilterMenu && dataSubtypeApplied
+    : dataSubtypeApplied;
+
   return (
     <>
       {showMenu === true && (
         <>
           <div className="panel-header padding-top-3 padding-left-2">
             <h2>Filters</h2>
-            <span id='filtersTooltip'>
+            <span id="filtersTooltip">
               <Tooltip
                 content="Use the filters below to refine your query. Filter options will update based on previously applied filters. If no selections are made in a filter, all data related to that filter will be returned."
                 field="Filters"
@@ -175,14 +205,27 @@ const FilterCriteria = ({
               </Tooltip>
             </span>
           </div>
-          {emissionDataTypes && filterCriteria.facility.length && appliedFilters.length? <div className="facility-count padding-left-2">
-            <div>Facility Count: <span className="text-bold" data-testid="facilityCount">{appliedFacilities|| facilityCount || filterCriteria.facility.length}</span></div>
-          </div> : null}
-          {isMobileOrTablet && selectedDataType === mats && renderPreviewData.dataType !== mats && (
-            <div className="margin-2 margin-bottom-0">
-              <MatsDataCaveat />
+          {emissionDataTypes &&
+          filterCriteria.facility.length &&
+          appliedFilters.length ? (
+            <div className="facility-count padding-left-2">
+              <div>
+                Facility Count:{" "}
+                <span className="text-bold" data-testid="facilityCount">
+                  {appliedFacilities ||
+                    facilityCount ||
+                    filterCriteria.facility.length}
+                </span>
+              </div>
             </div>
-          )}
+          ) : null}
+          {isMobileOrTablet &&
+            selectedDataType === mats &&
+            renderPreviewData.dataType !== mats && (
+              <div className="margin-2 margin-bottom-0">
+                <MatsDataCaveat />
+              </div>
+            )}
           <div className="clearfix padding-y-1 padding-x-2">
             <div className="filter-container">
               {constants.FILTERS_MAP[selectedDataType][
@@ -194,7 +237,9 @@ const FilterCriteria = ({
                   <p key={i} className="padding-y-0">
                     <Button
                       outline="true"
-                      onClick={(evt) => handleFilterButtonClick(el.value, evt.target)}
+                      onClick={(evt) =>
+                        handleFilterButtonClick(el.value, evt.target)
+                      }
                       aria-selected={
                         isAddedToFilters(el.value, appliedFilters) ||
                         activeFilter === el.value
@@ -204,8 +249,8 @@ const FilterCriteria = ({
                       className={`display-flex flex-row flex-align-center flex-justify ${
                         isAddedToFilters(el.value, appliedFilters) ||
                         activeFilter === el.value
-                          ? 'filter-button applied-filter'
-                          : 'filter-button'
+                          ? "filter-button applied-filter"
+                          : "filter-button"
                       }`}
                       disabled={checkDisabled(el)}
                       id={`filter${i}`}
@@ -216,24 +261,23 @@ const FilterCriteria = ({
                       isAddedToFilters(el.value, appliedFilters) ? (
                         <FontAwesomeIcon
                           icon={faWindowClose}
-                          id='mobileClearFilter'
+                          id="mobileClearFilter"
                           tabIndex={0}
                           focusable={true}
                           role="button"
                           aria-hidden={false}
                           aria-label={`remove ${el.value} filters`}
                           className="float-right clearfix"
-                          onClick={(evt)=>{
-                              evt.stopPropagation();
-                              removeFilter(el.value);
-                            }
-                          }
-                          onKeyDown={(evt)=>{
-                            if (evt.keyCode === 13){
+                          onClick={(evt) => {
+                            evt.stopPropagation();
+                            removeFilter(el.value);
+                          }}
+                          onKeyDown={(evt) => {
+                            if (evt.keyCode === 13) {
                               evt.stopPropagation();
                               removeFilter(el.value);
                             } else {
-                              return; 
+                              return;
                             }
                           }}
                         />
