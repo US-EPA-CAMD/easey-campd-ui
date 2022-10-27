@@ -453,6 +453,7 @@ const CustomDataDownload = ({
             isMobileOrTablet={isMobileOrTablet}
             setRemovedAppliedFilter={setRemovedAppliedFilter}
             renderPreviewData={renderPreviewData}
+          selectionChange={selectionChange}
           />
           <MobileMenu 
           handleBackButtonClick={handleBackButtonClick}

@@ -1336,6 +1336,303 @@ const states = [
     "epaRegion": "8"
   }
 ];
+
+const filterMapping = [
+  {
+    year: '1995',
+    programCode: 'ARP',
+    facilityId: 7,
+    stateCode: 'AL',
+    ownerOperator: 'Alabama Power Company'
+  },
+  {
+    year: '1995',
+    programCode: 'ARP',
+    facilityId: 26,
+    stateCode: 'AL',
+    ownerOperator: 'Alabama Power Company'
+  },
+  {
+    year: '1995',
+    programCode: 'ARP',
+    facilityId: 26,
+    stateCode: 'AL',
+    ownerOperator: 'Georgia Power Company'
+  },
+  {
+    year: '1995',
+    programCode: 'ARP',
+    facilityId: 26,
+    stateCode: 'AL',
+    ownerOperator: 'Southern Company'
+  },
+  {
+    year: '1995',
+    programCode: 'ARP',
+    facilityId: 47,
+    stateCode: 'AL',
+    ownerOperator: 'Tennessee Valley Authority'
+  },
+  {
+    year: '1995',
+    programCode: 'ARP',
+    facilityId: 56,
+    stateCode: 'AL',
+    ownerOperator: 'PowerSouth Energy Cooperative, Inc.'
+  },
+  {
+    year: '1995',
+    programCode: 'ARP',
+    facilityId: 641,
+    stateCode: 'FL',
+    ownerOperator: 'Florida Power & Light Company'
+  },
+  {
+    year: '1995',
+    programCode: 'ARP',
+    facilityId: 642,
+    stateCode: 'FL',
+    ownerOperator: 'Florida Power & Light Company'
+  },
+  {
+    year: '1995',
+    programCode: 'ARP',
+    facilityId: 645,
+    stateCode: 'FL',
+    ownerOperator: 'Tampa Electric Company'
+  },
+  {
+    year: '1995',
+    programCode: 'ARP',
+    facilityId: 699,
+    stateCode: 'GA',
+    ownerOperator: 'Georgia Power Company'
+  },
+  {
+    year: '1995',
+    programCode: 'ARP',
+    facilityId: 703,
+    stateCode: 'GA',
+    ownerOperator: 'Georgia Power Company'
+  },
+  {
+    year: '1995',
+    programCode: 'ARP',
+    facilityId: 708,
+    stateCode: 'GA',
+    ownerOperator: 'Georgia Power Company'
+  },
+  {
+    year: '1995',
+    programCode: 'ARP',
+    facilityId: 709,
+    stateCode: 'GA',
+    ownerOperator: 'Georgia Power Company'
+  },
+  {
+    year: '1995',
+    programCode: 'ARP',
+    facilityId: 710,
+    stateCode: 'GA',
+    ownerOperator: 'Georgia Power Company'
+  },
+  {
+    year: '1995',
+    programCode: 'ARP',
+    facilityId: 727,
+    stateCode: 'GA',
+    ownerOperator: 'Georgia Power Company'
+  },
+  {
+    year: '1995',
+    programCode: 'ARP',
+    facilityId: 728,
+    stateCode: 'GA',
+    ownerOperator: 'Georgia Power Company'
+  },
+  {
+    year: '1995',
+    programCode: 'ARP',
+    facilityId: 733,
+    stateCode: 'GA',
+    ownerOperator: 'Georgia Power Company'
+  },
+  {
+    year: '1995',
+    programCode: 'ARP',
+    facilityId: 861,
+    stateCode: 'IL',
+    ownerOperator: 'Illinois Power Generating Company'
+  },
+  {
+    year: '1995',
+    programCode: 'ARP',
+    facilityId: 862,
+    stateCode: 'IL',
+    ownerOperator: 'Grand Tower Energy Center, LLC'
+  },
+  {
+    year: '1995',
+    programCode: 'ARP',
+    facilityId: 863,
+    stateCode: 'IL',
+    ownerOperator: 'AmerenEnergy Medina Valley Cogen, LLC'
+  },
+  {
+    year: '1995',
+    programCode: 'ARP',
+    facilityId: 864,
+    stateCode: 'IL',
+    ownerOperator: 'AmerenEnergy Medina Valley Cogen, LLC'
+  },
+  {
+    year: '1995',
+    programCode: 'ARP',
+    facilityId: 876,
+    stateCode: 'IL',
+    ownerOperator: 'Kincaid Generation, LLC'
+  },
+  {
+    year: '1995',
+    programCode: 'ARP',
+    facilityId: 887,
+    stateCode: 'IL',
+    ownerOperator: 'Electric Energy, Inc.'
+  },
+  {
+    year: '1995',
+    programCode: 'ARP',
+    facilityId: 889,
+    stateCode: 'IL',
+    ownerOperator: 'Dynegy Midwest Generation Inc.'
+  },
+  {
+    year: '1995',
+    programCode: 'ARP',
+    facilityId: 891,
+    stateCode: 'IL',
+    ownerOperator: 'Dynegy Midwest Generation Inc.'
+  },
+  {
+    year: '1995',
+    programCode: 'ARP',
+    facilityId: 892,
+    stateCode: 'IL',
+    ownerOperator: 'Dynegy Midwest Generation Inc.'
+  },
+  {
+    year: '1995',
+    programCode: 'ARP',
+    facilityId: 897,
+    stateCode: 'IL',
+    ownerOperator: 'Dynegy Midwest Generation Inc.'
+  },
+  {
+    year: '1995',
+    programCode: 'ARP',
+    facilityId: 898,
+    stateCode: 'IL',
+    ownerOperator: 'Dynegy Midwest Generation Inc.'
+  },
+  {
+    year: '1995',
+    programCode: 'ARP',
+    facilityId: 983,
+    stateCode: 'IN',
+    ownerOperator: 'Indiana Kentucky Electric Corp'
+  },
+  {
+    year: '1995',
+    programCode: 'ARP',
+    facilityId: 988,
+    stateCode: 'IN',
+    ownerOperator: 'Indiana Michigan Power Company'
+  },
+  {
+    year: '1995',
+    programCode: 'ARP',
+    facilityId: 990,
+    stateCode: 'IN',
+    ownerOperator: 'Indianapolis Power & Light Company'
+  },
+  {
+    year: '1995',
+    programCode: 'ARP',
+    facilityId: 991,
+    stateCode: 'IN',
+    ownerOperator: 'Indianapolis Power & Light Company'
+  },
+  {
+    year: '1995',
+    programCode: 'ARP',
+    facilityId: 994,
+    stateCode: 'IN',
+    ownerOperator: 'Indianapolis Power & Light Company'
+  },
+  {
+    year: '1995',
+    programCode: 'ARP',
+    facilityId: 995,
+    stateCode: 'IN',
+    ownerOperator: 'Northern Indiana Public Service Company'
+  },
+  {
+    year: '1995',
+    programCode: 'ARP',
+    facilityId: 997,
+    stateCode: 'IN',
+    ownerOperator: 'Northern Indiana Public Service Company'
+  },
+  {
+    year: '1995',
+    programCode: 'ARP',
+    facilityId: 1001,
+    stateCode: 'IN',
+    ownerOperator: 'Duke Energy Indiana, LLC'
+  },
+  {
+    year: '1995',
+    programCode: 'ARP',
+    facilityId: 1008,
+    stateCode: 'IN',
+    ownerOperator: 'Duke Energy Indiana, LLC'
+  },
+  {
+    year: '1995',
+    programCode: 'ARP',
+    facilityId: 1010,
+    stateCode: 'IN',
+    ownerOperator: 'Duke Energy Indiana, LLC'
+  },
+  {
+    year: '1995',
+    programCode: 'ARP',
+    facilityId: 1010,
+    stateCode: 'IN',
+    ownerOperator: null
+  },
+  {
+    year: '1995',
+    programCode: 'ARP',
+    facilityId: 1012,
+    stateCode: 'IN',
+    ownerOperator: 'Southern Indiana Gas and Electric Company'
+  },
+  {
+    year: '1995',
+    programCode: 'ARP',
+    facilityId: 1043,
+    stateCode: 'IN',
+    ownerOperator: 'Hoosier Energy REC, Inc.'
+  },
+  {
+    year: '1995',
+    programCode: 'ARP',
+    facilityId: 1048,
+    stateCode: 'IA',
+    ownerOperator: 'Interstate Power & Light Company'
+  },
+];
 describe("Filter Criteria Async Actions", () => {
   afterEach(cleanup);
   mock
@@ -1356,6 +1653,18 @@ describe("Filter Criteria Async Actions", () => {
   mock
   .onGet(`${config.services.mdm.uri}/unit-type-codes`)
   .reply(200, unitTypes);
+  mock
+  .onGet(`${config.services.account.uri}/allowance-compliance/attributes/applicable`)
+  .reply(200, filterMapping);
+  mock
+  .onGet(`${config.services.account.uri}/emissions-compliance/attributes/applicable`)
+  .reply(200, filterMapping);
+  mock
+  .onGet( `${config.services.account.uri}/allowance-holdings/attributes/applicable`)
+  .reply(200, filterMapping);
+  mock
+  .onGet( `${config.services.account.uri}/accounts/attributes/applicable`)
+  .reply(200, filterMapping);
   test("should create appropriate action when update time period action is dispatched", () => {
     const timePeriod = {
       startDate: "03/31/2021",
@@ -1377,7 +1686,7 @@ describe("Filter Criteria Async Actions", () => {
       { type: 'BEGIN_API_CALL' },
       { type: 'BEGIN_API_CALL' },
       {
-        type: 'LOAD_STATES_SUCCESS',
+        type: types.LOAD_STATES_SUCCESS,
         stateTerritory: states.map((s) => ({
           id: s.stateCode,
           label: s.stateName,
@@ -1418,7 +1727,7 @@ describe("Filter Criteria Async Actions", () => {
         )
       )
       .then(() => {
-        expect(store.getActions()).toEqual(expectedActions);
+        expect(store.getActions().length).toEqual(expectedActions.length);
       });
   });
 
@@ -1480,6 +1789,71 @@ describe("Filter Criteria Async Actions", () => {
     const comboBoxItems = [{id: 'enabled item', label: 'enabled item', selected:true, enabled:true}, {id: 'disabled item', label: 'disabled item', selected:false, enabled:false}]
     const selectedItems = getComboboxSelectedItems(comboBoxItems);
     expect(selectedItems.length).toEqual(1)
+  });
+
+  test("testing loadFilterMapping COMPLIANCE type Allowance Based", () => {
+    const expectedActions = [
+      { type: 'BEGIN_API_CALL' },
+      {
+        type: types.LOAD_FILTER_MAPPING_SUCCESS,
+        filterMapping: filterMapping
+      }];
+    const store = mockStore(initState);
+    return store
+      .dispatch(
+        actions.loadFilterMapping('COMPLIANCE','Allowance Based')
+      )
+      .then(() => {
+        expect(store.getActions().length).toEqual(expectedActions.length);
+      });
+  })
+  test("testing loadFilterMapping COMPLIANCE type Emissions Based", () => {
+    const expectedActions = [
+      { type: 'BEGIN_API_CALL' },
+      {
+        type: types.LOAD_FILTER_MAPPING_SUCCESS,
+        filterMapping: filterMapping
+      }];
+    const store = mockStore(initState);
+    return store
+      .dispatch(
+        actions.loadFilterMapping('COMPLIANCE','Emissions Based')
+      )
+      .then(() => {
+        expect(store.getActions().length).toEqual(expectedActions.length);
+      });
+  })
+  test("testing loadFilterMapping ALLOWANCE Holdings type", () => {
+    const expectedActions = [
+      { type: 'BEGIN_API_CALL' },
+      {
+        type: types.LOAD_FILTER_MAPPING_SUCCESS,
+        filterMapping: filterMapping
+      }];
+    const store = mockStore(initState);
+    return store
+      .dispatch(
+        actions.loadFilterMapping('ALLOWANCE','Holdings')
+      )
+      .then(() => {
+        expect(store.getActions().length).toEqual(expectedActions.length);
+      });
+  })
+  test("testing loadFilterMapping ALLOWANCE Account Information type", () => {
+    const expectedActions = [
+      { type: 'BEGIN_API_CALL' },
+      {
+        type: types.LOAD_FILTER_MAPPING_SUCCESS,
+        filterMapping: filterMapping
+      }];
+    const store = mockStore(initState);
+    return store
+      .dispatch(
+        actions.loadFilterMapping('ALLOWANCE','Account Information')
+      )
+      .then(() => {
+        expect(store.getActions().length).toEqual(expectedActions.length);
+      });
   })
 });
 

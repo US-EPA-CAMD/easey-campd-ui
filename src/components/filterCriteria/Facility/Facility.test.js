@@ -12,6 +12,7 @@ import { Provider } from "react-redux";
 import initialState from "../../../store/reducers/initialState";
 import { updateFacilitySelection } from "../../../store/actions/customDataDownload/filterCriteria";
 import { addAppliedFilter, removeAppliedFilter } from "../../../store/actions/customDataDownload/customDataDownload";
+import userEvent from '@testing-library/user-event';
 
 const facilities = [
   {
@@ -346,7 +347,6 @@ describe('Facility Component', () => {
     expect(searchbox.value).toBe('Barry');
     expect(within(getByTestId("multi-select-listbox")).getAllByTestId('multi-select-option').length).toBe(1);
     fireEvent.keyDown(searchbox, {key: 'Tab', code: 9});
-    fireEvent.keyDown(searchbox, {key: 'Enter', code: 'Enter'})
     expect(searchbox.value).toBe('Barry');
     expect(getAllByTestId("multi-select-option").length).toBe(1);
     fireEvent.click(getByTestId("multi-select-option"));
@@ -354,5 +354,34 @@ describe('Facility Component', () => {
     expect(getAllByTestId("multi-select-option").length).toBe(facilities.length);
     fireEvent.click(getByText("Apply Filter"));
     expect(applyFilterLoading).toBe(true);
+  })
+
+  describe("pipe separated lists", ()=>{
+    test('It should handle pipe separated lists', () => {
+      const { getByTestId, getByRole, getByText} = query;
+      const searchbox = getByTestId("input-search");
+      searchbox.focus();
+      fireEvent.click(searchbox);
+      userEvent.type(searchbox, '3|5|7|8|');
+      fireEvent.keyDown(searchbox, {key: 'Enter', code: 'Enter'});
+
+      expect(getByRole("button", {name: "Barry (3)"})).toBeDefined();
+      expect(getByRole("button", {name: "Chickasaw (5)"})).toBeDefined();
+      expect(getByRole("button", {name: "Gadsden (7)"})).toBeDefined();
+      expect(getByRole("button", {name: "Gorgas (8)"})).toBeDefined();
+      fireEvent.click(getByText("Apply Filter"));
+      expect(applyFilterLoading).toBe(true);
+    })
+
+    test('It should show alert if no enteries are valid', () => {
+      const { getByTestId} = query;
+      const searchbox = getByTestId("input-search");
+      searchbox.focus();
+      fireEvent.click(searchbox);
+      userEvent.type(searchbox, 'sds|sdcs|dsc|');
+      fireEvent.keyDown(searchbox, {key: 'Enter', code: 'Enter'});
+      const alert = getByTestId("alert")
+      expect(alert).toBeInTheDocument()
+    })
   })
 });

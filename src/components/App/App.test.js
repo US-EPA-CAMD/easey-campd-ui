@@ -5,34 +5,38 @@ import { Provider } from "react-redux";
 import App from './App';
 import configureStore from "../../store/configureStore.dev";
 import config from "../../config";
-import { rest } from "msw";
-import { setupServer } from "msw/node";
+import { createMemoryHistory } from "history";
+import { Router } from "react-router";
 
 const store = configureStore();
-jest.mock('react-markdown', () => ({ children }) => <>{children}</>);
-jest.mock('remark-gfm', () => () => {});
-
-
-const submissionUrl = `${config.services.emissions.uri}/emissions/submission-progress?submissionPeriod`;
-const getSubmissionProgress = rest.get(submissionUrl, (req, res, ctx) => {
-  return res(ctx.json({year: 2022, quarterName: 'second', percentage: '30%'}))
-})
-const server = new setupServer(getSubmissionProgress)
-
-beforeAll(() => server.listen());
-beforeEach(() => server.resetHandlers());
-afterAll(() => server.close());
-
+const mockUseLocationValue = {
+  pathname: "/data/custom-data-download",
+  search: '',
+  hash: '',
+  state: null
+}
+jest.mock('react-router', () => ({
+  ...jest.requireActual("react-router"),
+  useLocation: jest.fn().mockImplementation(() => {
+      return mockUseLocationValue;
+  })
+}));
 describe("Testing the main routing App component", () => {
-  xit("renders home page component provided with the default path", async () => {
-    const { getByText } = render(
+  test("renders home page component provided with the default path", async () => {
+    const history = createMemoryHistory({initialEntries : [`${config.app.path}/data/custom-data-download`]});
+    const { findByText } = render(
       <Provider store={store}>
-        <MemoryRouter initialEntries={[`${config.app.path}/data/custom-data-download`]}>
+        {/* <MemoryRouter initialEntries={[`${config.app.path}/does-not-exist`]}>
             <App />
-        </MemoryRouter>
+        </MemoryRouter> */}
+        <Router history={history}>
+          <App />
+        </Router>,
+        node
       </Provider>
     );
-    const textInHomePage = getByText("Custom Data Download");
-    expect(textInHomePage).toBeInTheDocument();
+    expect(history.location.pathname).toBe(`${config.app.path}/data/custom-data-download`);
+    // const textInHomePage = await findByText("Custom Data Download");
+    // expect(textInHomePage).toBeInTheDocument();
   });
 });
