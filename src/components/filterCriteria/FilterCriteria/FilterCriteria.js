@@ -208,7 +208,7 @@ const FilterCriteria = ({
           {emissionDataTypes &&
           filterCriteria.facility.length &&
           appliedFilters.length ? (
-            <div className="facility-count padding-left-2">
+            <div className="facility-count padding-left-2" aria-live="assertive">
               <div>
                 Facility Count:{" "}
                 <span className="text-bold" data-testid="facilityCount">
