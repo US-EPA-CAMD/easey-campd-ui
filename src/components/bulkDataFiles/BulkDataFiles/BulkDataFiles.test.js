@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent, cleanup } from '@testing-library/react';
+import { render, screen, fireEvent, cleanup, waitForElement } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 
@@ -23,6 +23,10 @@ jest.setTimeout(30000);
  */
 describe('Manage Bulk Data Files component: ',  () => {
   afterEach(cleanup)
+  beforeEach(() => {
+    initialState.bulkDataFiles.dataTable = dataTable;
+    store = configureStore(initialState);
+  });
   test('download button is disabled when no files are selected', () => {
     const { getByRole } = render(
       <Provider store={store}>
@@ -165,7 +169,6 @@ test('file size is reset when selected data type is changed', async () => {
   const checkbox = await findAllByRole('checkbox')
   fireEvent.click(checkbox[0])
   fireEvent.change(dataTypeFilter, { target: { value: "EDR" } });
-  screen.debug()
   const updatedFileSize= getByText(/size:/i)
   expect(updatedFileSize).toBeInTheDocument()
 });
@@ -189,7 +192,6 @@ test('file size is not reset when year filter is changed', async () => {
   fireEvent.click(checkbox[0])
   const subTypeFilter = await findByTestId('subtype-select');
   fireEvent.change(subTypeFilter, { target: { value: "Hourly" } });
-  screen.debug()
   const updatedFileSize= getByText(/size: 4.04 gb/i)
   expect(updatedFileSize).toBeInTheDocument()
 });
@@ -214,26 +216,47 @@ test('download button is disabled if file size exceeds download limit', async ()
   })).resolves.toBeDisabled();
 });
 
-// test('Alert pops up when file size exceeds download limit and is removed when limit is no longer exceeded', async() => {
-//   const {findByText,findByRole, queryByText} =render(
-//     <Provider store={store}>
-//       <MemoryRouter>
-//         <BulkDataFiles
-//           loadBulkDataFilesDispatcher= {jest.fn()}
-//           updateBulkDataFilesDispacher={jest.fn()}
-//           dataTable={dataTable}
-//         />
-//       </MemoryRouter>
-//     </Provider>
-//   );
+test('Alert pops up when file size exceeds download limit', async() => {
+  const {findByText,findByRole} = await waitForElement(() =>render(
+    <Provider store={store}>
+      <MemoryRouter>
+        <BulkDataFiles
+          loadBulkDataFilesDispatcher= {jest.fn()}
+          updateBulkDataFilesDispacher={jest.fn()}
+          dataTable={dataTable}
+        />
+      </MemoryRouter>
+    </Provider>
+  ))
 
-//   const allFiles = await findByRole('checkbox', {
-//     name: /select-all-rows/i
-//   })
-//   fireEvent.click(allFiles);
-//   const alert = await findByText(/download limit alert/i)
-//   expect(alert).toBeInTheDocument();
-//   fireEvent.click(allFiles);
-//   expect(queryByText(/download limit alert/i)).toBeNull()
-// });
+  const allFiles = await findByRole('checkbox', {
+    name: /select-all-rows/i
+  })
+  fireEvent.click(allFiles);
+  const alert = await findByText(/download limit alert/i);
+  expect(alert).toBeInTheDocument();
+
+});
+
+test('Alert  is removed when limit is no longer exceeded', async() => {
+  const {findByRole, queryByText} =render(
+    <Provider store={store}>
+      <MemoryRouter>
+        <BulkDataFiles
+          loadBulkDataFilesDispatcher= {jest.fn()}
+          updateBulkDataFilesDispacher={jest.fn()}
+          dataTable={dataTable}
+        />
+      </MemoryRouter>
+    </Provider>
+  );
+
+  const allFiles = await findByRole('checkbox', {
+    name: /select-all-rows/i
+  })
+  fireEvent.click(allFiles);
+  fireEvent.click(allFiles);
+  const alert = queryByText(/download limit alert/i);
+  expect(alert).toBeNull()
+});
 });

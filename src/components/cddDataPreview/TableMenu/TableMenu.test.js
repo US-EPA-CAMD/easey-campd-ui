@@ -58,10 +58,14 @@ const fieldMappings = [
   },
 ];
 initialState.customDataDownload.fieldMappings = fieldMappings;
-const store = configureStore(initialState);
+let store = configureStore(initialState);
 
 const topic = { label: 'Unit ID', value: 'unitId' };
 describe('table menu component', () => {
+  beforeEach(() => {
+    initialState.customDataDownload.fieldMappings = fieldMappings;
+    store = configureStore(initialState);
+  })
   test('renders main menu properly', () => {
     render(
       <Provider store={store}>
@@ -343,7 +347,7 @@ describe('table menu component', () => {
     const buttons = getAllByRole('button');
     expect(buttons[0]).toHaveFocus();
   });
-});
+
 
 test('it autofocuses to the input field when column menu is opened', async () => {
   const { getByText, getByTestId } = render(
@@ -372,4 +376,5 @@ test('it autofocuses to the input field when column menu is opened', async () =>
   fireEvent.click(customizeColumnsMenuOption);
   const input = getByTestId(/textInput/i);
   expect(input).toHaveFocus();
+});
 });

@@ -63,6 +63,28 @@ const singleSelectedFile = Object.assign({}, selectedFiles, [
   selectedFiles.selectedRows[0],
 ]);
 describe('Bulk data files download component functionality', () => {
+  test('renders component properly', () => {
+    render(
+      <Provider store={store}>
+        <MemoryRouter>
+          <BulkDataFilesDownload
+            selectedFiles={{}}
+            setApiErrorDispatcher={jest.fn()}
+            limitReached={false}
+            fileSize={0}
+          />
+        </MemoryRouter>
+      </Provider>
+    );
+    const downloadButton = getByRole('button', {
+      name: /download/i,
+    });
+    const fileSize = getByText(/size:/i);
+    const filesSelected = getByText(/files selected:/i)
+    expect(filesSelected).toBeInTheDocument();
+    expect(fileSize).toBeInTheDocument();
+    expect(downloadButton).toBeInTheDocument();
+  })
   test('download button should be disabled if no files are selected', () => {
     render(
       <Provider store={store}>

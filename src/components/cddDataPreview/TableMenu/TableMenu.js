@@ -232,6 +232,7 @@ const TableMenu = ({
   const columnId = `column-${topic.value}`;
   const currentColumn = document.querySelector(`#` + columnId);
   const updateAriaSort = (e, value, remove=false) => {
+    if (!currentColumn) return;
     if(!remove){currentColumn.ariaSort = value} else if (currentColumn.ariaSort){
       currentColumn.removeAttribute("aria-sort");}
   };

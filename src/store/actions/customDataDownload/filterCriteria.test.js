@@ -1647,6 +1647,10 @@ describe("Filter Criteria Async Actions", () => {
   mock
   .onGet(`${config.services.mdm.uri}/fuel-type-codes`)
   .reply(200, fuelTypes);
+  mock.onGet(`${config.services.mdm.uri}/account-type-codes?exclude=SHOLD|OVERDF`).reply(200, filterMapping);
+  mock.onGet(`${config.services.mdm.uri}/transaction-type-codes`).reply(200, filterMapping);
+  mock.onGet(`${config.services.mdm.uri}/source-category-codes`).reply(200, filterMapping);
+  mock.onGet(`${config.services.mdm.uri}/program-codes?emissionsUIFilter=true`).reply(200, program);
   mock
   .onGet(`${config.services.mdm.uri}/state-codes`)
   .reply(200, states)
@@ -1727,7 +1731,9 @@ describe("Filter Criteria Async Actions", () => {
         )
       )
       .then(() => {
-        expect(store.getActions().length).toEqual(expectedActions.length);
+        const storeActions = store.getActions()
+        console.log({actions});
+        expect(storeActions.length).toEqual(8);
       });
   });
 
