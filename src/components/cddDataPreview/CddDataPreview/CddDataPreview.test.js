@@ -4,7 +4,6 @@ import { render, fireEvent, screen } from '@testing-library/react';
 import configureStore from '../../../store/configureStore.dev';
 import { Provider } from 'react-redux';
 import initialState from '../../../store/reducers/initialState';
-import { handleError } from '../../../utils/api/apiUtils';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 import config from '../../../config';

@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import BulkDataFilesDownload from './BulkDataFilesDownload';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router';
