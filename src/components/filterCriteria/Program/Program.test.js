@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, cleanup, waitFor } from '@testing-library/react';
+import { render, fireEvent, cleanup } from '@testing-library/react';
 import { Program } from './Program';
 import {restructurePrograms} from "../../../utils/selectors/filterCriteria";
 import initialState from '../../../store/reducers/initialState';

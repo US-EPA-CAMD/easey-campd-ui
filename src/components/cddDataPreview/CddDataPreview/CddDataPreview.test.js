@@ -106,7 +106,7 @@ describe('CddDataPreview', () => {
     expect(previewButton).toBeDefined();
     fireEvent.click(previewButton);
   });
-  test('Check bookmark funtionality works on cdd', async () => {
+  test('Check bookmark funtionality works on cdd', async (done) => {
     render(
       <Provider store={store}>
         <div id="filter0"></div>
@@ -127,5 +127,6 @@ describe('CddDataPreview', () => {
     const modalCloser = await findByRole('button', {name : 'Ok'});
     expect(modalCloser).toBeDefined();
     fireEvent.click(modalCloser);
-  });
+    done()
+  }, 3000);
 });
