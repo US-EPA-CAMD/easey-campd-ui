@@ -348,7 +348,6 @@ describe('table menu component', () => {
     expect(buttons[0]).toHaveFocus();
   });
 
-
 test('it autofocuses to the input field when column menu is opened', async () => {
   const { getByText, getByTestId } = render(
     <Provider store={store}>

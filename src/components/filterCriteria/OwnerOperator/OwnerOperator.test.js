@@ -14,6 +14,8 @@ import initialState from "../../../store/reducers/initialState";
 import { updateOwnerOperatorSelection } from "../../../store/actions/customDataDownload/filterCriteria";
 import { addAppliedFilter, removeAppliedFilter } from "../../../store/actions/customDataDownload/customDataDownload";
 
+jest.useFakeTimers();
+jest.spyOn(global, 'setTimeout');
 const ownerOperators = [
   {
     "ownId": 52186,
@@ -55,6 +57,8 @@ let applyFilterLoading = false;
 describe('Owner Operator Component', () => {
   let query;
   beforeEach(() => {
+    flyOutClosed = false;
+    applyFilterLoading = false;
     query = render(
       <Provider 
         store={store}>
@@ -92,7 +96,7 @@ describe('Owner Operator Component', () => {
     expect(flyOutClosed).toBe(true);
   });
 
-  it('It should search using input box for Owners Operators in listboxt and add selection to apply filter', () => {
+  it('It should search using input box for Owners Operators in listboxt and add selection to apply filter', async() => {
     const { getByTestId, getAllByTestId, getByRole, getByText} = query;
     const searchbox = getByTestId("input-search");
     searchbox.focus();
@@ -106,6 +110,7 @@ describe('Owner Operator Component', () => {
     expect(getByRole("button", {name: "AES Corporation"})).toBeDefined();
     expect(getAllByTestId("multi-select-option").length).toBe(distinctOwnOpers.length);
     fireEvent.click(getByText("Apply Filter"));
+    jest.runAllTimers();
     expect(applyFilterLoading).toBe(true);
   })
 });

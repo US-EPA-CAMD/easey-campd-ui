@@ -5,8 +5,10 @@ import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router';
 import initialState from '../../../store/reducers/initialState';
 import configureStore from '../../../store/configureStore.dev';
+import userEvent from '@testing-library/user-event';
 const { getByRole, getByText } = screen;
 
+jest.mock('downloadjs', ()=>{})
 let store = configureStore(initialState);
 
 const selectedFiles = {
@@ -146,7 +148,7 @@ describe('Bulk data files download component functionality', () => {
   });
 
   test('should update file size when files are selected', () => {
-    const { debug } = render(
+    render(
       <Provider store={store}>
         <MemoryRouter>
           <BulkDataFilesDownload
@@ -160,5 +162,27 @@ describe('Bulk data files download component functionality', () => {
     );
     const fileSize = getByText(/size: 6145 bytes/i);
     expect(fileSize).toBeInTheDocument();
+  });
+
+  test('should download files', () => {
+    const setApiError = jest.fn();
+    render(
+      <Provider store={store}>
+        <MemoryRouter>
+          <BulkDataFilesDownload
+            selectedFiles={singleSelectedFile}
+            limitReached={false}
+            fileSize={'6145 bytes'}
+            setApiErrorDispatcher={setApiError}
+          />
+        </MemoryRouter>
+      </Provider>
+    );
+    const downloadButton = getByRole('button', {
+      name: /download/i,
+    });
+    expect(downloadButton).not.toBeDisabled();
+    userEvent.click(downloadButton)
+    expect(setApiError).not.toHaveBeenCalled()
   });
 });

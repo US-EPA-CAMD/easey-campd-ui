@@ -52,7 +52,7 @@ const BulkDataFilesTable = ({
       //to show focus highlight box on header checkbox
       const headerCheckbox = document.getElementsByClassName("rdt_TableCol")[0];
       headerCheckbox.setAttribute("class", "sc-hKwDye sc-egiyK dnUdft fHkgxZ");
-      headerCheckbox.firstChild && headerCheckbox.firstChild.setAttribute("class", "rdt_TableCol");
+      headerCheckbox.firstChild.setAttribute("class", "rdt_TableCol");
       setFocusBox(true);
     }
     return () => {

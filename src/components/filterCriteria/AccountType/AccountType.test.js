@@ -6,7 +6,8 @@ import AccountType from './AccountType';
 import { restructureAccountTypes } from '../../../utils/selectors/filterCriteria';
 import configureStore from '../../../store/configureStore.dev';
 import initialState from '../../../store/reducers/initialState';
-
+jest.useFakeTimers();
+jest.spyOn(global, 'setTimeout');
 const accountType = [
   {
     accountTypeCode: 'CASURR',
@@ -165,6 +166,7 @@ describe('Account Type', () => {
     expect(selectAllRetire.checked).toEqual(true);
     const applyFilterButton = getByText('Apply Filter').closest('button');
     fireEvent.click(applyFilterButton);
+    jest.runAllTimers();
     expect(applyFilterLoading).toBe(true);
   });
 });

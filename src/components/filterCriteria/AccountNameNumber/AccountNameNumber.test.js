@@ -6,6 +6,9 @@ import configureStore from '../../../store/configureStore.dev';
 import initialState from '../../../store/reducers/initialState';
 import AccountNameNumber from './AccountNameNumber';
 import userEvent from '@testing-library/user-event';
+import { noValidAccountsMessage, showInvalidAccounts } from '../../../utils/constants/validationMessages';
+jest.useFakeTimers();
+jest.spyOn(global, 'setTimeout');
 
 const nameNumbers = [
   {
@@ -118,6 +121,7 @@ describe('Account Name/Number Component', () => {
     expect(getByRole("button", {name: "Auction Reserve (000000000001)"})).toBeDefined();
     expect(getAllByTestId("multi-select-option").length).toBe(nameNumbers.length);
     fireEvent.click(getByText("Apply Filter"));
+    jest.runAllTimers();
     expect(flyOutClosed).toBe(true);
     expect(applyFilterLoading).toBe(true);
   });
@@ -133,6 +137,7 @@ describe('Account Name/Number Component', () => {
       expect(getByRole("button", {name: "Auction Reserve (000000000001)"})).toBeDefined();
       expect(getByRole("button", {name: "Direct Sale Reserve (000000000002)"})).toBeDefined();
       expect(getByRole("button", {name: "Small Diesel Reserve (000000000003)"})).toBeDefined();
+      jest.runAllTimers();
       fireEvent.click(getByText("Apply Filter"));
       expect(applyFilterLoading).toBe(true);
     })
@@ -146,6 +151,50 @@ describe('Account Name/Number Component', () => {
       const alert = getByTestId("alert")
       expect(alert).toBeInTheDocument()
     })
+
+  test('it should show which entries are invalid if some entries are valid', () => {
+    const { getByTestId, getByText} = query;
+    const searchbox = getByTestId("input-search");
+    searchbox.focus();
+    fireEvent.click(searchbox);
+    userEvent.type(searchbox, '000000000001|000000000002|000000000003|invalid1|invalid2');
+    fireEvent.keyDown(searchbox, {key: 'Enter', code: 'Enter'});
+    const alertMessage = getByText(showInvalidAccounts(`"invalid1", and "invalid2"`))
+    expect(alertMessage).toBeInTheDocument()
+  })
+
+  test('it should show no entries are valid if no entries are valid', () => {
+    const { getByTestId, getByText} = query;
+    const searchbox = getByTestId("input-search");
+    searchbox.focus();
+    fireEvent.click(searchbox);
+    userEvent.type(searchbox, 'invalid1|invalid2|invalid3');
+    fireEvent.keyDown(searchbox, {key: 'Enter', code: 'Enter'});
+    const alertMessage = getByText(noValidAccountsMessage)
+    expect(alertMessage).toBeInTheDocument()
+  })
+
+  test('pipe separated list should work with spaces', () => {
+    const { getByTestId, queryByTestId} = query;
+    const searchbox = getByTestId("input-search");
+    searchbox.focus();
+    fireEvent.click(searchbox);
+    userEvent.type(searchbox, '000000000001 | 000000000002 | 000000000003|');
+    fireEvent.keyDown(searchbox, {key: 'Enter', code: 'Enter'});
+    const alert = queryByTestId("alert")
+    expect(alert).not.toBeInTheDocument()
+  })
+
+  test('pipe separated list should be applied with the tab key', () => {
+    const { getByTestId, queryByTestId} = query;
+    const searchbox = getByTestId("input-search");
+    searchbox.focus();
+    fireEvent.click(searchbox);
+    userEvent.type(searchbox, '000000000001 | 000000000002 | 000000000003|');
+    userEvent.tab();
+    const alert = queryByTestId("alert")
+    expect(alert).not.toBeInTheDocument()
+  })
   })
   
 });

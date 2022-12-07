@@ -13,7 +13,10 @@ import initialState from "../../../store/reducers/initialState";
 import { updateFacilitySelection } from "../../../store/actions/customDataDownload/filterCriteria";
 import { addAppliedFilter, removeAppliedFilter } from "../../../store/actions/customDataDownload/customDataDownload";
 import userEvent from '@testing-library/user-event';
+import { noValidFacilitiesMessage, showInvalidFacilities } from '../../../utils/constants/validationMessages';
 
+jest.useFakeTimers();
+jest.spyOn(global, 'setTimeout');
 const facilities = [
   {
     "id": "1",
@@ -353,6 +356,7 @@ describe('Facility Component', () => {
     expect(getByRole("button", {name: "Barry (3)"})).toBeDefined();
     expect(getAllByTestId("multi-select-option").length).toBe(facilities.length);
     fireEvent.click(getByText("Apply Filter"));
+    jest.runAllTimers();
     expect(applyFilterLoading).toBe(true);
   })
 
@@ -370,6 +374,7 @@ describe('Facility Component', () => {
       expect(getByRole("button", {name: "Gadsden (7)"})).toBeDefined();
       expect(getByRole("button", {name: "Gorgas (8)"})).toBeDefined();
       fireEvent.click(getByText("Apply Filter"));
+      jest.runAllTimers();
       expect(applyFilterLoading).toBe(true);
     })
 
@@ -382,6 +387,49 @@ describe('Facility Component', () => {
       fireEvent.keyDown(searchbox, {key: 'Enter', code: 'Enter'});
       const alert = getByTestId("alert")
       expect(alert).toBeInTheDocument()
+    })
+    test('it should show which entries are invalid if some entries are valid', () => {
+      const { getByTestId, getByText} = query;
+      const searchbox = getByTestId("input-search");
+      searchbox.focus();
+      fireEvent.click(searchbox);
+      userEvent.type(searchbox, '3|5|7|8|invalid1|invalid2');
+      fireEvent.keyDown(searchbox, {key: 'Enter', code: 'Enter'});
+      const alertMessage = getByText(showInvalidFacilities(`"invalid1", and "invalid2"`))
+      expect(alertMessage).toBeInTheDocument()
+    })
+  
+    test('it should show no entries are valid if no entries are valid', () => {
+      const { getByTestId, getByText} = query;
+      const searchbox = getByTestId("input-search");
+      searchbox.focus();
+      fireEvent.click(searchbox);
+      userEvent.type(searchbox, 'invalid1|invalid2|invalid3');
+      fireEvent.keyDown(searchbox, {key: 'Enter', code: 'Enter'});
+      const alertMessage = getByText(noValidFacilitiesMessage)
+      expect(alertMessage).toBeInTheDocument()
+    })
+  
+    test('pipe separated list should work with spaces', () => {
+      const { getByTestId, queryByTestId} = query;
+      const searchbox = getByTestId("input-search");
+      searchbox.focus();
+      fireEvent.click(searchbox);
+      userEvent.type(searchbox, '3 | 5 | 7|8|');
+      fireEvent.keyDown(searchbox, {key: 'Enter', code: 'Enter'});
+      const alert = queryByTestId("alert")
+      expect(alert).not.toBeInTheDocument()
+    })
+  
+    test('pipe separated list should be applied with the tab key', () => {
+      const { getByTestId, queryByTestId} = query;
+      const searchbox = getByTestId("input-search");
+      searchbox.focus();
+      fireEvent.click(searchbox);
+      userEvent.type(searchbox, '3|5|7|8|');
+      userEvent.tab();
+      const alert = queryByTestId("alert")
+      expect(alert).not.toBeInTheDocument()
     })
   })
 });

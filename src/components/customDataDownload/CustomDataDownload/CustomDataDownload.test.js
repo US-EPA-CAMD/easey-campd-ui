@@ -1,6 +1,6 @@
 import React from "react";
 import CustomDataDownload from "./CustomDataDownload";
-import { render, fireEvent, cleanup, act } from "@testing-library/react";
+import { render, fireEvent, cleanup, act, waitFor } from "@testing-library/react";
 import configureStore from "../../../store/configureStore.dev";
 import { Provider } from "react-redux";
 import initialState from "../../../store/reducers/initialState";
@@ -203,7 +203,7 @@ describe('filters', () => {
   }, 30000)
  })
 
-xdescribe('filter selection functionality', () => {
+describe('filter selection functionality', () => {
   let query;
   beforeEach(() => {
     query = render(
@@ -231,7 +231,7 @@ xdescribe('filter selection functionality', () => {
     expect(previewDataButton).toBeDisabled();
   });
 
-  test('preview button is enabled after a filter is selected', () => {
+  test('preview button is enabled after a filter is selected', async() => {
     const { getByRole, getByText, getAllByRole } = query;
     const filtersButton = getByRole('button', {name: 'Filters'})
     fireEvent.click(filtersButton)
@@ -247,9 +247,9 @@ xdescribe('filter selection functionality', () => {
     const alaska = getByText(/alaska/i);
     fireEvent.click(alaska);
     const applyFilterButton = getByRole('button', { name: /apply filter/i });
-    fireEvent.click(applyFilterButton);
+    await fireEvent.click(applyFilterButton);
     const previewDataButton = getAllByRole('button', { name: /Preview Data/i })[0];
-    expect(previewDataButton).not.toBeDisabled();
+    waitFor(()=>expect(previewDataButton).not.toBeDisabled());
   });
 
 

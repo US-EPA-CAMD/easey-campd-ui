@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, cleanup, waitForElement } from '@testing-library/react';
+import { render, fireEvent, cleanup, waitForElement, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 
@@ -217,7 +217,7 @@ test('download button is disabled if file size exceeds download limit', async ()
 });
 
 test('Alert pops up when file size exceeds download limit', async() => {
-  const {findByText,findByRole} = await waitForElement(() =>render(
+  const {findByText,findByRole} = render(
     <Provider store={store}>
       <MemoryRouter>
         <BulkDataFiles
@@ -227,12 +227,14 @@ test('Alert pops up when file size exceeds download limit', async() => {
         />
       </MemoryRouter>
     </Provider>
-  ))
-
+  )
+  const backButton = await findByText(/back/i);
+  await fireEvent.click(backButton);
   const allFiles = await findByRole('checkbox', {
     name: /select-all-rows/i
   })
-  fireEvent.click(allFiles);
+  await fireEvent.click(allFiles);
+  await waitFor(() => findByText(/download limit alert/i))
   const alert = await findByText(/download limit alert/i);
   expect(alert).toBeInTheDocument();
 
