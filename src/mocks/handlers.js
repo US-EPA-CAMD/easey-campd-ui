@@ -60,7 +60,7 @@ const getApiErrorMessages = rest.get(apiErrorsMessagesUrl, (req, res, ctx) =>
 
 const emissionsApplicableAttributesUrl = `${config.services.emissions}/applicable/*`
 const getEmissionsApplicableAttributes = rest.get(emissionsApplicableAttributesUrl, (req, res, ctx)=>res(ctx.json([])));
-const bulkDataFileDownloadUrl = `${config.services.bulkFiles.uri}/*`;
+export const bulkDataFileDownloadUrl = `${config.services.bulkFiles.uri}/*`;
 const downloadBulkDataFile = rest.get(bulkDataFileDownloadUrl, (req, res, ctx) => {
   return res(ctx.status(200),ctx.json());
 })
@@ -97,17 +97,14 @@ const getSourceCategories = rest.get(sourceCategories.url, (req, res, ctx) => {
 });
 const getAttributes = rest.get('https://api.epa.gov/easey/dev/account-mgmt/emissions-compliance/attributes/applicable',//attributes.url
  (req, res, ctx) => {
-  console.log('got attributes');
   return res(ctx.json(attributes.data));
 });
 const getFacilities = rest.get('https://api.epa.gov/easey/dev/facilities-mgmt/facilities',//facilities.url, 
   (req, res, ctx) => {
-  console.log('got facilities');
   return res(ctx.json(facilities.data));
 });
 const getOwnerOperators = rest.get('https://api.epa.gov/easey/dev/account-mgmt/emissions-compliance/owner-operators',//ownerOperators.url,
    (req, res, ctx) => {
-  console.log('got ownerOperators');
   return res(ctx.json(ownerOperators.data));
 });
 

@@ -1,7 +1,7 @@
 import config from "../../config";
 
 export const unitTypes = {
-  url: `${config.services.mdm}/unit-type-codes`,
+  url: `${config.services.mdm.uri}/unit-type-codes`,
   data: [
     {
       unitTypeCode: 'AF',
@@ -28,7 +28,7 @@ export const unitTypes = {
 };
 
 export const fuelTypes = {
-  url: `${config.services.mdm}/fuel-type-codes`,
+  url: `${config.services.mdm.uri}/fuel-type-codes`,
   data: [
     {
       fuelTypeCode: 'C',
@@ -52,7 +52,7 @@ export const fuelTypes = {
 };
 
 export const states = {
-  url: `${config.services.mdm}/state-codes`,
+  url: `${config.services.mdm.uri}/state-codes`,
   data: [
     { stateCode: 'AK', stateName: 'Alaska', epaRegion: 10 },
     { stateCode: 'AL', stateName: 'Alabama', epaRegion: 4 },
@@ -118,7 +118,7 @@ export const states = {
 };
 
 export const controlTechnologies = {
-  url: `${config.services.mdm}/control-codes`,
+  url: `${config.services.mdm.uri}/control-codes`,
   data: [
     {
       controlCode: 'APAC',
@@ -143,7 +143,7 @@ export const controlTechnologies = {
 };
 
 export const accountTypes = {
-  url: `${config.services.mdm}/account-type-codes?exclude=SHOLD|OVERDF`,
+  url: `${config.services.mdm.uri}/account-type-codes?exclude=SHOLD|OVERDF`,
   data: [
     {
       accountTypeCode: 'CASURR',
@@ -179,7 +179,7 @@ export const accountTypes = {
 };
 
 export const transactionTypes = {
-  url: `${config.services.mdm}/transaction-type-codes`,
+  url: `${config.services.mdm.uri}/transaction-type-codes`,
   data: [
     {
       transactionTypeCode: 'AD',
@@ -210,7 +210,7 @@ export const transactionTypes = {
 };
 
 export const sourceCategories = {
-  url: `${config.services.mdm}/source-category-codes`,
+  url: `${config.services.mdm.uri}/source-category-codes`,
   data: [
     {
       sourceCategoryCode: 'AUTSTMP',
@@ -235,7 +235,7 @@ export const sourceCategories = {
   ],
 };
 export const attributes = {
-  url: `${config.services.account}/emissions-compliance/attributes/applicable`,
+  url: `${config.services.account.uri}/emissions-compliance/attributes/applicable`,
   data: [
     {
       year: 1996,
@@ -379,7 +379,7 @@ export const attributes = {
   ],
 };
 export const facilities = {
-  url: `${config.services.facilities}/facilities`,
+  url: `${config.services.facilities.uri}/facilities`,
   data: [
     {
       facilityRecordId: 1,
@@ -411,7 +411,7 @@ export const facilities = {
 };
 
 export const ownerOperators = {
-  url: `${config.services.account}/emissions-compliance/owner-operators`,
+  url: `${config.services.account.uri}/emissions-compliance/owner-operators`,
   data: [
     { ownerOperator: '5380 Frontier Ave Energy Company LLC', ownType: 'OPR' },
     { ownerOperator: '5380 Frontier Ave Energy Company LLC', ownType: 'OWN' },

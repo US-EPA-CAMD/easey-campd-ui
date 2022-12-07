@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import ApiErrorAlert from './ApiErrorAlert';
 import configureStore from '../../store/configureStore.dev';

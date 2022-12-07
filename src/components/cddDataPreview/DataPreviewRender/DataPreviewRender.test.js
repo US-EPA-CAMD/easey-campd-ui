@@ -105,7 +105,7 @@ describe('ManageDataPreview', () => {
           columns={columns()}
           data={data()}
           totalCount={1}
-          setSpinnerActive={jest.fn}
+          setSpinnerActive={jest.fn()}
           />
         </Provider>
     );
@@ -124,7 +124,7 @@ describe('ManageDataPreview', () => {
           columns={columns()}
           data={data()}
           totalCount={1}
-          setSpinnerActive={jest.fn}
+          setSpinnerActive={jest.fn()}
           />
         </Provider>
     );
@@ -142,7 +142,7 @@ describe('ManageDataPreview', () => {
           columns={columns()}
           data={[]}
           totalCount={1}
-          setSpinnerActive={jest.fn}
+          setSpinnerActive={jest.fn()}
           />
         </Provider>
     );
@@ -161,7 +161,7 @@ describe('ManageDataPreview', () => {
             columns={columns()}
             data={data()}
             totalCount={1}
-            setSpinnerActive={jest.fn}
+            setSpinnerActive={jest.fn()}
             />
           </Provider>
       );

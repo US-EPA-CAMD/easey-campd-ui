@@ -119,12 +119,21 @@ const TableMenu = ({
         preventScroll: true,
       });
   };
+  const openMenuKeyDown = (e) => {
+    handleKeyDown(e, openMenu, 'Enter')
+    handleKeyDown(e, ()=>{
+      if(focusAfterApply === topic.value) {
+        setFocusAfterApply(null);
+        setNoLongerActive(true);
+      }}, 'Tab')
+  };
   const openSubMenu = async () => {
     setMenuOpen(false);
     await setColumnMenuOpen(true);
     const search = document.querySelector('#textField');
     search && search.focus();
   };
+  const openSubMenuKeyDown = (e) => handleKeyDown(e, openSubMenu, 'Enter');
   const handleClose = () => {
     anchorEl && anchorEl.focus();
     setAnchorEl(null);
@@ -132,6 +141,7 @@ const TableMenu = ({
     setMenuOpen(false);
     setClosed(true);
   };
+  const handleCloseKeyDown = (e) => handleKeyDown(e, handleClose, 'Escape');
   const handleCloseSubMenu = (e) => {
     if (e.key === 'Tab') {
       return;
@@ -150,6 +160,11 @@ const TableMenu = ({
     updateAriaSort(e, 'ascending')
     handleClose();
   };
+  const handleSortAscKeyDown = (e) => handleKeyDown(e, handleSortAsc, 'Enter');
+  const handleSortAscKeyDownVisible = (e) => {
+    handleKeyDown(e, handleSortDesc, 'Enter');
+    handleKeyDown(e, () => setKeepIconsVisible(true), 'Enter');
+  };
   const handleSortDesc = (e) => {
     updateFilterCriteriaDispatcher({sortArrowUp: null});
     setUnsort(false);
@@ -157,6 +172,11 @@ const TableMenu = ({
     setSortDesc(true);
     updateAriaSort(e, 'descending')
     handleClose();
+  };
+  const handleSortDescKeyDown = (e) => handleKeyDown(e, handleSortDesc, 'Enter');
+  const handleSortDescKeyDownVisible = (e) => {
+    handleKeyDown(e, handleSortDesc, 'Enter');
+    handleKeyDown(e, () => setKeepIconsVisible(true), 'Enter');
   };
   const handleUnsort = (e) => {
     setSortValue(topic.value);
@@ -167,6 +187,7 @@ const TableMenu = ({
     updateAriaSort(e, 'none', true)
     handleClose();
   };
+  const handleUnsortKeyDown = (e) => handleKeyDown(e, handleUnsort, 'Enter');
 
   const handleSearch = (e) => {
     setFilteredColumns(
@@ -187,6 +208,11 @@ const TableMenu = ({
     });
     setFilteredColumns(columns);
     setCheckedBoxes(temp);
+  };
+  const handleSelectAllKeyDown = (e) => handleKeyDown(e, handleSelectAll, 'Enter');
+  const handleChangeTextInput = (e) => {
+    e.stopPropagation();
+    handleSearch(e);
   };
 
   const handleDeselectAll = () => {
@@ -232,6 +258,7 @@ const TableMenu = ({
   const columnId = `column-${topic.value}`;
   const currentColumn = document.querySelector(`#` + columnId);
   const updateAriaSort = (e, value, remove=false) => {
+    if (!currentColumn) return;
     if(!remove){currentColumn.ariaSort = value} else if (currentColumn.ariaSort){
       currentColumn.removeAttribute("aria-sort");}
   };
@@ -258,10 +285,7 @@ const TableMenu = ({
           <ArrowUpwardSharp
             className="text-base"
             onClick={handleSortDesc}
-            onKeyDown={(e) => {
-              handleKeyDown(e, handleSortDesc, 'Enter');
-              handleKeyDown(e, () => setKeepIconsVisible(true), 'Enter');
-            }}
+            onKeyDown={handleSortDescKeyDownVisible}
             id={'sort by ascending'}
             tabIndex={0}
             ref={sortRef}
@@ -275,10 +299,7 @@ const TableMenu = ({
           <ArrowDownwardSharp
             className="text-base"
             onClick={handleSortAsc}
-            onKeyDown={(e) => {
-              handleKeyDown(e, handleSortAsc, 'Enter');
-              handleKeyDown(e, () => setKeepIconsVisible(true), 'Enter');
-            }}
+            onKeyDown={handleSortAscKeyDownVisible}
             id={'sort by descending'}
             tabIndex={0}
             ref={sortRef}
@@ -295,14 +316,7 @@ const TableMenu = ({
           aria-haspopup="true"
           aria-expanded={open ? 'true' : undefined}
           onClick={openMenu}
-          onKeyDown={(e) => {
-            handleKeyDown(e, openMenu, 'Enter')
-            handleKeyDown(e, ()=>{
-              if(focusAfterApply === topic.value) {
-                setFocusAfterApply(null);
-                setNoLongerActive(true);
-              }}, 'Tab')
-          }}
+          onKeyDown={openMenuKeyDown}
           id={`additional options - ${topic.label}`}
           aria-hidden={false}
           tabIndex={0}
@@ -326,12 +340,12 @@ const TableMenu = ({
               sx={{ bgcolor: 'white', boxShadow: 1 }}
               component="nav"
               aria-labelledby="submenu"
-              onKeyDown={(e) => handleKeyDown(e, handleClose, 'Escape')}
+              onKeyDown={handleCloseKeyDown}
               className="z-top"
             >
               <ListItem
                 onClick={handleUnsort}
-                onKeyDown={(e) => handleKeyDown(e, handleUnsort, 'Enter')}
+                onKeyDown={handleUnsortKeyDown}
                 key="unsort"
                 id="unsort"
                 tabIndex={0}
@@ -341,7 +355,7 @@ const TableMenu = ({
               </ListItem>
               <ListItem
                 onClick={handleSortAsc}
-                onKeyDown={(e) => handleKeyDown(e, handleSortAsc, 'Enter')}
+                onKeyDown={handleSortAscKeyDown}
                 key="asc"
                 tabIndex={0}
                 className="menuItem"
@@ -352,14 +366,14 @@ const TableMenu = ({
                 onClick={handleSortDesc}
                 key="desc"
                 tabIndex={0}
-                onKeyDown={(e) => handleKeyDown(e, handleSortDesc, 'Enter')}
+                onKeyDown={handleSortDescKeyDown}
                 className="menuItem"
               >
                 Sort by DESC
               </ListItem>
               <ListItem
                 onClick={openSubMenu}
-                onKeyDown={(e) => handleKeyDown(e, openSubMenu, 'Enter')}
+                onKeyDown={openSubMenuKeyDown}
                 tabIndex={0}
                 className="menuItem"
               >
@@ -381,7 +395,7 @@ const TableMenu = ({
               sx={{ bgcolor: 'white', boxShadow: 1 }}
               component="nav"
               aria-labelledby="submenu"
-              onKeyDown={(e) => handleKeyDown(e, handleClose, 'Escape')}
+              onKeyDown={handleCloseKeyDown}
               className="z-top"
             >
               <div>
@@ -392,10 +406,7 @@ const TableMenu = ({
                     name="find column"
                     type="search"
                     id="find column"
-                    onChange={(e) => {
-                      e.stopPropagation();
-                      handleSearch(e);
-                    }}
+                    onChange={handleChangeTextInput}
                     tabIndex={0}
                   />
                   <br />
@@ -405,7 +416,31 @@ const TableMenu = ({
                         No results match that search criteria
                       </div>
                     ) : null}
-                    {filteredColumns?.map((el) => (
+                    {filteredColumns?.map((el) =>{ 
+                      const handleCheckboxChange = (e) => {
+                        setCheckedBoxes({
+                          ...checkedBoxes,
+                          [el.label]: {
+                            ...el,
+                            checked: e.target.checked,
+                          },
+                        });
+                      };
+                      const handleCheckboxKeydown = (e) => {
+                        if (e.key === 'Enter') {
+                          const status = e.target.checked ? false : true;
+                          e.target.checked = status;
+
+                          setCheckedBoxes({
+                            ...checkedBoxes,
+                            [el.label]: {
+                              ...el,
+                              checked: status,
+                            },
+                          });
+                        }
+                      }
+                      return(
                       <div key={el.label} className="padding-right-1">
                         {!excludableColumnsState[el.label] ? (
                           <Checkbox
@@ -419,33 +454,12 @@ const TableMenu = ({
                             id={el.label}
                             label={el.label}
                             checked={getCheckBoxStatus(el.label)}
-                            onChange={(e) => {
-                              setCheckedBoxes({
-                                ...checkedBoxes,
-                                [el.label]: {
-                                  ...el,
-                                  checked: e.target.checked,
-                                },
-                              });
-                            }}
-                            onKeyDown={(e) => {
-                              if (e.key === 'Enter') {
-                                const status = e.target.checked ? false : true;
-                                e.target.checked = status;
-
-                                setCheckedBoxes({
-                                  ...checkedBoxes,
-                                  [el.label]: {
-                                    ...el,
-                                    checked: status,
-                                  },
-                                });
-                              }
-                            }}
+                            onChange={handleCheckboxChange}
+                            onKeyDown={handleCheckboxKeydown}
                           />
                         )}
                       </div>
-                    ))}
+                    )})}
                   </div>
                   <div className="margin-top-1">
                     <div className="display-flex flex-justify">
@@ -454,9 +468,7 @@ const TableMenu = ({
                         tabIndex={0}
                         role="button"
                         onClick={handleSelectAll}
-                        onKeyDown={(e) =>
-                          handleKeyDown(e, handleSelectAll, 'Enter')
-                        }
+                        onKeyDown={handleSelectAllKeyDown}
                         id="selectAll"
                       >
                         Select All
@@ -466,9 +478,7 @@ const TableMenu = ({
                         tabIndex={0}
                         role="button"
                         onClick={handleDeselectAll}
-                        onKeyDown={(e) =>
-                          handleKeyDown(e, handleDeselectAll, 'Enter')
-                        }
+                        onKeyDown={handleSelectAllKeyDown}
                         id="selectAll"
                       >
                         Deselect All

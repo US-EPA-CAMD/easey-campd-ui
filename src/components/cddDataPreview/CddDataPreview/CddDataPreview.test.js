@@ -4,7 +4,6 @@ import { render, fireEvent, screen } from '@testing-library/react';
 import configureStore from '../../../store/configureStore.dev';
 import { Provider } from 'react-redux';
 import initialState from '../../../store/reducers/initialState';
-import { handleError } from '../../../utils/api/apiUtils';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 import config from '../../../config';
@@ -106,7 +105,7 @@ describe('CddDataPreview', () => {
     expect(previewButton).toBeDefined();
     fireEvent.click(previewButton);
   });
-  test('Check bookmark funtionality works on cdd', async () => {
+  test('Check bookmark funtionality works on cdd', async (done) => {
     render(
       <Provider store={store}>
         <div id="filter0"></div>
@@ -127,5 +126,6 @@ describe('CddDataPreview', () => {
     const modalCloser = await findByRole('button', {name : 'Ok'});
     expect(modalCloser).toBeDefined();
     fireEvent.click(modalCloser);
-  });
+    done()
+  }, 3000);
 });

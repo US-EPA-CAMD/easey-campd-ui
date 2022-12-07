@@ -3,6 +3,8 @@ import { render, fireEvent, cleanup } from '@testing-library/react';
 import { UnitType } from './UnitType';
 import { restructureUnitTypes } from '../../../utils/selectors/filterCriteria';
 import initialState from '../../../store/reducers/initialState';
+jest.useFakeTimers();
+jest.spyOn(global, 'setTimeout');
 const unitType = [
   {
     unitTypeCode: 'AF',
@@ -220,6 +222,7 @@ describe('Unit Type', () => {
     expect(selectAllBoilers.checked).toEqual(true);
     const applyFilterButton = getByText('Apply Filter').closest('button');
     fireEvent.click(applyFilterButton);
+    jest.runAllTimers();
     expect(applyFilterLoading).toBe(true);
   });
 });

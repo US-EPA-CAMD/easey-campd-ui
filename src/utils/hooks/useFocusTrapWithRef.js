@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef } from "react";
 
-const convertToIntOrFallback = (n, fallback)  => {
+export const convertToIntOrFallback = (n, fallback)  => {
   try {
     const parsed = parseInt(n);
     if (typeof n === "number" && !isNaN(n) && `${parsed}` === `${n}`) {

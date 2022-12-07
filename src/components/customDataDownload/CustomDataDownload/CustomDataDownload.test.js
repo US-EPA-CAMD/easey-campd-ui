@@ -1,10 +1,10 @@
 import React from "react";
 import CustomDataDownload from "./CustomDataDownload";
-import { render, fireEvent, cleanup } from "@testing-library/react";
+import { render, fireEvent, cleanup, act, waitFor } from "@testing-library/react";
 import configureStore from "../../../store/configureStore.dev";
 import { Provider } from "react-redux";
 import initialState from "../../../store/reducers/initialState";
-
+window.HTMLElement.prototype.scrollIntoView = jest.fn()
 initialState.customDataDownload.dataType= "COMPLIANCE";
 initialState.filterCriteria.stateTerritory = [
   { id: 'AK', label: 'Alaska', selected: false, enabled: true },
@@ -138,9 +138,11 @@ describe('datatype and subtype selection', () => {
     const matsCaveat = await findByTestId(/alert/i);
     expect(matsCaveat).toBeInTheDocument()
   });
+});
 
-  xtest('Filters button is enabled after dataType and dataSubtype are applied', () => {
-    const { getAllByTestId, getByRole } = render(
+describe('filters', () => { 
+  test('Filters button is enabled after dataType and dataSubtype are applied', async () => {
+    const { getAllByTestId, getByRole, findByRole, debug } = render(
       <Provider store={store}>
         <CustomDataDownload />
       </Provider>
@@ -153,13 +155,14 @@ describe('datatype and subtype selection', () => {
     fireEvent.change(dataTypeDropdown, { target: { value: complianceDataType } });
     fireEvent.change(dataSubtypeDropdown, { target: { value: 2 } });
     const applyButton = getByRole('button', { name: /apply/i });
-    fireEvent.click(applyButton)
-    const filtersButton = getByRole('button', { name: /filters/i})
+    await act(async() => await fireEvent.click(applyButton))
+    debug()
+    const filtersButton = await findByRole('button', { name: /filters/i})
     expect(filtersButton).not.toBeDisabled();
   });
 
-  xtest('allows change of data type and data subtype selection', () => {
-    const { getAllByTestId, getByRole } = render(
+  test('allows change of data type and data subtype selection', async() => {
+    const { getAllByTestId, getByRole, findByRole } = render(
       <Provider store={store}>
         <CustomDataDownload />
       </Provider>
@@ -173,12 +176,12 @@ describe('datatype and subtype selection', () => {
     fireEvent.change(dataSubtypeDropdown, { target: { value: 2 } });
     const applyButton = getByRole('button', { name: /apply/i });
     fireEvent.click(applyButton);
-    const changeButton = getByRole('button', { name: /change/i });
+    const changeButton = await findByRole('button', { name: /change/i });
     expect(changeButton).not.toBeDisabled();
   });
 
-  xtest('cancel button takes user back to filters', () => {
-    const { getAllByTestId, getByRole } = render(
+  test('cancel button takes user back to filters', async (done) => {
+    const { getAllByTestId, getByRole, findByRole, debug } = render(
       <Provider store={store}>
         <CustomDataDownload />
       </Provider>
@@ -189,16 +192,18 @@ describe('datatype and subtype selection', () => {
     fireEvent.change(dataTypeDropdown, { target: { value: matsDataType } });
     const applyButton = getByRole('button', { name: /apply/i });
     fireEvent.click(applyButton);
-    const changeButton = getByRole('button', { name: /change/i });
-    fireEvent.click(changeButton);
-    const cancelButton = getByRole('button', { name: /cancel/i });
+    const changeButton = await findByRole('button', { name: /change/i });
+    await fireEvent.click(changeButton);
+    const cancelButton = await findByRole('button', { name: /cancel/i });
     fireEvent.click(cancelButton);
-    const newChangeButton = getByRole('button', { name: /change/i });
-    expect(newChangeButton).toBeInTheDocument()
-  })
-});
+    const filtersHeading = await findByRole('heading', { name: /filters/i });
+    expect(filtersHeading).toBeInTheDocument()
+    done()
+      debug()
+  }, 30000)
+ })
 
-xdescribe('filter selection functionality', () => {
+describe('filter selection functionality', () => {
   let query;
   beforeEach(() => {
     query = render(
@@ -226,7 +231,7 @@ xdescribe('filter selection functionality', () => {
     expect(previewDataButton).toBeDisabled();
   });
 
-  test('preview button is enabled after a filter is selected', () => {
+  test('preview button is enabled after a filter is selected', async() => {
     const { getByRole, getByText, getAllByRole } = query;
     const filtersButton = getByRole('button', {name: 'Filters'})
     fireEvent.click(filtersButton)
@@ -242,9 +247,9 @@ xdescribe('filter selection functionality', () => {
     const alaska = getByText(/alaska/i);
     fireEvent.click(alaska);
     const applyFilterButton = getByRole('button', { name: /apply filter/i });
-    fireEvent.click(applyFilterButton);
+    await fireEvent.click(applyFilterButton);
     const previewDataButton = getAllByRole('button', { name: /Preview Data/i })[0];
-    expect(previewDataButton).not.toBeDisabled();
+    waitFor(()=>expect(previewDataButton).not.toBeDisabled());
   });
 
 
