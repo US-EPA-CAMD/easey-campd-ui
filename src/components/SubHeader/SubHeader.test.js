@@ -8,6 +8,7 @@ import SubHeader from './SubHeader';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 import config from '../../config';
+import userEvent from '@testing-library/user-event';
 const store = configureStore();
 
 jest.mock('react-markdown', () => ({ children }) => <>{children}</>);
@@ -46,7 +47,7 @@ describe('SubHeader', () => {
         </MemoryRouter>
       </Provider>
     );
-    const { getByText } = query;
+    const { getByText, container } = query;
 
     const header = getByText('Clean Air Markets Program Data');
     const home = getByText('HOME');
@@ -59,9 +60,8 @@ describe('SubHeader', () => {
     expect(analysis).toBeTruthy();
 
     fireEvent.click(data);
-    // fireEvent.click(getByText('Custom Data Download'));
-    // fireEvent.click(analysis);
-
-    // expect(container.querySelector('.usa-nav__submenu')).toBeInTheDocument();
+    userEvent.click(getByText(/help\/support/i));
+    expect(container.querySelector('.usa-nav__submenu')).toBeInTheDocument();
+    fireEvent.click(analysis);
   });
 });

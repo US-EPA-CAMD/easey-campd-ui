@@ -1,19 +1,20 @@
 import React from 'react';
 import CddDataPreview from './CddDataPreview';
-import { render, fireEvent, screen } from '@testing-library/react';
+import { render, fireEvent, screen, waitFor } from '@testing-library/react';
 import configureStore from '../../../store/configureStore.dev';
 import { Provider } from 'react-redux';
 import initialState from '../../../store/reducers/initialState';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 import config from '../../../config';
+import userEvent from '@testing-library/user-event';
 
 jest.spyOn(window, 'alert').mockImplementation(() => {});
 jest.spyOn(window, 'confirm').mockImplementation(() => {});
 jest.mock('react-markdown', () => ({ children }) => <>{children}</>);
 jest.mock('remark-gfm', () => () => {});
 
-const { findByText, getByRole, findByTestId, findByRole } = screen;
+const { findByText, getByRole, findByTestId, findByRole, getByTestId } = screen;
 const helperTextUrl =
   `${config.services.content.uri}/campd/data/custom-data-download/helper-text.md`;
 const limitTextUrl = `${config.services.content.uri}/campd/data/custom-data-download/download-limit-alert.md`;
@@ -128,4 +129,34 @@ describe('CddDataPreview', () => {
     fireEvent.click(modalCloser);
     done()
   }, 3000);
+
+  test('can remove filter with filter tags', async () => {
+    let displayMobileDataType = false;
+    render(
+      <Provider store={store}>
+        <div id="filter0"></div>
+        <CddDataPreview requirementsMet={true} totalCount={10000000} 
+        renderPreviewData={{
+        display: false,
+        dataType: '',
+        dataSubType: '',
+        }}
+        setRenderPreviewData={jest.fn()}
+        handleMobileFiltersButtonClick={jest.fn()}
+        setDisplayMobileDataType={() => displayMobileDataType = true}
+        displayMobileDataType={displayMobileDataType}
+        setApplyFilterLoading={jest.fn()}
+        />
+      </Provider>
+    );
+    const helperText = await findByText('this is CDD helper tex');
+    expect(helperText).toBeInTheDocument();
+    const previewButton = getByRole('button', { name: 'Preview Data' });
+    const filtersButton = getByRole('button', {name: /Filters/i})
+    userEvent.click(filtersButton)
+    const timePeriodRemove = getByTestId('remove');
+    expect(timePeriodRemove).toBeInTheDocument();
+    userEvent.click(timePeriodRemove)
+    waitFor(() =>expect(previewButton).toBeDisabled());
+  });
 });
