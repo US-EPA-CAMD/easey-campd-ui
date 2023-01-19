@@ -10,6 +10,7 @@ import {useFocusTrapWithRef} from '../../../utils/hooks/useFocusTrapWithRef';
 import { connect } from 'react-redux';
 import setApiError from '../../../store/actions/setApiErrorAction';
 import { updateBulkDataFiles } from '../../../store/actions/bulkDataFilesActions';
+import RenderSpinner from '../../RenderSpinner/RenderSpinner';
 
 const BulkDataFilesFilters = ({
   data,
@@ -33,6 +34,7 @@ const BulkDataFilesFilters = ({
   const [statesFiltered, setStatesFiltered]= useState([]);
   const [year, setYear] = useState('');
   const [quarter, setQuarter] = useState('');
+  const [loading, setLoading] = useState(false);
   const [appliedFilterSelection, setAppliedFilterSelection] = useState({
     dataType: '',
     subType: '',
@@ -107,13 +109,27 @@ const BulkDataFilesFilters = ({
         setState('');
     }// eslint-disable-next-line
   }, [grouping, isMobileOrTablet]);
+const wait = (ms) => {
+  let start = Date.now(), now = start;
+  while(now - start < ms) {
+    now = Date.now();
+  }
+}
+  const filterAndUpdateRecords = () => {
+    setLoading(true);
+    setTimeout(() => {
+      wait(10000)
+      const filteredRecords = filterBulkDataFiles(selection, initialTableRecords);
+      updateBulkDataFilesDispatcher(JSON.parse(JSON.stringify(filteredRecords)));
+      updateAppliedFilterSelection()
+      setLoading(false);
+    })
+  }
 
   useEffect(()=>{
     if(isMobileOrTablet){
       if (previewDataApplied && initialTableRecords){
-        const filteredRecords = filterBulkDataFiles(selection, initialTableRecords);
-        updateBulkDataFilesDispatcher(JSON.parse(JSON.stringify(filteredRecords)));
-        updateAppliedFilterSelection()
+        filterAndUpdateRecords();
         setPreviewDataApplied(false)
       } else if (backButtonClicked){
         setDataType(appliedFilterSelection.dataType)
@@ -125,9 +141,7 @@ const BulkDataFilesFilters = ({
         setBackButtonClicked(false)
       }
     } else if(initialTableRecords){
-      const filteredRecords = filterBulkDataFiles(selection, initialTableRecords);
-      updateBulkDataFilesDispatcher(JSON.parse(JSON.stringify(filteredRecords)));
-      updateAppliedFilterSelection()
+      filterAndUpdateRecords();
       //console.log(filteredRecords);
     }
     // eslint-disable-next-line
@@ -175,6 +189,7 @@ const BulkDataFilesFilters = ({
   const focusTrapActive = isMobileOrTablet && showMobileFilters;
   return (
     <div className="padding-x-4" ref={focusTrapActive? trapRef : null}>
+      {loading && <RenderSpinner showSpinner={loading} />}
       {filtersContent && 
         (
           <>
