@@ -35,9 +35,6 @@ export const isEmailValid = (email) => {
   }
   
   const dot = email.indexOf(".");
-  if(dot <= atSymbol + 2) {
-    return false;
-  }
   
   if (dot === email.length - 1) {
     return false;
