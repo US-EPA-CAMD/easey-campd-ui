@@ -109,16 +109,10 @@ const BulkDataFilesFilters = ({
         setState('');
     }// eslint-disable-next-line
   }, [grouping, isMobileOrTablet]);
-const wait = (ms) => {
-  let start = Date.now(), now = start;
-  while(now - start < ms) {
-    now = Date.now();
-  }
-}
+
   const filterAndUpdateRecords = () => {
     setLoading(true);
     setTimeout(() => {
-      wait(10000)
       const filteredRecords = filterBulkDataFiles(selection, initialTableRecords);
       updateBulkDataFilesDispatcher(JSON.parse(JSON.stringify(filteredRecords)));
       updateAppliedFilterSelection()
