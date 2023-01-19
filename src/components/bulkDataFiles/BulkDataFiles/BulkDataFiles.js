@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { connect } from 'react-redux';
 import { metaAdder } from '../../../utils/document/metaAdder';
-import { loadBulkDataFiles } from "../../../store/actions/bulkDataFilesActions";
+import { loadBulkDataFiles, updateBulkDataFiles } from "../../../store/actions/bulkDataFilesActions";
 import BulkDataFilesTable from "../BulkDataFilesTable/BulkDataFilesTable";
 import getContent from '../../../utils/api/getContent';
 import BulkDataFilesFilters from "../BulkDataFilesFilters/BulkDataFilesFilters";
@@ -17,6 +17,7 @@ const BulkDataFiles = ({
   loading,
   loadBulkDataFilesDispatcher,
   setApiErrorDispatcher,
+  updateBulkDataFilesDispatcher,
 }) => {
   const [helperText, setHelperText] = useState(null);
   const [showMobileFilters, setShowMobileFilters] = useState(false);
@@ -29,7 +30,8 @@ const BulkDataFiles = ({
     getContent('/campd/data/bulk-data-files/helper-text.md', setApiErrorDispatcher).then(resp => setHelperText(resp?.data));
     if(dataTable === null){
       loadBulkDataFilesDispatcher();
-    }// eslint-disable-next-line
+    }
+    return () => updateBulkDataFilesDispatcher(null);// eslint-disable-next-line
   }, []);
 
   const dataForDataTable = useMemo(() => {
@@ -129,6 +131,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     loadBulkDataFilesDispatcher: () => dispatch(loadBulkDataFiles()),
     setApiErrorDispatcher: (api, state, errorMessage) => dispatch(setApiError(api, state, errorMessage)),
+    updateBulkDataFilesDispatcher: (bulkDataFiles) => dispatch(updateBulkDataFiles(bulkDataFiles)),
   };
 };
 
