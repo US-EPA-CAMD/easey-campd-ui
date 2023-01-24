@@ -8,6 +8,7 @@ import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router';
 import configureStore from '../../../store/configureStore.dev';
 import initialState from '../../../store/reducers/initialState';
+import userEvent from '@testing-library/user-event';
 
 let store = configureStore(initialState);
 
@@ -321,23 +322,27 @@ describe('BDFF-component',  () => {
         </MemoryRouter>
       </Provider>
     );
-    const { findByText, findByTestId, getAllByTestId, findByLabelText, getByTestId} = query;
+    const { findByText, findByTestId, getAllByTestId, findByLabelText} = query;
     const dataTypeLabel = await findByText("Data Type");
     expect(dataTypeLabel).toBeTruthy();
-    // const dataTypeFilter = await findByTestId('dataType-select');
-    // await fireEvent.change(dataTypeFilter, { target: { value: "EDR" } });
-    // screen.debug();
-    // expect(await findByText("Year")).toBeTruthy();
-    // expect(await findByText("Quarter")).toBeTruthy();
-    // expect(await findByText("State")).toBeTruthy();
-    // let dataTypeOptions = getAllByTestId('dataType-select-option')
-    // expect(dataTypeOptions[2]).toBeTruthy();
-    // const SubTypeFilter = await findByLabelText("Subtype");
-    // expect(SubTypeFilter).toBeTruthy();
-    // fireEvent.change(getByTestId('subType-select'), { target: { value: 1 } });
-    // let subTypeOptions = getAllByTestId('subType-select-option');
-    // expect(subTypeOptions[1].selected).toBeTruthy();
-    // const groupingFilter = await findByLabelText("Grouping");
-    // expect(groupingFilter).toBeTruthy();
+    const dataTypeFilter = await findByTestId('dataType-select');
+    await fireEvent.change(dataTypeFilter, { target: { value: "EDR" } });
+    screen.debug();
+    expect(await findByText("Year")).toBeTruthy();
+    expect(await findByText("Quarter")).toBeTruthy();
+    expect(await findByText("State")).toBeTruthy();
+    let dataTypeOptions = getAllByTestId('dataType-select-option')
+    expect(dataTypeOptions[2]).toBeTruthy();
+    await fireEvent.change(dataTypeFilter, { target: { value: "Emissions" } });
+    const SubTypeFilter = await findByLabelText("Subtype");
+    expect(SubTypeFilter).toBeTruthy();
+    const dataSubtypeDropdown = await findByTestId('subtype-select');
+    await fireEvent.change(dataSubtypeDropdown, { target: { value: 1 } });
+    let subTypeOptions = getAllByTestId('subtype-select-option');
+    expect(subTypeOptions[0].selected).toBeTruthy();
+    const groupingFilter = await findByLabelText("Grouping");
+    userEvent.tab();
+    userEvent.tab();
+    expect(groupingFilter).toBeTruthy();
   });
 });

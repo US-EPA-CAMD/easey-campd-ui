@@ -1,8 +1,11 @@
 import React from 'react';
-import { render, fireEvent, cleanup, waitFor } from '@testing-library/react';
+import { render, fireEvent, cleanup } from '@testing-library/react';
 import { Program } from './Program';
 import {restructurePrograms} from "../../../utils/selectors/filterCriteria";
 import initialState from '../../../store/reducers/initialState';
+jest.useFakeTimers();
+jest.spyOn(global, 'setTimeout');
+
 const program = [
   {
     "programCode": "ARP",
@@ -255,6 +258,7 @@ describe("Hourly Emissions Program", () => {
     expect(arpCheckbox.checked).toEqual(true);
     const applyFilterButton = getByText('Apply Filter').closest('button');
     fireEvent.click(applyFilterButton);
+    jest.runAllTimers();
     expect(applyFilterLoading).toBe(true);
   });
 

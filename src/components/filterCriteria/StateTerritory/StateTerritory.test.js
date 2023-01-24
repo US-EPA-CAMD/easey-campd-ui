@@ -12,7 +12,8 @@ import { Provider } from "react-redux";
 import initialState from "../../../store/reducers/initialState";
 import { updateStateSelection } from "../../../store/actions/customDataDownload/filterCriteria";
 import { addAppliedFilter, removeAppliedFilter } from "../../../store/actions/customDataDownload/customDataDownload";
-
+jest.useFakeTimers();
+jest.spyOn(global, 'setTimeout');
 const states = [{
   "stateCode": "AK",
   "stateName": "Alaska",
@@ -130,6 +131,7 @@ describe('State/Territory Component', () => {
     expect(getByRole("button", {name: "Alaska"})).toBeDefined();
     expect(getAllByTestId("multi-select-option").length).toBe(states.length);
     fireEvent.click(getByText("Apply Filter"));
+    jest.runAllTimers();
     expect(applyFilterLoading).toBe(true);
   })
 });

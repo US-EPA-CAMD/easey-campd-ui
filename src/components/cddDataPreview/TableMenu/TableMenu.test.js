@@ -58,10 +58,14 @@ const fieldMappings = [
   },
 ];
 initialState.customDataDownload.fieldMappings = fieldMappings;
-const store = configureStore(initialState);
+let store = configureStore(initialState);
 
 const topic = { label: 'Unit ID', value: 'unitId' };
 describe('table menu component', () => {
+  beforeEach(() => {
+    initialState.customDataDownload.fieldMappings = fieldMappings;
+    store = configureStore(initialState);
+  })
   test('renders main menu properly', () => {
     render(
       <Provider store={store}>
@@ -145,6 +149,34 @@ describe('table menu component', () => {
       name: /sort by ascending/i,
     });
     expect(sortByAscIcon).toBeInTheDocument();
+  });
+
+  test('unsort function is executed when unsort option is selected', ()=>{
+    const unsortFunction = jest.fn();
+    render(
+      <Provider store={store}>
+        <TableMenu
+          topic={topic}
+          fieldMappings={fieldMappings}
+          setSortValue={jest.fn()}
+          setSortDesc={jest.fn()}
+          setSortAsc={jest.fn()}
+          setUnsort={unsortFunction}
+        />
+      </Provider>
+    );
+
+    const tableHeader = getByText(/unit id/i);
+    fireEvent.click(tableHeader);
+    userEvent.tab();
+    const additionalOptionsIcon = screen.getByRole('button', {
+      name: /additional options \- unit id/i,
+    });
+    fireEvent.click(additionalOptionsIcon);
+
+    const unsortMenuOption = getByText(/unsort/i);
+    fireEvent.click(unsortMenuOption);
+    expect(unsortFunction).toHaveBeenCalled();
   });
   test('lists correct columns, apply button, and input field when customize column menu option is selected', async () => {
     const { findByText, findByRole, getAllByText } = render(
@@ -343,33 +375,134 @@ describe('table menu component', () => {
     const buttons = getAllByRole('button');
     expect(buttons[0]).toHaveFocus();
   });
-});
 
-test('it autofocuses to the input field when column menu is opened', async () => {
-  const { getByText, getByTestId } = render(
-    <Provider store={store}>
-      <TableMenu
-        topic={topic}
-        fieldMappings={fieldMappings}
-        setSortValue={jest.fn()}
-        setSortDesc={jest.fn()}
-        setSortAsc={jest.fn()}
-        setUnsort={jest.fn()}
-        filterCriteria={initialState.filterCriteria}
-        setSelectedColumns={jest.fn()}
-        selectedColumns={null}
-        excludableColumns={fieldMappings}
-        updateFilterCriteriaDispatcher={jest.fn()}
-      />
-    </Provider>
-  );
+  test('it autofocuses to the input field when column menu is opened', async () => {
+    const { getByText, getByTestId } = render(
+      <Provider store={store}>
+        <TableMenu
+          topic={topic}
+          fieldMappings={fieldMappings}
+          setSortValue={jest.fn()}
+          setSortDesc={jest.fn()}
+          setSortAsc={jest.fn()}
+          setUnsort={jest.fn()}
+          filterCriteria={initialState.filterCriteria}
+          setSelectedColumns={jest.fn()}
+          selectedColumns={null}
+          excludableColumns={fieldMappings}
+          updateFilterCriteriaDispatcher={jest.fn()}
+        />
+      </Provider>
+    );
 
-  const additionalOptionsIcon = screen.getByRole('button', {
-    name: /additional options \- unit id/i,
+    const additionalOptionsIcon = screen.getByRole('button', {
+      name: /additional options \- unit id/i,
+    });
+    fireEvent.click(additionalOptionsIcon);
+    const customizeColumnsMenuOption = getByText(/Customize Columns/i);
+    fireEvent.click(customizeColumnsMenuOption);
+    const input = getByTestId(/textInput/i);
+    expect(input).toHaveFocus();
   });
-  fireEvent.click(additionalOptionsIcon);
-  const customizeColumnsMenuOption = getByText(/Customize Columns/i);
-  fireEvent.click(customizeColumnsMenuOption);
-  const input = getByTestId(/textInput/i);
-  expect(input).toHaveFocus();
+
+  test('can deselect all', async () => {
+    const { getAllByRole } = render(
+      <Provider store={store}>
+        <TableMenu
+          topic={topic}
+          fieldMappings={fieldMappings}
+          setSortValue={jest.fn()}
+          setSortDesc={jest.fn()}
+          setSortAsc={jest.fn()}
+          setUnsort={jest.fn()}
+          filterCriteria={initialState.filterCriteria}
+          setSelectedColumns={jest.fn()}
+          selectedColumns={null}
+          excludableColumns={fieldMappings}
+          updateFilterCriteriaDispatcher={jest.fn()}
+        />
+      </Provider>
+    );
+
+    const additionalOptionsIcon = screen.getByRole('button', {
+      name: /additional options \- unit id/i,
+    });
+    fireEvent.click(additionalOptionsIcon);
+    const customizeColumnsMenuOption = getByText(/Customize Columns/i);
+    fireEvent.click(customizeColumnsMenuOption);
+    const deselectAllColumns = getByText(/Deselect All/i);
+    fireEvent.click(deselectAllColumns);
+    const checkboxes = getAllByRole('checkbox');
+    checkboxes.forEach((checkbox) => expect(checkbox.checked).not.toBe(true));
+  });
+
+  test('can select all', async () => {
+    const { getAllByRole } = render(
+      <Provider store={store}>
+        <TableMenu
+          topic={topic}
+          fieldMappings={fieldMappings}
+          setSortValue={jest.fn()}
+          setSortDesc={jest.fn()}
+          setSortAsc={jest.fn()}
+          setUnsort={jest.fn()}
+          filterCriteria={initialState.filterCriteria}
+          setSelectedColumns={jest.fn()}
+          selectedColumns={null}
+          excludableColumns={fieldMappings}
+          updateFilterCriteriaDispatcher={jest.fn()}
+        />
+      </Provider>
+    );
+
+    const additionalOptionsIcon = screen.getByRole('button', {
+      name: /additional options \- unit id/i,
+    });
+    fireEvent.click(additionalOptionsIcon);
+    const customizeColumnsMenuOption = getByText(/Customize Columns/i);
+    fireEvent.click(customizeColumnsMenuOption);
+    const deselectAllColumns = getByText(/Deselect All/i);
+    fireEvent.click(deselectAllColumns);
+    const checkboxes = getAllByRole('checkbox');
+    checkboxes.forEach((checkbox) => expect(checkbox.checked).not.toBe(true));
+    const selectAllColumns = getByText(/Select All/);
+    fireEvent.click(selectAllColumns);
+    checkboxes.forEach((checkbox) => expect(checkbox.checked).toBe(true));
+  });
+
+  test('apply button updates selected columns', async () => {
+    const setSelectedColumns = jest.fn();
+    const setFocusAfterApply = jest.fn();
+    const { getByRole } = render(
+      <Provider store={store}>
+        <TableMenu
+          topic={topic}
+          fieldMappings={fieldMappings}
+          setSortValue={jest.fn()}
+          setSortDesc={jest.fn()}
+          setSortAsc={jest.fn()}
+          setUnsort={jest.fn()}
+          filterCriteria={initialState.filterCriteria}
+          setSelectedColumns={setSelectedColumns}
+          selectedColumns={null}
+          excludableColumns={fieldMappings}
+          updateFilterCriteriaDispatcher={jest.fn()}
+          setFocusAfterApply={setFocusAfterApply}
+        />
+      </Provider>
+    );
+
+    const additionalOptionsIcon = screen.getByRole('button', {
+      name: /additional options \- unit id/i,
+    });
+    fireEvent.click(additionalOptionsIcon);
+    const customizeColumnsMenuOption = getByText(/Customize Columns/i);
+    fireEvent.click(customizeColumnsMenuOption);
+    const deselectAllColumns = getByText(/Deselect All/i);
+    fireEvent.click(deselectAllColumns);
+    const applyButton = getByRole('button', { name: /apply/i})
+    fireEvent.click(applyButton);
+    expect(setSelectedColumns).toHaveBeenCalled();
+    expect(setFocusAfterApply).toHaveBeenCalled();
+  });
 });

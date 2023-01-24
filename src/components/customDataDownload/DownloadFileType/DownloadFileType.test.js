@@ -10,7 +10,6 @@ import RenderSpinner from '../../RenderSpinner/RenderSpinner';
 
 jest.mock('axios');
 jest.mock('../../RenderSpinner/RenderSpinner')
-// jest.mock('setSpinnerActive', ()=>jest.fn())
 initialState.customDataDownload.dataType = 'EMISSIONS';
 initialState.customDataDownload.dataSubType = 'Hourly Emissions';
 initialState.filterCriteria = {

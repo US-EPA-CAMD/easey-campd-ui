@@ -5,7 +5,8 @@ import { Provider } from 'react-redux';
 import configureStore from '../../../../store/configureStore.dev';
 import initialState from '../../../../store/reducers/initialState';
 import TimePeriodComboBox from './TimePeriodComboBox';
-
+jest.useFakeTimers();
+jest.spyOn(global, 'setTimeout');
 const filterMapping = [
   {
     "vintageYear": "1995",
@@ -221,6 +222,7 @@ describe('Account Name/Number Component', () => {
     expect(getByRole("button", {name: "1998"})).toBeDefined();
     expect(getAllByTestId("multi-select-option").length).toBe(distinctYears.length);
     fireEvent.click(getByText("Apply Filter"));
+    jest.runAllTimers();
     expect(applyFilterLoading).toBe(true);
   });
 });

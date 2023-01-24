@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, cleanup } from '@testing-library/react';
+import { render, fireEvent, cleanup, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
@@ -159,6 +159,34 @@ describe('Contact Us Page Component', () => {
     });
   });
   
+  test('should show success message if form is filled out correctly', async () => {
+    const { findByText, findByRole, findByTestId } = render(
+      <Provider store={store}>
+        <MemoryRouter>
+          <ContactUsPage setApiErrorDispatcher={jest.fn()} />
+        </MemoryRouter>
+      </Provider>
+    );
+
+    const emailField = await findByRole('textbox', {
+      name: /email/i,
+    });
+    const commentField = await findByTestId(/textarea/i);
+    const commentType = await findByText(/help using application/i);
+    const submitButton = await findByText(/Submit/i);
+    fireEvent.change(emailField, { target: { value: 'test@test.com' } });
+    fireEvent.click(commentType);
+    userEvent.type(commentField, 'testing123');
+    fireEvent.click(submitButton);
+    await waitFor(() => findByRole('heading', {
+      name: /success/i,
+    }))
+    const successMessage = await findByRole('heading', {
+      name: /success/i,
+    });
+        expect(successMessage).toBeInTheDocument();
+  });
+
   describe('api', () => {
     it('should render content without error', async () => {
     const { findByText } = render(

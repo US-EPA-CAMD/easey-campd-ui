@@ -15,7 +15,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "up": "yarn --ignore-engines && yarn start",
-    "test": "react-scripts test --coverage --watchAll=false --testResultsProcessor=jest-sonar-reporter",
+    "test": "react-scripts test --coverage --watchAll=false --testResultsProcessor=jest-sonar-reporter --env jest-environment-jsdom-fourteen",
     "postinstall": "patch-package"
   },
   "resolutions": {
@@ -53,7 +53,7 @@
     "@material-ui/icons": "^4.11.2",
     "@mui/material": "^5.6.0",
     "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.5.0",
+    "@testing-library/react": "12.1.2",
     "@testing-library/user-event": "^7.2.1",
     "@trussworks/react-uswds": "^2.3.0",
     "@us-epa-camd/easey-design-system": "1.32.0",
@@ -118,9 +118,11 @@
     ]
   },
   "jest": {
+    "coverageReporters": ["html", "text", "clover", "json", "lcov"],
     "collectCoverageFrom": [
       "src/**/*.{js,jsx,ts,tsx}",
       "!node_modules/",
+      "!src/mocks/*",
       "!src/App.js",
       "!src/config.js",
       "!src/serviceWorker.js",
