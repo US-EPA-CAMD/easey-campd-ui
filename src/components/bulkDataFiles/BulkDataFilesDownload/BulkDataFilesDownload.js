@@ -1,5 +1,4 @@
 import { Button } from '@trussworks/react-uswds';
-import download from 'downloadjs';
 import React, { useEffect, useState } from 'react';
  import { connect } from 'react-redux';
 import config from '../../../config';
@@ -7,7 +6,18 @@ import setApiError from '../../../store/actions/setApiErrorAction';
 import axios from '../../../utils/api/axiosSetup';
 import useTimeout from '../../../utils/hooks/useTimeout';
 import RenderSpinner from '../../RenderSpinner/RenderSpinner';
-
+export const downloadFile = (response, filename, fileType) => {
+  const url = window.URL.createObjectURL(
+    new Blob([response.data], { type: fileType })
+  );
+  const link = document.createElement("a");
+  link.href = url;
+  link.setAttribute("download", filename);
+  link.setAttribute("target", "_blank");
+  document.body.appendChild(link);
+  link.click();
+  link.parentNode.removeChild(link);
+}
 const BulkDataFilesDownload = ({ selectedFiles, fileSize, limitReached, setApiErrorDispatcher }) => {
 
   const [initDownload, setInitDownload] = useState(false);
@@ -45,7 +55,7 @@ const BulkDataFilesDownload = ({ selectedFiles, fileSize, limitReached, setApiEr
           responseType: 'blob',
         })
         .then((response) => {
-          download(response.data, filename, fileType);
+          downloadFile(response, filename, fileType)
         })
         .catch((error) => {
           setApiErrorDispatcher('s3Outage', true)
