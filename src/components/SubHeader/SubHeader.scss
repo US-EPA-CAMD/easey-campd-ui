@@ -1,16 +1,18 @@
-.logo-wrapper {
-  img {
-    max-width: 56px;
+.subheader-wrapper {
+  .logo-wrapper {
+    img {
+      max-width: 56px;
+    }
+    .program {
+      font-size: 0.6rem !important;
+    }
   }
- .program {
-   font-size: 0.6rem !important;
- }
-}
 
-.custom-wrapper {
-  @media only screen and (min-width: 1200px) {
-    .desktop-lg\:width-mobile-md {
-      width: 400px;
+  .custom-wrapper {
+    @media only screen and (min-width: 1200px) {
+      .desktop-lg\:width-mobile-md {
+        width: 400px;
+      }
     }
   }
 }

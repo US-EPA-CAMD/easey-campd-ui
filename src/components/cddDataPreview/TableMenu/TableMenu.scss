@@ -1,0 +1,31 @@
+@import '../../../additional-scss/variables';
+#columns {
+  overflow-y: scroll;
+  position: relative;
+  height: 210px;
+}
+#textField {
+  border-style: none none solid;
+  border-color: $epa-blue-base;
+}
+
+#icons:not(:focus) {
+  visibility: hidden;
+}
+
+#icons:focus{
+  visibility: visible !important;
+}
+
+#icon {
+  font-size: 18px !important;
+}
+
+.menuItem{
+  cursor: pointer !important;
+}
+
+#selectAll{
+  cursor: pointer;
+  text-decoration: underline;
+}

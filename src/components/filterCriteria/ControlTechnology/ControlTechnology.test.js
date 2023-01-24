@@ -3,6 +3,8 @@ import { render, fireEvent, cleanup } from '@testing-library/react';
 import { ControlTechnology } from './ControlTechnology';
 import { restructureControlTechnologies } from '../../../utils/selectors/filterCriteria';
 import initialState from '../../../store/reducers/initialState';
+jest.useFakeTimers();
+jest.spyOn(global, 'setTimeout');
 const controlTechnology = [
   {
     controlCode: 'APAC',
@@ -285,6 +287,7 @@ describe('Control technology', () => {
     expect(selectAllNox.checked).toEqual(true);
     const applyFilterButton = getByText('Apply Filter').closest('button');
     fireEvent.click(applyFilterButton);
+    jest.runAllTimers();
     expect(applyFilterLoading).toBe(true);
   });
 });

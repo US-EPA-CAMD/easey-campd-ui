@@ -7,6 +7,8 @@ import configureStore from '../../store/configureStore.dev';
 import SubHeader from './SubHeader';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
+import config from '../../config';
+import userEvent from '@testing-library/user-event';
 const store = configureStore();
 
 jest.mock('react-markdown', () => ({ children }) => <>{children}</>);
@@ -15,9 +17,9 @@ jest.mock('remark-gfm', () => () => {});
 jest.mock('remark-sub-super', () => () => {});
 
 const titleUrl =
-  'https://api.epa.gov/easey/dev/content-mgmt/campd/home/main-title.md';
+  `${config.services.content.uri}/campd/home/main-title.md`;
 const contentUrl =
-  'https://api.epa.gov/easey/dev/content-mgmt/campd/home/main-content.md';
+  `${config.services.content.uri}/campd/home/main-content.md`;
 const getTitle = rest.get(titleUrl, (req, res, ctx) => {
   return res(ctx.json('Title text..'));
 });
@@ -45,12 +47,12 @@ describe('SubHeader', () => {
         </MemoryRouter>
       </Provider>
     );
-    const { container, getByText } = query;
+    const { getByText, container } = query;
 
     const header = getByText('Clean Air Markets Program Data');
     const home = getByText('HOME');
     const data = getByText('DATA');
-    const analysis = getByText('MAPS & GRAPHS');
+    const analysis = getByText('VIZ GALLERY');
 
     expect(header).toBeTruthy();
     expect(home).toBeTruthy();
@@ -58,9 +60,8 @@ describe('SubHeader', () => {
     expect(analysis).toBeTruthy();
 
     fireEvent.click(data);
-    fireEvent.click(getByText('Custom Data Download'));
-    fireEvent.click(analysis);
-
+    userEvent.click(getByText(/help\/support/i));
     expect(container.querySelector('.usa-nav__submenu')).toBeInTheDocument();
+    fireEvent.click(analysis);
   });
 });

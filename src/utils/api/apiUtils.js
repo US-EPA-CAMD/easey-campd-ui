@@ -1,9 +1,12 @@
 import log from "loglevel";
+import config from "../../config";
+import { clientTokenAxios } from "./clientTokenAxios";
+
 export async function handleResponse(response) {
   if (response.status === 200 || response.status === 201) {
     return response;
   } else {
-    throw new Error('failed');
+    throw new Error("failed");
   }
 }
 
@@ -22,5 +25,23 @@ export function handleError(error) {
   } else {
     // anything else
     log.error({ error: error.message });
+  }
+}
+
+export async function logServerError(message, metadata = {}) {
+  const url = config.services.camd.uri + "/logging/error";
+
+  try {
+    await clientTokenAxios({
+      method: "POST",
+      url: url,
+      data: {
+        errorMessage: message,
+        metadata: metadata,
+      },
+    });
+  } catch (error) {
+    handleError(error);
+    throw new Error(error);
   }
 }

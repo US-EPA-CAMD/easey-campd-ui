@@ -23,6 +23,7 @@ initialState.filterCriteria = {
   unitType: [],
   fuelType: [],
   stateTerritory: [],
+  excludeParams: [],
   controlTechnology: [],
 };
 const store = configureStore(initialState);
@@ -30,7 +31,8 @@ const store = configureStore(initialState);
 describe('<DownloadFileType/>', () => {
   let query;
   beforeEach(() => {
-    query = render(
+    query = render
+    (
       <Provider store={store}>
         <DownloadFileType />
       </Provider>

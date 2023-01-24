@@ -2,10 +2,12 @@ export default {
   customDataDownload: {
     dataType: '',
     dataSubType: '',
+    aggregation: '',
     appliedFilters: [],
     dataPreview: null,
     totalCount: null,
     fieldMappings: [],
+    excludableColumns: [],
   },
   filterCriteria: {
     timePeriod: {
@@ -32,7 +34,24 @@ export default {
     transactionType: [],
     sourceCategory: [],
     filterMapping: [],
-    filterLogicEngaged: false,
+    excludeParams: [],
+    selectedColumns: [],
+    columnState: null,
+    sortArrowUp: null,
+    filterLogicEngaged: false
+  },
+  bulkDataFiles:{
+    dataTable: null
+  },
+  apiErrors: {
+    bulkDataFiles: false,
+    contentManager: false,
+    dataPreview: false,
+    download: false,
+    filterLogic: false,
+    MDMRetrieval: false,
+    s3Outage: false,
+    errorMessages: null,
   },
   apiCallsInProgress: 0,
   hideNav: false

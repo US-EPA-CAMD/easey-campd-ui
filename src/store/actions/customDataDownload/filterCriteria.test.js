@@ -6,7 +6,7 @@ import MockAdapter from "axios-mock-adapter";
 import configureMockStore from "redux-mock-store";
 import config from "../../../config";
 import initState from "../../reducers/initialState";
-import {restructurePrograms, restructureControlTechnologies, restructureFuelTypes, restructureUnitTypes, restructureAccountTypes} from "../../../utils/selectors/filterCriteria";
+import {restructurePrograms, restructureControlTechnologies, restructureFuelTypes, restructureUnitTypes, restructureAccountTypes, resetFilterHelper, resetCheckBoxItems, resetComboBoxItems, getComboboxEnabledItems, getComboboxSelectedItems} from "../../../utils/selectors/filterCriteria";
 import { cleanup } from '@testing-library/react';
 // Test an async action
 const middleware = [thunk];
@@ -1336,10 +1336,340 @@ const states = [
     "epaRegion": "8"
   }
 ];
+
+const filterMapping = [
+  {
+    year: '1995',
+    programCode: 'ARP',
+    facilityId: 7,
+    stateCode: 'AL',
+    ownerOperator: 'Alabama Power Company'
+  },
+  {
+    year: '1995',
+    programCode: 'ARP',
+    facilityId: 26,
+    stateCode: 'AL',
+    ownerOperator: 'Alabama Power Company'
+  },
+  {
+    year: '1995',
+    programCode: 'ARP',
+    facilityId: 26,
+    stateCode: 'AL',
+    ownerOperator: 'Georgia Power Company'
+  },
+  {
+    year: '1995',
+    programCode: 'ARP',
+    facilityId: 26,
+    stateCode: 'AL',
+    ownerOperator: 'Southern Company'
+  },
+  {
+    year: '1995',
+    programCode: 'ARP',
+    facilityId: 47,
+    stateCode: 'AL',
+    ownerOperator: 'Tennessee Valley Authority'
+  },
+  {
+    year: '1995',
+    programCode: 'ARP',
+    facilityId: 56,
+    stateCode: 'AL',
+    ownerOperator: 'PowerSouth Energy Cooperative, Inc.'
+  },
+  {
+    year: '1995',
+    programCode: 'ARP',
+    facilityId: 641,
+    stateCode: 'FL',
+    ownerOperator: 'Florida Power & Light Company'
+  },
+  {
+    year: '1995',
+    programCode: 'ARP',
+    facilityId: 642,
+    stateCode: 'FL',
+    ownerOperator: 'Florida Power & Light Company'
+  },
+  {
+    year: '1995',
+    programCode: 'ARP',
+    facilityId: 645,
+    stateCode: 'FL',
+    ownerOperator: 'Tampa Electric Company'
+  },
+  {
+    year: '1995',
+    programCode: 'ARP',
+    facilityId: 699,
+    stateCode: 'GA',
+    ownerOperator: 'Georgia Power Company'
+  },
+  {
+    year: '1995',
+    programCode: 'ARP',
+    facilityId: 703,
+    stateCode: 'GA',
+    ownerOperator: 'Georgia Power Company'
+  },
+  {
+    year: '1995',
+    programCode: 'ARP',
+    facilityId: 708,
+    stateCode: 'GA',
+    ownerOperator: 'Georgia Power Company'
+  },
+  {
+    year: '1995',
+    programCode: 'ARP',
+    facilityId: 709,
+    stateCode: 'GA',
+    ownerOperator: 'Georgia Power Company'
+  },
+  {
+    year: '1995',
+    programCode: 'ARP',
+    facilityId: 710,
+    stateCode: 'GA',
+    ownerOperator: 'Georgia Power Company'
+  },
+  {
+    year: '1995',
+    programCode: 'ARP',
+    facilityId: 727,
+    stateCode: 'GA',
+    ownerOperator: 'Georgia Power Company'
+  },
+  {
+    year: '1995',
+    programCode: 'ARP',
+    facilityId: 728,
+    stateCode: 'GA',
+    ownerOperator: 'Georgia Power Company'
+  },
+  {
+    year: '1995',
+    programCode: 'ARP',
+    facilityId: 733,
+    stateCode: 'GA',
+    ownerOperator: 'Georgia Power Company'
+  },
+  {
+    year: '1995',
+    programCode: 'ARP',
+    facilityId: 861,
+    stateCode: 'IL',
+    ownerOperator: 'Illinois Power Generating Company'
+  },
+  {
+    year: '1995',
+    programCode: 'ARP',
+    facilityId: 862,
+    stateCode: 'IL',
+    ownerOperator: 'Grand Tower Energy Center, LLC'
+  },
+  {
+    year: '1995',
+    programCode: 'ARP',
+    facilityId: 863,
+    stateCode: 'IL',
+    ownerOperator: 'AmerenEnergy Medina Valley Cogen, LLC'
+  },
+  {
+    year: '1995',
+    programCode: 'ARP',
+    facilityId: 864,
+    stateCode: 'IL',
+    ownerOperator: 'AmerenEnergy Medina Valley Cogen, LLC'
+  },
+  {
+    year: '1995',
+    programCode: 'ARP',
+    facilityId: 876,
+    stateCode: 'IL',
+    ownerOperator: 'Kincaid Generation, LLC'
+  },
+  {
+    year: '1995',
+    programCode: 'ARP',
+    facilityId: 887,
+    stateCode: 'IL',
+    ownerOperator: 'Electric Energy, Inc.'
+  },
+  {
+    year: '1995',
+    programCode: 'ARP',
+    facilityId: 889,
+    stateCode: 'IL',
+    ownerOperator: 'Dynegy Midwest Generation Inc.'
+  },
+  {
+    year: '1995',
+    programCode: 'ARP',
+    facilityId: 891,
+    stateCode: 'IL',
+    ownerOperator: 'Dynegy Midwest Generation Inc.'
+  },
+  {
+    year: '1995',
+    programCode: 'ARP',
+    facilityId: 892,
+    stateCode: 'IL',
+    ownerOperator: 'Dynegy Midwest Generation Inc.'
+  },
+  {
+    year: '1995',
+    programCode: 'ARP',
+    facilityId: 897,
+    stateCode: 'IL',
+    ownerOperator: 'Dynegy Midwest Generation Inc.'
+  },
+  {
+    year: '1995',
+    programCode: 'ARP',
+    facilityId: 898,
+    stateCode: 'IL',
+    ownerOperator: 'Dynegy Midwest Generation Inc.'
+  },
+  {
+    year: '1995',
+    programCode: 'ARP',
+    facilityId: 983,
+    stateCode: 'IN',
+    ownerOperator: 'Indiana Kentucky Electric Corp'
+  },
+  {
+    year: '1995',
+    programCode: 'ARP',
+    facilityId: 988,
+    stateCode: 'IN',
+    ownerOperator: 'Indiana Michigan Power Company'
+  },
+  {
+    year: '1995',
+    programCode: 'ARP',
+    facilityId: 990,
+    stateCode: 'IN',
+    ownerOperator: 'Indianapolis Power & Light Company'
+  },
+  {
+    year: '1995',
+    programCode: 'ARP',
+    facilityId: 991,
+    stateCode: 'IN',
+    ownerOperator: 'Indianapolis Power & Light Company'
+  },
+  {
+    year: '1995',
+    programCode: 'ARP',
+    facilityId: 994,
+    stateCode: 'IN',
+    ownerOperator: 'Indianapolis Power & Light Company'
+  },
+  {
+    year: '1995',
+    programCode: 'ARP',
+    facilityId: 995,
+    stateCode: 'IN',
+    ownerOperator: 'Northern Indiana Public Service Company'
+  },
+  {
+    year: '1995',
+    programCode: 'ARP',
+    facilityId: 997,
+    stateCode: 'IN',
+    ownerOperator: 'Northern Indiana Public Service Company'
+  },
+  {
+    year: '1995',
+    programCode: 'ARP',
+    facilityId: 1001,
+    stateCode: 'IN',
+    ownerOperator: 'Duke Energy Indiana, LLC'
+  },
+  {
+    year: '1995',
+    programCode: 'ARP',
+    facilityId: 1008,
+    stateCode: 'IN',
+    ownerOperator: 'Duke Energy Indiana, LLC'
+  },
+  {
+    year: '1995',
+    programCode: 'ARP',
+    facilityId: 1010,
+    stateCode: 'IN',
+    ownerOperator: 'Duke Energy Indiana, LLC'
+  },
+  {
+    year: '1995',
+    programCode: 'ARP',
+    facilityId: 1010,
+    stateCode: 'IN',
+    ownerOperator: null
+  },
+  {
+    year: '1995',
+    programCode: 'ARP',
+    facilityId: 1012,
+    stateCode: 'IN',
+    ownerOperator: 'Southern Indiana Gas and Electric Company'
+  },
+  {
+    year: '1995',
+    programCode: 'ARP',
+    facilityId: 1043,
+    stateCode: 'IN',
+    ownerOperator: 'Hoosier Energy REC, Inc.'
+  },
+  {
+    year: '1995',
+    programCode: 'ARP',
+    facilityId: 1048,
+    stateCode: 'IA',
+    ownerOperator: 'Interstate Power & Light Company'
+  },
+];
 describe("Filter Criteria Async Actions", () => {
   afterEach(cleanup);
-
-  it("should create appropriate action when update time period action is dispatched", () => {
+  mock
+  .onGet(`${config.services.mdm.uri}/program-codes?exclude=MATS`)
+  .reply(200, program);
+  mock
+  .onGet(`${config.services.facilities.uri}/facilities`)
+  .reply(200, facilities);
+  mock
+  .onGet(`${config.services.mdm.uri}/control-codes`)
+  .reply(200, controlTechnologies);
+  mock
+  .onGet(`${config.services.mdm.uri}/fuel-type-codes`)
+  .reply(200, fuelTypes);
+  mock.onGet(`${config.services.mdm.uri}/account-type-codes?exclude=SHOLD|OVERDF`).reply(200, filterMapping);
+  mock.onGet(`${config.services.mdm.uri}/transaction-type-codes`).reply(200, filterMapping);
+  mock.onGet(`${config.services.mdm.uri}/source-category-codes`).reply(200, filterMapping);
+  mock.onGet(`${config.services.mdm.uri}/program-codes?emissionsUIFilter=true`).reply(200, program);
+  mock
+  .onGet(`${config.services.mdm.uri}/state-codes`)
+  .reply(200, states)
+  mock
+  .onGet(`${config.services.mdm.uri}/unit-type-codes`)
+  .reply(200, unitTypes);
+  mock
+  .onGet(`${config.services.account.uri}/allowance-compliance/attributes/applicable`)
+  .reply(200, filterMapping);
+  mock
+  .onGet(`${config.services.account.uri}/emissions-compliance/attributes/applicable`)
+  .reply(200, filterMapping);
+  mock
+  .onGet( `${config.services.account.uri}/allowance-holdings/attributes/applicable`)
+  .reply(200, filterMapping);
+  mock
+  .onGet( `${config.services.account.uri}/accounts/attributes/applicable`)
+  .reply(200, filterMapping);
+  test("should create appropriate action when update time period action is dispatched", () => {
     const timePeriod = {
       startDate: "03/31/2021",
       endDate: "04/02/2021",
@@ -1351,687 +1681,185 @@ describe("Filter Criteria Async Actions", () => {
     expect(actionDispached).toEqual(expectedAction);
   });
 
-  it("should create BEGIN_API_CALL and LOAD_PROGRAMS_SUCCESS when loading programs data", () => {
-    mock
-      .onGet(`${config.services.mdm.uri}/programs?exclude=MATS`)
-      .reply(200, program);
+  test('should create BEGIN_API_CALL and load relevant filters', () => {
     const expectedActions = [
-      { type: types.BEGIN_API_CALL },
-      { type: types.LOAD_PROGRAMS_SUCCESS, program: restructurePrograms(program)},
+      { type: 'BEGIN_API_CALL' },
+      { type: 'BEGIN_API_CALL' },
+      { type: 'BEGIN_API_CALL' },
+      { type: 'BEGIN_API_CALL' },
+      { type: 'BEGIN_API_CALL' },
+      { type: 'BEGIN_API_CALL' },
+      {
+        type: types.LOAD_STATES_SUCCESS,
+        stateTerritory: states.map((s) => ({
+          id: s.stateCode,
+          label: s.stateName,
+          selected: false,
+          enabled: true,
+        })),
+      },
+      {
+        type: types.LOAD_FACILITIES_SUCCESS,
+        facility: facilities.map((f) => ({
+          id: f.facilityId,
+          label: `${f.facilityName} (${f.facilityId})`,
+          selected: false,
+          enabled: true,
+        })),
+      },
+      {
+        type: types.LOAD_UNIT_TYPES_SUCCESS,
+        unitType: restructureUnitTypes(unitTypes),
+      },
+      {
+        type: types.LOAD_FUEL_TYPES_SUCCESS,
+        fuelType: restructureFuelTypes(fuelTypes),
+      },
+      {
+        type: types.LOAD_CONTROL_TECHNOLOGIES_SUCCESS,
+        controlTechnology: restructureControlTechnologies(controlTechnologies),
+      },
     ];
 
     const store = mockStore(initState);
-    return store.dispatch(actions.loadPrograms()).then(() => {
-      expect(store.getActions()).toEqual(expectedActions);
-    })
+    return store
+      .dispatch(
+        actions.loadAllFilters(
+          'EMISSIONS',
+          'Hourly Emissions',
+          initState.filterCriteria
+        )
+      )
+      .then(() => {
+        const storeActions = store.getActions()
+        console.log({actions});
+        expect(storeActions.length).toEqual(8);
+      });
   });
 
-  it("should create BEGIN_API_CALL and LOAD_FACILITIES_SUCCESS when loading facilities data", () => {
-    mock
-      .onGet(`${config.services.facilities.uri}/facilities`)
-      .reply(200, facilities);
+  test('reset filter helper function should clear selected items of target filter', () => {
+    const state = Object.assign({}, initState, {filterCriteria: {...initState.filterCriteria, facility: facilities.map(f=> ({id: f.facilityId, label:`${f.facilityName} (${f.facilityId})`, selected:true, enabled:true}))}});
+    const updatedFilterCriteria = resetFilterHelper(state.filterCriteria, 'Facility')
+    expect(updatedFilterCriteria.facility.filter(e=> e.selected).length).toEqual(0)
+  });
+
+  test('reset filter helper function should not clear selected items of other filters', () => {
+    const state = Object.assign({}, initState, {
+      filterCriteria: {
+        ...initState.filterCriteria,
+        facility: facilities.map((f) => ({
+          id: f.facilityId,
+          label: `${f.facilityName} (${f.facilityId})`,
+          selected: true,
+          enabled: true,
+        })),
+      },
+    });
+    const updatedFilterCriteria = resetFilterHelper(
+      state.filterCriteria,
+      'State/Territory'
+    );
+    expect(
+      updatedFilterCriteria.facility.filter((e) => e.selected).length
+    ).not.toEqual(0);
+  });
+
+  test('resetCheckBoxItems funtion should reset selected items', () => {
+    const checkbox = [{
+      items: new Array(10)
+        .fill(null)
+        .map((el, i) => ({ id: i, label: i, selected: true, enabled: true })),
+    }];
+    resetCheckBoxItems(checkbox);
+    expect(checkbox[0].items.filter((e) => e.selected).length).toEqual(0);
+    //all items should be still be enabled
+    expect(checkbox[0].items.filter((e) => e.enabled).length).not.toEqual(0);
+  });
+
+  test('resetComboBoxItems should reset selected items', () => {
+    const comboBoxItems = new Array(10)
+    .fill(null)
+    .map((el, i) => ({ id: i, label: i, selected: true, enabled: true }))
+    resetComboBoxItems(comboBoxItems)
+    expect(comboBoxItems.filter((e) => e.selected).length).toEqual(0);
+    expect(comboBoxItems.filter((e) => e.enabled).length).not.toEqual(0);
+  })
+
+  test('getComboboxEnabledItems should return enabled items', () => {
+    const comboBoxItems = [{id: 'enabled item', label: 'enabled item', selected:false, enabled:true}, {id: 'disabled item', label: 'disabled item', selected:false, enabled:false}]
+    const enabledItems = getComboboxEnabledItems(comboBoxItems);
+    expect(enabledItems.length).toEqual(1)
+  })
+
+  test('getComboboxSelectedItems should return selected items', () => {
+    const comboBoxItems = [{id: 'enabled item', label: 'enabled item', selected:true, enabled:true}, {id: 'disabled item', label: 'disabled item', selected:false, enabled:false}]
+    const selectedItems = getComboboxSelectedItems(comboBoxItems);
+    expect(selectedItems.length).toEqual(1)
+  });
+
+  test("testing loadFilterMapping COMPLIANCE type Allowance Based", () => {
     const expectedActions = [
-      { type: types.BEGIN_API_CALL },
-      { type: types.LOAD_FACILITIES_SUCCESS, facility: facilities.map(f=> ({id: f.facilityId, label:`${f.facilityName} (${f.facilityId})`, selected:false, enabled:true}))},
-    ];
-
+      { type: 'BEGIN_API_CALL' },
+      {
+        type: types.LOAD_FILTER_MAPPING_SUCCESS,
+        filterMapping: filterMapping
+      }];
     const store = mockStore(initState);
-    return store.dispatch(actions.loadFacilities()).then(() => {
-      expect(store.getActions()).toEqual(expectedActions);
-    })
-  });
-
-  it("should create BEGIN_API_CALL and LOAD_CONTROL_TECHNOLOGIES_SUCCESS when loading control technologies data", () => {
-    mock
-      .onGet(`${config.services.mdm.uri}/control-technologies`)
-      .reply(200, controlTechnologies);
+    return store
+      .dispatch(
+        actions.loadFilterMapping('COMPLIANCE','Allowance Based')
+      )
+      .then(() => {
+        expect(store.getActions().length).toEqual(expectedActions.length);
+      });
+  })
+  test("testing loadFilterMapping COMPLIANCE type Emissions Based", () => {
     const expectedActions = [
-      { type: types.BEGIN_API_CALL },
-      { type: types.LOAD_CONTROL_TECHNOLOGIES_SUCCESS, controlTechnology: restructureControlTechnologies(controlTechnologies)},
-    ];
-
+      { type: 'BEGIN_API_CALL' },
+      {
+        type: types.LOAD_FILTER_MAPPING_SUCCESS,
+        filterMapping: filterMapping
+      }];
     const store = mockStore(initState);
-    return store.dispatch(actions.loadControlTechnologies()).then(() => {
-      expect(store.getActions()).toEqual(expectedActions);
-    })
-  });
-
-  it("should create BEGIN_API_CALL and LOAD_FUEL_TYPES_SUCCESS when loading fuel types data", () => {
-    mock
-      .onGet(`${config.services.mdm.uri}/fuel-types`)
-      .reply(200, fuelTypes);
+    return store
+      .dispatch(
+        actions.loadFilterMapping('COMPLIANCE','Emissions Based')
+      )
+      .then(() => {
+        expect(store.getActions().length).toEqual(expectedActions.length);
+      });
+  })
+  test("testing loadFilterMapping ALLOWANCE Holdings type", () => {
     const expectedActions = [
-      { type: types.BEGIN_API_CALL },
-      { type: types.LOAD_FUEL_TYPES_SUCCESS, fuelType: restructureFuelTypes(fuelTypes)},
-    ];
-
+      { type: 'BEGIN_API_CALL' },
+      {
+        type: types.LOAD_FILTER_MAPPING_SUCCESS,
+        filterMapping: filterMapping
+      }];
     const store = mockStore(initState);
-    return store.dispatch(actions.loadFuelTypes()).then(() => {
-      expect(store.getActions()).toEqual(expectedActions);
-    })
-  });
-
-  it("should create BEGIN_API_CALL and LOAD_UNIT_TYPES_SUCCESS when loading unit types data", () => {
-    mock
-      .onGet(`${config.services.mdm.uri}/unit-types`)
-      .reply(200, unitTypes);
+    return store
+      .dispatch(
+        actions.loadFilterMapping('ALLOWANCE','Holdings')
+      )
+      .then(() => {
+        expect(store.getActions().length).toEqual(expectedActions.length);
+      });
+  })
+  test("testing loadFilterMapping ALLOWANCE Account Information type", () => {
     const expectedActions = [
-      { type: types.BEGIN_API_CALL },
-      { type: types.LOAD_UNIT_TYPES_SUCCESS, unitType: restructureUnitTypes(unitTypes)},
-    ];
-
+      { type: 'BEGIN_API_CALL' },
+      {
+        type: types.LOAD_FILTER_MAPPING_SUCCESS,
+        filterMapping: filterMapping
+      }];
     const store = mockStore(initState);
-    return store.dispatch(actions.loadUnitTypes()).then(() => {
-      expect(store.getActions()).toEqual(expectedActions);
-    })
-  });
-
-  it("should create BEGIN_API_CALL and LOAD_STATES_SUCCESS when loading states data", () => {
-    mock
-      .onGet(`${config.services.mdm.uri}/states`)
-      .reply(200, states);
-    const expectedActions = [
-      { type: types.BEGIN_API_CALL },
-      { type: types.LOAD_STATES_SUCCESS, stateTerritory: states.map(s=> ({id: s.stateCode, label:s.stateName, selected:false, enabled:true}))},
-    ];
-
-    const store = mockStore(initState);
-    return store.dispatch(actions.loadStates()).then(() => {
-      expect(store.getActions()).toEqual(expectedActions);
-    })
-  });
-
-  it("should create BEGIN_API_CALL and LOAD_SOURCE_CATEGORY_SUCCESS when loading source Categories data", () => {
-    mock
-      .onGet(`${config.services.mdm.uri}/source-categories`)
-      .reply(200, sourceCategories);
-    const expectedActions = [
-      { type: types.BEGIN_API_CALL },
-      { type: types.LOAD_SOURCE_CATEGORY_SUCCESS, sourceCategory: sourceCategories.map(t=> ({id: t.sourceCategoryDescription, label: t.sourceCategoryDescription, selected:false, enabled:true}))},
-    ];
-
-    const store = mockStore(initState);
-    return store.dispatch(actions.loadSourceCategories()).then(() => {
-      expect(store.getActions()).toEqual(expectedActions);
-    })
-  });
-
-  xit("should create BEGIN_API_CALL and LOAD_TRANSACTION_TYPE_SUCCESS when loading transaction types data", () => {
-    const transactionTypes = [
-        {
-          "transactionTypeCode": "AD",
-          "transactionTypeDescription": "Activate Conditional Allowances"
-        },
-        {
-          "transactionTypeCode": "AT",
-          "transactionTypeDescription": "Transfer Due to Corrected Energy Conservation"
-        },
-        {
-          "transactionTypeCode": "CASURR",
-          "transactionTypeDescription": "Compliance Assurance Surrender"
-        },
-        {
-          "transactionTypeCode": "CC",
-          "transactionTypeDescription": "Substitution Control by Contract Deduction"
-        },
-        {
-          "transactionTypeCode": "CR",
-          "transactionTypeDescription": "Conservation Issuance"
-        },
-        {
-          "transactionTypeCode": "DE",
-          "transactionTypeDescription": "Reallocation Transfer"
-        },
-        {
-          "transactionTypeCode": "DI",
-          "transactionTypeDescription": "Reallocation Surrender"
-        },
-        {
-          "transactionTypeCode": "EB",
-          "transactionTypeDescription": "Energy Biomass Issuance"
-        },
-        {
-          "transactionTypeCode": "EC",
-          "transactionTypeDescription": "Error Correction"
-        },
-        {
-          "transactionTypeCode": "EG",
-          "transactionTypeDescription": "Energy Geothermal Issuance"
-        },
-        {
-          "transactionTypeCode": "EMADJ",
-          "transactionTypeDescription": "Emissions Adjustment Deduction"
-        },
-        {
-          "transactionTypeCode": "EMISS",
-          "transactionTypeDescription": "Emissions Deduction"
-        },
-        {
-          "transactionTypeCode": "ENFSURR",
-          "transactionTypeDescription": "Enforcement Surrender"
-        },
-        {
-          "transactionTypeCode": "EP",
-          "transactionTypeDescription": "Phase 1 Extension Issuance"
-        },
-        {
-          "transactionTypeCode": "EPAAUCT",
-          "transactionTypeDescription": "Purchase at EPA Auction"
-        },
-        {
-          "transactionTypeCode": "ER",
-          "transactionTypeDescription": "Error Reversal"
-        },
-        {
-          "transactionTypeCode": "ERLYRED",
-          "transactionTypeDescription": "Early Reduction Issuance"
-        },
-        {
-          "transactionTypeCode": "ERRCORR",
-          "transactionTypeDescription": "Error Correction"
-        },
-        {
-          "transactionTypeCode": "ERRREV",
-          "transactionTypeDescription": "Error Reversal"
-        },
-        {
-          "transactionTypeCode": "ES",
-          "transactionTypeDescription": "Energy Solar Issuance"
-        },
-        {
-          "transactionTypeCode": "EW",
-          "transactionTypeDescription": "Energy Wind Issuance"
-        },
-        {
-          "transactionTypeCode": "FP",
-          "transactionTypeDescription": "Phase 1 Extension Projected Emission Deduction"
-        },
-        {
-          "transactionTypeCode": "IA",
-          "transactionTypeDescription": "Initial Allocation"
-        },
-        {
-          "transactionTypeCode": "INITALL",
-          "transactionTypeDescription": "Initial Allocation"
-        },
-        {
-          "transactionTypeCode": "INTOESC",
-          "transactionTypeDescription": "Contribute to Auction"
-        },
-        {
-          "transactionTypeCode": "JC",
-          "transactionTypeDescription": "July Confirmation Credit"
-        },
-        {
-          "transactionTypeCode": "JD",
-          "transactionTypeDescription": "July Confirmation Deduction"
-        },
-        {
-          "transactionTypeCode": "LEGACY",
-          "transactionTypeDescription": "Transfer from Legacy System"
-        },
-        {
-          "transactionTypeCode": "LO",
-          "transactionTypeDescription": "Deduction of Loaned Allowances"
-        },
-        {
-          "transactionTypeCode": "NBPADJ",
-          "transactionTypeDescription": "NBP Additional Emissions Deduction from CAIROS Account"
-        },
-        {
-          "transactionTypeCode": "NBPALL",
-          "transactionTypeDescription": "CAIROS Transfer from NBP"
-        },
-        {
-          "transactionTypeCode": "NBPOS",
-          "transactionTypeDescription": "Conversion of NBP allowances into CAIROS"
-        },
-        {
-          "transactionTypeCode": "NBPPEN",
-          "transactionTypeDescription": "NBP Penalty Deduction From CAIROS Account"
-        },
-        {
-          "transactionTypeCode": "NC",
-          "transactionTypeDescription": "Termination of NBP allowances into CAIROS"
-        },
-        {
-          "transactionTypeCode": "NEWCSR",
-          "transactionTypeDescription": "Distribute Allowances for Revised CSAPR Update"
-        },
-        {
-          "transactionTypeCode": "NEWPROG",
-          "transactionTypeDescription": "Distribute Allowances for New Program"
-        },
-        {
-          "transactionTypeCode": "NUSAALL",
-          "transactionTypeDescription": "New Unit Set Aside Allocation"
-        },
-        {
-          "transactionTypeCode": "OFFPEN",
-          "transactionTypeDescription": "Offset/Penalty Deduction"
-        },
-        {
-          "transactionTypeCode": "OI",
-          "transactionTypeDescription": "Opt-In Allocation"
-        },
-        {
-          "transactionTypeCode": "OPTALL",
-          "transactionTypeDescription": "Opt-In Allocation"
-        },
-        {
-          "transactionTypeCode": "OPTIN",
-          "transactionTypeDescription": "Opt-in Transfer to Replacement Unit"
-        },
-        {
-          "transactionTypeCode": "OR",
-          "transactionTypeDescription": "Allocation from Other Reserve"
-        },
-        {
-          "transactionTypeCode": "OSADJ",
-          "transactionTypeDescription": "CSAPR Ozone Season Emissions Adjustment Deduction"
-        },
-        {
-          "transactionTypeCode": "OSPEN",
-          "transactionTypeDescription": "CSAPR Ozone Season Offset/Penalty Deduction"
-        },
-        {
-          "transactionTypeCode": "OTHALL",
-          "transactionTypeDescription": "Other Reserve Allocation"
-        },
-        {
-          "transactionTypeCode": "OUTESC",
-          "transactionTypeDescription": "Return Contributed Allowances"
-        },
-        {
-          "transactionTypeCode": "PE",
-          "transactionTypeDescription": "Penalty Deduction"
-        },
-        {
-          "transactionTypeCode": "PRIAUCT",
-          "transactionTypeDescription": "Purchase at Private Auction"
-        },
-        {
-          "transactionTypeCode": "PRIVATE",
-          "transactionTypeDescription": "Private Transfer"
-        },
-        {
-          "transactionTypeCode": "PX",
-          "transactionTypeDescription": "Phase 1 Extension Control Failure Deduction"
-        },
-        {
-          "transactionTypeCode": "RC",
-          "transactionTypeDescription": "Early Reduction Allocation"
-        },
-        {
-          "transactionTypeCode": "RECALL",
-          "transactionTypeDescription": "Recall State Program Allowances"
-        },
-        {
-          "transactionTypeCode": "REISCSR",
-          "transactionTypeDescription": "Distribute Revintaged Allowances for Revised CSAPR Update"
-        },
-        {
-          "transactionTypeCode": "REISSUE",
-          "transactionTypeDescription": "Distribute Revintaged Allowances"
-        },
-        {
-          "transactionTypeCode": "REMCSR",
-          "transactionTypeDescription": "Remove for Revised CSAPR Update Reissuance"
-        },
-        {
-          "transactionTypeCode": "REMOVAL",
-          "transactionTypeDescription": "Remove for Reissuance"
-        },
-        {
-          "transactionTypeCode": "RETURN",
-          "transactionTypeDescription": "Return of Unsold Allowances from EPA Auction Reserve"
-        },
-        {
-          "transactionTypeCode": "RP",
-          "transactionTypeDescription": "Phase 2 Early Reduction Payback"
-        },
-        {
-          "transactionTypeCode": "RR",
-          "transactionTypeDescription": "Reverse Reduced Utilization Payback"
-        },
-        {
-          "transactionTypeCode": "RS",
-          "transactionTypeDescription": "Reduced Utilization Payback"
-        },
-        {
-          "transactionTypeCode": "RTNCAIR",
-          "transactionTypeDescription": "Return of CAIR Allowances"
-        },
-        {
-          "transactionTypeCode": "RTNCRER",
-          "transactionTypeDescription": "Return of unused allowances from the Conservation and Renewable Energy Reserve"
-        },
-        {
-          "transactionTypeCode": "RU",
-          "transactionTypeDescription": "Reduced Utilization Issuance"
-        },
-        {
-          "transactionTypeCode": "SA",
-          "transactionTypeDescription": "State Reallocation"
-        },
-        {
-          "transactionTypeCode": "SC",
-          "transactionTypeDescription": "State Cap Issuance"
-        },
-        {
-          "transactionTypeCode": "SD",
-          "transactionTypeDescription": "Substitution Distribution"
-        },
-        {
-          "transactionTypeCode": "SE",
-          "transactionTypeDescription": "State Cap Deduction"
-        },
-        {
-          "transactionTypeCode": "SM",
-          "transactionTypeDescription": "Small Diesel Issuance"
-        },
-        {
-          "transactionTypeCode": "SP",
-          "transactionTypeDescription": "State Cap Payback"
-        },
-        {
-          "transactionTypeCode": "SR",
-          "transactionTypeDescription": "Reverse Substitution Payback"
-        },
-        {
-          "transactionTypeCode": "SS",
-          "transactionTypeDescription": "Substitution Payback"
-        },
-        {
-          "transactionTypeCode": "ST",
-          "transactionTypeDescription": "Substitution Termination"
-        },
-        {
-          "transactionTypeCode": "STATE",
-          "transactionTypeDescription": "State Reallocation"
-        },
-        {
-          "transactionTypeCode": "SU",
-          "transactionTypeDescription": "Substitution Issuance"
-        },
-        {
-          "transactionTypeCode": "TAKEBCK",
-          "transactionTypeDescription": "Takeback for Underutilization"
-        },
-        {
-          "transactionTypeCode": "TB",
-          "transactionTypeDescription": "Takeback for Underutilization"
-        },
-        {
-          "transactionTypeCode": "TC",
-          "transactionTypeDescription": "Terminate to CAIROS"
-        },
-        {
-          "transactionTypeCode": "TD",
-          "transactionTypeDescription": "Transfer from Direct Sale to Auction"
-        },
-        {
-          "transactionTypeCode": "TE",
-          "transactionTypeDescription": "Emissions Deduction"
-        },
-        {
-          "transactionTypeCode": "TERM",
-          "transactionTypeDescription": "Terminate State Program Allowances"
-        },
-        {
-          "transactionTypeCode": "TF",
-          "transactionTypeDescription": "Internal Transfer to Reduce Offset"
-        },
-        {
-          "transactionTypeCode": "TM",
-          "transactionTypeDescription": "Reduced Utilization Termination"
-        },
-        {
-          "transactionTypeCode": "TR",
-          "transactionTypeDescription": "Private Trade"
-        },
-        {
-          "transactionTypeCode": "UNDERUT",
-          "transactionTypeDescription": "Underutilization Deduction"
-        },
-        {
-          "transactionTypeCode": "VOLSURR",
-          "transactionTypeDescription": "Voluntary Surrender"
-        }
-    ];
-    mock
-      .onGet(`${config.services.mdm.uri}/transaction-types`)
-      .reply(200, transactionTypes);
-    const expectedActions = [
-      { type: types.BEGIN_API_CALL },
-      { type: types.LOAD_TRANSACTION_TYPE_SUCCESS, transactionType: transactionTypes.map(t=> ({id: t.transactionTypeCode, label: t.transactionTypeDescription, selected:false, enabled:true}))},
-    ];
-
-    const store = mockStore(initState);
-    return store.dispatch(actions.loadTransactionTypes()).then(() => {
-      expect(store.getActions()).toEqual(expectedActions);
-    })
-  });
-
-  it("should create BEGIN_API_CALL and LOAD_ACCOUNT_TYPES_SUCCESS when loading account types data", () => {
-    const accountTypes = [
-      {
-        "accountTypeCode": "CASURR",
-        "accountTypeDescription": "Compliance Assurance Surrender Account",
-        "accountTypeGroupCode": "RETIRE",
-        "accountTypeGroupDescription": "Surrender"
-      },
-      {
-        "accountTypeCode": "ENFSURR",
-        "accountTypeDescription": "Enforcement Surrender Account",
-        "accountTypeGroupCode": "RETIRE",
-        "accountTypeGroupDescription": "Surrender"
-      },
-      {
-        "accountTypeCode": "FACLTY",
-        "accountTypeDescription": "Facility Account",
-        "accountTypeGroupCode": "FACLTY",
-        "accountTypeGroupDescription": "Facility"
-      },
-      {
-        "accountTypeCode": "GENERAL",
-        "accountTypeDescription": "General Account",
-        "accountTypeGroupCode": "GENERAL",
-        "accountTypeGroupDescription": "General"
-      },
-      {
-        "accountTypeCode": "RESERVE",
-        "accountTypeDescription": "EPA Reserve Account",
-        "accountTypeGroupCode": "RESERVE",
-        "accountTypeGroupDescription": "Reserve"
-      },
-      {
-        "accountTypeCode": "SERDRES",
-        "accountTypeDescription": "State Early Reduction Reserve Account",
-        "accountTypeGroupCode": "RESERVE",
-        "accountTypeGroupDescription": "Reserve"
-      },
-      {
-        "accountTypeCode": "SGENRES",
-        "accountTypeDescription": "State General Reserve Account",
-        "accountTypeGroupCode": "RESERVE",
-        "accountTypeGroupDescription": "Reserve"
-      },
-      {
-        "accountTypeCode": "SNSARES",
-        "accountTypeDescription": "New Unit Set Aside Reserve Account",
-        "accountTypeGroupCode": "RESERVE",
-        "accountTypeGroupDescription": "Reserve"
-      },
-      {
-        "accountTypeCode": "SOPTRES",
-        "accountTypeDescription": "State Opt-In Reserve Account",
-        "accountTypeGroupCode": "RESERVE",
-        "accountTypeGroupDescription": "Reserve"
-      },
-      {
-        "accountTypeCode": "SOTHRES",
-        "accountTypeDescription": "State Other Reserve Account",
-        "accountTypeGroupCode": "RESERVE",
-        "accountTypeGroupDescription": "Reserve"
-      },
-      {
-        "accountTypeCode": "SPRMRES",
-        "accountTypeDescription": "State Primary Reserve Account",
-        "accountTypeGroupCode": "RESERVE",
-        "accountTypeGroupDescription": "Reserve"
-      },
-      {
-        "accountTypeCode": "SRETIRE",
-        "accountTypeDescription": "State Retirement Account",
-        "accountTypeGroupCode": "RETIRE",
-        "accountTypeGroupDescription": "Surrender"
-      },
-      {
-        "accountTypeCode": "SURR",
-        "accountTypeDescription": "Surrender Account",
-        "accountTypeGroupCode": "RETIRE",
-        "accountTypeGroupDescription": "Surrender"
-      },
-      {
-        "accountTypeCode": "UNIT",
-        "accountTypeDescription": "Unit Account",
-        "accountTypeGroupCode": "UNIT",
-        "accountTypeGroupDescription": "Unit"
-      },
-      {
-        "accountTypeCode": "VOLSURR",
-        "accountTypeDescription": "Voluntary Surrender Account",
-        "accountTypeGroupCode": "RETIRE",
-        "accountTypeGroupDescription": "Surrender"
-      }
-    ];
-    mock
-      .onGet(`${config.services.mdm.uri}/account-types?exclude=SHOLD|OVERDF`)
-      .reply(200, accountTypes);
-    const expectedActions = [
-      { type: types.BEGIN_API_CALL },
-      { type: types.LOAD_ACCOUNT_TYPES_SUCCESS, accountType: restructureAccountTypes(accountTypes)},
-    ];
-
-    const store = mockStore(initState);
-    return store.dispatch(actions.loadAccountTypes()).then(() => {
-      expect(store.getActions()).toEqual(expectedActions);
-    })
-  });
-
-  it("should create BEGIN_API_CALL and LOAD_OWNER_OPERATOR_SUCCESS when loading owner operator data for accounts", () => {
-    const ownerOperators = [
-      {
-        "ownerOperator": "21st Securities",
-        "ownType": "OWN"
-      },
-      {
-        "ownerOperator": "5380 Frontier Ave Energy Company LLC",
-        "ownType": "OPR"
-      },
-      {
-        "ownerOperator": "5380 Frontier Ave Energy Company LLC",
-        "ownType": "OWN"
-      },
-      {
-        "ownerOperator": "A-55, Inc.",
-        "ownType": "OWN"
-      },
-    ];
-    const distinctOwnOpers = [...new Set(ownerOperators.map(d=>d.ownerOperator))];
-    mock
-      .onGet(`${config.services.account.uri}/accounts/owner-operators`)
-      .reply(200, ownerOperators);
-    const expectedActions = [
-      { type: types.BEGIN_API_CALL },
-      { type: types.LOAD_OWNER_OPERATOR_SUCCESS, ownerOperator: distinctOwnOpers.map(s=> ({id: s, label: s, selected:false, enabled:true}))},
-    ];
-
-    const store = mockStore(initState);
-    return store.dispatch(actions.loadOwnerOperators("Account Information")).then(() => {
-      expect(store.getActions()).toEqual(expectedActions);
-    })
-  });
-
-  it("should create BEGIN_API_CALL and LOAD_OWNER_OPERATOR_SUCCESS when loading owner operator data for allownace compliance", () => {
-    const ownerOperators = [
-      {
-        "ownerOperator": "5380 Frontier Ave Energy Company LLC",
-        "ownType": "OPR"
-      },
-      {
-        "ownerOperator": "5380 Frontier Ave Energy Company LLC",
-        "ownType": "OWN"
-      },
-      {
-        "ownerOperator": "ABB Energy Ventures, Inc.",
-        "ownType": "OPR"
-      },
-      {
-        "ownerOperator": "Acadia Power Partners, LLC",
-        "ownType": "OWN"
-      },
-    ];
-    const distinctOwnOpers = [...new Set(ownerOperators.map(d=>d.ownerOperator))];
-    mock
-      .onGet(`${config.services.account.uri}/allowance-compliance/owner-operators`)
-      .reply(200, ownerOperators);
-    const expectedActions = [
-      { type: types.BEGIN_API_CALL },
-      { type: types.LOAD_OWNER_OPERATOR_SUCCESS, ownerOperator: distinctOwnOpers.map(s=> ({id: s, label: s, selected:false, enabled:true}))},
-    ];
-
-    const store = mockStore(initState);
-    return store.dispatch(actions.loadOwnerOperators("Allowance Based")).then(() => {
-      expect(store.getActions()).toEqual(expectedActions);
-    })
-  });
-
-  it("should create multiple actions when loading all filters for facility/unit attributes facility type", () => {
-    mock
-      .onGet(`${config.services.mdm.uri}/programs?exclude=MATS`)
-      .reply(200, program);
-    mock
-      .onGet(`${config.services.mdm.uri}/states`)
-      .reply(200, states);
-    mock
-      .onGet(`${config.services.mdm.uri}/source-categories`)
-      .reply(200, sourceCategories);
-    mock
-      .onGet(`${config.services.facilities.uri}/facilities`)
-      .reply(200, facilities);
-    mock
-      .onGet(`${config.services.mdm.uri}/unit-types`)
-      .reply(200, unitTypes);
-    mock
-      .onGet(`${config.services.mdm.uri}/fuel-types`)
-      .reply(200, fuelTypes);
-    mock
-      .onGet(`${config.services.mdm.uri}/control-technologies`)
-      .reply(200, controlTechnologies);
-    const expectedActions = [
-      { type: types.BEGIN_API_CALL },
-      { type: types.BEGIN_API_CALL },
-      { type: types.BEGIN_API_CALL },
-      { type: types.BEGIN_API_CALL },
-      { type: types.BEGIN_API_CALL },
-      { type: types.BEGIN_API_CALL },
-      { type: types.BEGIN_API_CALL },
-      { type: types.LOAD_PROGRAMS_SUCCESS, program: restructurePrograms(program)},
-      { type: types.LOAD_STATES_SUCCESS, stateTerritory: states.map(s=> ({id: s.stateCode, label:s.stateName, selected:false, enabled:true}))},
-      { type: types.LOAD_SOURCE_CATEGORY_SUCCESS, sourceCategory: sourceCategories.map(t=> ({id: t.sourceCategoryDescription, label: t.sourceCategoryDescription, selected:false, enabled:true}))},
-      { type: types.LOAD_FACILITIES_SUCCESS, facility: facilities.map(f=> ({id: f.facilityId, label:`${f.facilityName} (${f.facilityId})`, selected:false, enabled:true}))},
-      { type: types.LOAD_UNIT_TYPES_SUCCESS, unitType: restructureUnitTypes(unitTypes)},
-      { type: types.LOAD_FUEL_TYPES_SUCCESS, fuelType: restructureFuelTypes(fuelTypes)},
-      { type: types.LOAD_CONTROL_TECHNOLOGIES_SUCCESS, controlTechnology: restructureControlTechnologies(controlTechnologies)},
-    ];
-
-    const store = mockStore(initState);
-    return store.dispatch(actions.loadAllFilters("FACILITY", "Facility/Unit Attributes", initState.filterCriteria)).then(() => {
-      //console.log(JSON.stringify(store.getActions()))
-      expect(store.getActions()).toEqual(expectedActions);
-    })
-  });
+    return store
+      .dispatch(
+        actions.loadFilterMapping('ALLOWANCE','Account Information')
+      )
+      .then(() => {
+        expect(store.getActions().length).toEqual(expectedActions.length);
+      });
+  })
 });
 

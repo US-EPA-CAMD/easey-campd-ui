@@ -1,7 +1,7 @@
 import React from 'react';
 import initialState from '../../store/reducers/initialState';
 import { updateFilterCriteria } from '../../store/actions/customDataDownload/filterCriteria';
-import { engageFilterLogic } from './filterLogic';
+import { engageFilterLogic, applyBookmarkFilterTags } from './filterLogic';
 import {
   restructurePrograms,
   restructureUnitTypes,
@@ -1351,11 +1351,11 @@ initialState.filterCriteria.filterMapping = [
 ];
 
 describe('Emissions Filter logic functions', () => {
-  it('engages filter logic for emissions Annual Emissions', () => {
+  it('engages filter logic for emissions Annual Emissions', async () => {
     const clonedFilterCritera = JSON.parse(
       JSON.stringify(initialState.filterCriteria)
     );
-    engageFilterLogic(
+    await engageFilterLogic(
       'EMISSIONS',
       'Annual Emissions',
       'Time Period',
@@ -1364,11 +1364,11 @@ describe('Emissions Filter logic functions', () => {
     );
     expect(clonedFilterCritera).not.toBe(initialState.filterCriteria);
   });
-  it('engages filter logic for facility unit/attributes', () => {
+  it('engages filter logic for facility unit/attributes', async () => {
     const clonedFilterCritera = JSON.parse(
       JSON.stringify(initialState.filterCriteria)
     );
-    engageFilterLogic(
+    await engageFilterLogic(
       'FACILITY',
       'Facility/Unit Attributes',
       'Time Period',
@@ -1377,7 +1377,7 @@ describe('Emissions Filter logic functions', () => {
     );
     expect(clonedFilterCritera).not.toBe(initialState.filterCriteria);
   });
-  it('engages filter logic for allowance holdings', () => {
+  it('engages filter logic for allowance holdings', async () => {
     initialState.filterCriteria.filterMapping = [
       {
         vintageYear: '1995',
@@ -1690,7 +1690,7 @@ describe('Emissions Filter logic functions', () => {
     const clonedFilterCritera = JSON.parse(
       JSON.stringify(initialState.filterCriteria)
     );
-    engageFilterLogic(
+    await engageFilterLogic(
       'ALLOWANCE',
       'Holdings',
       'Facility',
@@ -1699,7 +1699,7 @@ describe('Emissions Filter logic functions', () => {
     );
     expect(clonedFilterCritera).not.toBe(initialState.filterCriteria);
   });
-  it('engages filter logic for allowance based compliance', () => {
+  it('engages filter logic for allowance based compliance', async () => {
     initialState.filterCriteria.filterMapping = [
       {
         year: '1995',
@@ -1960,7 +1960,7 @@ describe('Emissions Filter logic functions', () => {
     const clonedFilterCritera = JSON.parse(
       JSON.stringify(initialState.filterCriteria)
     );
-    engageFilterLogic(
+    await engageFilterLogic(
       'COMPLIANCE',
       'Allowance Based',
       'Facility',
@@ -1969,7 +1969,7 @@ describe('Emissions Filter logic functions', () => {
     );
     expect(clonedFilterCritera).not.toBe(initialState.filterCriteria);
   });
-  it('engages filter logic for allowance transactions', () => {
+  it('engages filter logic for allowance transactions', async () => {
     initialState.filterCriteria.filterMapping = [
       {
         transactionDate: '2019-01-09',
@@ -2268,7 +2268,7 @@ describe('Emissions Filter logic functions', () => {
     const clonedFilterCritera = JSON.parse(
       JSON.stringify(initialState.filterCriteria)
     );
-    engageFilterLogic(
+    await engageFilterLogic(
       'ALLOWANCE',
       'Transactions',
       'Facility',
@@ -2277,4 +2277,15 @@ describe('Emissions Filter logic functions', () => {
     );
     expect(clonedFilterCritera).not.toBe(initialState.filterCriteria);
   });
+
+  test("testing applyBookmarkFilterTags", () => {
+    const bookmarkData = {"dataType":"EMISSIONS","dataSubType":"Annual Emissions","aggregation":"","filters":{"timePeriod":{"startDate":null,"endDate":null,
+    "opHrsOnly":true,"year":{"yearArray":[2019],"yearString":"2019"},"month":[],"quarter":[]},"program":{"selected":["ARP","CSNOX"],"enabled":[]},
+    "stateTerritory":{"selected":["CA"],"enabled":[]},"facility":{"selected":[55625],"enabled":[55499,55508,55510,55512,55513,55626,55627,10294,55855,55810,
+      55963,56639,56914,57027]},"unitType":{"selected":["CT"],"enabled":[]},"fuelType":{"selected":[],"enabled":["PNG"]},
+      "controlTechnology":{"selected":["NH3"],"enabled":["SCR"]}},"dataPreview":{"excludedColumns":[]}};
+      const dispacher = jest.fn();
+      applyBookmarkFilterTags(bookmarkData, initialState.filterCriteria, dispacher);
+      expect(dispacher).toHaveBeenCalled();
+  })
 });

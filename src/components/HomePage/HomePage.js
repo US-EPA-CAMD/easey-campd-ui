@@ -14,26 +14,28 @@ import { metaAdder } from "../../utils/document/metaAdder";
 import "./HomePage.scss";
 import getContent from "../../utils/api/getContent";
 import config from '../../config';
+import setApiError from "../../store/actions/setApiErrorAction";
+import { connect } from "react-redux";
 
-const HomePage = () => {
+const HomePage = ({setApiErrorDispatcher}) => {
   const [whatIsNewContent, setWhatIsNewContent] = useState();
   const [whatIsNewTitle, setWhatIsNewTitle] = useState();
   const [dataCard, setDataCard] = useState();
-  const [mapsGraphsCard, setMapsGraphsCard] = useState();
+  const [visualGalleryCard, setvisualGalleryCard] = useState();
 
   useEffect(() => {
-    getContent("/campd/home/what-is-new-content.md").then((resp) =>
-      setWhatIsNewContent(resp.data)
+    getContent("/campd/home/what-is-new-content.md", setApiErrorDispatcher).then((resp) =>
+      resp && setWhatIsNewContent(resp.data)
     );
-    getContent("/campd/home/what-is-new-title.md").then((resp) =>
-      setWhatIsNewTitle(resp.data)
+    getContent("/campd/home/what-is-new-title.md", setApiErrorDispatcher).then((resp) =>
+      resp && setWhatIsNewTitle(resp.data)
     );
-    getContent("/campd/home/data-card.md").then((resp) =>
-      setDataCard(resp.data)
+    getContent("/campd/home/data-card.md", setApiErrorDispatcher).then((resp) =>
+      resp && setDataCard(resp.data)
     );
-    getContent("/campd/home/maps-and-graphs-card.md").then((resp) =>
-      setMapsGraphsCard(resp.data)
-    );
+    getContent("/campd/home/visualization-gallery-card.md", setApiErrorDispatcher).then((resp) =>
+      resp && setvisualGalleryCard(resp.data)
+    );//eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const [progressTitle, setProgressTitle] = useState("");
@@ -115,14 +117,17 @@ const HomePage = () => {
             children={dataCard}
             remarkPlugins={[remarkGfm]}
             components={{
+              img: ({node, ...props}) => <img {...props} alt="" id="data-icon"/>,
+              // eslint-disable-next-line
+              table: ({node, ...props}) => <table {...props} role="Presentation"/>,
+              th: ({node, ...props}) => <td {...props}/>,
               a: ({ node, ...props }) => {
               return node.properties.title === "Header Link" ? (
                   <h2>
                     <Button
-                      className="font-heading-xl text-bold"
+                      className="header-link font-heading-xl text-bold"
                       unstyled="true"
                       onClick={() => history.push(props.href)}
-                      style={{ textDecoration: "none" }}
                     >
                       {props.children[0]}
                     </Button>
@@ -145,18 +150,21 @@ const HomePage = () => {
         </div>
         <div className="padding-y-1 padding-x-1 display-flex flex-row flex-align-start text-base-darkest order-3 grid-col-12 desktop:grid-col-4">
           <ReactMarkdown
-            className="maps-and-graphs-card"
-            children={mapsGraphsCard}
+            className="visualization-gallery-card"
+            children={visualGalleryCard}
             remarkPlugins={[remarkGfm]}
-            components={{
+            components={{// eslint-disable-next-line
+              img: ({node, ...props}) => <img {...props} alt="" id="viz-gallery-icon"/>,
+              // eslint-disable-next-line
+              table: ({node, ...props}) => <table {...props} role="Presentation"/>,
+              th: ({node, ...props}) => <td {...props}/>,
               a: ({ node, ...props }) => {
               return node.properties.title === "Header Link" ? (
                   <h2>
                     <Button
-                      className="font-heading-xl text-bold"
+                      className="header-link font-heading-xl text-bold"
                       unstyled="true"
                       onClick={() => history.push(props.href)}
-                      style={{ textDecoration: "none" }}
                     >
                       {props.children[0]}
                     </Button>
@@ -167,7 +175,7 @@ const HomePage = () => {
                     type="button"
                     onClick={() => history.push(props.href)}
                     role="link"
-                    rel={"Maps and Graphs"}
+                    rel={"Visualization Gallery"}
                     title={props.children[0]}
                   >
                     {props.children[0]}
@@ -218,4 +226,6 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+const mapDispatchToProps = (dispatch) => ({setApiErrorDispatcher: (api, state, errorMessage) => dispatch(setApiError(api, state, errorMessage))});
+
+export default connect(null, mapDispatchToProps)(HomePage);

@@ -5,6 +5,8 @@ import remarkGfm from 'remark-gfm';
 import { metaAdder } from '../../utils/document/metaAdder';
 import formatAccordionTitles from '../../utils/ensure-508/formatAccordionTitles';
 import getContent from '../../utils/api/getContent';
+import { connect } from 'react-redux';
+import setApiError from '../../store/actions/setApiErrorAction';
 
 const ProductUpdate = ({ release, latestRelease }) => {
   const showUpcomingFeatures = latestRelease && release.upcomingFeatures;
@@ -41,7 +43,7 @@ const ProductUpdate = ({ release, latestRelease }) => {
   );
 };
 
-const AboutPage = () => {
+const AboutPage = ({setApiErrorDispatcher}) => {
   const [releaseNotes, setReleaseNotes] = useState(null);
   const [about, setAbout] = useState('');
   useEffect(() => {
@@ -62,12 +64,12 @@ const AboutPage = () => {
   );
 
   useEffect(() => {
-    getContent('/campd/help-support/about/release-notes.json').then((resp) =>
-      setReleaseNotes(resp.data)
+    getContent('/campd/help-support/about/release-notes.json', setApiErrorDispatcher).then((resp) =>
+      resp && setReleaseNotes(resp.data)
     );
-    getContent('/campd/help-support/about/index.md').then((resp) =>
-      setAbout(resp.data)
-    );
+    getContent('/campd/help-support/about/index.md', setApiErrorDispatcher).then((resp) =>
+      resp && setAbout(resp.data)
+    );//eslint-disable-next-line
   }, []);
 
   const latestRelease = releaseNotes ? releaseNotes[0] : null;
@@ -103,4 +105,6 @@ const AboutPage = () => {
   );
 };
 
-export default AboutPage;
+const mapDispatchToProps = (dispatch) => ({setApiErrorDispatcher: (api, state, errorMessage) => dispatch(setApiError(api, state, errorMessage))});
+
+export default connect(null, mapDispatchToProps)(AboutPage);

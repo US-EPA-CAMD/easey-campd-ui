@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { connect } from "react-redux";
 import {Button} from "@trussworks/react-uswds";
 import { Help } from '@material-ui/icons';
@@ -13,7 +13,7 @@ import { engageFilterLogic } from '../../../utils/selectors/filterLogic';
 const TransactionType = ({
   transactionType,
   appliedFilters,
-  updatetransactionTypeSelectionDispatcher,
+  updateTransactionTypeSelectionDispatcher,
   addAppliedFilterDispatcher,
   removeAppliedFilterDispatcher,
   closeFlyOutHandler,
@@ -22,12 +22,12 @@ const TransactionType = ({
   dataSubType,
   filterCriteria,
   updateFilterCriteriaDispatcher,
-  applyFilterLoading,
   setApplyFilterLoading,
   }) => {
 
   const [_transactionType, setTransactionType] = useState(JSON.parse(JSON.stringify(transactionType)));
-  const [applyFilterClicked, setApplyFilterClicked] = useState(false);
+  const fcRef = useRef(filterCriteria);
+  fcRef.current = filterCriteria;
   const filterToApply = "Transaction Type";
 
   useEffect(()=>{
@@ -36,33 +36,16 @@ const TransactionType = ({
     }// eslint-disable-next-line react-hooks/exhaustive-deps
   },[_transactionType]);
 
-  useEffect(()=>{
-    if(applyFilterClicked){
-      if(filterCriteria.filterMapping.length>0){
-        engageFilterLogic(dataType, dataSubType, filterToApply, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispatcher, setApplyFilterLoading);
+  const handleApplyFilter = () =>{
+    setApplyFilterLoading(true);
+    setTimeout(async()=>{await updateFilters();
+      if(fcRef.current.filterMapping.length>0){
+        engageFilterLogic(dataType, dataSubType, filterToApply, JSON.parse(JSON.stringify(fcRef.current)), updateFilterCriteriaDispatcher, setApplyFilterLoading);
       } else {
         setApplyFilterLoading(false)
       }
       closeFlyOutHandler();
-    }// eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [transactionType]);
-
-  useEffect(()=>{
-    if(applyFilterLoading){
-      updatetransactionTypeSelectionDispatcher(_transactionType);
-      if(isAddedToFilters(filterToApply, appliedFilters)){
-        removeAppliedFilterDispatcher(filterToApply);
-      }
-      const selection = _transactionType.filter(e=>e.selected)
-      if(selection.length>0){
-        addAppliedFilterDispatcher({key:filterToApply, values:selection.map(e=>e.label)});
-      }
-      setApplyFilterClicked(true);
-    }//eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [applyFilterLoading]);
-
-  const handleApplyFilter = () =>{
-    setApplyFilterLoading(true);
+    });
   };
 
   const onChangeUpdate = (id, updateType) =>{
@@ -72,6 +55,17 @@ const TransactionType = ({
       updateType==="add"? found.selected = true : found.selected = false;
     }
     setTransactionType([...stateCopy]);
+  }
+
+  const updateFilters = () => {
+    updateTransactionTypeSelectionDispatcher(_transactionType);
+      if(isAddedToFilters(filterToApply, appliedFilters)){
+        removeAppliedFilterDispatcher(filterToApply);
+      }
+      const selection = _transactionType.filter(e=>e.selected)
+      if(selection.length>0){
+        addAppliedFilterDispatcher({key:filterToApply, values:selection.map(e=>e.label)});
+      }
   }
 
   return (
@@ -133,7 +127,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    updatetransactionTypeSelectionDispatcher: (selection) => dispatch(updateTransactionTypeSelection(selection)),
+    updateTransactionTypeSelectionDispatcher: (selection) => dispatch(updateTransactionTypeSelection(selection)),
     addAppliedFilterDispatcher: (filterToApply) => dispatch(addAppliedFilter(filterToApply)),
     removeAppliedFilterDispatcher: (removedFilter) => dispatch(removeAppliedFilter(removedFilter)),
     updateFilterCriteriaDispatcher: (filterCriteria) => dispatch(updateFilterCriteria(filterCriteria)),

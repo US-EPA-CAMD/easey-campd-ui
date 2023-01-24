@@ -7,11 +7,12 @@ import App from "./components/App/App";
 import config from "./config";
 import * as serviceWorker from "./serviceWorker";
 import configureStore from "./store/configureStore.dev";
+
 const store = configureStore();
 
-if(config.app.googleAnalyticsEnabled === 'true'){
-  let tagManagerArgs = {gtmId: config.app.googleAnalyticsContainerId};
-      
+if (config.app.googleAnalyticsEnabled) {
+  let tagManagerArgs = { gtmId: config.app.googleAnalyticsContainerId };
+
   TagManager.initialize(tagManagerArgs);
 }
 

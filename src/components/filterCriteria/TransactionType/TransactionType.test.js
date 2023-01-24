@@ -10,7 +10,8 @@ import TransactionType from './TransactionType';
 import configureStore from "../../../store/configureStore.dev";
 import { Provider } from "react-redux";
 import initialState from "../../../store/reducers/initialState";
-
+jest.useFakeTimers();
+jest.spyOn(global, 'setTimeout');
 const transactionTypes = [
   {
     "transactionTypeCode": "AD",
@@ -73,7 +74,6 @@ describe('Transaction Type Component', () => {
       <Provider 
         store={store}>
         <TransactionType
-          loadtransactionTypesDispatcher ={jest.fn()}
           updatetransactionTypeSelectionDispatcher ={jest.fn()}
           addAppliedFilterDispatcher ={jest.fn()}
           removeAppliedFilterDispatcher ={jest.fn()}
@@ -120,6 +120,7 @@ describe('Transaction Type Component', () => {
     expect(getByRole("button", {name: "Conservation Issuance"})).toBeDefined();
     expect(getAllByTestId("multi-select-option").length).toBe(transactionTypes.length);
     fireEvent.click(getByText("Apply Filter"));
+    jest.runAllTimers();
     expect(applyFilterLoading).toBe(true);
   })
 });

@@ -1,0 +1,98 @@
+@import "tiny-slider/src/tiny-slider.scss";
+
+.hero-slideshow {
+  position: relative;
+  width: 100%;
+}
+
+.hero-slideshow__list {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  li {
+    margin: 0;
+    padding-left: 0;
+
+    &::before {
+      display: none;
+    }
+  }
+
+  // Use CSS grid to set equal height slides.
+  @supports (display: grid) {
+    display: grid;
+  }
+}
+
+.hero-slideshow__item {
+  max-width: 100%;
+
+  // Use CSS grid to set equal height slides.
+  @supports (display: grid) {
+    display: flex !important;
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+    position: relative !important;
+  }
+}
+
+.hero-slideshow__nav {
+  margin-top: -3rem;
+  min-height: 3rem;
+  position: relative;
+}
+
+.hero-slideshow__nav-button.usa-button {
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
+  width: auto;
+  background-color: #71767a;
+
+  &:focus {
+    z-index: 1;
+    background-color: #1a4480;
+  }
+
+  &:hover,
+  &:focus {
+    background-color: #005ea2;
+  }
+
+  &:active,
+  &.tns-nav-active {
+    background-color: #1a4480;
+  }
+}
+
+.usa-hero--slideshow.usa-hero {
+  min-height: 21.875rem;
+
+  @media (max-width: 40rem) {
+    background-image: none !important;
+    min-height: 0;
+  }
+
+  .usa-hero__callout {
+    > :last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  // Use CSS grid to set equal height slides.
+  @supports (display: grid) {
+    flex-grow: 1;
+    height: 100%;
+
+    @media (max-width: 40rem) {
+      .grid-container,
+      .usa-hero__callout {
+        height: 100%;
+      }
+    }
+  }
+}

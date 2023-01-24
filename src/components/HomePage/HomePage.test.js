@@ -4,21 +4,26 @@ import { render, cleanup } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { rest } from "msw";
 import { setupServer } from "msw/node";
+import config from "../../config";
+import configureStore from "../../store/configureStore.dev";
+import initialState from "../../store/reducers/initialState";
+import { Provider } from "react-redux";
 
+let store = configureStore(initialState);
 jest.mock("react-markdown", () => ({ children }) => <>{children}</>);
 jest.mock("remark-gfm", () => () => {});
 
 const getWhatIsNewUrl =
-  "https://api.epa.gov/easey/dev/content-mgmt/campd/home/what-is-new-content.md";
+  `${config.services.content.uri}/campd/home/what-is-new-content.md`;
 
 const getWhatIsNewTitleUrl =
-  "https://api.epa.gov/easey/dev/content-mgmt/campd/home/what-is-new-title.md";
+  `${config.services.content.uri}/campd/home/what-is-new-title.md`;
 
 const getDataCardUrl =
-  "https://api.epa.gov/easey/dev/content-mgmt/campd/home/data-card.md";
+  `${config.services.content.uri}/campd/home/data-card.md`;
 
-const getMapsGraphsCardUrl =
-  "https://api.epa.gov/easey/dev/content-mgmt/campd/home/maps-and-graphs-card.md"; 
+const getVisualGalleryCardUrl =
+  `${config.services.content.uri}/campd/home/visualization-gallery-card.md` 
 
 
 const getWhatIsNewContent = rest.get(getWhatIsNewUrl, (req, res, ctx) => {
@@ -30,11 +35,15 @@ const getWhatIsNewTitle = rest.get(getWhatIsNewTitleUrl, (req, res, ctx) => {
 const getDataCard = rest.get(getDataCardUrl, (req, res, ctx) => {
   return res(ctx.json("Data"));
 });
-const getMapsGraphs = rest.get(getMapsGraphsCardUrl, (req, res, ctx) => {
-  return res(ctx.json("Maps & Graphs"));
+const getVisualGallery = rest.get(getVisualGalleryCardUrl, (req, res, ctx) => {
+  return res(ctx.json("Visualization Gallery"));
 });
 
-const server = new setupServer(getWhatIsNewContent, getWhatIsNewTitle, getDataCard, getMapsGraphs);
+const submissionUrl = `${config.services.emissions.uri}/emissions/submission-progress?submissionPeriod`;
+const getSubmissionProgress = rest.get(submissionUrl, (req, res, ctx) => {
+  return res(ctx.json({year: 2022, quarterName: 'second', percentage: '30%'}))
+})
+const server = new setupServer(getWhatIsNewContent, getWhatIsNewTitle, getDataCard, getVisualGallery, getSubmissionProgress);
 
 describe("Home Page Component", () => {
   beforeAll(() => server.listen());
@@ -43,17 +52,19 @@ describe("Home Page Component", () => {
 
   it("should render content without error", async () => {
     const { findByText, findAllByRole } = render(
-      <MemoryRouter>
-        <HomePage />
-      </MemoryRouter>
+      <Provider store={store}>
+        <MemoryRouter>
+          <HomePage setApiErrorDispatcher={jest.fn()} />
+        </MemoryRouter>
+      </Provider>
     );
     const data = await findByText("Data");
-    const mapsAndGraphs = await findByText("Maps & Graphs");
+    const visualGallery = await findByText("Visualization Gallery");
     // const images = await findAllByRole("img");
     const whatIsNewBox = await findByText("What Is New Box Content");
     const whatIsNewBoxTitle = await findByText("What Is New Box Title");
     expect(data).toBeDefined();
-    expect(mapsAndGraphs).toBeDefined();
+    expect(visualGallery).toBeDefined();
     // expect(images.length).toBe(2);
     expect(whatIsNewBox).toBeInTheDocument();
     expect(whatIsNewBoxTitle).toBeInTheDocument();

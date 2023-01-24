@@ -1,21 +1,23 @@
 import React, { useEffect, useState} from 'react';
 import ReactMarkdown from "react-markdown";
 import Markdown from 'react-markdown-v4';
+import { connect } from 'react-redux';
 import remarkGfm from "remark-gfm";
 import remarkSubSuper from 'remark-sub-super';
+import setApiError from '../../store/actions/setApiErrorAction';
 import getContent from "../../utils/api/getContent";
 
-const SubHeaderInfo = () =>{
+const SubHeaderInfo = ({setApiErrorDispatcher}) =>{
   const [mainTitle, setMainTitle] = useState();
   const [mainContent, setMainContent] = useState();
 
   useEffect(() => {
-    getContent("/campd/home/main-title.md").then((resp) =>
-      setMainTitle(resp.data)
+    getContent("/campd/home/main-title.md", setApiErrorDispatcher).then((resp) =>
+      resp && setMainTitle(resp.data)
     );
-    getContent("/campd/home/main-content.md").then((resp) =>
-      setMainContent(resp.data)
-    );
+    getContent("/campd/home/main-content.md", setApiErrorDispatcher).then((resp) =>
+      resp && setMainContent(resp.data)
+    );//eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -51,4 +53,6 @@ const SubHeaderInfo = () =>{
   );
 }
 
-export default SubHeaderInfo;
+const mapDispatchToProps = (dispatch) => ({setApiErrorDispatcher: (api, state, errorMessage) => dispatch(setApiError(api, state, errorMessage))});
+
+export default connect(null, mapDispatchToProps)(SubHeaderInfo);

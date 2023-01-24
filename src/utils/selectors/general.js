@@ -1,8 +1,19 @@
-import { constructComboBoxQuery, constructQuery, constructTransactionTypeComboBoxQuery, filterAmpersand } from './filterCriteria';
+import {
+  addExcludeParams,
+  constructComboBoxQuery,
+  constructTransactionTypeComboBoxQuery,
+  constructQuery,
+  filterAmpersand,
+  getCheckBoxEnabledItems,
+  getCheckBoxSelectedItems,
+  getComboboxEnabledItems,
+  getComboboxSelectedItems
+} from './filterCriteria';
 import config from '../../config';
 import { constructTimePeriodQuery } from './timePeriodQuery';
 import * as constants from '../constants/customDataDownload';
 import { isYearFormat } from '../dateValidation/dateValidation';
+import { EMISSIONS_AGGREGATION } from '../constants/emissions';
 
 export const isAddedToFilters = (filter, appliedFilters) => {
   return appliedFilters.filter((el) => el.key === filter).length > 0;
@@ -14,7 +25,24 @@ export const initcap = (str) => {
   });
 };
 
-export const isInternalUrl = (props) => props.href[0] === '/';
+export const isEmailValid = (email) => {
+  if (email.length <= 2) {
+    return false;
+  }
+  const atSymbol = email.indexOf("@");
+  if(atSymbol < 1) {
+    return false;
+  }
+  
+  const dot = email.indexOf(".");
+  
+  if (dot === email.length - 1) {
+    return false;
+  }
+  
+  return true;
+};
+
 
 export const formatDateToApi = (dateString) => {
   //param=mm/dd/yyyy return=yyyy-mm-dd
@@ -99,6 +127,68 @@ export const formatQuartersToApiOrString = (quarterArray, string = false) => {
   });
   return apiQuarterArrayOrString;
 };
+/** cdd data table*/
+export const formatTableNumbers = (data, exceptions = {}) => {
+  const columns = Object.keys(data);
+  columns.forEach((column) => {
+    const columnLowerCase = column.toLowerCase();
+    if (
+      exceptions[columnLowerCase] ||
+      exceptions[columnLowerCase.substring(columnLowerCase.length - 2)] ||
+      exceptions[columnLowerCase.substring(columnLowerCase.length - 4)]
+    ) {
+      return;
+    } else {
+      data[column] = data[column]
+        ? data[column].toLocaleString()
+        : data[column];
+    }
+  });
+};
+
+/** bulk data files*/
+export const formatFileSize = (bytes, decimalPoint) => {
+  if (bytes === 0) {
+    return '0 Bytes';
+  }
+  const k = 1000,
+    dm = decimalPoint || 2,
+    sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'],
+    i = Math.floor(Math.log(bytes) / Math.log(k));
+  return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+};
+
+export const convertToBytes = (fileSize) => {
+  fileSize = fileSize.toLowerCase();
+  const unit = fileSize.split(' ')[1];
+  if (unit === 'bytes') {
+    return fileSize;
+  }
+  const unitsDictionary = { kb: 1000, mb: 1000000, gb: 1000000000 };
+  const byteSize = parseFloat(fileSize) * unitsDictionary[unit];
+  return `${byteSize} bytes`;
+};
+
+export const downloadLimitReached = (size, limit) => {
+  if (!size) {
+    return false;
+  }
+  size = size.toLowerCase();
+  const unit = size.slice(-2);
+  if (unit === 'gb') {
+    if (parseFloat(size) < parseFloat(limit)) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+  const smallerUnits = { es: true, kb: true, mb: true };
+  if (smallerUnits[unit]) {
+    return false;
+  } else {
+    return true;
+  }
+};
 
 export const reportingQuarter = () => {
   const curDate = new Date();
@@ -125,11 +215,11 @@ const getServiceSubtype = (options, dataSubType) => {
   return entry ? entry.service : '';
 };
 
-
 export const constructRequestUrl = (
   dataType,
   dataSubType,
   filterCriteria,
+  aggregation,
   download = false
 ) => {
   const programQuery = filterCriteria.program
@@ -179,6 +269,7 @@ export const constructRequestUrl = (
         constructComboBoxQuery(filterCriteria.sourceCategory, 'sourceCategory')
       )
     : '';
+  const excludeParams = filterCriteria.excludeParams.length? addExcludeParams(filterCriteria.excludeParams) : ''
 
   const pagination = download ? '' : 'page=1&perPage=100';
 
@@ -194,6 +285,10 @@ export const constructRequestUrl = (
       apiPath = `/facilities/`
       apiService = `${download ? config.services.streaming.uri : config.services.facilities.uri}`;
       break;
+    case 'mercury and air toxics emissions':
+      apiPath = `/emissions/apportioned/mats/`
+      apiService = `${download ? config.services.streaming.uri : config.services.emissions.uri}`;
+      break;
     case 'allowance':
     case 'compliance':
       apiPath = `/`
@@ -206,12 +301,75 @@ export const constructRequestUrl = (
     constants.DATA_SUBTYPES_MAP[dataType.toUpperCase()],
     dataSubType
   );
-
-  const url = `${apiService}${apiPath}${subTypeService}?${pagination}${constructTimePeriodQuery(
+  const aggregationLink = getServiceSubtype(EMISSIONS_AGGREGATION, aggregation);
+  const aggregationService = aggregationLink? '/'+ aggregationLink : '';
+  const url = `${apiService}${apiPath}${subTypeService}${aggregationService}?${pagination}${constructTimePeriodQuery(
     dataSubType,
-    filterCriteria
+    filterCriteria,
   )}${programQuery}${facilityQuery}${stateTerritoryQuery}${unitTypeQuery}${fuelTypeQuery}${controlTechnologyQuery}
-${accountNameNumberQuery}${accountTypeQuery}${ownerOperatorQuery}${transactionTypeQuery}${sourceCategoryQuery}`;
+${accountNameNumberQuery}${accountTypeQuery}${ownerOperatorQuery}${transactionTypeQuery}${sourceCategoryQuery}${excludeParams}`;
+  console.log(url.replace(/\r?\n|\r/g, ''));
 
   return url.replace(/\r?\n|\r/g, '');
+};
+
+export const isInternalUrl = (props) => props.href[0] === '/';
+
+export const formatDateToYYMMDD = (date) => {
+  var d = new Date(date),
+    month = '' + (d.getMonth() + 1),
+    day = '' + d.getDate(),
+    year = d.getFullYear();
+
+  if (month.length < 2) month = '0' + month;
+  if (day.length < 2) day = '0' + day;
+
+  return [year, month, day].join('-');
+};
+
+export const formatBookmarkDate = (dt) =>{
+  var options = {
+    hour: 'numeric',
+    minute: 'numeric',
+    hour12: true,
+    timeZone: 'UTC'
+  };
+  return `${
+    (dt.getMonth()+1).toString().padStart(2, '0')}/${
+    dt.getDate().toString().padStart(2, '0')}/${
+    dt.getFullYear().toString().slice(-2)}, ${dt.toLocaleString('en-US', options)}`
+};
+
+export const getBookmarkContent = (dataType, dataSubType, aggregation, filtersMap, filterCriteria) =>{
+  const filters = filtersMap.map(el => el.stateVar);
+  const checkboxItems = ["program", "unitType", "fuelType", "controlTechnology", "accountType"];
+  let content = {
+    dataType: dataType,
+    dataSubType: dataSubType, 
+    aggregation: aggregation,
+    filters: {},
+    dataPreview: {
+      excludedColumns: filterCriteria.excludeParams
+    }
+  }
+  filters.forEach(filter =>{
+    if(["timePeriod","transactionDate"].includes(filter)){
+      content.filters['timePeriod'] = JSON.parse(JSON.stringify(filterCriteria.timePeriod));
+      delete content.filters['timePeriod']["comboBoxYear"];
+    }else if(filter === "comboBoxYear"){
+      content.filters[filter] = {
+        selected: getComboboxSelectedItems(filterCriteria.timePeriod.comboBoxYear),
+        enabled: getComboboxEnabledItems(filterCriteria.timePeriod.comboBoxYear).map(el=>el.id)
+      }
+      content.filters[filter].enabled = content.filters[filter].enabled.filter(el=> !content.filters[filter].selected.includes(el));
+    }
+    else{
+      content.filters[filter] = {
+        selected: checkboxItems.includes(filter)? getCheckBoxSelectedItems(filterCriteria[filter]) : getComboboxSelectedItems(filterCriteria[filter]),
+        enabled : checkboxItems.includes(filter)? getCheckBoxEnabledItems(filterCriteria[filter]) : getComboboxEnabledItems(filterCriteria[filter]).map(el=>el.id)
+      }
+      content.filters[filter].enabled = content.filters[filter].enabled.filter(el=> !content.filters[filter].selected.includes(el));
+    } 
+  });
+  return content;
 };

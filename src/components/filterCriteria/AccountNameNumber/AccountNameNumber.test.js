@@ -5,6 +5,10 @@ import { Provider } from 'react-redux';
 import configureStore from '../../../store/configureStore.dev';
 import initialState from '../../../store/reducers/initialState';
 import AccountNameNumber from './AccountNameNumber';
+import userEvent from '@testing-library/user-event';
+import { noValidAccountsMessage, showInvalidAccounts } from '../../../utils/constants/validationMessages';
+jest.useFakeTimers();
+jest.spyOn(global, 'setTimeout');
 
 const nameNumbers = [
   {
@@ -70,7 +74,6 @@ describe('Account Name/Number Component', () => {
     query = render(
       <Provider store={store}>
         <AccountNameNumber
-          loadAccountNameNumbersDispatcher={jest.fn()}
           updateAccountNameNumberSelectionDispatcher={jest.fn()}
           addAppliedFilterDispatcher={jest.fn()}
           removeAppliedFilterDispatcher={jest.fn()}
@@ -114,11 +117,84 @@ describe('Account Name/Number Component', () => {
     expect(within(getByTestId("multi-select-listbox")).getAllByTestId('multi-select-option').length).toBe(1);
     fireEvent.keyDown(searchbox, {key: 'Tab', code: 9});
     fireEvent.keyDown(searchbox, {key: 'Enter', code: 'Enter'})
-    fireEvent.click(getByTestId("multi-select-option"));
+    fireEvent.click(getAllByTestId("multi-select-option")[0]);
     expect(getByRole("button", {name: "Auction Reserve (000000000001)"})).toBeDefined();
     expect(getAllByTestId("multi-select-option").length).toBe(nameNumbers.length);
     fireEvent.click(getByText("Apply Filter"));
+    jest.runAllTimers();
     expect(flyOutClosed).toBe(true);
     expect(applyFilterLoading).toBe(true);
   });
+
+  describe('pipe separated lists', ()=>{
+    test('It should handle pipe separated lists', () => {
+      const { getByTestId, getByRole, getByText} = query;
+      const searchbox = getByTestId("input-search");
+      searchbox.focus();
+      fireEvent.click(searchbox);
+      userEvent.type(searchbox, '000000000001|000000000002|000000000003|')
+      fireEvent.keyDown(searchbox, {key: 'Enter', code: 'Enter'})
+      expect(getByRole("button", {name: "Auction Reserve (000000000001)"})).toBeDefined();
+      expect(getByRole("button", {name: "Direct Sale Reserve (000000000002)"})).toBeDefined();
+      expect(getByRole("button", {name: "Small Diesel Reserve (000000000003)"})).toBeDefined();
+      jest.runAllTimers();
+      fireEvent.click(getByText("Apply Filter"));
+      expect(applyFilterLoading).toBe(true);
+    })
+    test('It should show alert if no enteries are valid', () => {
+      const { getByTestId} = query;
+      const searchbox = getByTestId("input-search");
+      searchbox.focus();
+      fireEvent.click(searchbox);
+      userEvent.type(searchbox, 'sds|sdcs|dsc|');
+      fireEvent.keyDown(searchbox, {key: 'Enter', code: 'Enter'});
+      const alert = getByTestId("alert")
+      expect(alert).toBeInTheDocument()
+    })
+
+  test('it should show which entries are invalid if some entries are valid', () => {
+    const { getByTestId, getByText} = query;
+    const searchbox = getByTestId("input-search");
+    searchbox.focus();
+    fireEvent.click(searchbox);
+    userEvent.type(searchbox, '000000000001|000000000002|000000000003|invalid1|invalid2');
+    fireEvent.keyDown(searchbox, {key: 'Enter', code: 'Enter'});
+    const alertMessage = getByText(showInvalidAccounts(`"invalid1", and "invalid2"`))
+    expect(alertMessage).toBeInTheDocument()
+  })
+
+  test('it should show no entries are valid if no entries are valid', () => {
+    const { getByTestId, getByText} = query;
+    const searchbox = getByTestId("input-search");
+    searchbox.focus();
+    fireEvent.click(searchbox);
+    userEvent.type(searchbox, 'invalid1|invalid2|invalid3');
+    fireEvent.keyDown(searchbox, {key: 'Enter', code: 'Enter'});
+    const alertMessage = getByText(noValidAccountsMessage)
+    expect(alertMessage).toBeInTheDocument()
+  })
+
+  test('pipe separated list should work with spaces', () => {
+    const { getByTestId, queryByTestId} = query;
+    const searchbox = getByTestId("input-search");
+    searchbox.focus();
+    fireEvent.click(searchbox);
+    userEvent.type(searchbox, '000000000001 | 000000000002 | 000000000003|');
+    fireEvent.keyDown(searchbox, {key: 'Enter', code: 'Enter'});
+    const alert = queryByTestId("alert")
+    expect(alert).not.toBeInTheDocument()
+  })
+
+  test('pipe separated list should be applied with the tab key', () => {
+    const { getByTestId, queryByTestId} = query;
+    const searchbox = getByTestId("input-search");
+    searchbox.focus();
+    fireEvent.click(searchbox);
+    userEvent.type(searchbox, '000000000001 | 000000000002 | 000000000003|');
+    userEvent.tab();
+    const alert = queryByTestId("alert")
+    expect(alert).not.toBeInTheDocument()
+  })
+  })
+  
 });

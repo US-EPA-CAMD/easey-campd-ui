@@ -1,4 +1,7 @@
 import { FILTERS_MAP } from "../constants/customDataDownload";
+import { filterTagsDict } from "../constants/filterTagsDict";
+import * as constants from '../constants/customDataDownload';
+
 import {
   getComboboxSelectedItems,
   getCheckBoxSelectedItems,
@@ -61,12 +64,13 @@ export const filterProgram = (filterCriteria) =>{
     }).map(i => i.programCode)
   )];
   updateEnabledStatusCheckBox(filterCriteria.program, filteredSet);
+  return filterCriteria.program;
 };
 
 export const filterStateTerritory = (filterCriteria) =>{
   const filteredSet = [...new Set(
     filterCriteria.filterMapping.filter(x => {
-      return (selection.years.length === 0 || selection.years.includes(x?.year)) &&
+      return (selection.years.length === 0 || selection.years.includes(x?.year | x?.date?.substring(0,4))) &&
       (selection.programs.length === 0 || selection.programs.includes(x.programCode)) &&
       (selection.fuelTypes.length === 0 || selection.fuelTypes.includes(x.fuelTypeCode)) &&
       (selection.facilities.length === 0 || selection.facilities.includes(x?.facilityId)
@@ -90,12 +94,13 @@ export const filterStateTerritory = (filterCriteria) =>{
     }).flat()
   )];
   updateEnabledStatusComboBox(filterCriteria.stateTerritory, filteredSet);
+  return filterCriteria.stateTerritory;
 };
 
 export const filterFacility = (filterCriteria) =>{
   const filteredSet = [...new Set(
     filterCriteria.filterMapping.filter(x => {
-      return (selection.years.length === 0 || selection.years.includes(x?.year)) &&
+      return (selection.years.length === 0 || selection.years.includes(x?.year | x?.date?.substring(0,4))) &&
       (selection.states.length === 0 || selection.states.includes(x?.stateCode)
       || selection.states.includes(x?.buyState) || selection.states.includes(x?.sellState)) &&
       (selection.programs.length === 0 || selection.programs.includes(x.programCode)) &&
@@ -119,12 +124,13 @@ export const filterFacility = (filterCriteria) =>{
     }).flat()
   )];
   updateEnabledStatusComboBox(filterCriteria.facility, filteredSet);
+  return filterCriteria.facility;
 };
 
 export const filterUnitType = (filterCriteria) =>{
   const filteredSet = [...new Set(
     filterCriteria.filterMapping.filter(x => {
-      return (selection.years.length === 0 || selection.years.includes(x.year)) &&
+      return (selection.years.length === 0 || selection.years.includes(x?.year | x?.date?.substring(0,4))) &&
       (selection.states.length === 0 || selection.states.includes(x.stateCode)) &&
       (selection.programs.length === 0 || selection.programs.includes(x.programCode)) &&
       (selection.fuelTypes.length === 0 || selection.fuelTypes.includes(x.fuelTypeCode)) &&
@@ -134,12 +140,13 @@ export const filterUnitType = (filterCriteria) =>{
     }).map(i => i.unitTypeCode)
   )];
   updateEnabledStatusCheckBox(filterCriteria.unitType, filteredSet);
+  return filterCriteria.unitType;
 };
 
 export const filterFuelType = (filterCriteria) =>{
   const filteredSet = [...new Set(
     filterCriteria.filterMapping.filter(x => {
-      return (selection.years.length === 0 || selection.years.includes(x.year)) &&
+      return (selection.years.length === 0 || selection.years.includes(x?.year | x?.date?.substring(0,4))) &&
       (selection.states.length === 0 || selection.states.includes(x.stateCode)) &&
       (selection.programs.length === 0 || selection.programs.includes(x.programCode)) &&
       (selection.facilities.length === 0 || selection.facilities.includes(x.facilityId)) &&
@@ -149,12 +156,13 @@ export const filterFuelType = (filterCriteria) =>{
     }).map(i => i.fuelTypeCode)
   )];
   updateEnabledStatusCheckBox(filterCriteria.fuelType, filteredSet);
+  return filterCriteria.fuelType;
 };
 
 export const filterControlTechnology = (filterCriteria) =>{
   const filteredSet = [...new Set(
     filterCriteria.filterMapping.filter(x => {
-      return (selection.years.length === 0 || selection.years.includes(x.year)) &&
+      return (selection.years.length === 0 || selection.years.includes(x?.year | x?.date?.substring(0,4))) &&
       (selection.states.length === 0 || selection.states.includes(x.stateCode)) &&
       (selection.programs.length === 0 || selection.programs.includes(x.programCode)) &&
       (selection.fuelTypes.length === 0 || selection.fuelTypes.includes(x.fuelTypeCode)) &&
@@ -164,6 +172,7 @@ export const filterControlTechnology = (filterCriteria) =>{
     }).map(i => i.controlCode)
   )];
   updateEnabledStatusCheckBox(filterCriteria.controlTechnology, filteredSet);
+  return filterCriteria.controlTechnology;
 };
 
 export const filterSourceCategory = (filterCriteria) =>{
@@ -179,6 +188,7 @@ export const filterSourceCategory = (filterCriteria) =>{
     }).map(i => String(i.sourceCategoryDescription))
   )];
   updateEnabledStatusComboBox(filterCriteria.sourceCategory, filteredSet);
+  return filterCriteria.sourceCategory;
 };
 
 export const filterAccountNameNumber = (filterCriteria) =>{
@@ -203,6 +213,7 @@ export const filterAccountNameNumber = (filterCriteria) =>{
     }).flat()
   )];
   updateEnabledStatusComboBox(filterCriteria.accountNameNumber, filteredSet);
+  return filterCriteria.accountNameNumber;
 };
 
 export const filterAccountType = (filterCriteria) =>{
@@ -227,6 +238,7 @@ export const filterAccountType = (filterCriteria) =>{
     }).flat()
   )];
   updateEnabledStatusCheckBox(filterCriteria.accountType, filteredSet, true);
+  return filterCriteria.accountType;
 };
 
 export const filterOwnerOperator = (filterCriteria) =>{
@@ -246,6 +258,7 @@ export const filterOwnerOperator = (filterCriteria) =>{
     }).map(i => i.ownerOperator)
   )];
   updateEnabledStatusComboBox(filterCriteria.ownerOperator, filteredSet);
+  return filterCriteria.ownerOperator;
 };
 
 export const filterComboBoxYear = (filterCriteria) =>{
@@ -265,6 +278,7 @@ export const filterComboBoxYear = (filterCriteria) =>{
     }).map(i => i.hasOwnProperty("vintageYear") ? i.vintageYear : i.year)
   )];
   updateEnabledStatusComboBox(filterCriteria.timePeriod.comboBoxYear, filteredSet);
+  return filterCriteria.timePeriod.comboBoxYear;
 };
 
 export const filterTransactionType = (filterCriteria) =>{
@@ -284,28 +298,110 @@ export const filterTransactionType = (filterCriteria) =>{
     }).map(i => i.transactionTypeCode)
   )];
   updateEnabledStatusComboBox(filterCriteria.transactionType, filteredSet);
+  return filterCriteria.transactionType;
 };
 
-export const engageFilterLogic = async(dataType, dataSubType, affectedFilter, filterCriteriaCloned, updateFilterCriteriaDispatcher, setLoadingState, removedFilter=false) =>{
-  const fcCopy = JSON.parse(JSON.stringify(filterCriteriaCloned));
-  fcCopy.filterLogicEngaged = true;
-  await updateFilterCriteriaDispatcher(fcCopy); 
-  const filters = FILTERS_MAP[dataType][dataSubType];
-  populateSelections(filterCriteriaCloned, dataSubType);
-  filters.forEach(obj =>{
-    if(removedFilter){
-      if(obj.hasOwnProperty("updateFilter")){
-        obj.updateFilter(filterCriteriaCloned);
+const checkComboBoxYear = (stateVar, clonedFilterCriteria, obj, updatedFilterCriteria) => {
+  if (stateVar !== 'comboBoxYear'){
+      updatedFilterCriteria[stateVar] = obj.updateFilter(clonedFilterCriteria)
+    } else {
+      updatedFilterCriteria.timePeriod = {
+        ...clonedFilterCriteria.timePeriod,
+        [stateVar] : obj.updateFilter(clonedFilterCriteria)
       }
     }
+}
+
+export const engageFilterLogic = (dataType, dataSubType, affectedFilter, filterCriteriaCloned, updateFilterCriteriaDispatcher, setLoadingState, removedFilter=false) => {
+  const filters = FILTERS_MAP[dataType][dataSubType];
+  populateSelections(filterCriteriaCloned, dataSubType);
+  const updatedFilterCriteria = {}
+  filters.forEach(obj =>{
+    const {stateVar} = obj
+    if(removedFilter){
+      obj.hasOwnProperty("updateFilter") && checkComboBoxYear(stateVar, filterCriteriaCloned, obj, updatedFilterCriteria);
+    }
     else if(obj.hasOwnProperty("updateFilter") && affectedFilter !== obj.value){
-      obj.updateFilter(filterCriteriaCloned);
+      checkComboBoxYear(stateVar, filterCriteriaCloned, obj, updatedFilterCriteria);
     }
   });
+  updatedFilterCriteria.filterLogicEngaged = false;
+  updateFilterCriteriaDispatcher(updatedFilterCriteria)
   setTimeout(()=>{
-    updateFilterCriteriaDispatcher(filterCriteriaCloned)
     if (setLoadingState){
       setLoadingState(false);
-    }
+    };
   });
+};
+
+export const filterGrouping = (record, selection) => {
+  if (record.metadata?.grouping) {
+    return record.metadata?.grouping?.toUpperCase() === selection.grouping.toUpperCase();
+  } else if (selection.grouping === 'State') {
+    return !!record.metadata.stateCode;
+  } else if (selection.grouping === 'Quarterly') {
+    return !!record.metadata.quarter;
+  }
+};
+export const filterBulkDataFiles = (selection, tableRecords) =>{
+  return tableRecords.filter(record => {
+    return (selection.dataType === '' || record.metadata?.dataType?.toUpperCase() === selection.dataType.toUpperCase()) &&
+    (selection.subType === '' || record.metadata?.dataSubType?.toUpperCase() === selection.subType.toUpperCase()) &&
+    (selection.grouping === '' || filterGrouping(record, selection)) &&
+    // eslint-disable-next-line
+    (selection.year === '' || record.metadata?.year == selection.year) &&
+    (selection.quarter === '' || record.metadata?.quarter?.toUpperCase() === selection.quarter.toUpperCase()) &&
+    (selection.state === '' || record.metadata?.stateCode?.toUpperCase() === selection.state.toUpperCase())
+  });
+};
+
+
+export const applyBookmarkFilterTags = (bookmarkData, filterCriteria, addAppliedFilterDispatcher) => {
+  const bookmarkFilters = bookmarkData.filters;
+  Object.keys(bookmarkFilters).forEach((el) => {
+    const filterCategory = bookmarkFilters[el];
+    const selectedFilters = filterCategory?.selected;
+    const filterTagItem = filterTagsDict[el];
+    const bookmarkDataSubType = bookmarkData.dataSubType;
+    const showOperatingHrsSubtypes = {'Hourly Emissions': true}
+    if (selectedFilters?.length){
+      if (el === 'comboBoxYear'){
+        if (bookmarkData.dataType === 'ALLOWANCE'){
+          if (filterCriteria.timePeriod[el].length) {addAppliedFilterDispatcher({key: 'Vintage Year', values: filterTagItem?.method( filterCriteria.timePeriod[el])});}
+        }else {
+          if (filterCriteria.timePeriod[el].length) {addAppliedFilterDispatcher({key: filterTagItem?.label, values: filterTagItem?.method(filterCriteria.timePeriod[el], selectedFilters)});}}
+      }else {
+        addAppliedFilterDispatcher({key: filterTagItem?.label, values: filterTagItem?.method(filterCriteria[el], selectedFilters)})
+      }
+    } else if (el === 'timePeriod'){
+      if (bookmarkDataSubType === 'Transactions'){
+      addAppliedFilterDispatcher({key: 'Transaction Date', values: filterTagItem?.method(filterCategory)});
+    }else if (bookmarkDataSubType !== 'Transactions'){
+      addAppliedFilterDispatcher({key: filterTagItem?.label, values: filterTagItem?.method(filterCategory)})
+      if (filterCategory.opHrsOnly && showOperatingHrsSubtypes[bookmarkDataSubType]){
+        addAppliedFilterDispatcher({key: filterTagItem?.label, values: ['Operating Hours Only']})
+      }}
+    } 
+  })
+};
+
+export const getSelectedDataSubType = (options, selectedDataSubtype) => {
+  const entry = options?.find(
+    (list) => list.value === parseFloat(selectedDataSubtype)
+  );
+  return entry ? entry.label : '';
+};
+
+export  const getFilterVariable = (selectedFilter, selectedDataType, selectedDataSubtype) => {
+  if (selectedDataSubtype !== '' && selectedFilter !== '') {
+    const filters =
+      constants.FILTERS_MAP[selectedDataType][
+        getSelectedDataSubType(constants.DATA_SUBTYPES_MAP[selectedDataType], selectedDataSubtype)
+      ];
+
+    return (
+      filters.filter((el) => el.value === selectedFilter)[0]?.stateVar || ''
+    );
+  }
+  return selectedFilter;
 };

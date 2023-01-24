@@ -5,16 +5,23 @@
  *   used to make sure all input present on the screen is in 508 complaint format
  *
  *       Inputs:
- *              none
+ *              triggerAddAriaLabelToDatatable - flag whether or not it will use addAriaLabelToDatatable()
+ *              bulkDataFilesTable -  flag to add button to column headers
  *       Outputs:
  *              none
  *****************************************************/
- export const ensure508 = () => {
-  // *** add aria label to all data tables
-  addAriaLabelToDatatable();
+ export const ensure508 = (triggerAddAriaLabelToDatatable = false, bulkDataFilesTable=false) => {
+  if (triggerAddAriaLabelToDatatable) {
+    // *** add aria label to all data tables
+    addAriaLabelToDatatable();
+  }
+
+  // *** adds button role to column headers for bulk data files table and aria label for other tables
+  if (bulkDataFilesTable) {AddButtonToColumnHeaders()
+  }else {addAriaLabelToColumnHeader()}
 
   // *** add aria sorted-by to data tables
-  addInitialAriaSort();
+  // addInitialAriaSort(); no longer needed
 
   // *** change auto-generated attribute value
   changeGridCellAttributeValue();
@@ -61,6 +68,33 @@ export const changeGridCellAttributeValue = () => {
 };
 
 /*****************************************************
+ * AddButtonToColumnHeaders:
+ *
+ *   This function adds a button to column header, and changes id for the button and parent element so it it reachable to screen readers
+ *
+ *       Inputs:
+ *              none
+ *       Outputs:
+ *              none
+ *****************************************************/
+ export const AddButtonToColumnHeaders = () => {
+  setTimeout(() => {
+    document.querySelectorAll(`.rdt_TableCol_Sortable`).forEach((element) => {
+      const button = document.createElement('button');
+      const title = element.firstChild;
+      const label =title.innerText;
+      element.setAttribute('aria-label', `click to sort ${label}`);
+      button.className = 'button_header';
+      button.innerHTML = title.innerHTML;
+      button.id = label + ' button';
+      element.id = label;
+      button.tabIndex = -1;
+      element.replaceChild(button, title)
+    });
+  });
+};
+
+/*****************************************************
  * addAriaLabelToDatatable:
  *
  *   This function is used to initially set aria-sort attribute appropriately
@@ -84,53 +118,6 @@ export const addAriaLabelToDatatable = () => {
 };
 
 /*****************************************************
- * addInitialAriaSort:
- *
- *   This function is used to initially set aria-sort attribute appropriately
- *
- *       Inputs:
- *              none
- *       Outputs:
- *              none
- *****************************************************/
-export const addInitialAriaSort = () => {
-  setTimeout(() => {
-    document.querySelectorAll(`.rdt_TableCol_Sortable`).forEach((column) => {
-      // *** traverse all sort icons
-      if (column.querySelectorAll(".__rdt_custom_sort_icon__").length > 0) {
-        // *** isolate the svg element of the icon
-        const sortIcon = column.querySelector(".MuiSvgIcon-root");
-
-        // *** if svg element is displayed, set
-        if (window.getComputedStyle(sortIcon).opacity === "1") {
-          if (
-            column
-              .querySelector(".__rdt_custom_sort_icon__")
-              .classList.contains("asc")
-          ) {
-            column
-              .closest(`.rdt_TableCol_Sortable`)
-              .setAttribute("aria-sort", "ascending");
-          } else if (
-            column
-              .querySelector(".__rdt_custom_sort_icon__")
-              .classList.contains("desc")
-          ) {
-            column
-              .closest(`.rdt_TableCol_Sortable`)
-              .setAttribute("aria-sort", "descending");
-          }
-        }else {
-          column
-            .closest(`.rdt_TableCol_Sortable`)
-            .setAttribute("aria-sort", "none");
-        }
-      }
-    });
-  });
-};
-
-/*****************************************************
  * setAriaSort:
  *
  *   This function is used to set aria-sort attribute appropriately
@@ -146,17 +133,17 @@ export const setAriaSort = (event) => {
 
   // *** disregard any events that don't result in sorting
   if (
-    (event.type === "keydown" && event.key !== "Enter") ||
+    (event.type === "keydown" && event.key === "Enter") ||
     event.type === "click"
   ) {
 
     // *** make sure aria-sort attribute is set
     document.querySelectorAll(`.rdt_TableCol_Sortable`).forEach((column) => {
       if(column === currentColumn){
-        if(currentColumn.ariaSort === "none"){
-          if(sortIcon.classList.contains("asc")){
+        if(!currentColumn.ariaSort || currentColumn.ariaSort === "none"){
+          if(sortIcon?.classList?.contains("asc")){
             currentColumn.ariaSort = "ascending";
-          }else if(sortIcon.classList.contains("desc")){
+          }else if(sortIcon?.classList?.contains("desc")){
             currentColumn.ariaSort = "descending";
           }
         }else{
@@ -167,7 +154,7 @@ export const setAriaSort = (event) => {
           }
         }
       }else{
-        column.ariaSort = "none";
+        column.removeAttribute("aria-sort");
       }
     });
   }
@@ -206,3 +193,52 @@ export const removeAriaSortHandlersFromDatatable = () => {
     element.removeEventListener("keydown", setAriaSort);
   });
 };
+
+/*****************************************************
+ * setCheckboxToReferenceColumn:
+ *
+ *   This function is used to set compliant aria-labels to all the checkboxes
+ *
+ *       Inputs:
+ *              data - an array of data elements that populate the table
+ *              columnToReference - what the checkboxes should reference (is an attribute of data)
+ *              selectAllReference - what the select all checkbox should reference (is just a label)
+ *       Outputs:
+ *              none
+ *****************************************************/
+export const setCheckboxToReferenceColumn = (data, coulmnToReference, selectAllReference) => {
+  setTimeout(() => {
+    const selectAll = document.querySelector('[name="select-all-rows"]');
+    if (selectAll) {
+      selectAll.setAttribute('aria-label', `Select/deselect all ${selectAllReference}`);
+    }
+    document.querySelectorAll('.rdt_TableRow').forEach((row) => {
+      const checkboxEl = row.children[0].firstElementChild;
+      const fileNameEl = row.children[1].firstElementChild;
+      if(checkboxEl.getAttribute('name') !== 'select-all-rows') {
+        const label = `select-row-${fileNameEl.innerHTML}`;
+        checkboxEl.setAttribute("aria-label", label);
+        checkboxEl.setAttribute("name", label);
+      }
+    });
+  });
+};
+
+/*****************************************************
+ * addAriaLabelToColumnHeader:
+ *
+ *   This function adds aria label to column header so users know column is sortable
+ *
+ *       Inputs:
+ *              none
+ *       Outputs:
+ *              none
+ *****************************************************/
+export const addAriaLabelToColumnHeader = () => {
+  setTimeout(() => {
+    document.querySelectorAll(".rdt_TableCol_Sortable").forEach((element) => {
+      const columnName =  element.querySelector('#tableMenuContainer')?.innerText;
+      columnName && element.setAttribute('aria-label', `click to sort ${columnName}`);
+    });
+  });
+}

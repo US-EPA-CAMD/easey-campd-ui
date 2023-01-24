@@ -1,13 +1,15 @@
 import React from 'react';
-import {
-  render,
-  fireEvent,
-} from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 import AboutPage from './AboutPage';
+import config from '../../config';
+import configureStore from '../../store/configureStore.dev';
+import initialState from '../../store/reducers/initialState';
+import { Provider } from 'react-redux';
 
+let store = configureStore(initialState);
 jest.mock('react-markdown', () => ({ children }) => <>{children}</>);
 jest.mock('remark-gfm', () => () => {});
 const releases = [
@@ -303,10 +305,8 @@ const releases = [
   },
 ];
 
-const relaseNotesUrl =
-  'https://api.epa.gov/easey/dev/content-mgmt/campd/help-support/about/release-notes.json';
-const aboutUrl =
-  'https://api.epa.gov/easey/dev/content-mgmt/campd/help-support/about/index.md';
+const relaseNotesUrl = `${config.services.content.uri}/campd/help-support/about/release-notes.json`;
+const aboutUrl = `${config.services.content.uri}/campd/help-support/about/index.md`;
 const getReleaseNotes = rest.get(relaseNotesUrl, (req, res, ctx) => {
   return res(ctx.json(releases));
 });
@@ -322,9 +322,11 @@ describe('accordion functionality', () => {
   const accordionReleases = releases.slice(1);
   test('should render content without error', async () => {
     const { findByText } = render(
-      <MemoryRouter>
-        <AboutPage />
-      </MemoryRouter>
+      <Provider store={store}>
+        <MemoryRouter>
+          <AboutPage setApiErrorDispatcher={jest.fn()} />
+        </MemoryRouter>
+      </Provider>
     );
     const aboutHeading = await findByText('this is campd');
     expect(aboutHeading).toBeInTheDocument();
@@ -334,9 +336,11 @@ describe('accordion functionality', () => {
     'accordions should not be expanded by default',
     async (release) => {
       const { findByText } = render(
-        <MemoryRouter>
-          <AboutPage />
-        </MemoryRouter>
+        <Provider store={store}>
+          <MemoryRouter>
+            <AboutPage setApiErrorDispatcher={jest.fn()} />
+          </MemoryRouter>
+        </Provider>
       );
 
       const accordion = await findByText(`${release.title}: ${release.date}`);
@@ -348,9 +352,11 @@ describe('accordion functionality', () => {
     'accordion should expand when clicked on',
     async (release) => {
       const { findByText } = render(
-        <MemoryRouter>
-          <AboutPage />
-        </MemoryRouter>
+        <Provider store={store}>
+          <MemoryRouter>
+            <AboutPage setApiErrorDispatcher={jest.fn()} />
+          </MemoryRouter>
+        </Provider>
       );
 
       const accordion = await findByText(`${release.title}: ${release.date}`);
@@ -363,9 +369,11 @@ describe('accordion functionality', () => {
     'accordion should close when already expanded and clicked on',
     async (release) => {
       const { findByText } = render(
-        <MemoryRouter>
-          <AboutPage />
-        </MemoryRouter>
+        <Provider store={store}>
+          <MemoryRouter>
+            <AboutPage setApiErrorDispatcher={jest.fn()} />
+          </MemoryRouter>
+        </Provider>
       );
 
       const accordion = await findByText(`${release.title}: ${release.date}`);
@@ -379,9 +387,11 @@ describe('accordion functionality', () => {
     'accordion titles should have h3 tag',
     async (release) => {
       const { findByText } = render(
-        <MemoryRouter>
-          <AboutPage />
-        </MemoryRouter>
+        <Provider store={store}>
+          <MemoryRouter>
+            <AboutPage setApiErrorDispatcher={jest.fn()} />
+          </MemoryRouter>
+        </Provider>
       );
 
       const accordion = await findByText(`${release.title}: ${release.date}`);

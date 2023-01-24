@@ -9,30 +9,31 @@ axios.defaults.headers.common = {
 
 export async function getDataFromMDM(endpoint) {
   const url = `${config.services.mdm.uri}/${endpoint}`;
-  console.log(url);
   return axios.get(url).then(handleResponse).catch(handleError);
 }
 
 export const getPrograms = (dataType, showActiveOnly) => {
   if (showActiveOnly) {
-    return getDataFromMDM("programs?allowanceUIFilter=true&isActive=true");
+    return getDataFromMDM("program-codes?allowanceUIFilter=true&isActive=true");
+  } else if (dataType === "FACILITY") {
+    return getDataFromMDM("program-codes");
   } else if (dataType === "EMISSIONS") {
-    return getDataFromMDM("programs?emissionsUIFilter=true");
+    return getDataFromMDM("program-codes?emissionsUIFilter=true");
   } else if (dataType === "ALLOWANCE") {
-    return getDataFromMDM("programs?allowanceUIFilter=true");
+    return getDataFromMDM("program-codes?allowanceUIFilter=true");
   } else if (dataType === "COMPLIANCE") {
-    return getDataFromMDM("programs?complianceUIFilter=true");
+    return getDataFromMDM("program-codes?complianceUIFilter=true");
   } else {
-    return getDataFromMDM("programs?exclude=MATS");
+    return getDataFromMDM("program-codes?exclude=MATS");
   }
 };
-export const getUnitTypes = getDataFromMDM('unit-types');
-export const getFuelTypes = getDataFromMDM('fuel-types');
-export const getStates = getDataFromMDM('states');
-export const getControlTechnologies = getDataFromMDM('control-technologies');
-export const getAccountTypes = getDataFromMDM('account-types?exclude=SHOLD|OVERDF');
-export const getTransactionTypes = getDataFromMDM('transaction-types');
-export const getSourceCategories = getDataFromMDM('source-categories');
+export const getUnitTypes = getDataFromMDM('unit-type-codes');
+export const getFuelTypes = getDataFromMDM('fuel-type-codes');
+export const getStates = getDataFromMDM('state-codes');
+export const getControlTechnologies = getDataFromMDM('control-codes');
+export const getAccountTypes = getDataFromMDM('account-type-codes?exclude=SHOLD|OVERDF');
+export const getTransactionTypes = getDataFromMDM('transaction-type-codes');
+export const getSourceCategories = getDataFromMDM('source-category-codes');
 
 export async function getAllFacilities() {
   const url = `${config.services.facilities.uri}/facilities`;
@@ -69,8 +70,12 @@ export function getOwnerOperators(dataSubType) {
 
 export async function getFilterMapping(dataType, dataSubType, yearSet=[]) {
   let url;
-  if(dataType === "EMISSIONS" || dataType === "FACILITY"){
+  if(dataType === "EMISSIONS"){
+    url = `${config.services.emissions.uri}/emissions/apportioned/attributes/applicable?year=${getPipeDelimitedYears(yearSet)}`
+  }else if (dataType === "FACILITY"){
     url = `${config.services.facilities.uri}/facilities/attributes/applicable?year=${getPipeDelimitedYears(yearSet)}`;
+  }else if(dataType === "MERCURY AND AIR TOXICS EMISSIONS"){
+    url = `${config.services.emissions.uri}/emissions/apportioned/mats/attributes/applicable?year=${getPipeDelimitedYears(yearSet)}`
   }else if(dataType === "ALLOWANCE"){
     if(dataSubType === "Holdings"){
       url = `${config.services.account.uri}/allowance-holdings/attributes/applicable`;

@@ -3,6 +3,9 @@ import { render, fireEvent, cleanup } from '@testing-library/react';
 import { FuelType} from './FuelType';
 import { restructureFuelTypes } from '../../../utils/selectors/filterCriteria';
 import initialState from '../../../store/reducers/initialState';
+
+jest.useFakeTimers();
+jest.spyOn(global, 'setTimeout');
 const fuelType = [
   {
     fuelTypeCode: 'C',
@@ -171,6 +174,7 @@ describe('Fuel Type', () => {
     expect(selectAllGas.checked).toEqual(true);
     const applyFilterButton = getByText('Apply Filter').closest('button');
     fireEvent.click(applyFilterButton);
+    jest.runAllTimers();
     expect(applyFilterLoading).toBe(true);
   });
 });

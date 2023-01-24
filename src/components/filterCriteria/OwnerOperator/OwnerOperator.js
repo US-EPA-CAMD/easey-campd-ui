@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { connect } from "react-redux";
 import {Button} from "@trussworks/react-uswds";
 import { Help } from '@material-ui/icons';
 
 import MultiSelectCombobox from '../../MultiSelectCombobox/MultiSelectCombobox';
-import { loadOwnerOperators, updateOwnerOperatorSelection, updateFilterCriteria } from "../../../store/actions/customDataDownload/filterCriteria";
+import { updateOwnerOperatorSelection, updateFilterCriteria } from "../../../store/actions/customDataDownload/filterCriteria";
 import { addAppliedFilter, removeAppliedFilter } from "../../../store/actions/customDataDownload/customDataDownload";
 import { isAddedToFilters } from "../../../utils/selectors/general";
 import { engageFilterLogic } from "../../../utils/selectors/filterLogic";
@@ -23,13 +23,12 @@ const OwnerOperator = ({
   updateFilterCriteriaDispatcher,
   closeFlyOutHandler,
   renderedHandler,
-  applyFilterLoading,
   setApplyFilterLoading,
 }) => {
 
   const [_ownerOperator, setOwnerOperator] = useState(JSON.parse(JSON.stringify(ownerOperator)));
-  const [applyFilterClicked, setApplyFilterClicked] = useState(false);
-
+  const fcRef = useRef(filterCriteria);
+  fcRef.current = filterCriteria;
   const filterToApply = "Owner/Operator";
   let tooltip ="";
 
@@ -46,11 +45,21 @@ const OwnerOperator = ({
     }// eslint-disable-next-line react-hooks/exhaustive-deps
   },[_ownerOperator]);
 
-  useEffect(()=>{
-    if(applyFilterClicked){
+  const updateFilters = () => {
+    updateOwnerOperatorDispatcher(_ownerOperator);
+    if(isAddedToFilters(filterToApply, appliedFilters)){
+      removeAppliedFilterDispatcher(filterToApply);
+    }
+    const selection = _ownerOperator.filter(e=>e.selected)
+    if(selection.length>0){
+      addAppliedFilterDispatcher({key:filterToApply, values:selection.map(e=>e.label)});
+    }}
+  const handleApplyFilter = () =>{
+    setApplyFilterLoading(true);
+    setTimeout(async()=>{await updateFilters();
       if(dataType === "ALLOWANCE" || dataType === "COMPLIANCE"){
-        if(filterCriteria.filterMapping.length>0){
-          engageFilterLogic(dataType, dataSubType, filterToApply, JSON.parse(JSON.stringify(filterCriteria)), updateFilterCriteriaDispatcher, setApplyFilterLoading);
+        if(fcRef.current.filterMapping.length>0){
+          engageFilterLogic(dataType, dataSubType, filterToApply, JSON.parse(JSON.stringify(fcRef.current)), updateFilterCriteriaDispatcher, setApplyFilterLoading);
         } else {
           setApplyFilterLoading(false)
         }
@@ -58,25 +67,7 @@ const OwnerOperator = ({
         setApplyFilterLoading(false)
       }
       closeFlyOutHandler();
-    }// eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [ownerOperator]);
-
-  useEffect(()=>{
-    if(applyFilterLoading){
-      updateOwnerOperatorDispatcher(_ownerOperator);
-    if(isAddedToFilters(filterToApply, appliedFilters)){
-      removeAppliedFilterDispatcher(filterToApply);
-    }
-    const selection = _ownerOperator.filter(e=>e.selected)
-    if(selection.length>0){
-      addAppliedFilterDispatcher({key:filterToApply, values:selection.map(e=>e.label)});
-    }
-    setApplyFilterClicked(true);
-    }//eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [applyFilterLoading]);
-
-  const handleApplyFilter = () =>{
-    setApplyFilterLoading(true);
+    })
   };
 
 
@@ -150,7 +141,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loadownerOperatorsDispatcher: (dataSubType) => dispatch(loadOwnerOperators(dataSubType)),
     updateOwnerOperatorDispatcher: (ownerOperator) => dispatch(updateOwnerOperatorSelection(ownerOperator)),
     addAppliedFilterDispatcher: (filterToApply) => dispatch(addAppliedFilter(filterToApply)),
     removeAppliedFilterDispatcher: (removedFilter) => dispatch(removeAppliedFilter(removedFilter)),

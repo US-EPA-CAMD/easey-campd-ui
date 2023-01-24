@@ -32,6 +32,7 @@ const TimePeriodRender = ({
   isAnnual,
   isAllowance,
   minYear,
+  dataType,
   dataSubType
 }) => {
 
@@ -106,6 +107,7 @@ const TimePeriodRender = ({
           validations={validations}
           isFormValid={isFormValid}
           isAllowance={isAllowance}
+          dataType={dataType}
         />
       )}
       {(showMonth) && <hr className="margin-y-2" />}

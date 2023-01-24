@@ -3,21 +3,20 @@ import { render } from '@testing-library/react';
 import RenderSpinner from './RenderSpinner';
 
 describe('Loading Modal', () => {
-
-  it('does not render spinner when show spinner is falsey', () => {
+  it('does not render when showSpinner is falsy', () => {
     const { container } = render(
       <RenderSpinner
-        showSpinner={false}
+        showSpinner={0}
       />
     );
     const spinner = container.querySelector('#spinner');
     expect(spinner).not.toBeInTheDocument();
   });
 
-  it('renders spinner when show spinner is truthy', () => {
+  it('renders spinner when showSpinner is truthy', () => {
     const { container } = render(
       <RenderSpinner
-        showSpinner={true}
+        showSpinner={1}
       />
     );
     const spinner = container.querySelector('#spinner');

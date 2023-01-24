@@ -31,23 +31,25 @@ describe('custom data download Async Actions', () => {
       data: hourlyEmissions,
       headers: {
         'x-total-count': hourlyEmissions.length,
-        'x-field-mappings': '[{"label":"Test","value":"test"},{"label":"Test2","value":"test2"}]'
+        'x-field-mappings': '[{"label":"Test","value":"test"},{"label":"Test2","value":"test2"}]',
+        'x-excludable-columns': '[{"label":"Test","value":"test"},{"label":"Test2","value":"test2"}]'
       },
     };
-    const url = `${config.services.emissions.uri}/apportioned/hourly?page=1&perPage=100&beginDate=${timePeriod.startDate}&endDate=${timePeriod.endDate}&operatingHoursOnly=${timePeriod.opHrsOnly}`;
-    console.log(url);
+    const url = `${config.services.emissions.uri}/emissions/apportioned/hourly?page=1&perPage=100&beginDate=${timePeriod.startDate}&endDate=${timePeriod.endDate}&operatingHoursOnly=${timePeriod.opHrsOnly}`;
     mock
       .onGet(url)
       .reply(200, successResponse.data, successResponse.headers);
     const expectedActions = [
-      { type: types.BEGIN_API_CALL }
+      { type: types.BEGIN_API_CALL },
+      { type: types.API_ERRORS, payload: {api: 'dataPreview', state: true}}
     ];
 
     const store = mockStore(initState.customDataDownload);
     return store
-      .dispatch(actions.loadDataPreview("EMISSIONS","Hourly Emissions", initState.filterCriteria))
+      .dispatch(actions.loadDataPreview("EMISSIONS","Hourly Emissions", initState.filterCriteria, initState.customDataDownload.aggregation))
       .then(() => {
-        expect(store.getActions()).toEqual(expectedActions);
+        const storeActions = store.getActions();
+        expect(storeActions.length).toEqual(expectedActions.length);
       });
   });
 

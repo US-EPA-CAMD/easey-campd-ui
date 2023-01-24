@@ -7,19 +7,14 @@ import config from "../../../config";
 import { constructRequestUrl } from "../../../utils/selectors/general";
 import RenderSpinner from "../../RenderSpinner/RenderSpinner";
 import "./DownloadFileType.scss";
+import setApiErrorAction from "../../../store/actions/setApiErrorAction";
 
 axios.defaults.headers.common = {
   "x-api-key": config.app.apiKey,
 };
 
-const DownloadFileType = ({
-  dataType,
-  dataSubType,
-  filterCriteria,
-  totalCount,
-  setApiError
-}) => {
-  const [fileType, setFileType] = useState("text/csv");
+const DownloadFileType = ({ aggregation, dataType, dataSubType, filterCriteria, totalCount, setApiError, setApiErrorDispatcher}) => {
+  const [fileType, setFileType] = useState('text/csv');
   const [loading, setLoading] = useState(false);
 
   useEffect(() => ()=>setApiError(false), // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -35,7 +30,7 @@ const DownloadFileType = ({
   const onDownloadHandler = () => {
     setLoading(true);
     axios
-      .get(constructRequestUrl(dataType, dataSubType, filterCriteria, true), {
+      .get(constructRequestUrl(dataType, dataSubType, filterCriteria, aggregation, true), {
         headers: {
           Accept: fileType,
         },
@@ -70,6 +65,7 @@ const DownloadFileType = ({
         console.log(error);
         setLoading(false);
         setApiError(true);
+        setApiErrorDispatcher('download', true)
       });
   };
 
@@ -110,11 +106,7 @@ const DownloadFileType = ({
       >
         Download
       </Button>
-      {loading ? (
-        <RenderSpinner
-          showSpinner={loading}
-        />
-      ) : null}
+      {loading ? <RenderSpinner showSpinner={loading} /> : null}
     </div>
   );
 };
@@ -123,9 +115,12 @@ const mapStateToProps = (state) => {
   return {
     dataType: state.customDataDownload.dataType,
     dataSubType: state.customDataDownload.dataSubType,
+    aggregation: state.customDataDownload.aggregation,
     filterCriteria: state.filterCriteria,
     totalCount: state.customDataDownload.totalCount,
   };
 };
 
-export default connect(mapStateToProps, null)(DownloadFileType);
+const mapDispatchToProps = (dispatch) => ({setApiErrorDispatcher: (api, state, errorMessage) => dispatch(setApiErrorAction(api, state, errorMessage))});
+
+export default connect(mapStateToProps, mapDispatchToProps)(DownloadFileType);

@@ -4,16 +4,21 @@ import { render } from "@testing-library/react";
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 import { MemoryRouter } from 'react-router-dom';
+import config from '../../config';
+import configureStore from '../../store/configureStore.dev';
+import initialState from '../../store/reducers/initialState';
+import { Provider } from 'react-redux';
 
+let store = configureStore(initialState);
 jest.mock('react-markdown', () => ({ children }) => <>{children}</>);
 jest.mock('react-markdown-v4', () => ({ children }) => <>{children}</>);
 jest.mock('remark-gfm', () => () => {});
 jest.mock('remark-sub-super', () => () => {});
 
 const titleUrl =
-  'https://api.epa.gov/easey/dev/content-mgmt/campd/home/main-title.md';
+  `${config.services.content.uri}/campd/home/main-title.md`;
 const contentUrl =
-  'https://api.epa.gov/easey/dev/content-mgmt/campd/home/main-content.md';
+  `${config.services.content.uri}/campd/home/main-content.md`;
 const getTitle = rest.get(titleUrl, (req, res, ctx) => {
   return res(ctx.json('Title text..'));
 });
@@ -28,9 +33,11 @@ describe('Sub-header Info Component', () => {
   afterAll(() => server.close());
   test("should render title without error", async () => {
     const {findByText} = render(
-    <MemoryRouter>
-      <SubHeaderInfo/>
-    </MemoryRouter>);
+    <Provider store={store}>
+      <MemoryRouter>
+        <SubHeaderInfo setApiErrorDispatcher={jest.fn()} />
+      </MemoryRouter>
+    </Provider>);
     const header = await findByText('Title text..');
     expect(header).toBeInTheDocument();
   });

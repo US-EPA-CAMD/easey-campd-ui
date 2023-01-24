@@ -1,0 +1,30 @@
+.data-display-table{
+  .table-tooltip{
+    width: 1.5rem;
+    position: absolute;
+    left: -1rem;
+    top: 4.5rem;
+    z-index: 5;
+  }
+
+}
+
+#bdfTable {
+  #bdfDownload {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+  }
+
+    header {
+      position: sticky !important;
+      top: 5rem;
+      z-index: 2;
+    }
+  
+    .rdt_TableHead {
+      top: 8rem !important;
+      z-index: 3 !important;
+    }
+    }
+

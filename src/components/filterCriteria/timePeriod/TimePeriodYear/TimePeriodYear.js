@@ -44,34 +44,35 @@ const TimePeriodYear = ({
 
   return (
     <>
-      <Alert
-        role="alert"
-        type="info"
-        validation
-        heading="Requirements"
-        style={{ display: isFormValid() ? 'none' : 'block' }}
-        aria-live="assertive"
-      >
-        <ValidationChecklist id="validate-time-period">
-          <ValidationItem
-            id="yearFormat"
-            isValid={validations.yearFormat}
-            aria-checked={validations.yearFormat}
-            className={validations.yearFormat? 'display-none': null}
-          >
-            Enter year(s) using a comma separated format (ex. 1996, 2000,
-            2001-2005)
-          </ValidationItem>
-          <ValidationItem
-            id="validReportingQuarter"
-            isValid={validations.validReportingQuarter}
-            aria-checked={validations.validReportingQuarter}
-            className={validations.validReportingQuarter? 'display-none': null}
-          >
-            {rangeMessage}
-          </ValidationItem>
-        </ValidationChecklist>
-      </Alert>
+      <div className={isFormValid() ? 'display-none' : 'display-block' }>
+        <Alert
+          role="alert"
+          type="info"
+          validation
+          heading="Requirements"
+          aria-live="assertive"
+        >
+          <ValidationChecklist id="validate-time-period">
+            <ValidationItem
+              id="yearFormat"
+              isValid={validations.yearFormat}
+              aria-checked={validations.yearFormat}
+              className={validations.yearFormat? 'display-none': null}
+            >
+              Enter year(s) using a comma separated format (ex. 1996, 2000,
+              2001-2005)
+            </ValidationItem>
+            <ValidationItem
+              id="validReportingQuarter"
+              isValid={validations.validReportingQuarter}
+              aria-checked={validations.validReportingQuarter}
+              className={validations.validReportingQuarter? 'display-none': null}
+            >
+              {rangeMessage}
+            </ValidationItem>
+          </ValidationChecklist>
+        </Alert>
+      </div>
       <Label htmlFor="event-year-input">{yearLabel}
         <div id="date-format-hint">
           Ex: 1996-2000,2003,2005,2010-2015

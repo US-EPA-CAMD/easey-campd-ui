@@ -1,0 +1,48 @@
+diff --git a/node_modules/tiny-slider/src/tiny-slider.js b/node_modules/tiny-slider/src/tiny-slider.js
+index 110b2f4..f3acdea 100644
+--- a/node_modules/tiny-slider/src/tiny-slider.js
++++ b/node_modules/tiny-slider/src/tiny-slider.js
+@@ -545,7 +545,11 @@ export var tns = function(options) {
+     rect = div.getBoundingClientRect();
+     width = rect.right - rect.left;
+     div.remove();
+-    return width || getClientWidth(el.parentNode);
++    if (width) {
++      return width;
++    } else if (null !== el.parentNode.parentNode) {
++      return getClientWidth(el.parentNode);
++    }
+   }
+ 
+   function getViewportWidth () {
+@@ -2502,15 +2506,26 @@ export var tns = function(options) {
+     if (!hasAttr(curElement, 'data-nav')) { return; }
+ 
+     // var code = e.keyCode,
+-    var keyIndex = [KEYS.LEFT, KEYS.RIGHT, KEYS.ENTER, KEYS.SPACE].indexOf(e.keyCode),
++    var keyIndex = [KEYS.LEFT, KEYS.RIGHT, KEYS.ENTER, KEYS.SPACE, 9].indexOf(e.keyCode),
+         navIndex = Number(getAttr(curElement, 'data-nav'));
+-
+     if (keyIndex >= 0) {
+       if (keyIndex === 0) {
+         if (navIndex > 0) { setFocus(navItems[navIndex - 1]); }
+-      } else if (keyIndex === 1) {
++      } else if (keyIndex === 1 ) {
+         if (navIndex < pages - 1) { setFocus(navItems[navIndex + 1]); }
+-      } else {
++      } else if (keyIndex === 4) {//make navigation buttons tabbable
++        const navigationButtons = document.querySelectorAll('[data-nav]')
++        if (e.shiftKey){//make navigation buttons tabbable backwards with shift key
++          if(navIndex !== 0){
++            e.preventDefault();
++            setFocus(navItems[navIndex - 1]);
++          }
++          // if (navIndex > 0) { setFocus(navItems[navIndex - 1]); }
++        } else {
++        if(navIndex !== navigationButtons.length-1){e.preventDefault();}
++        if (navIndex < pages - 1) { setFocus(navItems[navIndex + 1]); }}
++      }
++      else {
+         navClicked = navIndex;
+         goTo(navIndex, e);
+       }

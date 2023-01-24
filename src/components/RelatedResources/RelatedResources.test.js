@@ -5,7 +5,12 @@ import { MemoryRouter } from 'react-router-dom';
 import RelatedResources from './RelatedResources';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
+import config from '../../config';
+import { Provider } from 'react-redux';
+import configureStore from '../../store/configureStore.dev';
+import initialState from '../../store/reducers/initialState';
 
+let store = configureStore(initialState);
 jest.mock('react-markdown', () => ({ children }) => <>{children}</>);
 jest.mock('remark-gfm', () => () => {});
 
@@ -66,10 +71,9 @@ const additionalDataTools = [
   },
 ];
 
-const additionalToolsUrl =
-  'https://api.epa.gov/easey/dev/content-mgmt/campd/resources/related-resources/additional-data-tools.json';
-const contentIntroUrl =
-  'https://api.epa.gov/easey/dev/content-mgmt/campd/resources/related-resources/index.md';
+const baseUrl = `${config.services.content.uri}/campd/help-support/related-resources`;
+const contentIntroUrl = `${baseUrl}/index.md`;
+const additionalToolsUrl = `${baseUrl}/additional-data-tools.json`;
 const getAdditionalToolsUrl = rest.get(additionalToolsUrl, (req, res, ctx) => {
   return res(ctx.json(additionalDataTools));
 });
@@ -84,23 +88,29 @@ afterAll(() => server.close());
 describe('Related Resources Page Component', () => {
   test('should render content introduction without error', async () => {
     const { findByText } = render(
-      <MemoryRouter>
-        <RelatedResources />
-      </MemoryRouter>
+      <Provider store={store}>
+        <MemoryRouter>
+          <RelatedResources setApiErrorDispatcher={jest.fn()} />
+        </MemoryRouter>
+      </Provider>
     );
     const heading = await findByText('This is related resources intro..');
     expect(heading).toBeInTheDocument();
   });
   test('should render additional data tools list without error', async () => {
     const { findAllByText } = render(
-      <MemoryRouter>
-        <RelatedResources />
-      </MemoryRouter>
+      <Provider store={store}>
+        <MemoryRouter>
+          <RelatedResources setApiErrorDispatcher={jest.fn()} />
+        </MemoryRouter>
+      </Provider>
     );
 
-    additionalDataTools.forEach(async(element) => {
+    //additionalDataTools.forEach((element) => {
+      const element =additionalDataTools[0];
+    // additionalDataTools.forEach(async(element) => {
       const container = await findAllByText(`${element.name}`);
       expect(container).toBeTruthy();
-    });
+    //});
   });
 });

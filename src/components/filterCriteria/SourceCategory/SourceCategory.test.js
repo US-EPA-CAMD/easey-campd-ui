@@ -10,8 +10,10 @@ import SourceCategory from './SourceCategory';
 import configureStore from "../../../store/configureStore.dev";
 import { Provider } from "react-redux";
 import initialState from "../../../store/reducers/initialState";
-import { loadSourceCategories, updateSourceCategorySelection } from "../../../store/actions/customDataDownload/filterCriteria";
+import { updateSourceCategorySelection } from "../../../store/actions/customDataDownload/filterCriteria";
 import { addAppliedFilter, removeAppliedFilter } from "../../../store/actions/customDataDownload/customDataDownload";
+jest.useFakeTimers();
+jest.spyOn(global, 'setTimeout');
 
 const sourceCategories = [
   {
@@ -67,7 +69,6 @@ describe('Source Category Component', () => {
       <Provider 
         store={store}>
         <SourceCategory
-          loadSourceCategoriesDispatcher ={loadSourceCategories}
           updateSourceCategorySelectionDispatcher ={updateSourceCategorySelection}
           addAppliedFilterDispatcher ={addAppliedFilter}
           removeAppliedFilterDispatcher ={removeAppliedFilter}
@@ -114,6 +115,7 @@ describe('Source Category Component', () => {
     expect(getByRole("button", {name: "Automotive Stampings"})).toBeDefined();
     expect(getAllByTestId("multi-select-option").length).toBe(sourceCategories.length);
     fireEvent.click(getByText("Apply Filter"));
+    jest.runAllTimers();
     expect(applyFilterLoading).toBe(true);
   })
 });
