@@ -92,7 +92,8 @@
     "sass": "^1.36.0",
     "styled-components": "^5.3.0",
     "tiny-slider": "2.9.4",
-    "uswds": "^2.12.1"
+    "uswds": "^2.12.1",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "autoprefixer": "^9.8.6",
