@@ -7,7 +7,7 @@ import { ContactForm } from '@us-epa-camd/easey-design-system';
 import { metaAdder } from '../../utils/document/metaAdder';
 import getContent from '../../utils/api/getContent';
 import { sendSupportEmail } from '../../utils/api/camdApi';
-import { isEmailValid } from '../../utils/selectors/general';
+import * as yup from 'yup';
 
 import './ContactUsPage.scss';
 import { connect } from 'react-redux';
@@ -96,7 +96,10 @@ const ContactUsPage = ({setApiErrorDispatcher}) => {
     );//eslint-disable-next-line
   }, []);
 
-  const onSubmitHandler = () => {
+  const schema = yup.object().shape({
+    email: yup.string().email(),
+  });
+  const onSubmitHandler = async() => {
     // form data selectors
     let subject = '';
     const message = document.querySelector('#txtComment').value;
@@ -104,7 +107,8 @@ const ContactUsPage = ({setApiErrorDispatcher}) => {
     const checkedSubjectId = document.querySelector(
       "fieldset div input[name='radioSubject']:checked"
     );
-
+    const isEmailValid = await schema.isValid({email: fromEmail});
+    console.log({isEmailValid, fromEmail});
     // Get label of selected radio button (comment types / subject)
     if (checkedSubjectId) {
       subject = commentTypes.find(
@@ -121,7 +125,7 @@ const ContactUsPage = ({setApiErrorDispatcher}) => {
           (statusText) => statusText.status === 'error-incomplete-fields'
         ).message
       );//validates email address
-    } else if (!isEmailValid(fromEmail)){
+    } else if (!isEmailValid){
       setSubmitStatus(false);
       setSubmitted(true);
       setEmailErrorMsg(
