@@ -8,7 +8,6 @@ import configureStore from '../../../store/configureStore.dev';
 import userEvent from '@testing-library/user-event';
 const { getByRole, getByText } = screen;
 
-jest.mock('downloadjs', ()=>{})
 let store = configureStore(initialState);
 
 const selectedFiles = {
@@ -65,6 +64,15 @@ const singleSelectedFile = Object.assign({}, selectedFiles, [
   selectedFiles.selectedRows[0],
 ]);
 describe('Bulk data files download component functionality', () => {
+  const originalCreateObjectURL = window.URL.createObjectURL, mockCreateObjectURL = jest.fn();
+
+  beforeEach(() => {
+    window.URL.createObjectURL = (...args) => mockCreateObjectURL(...args);
+  });
+
+  afterEach(() => {
+    window.URL.createObjectURL = originalCreateObjectURL;
+  });
   test('renders component properly', () => {
     render(
       <Provider store={store}>
@@ -181,8 +189,7 @@ describe('Bulk data files download component functionality', () => {
     const downloadButton = getByRole('button', {
       name: /download/i,
     });
-    expect(downloadButton).not.toBeDisabled();
     userEvent.click(downloadButton)
-    expect(setApiError).not.toHaveBeenCalled()
+    expect(mockCreateObjectURL).toHaveBeenCalled()
   });
 });

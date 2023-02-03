@@ -1,9 +1,6 @@
 import { Button } from '@trussworks/react-uswds';
 import React, { useEffect, useState } from 'react';
- import { connect } from 'react-redux';
 import config from '../../../config';
-import setApiError from '../../../store/actions/setApiErrorAction';
-import axios from '../../../utils/api/axiosSetup';
 import useTimeout from '../../../utils/hooks/useTimeout';
 import RenderSpinner from '../../RenderSpinner/RenderSpinner';
 export const downloadFile = (response, filename, fileType) => {
@@ -18,7 +15,7 @@ export const downloadFile = (response, filename, fileType) => {
   link.click();
   link.parentNode.removeChild(link);
 }
-const BulkDataFilesDownload = ({ selectedFiles, fileSize, limitReached, setApiErrorDispatcher }) => {
+const BulkDataFilesDownload = ({ selectedFiles, fileSize, limitReached }) => {
 
   const [initDownload, setInitDownload] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -47,28 +44,7 @@ const BulkDataFilesDownload = ({ selectedFiles, fileSize, limitReached, setApiEr
         }
         return state
       })
-      axios
-        .get(url, {
-          headers: {
-            Accept: fileType,
-          },
-          responseType: 'blob',
-        })
-        .then((response) => {
-          downloadFile(response, filename, fileType)
-        })
-        .catch((error) => {
-          setApiErrorDispatcher('s3Outage', true)
-          console.log(error);
-        })
-        .finally(()=>{
-          setLoading((state) => {
-            if (state){
-              return false;
-            }
-            return state
-          })
-        });
+      downloadFile(url, filename, fileType);
     });
     setSpinnerDelay(null);
     setSpinnerDelayHasElapsed(false);
@@ -105,6 +81,4 @@ const BulkDataFilesDownload = ({ selectedFiles, fileSize, limitReached, setApiEr
   );
 };
 
-const mapDispatchToProps = (dispatch) => ({setApiErrorDispatcher: (api, state, errorMessage) => dispatch(setApiError(api, state, errorMessage))});
-
-export default connect(null, mapDispatchToProps)(BulkDataFilesDownload);
+export default BulkDataFilesDownload;
