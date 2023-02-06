@@ -3,18 +3,18 @@ import React, { useEffect, useState } from 'react';
 import config from '../../../config';
 import useTimeout from '../../../utils/hooks/useTimeout';
 import RenderSpinner from '../../RenderSpinner/RenderSpinner';
-export const downloadFile = (response, filename, fileType) => {
-  const url = window.URL.createObjectURL(
-    new Blob([response.data], { type: fileType })
-  );
+
+export const downloadFile = (url, filename, fileType) => {
   const link = document.createElement("a");
+  link.style.display = "none";
   link.href = url;
   link.setAttribute("download", filename);
-  link.setAttribute("target", "_blank");
+  link.setAttribute("Content-Type", fileType);
   document.body.appendChild(link);
   link.click();
-  link.parentNode.removeChild(link);
-}
+  document.body.removeChild(link);
+};
+
 const BulkDataFilesDownload = ({ selectedFiles, fileSize, limitReached }) => {
 
   const [initDownload, setInitDownload] = useState(false);
