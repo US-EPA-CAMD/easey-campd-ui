@@ -3,7 +3,7 @@ import React from 'react';
 import config from '../../../config';
 
 export const downloadFile = (url) => {
-  let iframe = document.createElement('iframe');
+  const iframe = document.createElement('iframe');
   iframe.style.visibility = 'collapse';
   document.body.append(iframe);
   iframe.contentDocument.write(`<form action="${url}" method="GET"></form>`);
@@ -16,7 +16,7 @@ const BulkDataFilesDownload = ({ selectedFiles, fileSize, limitReached }) => {
     selectedFiles.selectedRows.forEach((file) => {
       const { s3Path } = file;
       const url = `${config.services.bulkFiles.uri}/${s3Path}`;
-      downloadFile(url); // openLinks(links)
+      downloadFile(url);
     });
   };
 
