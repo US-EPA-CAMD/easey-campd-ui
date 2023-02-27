@@ -2239,10 +2239,10 @@
     semver "^7.3.2"
     tsutils "^3.17.1"
 
-"@us-epa-camd/easey-design-system@1.34.1":
-  version "1.34.1"
-  resolved "https://npm.pkg.github.com/download/@US-EPA-CAMD/easey-design-system/1.34.1/a7f7b3d5f2d781de549c99256f4b10949f12aa7c#a7f7b3d5f2d781de549c99256f4b10949f12aa7c"
-  integrity sha512-RKhkq5Q+J4knqfWFuGXqwEuqAVqWXFQRRkWsIPwOkz3WdcDfGp5f6eGLfgPUJnjynSWctl/WwhQRTGRnhgB//w==
+"@us-epa-camd/easey-design-system@1.34.3":
+  version "1.34.3"
+  resolved "https://npm.pkg.github.com/download/@US-EPA-CAMD/easey-design-system/1.34.3/b35ecbf600d3983c1265bb074758b93a6e55bc26#b35ecbf600d3983c1265bb074758b93a6e55bc26"
+  integrity sha512-dnkSnYkn+w+ZVgw+9HiHjIUD50BJntIpZWxZKEZTFTNHh3Nw6X6SKX6CMN0YzX4tPL/Bq8t494UCs7rIERTUZQ==
   dependencies:
     "@ramonak/react-progress-bar" "^4.2.0"
 
