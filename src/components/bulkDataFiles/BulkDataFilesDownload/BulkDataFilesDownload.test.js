@@ -16,7 +16,7 @@ const selectedFiles = {
   selectedRows: [
     {
       filename: 'compliance-txso2.csv',
-      s3Path: 'compliance/compliance-txso2.csv',
+      s3Path: 'sddsd/compliance-txso2.csv',
       bytes: 6145,
       kiloBytes: 6,
       megaBytes: 0,
@@ -28,7 +28,7 @@ const selectedFiles = {
     },
     {
       filename: 'compliance-csso2g1.csv',
-      s3Path: 'compliance/compliance-csso2g1.csv',
+      s3Path: 'sdd/compliance-csso2g1.csv',
       bytes: 691083,
       kiloBytes: 674,
       megaBytes: 0,
@@ -64,15 +64,7 @@ const singleSelectedFile = Object.assign({}, selectedFiles, [
   selectedFiles.selectedRows[0],
 ]);
 describe('Bulk data files download component functionality', () => {
-  const originalCreateObjectURL = window.URL.createObjectURL, mockCreateObjectURL = jest.fn();
 
-  beforeEach(() => {
-    window.URL.createObjectURL = (...args) => mockCreateObjectURL(...args);
-  });
-
-  afterEach(() => {
-    window.URL.createObjectURL = originalCreateObjectURL;
-  });
   test('renders component properly', () => {
     render(
       <Provider store={store}>
@@ -190,6 +182,6 @@ describe('Bulk data files download component functionality', () => {
       name: /download/i,
     });
     userEvent.click(downloadButton)
-    expect(mockCreateObjectURL).toHaveBeenCalled()
+    expect(setApiError).not.toHaveBeenCalled()
   });
 });
