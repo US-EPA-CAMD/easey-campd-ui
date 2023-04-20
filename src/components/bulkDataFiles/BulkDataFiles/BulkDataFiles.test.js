@@ -13,7 +13,7 @@ let store = configureStore(initialState);
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
-  useHistory: () => ({
+  useNavigate: () => ({
     push: jest.fn(),
   }),
 }));

@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 
 import Layout from "../Layout/Layout";
 import CustomDataDownload from "../customDataDownload/CustomDataDownload/CustomDataDownload";
@@ -14,9 +14,6 @@ import RelatedResources from "../RelatedResources/RelatedResources";
 import FaqsPage from "../FaqPage/FaqsPage";
 import ContactUsPage from "../ContactUsPage/ContactUsPage"
 import GlossaryPage from "../GlossaryPage/GlossaryPage";
-import config from "../../config";
-
-import "./App.scss";
 
 function App() {
   const prepDocument = () => {
@@ -40,24 +37,22 @@ function App() {
 
   return (
     <div className="react-transition fade-in">
-      <BrowserRouter basename={config.app.path}>
-      <Layout>
-        <Switch>
-          <Route path="/" exact component={HomePage} />
-          <Route path="/data" exact component={DataLandingPage} />
-          <Route path="/data/custom-data-download" exact component={CustomDataDownload} />
-          <Route path="/data/bulk-data-files" exact component={BulkDataFiles} />
-          <Route path="/visualization-gallery" exact component={VisualizationGalleryPage} />
-          <Route path="/help-support/related-resources" exact component={RelatedResources} />
-          <Route path="/help-support/glossary" exact component={GlossaryPage} />
-          <Route path="/help-support/about" exact component={AboutPage} />
-          <Route path="/help-support/tutorials" exact component={TutorialsPage} />
-          <Route path="/help-support/faqs" exact component={FaqsPage} />
-          <Route path="/help-support/contact-us" exact component={ContactUsPage} />
-          <Route path="/*" component={NotFound} />
-        </Switch>
-      </Layout>
-      </BrowserRouter>
+    <Layout>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/data" element={<DataLandingPage />} />
+        <Route path="/data/custom-data-download" element={<CustomDataDownload />} />
+        <Route path="/data/bulk-data-files" element={<BulkDataFiles />} />
+        <Route path="/visualization-gallery" element={<VisualizationGalleryPage />} />
+        <Route path="/help-support/related-resources" element={<RelatedResources />} />
+        <Route path="/help-support/glossary" element={<GlossaryPage />} />
+        <Route path="/help-support/about" element={<AboutPage />} />
+        <Route path="/help-support/tutorials" element={<TutorialsPage />} />
+        <Route path="/help-support/faqs" element={<FaqsPage />} />
+        <Route path="/help-support/contact-us" element={<ContactUsPage />} />
+        <Route path="/*" element={<NotFound />} />
+      </Routes>
+    </Layout>
     </div>
   );
 }

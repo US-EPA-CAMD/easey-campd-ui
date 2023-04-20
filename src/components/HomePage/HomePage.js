@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
-import { Link as USWDSLink, Button } from "@trussworks/react-uswds";
-import { useHistory } from "react-router-dom";
+import Markdown from "../Markdown/Markdown";
+import { useNavigate } from "react-router-dom";
 import {
   TitledProgressBar,
   WhatIsNewBox,
@@ -82,7 +80,6 @@ const HomePage = ({setApiErrorDispatcher}) => {
         }
       })
       .catch((err) => {
-        console.log(err);
         setShowProgressBar(false);
       });
   }, []);
@@ -96,7 +93,8 @@ const HomePage = ({setApiErrorDispatcher}) => {
     "Clean air markets program data, EPA, emissions, data, allowance, compliance, custom data download, CAMPD APIs, APIs, bulk data files, CAMPD, AMPD, ECMPS, CAMD, FTP, maps, graphs"
   );
 
-  const history = useHistory();
+  const history = useNavigate();
+
   return (
     <div>
       <div className="grid-row padding-y-4 mobile-lg:padding-x-2 desktop:padding-x-4 widescreen:padding-x-10">
@@ -112,112 +110,36 @@ const HomePage = ({setApiErrorDispatcher}) => {
           </div>
         ) : null}
         <div className="padding-y-1 padding-x-1 display-flex flex-row flex-align-start text-base-darkest order-3 grid-col-12 desktop:grid-col-4">
-          <ReactMarkdown
+          <Markdown
             className="data-card"
-            children={dataCard}
-            remarkPlugins={[remarkGfm]}
-            components={{
-              img: ({node, ...props}) => <img {...props} alt="" id="data-icon"/>,
-              // eslint-disable-next-line
-              table: ({node, ...props}) => <table {...props} role="Presentation"/>,
-              th: ({node, ...props}) => <td {...props}/>,
-              a: ({ node, ...props }) => {
-              return node.properties.title === "Header Link" ? (
-                  <h2>
-                    <Button
-                      className="header-link font-heading-xl text-bold"
-                      unstyled="true"
-                      onClick={() => history.push(props.href)}
-                    >
-                      {props.children[0]}
-                    </Button>
-                  </h2>
-                ) : (
-                  <Button
-                    className="margin-top-2"
-                    type="button"
-                    onClick={() => history.push(props.href)}
-                    role="link"
-                    rel={"Data"}
-                    title={props.children[0]}
-                  >
-                    {props.children[0]}
-                  </Button>
-                )
-              }
-            }}
-          />
+            role="link"
+            rel="Data"
+            imgId="data-icon"
+          >
+            {dataCard}
+          </Markdown>
         </div>
         <div className="padding-y-1 padding-x-1 display-flex flex-row flex-align-start text-base-darkest order-3 grid-col-12 desktop:grid-col-4">
-          <ReactMarkdown
+          <Markdown
             className="visualization-gallery-card"
-            children={visualGalleryCard}
-            remarkPlugins={[remarkGfm]}
-            components={{// eslint-disable-next-line
-              img: ({node, ...props}) => <img {...props} alt="" id="viz-gallery-icon"/>,
-              // eslint-disable-next-line
-              table: ({node, ...props}) => <table {...props} role="Presentation"/>,
-              th: ({node, ...props}) => <td {...props}/>,
-              a: ({ node, ...props }) => {
-              return node.properties.title === "Header Link" ? (
-                  <h2>
-                    <Button
-                      className="header-link font-heading-xl text-bold"
-                      unstyled="true"
-                      onClick={() => history.push(props.href)}
-                    >
-                      {props.children[0]}
-                    </Button>
-                  </h2>
-                ) : (
-                  <Button
-                    className="margin-top-2"
-                    type="button"
-                    onClick={() => history.push(props.href)}
-                    role="link"
-                    rel={"Visualization Gallery"}
-                    title={props.children[0]}
-                  >
-                    {props.children[0]}
-                  </Button>
-                )
-              }
-            }}
-          />
+            role="link"
+            rel="Visualization Gallery"
+            imgId="viz-gallery-icon"
+          >
+            {visualGalleryCard}
+          </Markdown>
         </div>
         <div className="what-is-new-wrapper mobile-lg:order-1 desktop:order-3 padding-y-1 padding-x-1 display-flex flex-row flex-align-start text-base-darkest grid-col-12 desktop:grid-col-4">
           <WhatIsNewBox
-            text={
-              <ReactMarkdown
-                className="what-is-new-box "
-                children={whatIsNewContent}
-                remarkPlugins={[remarkGfm]}
-                components={{
-                  a: ({ node, ...props }) => (
-                    <USWDSLink
-                      {...props}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    />
-                  ),
-                }}
-              />
-            }
             title={
-              <ReactMarkdown
-                className="what-is-new-box-title"
-                children={whatIsNewTitle}
-                remarkPlugins={[remarkGfm]}
-                components={{
-                  a: ({ node, ...props }) => (
-                    <USWDSLink
-                      {...props}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    />
-                  ),
-                }}
-              />
+              <Markdown className="what-is-new-box-title">
+                {whatIsNewTitle}
+              </Markdown>
+            }
+            text={
+              <Markdown className="what-is-new-box">
+                {whatIsNewContent}
+              </Markdown>
             }
           />
         </div>

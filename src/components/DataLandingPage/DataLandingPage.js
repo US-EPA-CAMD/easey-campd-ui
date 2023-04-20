@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { Button } from "@trussworks/react-uswds";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { metaAdder } from "../../utils/document/metaAdder";
 import getContent from "../../utils/api/getContent";
 import "./DataLandingPage.scss";
@@ -29,7 +29,7 @@ const DataLandingPage = ({setApiErrorDispatcher}) => {
     "Clean air markets program data, EPA, emissions, allowance, compliance, custom data download, CAMPD APIs, APIs, bulk data files, CAMPD, CAMD, FTP, AMPD"
   );
 
-  const history = useHistory();
+  const history = useNavigate();
 
   return (
     <div
