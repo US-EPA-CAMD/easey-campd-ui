@@ -93,6 +93,7 @@ const AboutPage = ({setApiErrorDispatcher}) => {
                   ),
                   expanded: false,
                   id: release + i,
+                  headingLevel: 'h4',
                 });
               })}
               multiselectable={true}

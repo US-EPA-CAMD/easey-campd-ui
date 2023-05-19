@@ -29,7 +29,7 @@ const DataLandingPage = ({setApiErrorDispatcher}) => {
     "Clean air markets program data, EPA, emissions, allowance, compliance, custom data download, CAMPD APIs, APIs, bulk data files, CAMPD, CAMD, FTP, AMPD"
   );
 
-  const history = useNavigate();
+  const navigate = useNavigate();
 
   return (
     <div
@@ -72,7 +72,7 @@ const DataLandingPage = ({setApiErrorDispatcher}) => {
                     onClick={
                       topic.hasOwnProperty("externalLink")
                         ? () => window.open(topic.url, "_blank")
-                        : () => history.push(topic.url)
+                        : () => navigate(topic.url)
                     }
                     role="link"
                     rel={topic.name}

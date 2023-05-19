@@ -25,9 +25,6 @@ const FaqsPage = ({setApiErrorDispatcher}) => {
     );
     //eslint-disable-next-line
   }, []);
-  useEffect(() => {
-    formatAccordionTitles(); //eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [topics]);
 
   metaAdder(
     'description',
@@ -77,6 +74,7 @@ const FaqsPage = ({setApiErrorDispatcher}) => {
                   ),
                   expanded: false,
                   id: i,
+                  headingLevel: 'h3',
                 });
               })}
               multiselectable={true} />
