@@ -1,43 +1,45 @@
-import * as types from "../../actions/actionTypes";
-import initialState from "../initialState";
-
+import {produce} from 'immer';
+import * as types from '../../actions/actionTypes';
+import initialState from '../initialState';
 
 const reducer = (state = initialState.customDataDownload, action) => {
-  switch (action.type){
-    case types.UPDATE_SELECTED_DATATYPE:
-      return Object.assign({}, state, { dataType: action.dataType });
-    case types.UPDATE_SELECTED_DATASUBTYPE:
-      return Object.assign({}, state, { dataSubType: action.dataSubType });
-    case types.UPDATE_SELECTED_AGGREGATION:
-      return Object.assign({}, state, { aggregation: action.aggregation });
-    case types.RESET_DATA_PREVIEW:
-      return {...state, dataPreview: null, totalCount:null};
-    case types.ADD_APPLIED_FILTER:
-      return {
-        ...state,
-        appliedFilters: [...state.appliedFilters, action.appliedFilter]
-       };
-    case types.REMOVE_APPLIED_FILTER:
-      const filter = (action.removal.opHours && !action.removal.removeAll)
-      ? (el) => el.values[0] !== 'Operating Hours Only'
-      : (el) => el.key !== action.removal.removedFilter
+  return produce(state, draft => {
+    switch (action.type) {
+      case types.UPDATE_SELECTED_DATATYPE:
+        draft.dataType = action.dataType;
+        break;
+      case types.UPDATE_SELECTED_DATASUBTYPE:
+        draft.dataSubType = action.dataSubType;
+        break;
+      case types.UPDATE_SELECTED_AGGREGATION:
+        draft.aggregation = action.aggregation;
+        break;
+      case types.RESET_DATA_PREVIEW:
+        draft.dataPreview = null;
+        draft.totalCount = null;
+        break;
+      case types.ADD_APPLIED_FILTER:
+        draft.appliedFilters.push(action.appliedFilter);
+        break;
+      case types.REMOVE_APPLIED_FILTER:
+        const filter = action.removal.opHours && !action.removal.removeAll
+          ? (el) => el.values[0] !== 'Operating Hours Only'
+          : (el) => el.key !== action.removal.removedFilter;
 
-      return {
-          ...state,
-          appliedFilters: action.removal.removeAll ? [] : state.appliedFilters.filter(filter)
-      }
-    case types.LOAD_DATA_PREVIEW_SUCCESS:
-      return Object.assign(
-        {},
-        state,
-        { dataPreview: action.dataPreview.data },
-        { totalCount: action.dataPreview.totalCount },
-        { fieldMappings: action.dataPreview.fieldMappings },
-        { excludableColumns: action.dataPreview.excludableColumns }
-      );
-    default:
-      return state;
-  }
+        draft.appliedFilters = action.removal.removeAll
+          ? []
+          : draft.appliedFilters.filter(filter);
+        break;
+      case types.LOAD_DATA_PREVIEW_SUCCESS:
+        draft.dataPreview = action.dataPreview.data;
+        draft.totalCount = action.dataPreview.totalCount;
+        draft.fieldMappings = action.dataPreview.fieldMappings;
+        draft.excludableColumns = action.dataPreview.excludableColumns;
+        break;
+      default:
+        break;
+    }
+  });
 };
 
 export default reducer;

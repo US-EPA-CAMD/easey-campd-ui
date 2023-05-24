@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Markdown from "../Markdown/Markdown";
-import { useNavigate } from "react-router-dom";
+
 import {
   TitledProgressBar,
   WhatIsNewBox,
@@ -92,8 +92,6 @@ const HomePage = ({setApiErrorDispatcher}) => {
     "keywords",
     "Clean air markets program data, EPA, emissions, data, allowance, compliance, custom data download, CAMPD APIs, APIs, bulk data files, CAMPD, AMPD, ECMPS, CAMD, FTP, maps, graphs"
   );
-
-  const history = useNavigate();
 
   return (
     <div>

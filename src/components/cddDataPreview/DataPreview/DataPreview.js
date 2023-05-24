@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { connect } from "react-redux";
+import { cloneDeep } from 'lodash';
 import { loadDataPreview } from "../../../store/actions/customDataDownload/customDataDownload";
 import DataPreviewRender from "../DataPreviewRender/DataPreviewRender";
 import { dataPreviewColumns } from "../../../utils/constants/dataPreviewCol";
@@ -124,7 +125,7 @@ export const DataPreview = ({
     const unFormattedResult = [];
     const exceptions = {id: true, year: true, 'startblock': true, 'endblock': true, 'number': true};
     if (loading === 0 && dataPreview !== null) {
-      result = dataPreview.map((d,i)=>{
+      result = cloneDeep(dataPreview).map((d,i)=>{
         d['id'] = i;
         unFormattedResult.push({...d});
         const dCopy = {...d}

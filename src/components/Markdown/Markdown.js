@@ -40,7 +40,7 @@ const renderImg = (id, alt) => {
 const renderTable = () => {
   return ({ node, ...props }) => {
     delete props.isHeader;
-    return <table {...props} role="Presentation" />
+    return <table {...props} role="presentation" />
   }
 }
 

@@ -159,6 +159,7 @@ const MultiSelectCombobox = ({
     }
   };
   const selectItemsFromPipeSeparatedList = () => {
+    if(!isFacilities || !isAccounts) return
     validationError && setValidationError(null);
     const searchValueArray = inputRef.current.value
         .toLowerCase()
@@ -173,7 +174,8 @@ const MultiSelectCombobox = ({
       itemsCopy = [..._items],
       invalidEntries = [];
     itemsCopy.forEach((item) => {
-      const { label, id } = item;
+      let { label, id } = item;
+      label = label.toString();
       const name = label.split("(")[0].slice(0, -1).toLowerCase();
       if (searchValueObj[id] || searchValueObj[name]) {
         item.selected = true;

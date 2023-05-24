@@ -1,4 +1,4 @@
-export default {
+const initialState =  {
   customDataDownload: {
     dataType: '',
     dataSubType: '',
@@ -56,3 +56,5 @@ export default {
   apiCallsInProgress: 0,
   hideNav: false
 };
+
+export default initialState;
