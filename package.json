@@ -57,6 +57,7 @@
     "react-markdown": "^8.0.7",
     "react-popper": "^2.3.0",
     "react-redux": "^8.0.5",
+    "react-responsive-carousel": "^3.2.23",
     "react-router": "^6.10.0",
     "react-router-dom": "^6.10.0",
     "react-scripts": "5.0.1",
@@ -70,7 +71,6 @@
     "remark-sub-super": "^1.0.20",
     "sass": "^1.62.0",
     "styled-components": "^5.3.9",
-    "tiny-slider": "2.9.4",
     "yup": "^1.1.1"
   },
   "devDependencies": {
