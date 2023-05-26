@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Accordion } from '@trussworks/react-uswds';
 import { metaAdder } from '../../utils/document/metaAdder';
-import formatAccordionTitles from '../../utils/ensure-508/formatAccordionTitles';
 import getContent from '../../utils/api/getContent';
 import { connect } from 'react-redux';
 import setApiError from '../../store/actions/setApiErrorAction';
@@ -49,9 +48,6 @@ const AboutPage = ({setApiErrorDispatcher}) => {
     document.title = 'About CAMPD | CAMPD | US EPA';
   }, []);
   // ***replace h4 tags in accordions with h3 tags for 508
-  useEffect(() => {
-    formatAccordionTitles(); //eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [releaseNotes]);
 
   metaAdder(
     'description',
@@ -93,7 +89,7 @@ const AboutPage = ({setApiErrorDispatcher}) => {
                   ),
                   expanded: false,
                   id: release + i,
-                  headingLevel: 'h4',
+                  headingLevel: 'h3',
                 });
               })}
               multiselectable={true}

@@ -125,7 +125,8 @@
       "!src/utils/remoteLogging.js"
     ],
     "moduleNameMapper": {
-      "\\.svg$": "<rootDir>/jest/file-transformer.js"
+      "\\.svg$": "<rootDir>/jest/file-transformer.js",
+      "axios": "axios/dist/node/axios.cjs"
     },
     "transformIgnorePatterns": [
       "/node_modules/(?!tiny-slider)"

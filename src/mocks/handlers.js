@@ -14,6 +14,7 @@ import {
   facilities,
   ownerOperators,
 } from '../utils/constants/cddTestData';
+import { releases } from './testData';
 
 jest.mock('react-markdown', () => ({ children }) => <>{children}</>);
 jest.mock('remark-gfm', () => () => {});
@@ -143,6 +144,15 @@ const getContentLayout = rest.get(contentUrlLayout, (req, res, ctx) => {
   return res(ctx.json('Content text..'));
 });
 
+const relaseNotesUrl = `${config.services.content.uri}/campd/help-support/about/release-notes.json`;
+const getReleaseNotes = rest.get(relaseNotesUrl, (req, res, ctx) => {
+  return res(ctx.json(releases));
+});
+const aboutUrl = `${config.services.content.uri}/campd/help-support/about/index.md`;
+const getAboutContent = rest.get(aboutUrl, (req, res, ctx) => {
+  return res(ctx.json('this is campd'));
+});
+
 const getUnhandledContent = rest.get(`${config.services.content.uri}/*`, (req, res, ctx) => res(ctx.json('got content')));
 export const handlers = [
   getEmissionsApplicableAttributes,
@@ -170,6 +180,9 @@ export const handlers = [
   getContentLayout,
   getTitleLayout,
   getSubmissionProgress,
-  getUnhandledContent,
-  logError
+  getReleaseNotes,
+  getAboutContent,
+  logError,
+  //getUnhandledContent needs to be last on the array
+  getUnhandledContent
 ];

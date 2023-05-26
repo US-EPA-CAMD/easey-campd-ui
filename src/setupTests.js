@@ -10,7 +10,20 @@ global.XMLHttpRequest = undefined;
 
 jest.mock('react-markdown', () => ({ children }) => <>{children}</>);
 jest.mock('remark-gfm', () => () => {});
-jest.mock('react-markdown-v4', () => ({ children }) => <>{children}</>);
+jest.mock('rehype-raw', () => ({
+  parse: () => {
+    return {
+      content: "This is raw HTML."
+    };
+  }
+}));
+jest.mock('rehype-sanitize', () => ({
+  parse: () => {
+    return {
+      content: "This is sanitized HTML."
+    };
+  }
+}));
 jest.mock('remark-sub-super', () => () => {});
 jest.mock('react-router', () => ({
   ...jest.requireActual('react-router'),
