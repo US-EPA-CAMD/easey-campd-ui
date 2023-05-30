@@ -5,22 +5,11 @@ import {
 } from '@testing-library/react';
 
 import BulkDataFilesTable from './BulkDataFilesTable';
-import { rest } from 'msw';
-import { setupServer } from 'msw/node';
-import config from '../../../config';
 import { MemoryRouter } from 'react-router';
 import { Provider } from 'react-redux';
 import configureStore from '../../../store/configureStore.dev';
 import initialState from '../../../store/reducers/initialState';
 
-jest.mock('react-markdown', () => ({ children }) => <>{children}</>);
-jest.mock('remark-gfm', () => () => {});
-const downloadLimitAlertUrl =
-  `${config.services.content.uri}/campd/data/bulk-data-files/download-limit-alert.md`
-const getDownloadLimitAlert = rest.get(downloadLimitAlertUrl, (req, res, ctx) => {
-  return res(ctx.json('Download Limit Alert'));
-});
-const server = new setupServer(getDownloadLimitAlert);
 let store = configureStore(initialState);
 
 const dataTableRecords =[
@@ -169,9 +158,7 @@ const dataTableRecords =[
     "lastUpdated": "2022-03-01T20:04:56Z"
   }
 ];
-beforeAll(() => server.listen());
-beforeEach(() => server.resetHandlers());
-afterAll(() => server.close());
+
 describe('Bulk data files data table component', () => {
   let query;
   beforeEach(() => {

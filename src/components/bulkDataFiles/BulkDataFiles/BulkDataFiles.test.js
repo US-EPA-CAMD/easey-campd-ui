@@ -228,8 +228,7 @@ test('Alert pops up when file size exceeds download limit', async() => {
       </MemoryRouter>
     </Provider>
   )
-  const backButton = await findByText(/back/i);
-  await fireEvent.click(backButton);
+
   const allFiles = await findByRole('checkbox', {
     name: /select-all-rows/i
   })

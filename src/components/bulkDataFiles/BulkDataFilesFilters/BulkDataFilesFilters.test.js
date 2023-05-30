@@ -1,9 +1,6 @@
 import React from 'react';
-import { render, fireEvent, screen  } from '@testing-library/react';
+import { render, fireEvent  } from '@testing-library/react';
 import BulkDataFilesFilters from './BulkDataFilesFilters';
-import { rest } from 'msw';
-import { setupServer } from 'msw/node';
-import config from '../../../config';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router';
 import configureStore from '../../../store/configureStore.dev';
@@ -11,95 +8,6 @@ import initialState from '../../../store/reducers/initialState';
 import userEvent from '@testing-library/user-event';
 
 let store = configureStore(initialState);
-
-jest.mock('react-markdown', () => ({ children }) => <>{children}</>);
-jest.mock('remark-gfm', () => () => {});
-const filtersContent = {
-  "labels": ["Data Type", "Subtype", "Grouping", "State", "Year", "Quarter"],
-  "dataTypes": ["Allowance", "Compliance", "EDR", "Emissions", "Facility", "Mercury and Air Toxics Emissions (MATS)", "XML"],
-  "subTypes" : {
-    "Emissions" : ["Hourly", "Daily"],
-    "XML":["Emissions", "Monitoring Plan", "QA"]
-  },
-  "groupings" : {
-    "Emissions" : ["Quarterly", "State"],
-    "Mercury and Air Toxics Emissions (MATS)": ["Quarterly", "State"]
-  },
-  "year": {
-    "EDR": [1995,1996,1997,1998,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008],
-    "XML": {
-      "Emissions": [2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022],
-      "QA": [2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022]
-    }
-  },
-  "quarter":{
-    "EDR":["1st Quarter", "2nd Quarter", "3rd Quarter", "4th Quarter"],
-    "XML": {
-      "Emissions": ["1st Quarter", "2nd Quarter", "3rd Quarter", "4th Quarter"],
-      "QA": ["1st Quarter", "2nd Quarter", "3rd Quarter", "4th Quarter"]
-    }
-  },
-  "states" : [
-    {"stateCode": "AK", "stateName": "Alaska", "epaRegion": 10},
-    {"stateCode": "AL", "stateName": "Alabama", "epaRegion": 4},
-    {"stateCode": "AR", "stateName": "Arkansas", "epaRegion": 6},
-    {"stateCode": "AZ", "stateName": "Arizona", "epaRegion": 9},
-    {"stateCode": "CA", "stateName": "California", "epaRegion": 9},
-    {"stateCode": "CO", "stateName": "Colorado", "epaRegion": 8},
-    {"stateCode": "CT", "stateName": "Connecticut", "epaRegion": 1},
-    {"stateCode": "DC", "stateName": "District Of Columbia", "epaRegion": 3},
-    {"stateCode": "DE", "stateName": "Delaware", "epaRegion": 3},
-    {"stateCode": "FL", "stateName": "Florida", "epaRegion": 4},
-    {"stateCode": "GA", "stateName": "Georgia", "epaRegion": 4},
-    {"stateCode": "HI", "stateName": "Hawaii", "epaRegion": 9},
-    {"stateCode": "IA", "stateName": "Iowa", "epaRegion": 7},
-    {"stateCode": "ID", "stateName": "Idaho", "epaRegion": 10},
-    {"stateCode": "IL", "stateName": "Illinois", "epaRegion": 5},
-    {"stateCode": "IN", "stateName": "Indiana", "epaRegion": 5},
-    {"stateCode": "KS", "stateName": "Kansas", "epaRegion": 7},
-    {"stateCode": "KY", "stateName": "Kentucky", "epaRegion": 4},
-    {"stateCode": "LA", "stateName": "Louisiana", "epaRegion": 6},
-    {"stateCode": "MA", "stateName": "Massachusetts", "epaRegion": 1},
-    {"stateCode": "MD", "stateName": "Maryland", "epaRegion": 3},
-    {"stateCode": "ME", "stateName": "Maine", "epaRegion": 1},
-    {"stateCode": "MI", "stateName": "Michigan", "epaRegion": 5},
-    {"stateCode": "MN", "stateName": "Minnesota", "epaRegion": 5},
-    {"stateCode": "MO", "stateName": "Missouri", "epaRegion": 7},
-    {"stateCode": "MS", "stateName": "Mississippi", "epaRegion": 4},
-    {"stateCode": "MT", "stateName": "Montana", "epaRegion": 8},
-    {"stateCode": "NC", "stateName": "North Carolina", "epaRegion": 4},
-    {"stateCode": "ND", "stateName": "North Dakota", "epaRegion": 8},
-    {"stateCode": "NE", "stateName": "Nebraska", "epaRegion": 7},
-    {"stateCode": "NH", "stateName": "New Hampshire", "epaRegion": 1},
-    {"stateCode": "NJ", "stateName": "New Jersey", "epaRegion": 2},
-    {"stateCode": "NM", "stateName": "New Mexico", "epaRegion": 6},
-    {"stateCode": "NV", "stateName": "Nevada", "epaRegion": 9},
-    {"stateCode": "NY", "stateName": "New York", "epaRegion": 2},
-    {"stateCode": "OH", "stateName": "Ohio", "epaRegion": 5},
-    {"stateCode": "OK", "stateName": "Oklahoma", "epaRegion": 6},
-    {"stateCode": "OR", "stateName": "Oregon", "epaRegion": 10},
-    {"stateCode": "PA", "stateName": "Pennsylvania", "epaRegion": 3},
-    {"stateCode": "PR", "stateName": "Puerto Rico", "epaRegion": 2},
-    {"stateCode": "RI", "stateName": "Rhode Island", "epaRegion": 1},
-    {"stateCode": "SC", "stateName": "South Carolina", "epaRegion": 4},
-    {"stateCode": "SD", "stateName": "South Dakota", "epaRegion": 8},
-    {"stateCode": "TN", "stateName": "Tennessee", "epaRegion": 4},
-    {"stateCode": "TX", "stateName": "Texas", "epaRegion": 6},
-    {"stateCode": "UT", "stateName": "Utah", "epaRegion": 8},
-    {"stateCode": "VA", "stateName": "Virginia", "epaRegion": 3},
-    {"stateCode": "VT", "stateName": "Vermont", "epaRegion": 1},
-    {"stateCode": "WA", "stateName": "Washington", "epaRegion": 10},
-    {"stateCode": "WI", "stateName": "Wisconsin", "epaRegion": 5},
-    {"stateCode": "WV", "stateName": "West Virginia", "epaRegion": 3},
-    {"stateCode": "WY", "stateName": "Wyoming", "epaRegion": 8}
-  ]
-};
-const filtersUrl =
-  `${config.services.content.uri}/campd/data/bulk-data-files/filters-content.json`;
-const getFiltersUrl = rest.get(filtersUrl, (req, res, ctx) => {
-  return res(ctx.json(filtersContent));
-});
-const server = new setupServer(getFiltersUrl);
 
 const dataTableRecords = [
     {
@@ -298,10 +206,6 @@ const dataTableRecords = [
       "lastUpdated": "2022-03-01T20:04:56Z"
     }
   ];
-beforeAll(() => server.listen());
-beforeEach(() => server.resetHandlers());
-afterAll(() => server.close());
-
 describe('BDFF-component',  () => {
   test('filters render without errors', async () => {
     const query = render(
@@ -327,7 +231,6 @@ describe('BDFF-component',  () => {
     expect(dataTypeLabel).toBeTruthy();
     const dataTypeFilter = await findByTestId('dataType-select');
     await fireEvent.change(dataTypeFilter, { target: { value: "EDR" } });
-    screen.debug();
     expect(await findByText("Year")).toBeTruthy();
     expect(await findByText("Quarter")).toBeTruthy();
     expect(await findByText("State")).toBeTruthy();
