@@ -13,6 +13,10 @@ import {
   attributes,
   facilities,
   ownerOperators,
+  accountAttributes,
+  allowanceCompliance,
+  allowanceHoldings,
+  programCodes,
 } from '../utils/constants/cddTestData';
 import { releases } from './testData';
 
@@ -109,6 +113,10 @@ const getOwnerOperators = rest.get('https://api.epa.gov/easey/dev/account-mgmt/e
   return res(ctx.json(ownerOperators.data));
 });
 
+const getAccountAttributes = rest.get(accountAttributes.url, (req, res, ctx) => res(ctx.json(accountAttributes.data)));
+const getAllowanceCompliance = rest.get(allowanceCompliance.url, (req, res, ctx) => res(ctx.json(allowanceCompliance.data)));
+const getAllowanceHoldings = rest.get(allowanceHoldings.url, (req, res, ctx) => res(ctx.json(allowanceHoldings.data)));
+const getProgramCodes = rest.get(programCodes.url, (req, res, ctx) => res(ctx.json(programCodes.data)));
 //bulk data files
 const bulkHelperTextUrl = `${config.services.content.uri}/campd/data/bulk-data-files/helper-text.md`;
 const downloadLimitAlertUrl = `${config.services.content.uri}/campd/data/bulk-data-files/download-limit-alert.md`;
@@ -129,7 +137,7 @@ const filtersUrl = `${config.services.content.uri}/campd/data/bulk-data-files/fi
 const getFilters = rest.get(filtersUrl, (req, res, ctx) => {
   return res(ctx.json(filtersContent));
 });
-const submissionUrl = `${config.services.emissions.uri}/emissions/submission-progress?submissionPeriod`;
+const submissionUrl = `${config.services.emissions.uri}/emissions/submission-progress`;
 const getSubmissionProgress = rest.get(submissionUrl, (req, res, ctx) => {
   return res(ctx.json({year: 2022, quarterName: 'second', percentage: '30%'}))
 })
@@ -170,6 +178,10 @@ export const handlers = [
   getTransactionTypes,
   getSourceCategories,
   getAttributes,
+  getAccountAttributes,
+  getAllowanceCompliance,
+  getAllowanceHoldings,
+  getProgramCodes,
   getHelperText,
   getLimitText,
   getMatsCaveat,

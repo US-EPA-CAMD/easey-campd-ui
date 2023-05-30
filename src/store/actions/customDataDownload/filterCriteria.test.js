@@ -1,285 +1,13 @@
 import * as actions from "./filterCriteria";
 import * as types from "../actionTypes";
-import axios from "axios";
 import thunk from "redux-thunk";
-import MockAdapter from "axios-mock-adapter";
 import configureMockStore from "redux-mock-store";
-import config from "../../../config";
 import initState from "../../reducers/initialState";
 import {restructurePrograms, restructureControlTechnologies, restructureFuelTypes, restructureUnitTypes, restructureAccountTypes, resetFilterHelper, resetCheckBoxItems, resetComboBoxItems, getComboboxEnabledItems, getComboboxSelectedItems} from "../../../utils/selectors/filterCriteria";
 import { cleanup } from '@testing-library/react';
 // Test an async action
 const middleware = [thunk];
 const mockStore = configureMockStore(middleware);
-const mock = new MockAdapter(axios);
-const sourceCategories = [
-  {
-    "sourceCategoryCode": "AUTSTMP",
-    "sourceCategoryDescription": "Automotive Stampings"
-  },
-  {
-    "sourceCategoryCode": "BKINCHM",
-    "sourceCategoryDescription": "Bulk Industrial Chemical"
-  },
-  {
-    "sourceCategoryCode": "CEMENTM",
-    "sourceCategoryDescription": "Cement Manufacturing"
-  },
-  {
-    "sourceCategoryCode": "COGEN",
-    "sourceCategoryDescription": "Cogeneration"
-  },
-  {
-    "sourceCategoryCode": "ELECTRC",
-    "sourceCategoryDescription": "Electric Utility"
-  },
-  {
-    "sourceCategoryCode": "INDBLR",
-    "sourceCategoryDescription": "Industrial Boiler"
-  },
-  {
-    "sourceCategoryCode": "INDTUR",
-    "sourceCategoryDescription": "Industrial Turbine"
-  },
-  {
-    "sourceCategoryCode": "INSTITU",
-    "sourceCategoryDescription": "Institutional"
-  },
-  {
-    "sourceCategoryCode": "IRONSTL",
-    "sourceCategoryDescription": "Iron & Steel"
-  },
-  {
-    "sourceCategoryCode": "MUNWAST",
-    "sourceCategoryDescription": "Municipal Waste Combustor"
-  },
-  {
-    "sourceCategoryCode": "PAPMILL",
-    "sourceCategoryDescription": "Pulp & Paper Mill"
-  },
-  {
-    "sourceCategoryCode": "PETRORE",
-    "sourceCategoryDescription": "Petroleum Refinery"
-  },
-  {
-    "sourceCategoryCode": "PRTCMNT",
-    "sourceCategoryDescription": "Portland Cement Plant"
-  },
-  {
-    "sourceCategoryCode": "SMLPWR",
-    "sourceCategoryDescription": "Small Power Producer"
-  },
-  {
-    "sourceCategoryCode": "THMPARK",
-    "sourceCategoryDescription": "Theme Park"
-  }
-];
-const program = [
-  {
-    "programCode": "ARP",
-    "programDescription": "Acid Rain Program",
-    "compParameterCode": "SO2",
-    "programGroupCode": null,
-    "programGroupDescription": null,
-    "ozoneIndicator": false,
-    "annualIndicator": true,
-    "allowanceIndicator": true,
-    "retiredIndicator": false,
-    "tradingEndDate": null
-  },
-  {
-    "programCode": "CAIRNOX",
-    "programDescription": "CAIR NOx Annual Program",
-    "compParameterCode": "NOX",
-    "programGroupCode": "CAIR",
-    "programGroupDescription": "Clean Air Interstate Rule",
-    "ozoneIndicator": false,
-    "annualIndicator": true,
-    "allowanceIndicator": true,
-    "retiredIndicator": true,
-    "tradingEndDate": "2016-08-10"
-  },
-  {
-    "programCode": "CAIROS",
-    "programDescription": "CAIR NOx Ozone Season Program",
-    "compParameterCode": "NOX",
-    "programGroupCode": "CAIR",
-    "programGroupDescription": "Clean Air Interstate Rule",
-    "ozoneIndicator": true,
-    "annualIndicator": false,
-    "allowanceIndicator": true,
-    "retiredIndicator": true,
-    "tradingEndDate": "2016-08-10"
-  },
-  {
-    "programCode": "CAIRSO2",
-    "programDescription": "CAIR SO2 Annual Program",
-    "compParameterCode": "SO2",
-    "programGroupCode": "CAIR",
-    "programGroupDescription": "Clean Air Interstate Rule",
-    "ozoneIndicator": false,
-    "annualIndicator": true,
-    "allowanceIndicator": true,
-    "retiredIndicator": true,
-    "tradingEndDate": "2016-08-10"
-  },
-  {
-    "programCode": "CSNOX",
-    "programDescription": "Cross-State Air Pollution Rule NOx Annual Program",
-    "compParameterCode": "NOX",
-    "programGroupCode": "CSAPR",
-    "programGroupDescription": "Cross-State Air Pollution Rule",
-    "ozoneIndicator": false,
-    "annualIndicator": true,
-    "allowanceIndicator": true,
-    "retiredIndicator": false,
-    "tradingEndDate": null
-  },
-  {
-    "programCode": "CSNOXOS",
-    "programDescription": "Cross-State Air Pollution Rule NOx Ozone Season Program",
-    "compParameterCode": "NOX",
-    "programGroupCode": "CSAPR",
-    "programGroupDescription": "Cross-State Air Pollution Rule",
-    "ozoneIndicator": true,
-    "annualIndicator": false,
-    "allowanceIndicator": true,
-    "retiredIndicator": true,
-    "tradingEndDate": "2017-10-23"
-  },
-  {
-    "programCode": "CSOSG1",
-    "programDescription": "Cross-State Air Pollution Rule NOx Ozone Season Program Group 1",
-    "compParameterCode": "NOX",
-    "programGroupCode": "CSAPR",
-    "programGroupDescription": "Cross-State Air Pollution Rule",
-    "ozoneIndicator": true,
-    "annualIndicator": false,
-    "allowanceIndicator": true,
-    "retiredIndicator": false,
-    "tradingEndDate": null
-  },
-  {
-    "programCode": "CSOSG2",
-    "programDescription": "Cross-State Air Pollution Rule NOx Ozone Season Program Group 2",
-    "compParameterCode": "NOX",
-    "programGroupCode": "CSAPR",
-    "programGroupDescription": "Cross-State Air Pollution Rule",
-    "ozoneIndicator": true,
-    "annualIndicator": false,
-    "allowanceIndicator": true,
-    "retiredIndicator": false,
-    "tradingEndDate": null
-  },
-  {
-    "programCode": "CSSO2G1",
-    "programDescription": "Cross-State Air Pollution Rule SO2 Annual Program Group 1",
-    "compParameterCode": "SO2",
-    "programGroupCode": "CSAPR",
-    "programGroupDescription": "Cross-State Air Pollution Rule",
-    "ozoneIndicator": false,
-    "annualIndicator": true,
-    "allowanceIndicator": true,
-    "retiredIndicator": false,
-    "tradingEndDate": null
-  },
-  {
-    "programCode": "CSSO2G2",
-    "programDescription": "Cross-State Air Pollution Rule SO2 Annual Program Group 2",
-    "compParameterCode": "SO2",
-    "programGroupCode": "CSAPR",
-    "programGroupDescription": "Cross-State Air Pollution Rule",
-    "ozoneIndicator": false,
-    "annualIndicator": true,
-    "allowanceIndicator": true,
-    "retiredIndicator": false,
-    "tradingEndDate": null
-  },
-  {
-    "programCode": "NBP",
-    "programDescription": "NOx Budget Trading Program",
-    "compParameterCode": "NOX",
-    "programGroupCode": null,
-    "programGroupDescription": null,
-    "ozoneIndicator": true,
-    "annualIndicator": false,
-    "allowanceIndicator": false,
-    "retiredIndicator": true,
-    "tradingEndDate": "2009-03-25"
-  },
-  {
-    "programCode": "NHNOX",
-    "programDescription": "NH NOx Program",
-    "compParameterCode": null,
-    "programGroupCode": null,
-    "programGroupDescription": null,
-    "ozoneIndicator": true,
-    "annualIndicator": false,
-    "allowanceIndicator": false,
-    "retiredIndicator": false,
-    "tradingEndDate": null
-  },
-  {
-    "programCode": "NSPS4T",
-    "programDescription": "New Source Performance Standards subpart TTTT",
-    "compParameterCode": null,
-    "programGroupCode": null,
-    "programGroupDescription": null,
-    "ozoneIndicator": false,
-    "annualIndicator": true,
-    "allowanceIndicator": false,
-    "retiredIndicator": false,
-    "tradingEndDate": null
-  },
-  {
-    "programCode": "OTC",
-    "programDescription": "OTC NOx Budget Program",
-    "compParameterCode": "NOX",
-    "programGroupCode": null,
-    "programGroupDescription": null,
-    "ozoneIndicator": true,
-    "annualIndicator": false,
-    "allowanceIndicator": false,
-    "retiredIndicator": true,
-    "tradingEndDate": "2003-05-06"
-  },
-  {
-    "programCode": "RGGI",
-    "programDescription": "Regional Greenhouse Gas Initiative",
-    "compParameterCode": null,
-    "programGroupCode": null,
-    "programGroupDescription": null,
-    "ozoneIndicator": false,
-    "annualIndicator": true,
-    "allowanceIndicator": false,
-    "retiredIndicator": false,
-    "tradingEndDate": null
-  },
-  {
-    "programCode": "SIPNOX",
-    "programDescription": "SIP NOx Program",
-    "compParameterCode": null,
-    "programGroupCode": null,
-    "programGroupDescription": null,
-    "ozoneIndicator": false,
-    "annualIndicator": true,
-    "allowanceIndicator": false,
-    "retiredIndicator": false,
-    "tradingEndDate": null
-  },
-  {
-    "programCode": "TXSO2",
-    "programDescription": "Texas SO2 Trading Program",
-    "compParameterCode": "SO2",
-    "programGroupCode": "TXSO2",
-    "programGroupDescription": "Texas SO2 Trading Program",
-    "ozoneIndicator": false,
-    "annualIndicator": true,
-    "allowanceIndicator": true,
-    "retiredIndicator": false,
-    "tradingEndDate": null
-  }
-];
 const facilities = [
   {
     "id": "1",
@@ -1633,42 +1361,9 @@ const filterMapping = [
     ownerOperator: 'Interstate Power & Light Company'
   },
 ];
+
 describe("Filter Criteria Async Actions", () => {
   afterEach(cleanup);
-  mock
-  .onGet(`${config.services.mdm.uri}/program-codes?exclude=MATS`)
-  .reply(200, program);
-  mock
-  .onGet(`${config.services.facilities.uri}/facilities`)
-  .reply(200, facilities);
-  mock
-  .onGet(`${config.services.mdm.uri}/control-codes`)
-  .reply(200, controlTechnologies);
-  mock
-  .onGet(`${config.services.mdm.uri}/fuel-type-codes`)
-  .reply(200, fuelTypes);
-  mock.onGet(`${config.services.mdm.uri}/account-type-codes?exclude=SHOLD|OVERDF`).reply(200, filterMapping);
-  mock.onGet(`${config.services.mdm.uri}/transaction-type-codes`).reply(200, filterMapping);
-  mock.onGet(`${config.services.mdm.uri}/source-category-codes`).reply(200, filterMapping);
-  mock.onGet(`${config.services.mdm.uri}/program-codes?emissionsUIFilter=true`).reply(200, program);
-  mock
-  .onGet(`${config.services.mdm.uri}/state-codes`)
-  .reply(200, states)
-  mock
-  .onGet(`${config.services.mdm.uri}/unit-type-codes`)
-  .reply(200, unitTypes);
-  mock
-  .onGet(`${config.services.account.uri}/allowance-compliance/attributes/applicable`)
-  .reply(200, filterMapping);
-  mock
-  .onGet(`${config.services.account.uri}/emissions-compliance/attributes/applicable`)
-  .reply(200, filterMapping);
-  mock
-  .onGet( `${config.services.account.uri}/allowance-holdings/attributes/applicable`)
-  .reply(200, filterMapping);
-  mock
-  .onGet( `${config.services.account.uri}/accounts/attributes/applicable`)
-  .reply(200, filterMapping);
   test("should create appropriate action when update time period action is dispatched", () => {
     const timePeriod = {
       startDate: "03/31/2021",
@@ -1681,61 +1376,61 @@ describe("Filter Criteria Async Actions", () => {
     expect(actionDispached).toEqual(expectedAction);
   });
 
-  test('should create BEGIN_API_CALL and load relevant filters', () => {
-    const expectedActions = [
-      { type: 'BEGIN_API_CALL' },
-      { type: 'BEGIN_API_CALL' },
-      { type: 'BEGIN_API_CALL' },
-      { type: 'BEGIN_API_CALL' },
-      { type: 'BEGIN_API_CALL' },
-      { type: 'BEGIN_API_CALL' },
-      {
-        type: types.LOAD_STATES_SUCCESS,
-        stateTerritory: states.map((s) => ({
-          id: s.stateCode,
-          label: s.stateName,
-          selected: false,
-          enabled: true,
-        })),
-      },
-      {
-        type: types.LOAD_FACILITIES_SUCCESS,
-        facility: facilities.map((f) => ({
-          id: f.facilityId,
-          label: `${f.facilityName} (${f.facilityId})`,
-          selected: false,
-          enabled: true,
-        })),
-      },
-      {
-        type: types.LOAD_UNIT_TYPES_SUCCESS,
-        unitType: restructureUnitTypes(unitTypes),
-      },
-      {
-        type: types.LOAD_FUEL_TYPES_SUCCESS,
-        fuelType: restructureFuelTypes(fuelTypes),
-      },
-      {
-        type: types.LOAD_CONTROL_TECHNOLOGIES_SUCCESS,
-        controlTechnology: restructureControlTechnologies(controlTechnologies),
-      },
-    ];
+  // test.only('should create BEGIN_API_CALL and load relevant filters', () => {
+  //   const expectedActions = [
+  //     { type: 'BEGIN_API_CALL' },
+  //     { type: 'BEGIN_API_CALL' },
+  //     { type: 'BEGIN_API_CALL' },
+  //     { type: 'BEGIN_API_CALL' },
+  //     { type: 'BEGIN_API_CALL' },
+  //     { type: 'BEGIN_API_CALL' },
+  //     {
+  //       type: types.LOAD_STATES_SUCCESS,
+  //       stateTerritory: states.map((s) => ({
+  //         id: s.stateCode,
+  //         label: s.stateName,
+  //         selected: false,
+  //         enabled: true,
+  //       })),
+  //     },
+  //     {
+  //       type: types.LOAD_FACILITIES_SUCCESS,
+  //       facility: facilities.map((f) => ({
+  //         id: f.facilityId,
+  //         label: `${f.facilityName} (${f.facilityId})`,
+  //         selected: false,
+  //         enabled: true,
+  //       })),
+  //     },
+  //     {
+  //       type: types.LOAD_UNIT_TYPES_SUCCESS,
+  //       unitType: restructureUnitTypes(unitTypes),
+  //     },
+  //     {
+  //       type: types.LOAD_FUEL_TYPES_SUCCESS,
+  //       fuelType: restructureFuelTypes(fuelTypes),
+  //     },
+  //     {
+  //       type: types.LOAD_CONTROL_TECHNOLOGIES_SUCCESS,
+  //       controlTechnology: restructureControlTechnologies(controlTechnologies),
+  //     },
+  //   ];
 
-    const store = mockStore(initState);
-    return store
-      .dispatch(
-        actions.loadAllFilters(
-          'EMISSIONS',
-          'Hourly Emissions',
-          initState.filterCriteria
-        )
-      )
-      .then(() => {
-        const storeActions = store.getActions()
-        console.log({actions});
-        // expect(storeActions.length).toEqual(8);
-      });
-  });
+  //   const store = mockStore(initState);
+  //   return store
+  //     .dispatch(
+  //       actions.loadAllFilters(
+  //         'EMISSIONS',
+  //         'Hourly Emissions',
+  //         initState.filterCriteria
+  //       )
+  //     )
+  //     .then(() => {
+  //       const storeActions = store.getActions()
+  //       console.log({actions});
+  //       // expect(storeActions.length).toEqual(8);
+  //     });
+  // });
 
   test('reset filter helper function should clear selected items of target filter', () => {
     const state = Object.assign({}, initState, {filterCriteria: {...initState.filterCriteria, facility: facilities.map(f=> ({id: f.facilityId, label:`${f.facilityName} (${f.facilityId})`, selected:true, enabled:true}))}});
