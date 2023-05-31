@@ -50,7 +50,7 @@ const ApiErrorAlert = ({
 
   const customDataDownloadPath = '/data/custom-data-download';
   const showAlert =
-    location.pathname === customDataDownloadPath
+    location?.pathname === customDataDownloadPath
       ? parentComponentPath === customDataDownloadPath && errors.length
       : errors.length;
 

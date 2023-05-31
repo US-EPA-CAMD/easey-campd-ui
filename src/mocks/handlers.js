@@ -62,7 +62,15 @@ const getApiErrorMessages = rest.get(apiErrorsMessagesUrl, (req, res, ctx) =>
       'All of the content on this page may not be available. If you continue to encounter this issue, contact CAMPD support: campd-support@camdsupport.com',
   })
 );
-
+const bookmarkUrl = `${config.services.camd.uri}/bookmarks`;
+const createBookmarkUrl = rest.post(bookmarkUrl, (req, res, ctx) => {
+  return res(ctx.json({
+    "bookmarkId": 1072,
+    "bookmarkAddDate": "2022-05-23T12:56:45.587Z",
+    "bookmarkLastAccessedDate": "2022-05-23T16:13:13.011Z",
+    "bookmarkHitCount": 2
+  }));
+});
 const emissionsApplicableAttributesUrl = `${config.services.emissions}/applicable/*`
 const getEmissionsApplicableAttributes = rest.get(emissionsApplicableAttributesUrl, (req, res, ctx)=>res(ctx.json([])));
 export const bulkDataFileDownloadUrl = `${config.services.bulkFiles.uri}/*`;
@@ -74,7 +82,7 @@ const getMatsCaveat = rest.get(matsCaveatUrl, (req, res, ctx) => {
   return res(ctx.json('this is CDD download limit'));
 });
 const getHelperText = rest.get(helperTextUrl, (req, res, ctx) => {
-  return res(ctx.json('this is CDD helper tex'));
+  return res(ctx.json('this is CDD helper text'));
 });
 const getUnitTypes = rest.get(unitTypes.url, (req, res, ctx) => {
   return res(ctx.json(unitTypes.data));
@@ -184,6 +192,7 @@ export const handlers = [
   getProgramCodes,
   getHelperText,
   getLimitText,
+  createBookmarkUrl,
   getMatsCaveat,
   getBulkHelperTextUrl,
   getDownloadLimitAlert,
