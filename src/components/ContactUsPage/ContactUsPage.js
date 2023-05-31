@@ -108,7 +108,6 @@ const ContactUsPage = ({setApiErrorDispatcher}) => {
       "fieldset div input[name='radioSubject']:checked"
     );
     const isEmailValid = await schema.isValid({email: fromEmail});
-    console.log({isEmailValid, fromEmail});
     // Get label of selected radio button (comment types / subject)
     if (checkedSubjectId) {
       subject = commentTypes.find(
