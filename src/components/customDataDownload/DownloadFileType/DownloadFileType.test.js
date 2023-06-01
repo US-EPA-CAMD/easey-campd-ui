@@ -1,5 +1,6 @@
 import React from 'react';
 import { cleanup, fireEvent, render } from '@testing-library/react';
+import { cloneDeep } from 'lodash';
 
 import DownloadFileType from './DownloadFileType';
 import { Provider } from 'react-redux';
@@ -10,9 +11,10 @@ import RenderSpinner from '../../RenderSpinner/RenderSpinner';
 
 jest.mock('axios');
 jest.mock('../../RenderSpinner/RenderSpinner')
-initialState.customDataDownload.dataType = 'EMISSIONS';
-initialState.customDataDownload.dataSubType = 'Hourly Emissions';
-initialState.filterCriteria = {
+const initStateCopy = cloneDeep(initialState)
+initStateCopy.customDataDownload.dataType = 'EMISSIONS';
+initStateCopy.customDataDownload.dataSubType = 'Hourly Emissions';
+initStateCopy.filterCriteria = {
   timePeriod: {
     startDate: '2019-01-01',
     endDate: '2019-01-01',
@@ -26,7 +28,7 @@ initialState.filterCriteria = {
   excludeParams: [],
   controlTechnology: [],
 };
-const store = configureStore(initialState);
+const store = configureStore(initStateCopy);
 
 describe('<DownloadFileType/>', () => {
   let query;
@@ -34,7 +36,7 @@ describe('<DownloadFileType/>', () => {
     query = render
     (
       <Provider store={store}>
-        <DownloadFileType />
+        <DownloadFileType setApiError={jest.fn()}/>
       </Provider>
     );
   });

@@ -5,6 +5,7 @@ import {
   render,
   within,
 } from '@testing-library/react';
+import { cloneDeep } from 'lodash';
 
 import TransactionType from './TransactionType';
 import configureStore from "../../../store/configureStore.dev";
@@ -62,8 +63,9 @@ const transactionTypes = [
     "transactionTypeDescription": "Enforcement Surrender"
   },
 ];
-initialState.filterCriteria.transactionType = transactionTypes.map(f=> ({id: f.transactionTypeDescription, label:f.transactionTypeDescription, selected:false, enabled:true}));
-const store = configureStore(initialState);
+const initStateCopy = cloneDeep(initialState)
+initStateCopy.filterCriteria.transactionType = transactionTypes.map(f=> ({id: f.transactionTypeDescription, label:f.transactionTypeDescription, selected:false, enabled:true}));
+const store = configureStore(initStateCopy);
 let flyOutClosed = false;
 let applyFilterLoading = false;
 
@@ -95,7 +97,7 @@ describe('Transaction Type Component', () => {
     fireEvent.click(searchbox);
     const listBox = getByTestId("multi-select-listbox");
     expect(listBox).toBeInTheDocument();
-    expect(within(listBox).getAllByTestId('multi-select-option').length).toBe(initialState.filterCriteria.transactionType.length);
+    expect(within(listBox).getAllByTestId('multi-select-option').length).toBe(initStateCopy.filterCriteria.transactionType.length);
   });
 
   it('handles click event of cancel button', () => {

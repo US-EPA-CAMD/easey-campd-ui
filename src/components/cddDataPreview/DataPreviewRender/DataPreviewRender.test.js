@@ -1,6 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
+import { cloneDeep } from 'lodash';
 
 import configureStore from '../../../store/configureStore.dev';
 import initialState from '../../../store/reducers/initialState';
@@ -17,6 +18,7 @@ const fieldMappings = [{"label":"State","value":"stateCode"},{"label":"Facility 
 {"label":"Heat Input (mmBtu)","value":"heatInput"},{"label":"Primary Fuel Type","value":"primaryFuelInfo"},{"label":"Secondary Fuel Type","value":"secondaryFuelInfo"},
 {"label":"Unit Type","value":"unitTypeInfo"},{"label":"SO2 Controls","value":"so2ControlInfo"},{"label":"PM Controls","value":"partControlInfo"},{"label":"NOx Controls","value":"noxControlInfo"},
 {"label":"Hg Controls","value":"hgControlInfo"},{"label":"Program","value":"prgCodeInfo"}];
+const initStateCopy = cloneDeep(initialState)
 
 const dataPreview = [
   {
@@ -55,9 +57,9 @@ const dataPreview = [
   },
 ];
 
-initialState.customDataDownload.dataType = 'EMISSIONS';
-initialState.customDataDownload.dataSubType = 'Hourly Emissions';
-initialState.filterCriteria = {
+initStateCopy.customDataDownload.dataType = 'EMISSIONS';
+initStateCopy.customDataDownload.dataSubType = 'Hourly Emissions';
+initStateCopy.filterCriteria = {
   timePeriod: {
     startDate: '2019-01-01',
     endDate: '2019-01-01',
@@ -70,7 +72,7 @@ initialState.filterCriteria = {
   stateTerritory: [],
   controlTechnology: [],
 };
-const store = configureStore(initialState);
+const store = configureStore(initStateCopy);
 const columns = () =>
     fieldMappings.map(el => ({
       name: el.label,
@@ -106,6 +108,7 @@ describe('ManageDataPreview', () => {
           data={data()}
           totalCount={1}
           setSpinnerActive={jest.fn()}
+          setApiError={jest.fn()}
           />
         </Provider>
     );
@@ -125,6 +128,7 @@ describe('ManageDataPreview', () => {
           data={data()}
           totalCount={1}
           setSpinnerActive={jest.fn()}
+          setApiError={jest.fn()}
           />
         </Provider>
     );
@@ -143,6 +147,7 @@ describe('ManageDataPreview', () => {
           data={[]}
           totalCount={1}
           setSpinnerActive={jest.fn()}
+          setApiError={jest.fn()}
           />
         </Provider>
     );
@@ -162,6 +167,7 @@ describe('ManageDataPreview', () => {
             data={data()}
             totalCount={1}
             setSpinnerActive={jest.fn()}
+            setApiError={jest.fn()}
             />
           </Provider>
       );

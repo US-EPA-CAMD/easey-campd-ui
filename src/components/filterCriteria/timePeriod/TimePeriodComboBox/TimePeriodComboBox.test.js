@@ -1,6 +1,7 @@
 import React from 'react';
 import { cleanup, fireEvent, render, within } from '@testing-library/react';
 import { Provider } from 'react-redux';
+import { cloneDeep } from 'lodash';
 
 import configureStore from '../../../../store/configureStore.dev';
 import initialState from '../../../../store/reducers/initialState';
@@ -163,8 +164,10 @@ const filterMapping = [
   }
 ];
 const distinctYears = [...new Set(filterMapping.map(e=>e.vintageYear))];
-initialState.filterCriteria.timePeriod.comboBoxYear = distinctYears.map(year => {return {id:year, label:year, selected:false, enabled:true}});
-const store = configureStore(initialState);
+
+const initStateCopy = cloneDeep(initialState)
+initStateCopy.filterCriteria.timePeriod.comboBoxYear = distinctYears.map(year => {return {id:year, label:year, selected:false, enabled:true}});
+const store = configureStore(initStateCopy);
 let flyOutClosed = false;
 let applyFilterLoading = false;
 
@@ -198,7 +201,7 @@ describe('Account Name/Number Component', () => {
     const listBox = getByTestId('multi-select-listbox');
     expect(listBox).toBeInTheDocument();
     expect(within(listBox).getAllByTestId('multi-select-option').length).toBe(
-      initialState.filterCriteria.timePeriod.comboBoxYear.length
+      initStateCopy.filterCriteria.timePeriod.comboBoxYear.length
     );
   });
 

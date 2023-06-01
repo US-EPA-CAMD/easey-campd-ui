@@ -5,19 +5,22 @@ import {
   render,
   within,
 } from '@testing-library/react';
+import { cloneDeep } from 'lodash';
 
 import DataPreview from './DataPreview';
 import configureStore from "../../../store/configureStore.dev";
 import { Provider } from "react-redux";
 import initState from "../../../store/reducers/initialState";
 
-const timePeriod = initState.filterCriteria.timePeriod;
+const initStateCopy = cloneDeep(initState)
+
+const timePeriod = initStateCopy.filterCriteria.timePeriod;
 timePeriod.startDate = '2019-01-01';
 timePeriod.endDate = '2019-01-01';
 timePeriod.opHrsOnly = true;
-initState.customDataDownload.dataType= "EMISSIONS";
-initState.customDataDownload.dataSubType= "Hourly Emissions";
-initState.customDataDownload.dataPreview = [
+initStateCopy.customDataDownload.dataType= "EMISSIONS";
+initStateCopy.customDataDownload.dataSubType= "Hourly Emissions";
+initStateCopy.customDataDownload.dataPreview = [
   {
     test: 'Some value',
     test2: 'Another value',
@@ -27,10 +30,10 @@ initState.customDataDownload.dataPreview = [
     test2: 'Yet Another value',
   },
 ];
-initState.customDataDownload.totalCount = "50";
-initState.customDataDownload.fieldMappings = [{"label":"Test","value":"test"},{"label":"Test2","value":"test2"}];
+initStateCopy.customDataDownload.totalCount = "50";
+initStateCopy.customDataDownload.fieldMappings = [{"label":"Test","value":"test"},{"label":"Test2","value":"test2"}];
  
-const store = configureStore(initState);
+const store = configureStore(initStateCopy);
 
 describe('Data preview component', () => {
   let query;
@@ -39,16 +42,17 @@ describe('Data preview component', () => {
       <Provider 
         store={store}>
         <DataPreview
-          dataType={initState.customDataDownload.dataType}
-          dataSubType={initState.customDataDownload.dataSubType}
-          dataPreview={initState.customDataDownload.dataPreview}
+          dataType={initStateCopy.customDataDownload.dataType}
+          dataSubType={initStateCopy.customDataDownload.dataSubType}
+          dataPreview={initStateCopy.customDataDownload.dataPreview}
           loadDataPreviewDispatcher={jest.fn()}
           loading={0}
-          filterCriteria={initState.filterCriteria}
+          filterCriteria={initStateCopy.filterCriteria}
           handleUpdateInAppliedFilters={jest.fn()}
-          appliedFilters={initState.filterCriteria.timePeriod}
-          totalCount={initState.customDataDownload.totalCount}
-          fieldMappings={initState.customDataDownload.fieldMappings}
+          appliedFilters={initStateCopy.filterCriteria.timePeriod}
+          totalCount={initStateCopy.customDataDownload.totalCount}
+          fieldMappings={initStateCopy.customDataDownload.fieldMappings}
+          setApiError={jest.fn()}
         />
       </Provider>);
   });
@@ -58,7 +62,7 @@ describe('Data preview component', () => {
   it('renders data preview elements properely', () => {
     const { getByText, getByRole, getAllByRole} = query;
     expect(getByText("Data Preview")).toBeInTheDocument();
-    expect(getByText(`(Viewing the first ${initState.customDataDownload.dataPreview.length} records of ${initState.customDataDownload.totalCount})`)).toBeInTheDocument();
+    expect(getByText(`(Viewing the first ${initStateCopy.customDataDownload.dataPreview.length} records of ${initStateCopy.customDataDownload.totalCount})`)).toBeInTheDocument();
     expect(getByRole("table")).toBeDefined();
     expect(getAllByRole("columnheader").length).toBe(2);
     expect(getAllByRole("row").length).toBe(3);

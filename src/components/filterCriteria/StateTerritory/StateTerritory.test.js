@@ -5,6 +5,7 @@ import {
   render,
   within,
 } from '@testing-library/react';
+import { cloneDeep } from 'lodash';
 
 import StateTerritory from './StateTerritory';
 import configureStore from "../../../store/configureStore.dev";
@@ -74,8 +75,9 @@ const states = [{
   "stateName": "States Of Micronesia",
   "epaRegion": "9"
 }];
-initialState.filterCriteria.stateTerritory = states.map(s=> ({id: s.stateCode, label:s.stateName, selected:false, enabled:true}));
-const store = configureStore(initialState);
+const initStateCopy = cloneDeep(initialState)
+initStateCopy.filterCriteria.stateTerritory = states.map(s=> ({id: s.stateCode, label:s.stateName, selected:false, enabled:true}));
+const store = configureStore(initStateCopy);
 
 let flyOutClosed = false;
 let applyFilterLoading = false;
@@ -108,7 +110,7 @@ describe('State/Territory Component', () => {
     fireEvent.click(searchbox);
     const listBox = getByTestId("multi-select-listbox");
     expect(listBox).toBeInTheDocument();
-    expect(within(listBox).getAllByTestId('multi-select-option').length).toBe(initialState.filterCriteria.stateTerritory.length);
+    expect(within(listBox).getAllByTestId('multi-select-option').length).toBe(initStateCopy.filterCriteria.stateTerritory.length);
   });
 
   it('handles click event of cancel button', () => {

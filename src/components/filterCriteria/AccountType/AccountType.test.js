@@ -1,6 +1,7 @@
 import React from 'react';
 import { render, fireEvent, cleanup } from '@testing-library/react';
 import { Provider } from 'react-redux';
+import { cloneDeep } from 'lodash';
 
 import AccountType from './AccountType';
 import { restructureAccountTypes } from '../../../utils/selectors/filterCriteria';
@@ -8,6 +9,9 @@ import configureStore from '../../../store/configureStore.dev';
 import initialState from '../../../store/reducers/initialState';
 jest.useFakeTimers();
 jest.spyOn(global, 'setTimeout');
+
+const initStateCopy = cloneDeep(initialState)
+
 const accountType = [
   {
     accountTypeCode: 'CASURR',
@@ -102,8 +106,8 @@ const accountType = [
 ];
 
 const storeAccountType = restructureAccountTypes(accountType);
-initialState.filterCriteria.accountType = storeAccountType;
-const store = configureStore(initialState);
+initStateCopy.filterCriteria.accountType = storeAccountType;
+const store = configureStore(initStateCopy);
 let flyoutClosed = false;
 let applyFilterLoading = false;
 

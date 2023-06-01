@@ -291,7 +291,7 @@ const MultiSelectCombobox = ({
   return (
     <>
       {validationError ? (
-        <Alert role="alert" type="info">
+        <Alert role="alert" type="info" headingLevel="h4">
           {validationError}
         </Alert>
       ) : null}
