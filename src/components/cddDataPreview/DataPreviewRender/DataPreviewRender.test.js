@@ -175,7 +175,7 @@ describe('ManageDataPreview', () => {
       const tableTitle = container.querySelector('.data-display-table')
       console.log(table);
       console.log(tableTitle);
-      debug()
+      // debug()
       const table2 = queryByLabelText('data-table-title')
       console.log(table2);
     })

@@ -20,6 +20,7 @@ import {
   allowanceCompliance,
   allowanceHoldings,
   programCodes,
+  hourlyEmissions,
 } from "../utils/constants/cddTestData";
 import {
   additionalDataTools,
@@ -147,6 +148,10 @@ const getOwnerOperators = rest.get(
   (req, res, ctx) => {
     return res(ctx.json(ownerOperators.data));
   }
+);
+
+const getEmissions = rest.get(hourlyEmissions.url, (req, res, ctx) =>
+  res(ctx.json(hourlyEmissions.data))
 );
 
 const getAccountAttributes = rest.get(accountAttributes.url, (req, res, ctx) =>
@@ -350,6 +355,7 @@ export const handlers = [
   getAllowanceCompliance,
   getAllowanceHoldings,
   getProgramCodes,
+  getEmissions,
   getHelperText,
   getLimitText,
   createBookmarkUrl,

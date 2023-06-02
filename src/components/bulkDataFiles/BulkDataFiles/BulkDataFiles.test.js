@@ -12,12 +12,6 @@ initialState.bulkDataFiles.dataTable = dataTable;
 let store = configureStore(initialState);
 jest.setTimeout(30000);
 
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
-  useNavigate: () => ({
-    push: jest.fn(),
-  }),
-}));
 /*****
  */
 describe('Manage Bulk Data Files component: ',  () => {

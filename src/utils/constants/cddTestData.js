@@ -948,3 +948,8 @@ export const ownerOperators = {
     { ownerOperator: "AEP3 Pro Serv, Inc", ownType: "OPR" },
   ],
 };
+
+export const hourlyEmissions = {
+  url: `${config.services.emissions}/emissions/apportioned/*`,
+  data: []
+}
