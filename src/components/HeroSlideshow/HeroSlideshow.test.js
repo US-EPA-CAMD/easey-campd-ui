@@ -32,10 +32,19 @@ const slides = [
 
 describe("HeroSlideshow Component", () => {
   afterEach(cleanup);
-  it("renders", () => {
-     render(<HeroSlideshow slides={[]} />);
-  });
+  describe("HeroSlideshow", () => {
+    it("renders null when no slides are provided", () => {
+      const { container } = render(<HeroSlideshow slides={[]} />);
+      expect(container.firstChild).toBeNull();
+    });
 
+    it("renders slideshow with slides", () => {
+      const { container } = render(<HeroSlideshow slides={slides} />);
+      expect(container.firstChild).not.toBeNull();
+    });
+
+    // Add more test cases to cover other scenarios and edge cases
+  });
   // it("renders null when provided an empty array of slides", () => {
   //   const { container } = render(<HeroSlideshow slides={[]} />);
   //   expect(container.childElementCount).toEqual(0);

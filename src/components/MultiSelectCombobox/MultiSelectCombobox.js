@@ -159,7 +159,7 @@ const MultiSelectCombobox = ({
     }
   };
   const selectItemsFromPipeSeparatedList = () => {
-    if(!isFacilities || !isAccounts) return
+    if(!isFacilities && !isAccounts) return
     validationError && setValidationError(null);
     const searchValueArray = inputRef.current.value
         .toLowerCase()

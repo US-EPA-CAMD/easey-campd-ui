@@ -5,55 +5,57 @@ import ReactMarkdown from "react-markdown";
 import rehypeSanitize from "rehype-sanitize";
 import { Button, Link } from "@trussworks/react-uswds";
 
-const renderH1 = () => {
+export const renderH1 = () => {
   return ({ node, ...props }) => {
-    return <h1 className="margin-0 text-bold font-sans-2xl">{props.children}</h1>
-  }
-}
+    return (
+      <h1 className="margin-0 text-bold font-sans-2xl">{props.children}</h1>
+    );
+  };
+};
 
-const renderH2 = (mode) => {
+export const renderH2 = (mode) => {
   return ({ node, ...props }) => {
     if (mode === "subTitle") {
       return (
         <h2 className="font-sans-xl text-white text-bold text-wrap padding-4 margin-0 text-accent-cool-lighter">
           {props.children}
         </h2>
-      )
+      );
     }
 
-    return <h2>{props.children}</h2>
-  }
-}
+    return <h2>{props.children}</h2>;
+  };
+};
 
-const renderUL = () => {
+export const renderUL = () => {
   return ({ node, ...props }) => {
-    return <ul className="padding-left-3">{props.children}</ul>
-  }
-}
+    return <ul className="padding-left-3">{props.children}</ul>;
+  };
+};
 
-const renderImg = (id, alt) => {
+export const renderImg = (id, alt) => {
   return ({ node, ...props }) => {
-    return <img {...props} id={id} alt={alt ?? id}/>
-  }
-}
+    return <img {...props} id={id} alt={alt ?? id} />;
+  };
+};
 
-const renderTable = () => {
-  return ({ node, ...props }) => {
-    delete props.isHeader;
-    return <table {...props} role="presentation" />
-  }
-}
-
-const renderTableHead = () => {
+export const renderTable = () => {
   return ({ node, ...props }) => {
     delete props.isHeader;
-    return <td {...props} />
-  }
-}
+    return <table {...props} role="presentation" />;
+  };
+};
 
-const renderLink = (history) => {
+export const renderTableHead = () => {
   return ({ node, ...props }) => {
-    switch(node.properties.title) {
+    delete props.isHeader;
+    return <td {...props} />;
+  };
+};
+
+export const renderLink = (history) => {
+  return ({ node, ...props }) => {
+    switch (node.properties.title) {
       case "Header Link":
         return (
           <h2>
@@ -65,7 +67,7 @@ const renderLink = (history) => {
               {props.children[0]}
             </Button>
           </h2>
-        )
+        );
       case "Button Link":
         return (
           <Button
@@ -78,21 +80,22 @@ const renderLink = (history) => {
           >
             {props.children[0]}
           </Button>
-        )
+        );
       default:
         return (
-          <Link className="usa-link"
+          <Link
+            className="usa-link"
             target="_blank"
             rel="noopener noreferrer"
             {...props}
           />
-        )
+        );
     }
-  }
-}
+  };
+};
 
 export const Markdown = (props) => {
-  return(
+  return (
     <ReactMarkdown
       className={props.className}
       remarkPlugins={[remarkGfm]}
@@ -110,6 +113,6 @@ export const Markdown = (props) => {
       {props.children}
     </ReactMarkdown>
   );
-}
+};
 
 export default Markdown;
