@@ -32,7 +32,6 @@ describe("VisualizationGalleryPage", () => {
         </MemoryRouter>
       </Provider>
     );
-    screen.debug(undefined, 9999999);
     await waitFor(() => {
       expect(getByText(tools[0].name)).toBeInTheDocument();
     });

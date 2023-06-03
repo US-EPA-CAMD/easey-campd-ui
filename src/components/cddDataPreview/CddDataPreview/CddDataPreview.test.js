@@ -16,7 +16,6 @@ jest.mock("@trussworks/react-uswds", () => ({
       <>{children}</>,
 }));
 
-jest.mock("../../Tooltip/Tooltip", () => () => <></>);
 jest.mock("../../ApiErrorAlert/ApiErrorAlert", () => () => <></>);
 
 jest.spyOn(window, "alert").mockImplementation(() => {});
