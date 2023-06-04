@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import Markdown from "../Markdown/Markdown";
+import { useNavigate } from "react-router-dom";
+import { connect } from "react-redux";
 
 import {
   TitledProgressBar,
@@ -7,15 +8,16 @@ import {
 } from "@us-epa-camd/easey-design-system";
 import moment from "moment-timezone";
 
-import getSubmissionProgress from "../../utils/api/getSubmissionProgress";
-import { metaAdder } from "../../utils/document/metaAdder";
 import "./HomePage.scss";
-import getContent from "../../utils/api/getContent";
 import config from '../../config';
+import Markdown from "../Markdown/Markdown";
+import getContent from "../../utils/api/getContent";
+import { metaAdder } from "../../utils/document/metaAdder";
 import setApiError from "../../store/actions/setApiErrorAction";
-import { connect } from "react-redux";
+import getSubmissionProgress from "../../utils/api/getSubmissionProgress";
 
 const HomePage = ({setApiErrorDispatcher}) => {
+  const navigate = useNavigate();
   const [whatIsNewContent, setWhatIsNewContent] = useState();
   const [whatIsNewTitle, setWhatIsNewTitle] = useState();
   const [dataCard, setDataCard] = useState();
@@ -113,6 +115,7 @@ const HomePage = ({setApiErrorDispatcher}) => {
             role="link"
             rel="Data"
             imgId="data-icon"
+            navigate={navigate}
           >
             {dataCard}
           </Markdown>
@@ -123,6 +126,7 @@ const HomePage = ({setApiErrorDispatcher}) => {
             role="link"
             rel="Visualization Gallery"
             imgId="viz-gallery-icon"
+            navigate={navigate}
           >
             {visualGalleryCard}
           </Markdown>

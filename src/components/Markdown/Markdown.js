@@ -53,7 +53,7 @@ export const renderTableHead = () => {
   };
 };
 
-export const renderLink = (history) => {
+export const renderLink = (navigate) => {
   return ({ node, ...props }) => {
     switch (node.properties.title) {
       case "Header Link":
@@ -62,7 +62,7 @@ export const renderLink = (history) => {
             <Button
               className="header-link font-heading-xl text-bold"
               unstyled="true"
-              onClick={() => history.push(props.href)}
+              onClick={() => navigate(props.href)}
             >
               {props.children[0]}
             </Button>
@@ -73,7 +73,7 @@ export const renderLink = (history) => {
           <Button
             className="margin-top-2"
             type="button"
-            onClick={() => history.push(props.href)}
+            onClick={() => navigate(props.href)}
             role="link"
             rel={"Data"}
             title={props.children[0]}
@@ -101,7 +101,7 @@ export const Markdown = (props) => {
       remarkPlugins={[remarkGfm]}
       rehypePlugins={[rehypeRaw, rehypeSanitize]}
       components={{
-        a: renderLink(props.history),
+        a: renderLink(props.navigate),
         h1: renderH1(),
         h2: renderH2(props.h2Mode),
         th: renderTableHead(),
