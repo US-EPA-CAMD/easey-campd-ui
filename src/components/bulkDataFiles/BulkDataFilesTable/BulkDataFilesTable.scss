@@ -9,8 +9,12 @@
 
 }
 
-usa-alert usa-alert--info {
-  content: none;
+.usa-alert--info:before{
+  content: none !important;
+}
+
+.usa-alert:before{
+  content: none !important;
 }
 
 #bdfTable {

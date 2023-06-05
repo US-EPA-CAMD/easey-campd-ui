@@ -37,6 +37,10 @@
   left: 0.5em;
 }
 
-.usa-alert usa-alert--info {
+.usa-alert--info:before{
+  content: none !important;
+}
+
+.usa-alert:before{
   content: none !important;
 }

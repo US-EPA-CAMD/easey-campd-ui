@@ -286,7 +286,9 @@ const CddDataPreview = ({
               className="clearfix width-card height-6 font-sans-md margin-left-1 margin-2 desktop:margin-0 desktop:margin-left-1"
               id='previewDataButton'
               disabled={!requirementsMet}
-              onClick={handlePreviewDataButtonClick}
+              onClick={() => {
+                setApiErrorDispatcher('download', true)
+                return handlePreviewDataButtonClick()}}
             >
               Preview Data
             </Button>
