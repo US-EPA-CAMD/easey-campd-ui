@@ -21,6 +21,7 @@ const MatsDataCaveat = ({setApiErrorDispatcher, styling}) => {
       type="warning"
       aria-live="assertive"
       headingLevel="h4"
+      slim
     >
       <ReactMarkdown
         children={matsCaveat}
