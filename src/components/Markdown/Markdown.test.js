@@ -101,8 +101,8 @@ describe("renderTableHead", () => {
 
 describe("renderLink", () => {
   test("renders header link correctly", async () => {
-    const history = { push: jest.fn() };
-    const Component = renderLink(history);
+    const navigate = jest.fn();
+    const Component = renderLink(navigate);
     render(
       <Component
         node={{ properties: { title: "Header Link" } }}
@@ -116,8 +116,8 @@ describe("renderLink", () => {
   });
 
   test("renders button link correctly", async () => {
-    const history = { push: jest.fn() };
-    const Component = renderLink(history);
+    const navigate = jest.fn();
+    const Component = renderLink(navigate);
     render(
       <Component
         node={{ properties: { title: "Button Link" } }}
@@ -130,8 +130,8 @@ describe("renderLink", () => {
     await userEvent.click(buttonElement);
   });
   test("renders link correctly", async () => {
-    const history = { push: jest.fn() };
-    const Component = renderLink(history);
+    const navigate = jest.fn();
+    const Component = renderLink(navigate);
     render(
       <Component
         node={{ properties: { title: "Link" } }}
