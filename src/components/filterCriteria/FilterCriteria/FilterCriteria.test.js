@@ -7,6 +7,7 @@ import { EMISSIONS_FILTERS } from '../../../utils/constants/emissions';
 import initialState from '../../../store/reducers/initialState'
 import configureStore from "../../../store/configureStore.dev";
 import { Provider } from "react-redux";
+import { cloneDeep } from 'lodash';
 
 jest.spyOn(window, 'alert').mockImplementation(() => {});
 jest.spyOn(window, 'confirm').mockImplementation(() => {});
@@ -176,7 +177,9 @@ describe('FilterCriteria Component', () => {
   });
   
   test('state territory filter should be enabled if it has enabled items', () => {
-    initialState.filterCriteria.stateTerritory = [{
+const initStateCopy = cloneDeep(initialState)
+
+    initStateCopy.filterCriteria.stateTerritory = [{
       enabled: true,
       id: 'AK',
       label: 'Alaska',
@@ -193,7 +196,7 @@ describe('FilterCriteria Component', () => {
             .mockImplementation(() => 'Emissions Based')}
           handleFilterButtonClick={jest.fn()}
           appliedFilters={[]}
-          filterCriteria={initialState.filterCriteria}
+          filterCriteria={initStateCopy.filterCriteria}
         />
         </Provider>
       </MemoryRouter>

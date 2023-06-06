@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Accordion, Link } from '@trussworks/react-uswds';
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import formatAccordionTitles from '../../utils/ensure-508/formatAccordionTitles';
 import { metaAdder } from '../../utils/document/metaAdder';
 import getContent from "../../utils/api/getContent";
 import { isInternalUrl } from '../../utils/selectors/general';
@@ -25,9 +24,6 @@ const FaqsPage = ({setApiErrorDispatcher}) => {
     );
     //eslint-disable-next-line
   }, []);
-  useEffect(() => {
-    formatAccordionTitles(); //eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [topics]);
 
   metaAdder(
     'description',
@@ -77,6 +73,7 @@ const FaqsPage = ({setApiErrorDispatcher}) => {
                   ),
                   expanded: false,
                   id: i,
+                  headingLevel: 'h3',
                 });
               })}
               multiselectable={true} />

@@ -6,6 +6,7 @@ import {
   within,
   screen,
 } from '@testing-library/react';
+import { cloneDeep } from 'lodash';
 
 import OwnerOperator from './OwnerOperator';
 import configureStore from "../../../store/configureStore.dev";
@@ -48,8 +49,10 @@ const ownerOperators = [
     "ownType": "OWN"
   }];
 const distinctOwnOpers = [...new Set(ownerOperators.map(d=>d.ownerOperator))];
-initialState.filterCriteria.ownerOperator = distinctOwnOpers.map(s=> ({id: s, label: s, selected:false, enabled:true}))
-const store = configureStore(initialState);
+const initStateCopy = cloneDeep(initialState)
+
+initStateCopy.filterCriteria.ownerOperator = distinctOwnOpers.map(s=> ({id: s, label: s, selected:false, enabled:true}))
+const store = configureStore(initStateCopy);
 
 let flyOutClosed = false;
 let applyFilterLoading = false;
@@ -87,7 +90,7 @@ describe('Owner Operator Component', () => {
     fireEvent.click(searchbox);
     const listBox = getByTestId("multi-select-listbox");
     expect(listBox).toBeInTheDocument();
-    expect(within(listBox).getAllByTestId('multi-select-option').length).toBe(initialState.filterCriteria.ownerOperator.length);
+    expect(within(listBox).getAllByTestId('multi-select-option').length).toBe(initStateCopy.filterCriteria.ownerOperator.length);
   });
 
   it('handles click event of cancel button', () => {

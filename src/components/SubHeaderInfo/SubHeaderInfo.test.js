@@ -1,36 +1,14 @@
 import React from 'react'
 import SubHeaderInfo from './SubHeaderInfo'
 import { render } from "@testing-library/react";
-import { rest } from 'msw';
-import { setupServer } from 'msw/node';
 import { MemoryRouter } from 'react-router-dom';
-import config from '../../config';
 import configureStore from '../../store/configureStore.dev';
 import initialState from '../../store/reducers/initialState';
 import { Provider } from 'react-redux';
 
 let store = configureStore(initialState);
-jest.mock('react-markdown', () => ({ children }) => <>{children}</>);
-jest.mock('react-markdown-v4', () => ({ children }) => <>{children}</>);
-jest.mock('remark-gfm', () => () => {});
-jest.mock('remark-sub-super', () => () => {});
-
-const titleUrl =
-  `${config.services.content.uri}/campd/home/main-title.md`;
-const contentUrl =
-  `${config.services.content.uri}/campd/home/main-content.md`;
-const getTitle = rest.get(titleUrl, (req, res, ctx) => {
-  return res(ctx.json('Title text..'));
-});
-const getContent = rest.get(contentUrl, (req, res, ctx) => {
-  return res(ctx.json('Content text..'));
-});
-const server = new setupServer(getTitle, getContent);
 
 describe('Sub-header Info Component', () => {
-  beforeAll(() => server.listen());
-  beforeEach(() => server.resetHandlers());
-  afterAll(() => server.close());
   test("should render title without error", async () => {
     const {findByText} = render(
     <Provider store={store}>
@@ -38,7 +16,7 @@ describe('Sub-header Info Component', () => {
         <SubHeaderInfo setApiErrorDispatcher={jest.fn()} />
       </MemoryRouter>
     </Provider>);
-    const header = await findByText('Title text..');
+    const header = await findByText(/Title text../i);
     expect(header).toBeInTheDocument();
   });
   // test("should render content without error", async () => {

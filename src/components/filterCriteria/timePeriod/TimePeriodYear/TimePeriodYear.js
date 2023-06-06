@@ -51,6 +51,7 @@ const TimePeriodYear = ({
           validation
           heading="Requirements"
           aria-live="assertive"
+          headingLevel='h4'
         >
           <ValidationChecklist id="validate-time-period">
             <ValidationItem

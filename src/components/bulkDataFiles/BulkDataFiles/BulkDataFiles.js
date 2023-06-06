@@ -5,9 +5,8 @@ import { loadBulkDataFiles, updateBulkDataFiles } from "../../../store/actions/b
 import BulkDataFilesTable from "../BulkDataFilesTable/BulkDataFilesTable";
 import getContent from '../../../utils/api/getContent';
 import BulkDataFilesFilters from "../BulkDataFilesFilters/BulkDataFilesFilters";
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
-import { Button, Link } from '@trussworks/react-uswds';
+import Markdown from '../../../components/Markdown/Markdown';
+import { Button } from '@trussworks/react-uswds';
 import "./BulkDataFiles.scss";
 import RenderSpinner from '../../RenderSpinner/RenderSpinner';
 import setApiError from '../../../store/actions/setApiErrorAction';
@@ -86,18 +85,7 @@ const BulkDataFiles = ({
       </div>
       <div className={`grid-col-fill ${showMobileFilters ? 'display-none tablet:display-block' : ''}`} id='content'>
         <div className='bg-base-lightest padding-x-4 padding-top-4 padding-bottom-2'>
-          <ReactMarkdown
-            className='helper-text'
-            children={helperText}
-            remarkPlugins={[remarkGfm]}
-            components={{
-              h1: ({node, ...props}) => <h1 className="margin-0 text-bold font-sans-2xl">{props.children}</h1>,
-              a: ({node, ...props}) => <Link {...props} target="_blank" rel="noopener noreferrer" />,
-              ul: ({node, ...props}) => <ul className="padding-left-3">{props.children}</ul>,
-              // eslint-disable-next-line
-              img: ({node, ...props}) => <img {...props} />
-            }}
-          />
+          <Markdown className="helper-text">{helperText}</Markdown>
           <Button
             className="desktop:display-none"
             id="filterButton"

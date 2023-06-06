@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { Link as USWDSLink } from "@trussworks/react-uswds";
-import icons from "uswds/dist/img/sprite.svg";
+import icons from "@uswds/uswds/src/img/sprite.svg";
 
 import { metaAdder } from "../../utils/document/metaAdder";
 import getContent from "../../utils/api/getContent";

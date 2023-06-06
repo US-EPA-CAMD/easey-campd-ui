@@ -3,8 +3,10 @@ import {
   cleanup,
   fireEvent,
   render,
+  screen,
   within,
 } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 import MultiSelectCombobox from './MultiSelectCombobox';
 
@@ -307,21 +309,30 @@ describe('MultiSelectCombobox Component', () => {
   });
 
   afterEach(cleanup);
+  // it.only('pipe delimited list', async() => {
+  //   const { getByTestId, getAllByTestId} = query;
+  //   const searchbox = getByTestId("input-search");
+  //   expect(searchbox).toBeInTheDocument();
+  //   await userEvent.click(searchbox);
+  //   await userEvent.type(searchbox, '3|7|8|10')
+  //   await userEvent.tab()
+  // })
 
-  it('renders all roles that make up the multi-select-combobox and populates items in drowpdown list', () => {
-    const { getByTestId, getAllByTestId} = query;
+  it('renders all roles that make up the multi-select-combobox and populates items in drowpdown list', async() => {
+    const { getByTestId, findByTestId} = query;
     const searchbox = getByTestId("input-search");
     expect(searchbox).toBeInTheDocument();
-    searchbox.focus();
-    searchbox.click();
-    const listBox = getByTestId("multi-select-listbox");
+    await userEvent.click(searchbox);
+    const listBox = await findByTestId("multi-select-listbox");
     expect(listBox).toBeInTheDocument();
     expect(within(listBox).getAllByTestId('multi-select-option').length).toBe(items.length);
   });
 
-  it('handles click event of listbox option', () => {
+  it('handles click event of listbox option', async() => {
     const { getByTestId, getAllByTestId} = query;
-    getByTestId("input-search").click();
+    const searchbox = getByTestId("input-search");
+    expect(searchbox).toBeInTheDocument();
+    await userEvent.click(searchbox);
     const options = getAllByTestId("multi-select-option");
     fireEvent.click(options[0]);
     fireEvent.click(options[1]);

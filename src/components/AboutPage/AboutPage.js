@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Accordion } from '@trussworks/react-uswds';
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
 import { metaAdder } from '../../utils/document/metaAdder';
-import formatAccordionTitles from '../../utils/ensure-508/formatAccordionTitles';
 import getContent from '../../utils/api/getContent';
 import { connect } from 'react-redux';
 import setApiError from '../../store/actions/setApiErrorAction';
+import Markdown from '../../components/Markdown/Markdown';
 
 const ProductUpdate = ({ release, latestRelease }) => {
   const showUpcomingFeatures = latestRelease && release.upcomingFeatures;
@@ -50,9 +48,6 @@ const AboutPage = ({setApiErrorDispatcher}) => {
     document.title = 'About CAMPD | CAMPD | US EPA';
   }, []);
   // ***replace h4 tags in accordions with h3 tags for 508
-  useEffect(() => {
-    formatAccordionTitles(); //eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [releaseNotes]);
 
   metaAdder(
     'description',
@@ -77,7 +72,7 @@ const AboutPage = ({setApiErrorDispatcher}) => {
     'text-bold font-heading-xl line-height-sans-3 margin-bottom-1';
   return (
     <div className="padding-y-2 mobile-lg:padding-x-2 tablet:padding-x-4 widescreen:padding-x-10 font-sans-sm text-base-darkest text-ls-1 line-height-sans-5">
-      <ReactMarkdown remarkPlugins={[remarkGfm]} children={about} />
+      <Markdown>{about}</Markdown>
       {releaseNotes && (
         <>
           <h2 className={subTitle}>Product updates</h2>
@@ -94,6 +89,7 @@ const AboutPage = ({setApiErrorDispatcher}) => {
                   ),
                   expanded: false,
                   id: release + i,
+                  headingLevel: 'h3',
                 });
               })}
               multiselectable={true}

@@ -2,4 +2,7 @@
   .helper-text img {
     vertical-align: bottom;
   }
+  .usa-alert--warning:before {
+    content: none !important;
+  }
 }

@@ -1,9 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { SiteAlert } from '@trussworks/react-uswds';
-import { connect } from 'react-redux';
-import { useLocation } from 'react-router';
-import setApiError from '../../store/actions/setApiErrorAction';
-import getContent from '../../utils/api/getContent';
+import React, { useEffect, useRef, useState } from "react";
+import { SiteAlert } from "@trussworks/react-uswds";
+import { connect } from "react-redux";
+import { useLocation } from "react-router";
+import setApiError from "../../store/actions/setApiErrorAction";
+import getContent from "../../utils/api/getContent";
+import "./ApiErrorAlert.scss";
 
 const ApiErrorAlert = ({
   apiErrors,
@@ -12,7 +13,7 @@ const ApiErrorAlert = ({
 }) => {
   const [errors, setErrors] = useState([]);
   const [errorMessages, setErrorMessages] = useState(null);
-    useState(false);
+  useState(false);
   const apiErrorsRef = useRef(null);
   const location = useLocation();
 
@@ -20,12 +21,14 @@ const ApiErrorAlert = ({
     if (apiErrors.errorMessages) {
       setErrorMessages(apiErrors.errorMessages);
     } else {
-      getContent('/campd/api-error-messages.json', setApiErrorDispatcher)
-        .then((response) => {
-          if (response?.data){
-          setErrorMessages(response.data);
-          setApiErrorDispatcher('errorMessages', response.data);}
-        })
+      getContent("/campd/api-error-messages.json", setApiErrorDispatcher).then(
+        (response) => {
+          if (response?.data) {
+            setErrorMessages(response.data);
+            setApiErrorDispatcher("errorMessages", response.data);
+          }
+        }
+      );
     } //eslint-disable-next-line
   }, []);
   useEffect(() => {
@@ -48,18 +51,20 @@ const ApiErrorAlert = ({
     }
   }, [errors]);
 
-  const customDataDownloadPath = '/data/custom-data-download';
-  const showAlert =
-    location.pathname === customDataDownloadPath
-      ? parentComponentPath === customDataDownloadPath && errors.length
+  const cddPath = "/data/custom-data-download",
+    currentPath = location?.pathname,
+    isCdd = currentPath === cddPath,
+    showAlert = isCdd
+      ? parentComponentPath === cddPath && errors.length
       : errors.length;
 
   return showAlert ? (
     <div id="api-error-banner" ref={apiErrorsRef}>
       {errors.map((api) => (
         <SiteAlert variant="info" key={api} aria-live="assertive">
-          {!errorMessages ? 
-          "All of the content on this page may not be available. If you continue to encounter this issue, contact CAMPD support: campd-support@camdsupport.com" : errorMessages[api]}
+          {!errorMessages
+            ? "All of the content on this page may not be available. If you continue to encounter this issue, contact CAMPD support: campd-support@camdsupport.com"
+            : errorMessages[api]}
         </SiteAlert>
       ))}
     </div>

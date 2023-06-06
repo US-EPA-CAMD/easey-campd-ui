@@ -107,7 +107,7 @@ describe('Bulk data files download component functionality', () => {
     expect(downloadButton).toBeDisabled();
   });
 
-  test('download button should be enabled if files are selected', () => {
+  test('download button should be enabled if files are selected', async() => {
     render(
       <Provider store={store}>
         <MemoryRouter>
@@ -125,6 +125,7 @@ describe('Bulk data files download component functionality', () => {
       name: /download/i,
     });
     expect(downloadButton).not.toBeDisabled();
+    await userEvent.click(downloadButton);
   });
 
   test('download button should be disabled if file size exceeds limit', () => {

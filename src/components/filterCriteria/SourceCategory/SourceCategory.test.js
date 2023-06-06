@@ -5,6 +5,7 @@ import {
   render,
   within,
 } from '@testing-library/react';
+import { cloneDeep } from 'lodash';
 
 import SourceCategory from './SourceCategory';
 import configureStore from "../../../store/configureStore.dev";
@@ -57,8 +58,9 @@ const sourceCategories = [
     "sourceCategoryDescription": "Municipal Waste Combustor"
   },
 ];
-initialState.filterCriteria.sourceCategory = sourceCategories.map(f=> ({id: f.sourceCategoryCode, label:f.sourceCategoryDescription, selected:false, enabled:true}));
-const store = configureStore(initialState);
+const initStateCopy = cloneDeep(initialState)
+initStateCopy.filterCriteria.sourceCategory = sourceCategories.map(f=> ({id: f.sourceCategoryCode, label:f.sourceCategoryDescription, selected:false, enabled:true}));
+const store = configureStore(initStateCopy);
 let flyOutClosed = false;
 let applyFilterLoading = false;
 
@@ -90,7 +92,7 @@ describe('Source Category Component', () => {
     fireEvent.click(searchbox);
     const listBox = getByTestId("multi-select-listbox");
     expect(listBox).toBeInTheDocument();
-    expect(within(listBox).getAllByTestId('multi-select-option').length).toBe(initialState.filterCriteria.sourceCategory.length);
+    expect(within(listBox).getAllByTestId('multi-select-option').length).toBe(initStateCopy.filterCriteria.sourceCategory.length);
   });
 
   it('handles click event of cancel button', () => {

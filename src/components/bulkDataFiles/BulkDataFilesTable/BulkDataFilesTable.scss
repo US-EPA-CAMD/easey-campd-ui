@@ -9,6 +9,14 @@
 
 }
 
+.usa-alert--info:before{
+  content: none !important;
+}
+
+.usa-alert:before{
+  content: none !important;
+}
+
 #bdfTable {
   #bdfDownload {
     position: sticky;

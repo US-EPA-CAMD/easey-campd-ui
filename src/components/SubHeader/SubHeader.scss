@@ -1,3 +1,5 @@
+@import "../../styles/variables";
+
 .subheader-wrapper {
   .logo-wrapper {
     img {
@@ -13,6 +15,12 @@
       .desktop-lg\:width-mobile-md {
         width: 400px;
       }
+    }
+  }
+
+  .link-accent-cool {
+    a.usa-link {
+      color: $eds-accent-cool;
     }
   }
 }
