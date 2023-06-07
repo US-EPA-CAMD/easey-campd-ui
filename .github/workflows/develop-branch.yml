@@ -36,6 +36,7 @@ jobs:
         run: devops/scripts/yarn/build.sh
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # COMMENTED UNTIL TESTS CAN BE REDONE
       # - name: Run Unit Tests
       #   run: devops/scripts/yarn/unit-tests.sh
       # - name: SonarCloud Scan
