@@ -26,7 +26,7 @@ jest.mock("rehype-sanitize", () => ({
     return {
       content: "This is sanitized HTML.",
     };
-  },
+  },//
 }));
 jest.mock("remark-sub-super", () => () => {});
 beforeAll(() =>
