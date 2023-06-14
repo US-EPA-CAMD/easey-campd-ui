@@ -2,13 +2,12 @@ import React from 'react';
 import {
   cleanup,
   fireEvent,
-  render,
-  screen,
   within,
 } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import MultiSelectCombobox from './MultiSelectCombobox';
+import render from '../../mocks/render';
 
 const facilities = [
   {
@@ -309,14 +308,14 @@ describe('MultiSelectCombobox Component', () => {
   });
 
   afterEach(cleanup);
-  // it.only('pipe delimited list', async() => {
-  //   const { getByTestId, getAllByTestId} = query;
-  //   const searchbox = getByTestId("input-search");
-  //   expect(searchbox).toBeInTheDocument();
-  //   await userEvent.click(searchbox);
-  //   await userEvent.type(searchbox, '3|7|8|10')
-  //   await userEvent.tab()
-  // })
+  it('pipe delimited list', async() => {
+    const { getByTestId} = query;
+    const searchbox = getByTestId("input-search");
+    expect(searchbox).toBeInTheDocument();
+    await userEvent.click(searchbox);
+    await userEvent.type(searchbox, '3|7|8|10')
+    await userEvent.tab()
+  })
 
   it('renders all roles that make up the multi-select-combobox and populates items in drowpdown list', async() => {
     const { getByTestId, findByTestId} = query;

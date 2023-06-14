@@ -11,7 +11,11 @@ import { connect } from 'react-redux';
 import setApiError from '../../../store/actions/setApiErrorAction';
 import { updateBulkDataFiles } from '../../../store/actions/bulkDataFilesActions';
 import RenderSpinner from '../../RenderSpinner/RenderSpinner';
-
+import { create } from 'zustand';
+const useStore = create((set) => ({
+  loading: false,
+  setLoading: (val) => set(({ loading: val }))
+}));
 const BulkDataFilesFilters = ({
   data,
   dataTableRecords,
@@ -34,7 +38,8 @@ const BulkDataFilesFilters = ({
   const [statesFiltered, setStatesFiltered]= useState([]);
   const [year, setYear] = useState('');
   const [quarter, setQuarter] = useState('');
-  const [loading, setLoading] = useState(false);
+  const { loading, setLoading } = useStore();
+
   const [appliedFilterSelection, setAppliedFilterSelection] = useState({
     dataType: '',
     subType: '',

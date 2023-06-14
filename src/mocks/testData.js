@@ -332,6 +332,11 @@ export const statuses = [
       "An error occurred while submitting your comment. Please resubmit your information; or call the Clean Air Markets Division hotline 202-343-9620; or email [email].",
     email: "campd-support@camdsupport.com",
   },
+  {
+    status: "error-invalid-email",
+    message: "Please enter a valid email",
+    email: "campd-support@camdsupport.com",
+  },
 ];
 
 export const homeContent = [

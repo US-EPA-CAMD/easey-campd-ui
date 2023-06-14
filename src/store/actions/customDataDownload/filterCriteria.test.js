@@ -1376,61 +1376,64 @@ describe("Filter Criteria Async Actions", () => {
     expect(actionDispached).toEqual(expectedAction);
   });
 
-  // test.only('should create BEGIN_API_CALL and load relevant filters', () => {
-  //   const expectedActions = [
-  //     { type: 'BEGIN_API_CALL' },
-  //     { type: 'BEGIN_API_CALL' },
-  //     { type: 'BEGIN_API_CALL' },
-  //     { type: 'BEGIN_API_CALL' },
-  //     { type: 'BEGIN_API_CALL' },
-  //     { type: 'BEGIN_API_CALL' },
-  //     {
-  //       type: types.LOAD_STATES_SUCCESS,
-  //       stateTerritory: states.map((s) => ({
-  //         id: s.stateCode,
-  //         label: s.stateName,
-  //         selected: false,
-  //         enabled: true,
-  //       })),
-  //     },
-  //     {
-  //       type: types.LOAD_FACILITIES_SUCCESS,
-  //       facility: facilities.map((f) => ({
-  //         id: f.facilityId,
-  //         label: `${f.facilityName} (${f.facilityId})`,
-  //         selected: false,
-  //         enabled: true,
-  //       })),
-  //     },
-  //     {
-  //       type: types.LOAD_UNIT_TYPES_SUCCESS,
-  //       unitType: restructureUnitTypes(unitTypes),
-  //     },
-  //     {
-  //       type: types.LOAD_FUEL_TYPES_SUCCESS,
-  //       fuelType: restructureFuelTypes(fuelTypes),
-  //     },
-  //     {
-  //       type: types.LOAD_CONTROL_TECHNOLOGIES_SUCCESS,
-  //       controlTechnology: restructureControlTechnologies(controlTechnologies),
-  //     },
-  //   ];
+  test('should create BEGIN_API_CALL and load relevant filters', () => {
+    const expectedActions = [
+      { type: 'BEGIN_API_CALL' },
+      { type: 'BEGIN_API_CALL' },
+      { type: 'BEGIN_API_CALL' },
+      { type: 'BEGIN_API_CALL' },
+      { type: 'BEGIN_API_CALL' },
+      { type: 'BEGIN_API_CALL' },
+      {
+        type: types.LOAD_STATES_SUCCESS,
+        stateTerritory: states.map((s) => ({
+          id: s.stateCode,
+          label: s.stateName,
+          selected: false,
+          enabled: true,
+        })),
+      },
+      {
+        type: types.LOAD_FACILITIES_SUCCESS,
+        facility: facilities.map((f) => ({
+          id: f.facilityId,
+          label: `${f.facilityName} (${f.facilityId})`,
+          selected: false,
+          enabled: true,
+        })),
+      },
+      {
+        type: types.LOAD_UNIT_TYPES_SUCCESS,
+        unitType: restructureUnitTypes(unitTypes),
+      },
+      {
+        type: types.LOAD_FUEL_TYPES_SUCCESS,
+        fuelType: restructureFuelTypes(fuelTypes),
+      },
+      {
+        type: types.LOAD_CONTROL_TECHNOLOGIES_SUCCESS,
+        controlTechnology: restructureControlTechnologies(controlTechnologies),
+      },
+      {
+        type: types.LOAD_PROGRAMS_SUCCESS,
+        program: restructurePrograms([])
+      }
+    ];
 
-  //   const store = mockStore(initState);
-  //   return store
-  //     .dispatch(
-  //       actions.loadAllFilters(
-  //         'EMISSIONS',
-  //         'Hourly Emissions',
-  //         initState.filterCriteria
-  //       )
-  //     )
-  //     .then(() => {
-  //       const storeActions = store.getActions()
-  //       console.log({actions});
-  //       // expect(storeActions.length).toEqual(8);
-  //     });
-  // });
+    const store = mockStore(initState);
+    return store
+      .dispatch(
+        actions.loadAllFilters(
+          'EMISSIONS',
+          'Hourly Emissions',
+          initState.filterCriteria
+        )
+      )
+      .then(() => {
+        const storeActions = store.getActions()
+        expect(storeActions.length).toEqual(expectedActions.length);
+      });
+  });
 
   test('reset filter helper function should clear selected items of target filter', () => {
     const state = Object.assign({}, initState, {filterCriteria: {...initState.filterCriteria, facility: facilities.map(f=> ({id: f.facilityId, label:`${f.facilityName} (${f.facilityId})`, selected:true, enabled:true}))}});

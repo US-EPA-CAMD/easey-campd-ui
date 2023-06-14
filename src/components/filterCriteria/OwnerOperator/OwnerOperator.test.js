@@ -2,21 +2,19 @@ import React from 'react';
 import {
   cleanup,
   fireEvent,
-  render,
   within,
-  screen,
+  waitFor,
 } from '@testing-library/react';
 import { cloneDeep } from 'lodash';
 
 import OwnerOperator from './OwnerOperator';
 import configureStore from "../../../store/configureStore.dev";
-import { Provider } from "react-redux";
 import initialState from "../../../store/reducers/initialState";
 import { updateOwnerOperatorSelection } from "../../../store/actions/customDataDownload/filterCriteria";
 import { addAppliedFilter, removeAppliedFilter } from "../../../store/actions/customDataDownload/customDataDownload";
+import render from '../../../mocks/render';
 
-jest.useFakeTimers();
-jest.spyOn(global, 'setTimeout');
+
 const ownerOperators = [
   {
     "ownId": 52186,
@@ -63,8 +61,6 @@ describe('Owner Operator Component', () => {
     flyOutClosed = false;
     applyFilterLoading = false;
     query = render(
-      <Provider 
-        store={store}>
         <OwnerOperator
           ownerOperator ={jest.fn()}
           dataSubType ={jest.fn()}
@@ -74,9 +70,8 @@ describe('Owner Operator Component', () => {
           removeAppliedFilterDispatcher ={removeAppliedFilter}
           closeFlyOutHandler ={()=> flyOutClosed=true}
           renderedHandler={jest.fn()}
-          setApplyFilterLoading={() => applyFilterLoading = true}
-          />
-      </Provider>);
+          setApplyFilterLoading={(bool) => applyFilterLoading = bool}
+          />, store);
   });
 
   afterEach(cleanup);
@@ -103,17 +98,17 @@ describe('Owner Operator Component', () => {
     const { getByTestId, getAllByTestId, getByRole, getByText} = query;
     const searchbox = getByTestId("input-search");
     searchbox.focus();
-    fireEvent.click(searchbox);
-    fireEvent.change(searchbox, { target: { value: 'AES Corporation' } });
-    fireEvent.keyDown(searchbox, {key: 'Tab', code: 9});
-    fireEvent.keyDown(searchbox, {key: 'Enter', code: 'Enter'})
+    await fireEvent.click(searchbox);
+    await fireEvent.change(searchbox, { target: { value: 'AES Corporation' } });
+    await fireEvent.keyDown(searchbox, {key: 'Tab', code: 9});
+    await fireEvent.keyDown(searchbox, {key: 'Enter', code: 'Enter'})
     expect(searchbox.value).toBe('AES Corporation');
     expect(getAllByTestId("multi-select-option").length).toBe(1);
-    fireEvent.click(getByTestId("multi-select-option"));
+    await fireEvent.click(getByTestId("multi-select-option"));
     expect(getByRole("button", {name: "AES Corporation"})).toBeDefined();
     expect(getAllByTestId("multi-select-option").length).toBe(distinctOwnOpers.length);
-    fireEvent.click(getByText("Apply Filter"));
-    jest.runAllTimers();
+    await fireEvent.click(getByText("Apply Filter"));
     expect(applyFilterLoading).toBe(true);
+    await waitFor(() => expect(applyFilterLoading).toBe(false))
   })
 });

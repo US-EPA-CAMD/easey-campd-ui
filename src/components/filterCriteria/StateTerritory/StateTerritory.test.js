@@ -2,19 +2,18 @@ import React from 'react';
 import {
   cleanup,
   fireEvent,
-  render,
+  waitFor,
   within,
 } from '@testing-library/react';
 import { cloneDeep } from 'lodash';
 
 import StateTerritory from './StateTerritory';
 import configureStore from "../../../store/configureStore.dev";
-import { Provider } from "react-redux";
 import initialState from "../../../store/reducers/initialState";
 import { updateStateSelection } from "../../../store/actions/customDataDownload/filterCriteria";
 import { addAppliedFilter, removeAppliedFilter } from "../../../store/actions/customDataDownload/customDataDownload";
-jest.useFakeTimers();
-jest.spyOn(global, 'setTimeout');
+import render from '../../../mocks/render';
+
 const states = [{
   "stateCode": "AK",
   "stateName": "Alaska",
@@ -86,17 +85,14 @@ describe('State/Territory Component', () => {
   let query;
   beforeEach(() => {
     query = render(
-      <Provider 
-        store={store}>
         <StateTerritory
           updateStateSelectionDispatcher ={updateStateSelection}
           addAppliedFilterDispatcher ={addAppliedFilter}
           removeAppliedFilterDispatcher ={removeAppliedFilter}
           closeFlyOutHandler ={()=> flyOutClosed=true}
           renderedHandler={jest.fn()}
-          setApplyFilterLoading={() => applyFilterLoading = true}
-        />
-      </Provider>);
+          setApplyFilterLoading={(bool) => applyFilterLoading = bool}
+        />, store);
   });
 
   afterEach(cleanup);
@@ -119,21 +115,20 @@ describe('State/Territory Component', () => {
     expect(flyOutClosed).toBe(true);
   });
 
-  it('It should search using input box for states in listboxt', () => {
+  it('It should search using input box for states in listboxt', async() => {
     const { getByTestId, getAllByTestId, getByRole, getByText} = query;
     const searchbox = getByTestId("input-search");
-    searchbox.focus();
-    fireEvent.click(searchbox);
-    fireEvent.change(searchbox, { target: { value: 'Alaska' } })
+    await fireEvent.click(searchbox);
+    await fireEvent.change(searchbox, { target: { value: 'Alaska' } })
     expect(searchbox.value).toBe('Alaska');
     expect(within(getByTestId("multi-select-listbox")).getAllByTestId('multi-select-option').length).toBe(1);
-    fireEvent.keyDown(searchbox, {key: 'Tab', code: 9});
-    fireEvent.keyDown(searchbox, {key: 'Enter', code: 'Enter'})
-    fireEvent.click(getByTestId("multi-select-option"));
+    await fireEvent.keyDown(searchbox, {key: 'Tab', code: 9});
+    await fireEvent.keyDown(searchbox, {key: 'Enter', code: 'Enter'})
+    await fireEvent.click(getByTestId("multi-select-option"));
     expect(getByRole("button", {name: "Alaska"})).toBeDefined();
     expect(getAllByTestId("multi-select-option").length).toBe(states.length);
-    fireEvent.click(getByText("Apply Filter"));
-    jest.runAllTimers();
+    await fireEvent.click(getByText("Apply Filter"));
     expect(applyFilterLoading).toBe(true);
+    await waitFor(() => expect(applyFilterLoading).toBe(false))
   })
 });

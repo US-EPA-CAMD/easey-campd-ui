@@ -1,10 +1,9 @@
 import React from 'react';
-import { render, fireEvent, cleanup } from '@testing-library/react';
+import { fireEvent, cleanup, waitFor } from '@testing-library/react';
 import { Program } from './Program';
 import {restructurePrograms} from "../../../utils/selectors/filterCriteria";
 import initialState from '../../../store/reducers/initialState';
-jest.useFakeTimers();
-jest.spyOn(global, 'setTimeout');
+import render from '../../../mocks/render';
 
 const program = [
   {
@@ -233,7 +232,7 @@ describe("Hourly Emissions Program", () => {
           dataType="EMISSIONS"
           dataSubType="Facility/Unit Attributes"
           filterCriteria={initialState.filterCriteria}
-          setApplyFilterLoading={() => applyFilterLoading = true}
+          setApplyFilterLoading={(bool) => applyFilterLoading = bool}
           />
       );
   });
@@ -254,12 +253,12 @@ describe("Hourly Emissions Program", () => {
   it("handles checkbox selection appropriately", async () => {
     const { getByRole, getByText } = queries;
     const arpCheckbox = getByRole('checkbox', {name:"Acid Rain Program (ARP)"});
-    fireEvent.click(arpCheckbox);
+    await fireEvent.click(arpCheckbox);
     expect(arpCheckbox.checked).toEqual(true);
     const applyFilterButton = getByText('Apply Filter').closest('button');
-    fireEvent.click(applyFilterButton);
-    jest.runAllTimers();
+    await fireEvent.click(applyFilterButton);
     expect(applyFilterLoading).toBe(true);
+    await waitFor(() => expect(applyFilterLoading).toBe(false))
   });
 
 });

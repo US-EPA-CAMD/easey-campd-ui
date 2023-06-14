@@ -950,6 +950,6 @@ export const ownerOperators = {
 };
 
 export const hourlyEmissions = {
-  url: `${config.services.emissions}/emissions/apportioned/hourly`,
+  url: `${config.services.emissions.uri}/emissions/apportioned/hourly`,
   data: []
 }

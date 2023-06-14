@@ -1,82 +1,80 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { fireEvent } from '@testing-library/react';
 import { TimePeriod } from './TimePeriod';
 import userEvent from '@testing-library/user-event';
 import * as DateValidations from '../../../../utils/dateValidation/dateValidation';
 import configureStore from '../../../../store/configureStore.dev';
 import initialState from '../../../../store/reducers/initialState';
-import { Provider } from 'react-redux';
+import render from '../../../../mocks/render';
 
 describe('Emissions TimePeriod Component', () => {
   /* -- TimePeriodFullDates -- */
   const store = configureStore(initialState);
-  // it('renders form elements without errors', () => {
-  //   const initTimePeriod = {
-  //     startDate: null,
-  //     endDate: null,
-  //     opHrsOnly: true,
-  //   };
-  //   const { getByTestId, getAllByTestId, getByRole } = render(
-  //     <Provider store={store}>
-  //     <TimePeriod
-  //       dataType="EMISSIONS"
-  //       timePeriod={initTimePeriod}
-  //       updateTimePeriodDispatcher={jest.fn()}
-  //       removeAppliedFiltersDispatcher={jest.fn()}
-  //       closeFlyOutHandler={jest.fn()}
-  //       renderedHandler={jest.fn()}
-  //       setApplyFilterLoading={jest.fn()}
-  //       filterCriteria={initialState.filterCriteria}
-  //     /></Provider>
-  //   );
+  it('renders form elements without errors', () => {
+    const initTimePeriod = {
+      startDate: null,
+      endDate: null,
+      opHrsOnly: true,
+    };
+    const { getByTestId, getAllByTestId, getByRole } = render(
+      <TimePeriod
+        dataType="EMISSIONS"
+        timePeriod={initTimePeriod}
+        updateTimePeriodDispatcher={jest.fn()}
+        removeAppliedFiltersDispatcher={jest.fn()}
+        closeFlyOutHandler={jest.fn()}
+        renderedHandler={jest.fn()}
+        setApplyFilterLoading={jest.fn()}
+        filterCriteria={initialState.filterCriteria}
+      />, store
+    );
 
-  //   const dateRangePicker = getByTestId('date-range-picker');
-  //   expect(dateRangePicker).toBeInTheDocument();
-  //   expect(dateRangePicker).toHaveClass('usa-date-range-picker');
+    const dateRangePicker = getByTestId('date-range-picker');
+    expect(dateRangePicker).toBeInTheDocument();
+    expect(dateRangePicker).toHaveClass('usa-date-range-picker');
 
-  //   const datePickers = getAllByTestId('date-picker');
-  //   expect(datePickers).toHaveLength(2);
+    const datePickers = getAllByTestId('date-picker');
+    expect(datePickers).toHaveLength(2);
 
-  //   const checkbox = getByRole('checkbox', { checked: true });
-  //   expect(checkbox).toBeInTheDocument();
+    const checkbox = getByRole('checkbox', { checked: true });
+    expect(checkbox).toBeInTheDocument();
 
-  //   const buttons = getAllByTestId('button');
-  //   expect(buttons).toHaveLength(2);
-  // });
+    const buttons = getAllByTestId('button');
+    expect(buttons).toHaveLength(2);
+  });
 
-  // it('handles interactions appropriately', () => {
-  //   let updatedTimePeriod;
-  //   const dispatcher = (formState) => {
-  //     updatedTimePeriod = formState;
-  //   };
-  //   const timePeriod = {
-  //     startDate: '2019-01-01',
-  //     endDate: '2019-01-01',
-  //     opHrsOnly: true,
-  //   };
-  //   const { getByText, getByRole } = render(
-  //     <Provider store={store}>
-  //     <TimePeriod
-  //       dataType="EMISSIONS"
-  //       timePeriod={timePeriod}
-  //       updateTimePeriodDispatcher={dispatcher}
-  //       addAppliedFilterDispatcher={jest.fn()}
-  //       removeAppliedFiltersDispatcher={jest.fn()}
-  //       appliedFilters={['timePeriod']}
-  //       closeFlyOutHandler={jest.fn()}
-  //       renderedHandler={jest.fn()}
-  //       setApplyFilterLoading={jest.fn()}
-  //       filterCriteria={initialState.filterCriteria}
-  //     /></Provider>
-  //   );
-  //   const checkbox = getByRole('checkbox', { checked: true });
-  //   fireEvent.click(checkbox);
-  //   const applyFilterButton = getByText('Apply Filter').closest('button');
-  //   expect(applyFilterButton).not.toBeDisabled();
-  //   fireEvent.click(applyFilterButton);
-  //   expect(updatedTimePeriod.startDate).toBe(timePeriod.startDate);
-  //   expect(updatedTimePeriod.opHrsOnly).toBe(false);
-  // });
+  it('handles interactions appropriately', () => {
+    let updatedTimePeriod;
+    const dispatcher = (formState) => {
+      updatedTimePeriod = formState;
+    };
+    const timePeriod = {
+      startDate: '2019-01-01',
+      endDate: '2019-01-01',
+      opHrsOnly: true,
+    };
+    const { getByText, getByRole } = render(
+      <TimePeriod
+        dataType="EMISSIONS"
+        timePeriod={timePeriod}
+        updateTimePeriodDispatcher={dispatcher}
+        addAppliedFilterDispatcher={jest.fn()}
+        removeAppliedFiltersDispatcher={jest.fn()}
+        appliedFilters={['timePeriod']}
+        closeFlyOutHandler={jest.fn()}
+        renderedHandler={jest.fn()}
+        setApplyFilterLoading={jest.fn()}
+        filterCriteria={initialState.filterCriteria}
+      />, store
+    );
+    const checkbox = getByRole('checkbox', { checked: true });
+    fireEvent.click(checkbox);
+    const applyFilterButton = getByText('Apply Filter').closest('button');
+    expect(applyFilterButton).not.toBeDisabled();
+    fireEvent.click(applyFilterButton);
+    expect(updatedTimePeriod.startDate).toBe(timePeriod.startDate);
+    expect(updatedTimePeriod.opHrsOnly).toBe(false);
+  });
 
   /* -- TimePeriodYear -- */
 
@@ -94,7 +92,6 @@ describe('Emissions TimePeriod Component', () => {
       quarter: [],
     };
     const { getByText, getByTestId } = render(
-      <Provider store={store}>
       <TimePeriod 
         dataType="EMISSIONS"
         timePeriod={timePeriod}
@@ -108,7 +105,7 @@ describe('Emissions TimePeriod Component', () => {
         renderedHandler={jest.fn()}
         setApplyFilterLoading={jest.fn()}
         filterCriteria={initialState.filterCriteria}
-      /></Provider>
+      />, store
     );
     const textBox = getByTestId('textInput');
     userEvent.type(textBox, '2019,2020');
@@ -132,7 +129,6 @@ describe('Emissions TimePeriod Component', () => {
       quarter: [],
     };
     const { getByText, getByTestId, getByLabelText } = render(
-      <Provider store={store}>
       <TimePeriod
         dataType="EMISSIONS"
         timePeriod={timePeriod}
@@ -146,7 +142,7 @@ describe('Emissions TimePeriod Component', () => {
         renderedHandler={jest.fn()}
         setApplyFilterLoading={jest.fn()}
         filterCriteria={initialState.filterCriteria}
-      /></Provider>
+      />, store
     );
     const textBox = getByTestId('textInput');
     userEvent.type(textBox, '2019,2020');
@@ -173,7 +169,6 @@ describe('Emissions TimePeriod Component', () => {
       quarter: [{ id: 1, label: 'Q1', selected: false }],
     };
     const { getByText, getByTestId, getByLabelText } = render(
-      <Provider store={store}>
       <TimePeriod
         dataType="EMISSIONS"
         timePeriod={timePeriod}
@@ -187,7 +182,7 @@ describe('Emissions TimePeriod Component', () => {
         renderedHandler={jest.fn()}
         setApplyFilterLoading={jest.fn()}
         filterCriteria={initialState.filterCriteria}
-      /></Provider>
+      />, store
     );
     const textBox = getByTestId('textInput');
     userEvent.type(textBox, '2019,2020');
@@ -214,7 +209,6 @@ describe('Emissions TimePeriod Component', () => {
       quarter: [],
     };
     const { getByText, getByTestId } = render(
-      <Provider store={store}>
       <TimePeriod
         dataType="EMISSIONS"
         timePeriod={timePeriod}
@@ -228,7 +222,7 @@ describe('Emissions TimePeriod Component', () => {
         renderedHandler={jest.fn()}
         setApplyFilterLoading={jest.fn()}
         filterCriteria={initialState.filterCriteria}
-      /></Provider>
+      />, store
     );
     const textBox = getByTestId('textInput');
     userEvent.type(textBox, '2019-2020');
@@ -248,7 +242,6 @@ describe('Emissions TimePeriod Component', () => {
       quarter: [],
     };
     const { getByText, getByTestId } = render(
-      <Provider store={store}>
       <TimePeriod
         timePeriod={timePeriod}
         updateTimePeriodDispatcher={jest.fn()}
@@ -261,7 +254,7 @@ describe('Emissions TimePeriod Component', () => {
         renderedHandler={jest.fn()}
         setApplyFilterLoading={jest.fn()}
         filterCriteria={initialState.filterCriteria}
-      /></Provider>
+      />, store
     );
     const textBox = getByTestId('textInput');
 

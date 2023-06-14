@@ -1,13 +1,12 @@
 import React from 'react';
-import { cleanup, fireEvent, render, within } from '@testing-library/react';
-import { Provider } from 'react-redux';
+import { cleanup, fireEvent, waitFor, within } from '@testing-library/react';
 import { cloneDeep } from 'lodash';
 
 import configureStore from '../../../../store/configureStore.dev';
 import initialState from '../../../../store/reducers/initialState';
 import TimePeriodComboBox from './TimePeriodComboBox';
-jest.useFakeTimers();
-jest.spyOn(global, 'setTimeout');
+import render from '../../../../mocks/render';
+
 const filterMapping = [
   {
     "vintageYear": "1995",
@@ -175,7 +174,6 @@ describe('Account Name/Number Component', () => {
   let query;
   beforeEach(() => {
     query = render(
-      <Provider store={store}>
         <TimePeriodComboBox
           updateTimePeriodDispatcher={jest.fn()}
           addAppliedFilterDispatcher={jest.fn()}
@@ -183,9 +181,9 @@ describe('Account Name/Number Component', () => {
           closeFlyOutHandler={() => (flyOutClosed = true)}
           renderedHandler={jest.fn()}
           filterToApply="Vintage Year"
-          setApplyFilterLoading={() => applyFilterLoading = true}
-        />
-      </Provider>
+          setApplyFilterLoading={(bool) => applyFilterLoading = bool}
+        />,
+        store
     );
   });
 
@@ -211,21 +209,21 @@ describe('Account Name/Number Component', () => {
     expect(flyOutClosed).toBe(true);
   });
 
-  test('It should search using input box for vintage years in listboxt', () => {
+  test('It should search using input box for vintage years in listboxt', async () => {
     const { getByTestId, getAllByTestId, getByRole, getByText } = query;
     const searchbox = getByTestId('input-search');
     searchbox.focus();
-    fireEvent.click(searchbox);
-    fireEvent.change(searchbox, { target: { value: '1998' } });
+    await fireEvent.click(searchbox);
+    await fireEvent.change(searchbox, { target: { value: '1998' } });
     expect(searchbox.value).toBe('1998');
     expect(within(getByTestId("multi-select-listbox")).getAllByTestId('multi-select-option').length).toBe(1);
-    fireEvent.keyDown(searchbox, {key: 'Tab', code: 9});
-    fireEvent.keyDown(searchbox, {key: 'Enter', code: 'Enter'})
-    fireEvent.click(getByTestId("multi-select-option"));
+    await fireEvent.keyDown(searchbox, {key: 'Tab', code: 9});
+    await fireEvent.keyDown(searchbox, {key: 'Enter', code: 'Enter'})
+    await fireEvent.click(getByTestId("multi-select-option"));
     expect(getByRole("button", {name: "1998"})).toBeDefined();
     expect(getAllByTestId("multi-select-option").length).toBe(distinctYears.length);
-    fireEvent.click(getByText("Apply Filter"));
-    jest.runAllTimers();
+    await fireEvent.click(getByText("Apply Filter"));
     expect(applyFilterLoading).toBe(true);
+    await waitFor(() => expect(applyFilterLoading).toBe(false))
   });
 });

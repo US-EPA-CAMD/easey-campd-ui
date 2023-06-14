@@ -23,4 +23,7 @@
       color: $eds-accent-cool;
     }
   }
+  .usa-accordion__button span::after {
+    content: none !important;
+  }
 }

@@ -2,22 +2,19 @@ import React from 'react';
 import {
   cleanup,
   fireEvent,
-  render,
   within,
 } from '@testing-library/react';
 import { cloneDeep } from 'lodash';
 
 import Facility from './Facility';
 import configureStore from "../../../store/configureStore.dev";
-import { Provider } from "react-redux";
 import initialState from "../../../store/reducers/initialState";
 import { updateFacilitySelection } from "../../../store/actions/customDataDownload/filterCriteria";
 import { addAppliedFilter, removeAppliedFilter } from "../../../store/actions/customDataDownload/customDataDownload";
 import userEvent from '@testing-library/user-event';
 import { noValidFacilitiesMessage, showInvalidFacilities } from '../../../utils/constants/validationMessages';
+import render from '../../../mocks/render';
 
-jest.useFakeTimers();
-jest.spyOn(global, 'setTimeout');
 const initStateCopy = cloneDeep(initialState)
 const facilities = [
   {
@@ -310,8 +307,6 @@ describe('Facility Component', () => {
   let query;
   beforeEach(() => {
     query = render(
-      <Provider 
-        store={store}>
         <Facility
           updateFacilitySelectionDispatcher ={updateFacilitySelection}
           addAppliedFilterDispatcher ={addAppliedFilter}
@@ -319,8 +314,7 @@ describe('Facility Component', () => {
           closeFlyOutHandler ={()=> flyOutClosed=true}
           renderedHandler ={jest.fn()}
           setApplyFilterLoading={() => applyFilterLoading = true}
-        />
-      </Provider>);
+        />, store);
   });
 
   afterEach(cleanup);
@@ -358,78 +352,71 @@ describe('Facility Component', () => {
     expect(getByRole("button", {name: "Barry (3)"})).toBeDefined();
     expect(getAllByTestId("multi-select-option").length).toBe(facilities.length);
     fireEvent.click(getByText("Apply Filter"));
-    jest.runAllTimers();
     expect(applyFilterLoading).toBe(true);
   })
 
   describe("pipe separated lists", ()=>{
-    test('It should handle pipe separated lists', () => {
-      const { getByTestId, getByRole, getByText} = query;
-      const searchbox = getByTestId("input-search");
-      searchbox.focus();
-      fireEvent.click(searchbox);
-      userEvent.type(searchbox, '3|5|7|8|');
-      // fireEvent.keyDown(searchbox, {key: 'Enter', code: 'Enter'});
+    test('It should handle pipe separated lists', async () => {
+      const { findByTestId, findByRole, findByText} = query;
+      const searchbox = await findByTestId("input-search");
+      await fireEvent.click(searchbox);
+      await userEvent.type(searchbox, '3|5|7|8|');
+      await fireEvent.keyDown(searchbox, {key: 'Enter', code: 'Enter'});
 
-      // expect(getByRole("button", {name: "Barry (3)"})).toBeDefined();
-      // expect(getByRole("button", {name: "Chickasaw (5)"})).toBeDefined();
-      // expect(getByRole("button", {name: "Gadsden (7)"})).toBeDefined();
-      // expect(getByRole("button", {name: "Gorgas (8)"})).toBeDefined();
-      // fireEvent.click(getByText("Apply Filter"));
+      expect(await findByRole("button", {name: "Barry (3)"})).toBeDefined();
+      expect(await findByRole("button", {name: "Chickasaw (5)"})).toBeDefined();
+      expect(await findByRole("button", {name: "Gadsden (7)"})).toBeDefined();
+      expect(await findByRole("button", {name: "Gorgas (8)"})).toBeDefined();
+      await fireEvent.click(await findByText("Apply Filter"));
       // jest.runAllTimers();
-      // expect(applyFilterLoading).toBe(true);
+      expect(applyFilterLoading).toBe(true);
     })
 
-    test('It should show alert if no enteries are valid', () => {
-      const { getByTestId} = query;
-      const searchbox = getByTestId("input-search");
-      searchbox.focus();
-      fireEvent.click(searchbox);
-      userEvent.type(searchbox, 'sds|sdcs|dsc|');
-      fireEvent.keyDown(searchbox, {key: 'Enter', code: 'Enter'});
-      // const alert = getByTestId("alert")
-      // expect(alert).toBeInTheDocument()
+    test('It should show alert if no enteries are valid', async() => {
+      const { findByTestId} = query;
+      const searchbox = await findByTestId("input-search");
+      await fireEvent.click(searchbox);
+      await userEvent.type(searchbox, 'sds|sdcs|dsc|');
+      await fireEvent.keyDown(searchbox, {key: 'Enter', code: 'Enter'});
+      const alert = await findByTestId("alert")
+      expect(alert).toBeInTheDocument()
     })
-    test('it should show which entries are invalid if some entries are valid', () => {
-      const { getByTestId, getByText} = query;
-      const searchbox = getByTestId("input-search");
-      searchbox.focus();
-      fireEvent.click(searchbox);
-      userEvent.type(searchbox, '3|5|7|8|invalid1|invalid2');
-      fireEvent.keyDown(searchbox, {key: 'Enter', code: 'Enter'});
-      // const alertMessage = getByText(showInvalidFacilities(`"invalid1", and "invalid2"`))
-      // expect(alertMessage).toBeInTheDocument()
+    test('it should show which entries are invalid if some entries are valid', async() => {
+      const { findByTestId, findByText} = query;
+      const searchbox = await findByTestId("input-search");
+      await fireEvent.click(searchbox);
+      await userEvent.type(searchbox, '3|5|7|8|invalid1|invalid2');
+      await fireEvent.keyDown(searchbox, {key: 'Enter', code: 'Enter'});
+      const alertMessage = await findByText(showInvalidFacilities(`"invalid1", and "invalid2"`))
+      expect(alertMessage).toBeInTheDocument()
     })
   
-    test('it should show no entries are valid if no entries are valid', () => {
-      const { getByTestId, getByText} = query;
-      const searchbox = getByTestId("input-search");
-      searchbox.focus();
-      fireEvent.click(searchbox);
-      userEvent.type(searchbox, 'invalid1|invalid2|invalid3');
-      fireEvent.keyDown(searchbox, {key: 'Enter', code: 'Enter'});
-      // const alertMessage = getByText(noValidFacilitiesMessage)
-      // expect(alertMessage).toBeInTheDocument()
+    test('it should show no entries are valid if no entries are valid', async () => {
+      const { findByTestId, findByText} = query;
+      const searchbox = await findByTestId("input-search");
+      await fireEvent.click(searchbox);
+      await userEvent.type(searchbox, 'invalid1|invalid2|invalid3');
+      await fireEvent.keyDown(searchbox, {key: 'Enter', code: 'Enter'});
+      const alertMessage = await findByText(noValidFacilitiesMessage)
+      expect(alertMessage).toBeInTheDocument()
     })
   
-    test('pipe separated list should work with spaces', () => {
-      const { getByTestId, queryByTestId} = query;
-      const searchbox = getByTestId("input-search");
-      searchbox.focus();
-      fireEvent.click(searchbox);
-      userEvent.type(searchbox, '3 | 5 | 7|8|');
-      fireEvent.keyDown(searchbox, {key: 'Enter', code: 'Enter'});
-      // const alert = queryByTestId("alert")
-      // expect(alert).not.toBeInTheDocument()
+    test('pipe separated list should work with spaces', async() => {
+      const { findByTestId, queryByTestId} = query;
+      const searchbox = await findByTestId("input-search");
+      await fireEvent.click(searchbox);
+      await userEvent.type(searchbox, '3 | 5 | 7|8|');
+      await fireEvent.keyDown(searchbox, {key: 'Enter', code: 'Enter'});
+      const alert = queryByTestId("alert")
+      expect(alert).not.toBeInTheDocument()
     })
   
-    test('pipe separated list should be applied with the tab key', () => {
-      const { getByTestId, queryByTestId} = query;
-      const searchbox = getByTestId("input-search");
-      searchbox.focus();
-      fireEvent.click(searchbox);
-      userEvent.type(searchbox, '3|5|7|8|');
-      userEvent.tab();
+    test('pipe separated list should be applied with the tab key', async () => {
+      const { findByTestId, queryByTestId} = query;
+      const searchbox = await findByTestId("input-search");
+      await fireEvent.click(searchbox);
+      await userEvent.type(searchbox, '3|5|7|8|');
+      await userEvent.tab();
       const alert = queryByTestId("alert")
       expect(alert).not.toBeInTheDocument()
     })

@@ -1,15 +1,13 @@
 import React from 'react';
-import { render, fireEvent, cleanup } from '@testing-library/react';
-import { Provider } from 'react-redux';
+import { fireEvent, cleanup } from '@testing-library/react';
 import { cloneDeep } from 'lodash';
 
 import AccountType from './AccountType';
 import { restructureAccountTypes } from '../../../utils/selectors/filterCriteria';
 import configureStore from '../../../store/configureStore.dev';
 import initialState from '../../../store/reducers/initialState';
-jest.useFakeTimers();
-jest.spyOn(global, 'setTimeout');
-
+import render from '../../../mocks/render';
+jest.useFakeTimers()
 const initStateCopy = cloneDeep(initialState)
 
 const accountType = [
@@ -105,6 +103,7 @@ const accountType = [
   },
 ];
 
+
 const storeAccountType = restructureAccountTypes(accountType);
 initStateCopy.filterCriteria.accountType = storeAccountType;
 const store = configureStore(initStateCopy);
@@ -116,7 +115,6 @@ describe('Account Type', () => {
   beforeEach(() => {
     // setup a DOM element as a render target
     queries = render(
-      <Provider store={store}>
         <AccountType
           closeFlyOutHandler={() => flyoutClosed = true}
           loadAccountTypesDispatcher={jest.fn()}
@@ -126,8 +124,7 @@ describe('Account Type', () => {
           renderedHandler={jest.fn()}
           setApplyFilterLoading={() => applyFilterLoading = true}
 
-        />
-      </Provider>
+        />, store
     );
   });
 
@@ -155,21 +152,21 @@ describe('Account Type', () => {
     );
   });
 
-  it('handles checkbox selection appropriately and applies them', () => {
-    const { getByRole, getByText } = queries;
-    const saCheckbox = getByRole('checkbox', {
+  it('handles checkbox selection appropriately and applies them', async () => {
+    const { findByRole, findByText } = queries;
+    const saCheckbox = await findByRole('checkbox', {
       name: 'Surrender Account (SURR)',
     });
-    fireEvent.click(saCheckbox);
+    await fireEvent.click(saCheckbox);
     expect(saCheckbox.checked).toEqual(true);
 
-    const selectAllRetire = getByRole('checkbox', {
+    const selectAllRetire = await findByRole('checkbox', {
       name: 'All Surrender',
     });
-    fireEvent.click(selectAllRetire);
+    await fireEvent.click(selectAllRetire);
     expect(selectAllRetire.checked).toEqual(true);
-    const applyFilterButton = getByText('Apply Filter').closest('button');
-    fireEvent.click(applyFilterButton);
+    const applyFilterButton = await findByText('Apply Filter');
+    await fireEvent.click(applyFilterButton);
     jest.runAllTimers();
     expect(applyFilterLoading).toBe(true);
   });

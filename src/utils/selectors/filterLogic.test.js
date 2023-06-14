@@ -1,7 +1,6 @@
-import React from 'react';
 import initialState from '../../store/reducers/initialState';
 import { updateFilterCriteria } from '../../store/actions/customDataDownload/filterCriteria';
-import { engageFilterLogic, applyBookmarkFilterTags } from './filterLogic';
+import { engageFilterLogic, applyBookmarkFilterTags, filterGrouping } from './filterLogic';
 import {
   restructurePrograms,
   restructureUnitTypes,
@@ -2288,4 +2287,80 @@ describe('Emissions Filter logic functions', () => {
       applyBookmarkFilterTags(bookmarkData, initialState.filterCriteria, dispacher);
       expect(dispacher).toHaveBeenCalled();
   })
+
+  describe('filterGrouping', () => {
+    it('should return true if the record grouping matches the selection', () => {
+      const record = {
+        metadata: {
+          grouping: 'State',
+        },
+      };
+      const selection = {
+        grouping: 'State',
+      };
+  
+      expect(filterGrouping(record, selection)).toBe(true);
+    });
+  
+    it('should return false if the record grouping does not match the selection', () => {
+      const record = {
+        metadata: {
+          grouping: 'State',
+        },
+      };
+      const selection = {
+        grouping: 'Quarterly',
+      };
+  
+      expect(filterGrouping(record, selection)).toBe(false);
+    });
+  
+    it('should return true if the record has a state code and the selection is "State"', () => {
+      const record = {
+        metadata: {
+          stateCode: 'CA',
+        },
+      };
+      const selection = {
+        grouping: 'State',
+      };
+  
+      expect(filterGrouping(record, selection)).toBe(true);
+    });
+  
+    it('should return false if the record does not have a state code and the selection is "State"', () => {
+      const record = {
+        metadata: {},
+      };
+      const selection = {
+        grouping: 'State',
+      };
+  
+      expect(filterGrouping(record, selection)).toBe(false);
+    });
+  
+    it('should return true if the record has a quarter and the selection is "Quarterly"', () => {
+      const record = {
+        metadata: {
+          quarter: 1,
+        },
+      };
+      const selection = {
+        grouping: 'Quarterly',
+      };
+  
+      expect(filterGrouping(record, selection)).toBe(true);
+    });
+  
+    it('should return false if the record does not have a quarter and the selection is "Quarterly"', () => {
+      const record = {
+        metadata: {},
+      };
+      const selection = {
+        grouping: 'Quarterly',
+      };
+  
+      expect(filterGrouping(record, selection)).toBe(false);
+    });
+  });
 });

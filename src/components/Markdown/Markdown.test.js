@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen } from "@testing-library/react";
+import { screen } from "@testing-library/react";
 import Markdown, {
   renderH1,
   renderH2,
@@ -10,6 +10,7 @@ import Markdown, {
   renderLink,
 } from "./Markdown";
 import userEvent from "@testing-library/user-event";
+import render from "../../mocks/render";
 
 describe("renderH1", () => {
   test("renders h1", () => {
@@ -101,8 +102,7 @@ describe("renderTableHead", () => {
 
 describe("renderLink", () => {
   test("renders header link correctly", async () => {
-    const history = { push: jest.fn() };
-    const Component = renderLink(history);
+    const Component = renderLink(jest.fn());
     render(
       <Component
         node={{ properties: { title: "Header Link" } }}
@@ -116,8 +116,7 @@ describe("renderLink", () => {
   });
 
   test("renders button link correctly", async () => {
-    const history = { push: jest.fn() };
-    const Component = renderLink(history);
+    const Component = renderLink(jest.fn());
     render(
       <Component
         node={{ properties: { title: "Button Link" } }}
@@ -130,8 +129,7 @@ describe("renderLink", () => {
     await userEvent.click(buttonElement);
   });
   test("renders link correctly", async () => {
-    const history = { push: jest.fn() };
-    const Component = renderLink(history);
+    const Component = renderLink(jest.fn());
     render(
       <Component
         node={{ properties: { title: "Link" } }}

@@ -1,10 +1,10 @@
 import React from 'react';
-import { render, fireEvent, cleanup } from '@testing-library/react';
+import { fireEvent, cleanup, waitFor } from '@testing-library/react';
 import { UnitType } from './UnitType';
 import { restructureUnitTypes } from '../../../utils/selectors/filterCriteria';
 import initialState from '../../../store/reducers/initialState';
-jest.useFakeTimers();
-jest.spyOn(global, 'setTimeout');
+import render from '../../../mocks/render';
+
 const unitType = [
   {
     unitTypeCode: 'AF',
@@ -182,7 +182,7 @@ describe('Unit Type', () => {
         dataType="EMISSIONS"
         dataSubType="Facility/Unit Attributes"
         filterCriteria={initialState.filterCriteria}
-        setApplyFilterLoading={() => applyFilterLoading = true}
+        setApplyFilterLoading={(bool) => applyFilterLoading = bool}
       />
     );
   });
@@ -207,22 +207,22 @@ describe('Unit Type', () => {
     );
   });
 
-  it('handles checkbox selection appropriately and applies them', () => {
+  it('handles checkbox selection appropriately and applies them', async () => {
     const { getByRole, getByText } = queries;
     const afbCheckbox = getByRole('checkbox', {
       name: 'Arch-fired boiler (AF)',
     });
-    fireEvent.click(afbCheckbox);
+    await fireEvent.click(afbCheckbox);
     expect(afbCheckbox.checked).toEqual(true);
 
     const selectAllBoilers = getByRole('checkbox', {
       name: 'All Boilers',
     });
-    fireEvent.click(selectAllBoilers);
+    await fireEvent.click(selectAllBoilers);
     expect(selectAllBoilers.checked).toEqual(true);
     const applyFilterButton = getByText('Apply Filter').closest('button');
-    fireEvent.click(applyFilterButton);
-    jest.runAllTimers();
+    await fireEvent.click(applyFilterButton);
     expect(applyFilterLoading).toBe(true);
+    await waitFor(() => expect(applyFilterLoading).toBe(false))
   });
 });
