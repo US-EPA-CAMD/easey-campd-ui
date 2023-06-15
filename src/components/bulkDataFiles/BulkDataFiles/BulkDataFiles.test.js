@@ -165,8 +165,8 @@ describe("Manage Bulk Data Files component: ", () => {
     const allFiles = await findByRole("checkbox", {
       name: /select-all-rows/i,
     });
-    await fireEvent.click(allFiles);
-    await fireEvent.click(allFiles);
+    await userEvent.click(allFiles);
+    await userEvent.click(allFiles);
     const alert = queryByText(/download limit alert/i);
     expect(alert).toBeNull();
   });
