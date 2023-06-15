@@ -1,5 +1,5 @@
 import React from "react";
-import { fireEvent, cleanup, waitFor } from "@testing-library/react";
+import { cleanup, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 import render from "../../../mocks/render";
@@ -9,7 +9,7 @@ import initialState from "../../../store/reducers/initialState";
 import { dataTable } from "../../../utils/constants/bulkDataFilesTestData";
 
 let store = configureStore(initialState);
-jest.setTimeout(30000);
+jest.setTimeout(50000);
 
 /*****
  */
@@ -34,7 +34,7 @@ describe("Manage Bulk Data Files component: ", () => {
       store
     );
     const checkbox = await findAllByRole("checkbox");
-    fireEvent.click(checkbox[1]);
+    await userEvent.click(checkbox[1]);
     const downloadButton = getByRole("button", {
       name: /download/i,
     });
@@ -50,13 +50,13 @@ describe("Manage Bulk Data Files component: ", () => {
 
     const checkbox1 = checkboxes[1];
     const checkbox2 = checkboxes[2];
-    fireEvent.click(checkbox1);
+    await userEvent.click(checkbox1);
     const fileCount = getByText(/files selected: 1/i);
     expect(fileCount).toBeInTheDocument();
-    fireEvent.click(checkbox2);
+    await userEvent.click(checkbox2);
     const updatedFileCount = getByText(/files selected: 2/i);
     expect(updatedFileCount).toBeInTheDocument();
-    fireEvent.click(checkbox2);
+    await userEvent.click(checkbox2);
     expect(fileCount).toBeInTheDocument();
   });
 
@@ -78,8 +78,8 @@ describe("Manage Bulk Data Files component: ", () => {
       store
     );
     const checkbox = await findAllByRole("checkbox");
-    fireEvent.click(checkbox[1]);
-    fireEvent.click(checkbox[1]);
+    await userEvent.click(checkbox[1]);
+    await userEvent.click(checkbox[1]);
     const updatedFileSize = getByText(/size:/i);
     expect(updatedFileSize).toBeInTheDocument();
   });
@@ -90,38 +90,38 @@ describe("Manage Bulk Data Files component: ", () => {
       store
     );
     const checkbox = await findAllByRole("checkbox");
-    fireEvent.click(checkbox[1]);
+    await userEvent.click(checkbox[1]);
     const clearAllButton = getAllByText(/clear all/i)[0];
-    fireEvent.click(clearAllButton);
+    await userEvent.click(clearAllButton);
     const updatedFileSize = getByText(/size:/i);
     expect(updatedFileSize).toBeInTheDocument();
   });
 
-  test("file size is reset when selected data type is changed", async () => {
+  test("file size is reset when selected data type is selectOptionsd", async () => {
     window.confirm = jest.fn(() => true);
     const { getByText, findByTestId, findAllByRole } = render(
       <BulkDataFiles dataTable={dataTable} />,
       store
     );
     const dataTypeFilter = await findByTestId("dataType-select");
-    fireEvent.change(dataTypeFilter, { target: { value: "Emissions" } });
+    await userEvent.selectOptions(dataTypeFilter,  "Emissions");
     const checkbox = await findAllByRole("checkbox");
-    fireEvent.click(checkbox[0]);
-    fireEvent.change(dataTypeFilter, { target: { value: "EDR" } });
+    await userEvent.click(checkbox[0]);
+    await userEvent.selectOptions(dataTypeFilter,  "EDR");
     const updatedFileSize = getByText(/size:/i);
     expect(updatedFileSize).toBeInTheDocument();
   });
 
-  test("file size is not reset when year filter is changed", async () => {
+  test("file size is not reset when year filter is selectOptionsd", async () => {
     window.confirm = jest.fn(() => true);
     const { getByText, findByTestId, findByRole, findAllByRole, debug } =
       render(<BulkDataFiles dataTable={dataTable} />, store);
     const dataTypeFilter = await findByTestId("dataType-select");
-    await fireEvent.change(dataTypeFilter, { target: { value: "Emissions" } });
+    await userEvent.selectOptions(dataTypeFilter,  "Emissions");
     const checkbox = await findAllByRole("checkbox");
     await userEvent.click(checkbox[0]);
     const subTypeFilter = await findByTestId("subtype-select");
-    fireEvent.change(subTypeFilter, { target: { value: "Hourly" } });
+    userEvent.selectOptions(subTypeFilter,  "Hourly");
     const updatedFileSize = getByText(/size: 4.04 gb/i);
     expect(updatedFileSize).toBeInTheDocument();
   });
@@ -133,7 +133,7 @@ describe("Manage Bulk Data Files component: ", () => {
     );
     const checkbox = await findAllByRole("checkbox");
     const allFiles = checkbox[0];
-    fireEvent.click(allFiles);
+    userEvent.click(allFiles);
     expect(
       findByRole("button", {
         name: /download/i,
@@ -150,7 +150,7 @@ describe("Manage Bulk Data Files component: ", () => {
     const allFiles = await findByRole("checkbox", {
       name: /select-all-rows/i,
     });
-    await fireEvent.click(allFiles);
+    await userEvent.click(allFiles);
     await waitFor(() => findByText(/download limit alert/i));
     const alert = await findByText(/download limit alert/i);
     expect(alert).toBeInTheDocument();
