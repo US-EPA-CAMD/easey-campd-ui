@@ -1,9 +1,7 @@
 import { rest } from "msw";
-import React from "react";
 import config from "../config";
 import {
   dataTable,
-  filtersContent,
 } from "../utils/constants/bulkDataFilesTestData";
 import {
   unitTypes,
@@ -22,21 +20,7 @@ import {
   programCodes,
   hourlyEmissions,
 } from "../utils/constants/cddTestData";
-import {
-  additionalDataTools,
-  commentTypes,
-  glossaryContent,
-  homeContent,
-  releases,
-  slides,
-  statuses,
-  tools,
-  topics,
-} from "./testData";
 import contentApiHandlers from "./api/content";
-
-jest.mock("react-markdown", () => ({ children }) => <>{children}</>);
-jest.mock("remark-gfm", () => () => {});
 
 //cdd calls
 const clientTokenUrl = `${config.services.auth.uri}/tokens/client`;
