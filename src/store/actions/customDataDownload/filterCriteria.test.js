@@ -1376,7 +1376,7 @@ describe("Filter Criteria Async Actions", () => {
     expect(actionDispached).toEqual(expectedAction);
   });
 
-  test('should create BEGIN_API_CALL and load relevant filters', () => {
+  test('should create BEGIN_API_CALL and load relevant filters', async() => {
     const expectedActions = [
       { type: 'BEGIN_API_CALL' },
       { type: 'BEGIN_API_CALL' },
@@ -1421,7 +1421,7 @@ describe("Filter Criteria Async Actions", () => {
     ];
 
     const store = mockStore(initState);
-    return store
+    await store
       .dispatch(
         actions.loadAllFilters(
           'EMISSIONS',
@@ -1429,11 +1429,11 @@ describe("Filter Criteria Async Actions", () => {
           initState.filterCriteria
         )
       )
-      .then(() => {
+      // .then(() => {
         const storeActions = store.getActions()
-        console.log({storeActions});
+        console.log({storeActions, expectedActionsLength: expectedActions.length, storeActionsLength: storeActions.length});
         expect(storeActions.length).toBeGreaterThanOrEqual(8);
-      });
+      // });
   });
 
   test('reset filter helper function should clear selected items of target filter', () => {
