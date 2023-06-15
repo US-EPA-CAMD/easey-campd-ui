@@ -1432,7 +1432,7 @@ describe("Filter Criteria Async Actions", () => {
       .then(() => {
         const storeActions = store.getActions()
         console.log({storeActions});
-        expect(storeActions.length).toBeGreaterThanOrEqual(expectedActions.length);
+        expect(storeActions.length).toBeGreaterThanOrEqual(8);
       });
   });
 
