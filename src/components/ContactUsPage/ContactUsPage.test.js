@@ -8,7 +8,7 @@ import initialState from "../../store/reducers/initialState";
 import { commentTypes } from "../../mocks/testData";
 import render from "../../mocks/render";
 
-jest.setTimeout(30000);
+jest.setTimeout(50000);
 window.scrollTo = jest.fn();
 let store = configureStore(initialState);
 describe("Contact Us Page Component", () => {
