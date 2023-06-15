@@ -1,8 +1,8 @@
 import * as actions from './customDataDownload';
 import * as types from '../actionTypes';
 import thunk from 'redux-thunk';
-import configureMockStore from 'redux-mock-store';
 import initState from '../../reducers/initialState';
+import createMockStore from 'redux-mock-store';
 
 const timePeriod = initState.filterCriteria.timePeriod;
 timePeriod.startDate = '2019-01-01';
@@ -35,7 +35,7 @@ jest.mock("axios", () => ({
 }));
 // Test an async action
 const middleware = [thunk];
-const mockStore = configureMockStore(middleware);
+const mockStore = createMockStore(middleware);
 // const mock = new MockAdapter(axios);
 
 describe('custom data download Async Actions', () => {

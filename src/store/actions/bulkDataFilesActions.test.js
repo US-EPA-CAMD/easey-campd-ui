@@ -1,12 +1,12 @@
 import * as actions from "./bulkDataFilesActions";
 import * as types from "./actionTypes";
 import thunk from "redux-thunk";
-import configureMockStore from "redux-mock-store";
 import initState from "../reducers/initialState";
+import createMockStore from "redux-mock-store";
 
 // Test an async action
 const middleware = [thunk];
-const mockStore = configureMockStore(middleware);
+const mockStore = createMockStore(middleware);
 const dataTableRecords = [
   {
     filename: "Emissions-Daily-2021-Q1.csv",

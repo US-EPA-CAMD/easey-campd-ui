@@ -1,13 +1,13 @@
 import * as actions from "./filterCriteria";
 import * as types from "../actionTypes";
 import thunk from "redux-thunk";
-import configureMockStore from "redux-mock-store";
 import initState from "../../reducers/initialState";
 import {restructurePrograms, restructureControlTechnologies, restructureFuelTypes, restructureUnitTypes, restructureAccountTypes, resetFilterHelper, resetCheckBoxItems, resetComboBoxItems, getComboboxEnabledItems, getComboboxSelectedItems} from "../../../utils/selectors/filterCriteria";
 import { cleanup } from '@testing-library/react';
+import createMockStore from "redux-mock-store";
 // Test an async action
 const middleware = [thunk];
-const mockStore = configureMockStore(middleware);
+const mockStore = createMockStore(middleware);
 const facilities = [
   {
     "id": "1",
