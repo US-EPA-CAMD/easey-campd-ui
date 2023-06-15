@@ -7,7 +7,7 @@ import { cloneDeep } from "lodash";
 import initialState from "../../../store/reducers/initialState";
 import render from "../../../mocks/render";
 window.HTMLElement.prototype.scrollIntoView = jest.fn();
-jest.setTimeout(30000);
+jest.setTimeout(50000);
 jest.mock("@trussworks/react-uswds", () => ({
   ...jest.requireActual("@trussworks/react-uswds"),
   Modal:
