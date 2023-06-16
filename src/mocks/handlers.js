@@ -1,8 +1,6 @@
 import { rest } from "msw";
 import config from "../config";
-import {
-  dataTable,
-} from "../utils/constants/bulkDataFilesTestData";
+import { dataTable } from "../utils/constants/bulkDataFilesTestData";
 import {
   unitTypes,
   fuelTypes,
@@ -19,6 +17,7 @@ import {
   allowanceHoldings,
   programCodes,
   hourlyEmissions,
+  dataPreview,
 } from "../utils/constants/cddTestData";
 import contentApiHandlers from "./api/content";
 
@@ -60,7 +59,6 @@ const downloadBulkDataFile = rest.get(
     return res(ctx.status(200), ctx.json());
   }
 );
-
 
 const getUnitTypes = rest.get(unitTypes.url, (req, res, ctx) => {
   return res(ctx.json(unitTypes.data));
@@ -137,14 +135,25 @@ const getSubmissionProgress = rest.get(submissionUrl, (req, res, ctx) => {
   );
 });
 
-
 const emailUrl = `${config.services.camd.uri}/support/email`;
 
+const compAKurl = `${config.services.account.uri}/emissions-compliance?page=1&perPage=100&stateCode=AK`;
+const getCompAK =  rest.get(compAKurl, (req, res, ctx) => {
+  const mockedData = dataPreview.data;
+  const mockedHeaders = {
+    'x-total-count': dataPreview.data.length,
+    'x-field-mappings': JSON.stringify(dataPreview.fieldMappings),
+    'x-excludable-columns': JSON.stringify(dataPreview.excludableColumns),
+  };
 
+  return res(
+    ctx.json(mockedData),
+    ctx.set(mockedHeaders),
+  );
+})
 const notification = rest.post(emailUrl, (req, res, ctx) => {
   return res(ctx.status(200));
 });
-
 
 export const handlers = [
   getEmissionsApplicableAttributes,
@@ -169,8 +178,9 @@ export const handlers = [
   createBookmarkUrl,
   getBulkDataFiles,
   getSubmissionProgress,
+  getCompAK,
   logError,
   notification,
-  ...contentApiHandlers
+  ...contentApiHandlers,
   //getUnhandledContent needs to be last on the array
 ];
