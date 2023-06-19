@@ -33,7 +33,7 @@ module.exports = {
         "!src/utils/api/axiosSetup.js",
         "!src/utils/api/setupTests.js",
       ];
-      jestConfig.coverageReporters = ["html", "text", "clover", "json", "lcov"];
+      // jestConfig.coverageReporters = ["html", "text", "clover", "json", "lcov"];
       jestConfig.moduleNameMapper = {
         "\\.svg$": "<rootDir>/jest/file-transformer.js",
       };
