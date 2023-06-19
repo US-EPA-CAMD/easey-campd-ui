@@ -15,7 +15,7 @@
   "scripts": {
     "start": "craco start",
     "build": "craco build",
-    "test": "craco test --coverage",
+    "test": "craco test",
     "all": "craco test a --no-cache --coverage",
     "up": "yarn && yarn start",
     "postinstall": "patch-package"
