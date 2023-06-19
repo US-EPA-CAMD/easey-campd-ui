@@ -204,7 +204,7 @@ const getUnhandledContent = rest.get(
   (req, res, ctx) => res(ctx.json("got content"))
 );
 
- const contentApiHandlers = [
+const contentApiHandlers = [
   getHelperText,
   getApiErrorMessages,
   getLimitText,

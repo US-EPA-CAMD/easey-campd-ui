@@ -94,17 +94,16 @@ const getOwnerOperators = rest.get(ownerOperators.url, (req, res, ctx) => {
   return res(ctx.json(ownerOperators.data));
 });
 
-const getEmissions = rest.get(hourlyEmissions.url, (req, res, ctx) =>
-  {
-    const mockedData = hourlyEmissions.data;
-    const mockedHeaders = {
-      "x-total-count": hourlyEmissions.data.length,
-      "x-field-mappings": JSON.stringify([]),
-      "x-excludable-columns": JSON.stringify([]),
-    };
+const getEmissions = rest.get(hourlyEmissions.url, (req, res, ctx) => {
+  const mockedData = hourlyEmissions.data;
+  const mockedHeaders = {
+    "x-total-count": hourlyEmissions.data.length,
+    "x-field-mappings": JSON.stringify([]),
+    "x-excludable-columns": JSON.stringify([]),
+  };
 
-    return res(ctx.json(mockedData), ctx.set(mockedHeaders));}
-);
+  return res(ctx.json(mockedData), ctx.set(mockedHeaders));
+});
 
 const getAccountAttributes = rest.get(accountAttributes.url, (req, res, ctx) =>
   res(ctx.json(accountAttributes.data))
