@@ -1,5 +1,5 @@
 import React from 'react';
-import { fireEvent, cleanup } from '@testing-library/react';
+import { fireEvent, cleanup, waitFor } from '@testing-library/react';
 import { cloneDeep } from 'lodash';
 
 import AccountType from './AccountType';
@@ -7,7 +7,6 @@ import { restructureAccountTypes } from '../../../utils/selectors/filterCriteria
 import configureStore from '../../../store/configureStore.dev';
 import initialState from '../../../store/reducers/initialState';
 import render from '../../../mocks/render';
-jest.useFakeTimers()
 const initStateCopy = cloneDeep(initialState)
 
 const accountType = [
@@ -167,7 +166,6 @@ describe('Account Type', () => {
     expect(selectAllRetire.checked).toEqual(true);
     const applyFilterButton = await findByText('Apply Filter');
     await fireEvent.click(applyFilterButton);
-    jest.runAllTimers();
-    expect(applyFilterLoading).toBe(true);
+    await waitFor(() =>expect(applyFilterLoading).toBe(true));
   });
 });

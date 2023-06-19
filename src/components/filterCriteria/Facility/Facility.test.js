@@ -368,7 +368,6 @@ describe('Facility Component', () => {
       expect(await findByRole("button", {name: "Gadsden (7)"})).toBeDefined();
       expect(await findByRole("button", {name: "Gorgas (8)"})).toBeDefined();
       await fireEvent.click(await findByText("Apply Filter"));
-      // jest.runAllTimers();
       expect(applyFilterLoading).toBe(true);
     })
 

@@ -6,6 +6,10 @@ import { MemoryRouter } from 'react-router';
 import initialState from '../../../store/reducers/initialState';
 import configureStore from '../../../store/configureStore.dev';
 import userEvent from '@testing-library/user-event';
+
+jest.mock("./downloadFile", () => ({
+  downloadFile: jest.fn()
+}))
 const { getByRole, getByText } = screen;
 
 let store = configureStore(initialState);
@@ -64,7 +68,6 @@ const singleSelectedFile = Object.assign({}, selectedFiles, [
   selectedFiles.selectedRows[0],
 ]);
 describe('Bulk data files download component functionality', () => {
-
   test('renders component properly', () => {
     render(
       <Provider store={store}>
@@ -165,7 +168,7 @@ describe('Bulk data files download component functionality', () => {
     expect(fileSize).toBeInTheDocument();
   });
 
-  test('should download files', () => {
+  test('should download files', async() => {
     const setApiError = jest.fn();
     render(
       <Provider store={store}>
@@ -182,7 +185,7 @@ describe('Bulk data files download component functionality', () => {
     const downloadButton = getByRole('button', {
       name: /download/i,
     });
-    userEvent.click(downloadButton)
+    await userEvent.click(downloadButton)
     expect(setApiError).not.toHaveBeenCalled()
   });
 });

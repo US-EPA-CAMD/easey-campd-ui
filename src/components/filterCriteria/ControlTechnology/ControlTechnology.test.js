@@ -1,10 +1,9 @@
 import React from 'react';
-import { fireEvent, cleanup } from '@testing-library/react';
+import { fireEvent, cleanup, waitFor } from '@testing-library/react';
 import { ControlTechnology } from './ControlTechnology';
 import { restructureControlTechnologies } from '../../../utils/selectors/filterCriteria';
 import initialState from '../../../store/reducers/initialState';
 import render from '../../../mocks/render';
-jest.useFakeTimers();
 
 const controlTechnology = [
   {
@@ -288,7 +287,6 @@ describe('Control technology', () => {
     expect(selectAllNox.checked).toEqual(true);
     const applyFilterButton = await findByText('Apply Filter');
     await fireEvent.click(applyFilterButton);
-    jest.runAllTimers();
-    expect(applyFilterLoading).toBe(true);
+    await waitFor(() =>expect(applyFilterLoading).toBe(true));
   });
 });

@@ -130,7 +130,6 @@ describe("Account Name/Number Component", () => {
       nameNumbers.length
     );
     fireEvent.click(getByText("Apply Filter"));
-    jest.runAllTimers();
     expect(flyOutClosed).toBe(true);
     expect(applyFilterLoading).toBe(true);
   });
@@ -154,7 +153,6 @@ describe("Account Name/Number Component", () => {
       expect(
         getByRole("button", { name: "Small Diesel Reserve (000000000003)" })
       ).toBeInTheDocument();
-      jest.runAllTimers();
       fireEvent.click(getByText("Apply Filter"));
       expect(applyFilterLoading).toBe(true);
     });

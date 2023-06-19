@@ -8,31 +8,8 @@ const timePeriod = initState.filterCriteria.timePeriod;
 timePeriod.startDate = '2019-01-01';
 timePeriod.endDate = '2019-01-01';
 timePeriod.opHrsOnly = true;
-const hourlyEmissions = [
-  {
-    test: 'Some value',
-  },
-  {
-    test2: 'Another value',
-  },
-];
 
 
-jest.mock("axios", () => ({
-  get: () => {
-    return Promise.resolve({
-      status: 200,
-      data: hourlyEmissions,
-    });
-  },
-  defaults: {
-    headers:  {
-      'x-total-count': hourlyEmissions.length,
-      'x-field-mappings': '[{"label":"Test","value":"test"},{"label":"Test2","value":"test2"}]',
-      'x-excludable-columns': '[{"label":"Test","value":"test"},{"label":"Test2","value":"test2"}]'
-    },
-  },
-}));
 // Test an async action
 const middleware = [thunk];
 const mockStore = createMockStore(middleware);
@@ -42,9 +19,9 @@ describe('custom data download Async Actions', () => {
   /* ---LOAD DATA PREVIEW FOR HOURLY EMISSIONS --- */
   it('should create BEGIN_API_CALL and LOAD_DATA_PREVIEW_SUCCESS when loading hourly emissions data', () => {
 
-    // const url = `${config.services.emissions.uri}/emissions/apportioned/hourly?page=1&perPage=100&beginDate=${timePeriod.startDate}&endDate=${timePeriod.endDate}&operatingHoursOnly=${timePeriod.opHrsOnly}`;
     const expectedActions = [
       { type: types.BEGIN_API_CALL },
+      { type: types.LOAD_DATA_PREVIEW_SUCCESS}
     ];
 
     const store = mockStore(initState.customDataDownload);

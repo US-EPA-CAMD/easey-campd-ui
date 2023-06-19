@@ -94,7 +94,7 @@ describe("renderTable", () => {
 describe("renderTableHead", () => {
   test("renders table head", () => {
     const Component = renderTableHead();
-    render(<Component colSpan={2}>Header Cell</Component>);
+    render(<table><tbody><tr><Component colSpan={2}>Header Cell</Component></tr></tbody></table>);
     const thElement = screen.getByRole("cell", { name: "Header Cell" });
     expect(thElement).toBeInTheDocument();
   });

@@ -84,28 +84,26 @@ const getTransactionTypes = rest.get(transactionTypes.url, (req, res, ctx) => {
 const getSourceCategories = rest.get(sourceCategories.url, (req, res, ctx) => {
   return res(ctx.json(sourceCategories.data));
 });
-const getAttributes = rest.get(
-  // "https://api.epa.gov/easey/dev/account-mgmt/emissions-compliance/attributes/applicable",
-  attributes.url,
-  (req, res, ctx) => {
-    return res(ctx.json(attributes.data));
-  }
-);
-const getFacilities = rest.get(
-  "https://api.epa.gov/easey/dev/facilities-mgmt/facilities", //facilities.url,
-  (req, res, ctx) => {
-    return res(ctx.json(facilities.data));
-  }
-);
-const getOwnerOperators = rest.get(
-  "https://api.epa.gov/easey/dev/account-mgmt/emissions-compliance/owner-operators", //ownerOperators.url,
-  (req, res, ctx) => {
-    return res(ctx.json(ownerOperators.data));
-  }
-);
+const getAttributes = rest.get(attributes.url, (req, res, ctx) => {
+  return res(ctx.json(attributes.data));
+});
+const getFacilities = rest.get(facilities.url, (req, res, ctx) => {
+  return res(ctx.json(facilities.data));
+});
+const getOwnerOperators = rest.get(ownerOperators.url, (req, res, ctx) => {
+  return res(ctx.json(ownerOperators.data));
+});
 
 const getEmissions = rest.get(hourlyEmissions.url, (req, res, ctx) =>
-  res(ctx.json(hourlyEmissions.data))
+  {
+    const mockedData = hourlyEmissions.data;
+    const mockedHeaders = {
+      "x-total-count": hourlyEmissions.data.length,
+      "x-field-mappings": JSON.stringify([]),
+      "x-excludable-columns": JSON.stringify([]),
+    };
+
+    return res(ctx.json(mockedData), ctx.set(mockedHeaders));}
 );
 
 const getAccountAttributes = rest.get(accountAttributes.url, (req, res, ctx) =>
@@ -137,20 +135,22 @@ const getSubmissionProgress = rest.get(submissionUrl, (req, res, ctx) => {
 
 const emailUrl = `${config.services.camd.uri}/support/email`;
 
-const compAKurl = `${config.services.account.uri}/emissions-compliance?page=1&perPage=100&stateCode=AK`;
-const getCompAK =  rest.get(compAKurl, (req, res, ctx) => {
-  const mockedData = dataPreview.data;
-  const mockedHeaders = {
-    'x-total-count': dataPreview.data.length,
-    'x-field-mappings': JSON.stringify(dataPreview.fieldMappings),
-    'x-excludable-columns': JSON.stringify(dataPreview.excludableColumns),
-  };
+const getCompAK = rest.get(
+  `${config.services.account.uri}/emissions-compliance`,
+  (req, res, ctx) => {
+    // const { page, perPage, stateCode } = req.url.searchParams;
 
-  return res(
-    ctx.json(mockedData),
-    ctx.set(mockedHeaders),
-  );
-})
+    const mockedData = dataPreview.data;
+    const mockedHeaders = {
+      "x-total-count": dataPreview.data.length,
+      "x-field-mappings": JSON.stringify(dataPreview.fieldMappings),
+      "x-excludable-columns": JSON.stringify(dataPreview.excludableColumns),
+    };
+
+    return res(ctx.json(mockedData), ctx.set(mockedHeaders));
+  }
+);
+
 const notification = rest.post(emailUrl, (req, res, ctx) => {
   return res(ctx.status(200));
 });
