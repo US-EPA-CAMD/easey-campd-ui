@@ -2,17 +2,16 @@ import React from 'react';
 import {
   cleanup,
   fireEvent,
-  render,
+  waitFor,
   within,
 } from '@testing-library/react';
 import { cloneDeep } from 'lodash';
 
 import TransactionType from './TransactionType';
 import configureStore from "../../../store/configureStore.dev";
-import { Provider } from "react-redux";
 import initialState from "../../../store/reducers/initialState";
-jest.useFakeTimers();
-jest.spyOn(global, 'setTimeout');
+import render from '../../../mocks/render';
+
 const transactionTypes = [
   {
     "transactionTypeCode": "AD",
@@ -73,17 +72,14 @@ describe('Transaction Type Component', () => {
   let query;
   beforeEach(() => {
     query = render(
-      <Provider 
-        store={store}>
         <TransactionType
           updatetransactionTypeSelectionDispatcher ={jest.fn()}
           addAppliedFilterDispatcher ={jest.fn()}
           removeAppliedFilterDispatcher ={jest.fn()}
           closeFlyOutHandler ={()=> flyOutClosed=true}
           renderedHandler ={jest.fn()}
-          setApplyFilterLoading={() => applyFilterLoading = true}
-        />
-      </Provider>);
+          setApplyFilterLoading={(bool) => applyFilterLoading = bool}
+        />, store);
   });
 
   afterEach(cleanup);
@@ -106,23 +102,23 @@ describe('Transaction Type Component', () => {
     expect(flyOutClosed).toBe(true);
   });
 
-  test('It should search using input box for transaction Type in listboxt and add selection to apply filter', () => {
+  test('It should search using input box for transaction Type in listboxt and add selection to apply filter', async() => {
     const { getByTestId, getAllByTestId, getByRole, getByText} = query;
     const searchbox = getByTestId("input-search");
     searchbox.focus();
-    fireEvent.click(searchbox);
-    fireEvent.change(searchbox, { target: { value: 'Conservation Issuance' } })
+    await fireEvent.click(searchbox);
+    await fireEvent.change(searchbox, { target: { value: 'Conservation Issuance' } })
     expect(searchbox.value).toBe('Conservation Issuance');
     expect(within(getByTestId("multi-select-listbox")).getAllByTestId('multi-select-option').length).toBe(1);
-    fireEvent.keyDown(searchbox, {key: 'Tab', code: 9});
-    fireEvent.keyDown(searchbox, {key: 'Enter', code: 'Enter'})
+    await fireEvent.keyDown(searchbox, {key: 'Tab', code: 9});
+    await fireEvent.keyDown(searchbox, {key: 'Enter', code: 'Enter'})
     expect(searchbox.value).toBe('Conservation Issuance');
     expect(getAllByTestId("multi-select-option").length).toBe(1);
-    fireEvent.click(getByTestId("multi-select-option"));
+    await fireEvent.click(getByTestId("multi-select-option"));
     expect(getByRole("button", {name: "Conservation Issuance"})).toBeDefined();
     expect(getAllByTestId("multi-select-option").length).toBe(transactionTypes.length);
-    fireEvent.click(getByText("Apply Filter"));
-    jest.runAllTimers();
+    await fireEvent.click(getByText("Apply Filter"));
     expect(applyFilterLoading).toBe(true);
+    await waitFor(() => expect(applyFilterLoading).toBe(false))
   })
 });

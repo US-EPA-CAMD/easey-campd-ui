@@ -8,13 +8,13 @@ import { cloneDeep } from "lodash";
 import userEvent from "@testing-library/user-event";
 import { MemoryRouter } from "react-router-dom";
 
-jest.mock("@trussworks/react-uswds", () => ({
-  ...jest.requireActual("@trussworks/react-uswds"),
-  Modal:
-    () =>
-    ({ children }) =>
-      <>{children}</>,
-}));
+// jest.mock("@trussworks/react-uswds", () => ({
+//   ...jest.requireActual("@trussworks/react-uswds"),
+//   Modal:
+//     () =>
+//     ({ children }) =>
+//       <>{children}</>,
+// }));
 
 jest.mock("../../ApiErrorAlert/ApiErrorAlert", () => () => <></>);
 

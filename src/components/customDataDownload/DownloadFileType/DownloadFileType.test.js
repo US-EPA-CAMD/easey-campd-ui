@@ -1,5 +1,6 @@
 import React from 'react';
-import { cleanup, fireEvent, render } from '@testing-library/react';
+import { cleanup, render } from '@testing-library/react';
+import userEvent from "@testing-library/user-event";
 import { cloneDeep } from 'lodash';
 
 import DownloadFileType from './DownloadFileType';
@@ -49,7 +50,7 @@ describe('<DownloadFileType/>', () => {
     expect(getByLabelText('JSON')).toHaveClass('usa-radio__input');
   });
 
-  it('handles the download button click', () => {
+  it('handles the download button click', async() => {
     const { getByRole, getByLabelText } = query;
     const downloadButton = getByRole('button', { name: 'Download' });
     expect(downloadButton).toBeDefined();
@@ -79,8 +80,8 @@ describe('<DownloadFileType/>', () => {
       .mockImplementation(() => jest.fn());
     RenderSpinner.mockImplementation(() => null)
 
-    (fireEvent.click(downloadButton));
-    fireEvent.click(getByLabelText('JSON'));
-    fireEvent.click(downloadButton);
+    await (userEvent.click(downloadButton));
+    await userEvent.click(getByLabelText('JSON'));
+    await userEvent.click(downloadButton);
   });
 });

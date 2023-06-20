@@ -307,6 +307,7 @@ const MultiSelectCombobox = ({
         aria-expanded={showListBox}
         aria-owns="listbox"
         id="multi-select-combobox"
+        data-testid="multiSelectCombobox"
         className="margin-top-1 margin-bottom-2 border-1px bg-white"
       >
         <div className="margin-x-05 margin-top-05 display-block maxh-card overflow-y-scroll">

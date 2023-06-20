@@ -12,7 +12,7 @@ describe('ApiErrorAlert', () => {
     test("does not render alert if there is no error", async () => {
         const { container } = render(
           <Provider store={store}>
-            <MemoryRouter basename="/data/custom-data-download">
+            <MemoryRouter>
                 <ApiErrorAlert />
             </MemoryRouter>
           </Provider>

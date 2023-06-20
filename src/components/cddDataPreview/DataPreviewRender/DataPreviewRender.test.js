@@ -171,13 +171,13 @@ describe('ManageDataPreview', () => {
             />
           </Provider>
       );
-      const table = container.querySelector('.rdt_Table')
-      const tableTitle = container.querySelector('.data-display-table')
-      console.log(table);
-      console.log(tableTitle);
+      // const table = container.querySelector('.rdt_Table')
+      // const tableTitle = container.querySelector('.data-display-table')
+      // console.log(table);
+      // console.log(tableTitle);
       // debug()
-      const table2 = queryByLabelText('data-table-title')
-      console.log(table2);
+      // const table2 = queryByLabelText('data-table-title')
+      // console.log(table2);
     })
   })
 });

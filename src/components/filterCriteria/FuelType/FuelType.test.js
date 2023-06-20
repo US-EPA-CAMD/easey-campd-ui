@@ -1,11 +1,10 @@
 import React from 'react';
-import { render, fireEvent, cleanup } from '@testing-library/react';
+import { fireEvent, cleanup, waitFor } from '@testing-library/react';
 import { FuelType} from './FuelType';
 import { restructureFuelTypes } from '../../../utils/selectors/filterCriteria';
 import initialState from '../../../store/reducers/initialState';
+import render from '../../../mocks/render';
 
-jest.useFakeTimers();
-jest.spyOn(global, 'setTimeout');
 const fuelType = [
   {
     fuelTypeCode: 'C',
@@ -132,7 +131,7 @@ describe('Fuel Type', () => {
           dataType="EMISSIONS"
           dataSubType="Facility/Unit Attributes"
           filterCriteria={initialState.filterCriteria}
-          setApplyFilterLoading={() => applyFilterLoading = true}
+          setApplyFilterLoading={(bool) => applyFilterLoading = bool}
         />
     );
   });
@@ -159,22 +158,22 @@ describe('Fuel Type', () => {
     );
   });
 
-  it('handles checkbox selection appropriately', () => {
+  it('handles checkbox selection appropriately', async () => {
     const { getByRole, getByText } = queries;
     const coalCheckbox = getByRole('checkbox', {
       name: 'Coal (C)',
     });
-    fireEvent.click(coalCheckbox);
+    await fireEvent.click(coalCheckbox);
     expect(coalCheckbox.checked).toEqual(true);
 
     const selectAllGas = getByRole('checkbox', {
       name: 'All Gas',
     });
-    fireEvent.click(selectAllGas);
+    await fireEvent.click(selectAllGas);
     expect(selectAllGas.checked).toEqual(true);
-    const applyFilterButton = getByText('Apply Filter').closest('button');
-    fireEvent.click(applyFilterButton);
-    jest.runAllTimers();
+    const applyFilterButton = getByText('Apply Filter');
+    await fireEvent.click(applyFilterButton);
     expect(applyFilterLoading).toBe(true);
+    await waitFor(() => expect(applyFilterLoading).toBe(false))
   });
 });

@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen } from "@testing-library/react";
+import { screen } from "@testing-library/react";
 import Markdown, {
   renderH1,
   renderH2,
@@ -10,6 +10,7 @@ import Markdown, {
   renderLink,
 } from "./Markdown";
 import userEvent from "@testing-library/user-event";
+import render from "../../mocks/render";
 
 describe("renderH1", () => {
   test("renders h1", () => {
@@ -93,7 +94,7 @@ describe("renderTable", () => {
 describe("renderTableHead", () => {
   test("renders table head", () => {
     const Component = renderTableHead();
-    render(<Component colSpan={2}>Header Cell</Component>);
+    render(<table><tbody><tr><Component colSpan={2}>Header Cell</Component></tr></tbody></table>);
     const thElement = screen.getByRole("cell", { name: "Header Cell" });
     expect(thElement).toBeInTheDocument();
   });

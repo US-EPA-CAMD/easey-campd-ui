@@ -1,10 +1,10 @@
 import React from 'react';
-import { render, fireEvent, cleanup } from '@testing-library/react';
+import { fireEvent, cleanup, waitFor } from '@testing-library/react';
 import { ControlTechnology } from './ControlTechnology';
 import { restructureControlTechnologies } from '../../../utils/selectors/filterCriteria';
 import initialState from '../../../store/reducers/initialState';
-jest.useFakeTimers();
-jest.spyOn(global, 'setTimeout');
+import render from '../../../mocks/render';
+
 const controlTechnology = [
   {
     controlCode: 'APAC',
@@ -272,22 +272,21 @@ describe('Control technology', () => {
     );
   });
 
-  it('handles checkbox selection appropriately', () => {
-    const { getByRole, getByText } = queries;
-    const wlCheckbox = getByRole('checkbox', {
+  it('handles checkbox selection appropriately', async() => {
+    const { findByRole, findByText } = queries;
+    const wlCheckbox = await findByRole('checkbox', {
       name: 'Wet Limestone (WLS)',
     });
-    fireEvent.click(wlCheckbox);
+    await fireEvent.click(wlCheckbox);
     expect(wlCheckbox.checked).toEqual(true);
 
-    const selectAllNox = getByRole('checkbox', {
+    const selectAllNox = await findByRole('checkbox', {
       name: 'All Nitrogen Oxides (NOX)',
     });
-    fireEvent.click(selectAllNox);
+    await fireEvent.click(selectAllNox);
     expect(selectAllNox.checked).toEqual(true);
-    const applyFilterButton = getByText('Apply Filter').closest('button');
-    fireEvent.click(applyFilterButton);
-    jest.runAllTimers();
-    expect(applyFilterLoading).toBe(true);
+    const applyFilterButton = await findByText('Apply Filter');
+    await fireEvent.click(applyFilterButton);
+    await waitFor(() =>expect(applyFilterLoading).toBe(true));
   });
 });
