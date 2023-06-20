@@ -34,6 +34,7 @@ module.exports = {
         "!src/utils/api/setupTests.js",
       ];
       jestConfig.coverageReporters = ["html", "text", "clover", "json", "lcov"];
+      jestConfig.collectCoverage = true;
       jestConfig.moduleNameMapper = {
         "\\.svg$": "<rootDir>/jest/file-transformer.js",
       };
