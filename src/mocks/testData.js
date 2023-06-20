@@ -411,7 +411,7 @@ export const additionalDataTools = [
   },
   {
     name: "Energy Information Administration",
-    url: "http://www.eia.gov/environment/",
+    url: "httsp://www.eia.gov/environment/",
     description:
       "Environment Energy-related emissions data & environmental analyses.",
   },
@@ -423,7 +423,7 @@ export const additionalDataTools = [
   },
   {
     name: "National Atmospheric Deposition Program",
-    url: "http://nadp.slh.wisc.edu/",
+    url: "https://nadp.slh.wisc.edu/",
     description:
       "Access data from the national network of precipitation monitoring sites.",
     hasExit: true,
@@ -435,7 +435,7 @@ export const additionalDataTools = [
   },
   {
     name: "Progress Reports",
-    url: "http://www3.epa.gov/airmarkets/progress/reports/index.html",
+    url: "https://www3.epa.gov/airmarkets/progress/reports/index.html",
     description:
       "Current and historical EPA reports covering progress under air market programs including the Cross-State Air Pollution Rule, Clean Air Interstate Rule, the Acid Rain Program, and the former NOx Budget Trading Program.",
   },
