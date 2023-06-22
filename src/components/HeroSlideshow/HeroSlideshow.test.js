@@ -4,8 +4,6 @@ import { cleanup } from "@testing-library/react";
 import HeroSlideshow from "./HeroSlideshow";
 import render from "../../mocks/render";
 
-jest.mock("react-markdown", () => ({ children }) => <>{children}</>);
-jest.mock("remark-gfm", () => () => {});
 
 const slides = [
   {
