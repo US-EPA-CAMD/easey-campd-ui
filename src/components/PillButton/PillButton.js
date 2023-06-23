@@ -2,13 +2,15 @@ import React from 'react';
 import { Button } from '@trussworks/react-uswds';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWindowClose } from '@fortawesome/free-solid-svg-icons';
+import './PillButton.scss'
 
 const PillButton = (props) => {
   return (
     <div className="display-inline-flex margin-bottom-05">
       <Button
         type="button"
-        className="padding-1 padding-right-0 margin-0 radius-0 radius-left-lg bg-primary"
+        id='pillButton'
+        className="padding-1 padding-right-0 margin-0 radius-0 radius-left-lg bg-primary text-white"
         title={props.tooltip}
         onClick={(evt) => props.onClick(props.index, props.label, evt.target)}
         disabled={props.disableButton}

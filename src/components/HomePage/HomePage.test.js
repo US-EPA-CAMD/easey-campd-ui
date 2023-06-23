@@ -7,8 +7,6 @@ import initialState from "../../store/reducers/initialState";
 import { Provider } from "react-redux";
 
 let store = configureStore(initialState);
-jest.mock("react-markdown", () => ({ children }) => <>{children}</>);
-jest.mock("remark-gfm", () => () => {});
 
 describe("Home Page Component", () => {
   it("should render content without error", async () => {

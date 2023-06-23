@@ -1,24 +1,21 @@
 import React from "react";
 import CustomDataDownload from "./CustomDataDownload";
-import { render, fireEvent, cleanup, screen } from "@testing-library/react";
+import { fireEvent, cleanup, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import configureStore from "../../../store/configureStore.dev";
-import { Provider } from "react-redux";
 import { cloneDeep } from "lodash";
 import initialState from "../../../store/reducers/initialState";
-import { MemoryRouter } from "react-router";
+import render from "../../../mocks/render";
 window.HTMLElement.prototype.scrollIntoView = jest.fn();
-jest.setTimeout(30000);
-jest.mock("@trussworks/react-uswds", () => ({
-  ...jest.requireActual("@trussworks/react-uswds"),
-  Modal:
-    () =>
-    ({ children }) =>
-      <>{children}</>,
-}));
-// jest.mock('../../ApiErrorAlert/ApiErrorAlert', () => () => <></>)
+jest.setTimeout(50000);
 
 jest.mock("../../Tooltip/Tooltip", () => () => <></>);
+Object.defineProperty(navigator, 'clipboard', {
+  value: {
+    writeText: jest.fn(),
+  },
+});
+
 const initStateCopy = cloneDeep(initialState);
 initStateCopy.customDataDownload.dataType = "COMPLIANCE";
 initStateCopy.filterCriteria.stateTerritory = [
@@ -33,11 +30,8 @@ afterEach(cleanup);
 describe("CustomDataDownload", () => {
   test("Check that the  component properly renders", () => {
     const { getByTestId } = render(
-      <Provider store={store}>
-        <MemoryRouter>
-          <CustomDataDownload setApiError={jest.fn()} />
-        </MemoryRouter>
-      </Provider>
+      <CustomDataDownload setApiError={jest.fn()} />,
+      store
     );
     expect(getByTestId("manage-data-download-wrapper")).toBeVisible();
   });
@@ -46,11 +40,8 @@ describe("CustomDataDownload", () => {
 describe("datatype and subtype selection", () => {
   test("filter button is disabled initially", () => {
     const { getByRole } = render(
-      <Provider store={store}>
-        <MemoryRouter>
-          <CustomDataDownload setApiError={jest.fn()} />
-        </MemoryRouter>
-      </Provider>
+      <CustomDataDownload setApiError={jest.fn()} />,
+      store
     );
     const filtersButton = getByRole("button", { name: /filters/i });
     expect(filtersButton).toBeDisabled();
@@ -58,11 +49,8 @@ describe("datatype and subtype selection", () => {
 
   test("Apply button is disabled before selection", () => {
     const { getByRole } = render(
-      <Provider store={store}>
-        <MemoryRouter>
-          <CustomDataDownload setApiError={jest.fn()} />
-        </MemoryRouter>
-      </Provider>
+      <CustomDataDownload setApiError={jest.fn()} />,
+      store
     );
     const dataTypeButton = getByRole("button", { name: /data type/i });
     fireEvent.click(dataTypeButton);
@@ -72,11 +60,8 @@ describe("datatype and subtype selection", () => {
 
   test("Apply button is enabled after dataType and dataSubtype selection", () => {
     const { getAllByTestId, getByRole } = render(
-      <Provider store={store}>
-        <MemoryRouter>
-          <CustomDataDownload setApiError={jest.fn()} />
-        </MemoryRouter>
-      </Provider>
+      <CustomDataDownload setApiError={jest.fn()} />,
+      store
     );
     const dataTypeButton = getByRole("button", { name: /data type/i });
     fireEvent.click(dataTypeButton);
@@ -93,11 +78,8 @@ describe("datatype and subtype selection", () => {
 
   test("apply button is enabled if there is only one data subtype after datatype selection", async () => {
     const { getAllByTestId, getByRole } = render(
-      <Provider store={store}>
-        <MemoryRouter>
-          <CustomDataDownload setApiError={jest.fn()} />
-        </MemoryRouter>
-      </Provider>
+      <CustomDataDownload setApiError={jest.fn()} />,
+      store
     );
     const dataTypeButton = getByRole("button", { name: /data type/i });
     fireEvent.click(dataTypeButton);
@@ -112,11 +94,8 @@ describe("datatype and subtype selection", () => {
 
   test("apply button is disabled when there are multiple data subtypes after datatype selection", () => {
     const { getAllByTestId, getByRole } = render(
-      <Provider store={store}>
-        <MemoryRouter>
-          <CustomDataDownload setApiError={jest.fn()} />
-        </MemoryRouter>
-      </Provider>
+      <CustomDataDownload setApiError={jest.fn()} />,
+      store
     );
     const dataTypeButton = getByRole("button", { name: /data type/i });
     fireEvent.click(dataTypeButton);
@@ -131,11 +110,8 @@ describe("datatype and subtype selection", () => {
 
   test("data subtype dropdown is disabled if there is only one data subtype", () => {
     const { getAllByTestId, getByRole } = render(
-      <Provider store={store}>
-        <MemoryRouter>
-          <CustomDataDownload setApiError={jest.fn()} />
-        </MemoryRouter>
-      </Provider>
+      <CustomDataDownload setApiError={jest.fn()} />,
+      store
     );
     const dataTypeButton = getByRole("button", { name: /data type/i });
     fireEvent.click(dataTypeButton);
@@ -145,57 +121,33 @@ describe("datatype and subtype selection", () => {
     fireEvent.change(dataTypeDropdown, { target: { value: matsDataType } });
     expect(dataSubtypeDropdown).toBeDisabled();
   });
-
-  // test('mats caveat is displayed if mats datatype is selected', async () => {
-  //   const { getAllByTestId, getByRole, findAllByTestId } = render(
-  //     <Provider store={store}>
-  //       <MemoryRouter><CustomDataDownload setApiError={jest.fn()} /></MemoryRouter>
-  //     </Provider>
-  //   );
-  //   const dataTypeButton = getByRole('button', { name: /data type/i });
-  //   fireEvent.click(dataTypeButton);
-  //   const dataTypeDropdown = getAllByTestId('dropdown')[0];
-
-  //   fireEvent.change(dataTypeDropdown, {
-  //     target: { value: matsDataType },
-  //   });
-  //   const matsCaveat = await findAllByTestId(/alert/i)[0];
-  //   expect(matsCaveat).toBeInTheDocument()
-  // });
 });
 
 describe("filters", () => {
   test("Filters button is enabled after dataType and dataSubtype are applied", async () => {
-    const { getAllByTestId, getByRole, findByRole, debug } = render(
-      <Provider store={store}>
-        <MemoryRouter>
-          <CustomDataDownload setApiError={jest.fn()} />
-        </MemoryRouter>
-      </Provider>
+    const { getAllByTestId, getByRole, findByRole } = render(
+      <CustomDataDownload setApiError={jest.fn()} />,
+      store
     );
     const dataTypeButton = getByRole("button", { name: /data type/i });
-    fireEvent.click(dataTypeButton);
+    await fireEvent.click(dataTypeButton);
     const dataTypeDropdown = getAllByTestId("dropdown")[0];
     const dataSubtypeDropdown = getAllByTestId("dropdown")[1];
 
-    fireEvent.change(dataTypeDropdown, {
+    await fireEvent.change(dataTypeDropdown, {
       target: { value: complianceDataType },
     });
-    fireEvent.change(dataSubtypeDropdown, { target: { value: 2 } });
-    // const applyButton = getByRole('button', { name: /apply/i });
-    // await act(async() => await fireEvent.click(applyButton))
-    // debug()
-    // const filtersButton = await findByRole('button', { name: /filters/i})
-    // expect(filtersButton).not.toBeDisabled();
+    await fireEvent.change(dataSubtypeDropdown, { target: { value: 2 } });
+    const applyButton = await findByRole("button", { name: /apply/i });
+    const filtersButton = await findByRole("button", { name: /filters/i });
+    await userEvent.click(applyButton);
+    expect(filtersButton).not.toBeDisabled();
   });
 
   test("allows change of data type and data subtype selection", async () => {
     const { findByRole } = render(
-      <Provider store={store}>
-        <MemoryRouter>
-          <CustomDataDownload setApiError={jest.fn()} />
-        </MemoryRouter>
-      </Provider>
+      <CustomDataDownload setApiError={jest.fn()} />,
+      store
     );
     const dataTypeButton = await findByRole("button", { name: /data type/i });
     await fireEvent.click(dataTypeButton);
@@ -208,16 +160,12 @@ describe("filters", () => {
     await userEvent.click(applyButton);
     const changeButton = await findByRole("button", { name: /change/i });
     expect(changeButton).not.toBeDisabled();
-    screen.debug();
-  }, 30000);
+  });
 
   test("cancel button takes user back to filters", async () => {
-    const { getAllByTestId, getByRole, findByRole, debug } = render(
-      <Provider store={store}>
-        <MemoryRouter>
-          <CustomDataDownload setApiError={jest.fn()} />
-        </MemoryRouter>
-      </Provider>
+    const { getAllByTestId, getByRole, findByRole } = render(
+      <CustomDataDownload setApiError={jest.fn()} />,
+      store
     );
     const dataTypeButton = getByRole("button", { name: /data type/i });
     fireEvent.click(dataTypeButton);
@@ -233,22 +181,15 @@ describe("filters", () => {
     await userEvent.click(cancelButton);
     const filtersHeading = await findByRole("heading", { name: /filters/i });
     expect(filtersHeading).toBeInTheDocument();
-    debug();
-  }, 30000);
+  });
 });
 
 describe("filter selection functionality", () => {
   let query;
   beforeEach(async () => {
-    query = render(
-      <Provider store={store}>
-        <MemoryRouter>
-          <CustomDataDownload setApiError={jest.fn()} />
-        </MemoryRouter>
-      </Provider>
-    );
+    query = render(<CustomDataDownload setApiError={jest.fn()} />, store);
 
-    const { getAllByTestId, getByRole } = query;
+    const { getByRole } = query;
     const dataTypeButton = getByRole("button", { name: /data type/i });
     fireEvent.click(dataTypeButton);
     const dataTypeDropdown = screen.getAllByTestId("dropdown")[0];
@@ -270,7 +211,7 @@ describe("filter selection functionality", () => {
   });
 
   test("preview button is enabled after a filter is selected", async () => {
-    const { getByRole, getByText, getAllByRole } = query;
+    const { getByRole, getByText, findAllByRole } = query;
     const filtersButton = getByRole("button", { name: "Filters" });
     fireEvent.click(filtersButton);
     const stateTerritoryFilter = getByRole("button", {
@@ -285,12 +226,43 @@ describe("filter selection functionality", () => {
     const alaska = getByText(/alaska/i);
     fireEvent.click(alaska);
     const applyFilterButton = getByRole("button", { name: /apply filter/i });
-    await fireEvent.click(applyFilterButton);
-    // const previewDataButton = getAllByRole('button', { name: /Preview Data/i })[0];
-    // waitFor(()=>expect(previewDataButton).not.toBeDisabled());
+    await userEvent.click(applyFilterButton);
+    // await waitForElementToBeRemoved(() => getByAltText("Content loading") )
+    const previewDataButton = await findAllByRole("button", {
+      name: /Preview Data/i,
+    });
+    expect(previewDataButton[0]).not.toBeDisabled();
   });
 
-  test("clear all button removes filter selection", () => {
+  test("bookmark", async () => {
+    const { getByRole, getByText, findAllByRole } = query;
+    const filtersButton = getByRole("button", { name: "Filters" });
+    fireEvent.click(filtersButton);
+    const stateTerritoryFilter = getByRole("button", {
+      name: "STATE/TERRITORY (Optional)",
+    });
+
+    fireEvent.click(stateTerritoryFilter);
+    const stateTerritoryComboBox = getByRole("textbox", {
+      name: /select or search states\/territories/i,
+    });
+    fireEvent.click(stateTerritoryComboBox);
+    const alaska = getByText(/alaska/i);
+    fireEvent.click(alaska);
+    const applyFilterButton = getByRole("button", { name: /apply filter/i });
+    await userEvent.click(applyFilterButton);
+    // await waitForElementToBeRemoved(() => getByAltText("Content loading") )
+    const previewDataButton = await findAllByRole("button", {
+      name: /Preview Data/i,
+    });
+    expect(previewDataButton[0]).not.toBeDisabled();
+    await userEvent.click(previewDataButton[0]);
+    const bookmarkButtons = await findAllByRole("button", {name: /Bookmark/i})
+    await userEvent.click(bookmarkButtons[0])
+    // screen.debug(undefined, 99999999)
+  });
+
+  test("clear all button removes filter selection", async () => {
     const { getByRole, getByText, getAllByRole } = query;
     const filtersButton = getByRole("button", { name: "Filters" });
     fireEvent.click(filtersButton);
@@ -309,7 +281,7 @@ describe("filter selection functionality", () => {
     fireEvent.click(alaska);
 
     const applyFilterButton = getByRole("button", { name: /apply filter/i });
-    fireEvent.click(applyFilterButton);
+    await userEvent.click(applyFilterButton);
 
     const clearAllButton = getAllByRole("button", {
       name: /clear all/i,

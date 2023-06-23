@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { cloneDeep } from 'lodash';
 
 import TableMenu from './TableMenu';
@@ -70,7 +70,7 @@ describe('table menu component', () => {
     initStateCopy = stateCopy;
     store = configureStore(initStateCopy);
   })
-  test('renders main menu properly', () => {
+  test('renders main menu properly', async () => {
     render(
       <Provider store={store}>
         <TableMenu
@@ -88,7 +88,7 @@ describe('table menu component', () => {
       name: /additional options \- unit id/i,
     });
     expect(additionalOptionsIcon).toBeInTheDocument();
-    fireEvent.click(additionalOptionsIcon);
+    await userEvent.click(additionalOptionsIcon);
 
     const unsortMenuOption = getByText(/unsort/i);
     const sortbyAscMenuOption = getByText(/sort by ASC/i);
@@ -101,7 +101,7 @@ describe('table menu component', () => {
     expect(customizeColumnsMenuOption).toBeInTheDocument();
   });
 
-  test('sort by ascending icon appears when items are sort by descending order', ()=>{
+  test('sort by ascending icon appears when items are sort by descending order', async ()=>{
     render(
       <Provider store={store}>
         <TableMenu
@@ -118,17 +118,17 @@ describe('table menu component', () => {
     const additionalOptionsIcon = screen.getByRole('button', {
       name: /additional options \- unit id/i,
     });
-    fireEvent.click(additionalOptionsIcon);
+    await userEvent.click(additionalOptionsIcon);
 
     const sortbyDescMenuOption = getByText(/sort by DESC/i);
-    fireEvent.click(sortbyDescMenuOption);
+    await userEvent.click(sortbyDescMenuOption);
     const sortByDescIcon = screen.getByRole('button', {
       name: /sort by descending/i,
     });
     expect(sortByDescIcon).toBeInTheDocument()
   });
 
-  test('sort by descending order icon changes to sort by ascending order icon when selected', ()=>{
+  test('sort by descending order icon changes to sort by ascending order icon when selected', async ()=>{
     const {getByRole} = render(
       <Provider store={store}>
         <TableMenu
@@ -143,19 +143,19 @@ describe('table menu component', () => {
     );
 
     const tableHeader = getByText(/unit id/i);
-    fireEvent.click(tableHeader);
-    userEvent.tab();
+    await userEvent.click(tableHeader);
+    await userEvent.tab();
     const sortByDescIcon = getByRole('button', {
       name: /sort by descending/i,
     });
-    fireEvent.click(sortByDescIcon);
+    await userEvent.click(sortByDescIcon);
     const sortByAscIcon = getByRole('button', {
       name: /sort by ascending/i,
     });
     expect(sortByAscIcon).toBeInTheDocument();
   });
 
-  test('unsort function is executed when unsort option is selected', ()=>{
+  test('unsort function is executed when unsort option is selected', async ()=>{
     const unsortFunction = jest.fn();
     render(
       <Provider store={store}>
@@ -171,15 +171,15 @@ describe('table menu component', () => {
     );
 
     const tableHeader = getByText(/unit id/i);
-    fireEvent.click(tableHeader);
-    userEvent.tab();
+    await userEvent.click(tableHeader);
+    await userEvent.tab();
     const additionalOptionsIcon = screen.getByRole('button', {
       name: /additional options \- unit id/i,
     });
-    fireEvent.click(additionalOptionsIcon);
+    await userEvent.click(additionalOptionsIcon);
 
     const unsortMenuOption = getByText(/unsort/i);
-    fireEvent.click(unsortMenuOption);
+    await userEvent.click(unsortMenuOption);
     expect(unsortFunction).toHaveBeenCalled();
   });
   test('lists correct columns, apply button, and input field when customize column menu option is selected', async () => {
@@ -204,9 +204,9 @@ describe('table menu component', () => {
     const additionalOptionsIcon = screen.getByRole('button', {
       name: /additional options \- unit id/i,
     });
-    fireEvent.click(additionalOptionsIcon);
+    await userEvent.click(additionalOptionsIcon);
     const customizeColumnsMenuOption = getByText(/Customize Columns/i);
-    fireEvent.click(customizeColumnsMenuOption);
+    await userEvent.click(customizeColumnsMenuOption);
     const yearColumnOption = getByText(/Year/i);
     const facilityNameColumnOption = getByText(/Facility Name/i);
     const unitIDColumnOption = getAllByText(/Unit ID/i)[0];
@@ -243,9 +243,9 @@ describe('table menu component', () => {
     const additionalOptionsIcon = screen.getByRole('button', {
       name: /additional options \- unit id/i,
     });
-    fireEvent.click(additionalOptionsIcon);
+    await userEvent.click(additionalOptionsIcon);
     const customizeColumnsMenuOption = getByText(/Customize Columns/i);
-    fireEvent.click(customizeColumnsMenuOption);
+    await userEvent.click(customizeColumnsMenuOption);
     const checkboxes = getAllByRole('checkbox');
 
     checkboxes.forEach((checkbox) => expect(checkbox.checked).toBe(true));
@@ -273,11 +273,11 @@ describe('table menu component', () => {
     const additionalOptionsIcon = screen.getByRole('button', {
       name: /additional options \- unit id/i,
     });
-    fireEvent.click(additionalOptionsIcon);
+    await userEvent.click(additionalOptionsIcon);
     const customizeColumnsMenuOption = getByText(/Customize Columns/i);
-    fireEvent.click(customizeColumnsMenuOption);
+    await userEvent.click(customizeColumnsMenuOption);
     const yearColumnOption = getAllByRole('checkbox')[0];
-    fireEvent.click(yearColumnOption);
+    await userEvent.click(yearColumnOption);
 
     expect(yearColumnOption.checked).toBe(false);
   });
@@ -302,12 +302,12 @@ describe('table menu component', () => {
     const additionalOptionsIcon = screen.getByRole('button', {
       name: /additional options \- unit id/i,
     });
-    fireEvent.click(additionalOptionsIcon);
+    await userEvent.click(additionalOptionsIcon);
     const customizeColumnsMenuOption = getByText(/Customize Columns/i);
-    fireEvent.click(customizeColumnsMenuOption);
+    await userEvent.click(customizeColumnsMenuOption);
 
     const input = getByRole('searchbox');
-    await userEvent.type(input, 'ye');
+    await await userEvent.type(input, 'ye');
     const yearColumnOption = getByText(/Year/i);
     const facilityNameColumnOption = queryByText(/Facility Name/i);
 
@@ -334,13 +334,13 @@ describe('table menu component', () => {
   //     </Provider>
   //   );
   //   const tableHeader = getByText(/unit id/i);
-  //   fireEvent.click(tableHeader);
-  //   userEvent.tab();
+  //   await userEvent.click(tableHeader);
+  //   await userEvent.tab();
   //   const sortIcon = getByRole('button', {
   //     name: /sort by descending/i,
   //   });
   //   expect(sortIcon).toHaveFocus();
-  //   userEvent.tab();
+  //   await userEvent.tab();
   //   const additionalOptionsIcon = screen.getByRole('button', {
   //     name: /additional options \- unit id/i,
   //   });
@@ -369,13 +369,13 @@ describe('table menu component', () => {
   //   const additionalOptionsIcon = screen.getByRole('button', {
   //     name: /additional options \- unit id/i,
   //   });
-  //   fireEvent.click(additionalOptionsIcon);
+  //   await userEvent.click(additionalOptionsIcon);
   //   const unsortMenuOption = getByText(/unsort/i);
   //   expect(unsortMenuOption).toHaveFocus();
-  //   userEvent.tab();
-  //   userEvent.tab();
-  //   userEvent.tab();
-  //   userEvent.tab();
+  //   await userEvent.tab();
+  //   await userEvent.tab();
+  //   await userEvent.tab();
+  //   await userEvent.tab();
   //   const buttons = getAllByRole('button');
   //   expect(buttons[0]).toHaveFocus();
   // });
@@ -402,9 +402,9 @@ describe('table menu component', () => {
     const additionalOptionsIcon = screen.getByRole('button', {
       name: /additional options \- unit id/i,
     });
-    fireEvent.click(additionalOptionsIcon);
+    await userEvent.click(additionalOptionsIcon);
     const customizeColumnsMenuOption = getByText(/Customize Columns/i);
-    fireEvent.click(customizeColumnsMenuOption);
+    await userEvent.click(customizeColumnsMenuOption);
     const input = getByTestId(/textInput/i);
     expect(input).toHaveFocus();
   });
@@ -431,11 +431,11 @@ describe('table menu component', () => {
     const additionalOptionsIcon = screen.getByRole('button', {
       name: /additional options \- unit id/i,
     });
-    fireEvent.click(additionalOptionsIcon);
+    await userEvent.click(additionalOptionsIcon);
     const customizeColumnsMenuOption = getByText(/Customize Columns/i);
-    fireEvent.click(customizeColumnsMenuOption);
+    await userEvent.click(customizeColumnsMenuOption);
     const deselectAllColumns = getByText(/Deselect All/i);
-    fireEvent.click(deselectAllColumns);
+    await userEvent.click(deselectAllColumns);
     const checkboxes = getAllByRole('checkbox');
     checkboxes.forEach((checkbox) => expect(checkbox.checked).not.toBe(true));
   });
@@ -462,15 +462,15 @@ describe('table menu component', () => {
     const additionalOptionsIcon = screen.getByRole('button', {
       name: /additional options \- unit id/i,
     });
-    fireEvent.click(additionalOptionsIcon);
+    await userEvent.click(additionalOptionsIcon);
     const customizeColumnsMenuOption = getByText(/Customize Columns/i);
-    fireEvent.click(customizeColumnsMenuOption);
+    await userEvent.click(customizeColumnsMenuOption);
     const deselectAllColumns = getByText(/Deselect All/i);
-    fireEvent.click(deselectAllColumns);
+    await userEvent.click(deselectAllColumns);
     const checkboxes = getAllByRole('checkbox');
     checkboxes.forEach((checkbox) => expect(checkbox.checked).not.toBe(true));
     const selectAllColumns = getByText(/Select All/);
-    fireEvent.click(selectAllColumns);
+    await userEvent.click(selectAllColumns);
     checkboxes.forEach((checkbox) => expect(checkbox.checked).toBe(true));
   });
 
@@ -499,13 +499,13 @@ describe('table menu component', () => {
     const additionalOptionsIcon = screen.getByRole('button', {
       name: /additional options \- unit id/i,
     });
-    fireEvent.click(additionalOptionsIcon);
+    await userEvent.click(additionalOptionsIcon);
     const customizeColumnsMenuOption = getByText(/Customize Columns/i);
-    fireEvent.click(customizeColumnsMenuOption);
+    await userEvent.click(customizeColumnsMenuOption);
     const deselectAllColumns = getByText(/Deselect All/i);
-    fireEvent.click(deselectAllColumns);
+    await userEvent.click(deselectAllColumns);
     const applyButton = getByRole('button', { name: /apply/i})
-    fireEvent.click(applyButton);
+    await userEvent.click(applyButton);
     expect(setSelectedColumns).toHaveBeenCalled();
     expect(setFocusAfterApply).toHaveBeenCalled();
   });

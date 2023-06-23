@@ -15,7 +15,8 @@
   "scripts": {
     "start": "craco start",
     "build": "craco build",
-    "test": "craco test --coverage",
+    "test": "craco test --coverage --testResultsProcessor=jest-sonar-reporter",
+    "all": "craco test a --no-cache --coverage",
     "up": "yarn && yarn start",
     "postinstall": "patch-package"
   },
@@ -63,6 +64,7 @@
     "react-table": "^7.8.0",
     "redux": "^4.2.1",
     "redux-immutable-state-invariant": "2.1.0",
+    "redux-mock-store": "^1.5.4",
     "redux-thunk": "^2.4.2",
     "rehype-raw": "^6.1.1",
     "rehype-sanitize": "^5.0.1",
@@ -70,7 +72,8 @@
     "remark-sub-super": "^1.0.20",
     "sass": "^1.62.0",
     "styled-components": "^5.3.9",
-    "yup": "^1.1.1"
+    "yup": "^1.1.1",
+    "zustand": "^4.3.8"
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
@@ -98,39 +101,6 @@
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
-    ]
-  },
-  "jest": {
-    "coverageReporters": [
-      "html",
-      "text",
-      "clover",
-      "json",
-      "lcov"
-    ],
-    "collectCoverageFrom": [
-      "src/**/*.{js,jsx,ts,tsx}",
-      "!node_modules/",
-      "!src/mocks/*",
-      "!src/App.js",
-      "!src/config.js",
-      "!src/serviceWorker.js",
-      "!src/index.js",
-      "!src/store/configureStore.dev.js",
-      "!src/store/actions/actionTypes.js",
-      "!src/store/reducers/index.js",
-      "!src/store/reducers/initialState.js",
-      "!src/utils/api/axiosSetup.js",
-      "!src/utils/api/setupTests.js",
-      "!src/utils/api/apiUtils.js",
-      "!src/utils/remoteLogging.js"
-    ],
-    "moduleNameMapper": {
-      "\\.svg$": "<rootDir>/jest/file-transformer.js",
-      "axios": "axios/dist/node/axios.cjs"
-    },
-    "transformIgnorePatterns": [
-      "/node_modules/(?!tiny-slider)"
     ]
   }
 }
