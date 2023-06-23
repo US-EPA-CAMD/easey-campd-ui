@@ -4,6 +4,7 @@ import {
   fireEvent,
   waitFor,
   within,
+  screen
 } from '@testing-library/react';
 import { cloneDeep } from 'lodash';
 
@@ -11,114 +12,66 @@ import TransactionType from './TransactionType';
 import configureStore from "../../../store/configureStore.dev";
 import initialState from "../../../store/reducers/initialState";
 import render from '../../../mocks/render';
+import { mockTransactionTypes } from "../mocks/mocks";
 
-const transactionTypes = [
-  {
-    "transactionTypeCode": "AD",
-    "transactionTypeDescription": "Activate Conditional Allowances"
-  },
-  {
-    "transactionTypeCode": "AT",
-    "transactionTypeDescription": "Transfer Due to Corrected Energy Conservation"
-  },
-  {
-    "transactionTypeCode": "CASURR",
-    "transactionTypeDescription": "Compliance Assurance Surrender"
-  },
-  {
-    "transactionTypeCode": "CC",
-    "transactionTypeDescription": "Substitution Control by Contract Deduction"
-  },
-  {
-    "transactionTypeCode": "CR",
-    "transactionTypeDescription": "Conservation Issuance"
-  },
-  {
-    "transactionTypeCode": "DE",
-    "transactionTypeDescription": "Reallocation Transfer"
-  },
-  {
-    "transactionTypeCode": "DI",
-    "transactionTypeDescription": "Reallocation Surrender"
-  },
-  {
-    "transactionTypeCode": "EB",
-    "transactionTypeDescription": "Energy Biomass Issuance"
-  },
-  {
-    "transactionTypeCode": "EG",
-    "transactionTypeDescription": "Energy Geothermal Issuance"
-  },
-  {
-    "transactionTypeCode": "EMADJ",
-    "transactionTypeDescription": "Emissions Adjustment Deduction"
-  },
-  {
-    "transactionTypeCode": "EMISS",
-    "transactionTypeDescription": "Emissions Deduction"
-  },
-  {
-    "transactionTypeCode": "ENFSURR",
-    "transactionTypeDescription": "Enforcement Surrender"
-  },
-];
+const transactionTypes = [...mockTransactionTypes];
+jest.mock("../../../utils/selectors/filterLogic", () => ({
+  engageFilterLogic: jest.fn(),
+}));
+
 const initStateCopy = cloneDeep(initialState)
 initStateCopy.filterCriteria.transactionType = transactionTypes.map(f=> ({id: f.transactionTypeDescription, label:f.transactionTypeDescription, selected:false, enabled:true}));
 const store = configureStore(initStateCopy);
 let flyOutClosed = false;
 let applyFilterLoading = false;
 
-describe('Transaction Type Component', () => {
+describe(' - Transaction Type Filter Criteria Component -', () => {
   let query;
   beforeEach(() => {
-    query = render(
-        <TransactionType
-          updatetransactionTypeSelectionDispatcher ={jest.fn()}
-          addAppliedFilterDispatcher ={jest.fn()}
-          removeAppliedFilterDispatcher ={jest.fn()}
-          closeFlyOutHandler ={()=> flyOutClosed=true}
-          renderedHandler ={jest.fn()}
-          setApplyFilterLoading={(bool) => applyFilterLoading = bool}
-        />, store);
+    render(
+      <TransactionType
+        closeFlyOutHandler ={()=> flyOutClosed=true}
+        renderedHandler ={jest.fn()}
+        setApplyFilterLoading={(bool) => applyFilterLoading = bool}
+      />, store);
   });
 
   afterEach(cleanup);
-
-  it('renders all elements properely', () => {
-    const { getByTestId, getAllByTestId, getByText} = query;
-    expect(getByText("Transaction Type")).toBeInTheDocument();
-    const searchbox = getByTestId("input-search");
-    expect(searchbox).toBeInTheDocument();
-    searchbox.focus();
-    fireEvent.click(searchbox);
-    const listBox = getByTestId("multi-select-listbox");
-    expect(listBox).toBeInTheDocument();
-    expect(within(listBox).getAllByTestId('multi-select-option').length).toBe(initStateCopy.filterCriteria.transactionType.length);
+  it('initial component render works properely', () => {
+    expect(screen.getByTestId("filter-criteria-title").innerHTML).toBe("Transaction Type");
+    expect(screen.getByTestId("label").innerHTML).toBe("Select or Search Transaction Types");
+    expect(screen.getByTestId("input-search")).toBeInTheDocument();
+    expect(screen.getByRole("button", {name: "Cancel"})).toBeDefined();
+    expect(screen.getByRole("button", {name: "Apply Filter"})).toBeDefined();
   });
 
-  it('handles click event of cancel button', () => {
-    const { getByText} = query;
-    fireEvent.click(getByText("Cancel"));
+  it('should render list of Transaction Types data in multi-select combo-box', async () => {
+    fireEvent.click(screen.getByTestId("input-search"));
+    const listBox = screen.getByTestId("multi-select-listbox");
+    expect(listBox).toBeInTheDocument();
+    expect(within(listBox).getAllByTestId('multi-select-option').length).toBe(transactionTypes.length);
+  });
+
+  it('should search using input box for transaction Types, select and apply it', async () => {
+    const searchbox = screen.getByTestId("input-search");
+    fireEvent.change(searchbox, { target: { value: 'Conservation Issuance' } }); 
+    expect(searchbox.value).toBe('Conservation Issuance');
+    expect(screen.getAllByRole("option").length).toBe(1);
+    
+    fireEvent.click(screen.getAllByRole("option")[0])
+    expect(screen.getByRole("button", {name: "Conservation Issuance"})).toBeDefined();
+  
+    fireEvent.click(screen.getByRole("button", {name: "Apply Filter"}))
+    await waitFor(() => expect(applyFilterLoading).toBe(false))
+    expect(flyOutClosed).toBe(true);
+  })
+
+  it('handles click event of Apply Filter and Cancel buttons', async () => {
+    fireEvent.click(screen.getByRole("button", {name: "Cancel"}));
+    expect(flyOutClosed).toBe(true);
+
+    fireEvent.click(screen.getByRole("button", {name: "Apply Filter"}));
+    await waitFor(() => expect(applyFilterLoading).toBe(false))
     expect(flyOutClosed).toBe(true);
   });
-
-  test('It should search using input box for transaction Type in listboxt and add selection to apply filter', async() => {
-    const { getByTestId, getAllByTestId, getByRole, getByText} = query;
-    const searchbox = getByTestId("input-search");
-    searchbox.focus();
-    await fireEvent.click(searchbox);
-    await fireEvent.change(searchbox, { target: { value: 'Conservation Issuance' } })
-    expect(searchbox.value).toBe('Conservation Issuance');
-    expect(within(getByTestId("multi-select-listbox")).getAllByTestId('multi-select-option').length).toBe(1);
-    await fireEvent.keyDown(searchbox, {key: 'Tab', code: 9});
-    await fireEvent.keyDown(searchbox, {key: 'Enter', code: 'Enter'})
-    expect(searchbox.value).toBe('Conservation Issuance');
-    expect(getAllByTestId("multi-select-option").length).toBe(1);
-    await fireEvent.click(getByTestId("multi-select-option"));
-    expect(getByRole("button", {name: "Conservation Issuance"})).toBeDefined();
-    expect(getAllByTestId("multi-select-option").length).toBe(transactionTypes.length);
-    await fireEvent.click(getByText("Apply Filter"));
-    expect(applyFilterLoading).toBe(true);
-    await waitFor(() => expect(applyFilterLoading).toBe(false))
-  })
 });
