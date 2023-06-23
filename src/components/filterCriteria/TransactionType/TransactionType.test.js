@@ -26,7 +26,6 @@ let flyOutClosed = false;
 let applyFilterLoading = false;
 
 describe(' - Transaction Type Filter Criteria Component -', () => {
-  let query;
   beforeEach(() => {
     render(
       <TransactionType

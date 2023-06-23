@@ -60,7 +60,7 @@ describe('- Unit Type Filter Criteria Component -', () => {
     expect(screen.getByRole("button", {name: "Apply Filter"})).toBeDefined();
   });
 
-  it.only('handles checkbox selection appropriately and applies them', async () => {
+  it('handles checkbox selection appropriately and applies them', async () => {
     const afbCheckbox = screen.getByRole('checkbox', {
       name: 'Arch-fired boiler (AF)',
     });
