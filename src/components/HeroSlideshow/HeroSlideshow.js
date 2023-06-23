@@ -57,7 +57,7 @@ const HeroSlideshow = ({ slides }) => {
                 }}
               >
                 <div className="grid-container-widescreen">
-                  <div className="usa-hero__callout usa-dark-background">
+                  <div className="usa-hero__callout usa-dark-background text-left">
                     <h2 className="usa-hero__heading">
                       {callout && (
                         <span className="usa-hero__heading--alt">
