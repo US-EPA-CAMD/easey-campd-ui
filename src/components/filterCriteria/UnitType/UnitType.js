@@ -95,7 +95,7 @@ export const UnitType = ({
   return (
     <>
       <div className="panel-header padding-top-2 margin-x-2">
-        <h3>Unit Type</h3>
+        <h3 data-testid="filter-criteria-title">Unit Type</h3>
         <hr />
       </div>
       {unitType.length > 0 && (
