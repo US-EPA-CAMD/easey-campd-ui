@@ -10,6 +10,8 @@ window.HTMLElement.prototype.scrollIntoView = jest.fn();
 jest.setTimeout(50000);
 
 jest.mock("../../Tooltip/Tooltip", () => () => <></>);
+jest.mock("../../ApiErrorAlert/ApiErrorAlert", () => () => <></>);
+
 Object.defineProperty(navigator, 'clipboard', {
   value: {
     writeText: jest.fn(),
