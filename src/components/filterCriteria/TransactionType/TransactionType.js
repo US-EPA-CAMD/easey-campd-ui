@@ -71,7 +71,7 @@ const TransactionType = ({
   return (
     <>
       <div className="panel-header padding-top-2 margin-x-2">
-        <h3>{filterToApply}</h3>
+        <h3 data-testid="filter-criteria-title">{filterToApply}</h3>
         <Tooltip
           content="For more information on transaction types, use the Allowance Data Guide in the Tutorials section."
           field={filterToApply}
