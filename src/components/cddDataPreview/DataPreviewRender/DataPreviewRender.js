@@ -35,7 +35,7 @@ const DataPreviewRender = ({
   }, [dataPreview]);
 
   return (
-    <div className="preview-content-wrapper padding-x-3 padding-y-3">
+    <div className="preview-content-wrapper padding-x-3 padding-top-3">
       <div className="grid-row">
         <div
           id="data-table-title"
