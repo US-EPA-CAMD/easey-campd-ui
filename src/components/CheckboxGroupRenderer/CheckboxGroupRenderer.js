@@ -17,7 +17,7 @@ const CheckboxGroupRenderer = ({
         result.push(
           <div key={1}>
             <div className="margin-x-2">
-              <h4 className="font-sans-lg text-normal margin-top-2 margin-bottom-1">Active Programs</h4>
+              <h4 className="font-sans-lg text-normal margin-top-2 margin-bottom-1" data-testid="checkbox-group-active-header">Active Programs</h4>
               <div className="margin-0 height-2px bg-base-light" />
             </div>
             <div>
@@ -37,7 +37,7 @@ const CheckboxGroupRenderer = ({
         result.push(
           <div key={2}>
             <div className="margin-x-2">
-              <h4 className="font-sans-lg text-normal margin-top-2 margin-bottom-1">Retired Programs</h4>
+              <h4 className="font-sans-lg text-normal margin-top-2 margin-bottom-1"data-testid="checkbox-group-retired-header">Retired Programs</h4>
               <div className="margin-0 height-2px bg-base-light" />
             </div>
             <div>
