@@ -268,3 +268,234 @@ export const mockUnitType = [
     unitTypeGroupDescription: 'Boilers',
   },
 ];
+
+export const mockFuelType = [
+  {
+    fuelTypeCode: 'C',
+    fuelTypeDescription: 'Coal',
+    fuelGroupCode: 'COAL',
+    fuelGroupDescription: 'All Coal',
+  },
+  {
+    fuelTypeCode: 'CRF',
+    fuelTypeDescription: 'Coal Refuse',
+    fuelGroupCode: 'OTHER',
+    fuelGroupDescription: 'All Other Fuels',
+  },
+  {
+    fuelTypeCode: 'DSL',
+    fuelTypeDescription: 'Diesel Oil',
+    fuelGroupCode: 'OIL',
+    fuelGroupDescription: 'All Oil',
+  },
+  {
+    fuelTypeCode: 'LPG',
+    fuelTypeDescription: 'Liquified Petroleum Gas',
+    fuelGroupCode: 'GAS',
+    fuelGroupDescription: 'All Gas',
+  },
+  {
+    fuelTypeCode: 'NNG',
+    fuelTypeDescription: 'Natural Gas',
+    fuelGroupCode: 'GAS',
+    fuelGroupDescription: 'All Gas',
+  },
+  {
+    fuelTypeCode: 'OGS',
+    fuelTypeDescription: 'Other Gas',
+    fuelGroupCode: 'GAS',
+    fuelGroupDescription: 'All Gas',
+  },
+  {
+    fuelTypeCode: 'OIL',
+    fuelTypeDescription: 'Residual Oil',
+    fuelGroupCode: 'OIL',
+    fuelGroupDescription: 'All Oil',
+  },
+  {
+    fuelTypeCode: 'OOL',
+    fuelTypeDescription: 'Other Oil',
+    fuelGroupCode: 'OIL',
+    fuelGroupDescription: 'All Oil',
+  },
+  {
+    fuelTypeCode: 'OSF',
+    fuelTypeDescription: 'Other Solid Fuel',
+    fuelGroupCode: 'OTHER',
+    fuelGroupDescription: 'All Other Fuels',
+  },
+  {
+    fuelTypeCode: 'PNG',
+    fuelTypeDescription: 'Pipeline Natural Gas',
+    fuelGroupCode: 'GAS',
+    fuelGroupDescription: 'All Gas',
+  },
+  {
+    fuelTypeCode: 'PRG',
+    fuelTypeDescription: 'Process Gas',
+    fuelGroupCode: 'GAS',
+    fuelGroupDescription: 'All Gas',
+  },
+  {
+    fuelTypeCode: 'PRS',
+    fuelTypeDescription: 'Process Sludge',
+    fuelGroupCode: 'OTHER',
+    fuelGroupDescription: 'All Other Fuels',
+  },
+  {
+    fuelTypeCode: 'PTC',
+    fuelTypeDescription: 'Petroleum Coke',
+    fuelGroupCode: 'OTHER',
+    fuelGroupDescription: 'All Other Fuels',
+  },
+  {
+    fuelTypeCode: 'R',
+    fuelTypeDescription: 'Refuse',
+    fuelGroupCode: 'OTHER',
+    fuelGroupDescription: 'All Other Fuels',
+  },
+  {
+    fuelTypeCode: 'TDF',
+    fuelTypeDescription: 'Tire Derived Fuel',
+    fuelGroupCode: 'OTHER',
+    fuelGroupDescription: 'All Other Fuels',
+  },
+  {
+    fuelTypeCode: 'W',
+    fuelTypeDescription: 'Wood',
+    fuelGroupCode: 'OTHER',
+    fuelGroupDescription: 'All Other Fuels',
+  },
+  {
+    fuelTypeCode: 'WL',
+    fuelTypeDescription: 'Waste Liquid',
+    fuelGroupCode: 'OTHER',
+    fuelGroupDescription: 'All Other Fuels',
+  },
+];
+
+export const mockProgram = [
+  {
+    "programCode": "ARP",
+    "programDescription": "Acid Rain Program",
+    "compParameterCode": "SO2",
+    "programGroupCode": null,
+    "programGroupDescription": null,
+    "ozoneIndicator": false,
+    "annualIndicator": true,
+    "allowanceIndicator": true,
+    "retiredIndicator": false,
+    "tradingEndDate": null
+  },
+  {
+    "programCode": "CAIRNOX",
+    "programDescription": "CAIR NOx Annual Program",
+    "compParameterCode": "NOX",
+    "programGroupCode": "CAIR",
+    "programGroupDescription": "Clean Air Interstate Rule",
+    "ozoneIndicator": false,
+    "annualIndicator": true,
+    "allowanceIndicator": true,
+    "retiredIndicator": true,
+    "tradingEndDate": "2016-08-10"
+  },
+  {
+    "programCode": "CAIROS",
+    "programDescription": "CAIR NOx Ozone Season Program",
+    "compParameterCode": "NOX",
+    "programGroupCode": "CAIR",
+    "programGroupDescription": "Clean Air Interstate Rule",
+    "ozoneIndicator": true,
+    "annualIndicator": false,
+    "allowanceIndicator": true,
+    "retiredIndicator": true,
+    "tradingEndDate": "2016-08-10"
+  },
+  {
+    "programCode": "CAIRSO2",
+    "programDescription": "CAIR SO2 Annual Program",
+    "compParameterCode": "SO2",
+    "programGroupCode": "CAIR",
+    "programGroupDescription": "Clean Air Interstate Rule",
+    "ozoneIndicator": false,
+    "annualIndicator": true,
+    "allowanceIndicator": true,
+    "retiredIndicator": true,
+    "tradingEndDate": "2016-08-10"
+  },
+];
+
+export const mockSourceCategories = [
+  {
+    "sourceCategoryCode": "AUTSTMP",
+    "sourceCategoryDescription": "Automotive Stampings"
+  },
+  {
+    "sourceCategoryCode": "BKINCHM",
+    "sourceCategoryDescription": "Bulk Industrial Chemical"
+  },
+  {
+    "sourceCategoryCode": "CEMENTM",
+    "sourceCategoryDescription": "Cement Manufacturing"
+  },
+  {
+    "sourceCategoryCode": "COGEN",
+    "sourceCategoryDescription": "Cogeneration"
+  },
+  {
+    "sourceCategoryCode": "ELECTRC",
+    "sourceCategoryDescription": "Electric Utility"
+  },
+  {
+    "sourceCategoryCode": "INDBLR",
+    "sourceCategoryDescription": "Industrial Boiler"
+  },
+  {
+    "sourceCategoryCode": "INDTUR",
+    "sourceCategoryDescription": "Industrial Turbine"
+  },
+  {
+    "sourceCategoryCode": "INSTITU",
+    "sourceCategoryDescription": "Institutional"
+  },
+  {
+    "sourceCategoryCode": "IRONSTL",
+    "sourceCategoryDescription": "Iron & Steel"
+  },
+  {
+    "sourceCategoryCode": "MUNWAST",
+    "sourceCategoryDescription": "Municipal Waste Combustor"
+  },
+];
+
+export const mockOwnerOperators = [
+  {
+    "ownId": 52186,
+    "ownerOperator": "A.T. Massey Coal Company",
+    "ownType": "OWN"
+  },
+  {
+    "ownId": 52193,
+    "ownerOperator": "AES Corporation",
+    "ownType": "OPR"
+  },
+  {
+    "ownId": 52193,
+    "ownerOperator": "AES Corporation",
+    "ownType": "OWN"
+  },
+  {
+    "ownId": 52210,
+    "ownerOperator": "AMVEST Coal Sales, Inc.",
+    "ownType": "OWN"
+  },
+  {
+    "ownId": 52215,
+    "ownerOperator": "AYP Energy, Inc.",
+    "ownType": "OWN"
+  },
+  {
+    "ownId": 52222,
+    "ownerOperator": "Air Products and Chemicals, Inc.",
+    "ownType": "OWN"
+  }];
