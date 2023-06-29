@@ -309,7 +309,7 @@ export const loadAllFilters = (dataType, dataSubType, filterCriteria, bookmarkFi
     }
     if(filterCriteria.sourceCategory.length === 0 && filters.includes(API_CALLING_FILTERS[2])){
       dispatch(beginApiCall());
-      promises.push(filterCriteriaApi.getSourceCategories);
+      promises.push(filterCriteriaApi.getSourceCategories());
       apiCallOrder.push(API_CALLING_FILTERS[2]);
     }
     if(filterCriteria.facility.length === 0 && filters.includes(API_CALLING_FILTERS[3])){
@@ -334,7 +334,7 @@ export const loadAllFilters = (dataType, dataSubType, filterCriteria, bookmarkFi
     }
     if(filterCriteria.accountType.length === 0 && filters.includes(API_CALLING_FILTERS[7])){
       dispatch(beginApiCall());
-      promises.push(filterCriteriaApi.getAccountTypes);
+      promises.push(filterCriteriaApi.getAccountTypes());
       apiCallOrder.push(API_CALLING_FILTERS[7]);
     }
     if(filterCriteria.accountNameNumber.length === 0 && filters.includes(API_CALLING_FILTERS[8])){
@@ -344,7 +344,7 @@ export const loadAllFilters = (dataType, dataSubType, filterCriteria, bookmarkFi
     }
     if(filterCriteria.transactionType.length === 0 && filters.includes(API_CALLING_FILTERS[9])){
       dispatch(beginApiCall());
-      promises.push(filterCriteriaApi.getTransactionTypes);
+      promises.push(filterCriteriaApi.getTransactionTypes());
       apiCallOrder.push(API_CALLING_FILTERS[9]);
     }
     if(filters.includes(API_CALLING_FILTERS[10])){

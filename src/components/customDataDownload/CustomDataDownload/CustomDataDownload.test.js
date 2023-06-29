@@ -8,8 +8,8 @@ import initialState from "../../../store/reducers/initialState";
 import render from "../../../mocks/render";
 window.HTMLElement.prototype.scrollIntoView = jest.fn();
 jest.setTimeout(50000);
-
 jest.mock("../../Tooltip/Tooltip", () => () => <></>);
+jest.mock("../../ApiErrorAlert/ApiErrorAlert", () => () => <></>);
 Object.defineProperty(navigator, "clipboard", {
   value: {
     writeText: jest.fn(),
@@ -29,29 +29,20 @@ const complianceDataType = "COMPLIANCE";
 afterEach(cleanup);
 describe("CustomDataDownload", () => {
   test("Check that the  component properly renders", () => {
-    const { getByTestId } = render(
-      <CustomDataDownload setApiError={jest.fn()} />,
-      store
-    );
+    const { getByTestId } = render(<CustomDataDownload />, store);
     expect(getByTestId("manage-data-download-wrapper")).toBeVisible();
   });
 });
 
 describe("datatype and subtype selection", () => {
   test("filter button is disabled initially", () => {
-    const { getByRole } = render(
-      <CustomDataDownload setApiError={jest.fn()} />,
-      store
-    );
+    const { getByRole } = render(<CustomDataDownload />, store);
     const filtersButton = getByRole("button", { name: /filters/i });
     expect(filtersButton).toBeDisabled();
   });
 
   test("Apply button is disabled before selection", () => {
-    const { getByRole } = render(
-      <CustomDataDownload setApiError={jest.fn()} />,
-      store
-    );
+    const { getByRole } = render(<CustomDataDownload />, store);
     const dataTypeButton = getByRole("button", { name: /data type/i });
     fireEvent.click(dataTypeButton);
     const applyButton = getByRole("button", { name: /apply/i });
@@ -59,10 +50,7 @@ describe("datatype and subtype selection", () => {
   });
 
   test("Apply button is enabled after dataType and dataSubtype selection", () => {
-    const { getAllByTestId, getByRole } = render(
-      <CustomDataDownload setApiError={jest.fn()} />,
-      store
-    );
+    const { getAllByTestId, getByRole } = render(<CustomDataDownload />, store);
     const dataTypeButton = getByRole("button", { name: /data type/i });
     fireEvent.click(dataTypeButton);
     const dataTypeDropdown = getAllByTestId("dropdown")[0];
@@ -77,10 +65,7 @@ describe("datatype and subtype selection", () => {
   });
 
   test("apply button is enabled if there is only one data subtype after datatype selection", async () => {
-    const { getAllByTestId, getByRole } = render(
-      <CustomDataDownload setApiError={jest.fn()} />,
-      store
-    );
+    const { getAllByTestId, getByRole } = render(<CustomDataDownload />, store);
     const dataTypeButton = getByRole("button", { name: /data type/i });
     fireEvent.click(dataTypeButton);
     const dataTypeDropdown = getAllByTestId("dropdown")[0];
@@ -93,10 +78,7 @@ describe("datatype and subtype selection", () => {
   });
 
   test("apply button is disabled when there are multiple data subtypes after datatype selection", () => {
-    const { getAllByTestId, getByRole } = render(
-      <CustomDataDownload setApiError={jest.fn()} />,
-      store
-    );
+    const { getAllByTestId, getByRole } = render(<CustomDataDownload />, store);
     const dataTypeButton = getByRole("button", { name: /data type/i });
     fireEvent.click(dataTypeButton);
     const dataTypeDropdown = getAllByTestId("dropdown")[0];
@@ -109,10 +91,7 @@ describe("datatype and subtype selection", () => {
   });
 
   test("data subtype dropdown is disabled if there is only one data subtype", () => {
-    const { getAllByTestId, getByRole } = render(
-      <CustomDataDownload setApiError={jest.fn()} />,
-      store
-    );
+    const { getAllByTestId, getByRole } = render(<CustomDataDownload />, store);
     const dataTypeButton = getByRole("button", { name: /data type/i });
     fireEvent.click(dataTypeButton);
     const dataTypeDropdown = getAllByTestId("dropdown")[0];
@@ -126,7 +105,7 @@ describe("datatype and subtype selection", () => {
 describe("filters", () => {
   test("Filters button is enabled after dataType and dataSubtype are applied", async () => {
     const { getAllByTestId, getByRole, findByRole } = render(
-      <CustomDataDownload setApiError={jest.fn()} />,
+      <CustomDataDownload />,
       store
     );
     const dataTypeButton = getByRole("button", { name: /data type/i });
@@ -145,10 +124,7 @@ describe("filters", () => {
   });
 
   test("allows change of data type and data subtype selection", async () => {
-    const { findByRole } = render(
-      <CustomDataDownload setApiError={jest.fn()} />,
-      store
-    );
+    const { findByRole } = render(<CustomDataDownload />, store);
     const dataTypeButton = await findByRole("button", { name: /data type/i });
     await fireEvent.click(dataTypeButton);
     const dataTypeDropdown = screen.getAllByTestId("dropdown")[0];
@@ -164,7 +140,7 @@ describe("filters", () => {
 
   test("cancel button takes user back to filters", async () => {
     const { getAllByTestId, getByRole, findByRole } = render(
-      <CustomDataDownload setApiError={jest.fn()} />,
+      <CustomDataDownload />,
       store
     );
     const dataTypeButton = getByRole("button", { name: /data type/i });
@@ -184,11 +160,10 @@ describe("filters", () => {
   });
 });
 
-/*
 describe("filter selection functionality", () => {
   let query;
   beforeEach(async () => {
-    query = render(<CustomDataDownload setApiError={jest.fn()} />, store);
+    query = render(<CustomDataDownload />, store);
 
     const { getByRole } = query;
     const dataTypeButton = getByRole("button", { name: /data type/i });
@@ -297,4 +272,3 @@ describe("filter selection functionality", () => {
     expect(previewDataButton).toBeDisabled();
   });
 });
-*/

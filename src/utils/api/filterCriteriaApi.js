@@ -31,9 +31,9 @@ export const getUnitTypes = () => getDataFromMDM('unit-type-codes');
 export const getFuelTypes = () => getDataFromMDM('fuel-type-codes');
 export const getStates = () => getDataFromMDM('state-codes');
 export const getControlTechnologies = () => getDataFromMDM('control-codes');
-export const getAccountTypes = getDataFromMDM('account-type-codes?exclude=SHOLD|OVERDF');
-export const getTransactionTypes = getDataFromMDM('transaction-type-codes');
-export const getSourceCategories = getDataFromMDM('source-category-codes');
+export const getAccountTypes = () => getDataFromMDM('account-type-codes?exclude=SHOLD|OVERDF');
+export const getTransactionTypes = () => getDataFromMDM('transaction-type-codes');
+export const getSourceCategories = () => getDataFromMDM('source-category-codes');
 
 export async function getAllFacilities() {
   const url = `${config.services.facilities.uri}/facilities`;

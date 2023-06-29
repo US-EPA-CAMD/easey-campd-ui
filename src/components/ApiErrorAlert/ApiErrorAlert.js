@@ -13,7 +13,6 @@ const ApiErrorAlert = ({
 }) => {
   const [errors, setErrors] = useState([]);
   const [errorMessages, setErrorMessages] = useState(null);
-  useState(false);
   const apiErrorsRef = useRef(null);
   const location = useLocation();
 

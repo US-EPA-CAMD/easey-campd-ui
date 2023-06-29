@@ -10,10 +10,6 @@ global.XMLHttpRequest = undefined;
 
 jest.mock("react-markdown", () => ({ children }) => <>{children}</>);
 jest.mock("remark-gfm", () => () => {});
-jest.mock("./utils/api/apiUtils", () => ({
-  ...jest.requireActual("./utils/api/apiUtils"),
-  handleError: jest.fn()
-}))
 jest.mock("rehype-raw", () => ({
   parse: () => {
     return {
