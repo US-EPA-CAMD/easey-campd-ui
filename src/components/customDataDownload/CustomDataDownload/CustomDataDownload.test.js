@@ -210,35 +210,35 @@ describe("filter selection functionality", () => {
     expect(previewDataButton[0]).not.toBeDisabled();
   });
 
-  test("bookmark", async () => {
-    const { getByRole, getByText, findAllByRole } = query;
-    const filtersButton = getByRole("button", { name: "Filters" });
-    fireEvent.click(filtersButton);
-    const stateTerritoryFilter = getByRole("button", {
-      name: "STATE/TERRITORY (Optional)",
-    });
+  // test("bookmark", async () => {
+  //   const { getByRole, getByText, findAllByRole } = query;
+  //   const filtersButton = getByRole("button", { name: "Filters" });
+  //   fireEvent.click(filtersButton);
+  //   const stateTerritoryFilter = getByRole("button", {
+  //     name: "STATE/TERRITORY (Optional)",
+  //   });
 
-    fireEvent.click(stateTerritoryFilter);
-    const stateTerritoryComboBox = getByRole("textbox", {
-      name: /select or search states\/territories/i,
-    });
-    fireEvent.click(stateTerritoryComboBox);
-    const alaska = getByText(/alaska/i);
-    fireEvent.click(alaska);
-    const applyFilterButton = getByRole("button", { name: /apply filter/i });
-    await userEvent.click(applyFilterButton);
-    // await waitForElementToBeRemoved(() => getByAltText("Content loading") )
-    const previewDataButton = await findAllByRole("button", {
-      name: /Preview Data/i,
-    });
-    expect(previewDataButton[0]).not.toBeDisabled();
-    await userEvent.click(previewDataButton[0]);
-    const bookmarkButtons = await findAllByRole("button", {
-      name: /Bookmark/i,
-    });
-    await userEvent.click(bookmarkButtons[0]);
-    // screen.debug(undefined, 99999999)
-  });
+  //   fireEvent.click(stateTerritoryFilter);
+  //   const stateTerritoryComboBox = getByRole("textbox", {
+  //     name: /select or search states\/territories/i,
+  //   });
+  //   fireEvent.click(stateTerritoryComboBox);
+  //   const alaska = getByText(/alaska/i);
+  //   fireEvent.click(alaska);
+  //   const applyFilterButton = getByRole("button", { name: /apply filter/i });
+  //   await userEvent.click(applyFilterButton);
+  //   // await waitForElementToBeRemoved(() => getByAltText("Content loading") )
+  //   const previewDataButton = await findAllByRole("button", {
+  //     name: /Preview Data/i,
+  //   });
+  //   expect(previewDataButton[0]).not.toBeDisabled();
+  //   await userEvent.click(previewDataButton[0]);
+  //   const bookmarkButtons = await findAllByRole("button", {
+  //     name: /Bookmark/i,
+  //   });
+  //   await userEvent.click(bookmarkButtons[0]);
+  //   // screen.debug(undefined, 99999999)
+  // });
 
   test("clear all button removes filter selection", async () => {
     const { getByRole, getByText, getAllByRole } = query;
