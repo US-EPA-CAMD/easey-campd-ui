@@ -304,7 +304,7 @@ export const loadAllFilters = (dataType, dataSubType, filterCriteria, bookmarkFi
     }
     if(filterCriteria.stateTerritory.length === 0 && filters.includes(API_CALLING_FILTERS[1])){
       dispatch(beginApiCall());
-      promises.push(filterCriteriaApi.getStates);
+      promises.push(filterCriteriaApi.getStates());
       apiCallOrder.push(API_CALLING_FILTERS[1]);
     }
     if(filterCriteria.sourceCategory.length === 0 && filters.includes(API_CALLING_FILTERS[2])){
@@ -319,17 +319,17 @@ export const loadAllFilters = (dataType, dataSubType, filterCriteria, bookmarkFi
     }
     if(filterCriteria.unitType.length === 0 && filters.includes(API_CALLING_FILTERS[4])){
       dispatch(beginApiCall());
-      promises.push(filterCriteriaApi.getUnitTypes);
+      promises.push(filterCriteriaApi.getUnitTypes());
       apiCallOrder.push(API_CALLING_FILTERS[4]);
     }
     if(filterCriteria.fuelType.length === 0 && filters.includes(API_CALLING_FILTERS[5])){
       dispatch(beginApiCall());
-      promises.push(filterCriteriaApi.getFuelTypes);
+      promises.push(filterCriteriaApi.getFuelTypes());
       apiCallOrder.push(API_CALLING_FILTERS[5]);
     }
     if(filterCriteria.controlTechnology.length === 0 && filters.includes(API_CALLING_FILTERS[6])){
       dispatch(beginApiCall());
-      promises.push(filterCriteriaApi.getControlTechnologies);
+      promises.push(filterCriteriaApi.getControlTechnologies());
       apiCallOrder.push(API_CALLING_FILTERS[6]);
     }
     if(filterCriteria.accountType.length === 0 && filters.includes(API_CALLING_FILTERS[7])){

@@ -499,3 +499,68 @@ export const mockOwnerOperators = [
     "ownerOperator": "Air Products and Chemicals, Inc.",
     "ownType": "OWN"
   }];
+  export const mockControlTechnologies = [
+    {
+      "controlCode": "APAC",
+      "controlDescription": "Additives to Enhance PAC and Existing Equipment Performance",
+      "controlEquipParamCode": "HG",
+      "controlEquipParamDescription": "Mercury"
+    },
+    {
+      "controlCode": "B",
+      "controlDescription": "Baghouse",
+      "controlEquipParamCode": "PART",
+      "controlEquipParamDescription": "Particulates (Opacity)"
+    },
+    {
+      "controlCode": "C",
+      "controlDescription": "Cyclone",
+      "controlEquipParamCode": "PART",
+      "controlEquipParamDescription": "Particulates (Opacity)"
+    },
+  ];
+
+  export const mockFilterMapping = [
+    {
+      year: '1995',
+      programCode: 'ARP',
+      facilityId: 7,
+      stateCode: 'AL',
+      ownerOperator: 'Alabama Power Company'
+    },
+    {
+      year: '1995',
+      programCode: 'ARP',
+      facilityId: 26,
+      stateCode: 'AL',
+      ownerOperator: 'Alabama Power Company'
+    },
+    {
+      year: '1995',
+      programCode: 'ARP',
+      facilityId: 26,
+      stateCode: 'AL',
+      ownerOperator: 'Georgia Power Company'
+    },
+    {
+      year: '1995',
+      programCode: 'ARP',
+      facilityId: 26,
+      stateCode: 'AL',
+      ownerOperator: 'Southern Company'
+    },
+    {
+      year: '1995',
+      programCode: 'ARP',
+      facilityId: 47,
+      stateCode: 'AL',
+      ownerOperator: 'Tennessee Valley Authority'
+    },
+    {
+      year: '1995',
+      programCode: 'ARP',
+      facilityId: 56,
+      stateCode: 'AL',
+      ownerOperator: 'PowerSouth Energy Cooperative, Inc.'
+    },
+  ];
