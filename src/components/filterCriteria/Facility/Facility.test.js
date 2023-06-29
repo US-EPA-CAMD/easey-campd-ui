@@ -308,9 +308,6 @@ describe('Facility Component', () => {
   beforeEach(() => {
     query = render(
         <Facility
-          updateFacilitySelectionDispatcher ={updateFacilitySelection}
-          addAppliedFilterDispatcher ={addAppliedFilter}
-          removeAppliedFilterDispatcher ={removeAppliedFilter}
           closeFlyOutHandler ={()=> flyOutClosed=true}
           renderedHandler ={jest.fn()}
           setApplyFilterLoading={() => applyFilterLoading = true}
