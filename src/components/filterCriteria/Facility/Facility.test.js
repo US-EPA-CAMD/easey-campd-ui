@@ -9,8 +9,6 @@ import { cloneDeep } from 'lodash';
 import Facility from './Facility';
 import configureStore from "../../../store/configureStore.dev";
 import initialState from "../../../store/reducers/initialState";
-import { updateFacilitySelection } from "../../../store/actions/customDataDownload/filterCriteria";
-import { addAppliedFilter, removeAppliedFilter } from "../../../store/actions/customDataDownload/customDataDownload";
 import userEvent from '@testing-library/user-event';
 import { noValidFacilitiesMessage, showInvalidFacilities } from '../../../utils/constants/validationMessages';
 import render from '../../../mocks/render';
