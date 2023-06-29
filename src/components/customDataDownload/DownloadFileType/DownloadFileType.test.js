@@ -34,7 +34,7 @@ const store = configureStore(initStateCopy);
 describe('<DownloadFileType/>', () => {
   let query;
   beforeEach(() => {
-    query = render(<DownloadFileType />, store);
+    query = render(<DownloadFileType setApiError={jest.fn()} />, store);
   });
 
   afterEach(cleanup);
