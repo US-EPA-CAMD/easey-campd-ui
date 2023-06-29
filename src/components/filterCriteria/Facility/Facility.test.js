@@ -315,7 +315,7 @@ describe('Facility Component', () => {
   afterEach(cleanup);
 
   it('renders all elements properely', () => {
-    const { getByTestId, getAllByTestId, getByText} = query;
+    const { getByTestId, getByText} = query;
     expect(getByText("Facility")).toBeInTheDocument();
     const searchbox = getByTestId("input-search");
     expect(searchbox).toBeInTheDocument();
