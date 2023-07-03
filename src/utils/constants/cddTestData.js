@@ -959,6 +959,10 @@ export const hourlyEmissions = {
   data: [],
 };
 
+export const hourlyEmissionsStreaming = {
+  url: `${config.services.streaming.uri}/emissions/apportioned/hourly`,
+  data: [],
+};
 export const dataPreview = {
   data: [
     {

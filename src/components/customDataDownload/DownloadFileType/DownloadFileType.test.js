@@ -1,14 +1,14 @@
 import React from 'react';
-import { cleanup, render } from '@testing-library/react';
+import { cleanup } from '@testing-library/react';
 import userEvent from "@testing-library/user-event";
 import { cloneDeep } from 'lodash';
 
 import DownloadFileType from './DownloadFileType';
-import { Provider } from 'react-redux';
 import initialState from '../../../store/reducers/initialState';
 import configureStore from '../../../store/configureStore.dev';
 import axios from 'axios';
 import RenderSpinner from '../../RenderSpinner/RenderSpinner';
+import render from '../../../mocks/render';
 
 jest.mock('axios');
 jest.mock('../../RenderSpinner/RenderSpinner')
@@ -34,12 +34,7 @@ const store = configureStore(initStateCopy);
 describe('<DownloadFileType/>', () => {
   let query;
   beforeEach(() => {
-    query = render
-    (
-      <Provider store={store}>
-        <DownloadFileType setApiError={jest.fn()}/>
-      </Provider>
-    );
+    query = render(<DownloadFileType setApiError={jest.fn()} />, store);
   });
 
   afterEach(cleanup);
@@ -80,7 +75,7 @@ describe('<DownloadFileType/>', () => {
       .mockImplementation(() => jest.fn());
     RenderSpinner.mockImplementation(() => null)
 
-    await (userEvent.click(downloadButton));
+    await userEvent.click(downloadButton);
     await userEvent.click(getByLabelText('JSON'));
     await userEvent.click(downloadButton);
   });

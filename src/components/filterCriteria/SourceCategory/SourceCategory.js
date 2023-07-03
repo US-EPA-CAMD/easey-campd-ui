@@ -71,7 +71,7 @@ const SourceCategory = ({
   return (
     <>
       <div className="panel-header padding-top-2 margin-x-2">
-        <h3>{filterToApply}</h3>
+        <h3 data-testid="filter-criteria-title">{filterToApply}</h3>
         <Tooltip
           content="A source category classifies a unit in terms of its primary function."
           field={filterToApply}

@@ -9,8 +9,6 @@ import { cloneDeep } from 'lodash';
 import Facility from './Facility';
 import configureStore from "../../../store/configureStore.dev";
 import initialState from "../../../store/reducers/initialState";
-import { updateFacilitySelection } from "../../../store/actions/customDataDownload/filterCriteria";
-import { addAppliedFilter, removeAppliedFilter } from "../../../store/actions/customDataDownload/customDataDownload";
 import userEvent from '@testing-library/user-event';
 import { noValidFacilitiesMessage, showInvalidFacilities } from '../../../utils/constants/validationMessages';
 import render from '../../../mocks/render';
@@ -308,9 +306,6 @@ describe('Facility Component', () => {
   beforeEach(() => {
     query = render(
         <Facility
-          updateFacilitySelectionDispatcher ={updateFacilitySelection}
-          addAppliedFilterDispatcher ={addAppliedFilter}
-          removeAppliedFilterDispatcher ={removeAppliedFilter}
           closeFlyOutHandler ={()=> flyOutClosed=true}
           renderedHandler ={jest.fn()}
           setApplyFilterLoading={() => applyFilterLoading = true}
@@ -320,7 +315,7 @@ describe('Facility Component', () => {
   afterEach(cleanup);
 
   it('renders all elements properely', () => {
-    const { getByTestId, getAllByTestId, getByText} = query;
+    const { getByTestId, getByText} = query;
     expect(getByText("Facility")).toBeInTheDocument();
     const searchbox = getByTestId("input-search");
     expect(searchbox).toBeInTheDocument();

@@ -68,7 +68,7 @@ const StateTerritory = ({
   return (
     <>
       <div className="panel-header padding-top-2 margin-x-2">
-        <h3>State/Territory</h3>
+        <h3 data-testid="filter-criteria-title">State/Territory</h3>
         <hr />
       </div>
       {

@@ -18,6 +18,7 @@ import {
   programCodes,
   hourlyEmissions,
   dataPreview,
+  hourlyEmissionsStreaming,
 } from "../utils/constants/cddTestData";
 import contentApiHandlers from "./api/content";
 
@@ -104,7 +105,19 @@ const getEmissions = rest.get(hourlyEmissions.url, (req, res, ctx) => {
 
   return res(ctx.json(mockedData), ctx.set(mockedHeaders));
 });
+const getStreamingEmissions = rest.get(
+  hourlyEmissionsStreaming.url,
+  (req, res, ctx) => {
+    const mockedData = hourlyEmissions.data;
+    const mockedHeaders = {
+      "x-total-count": hourlyEmissions.data.length,
+      "x-field-mappings": JSON.stringify([]),
+      "x-excludable-columns": JSON.stringify([]),
+    };
 
+    return res(ctx.json(mockedData), ctx.set(mockedHeaders));
+  }
+);
 const getAccountAttributes = rest.get(accountAttributes.url, (req, res, ctx) =>
   res(ctx.json(accountAttributes.data))
 );
@@ -174,6 +187,7 @@ export const handlers = [
   getAllowanceHoldings,
   getProgramCodes,
   getEmissions,
+  getStreamingEmissions,
   createBookmarkUrl,
   getBulkDataFiles,
   getSubmissionProgress,

@@ -1,5 +1,31 @@
 @import "../../../styles/variables";
 
+@media (min-height: 1500px) {
+  .data-display-table {
+    max-height: 75vh !important;
+  }
+}
+@media ((min-height: 1400px) and (max-height: 1500px)) {
+  .data-display-table {
+    max-height: 72vh !important;
+  }
+}
+@media ((min-height: 1200px) and (max-height: 1400px)) {
+  .data-display-table {
+    max-height: 70vh !important;
+  }
+}
+@media ((min-height: 1000px) and (max-height: 1200px )) {
+  .data-display-table {
+    max-height: 68vh !important;
+  }
+}
+
+@media ((min-height: 900px) and (max-height: 1000px )) {
+  .data-display-table {
+    max-height: 65vh !important;
+  }
+}
 @media screen and (min-width: 1024px) {
   .side-nav {
     min-width: $side-nav-width-desktop;
@@ -28,7 +54,7 @@
 
 .side-nav-height {
   min-height: 90vh;
-  max-height: 1000px;
+  max-height: 100vh;
 }
 
 .question-icon {

@@ -87,7 +87,7 @@ export const FuelType = ({
   return (
     <>
       <div className="panel-header padding-top-2 margin-x-2">
-        <h3>Unit Fuel Type</h3>
+        <h3 data-testid="filter-criteria-title">Unit Fuel Type</h3>
         <Tooltip
           content="Selections made will filter on both primary and secondary fuel types."
           field="Unit Fuel Type"

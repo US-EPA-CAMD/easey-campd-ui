@@ -80,7 +80,7 @@ export const Program = ({
   return (
     <>
       <div className="panel-header padding-top-2 margin-x-2">
-        <h3>Program</h3>
+        <h3 data-testid="filter-criteria-title">Program</h3>
         <Tooltip
           content="For more information on Programs, visit the Programs area of Clean Air Markets website."
           field="Program"
