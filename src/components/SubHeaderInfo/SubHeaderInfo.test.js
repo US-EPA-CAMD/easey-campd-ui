@@ -1,30 +1,25 @@
+
 import React from 'react'
 import SubHeaderInfo from './SubHeaderInfo'
-import { render } from "@testing-library/react";
-import { MemoryRouter } from 'react-router-dom';
 import configureStore from '../../store/configureStore.dev';
 import initialState from '../../store/reducers/initialState';
-import { Provider } from 'react-redux';
+import render from '../../mocks/render';
+import { cloneDeep } from 'lodash';
+import {
+  screen
+} from '@testing-library/react';
 
-let store = configureStore(initialState);
+const initStateCopy = cloneDeep(initialState)
+let store = configureStore(initStateCopy);
 
-describe('Sub-header Info Component', () => {
-  test("should render title without error", async () => {
-    const {findByText} = render(
-    <Provider store={store}>
-      <MemoryRouter>
-        <SubHeaderInfo setApiErrorDispatcher={jest.fn()} />
-      </MemoryRouter>
-    </Provider>);
-    const header = await findByText(/Title text../i);
-    expect(header).toBeInTheDocument();
+describe('- Sub-header Info Component -', () => {
+  test("should render content without error", async () => {
+    render(
+      <SubHeaderInfo/>, store
+    );
+    const titleText = await screen.findByText(/Title text../i);
+    expect(titleText).toBeInTheDocument();
+    const contentText = await screen.findByText(/Content text../i);
+    expect(contentText).toBeInTheDocument();
   });
-  // test("should render content without error", async () => {
-  //   const {findByText} = render(
-  //   <MemoryRouter>
-  //     <SubHeaderInfo/>
-  //   </MemoryRouter>);
-  //   const content = await findByText('Content text..');
-  //   expect(content).toBeInTheDocument();
-  // });
 });

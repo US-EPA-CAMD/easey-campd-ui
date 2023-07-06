@@ -1,13 +1,16 @@
 import React from 'react';
-import { render } from '@testing-library/react';
 import SubHeaderNavMobile from './SubHeaderNavMobile';
 import {
   subHeaderMenuList,
 } from '../../utils/constants/menuTopics';
+import render from '../../mocks/render';
+import {
+  screen
+} from '@testing-library/react';
 
-describe('SubHeaderNavMobile', () => {
+describe('- SubHeaderNavMobile -', () => {
   test('renders without errors', () => {
-    const query = render(
+    render(
       <SubHeaderNavMobile
         showMobileMenu={true}
         subHeaderMenuList={subHeaderMenuList}
@@ -15,16 +18,9 @@ describe('SubHeaderNavMobile', () => {
         pathname="/data"
       />
     );
-    const { container, getByText } = query;
-    const home = getByText('HOME');
-    const data = getByText('DATA');
-    const analysis = getByText('VIZ GALLERY');
-
-    expect(home).toBeTruthy();
-    expect(data).toBeTruthy();
-    expect(analysis).toBeTruthy();
-
-    // expect(container.querySelector('.usa-sidenav')).toBeInTheDocument();
-    // expect(container.querySelector('.usa-current')).toBeInTheDocument();
+    expect(screen.getByText('HOME')).toBeInTheDocument();
+    expect(screen.getByText('DATA')).toBeInTheDocument();
+    expect(screen.getByText('VIZ GALLERY')).toBeInTheDocument();
+    expect(screen.getByText('HELP/SUPPORT')).toBeInTheDocument();
   });
 });
