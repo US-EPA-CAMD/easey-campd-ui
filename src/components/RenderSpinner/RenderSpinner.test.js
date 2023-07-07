@@ -1,25 +1,27 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { screen } from '@testing-library/react';
+import render from "../../mocks/render";
 import RenderSpinner from './RenderSpinner';
 
-describe('Loading Modal', () => {
+describe('- Loading Modal -', () => {
   it('does not render when showSpinner is falsy', () => {
-    const { container } = render(
+    render(
       <RenderSpinner
         showSpinner={0}
       />
     );
-    const spinner = container.querySelector('#spinner');
-    expect(spinner).not.toBeInTheDocument();
+    const spinner = screen.queryByTestId('spinner-wrapper');
+    expect(spinner).toBe(null);
   });
 
   it('renders spinner when showSpinner is truthy', () => {
-    const { container } = render(
+    render(
       <RenderSpinner
         showSpinner={1}
       />
     );
-    const spinner = container.querySelector('#spinner');
+    const spinner = screen.queryByTestId('spinner-wrapper');
+    expect(spinner).toBeDefined();
     expect(spinner).toBeInTheDocument();
   });
 });
