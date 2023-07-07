@@ -426,7 +426,7 @@ export const additionalDataTools = [
     url: "https://nadp.slh.wisc.edu/",
     description:
       "Access data from the national network of precipitation monitoring sites.",
-    hasExit: true,
+      externalSite: true,
   },
   {
     name: "National Emissions Inventory",

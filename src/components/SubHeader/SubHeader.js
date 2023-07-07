@@ -104,6 +104,7 @@ const SubHeader = () => {
                   : "float-right bg-transparent margin-0 position-relative top-1 padding-right-3"
               }
               id={"expandButton"}
+              data-testid="expand-btn"
               tabIndex={showMobileMenu ? -1 : 0}
               aria-expanded={showMobileMenu}
               onClick={() => {
@@ -124,6 +125,7 @@ const SubHeader = () => {
                   : "display:none opacity-0"
               }
               id={"collapseButton"}
+              data-testid="collapse-btn"
               tabIndex={showMobileMenu ? 0 : -1}
               aria-expanded={showMobileMenu}
               onClick={() => {
