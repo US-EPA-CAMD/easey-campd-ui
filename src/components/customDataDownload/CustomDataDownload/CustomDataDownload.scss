@@ -1,29 +1,43 @@
 @import "../../../styles/variables";
 
-@media (min-height: 1500px) {
+@media ((min-height: 2600px)) {
+  .data-display-table {
+    max-height: 82vh !important;
+  }
+}
+@media ((min-height: 2000px)  and (max-height: 2600px)) {
+  .data-display-table {
+    max-height: 80vh !important;
+  }
+}
+@media ((min-height: 1900px) and (max-height: 2000px)) {
+  .data-display-table {
+    max-height: 77vh !important;
+  }
+}
+@media ((min-height: 1700px) and (max-height: 1900px)) {
+  .data-display-table {
+    max-height: 76vh !important;
+  }
+}
+@media ((min-height: 1410px) and (max-height: 1700px)) {
   .data-display-table {
     max-height: 75vh !important;
   }
 }
-@media ((min-height: 1350px) and (max-height: 1500px)) {
+@media ((min-height: 1300px) and (max-height: 1410px)) {
   .data-display-table {
     max-height: 72vh !important;
   }
 }
-@media ((min-height: 1200px) and (max-height: 1350px)) {
+@media ((min-height: 600px) and (max-height: 1300px)) {
   .data-display-table {
     max-height: 70vh !important;
   }
 }
-@media ((min-height: 1000px) and (max-height: 1200px )) {
+@media ((max-height: 600px)) {
   .data-display-table {
-    max-height: 68vh !important;
-  }
-}
-
-@media ((min-height: 900px) and (max-height: 1000px )) {
-  .data-display-table {
-    max-height: 65vh !important;
+    max-height: 100vh !important;
   }
 }
 @media screen and (min-width: 1024px) {
@@ -54,7 +68,6 @@
 
 .side-nav-height {
   min-height: 90vh;
-  max-height: 1000px;
 }
 
 .question-icon {
@@ -63,10 +76,10 @@
   left: 0.5em;
 }
 
-.usa-alert--info:before{
+.usa-alert--info:before {
   content: none !important;
 }
 
-.usa-alert:before{
+.usa-alert:before {
   content: none !important;
 }
