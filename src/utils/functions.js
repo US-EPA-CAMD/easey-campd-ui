@@ -44,3 +44,16 @@ export const getCurrentDate = () => {
     })
     .split(",")[0];
 };
+
+export const getMinHeight = () => {
+  const sideNav = document.querySelector(".side-nav"),
+    sideNavHeader = document.querySelector(".panel-header"),
+    sideNavsubheader = document.querySelector(".side-nav-subheader");
+  const sideNavHeight = sideNav.offsetHeight,
+    sideNavHeaderHeight = sideNavHeader.offsetHeight,
+    sideNavSubheaderHeight = sideNavsubheader.offsetHeight;
+
+  return sideNavHeight - sideNavHeaderHeight - sideNavSubheaderHeight - 100;
+};
+
+export const getBGColor = (tableLength) => (tableLength % 2 ? "#fafafa" : "#f0f0f0");
