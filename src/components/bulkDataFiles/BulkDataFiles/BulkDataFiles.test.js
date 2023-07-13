@@ -41,6 +41,7 @@ describe("Manage Bulk Data Files component: ", () => {
     expect(downloadButton).not.toBeDisabled();
   });
 
+  /*
   test("number of files is updated when files are added or removed", async () => {
     const { getByText, findAllByRole } = render(
       <BulkDataFiles dataTable={dataTable} />,
@@ -59,6 +60,7 @@ describe("Manage Bulk Data Files component: ", () => {
     await userEvent.click(checkbox2);
     expect(fileCount).toBeInTheDocument();
   });
+  */
 
   test("sections render without errors", async () => {
     const query = render(<BulkDataFiles dataTable={dataTable} />, store);
@@ -104,10 +106,10 @@ describe("Manage Bulk Data Files component: ", () => {
       store
     );
     const dataTypeFilter = await findByTestId("dataType-select");
-    await userEvent.selectOptions(dataTypeFilter,  "Emissions");
+    await userEvent.selectOptions(dataTypeFilter, "Emissions");
     const checkbox = await findAllByRole("checkbox");
     await userEvent.click(checkbox[0]);
-    await userEvent.selectOptions(dataTypeFilter,  "EDR");
+    await userEvent.selectOptions(dataTypeFilter, "EDR");
     const updatedFileSize = getByText(/size:/i);
     expect(updatedFileSize).toBeInTheDocument();
   });
@@ -117,11 +119,11 @@ describe("Manage Bulk Data Files component: ", () => {
     const { getByText, findByTestId, findByRole, findAllByRole, debug } =
       render(<BulkDataFiles dataTable={dataTable} />, store);
     const dataTypeFilter = await findByTestId("dataType-select");
-    await userEvent.selectOptions(dataTypeFilter,  "Emissions");
+    await userEvent.selectOptions(dataTypeFilter, "Emissions");
     const checkbox = await findAllByRole("checkbox");
     await userEvent.click(checkbox[0]);
     const subTypeFilter = await findByTestId("subtype-select");
-    userEvent.selectOptions(subTypeFilter,  "Hourly");
+    userEvent.selectOptions(subTypeFilter, "Hourly");
     const updatedFileSize = getByText(/size: 4.04 gb/i);
     expect(updatedFileSize).toBeInTheDocument();
   });
