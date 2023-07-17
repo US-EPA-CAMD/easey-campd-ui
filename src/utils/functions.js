@@ -20,8 +20,8 @@ export const parseBool = (value, defaultValue = false) => {
 export const getConfigValue = (key, defaultValue = "") => {
   let returnValue;
 
-  if (window._env_ && window._env_[key]) {
-    returnValue = window._env_[key];
+  if (process.env && process.env[key]) {
+    returnValue = process.env[key];
   } else if (!returnValue && process.env[key]) {
     returnValue = process.env[key];
   }
