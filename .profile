@@ -16,5 +16,4 @@ env | while IFS= read -r line; do
 done
 echo "}" >> ./env-config.js
 
-cp ./env-config.js ./build
 cp ./build/static/css/main.*.css ./build/static/css/main.css
