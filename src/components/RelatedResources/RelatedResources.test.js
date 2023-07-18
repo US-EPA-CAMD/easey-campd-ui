@@ -1,30 +1,28 @@
 import React from "react";
 import RelatedResources from "./RelatedResources";
-import configureStore from "../../store/configureStore.dev";
-import initialState from "../../store/reducers/initialState";
+import {
+  screen,
+} from '@testing-library/react';
 import render from "../../mocks/render";
 import { additionalDataTools } from "../../mocks/testData";
 
-let store = configureStore(initialState);
-
-describe("Related Resources Page Component", () => {
-  test("should render content introduction without error", async () => {
-    const { findByText } = render(
-      <RelatedResources setApiErrorDispatcher={jest.fn()} />,
-      store
+describe("- Related Resources Component -", () => {
+  beforeEach(()=>{
+    render(
+      <RelatedResources />
     );
-    const heading = await findByText("This is related resources intro..");
+  });
+  it("should render content introduction without error", async () => {
+    const heading = await screen.findByText("This is related resources intro..");
     expect(heading).toBeInTheDocument();
   });
-  test("should render additional data tools list without error", async () => {
-    const { findAllByText } = render(
-      <RelatedResources setApiErrorDispatcher={jest.fn()} />,
-      store
-    );
-
+  it("should render additional data tools list without error", async () => {
     additionalDataTools.forEach(async (element) => {
-      const container = await findAllByText(`${element.name}`);
+      const container = await screen.findAllByText(`${element.name}`);
       expect(container).toBeTruthy();
+      if(element.hasOwnProperty('externalSite')){
+        expect(screen.findByText('EXIT')).toBeInTheDocument();
+      }
     });
   });
 });
