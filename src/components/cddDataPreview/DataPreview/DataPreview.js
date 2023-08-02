@@ -57,7 +57,9 @@ export const DataPreview = ({
   }
 
   useEffect(() =>{
-    waitForDataPreviewToLoad()
+    if (dataPreview === null) {
+      waitForDataPreviewToLoad();
+    }
     //cleanup reset all state related to column selection
     return () => {
       const excludeParams = determineExcludeParams([], dataSubType)//excludeUnitIdSubTypes[dataSubType]? [unitIdExcludeParam] : []
