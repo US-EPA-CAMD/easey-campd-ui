@@ -73,8 +73,6 @@ export const API_CALLING_FILTERS = [
 
 export const excludeUnitIdSubTypes = {
   "Hourly Emissions": true,
-  "Daily Emissions": true,
-  "Monthly Emissions": true,
   "Quarterly Emissions": true,
   "Ozone Season Emissions": true,
   "Annual Emissions": true,
