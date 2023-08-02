@@ -1,6 +1,7 @@
 // *** GLOBAL FUNCTIONAL IMPORTS
 import React, { useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
+import { cloneDeep } from 'lodash';
 
 import {
   updateSelectedDataType,
@@ -29,6 +30,7 @@ import './CustomDataDownload.scss';
 const CustomDataDownload = ({
   addAppliedFilterDispatcher,
   selectedDataType,
+  dataSubType,
   updateSelectedDataTypeDispatcher,
   updateSelectedDataSubTypeDispatcher,
   updateSelectedAggregationDispatcher,
@@ -283,6 +285,11 @@ const CustomDataDownload = ({
       setSelectionChange(true);
       setOnlyAggregationChanged(false);
     }
+
+    if (constants.excludeUnitIdSubTypes[dataSubType] && !filterCriteria.excludeParams.includes(constants.unitIdExcludeParam)){
+      const excludeParams = constants.determineExcludeParams(cloneDeep(filterCriteria.excludeParams), dataSubType);
+      updateFilterCriteriaDispatcher({excludeParams})
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedDataType, selectedDataSubtype, appliedDataType, selectedAggregation]);
 
@@ -502,6 +509,7 @@ const mapStateToProps = (state) => {
   return {
     selectedDataType: state.customDataDownload.dataType,
     appliedFilters: state.customDataDownload.appliedFilters,
+    dataSubType: state.customDataDownload.dataSubType,
     filterCriteria: state.filterCriteria,
     loading: state.apiCallsInProgress,
   };

@@ -70,3 +70,19 @@ export const API_CALLING_FILTERS = [
   "Program", "State/Territory", "Source Category", "Facility", "Unit Type", "Unit Fuel Type", "Control Technology",
   "Account Type", "Account Name/Number", "Transaction Type", "Owner/Operator"
 ];
+
+export const excludeUnitIdSubTypes = {
+  "Hourly Emissions": true,
+  "Quarterly Emissions": true,
+  "Ozone Season Emissions": true,
+  "Annual Emissions": true,
+};
+
+export const unitIdExcludeParam = "unitId";
+
+export const determineExcludeParams = (excludeParams, dataSubType) => {
+  if (excludeUnitIdSubTypes[dataSubType]) {
+    excludeParams.push(unitIdExcludeParam);
+  }
+  return excludeParams;
+};
