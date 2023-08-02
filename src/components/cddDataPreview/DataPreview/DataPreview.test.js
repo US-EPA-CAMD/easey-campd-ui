@@ -1,5 +1,4 @@
 import React from 'react';
-import { cleanup } from '@testing-library/react';
 import { cloneDeep } from 'lodash';
 
 import DataPreview from './DataPreview';
@@ -52,7 +51,6 @@ describe('Data preview component', () => {
         />, store)
   });
 
-  afterEach(cleanup);
 
   it('renders data preview elements properely', () => {
     const { getByText, getByRole, getAllByRole} = query;
