@@ -12,9 +12,11 @@ import { usePopper } from "react-popper";
 import Portal from "../../Portal/Portal";
 import { handleKeyDown } from "../../../utils/ensure-508/handleKeyDown";
 import useFocusTrap from "../../../utils/hooks/useFocusTrap";
+import { determineExcludeParams } from "../../../utils/constants/customDataDownload";
 
 const TableMenu = ({
   topic,
+  dataSubType,
   fieldMappings,
   filterCriteria,
   setSortValue,
@@ -260,7 +262,7 @@ const TableMenu = ({
   };
   const handleApply = () => {
     const columns = [];
-    const excludedColumns = [];
+    const excludedColumns = determineExcludeParams([], dataSubType);
     filteredColumns.forEach((el) => {
       const label = el.label;
       if (checkedBoxes[label]?.checked) {
@@ -551,6 +553,7 @@ const mapStateToProps = (state) => {
   return {
     fieldMappings: state.customDataDownload.fieldMappings,
     filterCriteria: state.filterCriteria,
+    dataSubType: state.customDataDownload.dataSubType
   };
 };
 
