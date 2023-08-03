@@ -1,4 +1,6 @@
 import initialState from '../../store/reducers/initialState';
+import { determineExcludeParams, excludeUnitIdSubTypes, unitIdExcludeParam } from '../constants/customDataDownload';
+import { cloneDeep } from 'lodash';
 import {formatYearsToArray, formatDateToApi, initcap} from "./general";
 
 export const resetFilterHelper = (state, filterToReset, resetAll = false) => {
@@ -212,6 +214,17 @@ export const addExcludeParams = (excludeParams) => {
   })
   return query;
 }
+
+export const updateUnitIdExcludeParams = (dataSubType, filterCriteria, updateFilterCriteriaDispatcher) => {
+  if (excludeUnitIdSubTypes[dataSubType] && !filterCriteria.excludeParams.includes(unitIdExcludeParam)){
+    const excludeParams = determineExcludeParams(cloneDeep(filterCriteria.excludeParams), dataSubType);
+    updateFilterCriteriaDispatcher({excludeParams})
+  } else {
+    const excludeParams = cloneDeep(filterCriteria.excludeParams).filter(el => el !== unitIdExcludeParam)
+    updateFilterCriteriaDispatcher({excludeParams})
+  }
+}
+
 /* ---------PROGRAM----------- */
 export const restructurePrograms = (programs, bookmarkFilters) => {
   const data = [

@@ -31,7 +31,7 @@ export const DataPreview = ({
   const [sortAsc, setSortAsc] = useState(null);
   const [sortDesc, setSortDesc] = useState(null);
   const [sortValue, setSortValue] = useState(null);
-  const [waitForFieldMappings, setWaitForFieldMappings] = useState(false);
+  const [waitForFieldMappings, setWaitForFieldMappings] = useState(true);
   const [selectedColumns, setSelectedColumns] = useState(null);
   const [focusAfterApply, setFocusAfterApply] = useState(null);
   const [dataPreviewLoaded, setDataPreviewLoaded] = useState(false);
@@ -45,10 +45,12 @@ export const DataPreview = ({
 //removing excluded columns on the data preview from the bookmark data
   useEffect(() => {
     if (filterCriteria.excludeParams.length && dataPreviewLoaded){
-      setWaitForFieldMappings(true)
       if(fieldMappings?.length){
         setSelectedColumns(cloneDeep(fieldMappings).filter(el => !filterCriteria.excludeParams.includes(el.value)));}
         setDataPreviewLoaded(false)
+    }
+    if (dataPreviewLoaded){
+      setWaitForFieldMappings(false)
     }//eslint-disable-next-line
   }, [fieldMappings, dataPreviewLoaded])
   const waitForDataPreviewToLoad = async() => {
@@ -161,6 +163,7 @@ export const DataPreview = ({
   }, [loading, dataPreview, sortAsc, sortDesc, unsort, sortValue]);
 
   return (
+    !waitForFieldMappings && (
       <DataPreviewRender
         loading={loading}
         dataPreview={dataPreview}
@@ -171,6 +174,7 @@ export const DataPreview = ({
         createBookmarkHandler={createBookmarkHandler}
         setApiError={setApiError}
       />
+    )
   );
 };
 

@@ -1,7 +1,6 @@
 // *** GLOBAL FUNCTIONAL IMPORTS
 import React, { useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
-import { cloneDeep } from 'lodash';
 
 import {
   updateSelectedDataType,
@@ -20,7 +19,7 @@ import * as constants from '../../../utils/constants/customDataDownload';
 import { loadAllFilters, resetFilter, loadFilterMapping, updateFilterCriteria, updateTimePeriod } from '../../../store/actions/customDataDownload/filterCriteria';
 import hideNav from '../../../store/actions/hideNavAction';
 import { applyBookmarkFilterTags, engageFilterLogic, getFilterVariable } from '../../../utils/selectors/filterLogic';
-import { getTimePeriodYears } from '../../../utils/selectors/filterCriteria';
+import { getTimePeriodYears, updateUnitIdExcludeParams } from '../../../utils/selectors/filterCriteria';
 import useCheckWidth from '../../../utils/hooks/useCheckWidth'
 import { metaAdder } from '../../../utils/document/metaAdder';
 import { getBookmarkData } from '../../../utils/api/camdApi';
@@ -286,13 +285,7 @@ const CustomDataDownload = ({
       setOnlyAggregationChanged(false);
     }
 
-    if (constants.excludeUnitIdSubTypes[dataSubType] && !filterCriteria.excludeParams.includes(constants.unitIdExcludeParam)){
-      const excludeParams = constants.determineExcludeParams(cloneDeep(filterCriteria.excludeParams), dataSubType);
-      updateFilterCriteriaDispatcher({excludeParams})
-    } else {
-      const excludeParams = cloneDeep(filterCriteria.excludeParams).filter(el => el !== constants.unitIdExcludeParam)
-      updateFilterCriteriaDispatcher({excludeParams})
-    }
+    updateUnitIdExcludeParams(dataSubType, filterCriteria, updateFilterCriteriaDispatcher);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedDataType, selectedDataSubtype, appliedDataType, selectedAggregation]);
 
