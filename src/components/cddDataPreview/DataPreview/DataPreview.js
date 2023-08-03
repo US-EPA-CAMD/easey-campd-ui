@@ -31,7 +31,7 @@ export const DataPreview = ({
   const [sortAsc, setSortAsc] = useState(null);
   const [sortDesc, setSortDesc] = useState(null);
   const [sortValue, setSortValue] = useState(null);
-  const [waitForFieldMappings, setWaitForFieldMappings] = useState(true);
+  const [waitForFieldMappings, setWaitForFieldMappings] = useState(false);
   const [selectedColumns, setSelectedColumns] = useState(null);
   const [focusAfterApply, setFocusAfterApply] = useState(null);
   const [dataPreviewLoaded, setDataPreviewLoaded] = useState(false);
@@ -45,12 +45,10 @@ export const DataPreview = ({
 //removing excluded columns on the data preview from the bookmark data
   useEffect(() => {
     if (filterCriteria.excludeParams.length && dataPreviewLoaded){
+      setWaitForFieldMappings(true)
       if(fieldMappings?.length){
         setSelectedColumns(cloneDeep(fieldMappings).filter(el => !filterCriteria.excludeParams.includes(el.value)));}
         setDataPreviewLoaded(false)
-    }
-    if (dataPreviewLoaded){
-      setWaitForFieldMappings(false)
     }//eslint-disable-next-line
   }, [fieldMappings, dataPreviewLoaded])
   const waitForDataPreviewToLoad = async() => {
@@ -71,10 +69,8 @@ export const DataPreview = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]);
 
-  const columns = useMemo(() =>{
-    if (waitForFieldMappings){
-      if(selectedColumns?.length) {setWaitForFieldMappings(false)
-      return selectedColumns?.map(el => ({
+  const mapColumns = (columnsToMap) => {
+    return columnsToMap.map(el => ({
       name: (
         <TableMenu
           topic={el}
@@ -92,47 +88,25 @@ export const DataPreview = ({
       selector: el.value,
       width: dataPreviewColumns[dataSubType][el.label] || '90 px',
       wrap: true,
-    }))}
-  } else {
-    return selectedColumns? selectedColumns.map(el => ({
-      name: (
-        <TableMenu
-          topic={el}
-          setSortAsc={setSortAsc}
-          setSortDesc={setSortDesc}
-          setUnsort={setUnsort}
-          setSortValue={setSortValue}
-          setSelectedColumns={setSelectedColumns}
-          selectedColumns={selectedColumns}
-          excludableColumns={excludableColumns}
-          focusAfterApply={focusAfterApply}
-          setFocusAfterApply={setFocusAfterApply}
-        />
-      ),
-      selector: el.value,
-      width: dataPreviewColumns[dataSubType][el.label] || '90 px',
-      wrap: true,
-    })): fieldMappings.map(el => ({
-        name: (
-          <TableMenu
-            topic={el}
-            setSortAsc={setSortAsc}
-            setSortDesc={setSortDesc}
-            setUnsort={setUnsort}
-            setSortValue={setSortValue}
-            setSelectedColumns={setSelectedColumns}
-            selectedColumns={selectedColumns}
-            excludableColumns={excludableColumns}
-            focusAfterApply={focusAfterApply}
-            setFocusAfterApply={setFocusAfterApply}
-          />
-        ),
-        selector: el.value,
-        width: dataPreviewColumns[dataSubType][el.label],
-        wrap: true,
-      }))}}
+    }));
+  };
+
+  const columns = useMemo(
+    () => {
+      if (waitForFieldMappings) {
+        if (selectedColumns?.length) {
+          setWaitForFieldMappings(false);
+          return mapColumns(selectedColumns);
+        }
+      } else {
+        return selectedColumns
+          ? mapColumns(selectedColumns)
+          : mapColumns(fieldMappings);
+      }
+    },
     // eslint-disable-next-line
-  ,[fieldMappings, selectedColumns]);
+    [fieldMappings, selectedColumns]
+  );
 
   const data = useMemo(() => {
     let result = [];
@@ -162,8 +136,9 @@ export const DataPreview = ({
     };
   }, [loading, dataPreview, sortAsc, sortDesc, unsort, sortValue]);
 
+  const displayTable = filterCriteria.excludeParams.length? selectedColumns?.length > 0 && !waitForFieldMappings: fieldMappings.length > 0
   return (
-    !waitForFieldMappings && (
+    displayTable && (
       <DataPreviewRender
         loading={loading}
         dataPreview={dataPreview}

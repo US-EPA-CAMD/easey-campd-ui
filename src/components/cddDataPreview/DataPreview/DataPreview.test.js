@@ -52,14 +52,14 @@ describe('Data preview component', () => {
   });
 
 
-  // it('renders data preview elements properely', () => {
-  //   const { getByText, getByRole, getAllByRole} = query;
-  //   expect(getByText("Data Preview")).toBeInTheDocument();
-  //   expect(getByText(`(Viewing the first ${initStateCopy.customDataDownload.dataPreview.length} records of ${initStateCopy.customDataDownload.totalCount})`)).toBeInTheDocument();
-  //   expect(getByRole("table")).toBeDefined();
-  //   expect(getAllByRole("columnheader").length).toBe(2);
-  //   expect(getAllByRole("row").length).toBe(3);
-  // });
+  it('renders data preview elements properely', () => {
+    const { getByText, getByRole, getAllByRole} = query;
+    expect(getByText("Data Preview")).toBeInTheDocument();
+    expect(getByText(`(Viewing the first ${initStateCopy.customDataDownload.dataPreview.length} records of ${initStateCopy.customDataDownload.totalCount})`)).toBeInTheDocument();
+    expect(getByRole("table")).toBeDefined();
+    expect(getAllByRole("columnheader").length).toBe(2);
+    expect(getAllByRole("row").length).toBe(3);
+  });
 
   it('adds unit id to the exclude paramters for hourly emissions on cleanup', async () => {
     const { unmount } =  query;
