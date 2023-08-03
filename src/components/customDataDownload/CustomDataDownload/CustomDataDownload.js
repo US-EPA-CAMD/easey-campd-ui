@@ -289,6 +289,9 @@ const CustomDataDownload = ({
     if (constants.excludeUnitIdSubTypes[dataSubType] && !filterCriteria.excludeParams.includes(constants.unitIdExcludeParam)){
       const excludeParams = constants.determineExcludeParams(cloneDeep(filterCriteria.excludeParams), dataSubType);
       updateFilterCriteriaDispatcher({excludeParams})
+    } else {
+      const excludeParams = cloneDeep(filterCriteria.excludeParams).filter(el => el !== constants.unitIdExcludeParam)
+      updateFilterCriteriaDispatcher({excludeParams})
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedDataType, selectedDataSubtype, appliedDataType, selectedAggregation]);
