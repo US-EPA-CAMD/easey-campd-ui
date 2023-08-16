@@ -78,7 +78,7 @@ export const excludeUnitIdSubTypes = {
   "Annual Emissions": true,
 };
 
-export const unitIdExcludeParam = "unitId";
+export const unitIdExcludeParam = "unit_id";
 
 export const determineExcludeParams = (excludeParams, dataSubType) => {
   if (excludeUnitIdSubTypes[dataSubType]) {
