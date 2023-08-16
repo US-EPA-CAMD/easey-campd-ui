@@ -62,7 +62,7 @@ export const DataPreview = ({
     }
     //cleanup reset all state related to column selection
     return () => {
-      const excludeParams = determineExcludeParams([], dataSubType)//excludeUnitIdSubTypes[dataSubType]? [unitIdExcludeParam] : []
+      const excludeParams = determineExcludeParams([], dataType, dataSubType)//excludeUnitIdSubTypes[dataSubType]? [unitIdExcludeParam] : []
       updateFilterCriteriaDispatcher({excludeParams})
       resetFilterCriteriaItemsDispatcher(['selectedColumns', 'columnState'])
     }
