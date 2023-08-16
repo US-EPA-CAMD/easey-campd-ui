@@ -215,7 +215,10 @@ export const addExcludeParams = (excludeParams) => {
   return query;
 }
 
-export const updateUnitIdExcludeParams = (dataSubType, filterCriteria, updateFilterCriteriaDispatcher) => {
+export const updateUnitIdExcludeParams = (dataType, dataSubType, filterCriteria, updateFilterCriteriaDispatcher) => {
+  if (dataType !== 'EMISSIONS') {
+    return
+  }
   if (excludeUnitIdSubTypes[dataSubType] && !filterCriteria.excludeParams.includes(unitIdExcludeParam)){
     const excludeParams = determineExcludeParams(cloneDeep(filterCriteria.excludeParams), dataSubType);
     updateFilterCriteriaDispatcher({excludeParams})

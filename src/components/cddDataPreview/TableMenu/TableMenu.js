@@ -16,6 +16,7 @@ import { determineExcludeParams } from "../../../utils/constants/customDataDownl
 
 const TableMenu = ({
   topic,
+  dataType,
   dataSubType,
   fieldMappings,
   filterCriteria,
@@ -262,7 +263,7 @@ const TableMenu = ({
   };
   const handleApply = () => {
     const columns = [];
-    const excludedColumns = determineExcludeParams([], dataSubType);
+    const excludedColumns = determineExcludeParams([], dataType, dataSubType);
     filteredColumns.forEach((el) => {
       const label = el.label;
       if (checkedBoxes[label]?.checked) {
@@ -553,7 +554,8 @@ const mapStateToProps = (state) => {
   return {
     fieldMappings: state.customDataDownload.fieldMappings,
     filterCriteria: state.filterCriteria,
-    dataSubType: state.customDataDownload.dataSubType
+    dataSubType: state.customDataDownload.dataSubType,
+    dataType: state.customDataDownload.dataSubType
   };
 };
 
