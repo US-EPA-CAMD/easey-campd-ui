@@ -215,18 +215,6 @@ export const addExcludeParams = (excludeParams) => {
   return query;
 }
 
-export const updateUnitIdExcludeParams = (dataType, dataSubType, filterCriteria, updateFilterCriteriaDispatcher) => {
-  if (dataType !== 'EMISSIONS') {
-    return
-  }
-  if (excludeUnitIdSubTypes[dataSubType] && !filterCriteria.excludeParams.includes(unitIdExcludeParam)){
-    const excludeParams = determineExcludeParams(cloneDeep(filterCriteria.excludeParams), dataSubType);
-    updateFilterCriteriaDispatcher({excludeParams})
-  } else {
-    const excludeParams = cloneDeep(filterCriteria.excludeParams).filter(el => el !== unitIdExcludeParam)
-    updateFilterCriteriaDispatcher({excludeParams})
-  }
-}
 
 /* ---------PROGRAM----------- */
 export const restructurePrograms = (programs, bookmarkFilters) => {
