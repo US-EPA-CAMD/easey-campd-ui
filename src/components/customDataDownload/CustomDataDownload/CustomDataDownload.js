@@ -19,7 +19,7 @@ import * as constants from '../../../utils/constants/customDataDownload';
 import { loadAllFilters, resetFilter, loadFilterMapping, updateFilterCriteria, updateTimePeriod } from '../../../store/actions/customDataDownload/filterCriteria';
 import hideNav from '../../../store/actions/hideNavAction';
 import { applyBookmarkFilterTags, engageFilterLogic, getFilterVariable } from '../../../utils/selectors/filterLogic';
-import { getTimePeriodYears, updateUnitIdExcludeParams } from '../../../utils/selectors/filterCriteria';
+import { getTimePeriodYears } from '../../../utils/selectors/filterCriteria';
 import useCheckWidth from '../../../utils/hooks/useCheckWidth'
 import { metaAdder } from '../../../utils/document/metaAdder';
 import { getBookmarkData } from '../../../utils/api/camdApi';
@@ -285,7 +285,6 @@ const CustomDataDownload = ({
       setOnlyAggregationChanged(false);
     }
 
-    updateUnitIdExcludeParams(dataSubType, filterCriteria, updateFilterCriteriaDispatcher);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedDataType, selectedDataSubtype, appliedDataType, selectedAggregation]);
 
