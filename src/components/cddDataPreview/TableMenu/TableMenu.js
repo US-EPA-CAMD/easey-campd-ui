@@ -12,7 +12,7 @@ import { usePopper } from "react-popper";
 import Portal from "../../Portal/Portal";
 import { handleKeyDown } from "../../../utils/ensure-508/handleKeyDown";
 import useFocusTrap from "../../../utils/hooks/useFocusTrap";
-import { determineExcludeParams } from "../../../utils/constants/customDataDownload";
+import { determineExcludeParams, unitIdExcludeParam } from "../../../utils/constants/customDataDownload";
 
 const TableMenu = ({
   topic,
@@ -48,7 +48,7 @@ const TableMenu = ({
   const [excludableColumnsState, setExcludableColumnsState] = useState(null);
   const [filteredColumns, setFilteredColumns] = useState([]);
   const [checkAll, setCheckAll] = useState(null);
-  const [filterMappingsCopy, setFilterMappingsCopy] = useState([]);
+  const [fieldMappingsCopy, setfieldMappingsCopy] = useState([]);
   const [closed, setClosed] = useState(true);
   const open = Boolean(anchorEl);
   const [noLongerActive, setNoLongerActive] = useState(false);
@@ -105,7 +105,7 @@ const TableMenu = ({
         }
         setCheckAll(removableColumns);
         setFilteredColumns(tempFieldMappings);
-        setFilterMappingsCopy(tempFieldMappings);
+        setfieldMappingsCopy(tempFieldMappings);
       }
     } //eslint-disable-next-line
   }, [excludableColumns, selectedColumns, filterCriteria.columnState]);
@@ -222,7 +222,7 @@ const TableMenu = ({
 
   const handleSearch = (e) => {
     setFilteredColumns(
-      filterMappingsCopy.filter((column) =>
+      fieldMappingsCopy.filter((column) =>
         column.label.toLowerCase().includes(e.target.value.toLowerCase())
       )
     );
@@ -273,7 +273,7 @@ const TableMenu = ({
       }
     });
     const columnsToDisplay = [...fieldMappings].filter(
-      (el) => !excludedColumns.includes(el.value)
+      (el) => !excludedColumns.includes(el.value) && el.value !== unitIdExcludeParam
     );
     const filterCriteriaCloned = JSON.parse(JSON.stringify(filterCriteria));
     filterCriteriaCloned.excludeParams = excludedColumns;
@@ -555,7 +555,7 @@ const mapStateToProps = (state) => {
     fieldMappings: state.customDataDownload.fieldMappings,
     filterCriteria: state.filterCriteria,
     dataSubType: state.customDataDownload.dataSubType,
-    dataType: state.customDataDownload.dataSubType
+    dataType: state.customDataDownload.dataType
   };
 };
 
