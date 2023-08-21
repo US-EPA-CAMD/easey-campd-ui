@@ -1,6 +1,4 @@
 import initialState from '../../store/reducers/initialState';
-import { determineExcludeParams, excludeUnitIdSubTypes, unitIdExcludeParam } from '../constants/customDataDownload';
-import { cloneDeep } from 'lodash';
 import {formatYearsToArray, formatDateToApi, initcap} from "./general";
 
 export const resetFilterHelper = (state, filterToReset, resetAll = false) => {
@@ -204,6 +202,7 @@ export const constructQuery = (filterState, filterName, multiSelectTimePeriod=fa
 };
 
 export const addExcludeParams = (excludeParams) => {
+  console.log('addExcludeParams ', {excludeParams});
   let query = '&exclude=';
   excludeParams.forEach((param, i)=> {
     if (i === excludeParams.length - 1) {

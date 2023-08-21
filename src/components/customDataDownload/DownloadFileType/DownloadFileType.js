@@ -8,17 +8,43 @@ import { constructRequestUrl } from "../../../utils/selectors/general";
 import RenderSpinner from "../../RenderSpinner/RenderSpinner";
 import "./DownloadFileType.scss";
 import setApiErrorAction from "../../../store/actions/setApiErrorAction";
+import {
+  isUnitIdExcludeDataType,
+  unitIdExcludeParam,
+} from "../../../utils/constants/customDataDownload";
+import { updateFilterCriteria } from "../../../store/actions/customDataDownload/filterCriteria";
 
 axios.defaults.headers.common = {
   "x-api-key": config.app.apiKey,
 };
 
-const DownloadFileType = ({ aggregation, dataType, dataSubType, filterCriteria, totalCount, setApiError, setApiErrorDispatcher}) => {
-  const [fileType, setFileType] = useState('text/csv');
+const DownloadFileType = ({
+  aggregation,
+  dataType,
+  dataSubType,
+  filterCriteria,
+  totalCount,
+  setApiError,
+  setApiErrorDispatcher,
+  updateFilterCriteriaDispatcher,
+}) => {
+  const [fileType, setFileType] = useState("text/csv");
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => ()=>setApiError(false), // eslint-disable-next-line react-hooks/exhaustive-deps
-   [])
+  useEffect(
+    () => {
+      if (
+        !isUnitIdExcludeDataType(dataType, dataSubType) &&
+        filterCriteria.excludeParams?.includes(unitIdExcludeParam)
+      ) {
+        console.log('failed to remove unit id exclude params in data preview');
+        const excludeParams = filterCriteria.excludeParams.filter(el => el.value !== unitIdExcludeParam);
+        updateFilterCriteriaDispatcher({excludeParams})
+      }
+      return () => setApiError(false);
+    }, // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  );
   const onRadioChangeHandler = (event) => {
     if (event.target.id === "json") {
       setFileType("application/json");
@@ -26,17 +52,29 @@ const DownloadFileType = ({ aggregation, dataType, dataSubType, filterCriteria, 
       setFileType("text/csv");
     }
   };
-
+  console.log(
+    "download component exclude params ",
+    filterCriteria.excludeParams
+  );
   const onDownloadHandler = () => {
     setLoading(true);
     axios
-      .get(constructRequestUrl(dataType, dataSubType, filterCriteria, aggregation, true), {
-        headers: {
-          Accept: fileType,
-        },
-        responseType: "blob",
-        timeout: Number(config.app.apiTimeout),
-      })
+      .get(
+        constructRequestUrl(
+          dataType,
+          dataSubType,
+          filterCriteria,
+          aggregation,
+          true
+        ),
+        {
+          headers: {
+            Accept: fileType,
+          },
+          responseType: "blob",
+          timeout: Number(config.app.apiTimeout),
+        }
+      )
       .then((response) => {
         const disposition = response.headers["content-disposition"];
         const parts =
@@ -65,7 +103,7 @@ const DownloadFileType = ({ aggregation, dataType, dataSubType, filterCriteria, 
         console.log(error);
         setLoading(false);
         setApiError(true);
-        setApiErrorDispatcher('download', true)
+        setApiErrorDispatcher("download", true);
       });
   };
 
@@ -121,6 +159,11 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => ({setApiErrorDispatcher: (api, state, errorMessage) => dispatch(setApiErrorAction(api, state, errorMessage))});
+const mapDispatchToProps = (dispatch) => ({
+  setApiErrorDispatcher: (api, state, errorMessage) =>
+    dispatch(setApiErrorAction(api, state, errorMessage)),
+    updateFilterCriteriaDispatcher: (filterCriteria) =>
+    dispatch(updateFilterCriteria(filterCriteria)),
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(DownloadFileType);

@@ -79,9 +79,10 @@ export const excludeUnitIdSubTypes = {
 };
 
 export const unitIdExcludeParam = "unit_id";
-
+export const isUnitIdExcludeDataType = (dataType, dataSubType) =>
+  dataType === "EMISSIONS" && excludeUnitIdSubTypes[dataSubType];
 export const determineExcludeParams = (excludeParams, dataType, dataSubType) => {
-  if (dataType === "EMISSIONS" && excludeUnitIdSubTypes[dataSubType]) {
+  if (isUnitIdExcludeDataType(dataType, dataSubType)) {
     excludeParams.push(unitIdExcludeParam);
   }
   return excludeParams;
