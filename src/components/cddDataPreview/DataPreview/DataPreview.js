@@ -7,7 +7,7 @@ import { dataPreviewColumns } from "../../../utils/constants/dataPreviewCol";
 import TableMenu from "../TableMenu/TableMenu";
 import { resetFilterCriteriaItems, updateFilterCriteria } from "../../../store/actions/customDataDownload/filterCriteria";
 import { formatTableNumbers } from "../../../utils/selectors/general";
-import { determineExcludeParams } from "../../../utils/constants/customDataDownload";
+import { determineExcludeParams, unitIdExcludeParam } from "../../../utils/constants/customDataDownload";
 
 export const DataPreview = ({
   aggregation,
@@ -57,14 +57,20 @@ export const DataPreview = ({
   }
 
   useEffect(() =>{
+    const filteredExcludeParams = filterCriteria.excludeParams?.filter(el => el !== unitIdExcludeParam);
+    console.log({filteredExcludeParams});
+    const excludeParams = determineExcludeParams(filteredExcludeParams, dataType, dataSubType);
+    console.log({excludeParams});
+    updateFilterCriteriaDispatcher({excludeParams});
     if (dataPreview === null) {
       waitForDataPreviewToLoad();
     }
-    //cleanup reset all state related to column selection
+    // cleanup reset all state related to column selection
     return () => {
-      const excludeParams = determineExcludeParams([], dataType, dataSubType)//excludeUnitIdSubTypes[dataSubType]? [unitIdExcludeParam] : []
-      updateFilterCriteriaDispatcher({excludeParams})
-      resetFilterCriteriaItemsDispatcher(['selectedColumns', 'columnState'])
+      console.log('cleanup');
+      const excludeParams = determineExcludeParams([], dataType, dataSubType);
+      updateFilterCriteriaDispatcher({excludeParams});
+      resetFilterCriteriaItemsDispatcher(['selectedColumns', 'columnState']);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]);
