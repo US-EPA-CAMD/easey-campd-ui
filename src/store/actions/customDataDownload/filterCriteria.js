@@ -297,7 +297,7 @@ export const loadAllFilters = (dataType, dataSubType, filterCriteria, bookmarkFi
   const promises=[];
   const apiCallOrder=[];
   return(dispatch) => {
-    if(filters.includes(API_CALLING_FILTERS[0])){
+    if(filterCriteria.program.length === 0 && filters.includes(API_CALLING_FILTERS[0])){
       dispatch(beginApiCall());
       promises.push(filterCriteriaApi.getPrograms(dataType, dataSubType === "Holdings"? true : false));
       apiCallOrder.push(API_CALLING_FILTERS[0]);
