@@ -2,115 +2,72 @@ import React from 'react';
 import {
   cleanup,
   fireEvent,
-  render,
+  waitFor,
   within,
   screen,
 } from '@testing-library/react';
-
+import { cloneDeep } from 'lodash';
 import OwnerOperator from './OwnerOperator';
 import configureStore from "../../../store/configureStore.dev";
-import { Provider } from "react-redux";
 import initialState from "../../../store/reducers/initialState";
-import { updateOwnerOperatorSelection } from "../../../store/actions/customDataDownload/filterCriteria";
-import { addAppliedFilter, removeAppliedFilter } from "../../../store/actions/customDataDownload/customDataDownload";
+import render from '../../../mocks/render';
+import { mockOwnerOperators } from '../mocks/mocks';
 
-jest.useFakeTimers();
-jest.spyOn(global, 'setTimeout');
-const ownerOperators = [
-  {
-    "ownId": 52186,
-    "ownerOperator": "A.T. Massey Coal Company",
-    "ownType": "OWN"
-  },
-  {
-    "ownId": 52193,
-    "ownerOperator": "AES Corporation",
-    "ownType": "OPR"
-  },
-  {
-    "ownId": 52193,
-    "ownerOperator": "AES Corporation",
-    "ownType": "OWN"
-  },
-  {
-    "ownId": 52210,
-    "ownerOperator": "AMVEST Coal Sales, Inc.",
-    "ownType": "OWN"
-  },
-  {
-    "ownId": 52215,
-    "ownerOperator": "AYP Energy, Inc.",
-    "ownType": "OWN"
-  },
-  {
-    "ownId": 52222,
-    "ownerOperator": "Air Products and Chemicals, Inc.",
-    "ownType": "OWN"
-  }];
+jest.mock("../../../utils/selectors/filterLogic", () => ({
+  engageFilterLogic: jest.fn(),
+}));
+const ownerOperators = [...mockOwnerOperators];
 const distinctOwnOpers = [...new Set(ownerOperators.map(d=>d.ownerOperator))];
-initialState.filterCriteria.ownerOperator = distinctOwnOpers.map(s=> ({id: s, label: s, selected:false, enabled:true}))
-const store = configureStore(initialState);
+const initStateCopy = cloneDeep(initialState)
+initStateCopy.filterCriteria.ownerOperator = distinctOwnOpers.map(s=> ({id: s, label: s, selected:false, enabled:true}));
+initStateCopy.customDataDownload.dataType="COMPLIANCE";
+initStateCopy.customDataDownload.dataSubType="Allowance Based";
+const store = configureStore(initStateCopy);
 
-let flyOutClosed = false;
-let applyFilterLoading = false;
+let flyOutClosed;
+let applyFilterLoading;
 
-describe('Owner Operator Component', () => {
-  let query;
+describe('- Owner Operator Filter Criteria Component -', () => {
   beforeEach(() => {
     flyOutClosed = false;
     applyFilterLoading = false;
-    query = render(
-      <Provider 
-        store={store}>
-        <OwnerOperator
-          ownerOperator ={jest.fn()}
-          dataSubType ={jest.fn()}
-          appliedFilters ={jest.fn()}
-          updateOwnerOperatorDispatcher ={updateOwnerOperatorSelection}
-          addAppliedFilterDispatcher ={addAppliedFilter}
-          removeAppliedFilterDispatcher ={removeAppliedFilter}
-          closeFlyOutHandler ={()=> flyOutClosed=true}
-          renderedHandler={jest.fn()}
-          setApplyFilterLoading={() => applyFilterLoading = true}
-          />
-      </Provider>);
+    render(
+      <OwnerOperator
+        closeFlyOutHandler ={()=> flyOutClosed=true}
+        renderedHandler={jest.fn()}
+        setApplyFilterLoading={(bool) => applyFilterLoading = bool}
+        />, store);
   });
 
   afterEach(cleanup);
 
   it('renders all elements properely', () => {
-    const { getByTestId, getAllByTestId, getByText} = query;
-    expect(getByText("Owner/Operator")).toBeInTheDocument();
-    const searchbox = getByTestId("input-search");
-    expect(searchbox).toBeInTheDocument();
-    searchbox.focus();
-    fireEvent.click(searchbox);
-    const listBox = getByTestId("multi-select-listbox");
+    expect(screen.getByTestId("filter-criteria-title").innerHTML).toBe("Owner/Operator");
+    expect(screen.getByTestId("label").innerHTML).toBe("Select or Search Owners/Operators");
+    expect(screen.getByTestId("input-search")).toBeInTheDocument();
+    expect(screen.getByRole("button", {name: "Cancel"})).toBeDefined();
+    expect(screen.getByRole("button", {name: "Apply Filter"})).toBeDefined();
+  });
+
+  it('should render list of owner operators data in multi-select combo-box', async () => {
+    fireEvent.click(screen.getByTestId("input-search"));
+    const listBox = screen.getByTestId("multi-select-listbox");
     expect(listBox).toBeInTheDocument();
-    expect(within(listBox).getAllByTestId('multi-select-option').length).toBe(initialState.filterCriteria.ownerOperator.length);
+    expect(within(listBox).getAllByTestId('multi-select-option').length).toBe(distinctOwnOpers.length);
   });
 
-  it('handles click event of cancel button', () => {
-    const { getByText} = query;
-    fireEvent.click(getByText("Cancel"));
-    expect(flyOutClosed).toBe(true);
-  });
-
-  it('It should search using input box for Owners Operators in listboxt and add selection to apply filter', async() => {
-    const { getByTestId, getAllByTestId, getByRole, getByText} = query;
-    const searchbox = getByTestId("input-search");
-    searchbox.focus();
-    fireEvent.click(searchbox);
-    fireEvent.change(searchbox, { target: { value: 'AES Corporation' } });
-    fireEvent.keyDown(searchbox, {key: 'Tab', code: 9});
-    fireEvent.keyDown(searchbox, {key: 'Enter', code: 'Enter'})
+  it('should search using input box for owner operators, select and apply it', async() => {
+    const searchbox = screen.getByTestId("input-search");
+    fireEvent.change(searchbox, { target: { value: 'AES Corporation' } })
     expect(searchbox.value).toBe('AES Corporation');
-    expect(getAllByTestId("multi-select-option").length).toBe(1);
-    fireEvent.click(getByTestId("multi-select-option"));
-    expect(getByRole("button", {name: "AES Corporation"})).toBeDefined();
-    expect(getAllByTestId("multi-select-option").length).toBe(distinctOwnOpers.length);
-    fireEvent.click(getByText("Apply Filter"));
-    jest.runAllTimers();
-    expect(applyFilterLoading).toBe(true);
+    expect(screen.getAllByRole("option").length).toBe(1);
+
+    fireEvent.click(screen.getAllByRole("option")[0]);
+    expect(screen.getByRole("button", {name: "AES Corporation"})).toBeDefined();
+    
+    fireEvent.click(screen.getByRole("button", {name: "Apply Filter"}))
+    await waitFor(() => expect(applyFilterLoading).toBe(false))
+    expect(flyOutClosed).toBe(true);
   })
+
 });

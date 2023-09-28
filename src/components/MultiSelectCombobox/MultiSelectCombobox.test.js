@@ -1,12 +1,12 @@
 import React from 'react';
 import {
   cleanup,
-  fireEvent,
-  render,
   within,
 } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 import MultiSelectCombobox from './MultiSelectCombobox';
+import render from '../../mocks/render';
 
 const facilities = [
   {
@@ -292,6 +292,7 @@ const facilities = [
 ];
 const items = facilities.map(f=> ({id: f.facilityId, label:`${f.facilityName} (${f.facilityId})`, selected:false, enabled:true}));
 
+
 describe('MultiSelectCombobox Component', () => {
   let query;
   beforeEach(() => {
@@ -307,39 +308,50 @@ describe('MultiSelectCombobox Component', () => {
   });
 
   afterEach(cleanup);
-
-  it('renders all roles that make up the multi-select-combobox and populates items in drowpdown list', () => {
-    const { getByTestId, getAllByTestId} = query;
+  it('pipe delimited list', async() => {
+    const { getByTestId} = query;
     const searchbox = getByTestId("input-search");
     expect(searchbox).toBeInTheDocument();
-    searchbox.focus();
-    searchbox.click();
-    const listBox = getByTestId("multi-select-listbox");
+    await userEvent.click(searchbox);
+    await userEvent.type(searchbox, '3|7|8|10')
+    await userEvent.tab()
+  })
+
+  it('renders all roles that make up the multi-select-combobox and populates items in drowpdown list', async() => {
+    const { getByTestId, findByTestId} = query;
+    const searchbox = getByTestId("input-search");
+    expect(searchbox).toBeInTheDocument();
+    await userEvent.click(searchbox);
+    const listBox = await findByTestId("multi-select-listbox");
     expect(listBox).toBeInTheDocument();
     expect(within(listBox).getAllByTestId('multi-select-option').length).toBe(items.length);
   });
 
-  it('handles click event of listbox option', () => {
+  it('handles click event of listbox option', async() => {
     const { getByTestId, getAllByTestId} = query;
-    getByTestId("input-search").click();
+    const searchbox = getByTestId("input-search");
+    expect(searchbox).toBeInTheDocument();
+    await userEvent.click(searchbox);
     const options = getAllByTestId("multi-select-option");
-    fireEvent.click(options[0]);
-    fireEvent.click(options[1]);
+    await userEvent.click(options[0]);
+    await userEvent.click(options[1]);
     expect(getAllByTestId('button').length).toBe(2);
   });
 
-  test('It should search using input box for facilities in listboxt', () => {
-    const { getByTestId, getAllByTestId, getByRole} = query;
-    const searchbox = getByTestId("input-search");
-    searchbox.click();
-    fireEvent.change(searchbox, { target: { value: 'Barry' } })
+  test('It should search using input box for facilities in listboxt', async() => {
+    const { getByTestId, getAllByTestId, getByRole, findByTestId} = query;
+    const searchbox = await findByTestId("input-search");
+    await userEvent.click(searchbox)
+    await userEvent.type(searchbox, 'Barry')
     expect(searchbox.value).toBe('Barry');
     expect(within(getByTestId("multi-select-listbox")).getAllByTestId('multi-select-option').length).toBe(1);
-    fireEvent.keyDown(searchbox, {key: 'Tab', code: 9});
-    fireEvent.keyDown(searchbox, {key: 'Enter', code: 'Enter'})
+    // await userEvent.keyDown(searchbox, {key: 'Tab', code: 9});
+    await userEvent.tab()
+    await userEvent.type(searchbox, '{enter}');
+    // await userEvent.keyDown(searchbox, {key: 'Enter', code: 'Enter'})
     expect(searchbox.value).toBe('Barry');
     expect(getAllByTestId("multi-select-option").length).toBe(1);
-    fireEvent.click(getByTestId("multi-select-option"));
+    await userEvent.click(getByTestId("multi-select-option"));
     expect(getByRole("button", {name: "Barry (3)"})).toBeDefined();
     //expect(getAllByTestId("multi-select-option").length).toBe(facilities.length);
   })

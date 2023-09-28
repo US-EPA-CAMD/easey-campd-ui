@@ -1,67 +1,42 @@
-import React from 'react';
-import { fireEvent, render, screen } from '@testing-library/react';
-import { Provider } from 'react-redux';
-import { MemoryRouter } from 'react-router-dom';
+import React from "react";
+import {
+  screen,
+  fireEvent
+} from "@testing-library/react";
+import render from "../../mocks/render";
+import SubHeader from "./SubHeader";
 
-import configureStore from '../../store/configureStore.dev';
-import SubHeader from './SubHeader';
-import { rest } from 'msw';
-import { setupServer } from 'msw/node';
-import config from '../../config';
-import userEvent from '@testing-library/user-event';
-const store = configureStore();
-
-jest.mock('react-markdown', () => ({ children }) => <>{children}</>);
-jest.mock('react-markdown-v4', () => ({ children }) => <>{children}</>);
-jest.mock('remark-gfm', () => () => {});
-jest.mock('remark-sub-super', () => () => {});
-
-const titleUrl =
-  `${config.services.content.uri}/campd/home/main-title.md`;
-const contentUrl =
-  `${config.services.content.uri}/campd/home/main-content.md`;
-const getTitle = rest.get(titleUrl, (req, res, ctx) => {
-  return res(ctx.json('Title text..'));
+//Note: Mocking Redux connected SubHeader Component as it has its own test coverage 
+jest.mock('../SubHeaderInfo/SubHeaderInfo', () => {
+  return jest.fn(() => null);
 });
-const getContent = rest.get(contentUrl, (req, res, ctx) => {
-  return res(ctx.json('Content text..'));
-});
-const server = new setupServer(getTitle, getContent);
-beforeAll(() => server.listen());
-beforeEach(() => server.resetHandlers());
-afterAll(() => server.close());
 
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
-  useHistory: () => ({
-    push: jest.fn(),
-  }),
-}));
+describe("- SubHeader Component -", () => {
+  it("renders without errors", () => {
+    render(<SubHeader />);
+    const menuItems = [
+      "CAMPD","Clean Air Markets Program Data","HOME","DATA","VIZ GALLERY",
+      "HELP/SUPPORT","About CAMPD","Tutorials","FAQs","Glossary","Related Resources","Contact Us"
+    ];
+    menuItems.forEach(item =>{
+      expect(screen.getByText(item)).toBeInTheDocument();
+    });
 
-describe('SubHeader', () => {
-  test('renders without errors', async () => {
-    const query = render(
-      <Provider store={store}>
-        <MemoryRouter>
-          <SubHeader />
-        </MemoryRouter>
-      </Provider>
-    );
-    const { getByText, container } = query;
-
-    const header = getByText('Clean Air Markets Program Data');
-    const home = getByText('HOME');
-    const data = getByText('DATA');
-    const analysis = getByText('VIZ GALLERY');
-
-    expect(header).toBeTruthy();
-    expect(home).toBeTruthy();
-    expect(data).toBeTruthy();
-    expect(analysis).toBeTruthy();
-
-    fireEvent.click(data);
-    userEvent.click(getByText(/help\/support/i));
-    expect(container.querySelector('.usa-nav__submenu')).toBeInTheDocument();
-    fireEvent.click(analysis);
+    const home = screen.getByText(menuItems[2]);
+    fireEvent.click(home);
+    expect(home.closest('a')).toHaveAttribute('href', '/');
+    fireEvent.click(screen.getByTestId('expand-btn'));
+    fireEvent.click(screen.getByTestId('collapse-btn'));
+    screen.debug();
+    expect(screen.getByText(menuItems[3]).closest('a')).toHaveAttribute('href', '/data');
+    expect(screen.getByText(menuItems[4]).closest('a')).toHaveAttribute('href', '/visualization-gallery');
+    
+    fireEvent.click(screen.getByText(menuItems[5]));
+    expect(screen.getByText(menuItems[6]).closest('a')).toHaveAttribute('href', '/help-support/about');
+    expect(screen.getByText(menuItems[7]).closest('a')).toHaveAttribute('href', '/help-support/tutorials');
+    expect(screen.getByText(menuItems[8]).closest('a')).toHaveAttribute('href', '/help-support/faqs');
+    expect(screen.getByText(menuItems[9]).closest('a')).toHaveAttribute('href', '/help-support/glossary');
+    expect(screen.getByText(menuItems[10]).closest('a')).toHaveAttribute('href', '/help-support/related-resources');
+    expect(screen.getByText(menuItems[11]).closest('a')).toHaveAttribute('href', '/help-support/contact-us');
   });
 });

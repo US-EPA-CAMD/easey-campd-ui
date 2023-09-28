@@ -1,0 +1,16 @@
+@import "variables";
+
+body {
+  font-family: $epa-generic-font-family !important;
+}
+
+.panel-header > h2,
+.panel-header > h3 {
+  text-align: left;
+  font-size: 30px;
+  font-weight: bold;
+  letter-spacing: 0px;
+  color: #212121;
+  opacity: 1;
+  display: inline;
+}

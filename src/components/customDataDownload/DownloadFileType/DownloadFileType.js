@@ -73,7 +73,7 @@ const DownloadFileType = ({ aggregation, dataType, dataSubType, filterCriteria, 
     <div className="download-wrapper height-10 border-2px radius-lg bg-primary-lighter border-primary display-flex flex-row flex-align-center font-sans-sm maxw-mobile">
       <Fieldset
         legend="Download File"
-        legendSrOnly={true}
+        legendStyle="srOnly"
         className="display-flex flex-row flex-align-self-center"
       >
         <Radio

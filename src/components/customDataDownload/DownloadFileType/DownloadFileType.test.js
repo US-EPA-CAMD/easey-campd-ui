@@ -1,18 +1,21 @@
 import React from 'react';
-import { cleanup, fireEvent, render } from '@testing-library/react';
+import { cleanup } from '@testing-library/react';
+import userEvent from "@testing-library/user-event";
+import { cloneDeep } from 'lodash';
 
 import DownloadFileType from './DownloadFileType';
-import { Provider } from 'react-redux';
 import initialState from '../../../store/reducers/initialState';
 import configureStore from '../../../store/configureStore.dev';
 import axios from 'axios';
 import RenderSpinner from '../../RenderSpinner/RenderSpinner';
+import render from '../../../mocks/render';
 
 jest.mock('axios');
 jest.mock('../../RenderSpinner/RenderSpinner')
-initialState.customDataDownload.dataType = 'EMISSIONS';
-initialState.customDataDownload.dataSubType = 'Hourly Emissions';
-initialState.filterCriteria = {
+const initStateCopy = cloneDeep(initialState)
+initStateCopy.customDataDownload.dataType = 'EMISSIONS';
+initStateCopy.customDataDownload.dataSubType = 'Hourly Emissions';
+initStateCopy.filterCriteria = {
   timePeriod: {
     startDate: '2019-01-01',
     endDate: '2019-01-01',
@@ -26,17 +29,12 @@ initialState.filterCriteria = {
   excludeParams: [],
   controlTechnology: [],
 };
-const store = configureStore(initialState);
+const store = configureStore(initStateCopy);
 
 describe('<DownloadFileType/>', () => {
   let query;
   beforeEach(() => {
-    query = render
-    (
-      <Provider store={store}>
-        <DownloadFileType />
-      </Provider>
-    );
+    query = render(<DownloadFileType setApiError={jest.fn()} />, store);
   });
 
   afterEach(cleanup);
@@ -47,7 +45,7 @@ describe('<DownloadFileType/>', () => {
     expect(getByLabelText('JSON')).toHaveClass('usa-radio__input');
   });
 
-  it('handles the download button click', () => {
+  it('handles the download button click', async() => {
     const { getByRole, getByLabelText } = query;
     const downloadButton = getByRole('button', { name: 'Download' });
     expect(downloadButton).toBeDefined();
@@ -77,8 +75,8 @@ describe('<DownloadFileType/>', () => {
       .mockImplementation(() => jest.fn());
     RenderSpinner.mockImplementation(() => null)
 
-    (fireEvent.click(downloadButton));
-    fireEvent.click(getByLabelText('JSON'));
-    fireEvent.click(downloadButton);
+    await userEvent.click(downloadButton);
+    await userEvent.click(getByLabelText('JSON'));
+    await userEvent.click(downloadButton);
   });
 });

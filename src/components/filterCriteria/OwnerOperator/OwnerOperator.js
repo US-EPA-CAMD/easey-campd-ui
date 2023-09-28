@@ -83,7 +83,7 @@ const OwnerOperator = ({
   return (
     <>
       <div className="panel-header padding-top-2 margin-x-2">
-        <h3>{filterToApply}</h3>
+        <h3 data-testid="filter-criteria-title">{filterToApply}</h3>
         <Tooltip content={tooltip} field={filterToApply}>
           <Help
             className="text-primary margin-left-1 margin-bottom-1"

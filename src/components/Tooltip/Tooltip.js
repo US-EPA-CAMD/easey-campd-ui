@@ -1,28 +1,26 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./Tooltip.scss";
 
 const Tooltip = (props) => {
-  let timeout;
+  const timeoutRef = useRef(null);
   const [show, setShow] = useState(false);
-  const [stillMounted, setStillMounted ] = useState(true)
+
+  useEffect(() => {
+    return () => {
+      clearTimeout(timeoutRef.current);
+    };
+  }, []);
+
   const showTooltip = () => {
-    timeout = setTimeout(() => {
+    timeoutRef.current = setTimeout(() => {
       setShow(true);
     }, 500);
-    if (!stillMounted) {
-      return clearInterval(timeout);
-    }
   };
 
   const hideTooltip = () => {
-    clearInterval(timeout);
+    clearTimeout(timeoutRef.current);
     setShow(false);
   };
-
-  useEffect(
-    () => () => setStillMounted(false), // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
-  );
 
   return (
     <div

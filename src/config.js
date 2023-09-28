@@ -4,8 +4,6 @@ import {
   getConfigValueBoolean,
 } from "./utils/functions";
 
-require("dotenv").config();
-
 export const config = {
   app: {
     apiKey: getConfigValue("REACT_APP_EASEY_CAMPD_UI_API_KEY"),
@@ -21,6 +19,7 @@ export const config = {
     env: getConfigValue("REACT_APP_EASEY_CAMPD_UI_ENV", "local-dev"),
     version: getConfigValue("REACT_APP_EASEY_CAMPD_UI_VERSION", "v0.0.0"),
     published: getConfigValue("REACT_APP_EASEY_CAMPD_UI_PUBLISHED", "local"),
+    title: getConfigValue("REACT_APP_EASEY_CAMPD_UI_TITLE", "CAMPD"),
     email: getConfigValue(
       "REACT_APP_EASEY_CAMPD_UI_EMAIL",
       "campd-support@camdsupport.com"

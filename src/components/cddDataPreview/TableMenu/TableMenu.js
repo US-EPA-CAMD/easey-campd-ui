@@ -1,17 +1,17 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { List, ListItem, ClickAwayListener } from '@mui/material';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEllipsisV } from '@fortawesome/free-solid-svg-icons';
-import { ArrowDownwardSharp, ArrowUpwardSharp } from '@material-ui/icons';
+import React, { useState, useEffect, useRef } from "react";
+import { List, ListItem, ClickAwayListener } from "@mui/material";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
+import { ArrowDownwardSharp, ArrowUpwardSharp } from "@material-ui/icons";
 
-import { Button, Checkbox, TextInput } from '@trussworks/react-uswds';
-import './TableMenu.scss';
-import { connect } from 'react-redux';
-import { updateFilterCriteria } from '../../../store/actions/customDataDownload/filterCriteria';
-import { usePopper } from 'react-popper';
-import Portal from '../../Portal/Portal';
-import { handleKeyDown } from '../../../utils/ensure-508/handleKeyDown';
-import useFocusTrap from '../../../utils/hooks/useFocusTrap';
+import { Button, Checkbox, TextInput } from "@trussworks/react-uswds";
+import "./TableMenu.scss";
+import { connect } from "react-redux";
+import { updateFilterCriteria } from "../../../store/actions/customDataDownload/filterCriteria";
+import { usePopper } from "react-popper";
+import Portal from "../../Portal/Portal";
+import { handleKeyDown } from "../../../utils/ensure-508/handleKeyDown";
+import useFocusTrap from "../../../utils/hooks/useFocusTrap";
 
 const TableMenu = ({
   topic,
@@ -29,14 +29,15 @@ const TableMenu = ({
   updateFilterCriteriaDispatcher,
 }) => {
   const [anchorEl, setAnchorEl] = useState(null);
+  const [init, setInit] = useState(true);
   const [popperElement, setPopperElement] = useState(null);
   const { styles, attributes } = usePopper(anchorEl, popperElement);
   const sortRef = useRef(null);
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [columnMenuOpen, setColumnMenuOpen] = useState(false);
-  useFocusTrap('#menuContainer', [menuOpen]);
-  useFocusTrap('#subMenuContainer', [columnMenuOpen]);
+  useFocusTrap("#menuContainer", [menuOpen]);
+  useFocusTrap("#subMenuContainer", [columnMenuOpen]);
   const [focusSortArrow, setFocusSortArrow] = useState(false);
   const [keepIconsVisible, setKeepIconsVisible] = useState(false);
 
@@ -49,12 +50,16 @@ const TableMenu = ({
   const open = Boolean(anchorEl);
   const [noLongerActive, setNoLongerActive] = useState(false);
   const { sortArrowUp } = filterCriteria;
-// 508 effects to manage focus
+  // 508 effects to manage focus
   useEffect(() => {
-    if(focusAfterApply === topic.value){
-      const moreOptionsIcon = document.querySelector('.faIcon'+topic.value);
+    setAnchorEl(null);
+    setInit(false);
+  }, []);
+  useEffect(() => {
+    if (focusAfterApply === topic.value) {
+      const moreOptionsIcon = document.querySelector(".faIcon" + topic.value);
       moreOptionsIcon && moreOptionsIcon.focus();
-    }// eslint-disable-next-line
+    } // eslint-disable-next-line
   }, [focusAfterApply]);
   useEffect(() => {
     if (focusSortArrow) {
@@ -67,7 +72,7 @@ const TableMenu = ({
     keepIconsVisible && setFocusSortArrow(true);
   }, [keepIconsVisible]);
 
- //effects to manage column selection
+  //effects to manage column selection
   useEffect(() => {
     const columns = {};
     const removableColumns = {};
@@ -81,7 +86,11 @@ const TableMenu = ({
           const label = el.label;
           if (columns[label]) {
             removableColumns[label] = el;
-            if(!filterCriteria.excludeParams.includes(el.value)){removableColumns[label].checked = true;} else {removableColumns[label].checked = false}
+            if (!filterCriteria.excludeParams.includes(el.value)) {
+              removableColumns[label].checked = true;
+            } else {
+              removableColumns[label].checked = false;
+            }
           }
         });
         if (filterCriteria.columnState) {
@@ -113,27 +122,32 @@ const TableMenu = ({
     columnMenuOpen && setColumnMenuOpen(false);
     setMenuOpen(true);
     await setAnchorEl(event.currentTarget);
-    const unsortMenuOption = document.querySelector('#unsort');
+    const unsortMenuOption = document.querySelector("#unsort");
     unsortMenuOption &&
       unsortMenuOption.focus({
         preventScroll: true,
       });
   };
   const openMenuKeyDown = (e) => {
-    handleKeyDown(e, openMenu, 'Enter')
-    handleKeyDown(e, ()=>{
-      if(focusAfterApply === topic.value) {
-        setFocusAfterApply(null);
-        setNoLongerActive(true);
-      }}, 'Tab')
+    handleKeyDown(e, openMenu, "Enter");
+    handleKeyDown(
+      e,
+      () => {
+        if (focusAfterApply === topic.value) {
+          setFocusAfterApply(null);
+          setNoLongerActive(true);
+        }
+      },
+      "Tab"
+    );
   };
   const openSubMenu = async () => {
     setMenuOpen(false);
     await setColumnMenuOpen(true);
-    const search = document.querySelector('#textField');
+    const search = document.querySelector("#textField");
     search && search.focus();
   };
-  const openSubMenuKeyDown = (e) => handleKeyDown(e, openSubMenu, 'Enter');
+  const openSubMenuKeyDown = (e) => handleKeyDown(e, openSubMenu, "Enter");
   const handleClose = () => {
     anchorEl && anchorEl.focus();
     setAnchorEl(null);
@@ -141,9 +155,9 @@ const TableMenu = ({
     setMenuOpen(false);
     setClosed(true);
   };
-  const handleCloseKeyDown = (e) => handleKeyDown(e, handleClose, 'Escape');
+  const handleCloseKeyDown = (e) => handleKeyDown(e, handleClose, "Escape");
   const handleCloseSubMenu = (e) => {
-    if (e.key === 'Tab') {
+    if (e.key === "Tab") {
       return;
     }
     setColumnMenuOpen(false);
@@ -156,38 +170,52 @@ const TableMenu = ({
     setSortDesc(false);
     setUnsort(false);
     setSortAsc(true);
-    updateFilterCriteriaDispatcher({sortArrowUp: topic.value});
-    updateAriaSort(e, 'ascending')
+    updateFilterCriteriaDispatcher({ sortArrowUp: topic.value });
+    updateAriaSort(e, "ascending");
     handleClose();
   };
-  const handleSortAscKeyDown = (e) => handleKeyDown(e, handleSortAsc, 'Enter');
+  const handleSortAscKeyDown = (e) => handleKeyDown(e, handleSortAsc, "Enter");
   const handleSortAscKeyDownVisible = (e) => {
-    handleKeyDown(e, handleSortDesc, 'Enter');
-    handleKeyDown(e, () => setKeepIconsVisible(true), 'Enter');
+    handleKeyDown(
+      e,
+      () => {
+        handleSortAsc();
+        setKeepIconsVisible(true);
+      },
+      "Enter"
+    );
   };
   const handleSortDesc = (e) => {
-    updateFilterCriteriaDispatcher({sortArrowUp: null});
+    updateFilterCriteriaDispatcher({ sortArrowUp: null });
     setUnsort(false);
     setSortAsc(false);
     setSortDesc(true);
-    updateAriaSort(e, 'descending')
+    updateAriaSort(e, "descending");
     handleClose();
   };
-  const handleSortDescKeyDown = (e) => handleKeyDown(e, handleSortDesc, 'Enter');
+  const handleSortDescKeyDown = (e) =>
+    handleKeyDown(e, handleSortDesc, "Enter");
   const handleSortDescKeyDownVisible = (e) => {
-    handleKeyDown(e, handleSortDesc, 'Enter');
-    handleKeyDown(e, () => setKeepIconsVisible(true), 'Enter');
+    // handleKeyDown(e, handleSortDesc, "Enter");
+    handleKeyDown(
+      e,
+      () => {
+        handleSortDesc();
+        setKeepIconsVisible(true);
+      },
+      "Enter"
+    );
   };
   const handleUnsort = (e) => {
     setSortValue(topic.value);
     setSortAsc(false);
     setSortDesc(false);
     setUnsort(true);
-    updateFilterCriteriaDispatcher({sortArrowUp: null});
-    updateAriaSort(e, 'none', true)
+    updateFilterCriteriaDispatcher({ sortArrowUp: null });
+    updateAriaSort(e, "none", true);
     handleClose();
   };
-  const handleUnsortKeyDown = (e) => handleKeyDown(e, handleUnsort, 'Enter');
+  const handleUnsortKeyDown = (e) => handleKeyDown(e, handleUnsort, "Enter");
 
   const handleSearch = (e) => {
     setFilteredColumns(
@@ -209,7 +237,10 @@ const TableMenu = ({
     setFilteredColumns(columns);
     setCheckedBoxes(temp);
   };
-  const handleSelectAllKeyDown = (e) => handleKeyDown(e, handleSelectAll, 'Enter');
+  const handleSelectAllKeyDown = (e) =>
+    handleKeyDown(e, handleSelectAll, "Enter");
+  const handleDeselectAllKeyDown = (e) =>
+    handleKeyDown(e, handleDeselectAll, "Enter");
   const handleChangeTextInput = (e) => {
     e.stopPropagation();
     handleSearch(e);
@@ -238,7 +269,9 @@ const TableMenu = ({
         excludedColumns.push(checkedBoxes[label].value);
       }
     });
-    const columnsToDisplay = [...fieldMappings].filter(el => !excludedColumns.includes(el.value));
+    const columnsToDisplay = [...fieldMappings].filter(
+      (el) => !excludedColumns.includes(el.value)
+    );
     const filterCriteriaCloned = JSON.parse(JSON.stringify(filterCriteria));
     filterCriteriaCloned.excludeParams = excludedColumns;
     filterCriteriaCloned.selectedColumns = columnsToDisplay;
@@ -257,10 +290,13 @@ const TableMenu = ({
   };
   const columnId = `column-${topic.value}`;
   const currentColumn = document.querySelector(`#` + columnId);
-  const updateAriaSort = (e, value, remove=false) => {
+  const updateAriaSort = (e, value, remove = false) => {
     if (!currentColumn) return;
-    if(!remove){currentColumn.ariaSort = value} else if (currentColumn.ariaSort){
-      currentColumn.removeAttribute("aria-sort");}
+    if (!remove) {
+      currentColumn.ariaSort = value;
+    } else if (currentColumn.ariaSort) {
+      currentColumn.removeAttribute("aria-sort");
+    }
   };
   const isActiveElement = focusAfterApply === topic.value && !noLongerActive;
   return (
@@ -276,9 +312,12 @@ const TableMenu = ({
         id="icons"
         className="display-flex"
         style={
-          open || keepIconsVisible || isActiveElement || currentColumn?.ariaSort
-            ? { visibility: 'visible' }
-            : { display: 'flex' }
+          (open && !init) ||
+          keepIconsVisible ||
+          isActiveElement ||
+          currentColumn?.ariaSort
+            ? { visibility: "visible" }
+            : {}
         }
       >
         {sortArrowUp === topic.value ? (
@@ -286,21 +325,20 @@ const TableMenu = ({
             className="text-base"
             onClick={handleSortDesc}
             onKeyDown={handleSortDescKeyDownVisible}
-            id={'sort by ascending'}
+            id={"sort by ascending"}
             tabIndex={0}
             ref={sortRef}
             aria-hidden={false}
             focusable={true}
             role="button"
             aria-label="sort by ascending"
-
           />
         ) : (
           <ArrowDownwardSharp
             className="text-base"
             onClick={handleSortAsc}
             onKeyDown={handleSortAscKeyDownVisible}
-            id={'sort by descending'}
+            id={"sort by descending"}
             tabIndex={0}
             ref={sortRef}
             aria-hidden={false}
@@ -311,10 +349,10 @@ const TableMenu = ({
         )}
         <FontAwesomeIcon
           icon={faEllipsisV}
-          color={'gray'}
-          aria-controls={open ? 'basic-menu' : undefined}
+          color={"gray"}
+          aria-controls={open ? "basic-menu" : undefined}
           aria-haspopup="true"
-          aria-expanded={open ? 'true' : undefined}
+          aria-expanded={open ? "true" : undefined}
           onClick={openMenu}
           onKeyDown={openMenuKeyDown}
           id={`additional options - ${topic.label}`}
@@ -325,7 +363,7 @@ const TableMenu = ({
           ref={setAnchorEl}
           key={topic.label}
           focusable={true}
-          className={"faIcon"+topic.value}
+          className={"faIcon" + topic.value}
         />
       </span>
       {menuOpen ? (
@@ -337,7 +375,7 @@ const TableMenu = ({
               onClose={handleClose}
               style={styles.popper}
               {...attributes.popper}
-              sx={{ bgcolor: 'white', boxShadow: 1 }}
+              sx={{ bgcolor: "white", boxShadow: 1 }}
               component="nav"
               aria-labelledby="submenu"
               onKeyDown={handleCloseKeyDown}
@@ -392,7 +430,7 @@ const TableMenu = ({
               onClose={handleCloseSubMenu}
               style={styles.popper}
               {...attributes.popper}
-              sx={{ bgcolor: 'white', boxShadow: 1 }}
+              sx={{ bgcolor: "white", boxShadow: 1 }}
               component="nav"
               aria-labelledby="submenu"
               onKeyDown={handleCloseKeyDown}
@@ -400,7 +438,9 @@ const TableMenu = ({
             >
               <div>
                 <div className="form-group margin-1" id="columnMenu">
-                  <label htmlFor="find column" className="text-primary">Find Column</label>
+                  <label htmlFor="find column" className="text-primary">
+                    Find Column
+                  </label>
                   <TextInput
                     placeholder="Column Title"
                     name="find column"
@@ -416,7 +456,7 @@ const TableMenu = ({
                         No results match that search criteria
                       </div>
                     ) : null}
-                    {filteredColumns?.map((el) =>{ 
+                    {filteredColumns?.map((el) => {
                       const handleCheckboxChange = (e) => {
                         setCheckedBoxes({
                           ...checkedBoxes,
@@ -427,7 +467,7 @@ const TableMenu = ({
                         });
                       };
                       const handleCheckboxKeydown = (e) => {
-                        if (e.key === 'Enter') {
+                        if (e.key === "Enter") {
                           const status = e.target.checked ? false : true;
                           e.target.checked = status;
 
@@ -439,27 +479,28 @@ const TableMenu = ({
                             },
                           });
                         }
-                      }
-                      return(
-                      <div key={el.label} className="padding-right-1">
-                        {!excludableColumnsState[el.label] ? (
-                          <Checkbox
-                            id={el.label}
-                            label={el.label}
-                            disabled={true}
-                            checked={true}
-                          />
-                        ) : (
-                          <Checkbox
-                            id={el.label}
-                            label={el.label}
-                            checked={getCheckBoxStatus(el.label)}
-                            onChange={handleCheckboxChange}
-                            onKeyDown={handleCheckboxKeydown}
-                          />
-                        )}
-                      </div>
-                    )})}
+                      };
+                      return (
+                        <div key={el.label} className="padding-right-1">
+                          {!excludableColumnsState[el.label] ? (
+                            <Checkbox
+                              id={el.label}
+                              label={el.label}
+                              disabled={true}
+                              checked={true}
+                            />
+                          ) : (
+                            <Checkbox
+                              id={el.label}
+                              label={el.label}
+                              checked={getCheckBoxStatus(el.label)}
+                              onChange={handleCheckboxChange}
+                              onKeyDown={handleCheckboxKeydown}
+                            />
+                          )}
+                        </div>
+                      );
+                    })}
                   </div>
                   <div className="margin-top-1">
                     <div className="display-flex flex-justify">
@@ -478,7 +519,7 @@ const TableMenu = ({
                         tabIndex={0}
                         role="button"
                         onClick={handleDeselectAll}
-                        onKeyDown={handleSelectAllKeyDown}
+                        onKeyDown={handleDeselectAllKeyDown}
                         id="selectAll"
                       >
                         Deselect All

@@ -1,155 +1,56 @@
 import React from 'react';
-import { render, fireEvent, cleanup } from '@testing-library/react';
-import { FuelType} from './FuelType';
+import { 
+  cleanup,
+  fireEvent,
+  waitFor,
+  screen} from '@testing-library/react';
+import FuelType from './FuelType';
+import configureStore from "../../../store/configureStore.dev";
+import { cloneDeep } from 'lodash';
 import { restructureFuelTypes } from '../../../utils/selectors/filterCriteria';
 import initialState from '../../../store/reducers/initialState';
+import render from '../../../mocks/render';
+import { mockFuelType } from '../mocks/mocks';
 
-jest.useFakeTimers();
-jest.spyOn(global, 'setTimeout');
-const fuelType = [
-  {
-    fuelTypeCode: 'C',
-    fuelTypeDescription: 'Coal',
-    fuelGroupCode: 'COAL',
-    fuelGroupDescription: 'All Coal',
-  },
-  {
-    fuelTypeCode: 'CRF',
-    fuelTypeDescription: 'Coal Refuse',
-    fuelGroupCode: 'OTHER',
-    fuelGroupDescription: 'All Other Fuels',
-  },
-  {
-    fuelTypeCode: 'DSL',
-    fuelTypeDescription: 'Diesel Oil',
-    fuelGroupCode: 'OIL',
-    fuelGroupDescription: 'All Oil',
-  },
-  {
-    fuelTypeCode: 'LPG',
-    fuelTypeDescription: 'Liquified Petroleum Gas',
-    fuelGroupCode: 'GAS',
-    fuelGroupDescription: 'All Gas',
-  },
-  {
-    fuelTypeCode: 'NNG',
-    fuelTypeDescription: 'Natural Gas',
-    fuelGroupCode: 'GAS',
-    fuelGroupDescription: 'All Gas',
-  },
-  {
-    fuelTypeCode: 'OGS',
-    fuelTypeDescription: 'Other Gas',
-    fuelGroupCode: 'GAS',
-    fuelGroupDescription: 'All Gas',
-  },
-  {
-    fuelTypeCode: 'OIL',
-    fuelTypeDescription: 'Residual Oil',
-    fuelGroupCode: 'OIL',
-    fuelGroupDescription: 'All Oil',
-  },
-  {
-    fuelTypeCode: 'OOL',
-    fuelTypeDescription: 'Other Oil',
-    fuelGroupCode: 'OIL',
-    fuelGroupDescription: 'All Oil',
-  },
-  {
-    fuelTypeCode: 'OSF',
-    fuelTypeDescription: 'Other Solid Fuel',
-    fuelGroupCode: 'OTHER',
-    fuelGroupDescription: 'All Other Fuels',
-  },
-  {
-    fuelTypeCode: 'PNG',
-    fuelTypeDescription: 'Pipeline Natural Gas',
-    fuelGroupCode: 'GAS',
-    fuelGroupDescription: 'All Gas',
-  },
-  {
-    fuelTypeCode: 'PRG',
-    fuelTypeDescription: 'Process Gas',
-    fuelGroupCode: 'GAS',
-    fuelGroupDescription: 'All Gas',
-  },
-  {
-    fuelTypeCode: 'PRS',
-    fuelTypeDescription: 'Process Sludge',
-    fuelGroupCode: 'OTHER',
-    fuelGroupDescription: 'All Other Fuels',
-  },
-  {
-    fuelTypeCode: 'PTC',
-    fuelTypeDescription: 'Petroleum Coke',
-    fuelGroupCode: 'OTHER',
-    fuelGroupDescription: 'All Other Fuels',
-  },
-  {
-    fuelTypeCode: 'R',
-    fuelTypeDescription: 'Refuse',
-    fuelGroupCode: 'OTHER',
-    fuelGroupDescription: 'All Other Fuels',
-  },
-  {
-    fuelTypeCode: 'TDF',
-    fuelTypeDescription: 'Tire Derived Fuel',
-    fuelGroupCode: 'OTHER',
-    fuelGroupDescription: 'All Other Fuels',
-  },
-  {
-    fuelTypeCode: 'W',
-    fuelTypeDescription: 'Wood',
-    fuelGroupCode: 'OTHER',
-    fuelGroupDescription: 'All Other Fuels',
-  },
-  {
-    fuelTypeCode: 'WL',
-    fuelTypeDescription: 'Waste Liquid',
-    fuelGroupCode: 'OTHER',
-    fuelGroupDescription: 'All Other Fuels',
-  },
-];
-let flyoutClosed = false;
+const fuelType = [...mockFuelType];
+jest.mock("../../../utils/selectors/filterLogic", () => ({
+  engageFilterLogic: jest.fn(),
+}));
+
+const initStateCopy = cloneDeep(initialState)
+initStateCopy.filterCriteria.fuelType = restructureFuelTypes(fuelType);
+initStateCopy.customDataDownload.dataType="EMISSIONS";
+initStateCopy.customDataDownload.dataSubType="Facility/Unit Attributes";
+const store = configureStore(initStateCopy);
+let flyOutClosed = false;
 let applyFilterLoading = false;
 
-const storeFuelType = restructureFuelTypes(fuelType);
-
-describe('Fuel Type', () => {
-  let queries;
+describe('- Fuel Type Filter Criteria Component -', () => {
   beforeEach(() => {
     // setup a DOM element as a render target
-    queries = render(
-        <FuelType
-          closeFlyOutHandler={() => flyoutClosed = true}
-          storeFuelType={storeFuelType}
-          appliedFilters={[]}
-          updateFuelTypeSelectionDispatcher={jest.fn()}
-          updateFilterCriteriaDispatcher={jest.fn()}
-          addAppliedFilterDispatcher={jest.fn()}
-          removeAppliedFilterDispatcher={jest.fn()}
-          renderedHandler ={jest.fn()}
-          dataType="EMISSIONS"
-          dataSubType="Facility/Unit Attributes"
-          filterCriteria={initialState.filterCriteria}
-          setApplyFilterLoading={() => applyFilterLoading = true}
-        />
+    render(
+      <FuelType
+        closeFlyOutHandler={() => flyOutClosed = true}
+        renderedHandler ={jest.fn()}
+        setApplyFilterLoading={(bool) => applyFilterLoading = bool}
+      />, store
     );
   });
 
   afterEach(cleanup);
 
   it('Check that the component properly renders', () => {
-    const { getByText, getAllByTestId, getAllByRole } = queries;
-    expect(getByText('Coal')).toBeInTheDocument();
-    expect(getByText('Gas')).toBeInTheDocument();
-    expect(getByText('Oil')).toBeInTheDocument();
-    expect(getByText('Other')).toBeInTheDocument();
+    expect(screen.getByTestId("filter-criteria-title").innerHTML).toBe("Unit Fuel Type");
+    expect(screen.getByLabelText('Coal')).toBeInTheDocument();
+    expect(screen.getByLabelText('Gas')).toBeInTheDocument();
+    expect(screen.getByLabelText('Oil')).toBeInTheDocument();
+    expect(screen.getByLabelText('Other')).toBeInTheDocument();
 
-    const selectAllCheckBoxes = getAllByTestId('select-all');
+    const selectAllCheckBoxes = screen.getAllByTestId('select-all');
     expect(selectAllCheckBoxes).toHaveLength(4);
 
-    const checkbox = getAllByRole('checkbox');
+    const checkbox = screen.getAllByRole('checkbox');
+    const storeFuelType = initStateCopy.filterCriteria.fuelType;
     expect(checkbox).toHaveLength(
       storeFuelType[0].items.length +
         storeFuelType[1].items.length +
@@ -157,24 +58,26 @@ describe('Fuel Type', () => {
         storeFuelType[3].items.length +
         selectAllCheckBoxes.length
     );
+    expect(screen.getByRole("button", {name: "Cancel"})).toBeDefined();
+    expect(screen.getByRole("button", {name: "Apply Filter"})).toBeDefined();
   });
 
-  it('handles checkbox selection appropriately', () => {
-    const { getByRole, getByText } = queries;
-    const coalCheckbox = getByRole('checkbox', {
+  it('handles checkbox selection appropriately', async () => {
+    const coalCheckbox = screen.getByRole('checkbox', {
       name: 'Coal (C)',
     });
     fireEvent.click(coalCheckbox);
     expect(coalCheckbox.checked).toEqual(true);
 
-    const selectAllGas = getByRole('checkbox', {
+    const selectAllGas = screen.getByRole('checkbox', {
       name: 'All Gas',
     });
     fireEvent.click(selectAllGas);
     expect(selectAllGas.checked).toEqual(true);
-    const applyFilterButton = getByText('Apply Filter').closest('button');
+    const applyFilterButton = screen.getByRole("button", {name: "Apply Filter"});
     fireEvent.click(applyFilterButton);
-    jest.runAllTimers();
     expect(applyFilterLoading).toBe(true);
+    await waitFor(() => expect(applyFilterLoading).toBe(false));
+    expect(flyOutClosed).toBe(true);
   });
 });

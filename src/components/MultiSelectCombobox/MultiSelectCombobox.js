@@ -159,6 +159,7 @@ const MultiSelectCombobox = ({
     }
   };
   const selectItemsFromPipeSeparatedList = () => {
+    if(!isFacilities && !isAccounts) return
     validationError && setValidationError(null);
     const searchValueArray = inputRef.current.value
         .toLowerCase()
@@ -173,7 +174,8 @@ const MultiSelectCombobox = ({
       itemsCopy = [..._items],
       invalidEntries = [];
     itemsCopy.forEach((item) => {
-      const { label, id } = item;
+      let { label, id } = item;
+      label = label.toString();
       const name = label.split("(")[0].slice(0, -1).toLowerCase();
       if (searchValueObj[id] || searchValueObj[name]) {
         item.selected = true;
@@ -289,7 +291,7 @@ const MultiSelectCombobox = ({
   return (
     <>
       {validationError ? (
-        <Alert role="alert" type="info">
+        <Alert role="alert" type="info" headingLevel="h4">
           {validationError}
         </Alert>
       ) : null}
@@ -305,6 +307,7 @@ const MultiSelectCombobox = ({
         aria-expanded={showListBox}
         aria-owns="listbox"
         id="multi-select-combobox"
+        data-testid="multiSelectCombobox"
         className="margin-top-1 margin-bottom-2 border-1px bg-white"
       >
         <div className="margin-x-05 margin-top-05 display-block maxh-card overflow-y-scroll">

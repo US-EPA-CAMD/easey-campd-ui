@@ -51,8 +51,10 @@ const BulkDataFilesTable = ({
     if(dataTableRecords !== null && dataTableRecords.length >0 && !focusBox){
       //to show focus highlight box on header checkbox
       const headerCheckbox = document.getElementsByClassName("rdt_TableCol")[0];
-      headerCheckbox.setAttribute("class", "sc-hKwDye sc-egiyK dnUdft fHkgxZ");
-      headerCheckbox.firstChild.setAttribute("class", "rdt_TableCol");
+      if (headerCheckbox) {
+        headerCheckbox.setAttribute("class", "sc-hKwDye sc-egiyK dnUdft fHkgxZ");
+        headerCheckbox.firstChild?.setAttribute("class", "rdt_TableCol");
+      }
       setFocusBox(true);
     }
     return () => {
@@ -159,7 +161,7 @@ const BulkDataFilesTable = ({
     <div className="data-display-table grid-col-fill margin-x-2 padding-left-2" id="bdfTable">
       {limitReached ? (
         <div className="padding-top-3">
-          <Alert type="warning" aria-live="assertive">
+          <Alert type="warning" aria-live="assertive" headingLevel="h4">
             <ReactMarkdown
               children={limitAlert}
               remarkPlugins={[remarkGfm]}

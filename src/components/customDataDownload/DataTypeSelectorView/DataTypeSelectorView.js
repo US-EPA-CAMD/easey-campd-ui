@@ -65,7 +65,7 @@ const DataTypeSelectorView = ({
           />
         </div>
       )}
-      <div className="border-y-1px border-base-light clearfix padding-y-2 padding-x-2 desktop:padding-y-1 desktop:border-top-0">
+      <div className="side-nav-subheader border-y-1px border-base-light clearfix padding-y-2 padding-x-2 desktop:padding-y-1 desktop:border-top-0">
         <div className="display-flex desktop:grid-row flex-align-center">
           {selectedDataSubtype !== '' &&
             selectedDataSubtype !== '-1' &&

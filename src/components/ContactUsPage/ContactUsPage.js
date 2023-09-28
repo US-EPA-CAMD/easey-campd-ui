@@ -27,7 +27,7 @@ const ContactUsPage = ({setApiErrorDispatcher}) => {
 
     // This is done to have the page structure 508 compliant
     const h3Tag = document.querySelector('h3');
-    h3Tag.outerHTML = '';
+    if (h3Tag) h3Tag.outerHTML = '';
   }, []);
 
   useEffect(() => {
@@ -39,7 +39,7 @@ const ContactUsPage = ({setApiErrorDispatcher}) => {
 
       const h4Tag = document.querySelector('h4');
       if (h4Tag) {
-        h4Tag.outerHTML = `<h2> ${h4Tag.innerHTML} </h2>`;
+        if (h4Tag) h4Tag.outerHTML = `<h2> ${h4Tag.innerHTML} </h2>`;
       } else {
         const h2Tag = document.querySelector('h2');
         if (h2Tag) {h2Tag.outerHTML = `<h2> ${submitStatus ? 'Success' : 'Error'} </h2>`};
@@ -108,7 +108,6 @@ const ContactUsPage = ({setApiErrorDispatcher}) => {
       "fieldset div input[name='radioSubject']:checked"
     );
     const isEmailValid = await schema.isValid({email: fromEmail});
-    console.log({isEmailValid, fromEmail});
     // Get label of selected radio button (comment types / subject)
     if (checkedSubjectId) {
       subject = commentTypes.find(

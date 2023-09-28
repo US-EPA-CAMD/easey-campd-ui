@@ -1,8 +1,8 @@
 import {formatDateToUi} from '../selectors/general'
 
-const getSelectedLabels = (state, ids) => state?.filter((e) => e.selected).map((e) => e.label);
-const getSelectedIds = (state, ids) => ids;
-const findMonthsOrQuarters = (state) => {
+export const getSelectedLabels = (state, ids) => state?.filter((e) => e.selected).map((e) => e.label);
+export const getSelectedIds = (state, ids) => ids;
+export const findMonthsOrQuarters = (state) => {
   let monthsOrQuarters = '; ';
   let addedMonthsOrQuarters = 0;
   if(state.month?.length){
@@ -24,7 +24,7 @@ const findMonthsOrQuarters = (state) => {
   }
   return '';
 }
-const getTimePeriodLabels = (selectedFilter) => {
+export const getTimePeriodLabels = (selectedFilter) => {
   if (selectedFilter?.startDate){
     return [`${formatDateToUi(selectedFilter.startDate)} - ${formatDateToUi(selectedFilter.endDate)}`]
   } else {

@@ -1,9 +1,9 @@
 import React from 'react';
 import {
-  cleanup,
   fireEvent,
-  render,
+  screen,
 } from '@testing-library/react';
+import render from "../../mocks/render";
 
 import PillButton from './PillButton';
 
@@ -13,32 +13,41 @@ const mockHandler = {
 };
 
 describe('<PillButton/>', () => {
-  let query;
-  beforeEach(() => {
-    query = render(
+
+  it('handles click events with tooltips', () => {
+    render(
       <PillButton
         key={'key'}
         index={'index'}
         label={'label'}
         position="bottom"
         tooltip={'tooltip'}
+        disableButton={false}
         onClick={mockHandler.onClick}
         onRemove={mockHandler.onRemove}
       />
     );
-  });
-
-  afterEach(cleanup);
-
-  it('handles click events with tooltips', () => {
-    const { getByText } = query;
-    fireEvent.click(getByText('label'));
+    fireEvent.click(screen.getByText('label'));
     expect(mockHandler.onClick).toHaveBeenCalledTimes(1);
+    fireEvent.click(screen.getByTestId('remove'));
+    expect(mockHandler.onRemove).toHaveBeenCalledTimes(1);
   });
 
-  it('handles remove events', () => {
-    const { getByTestId } = query;
-    fireEvent.click(getByTestId('remove'));
-    expect(mockHandler.onRemove).toHaveBeenCalledTimes(1);
+  it('handles disabled button', () => {
+    render(
+      <PillButton
+        key={'key'}
+        index={'index'}
+        label={'label'}
+        position="bottom"
+        tooltip={'tooltip'}
+        disableButton={true}
+        onClick={mockHandler.onClick}
+        onRemove={mockHandler.onRemove}
+      />
+    );
+    const pillbutton = screen.getByText("label").closest('button');
+    expect(pillbutton).toBeInTheDocument();
+    expect(pillbutton).toBeDisabled();
   });
 });

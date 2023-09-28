@@ -1,265 +1,65 @@
 import React from 'react';
-import { render, fireEvent, cleanup } from '@testing-library/react';
-import { Program } from './Program';
+import { 
+  cleanup,
+  fireEvent,
+  waitFor,
+  screen } from '@testing-library/react';
+import Program from './Program';
+import configureStore from "../../../store/configureStore.dev";
+import { cloneDeep } from 'lodash';
 import {restructurePrograms} from "../../../utils/selectors/filterCriteria";
 import initialState from '../../../store/reducers/initialState';
-jest.useFakeTimers();
-jest.spyOn(global, 'setTimeout');
+import render from '../../../mocks/render';
+import { mockProgram } from '../mocks/mocks';
 
-const program = [
-  {
-    "programCode": "ARP",
-    "programDescription": "Acid Rain Program",
-    "compParameterCode": "SO2",
-    "programGroupCode": null,
-    "programGroupDescription": null,
-    "ozoneIndicator": false,
-    "annualIndicator": true,
-    "allowanceIndicator": true,
-    "retiredIndicator": false,
-    "tradingEndDate": null
-  },
-  {
-    "programCode": "CAIRNOX",
-    "programDescription": "CAIR NOx Annual Program",
-    "compParameterCode": "NOX",
-    "programGroupCode": "CAIR",
-    "programGroupDescription": "Clean Air Interstate Rule",
-    "ozoneIndicator": false,
-    "annualIndicator": true,
-    "allowanceIndicator": true,
-    "retiredIndicator": true,
-    "tradingEndDate": "2016-08-10"
-  },
-  {
-    "programCode": "CAIROS",
-    "programDescription": "CAIR NOx Ozone Season Program",
-    "compParameterCode": "NOX",
-    "programGroupCode": "CAIR",
-    "programGroupDescription": "Clean Air Interstate Rule",
-    "ozoneIndicator": true,
-    "annualIndicator": false,
-    "allowanceIndicator": true,
-    "retiredIndicator": true,
-    "tradingEndDate": "2016-08-10"
-  },
-  {
-    "programCode": "CAIRSO2",
-    "programDescription": "CAIR SO2 Annual Program",
-    "compParameterCode": "SO2",
-    "programGroupCode": "CAIR",
-    "programGroupDescription": "Clean Air Interstate Rule",
-    "ozoneIndicator": false,
-    "annualIndicator": true,
-    "allowanceIndicator": true,
-    "retiredIndicator": true,
-    "tradingEndDate": "2016-08-10"
-  },
-  {
-    "programCode": "CSNOX",
-    "programDescription": "Cross-State Air Pollution Rule NOx Annual Program",
-    "compParameterCode": "NOX",
-    "programGroupCode": "CSAPR",
-    "programGroupDescription": "Cross-State Air Pollution Rule",
-    "ozoneIndicator": false,
-    "annualIndicator": true,
-    "allowanceIndicator": true,
-    "retiredIndicator": false,
-    "tradingEndDate": null
-  },
-  {
-    "programCode": "CSNOXOS",
-    "programDescription": "Cross-State Air Pollution Rule NOx Ozone Season Program",
-    "compParameterCode": "NOX",
-    "programGroupCode": "CSAPR",
-    "programGroupDescription": "Cross-State Air Pollution Rule",
-    "ozoneIndicator": true,
-    "annualIndicator": false,
-    "allowanceIndicator": true,
-    "retiredIndicator": true,
-    "tradingEndDate": "2017-10-23"
-  },
-  {
-    "programCode": "CSOSG1",
-    "programDescription": "Cross-State Air Pollution Rule NOx Ozone Season Program Group 1",
-    "compParameterCode": "NOX",
-    "programGroupCode": "CSAPR",
-    "programGroupDescription": "Cross-State Air Pollution Rule",
-    "ozoneIndicator": true,
-    "annualIndicator": false,
-    "allowanceIndicator": true,
-    "retiredIndicator": false,
-    "tradingEndDate": null
-  },
-  {
-    "programCode": "CSOSG2",
-    "programDescription": "Cross-State Air Pollution Rule NOx Ozone Season Program Group 2",
-    "compParameterCode": "NOX",
-    "programGroupCode": "CSAPR",
-    "programGroupDescription": "Cross-State Air Pollution Rule",
-    "ozoneIndicator": true,
-    "annualIndicator": false,
-    "allowanceIndicator": true,
-    "retiredIndicator": false,
-    "tradingEndDate": null
-  },
-  {
-    "programCode": "CSSO2G1",
-    "programDescription": "Cross-State Air Pollution Rule SO2 Annual Program Group 1",
-    "compParameterCode": "SO2",
-    "programGroupCode": "CSAPR",
-    "programGroupDescription": "Cross-State Air Pollution Rule",
-    "ozoneIndicator": false,
-    "annualIndicator": true,
-    "allowanceIndicator": true,
-    "retiredIndicator": false,
-    "tradingEndDate": null
-  },
-  {
-    "programCode": "CSSO2G2",
-    "programDescription": "Cross-State Air Pollution Rule SO2 Annual Program Group 2",
-    "compParameterCode": "SO2",
-    "programGroupCode": "CSAPR",
-    "programGroupDescription": "Cross-State Air Pollution Rule",
-    "ozoneIndicator": false,
-    "annualIndicator": true,
-    "allowanceIndicator": true,
-    "retiredIndicator": false,
-    "tradingEndDate": null
-  },
-  {
-    "programCode": "NBP",
-    "programDescription": "NOx Budget Trading Program",
-    "compParameterCode": "NOX",
-    "programGroupCode": null,
-    "programGroupDescription": null,
-    "ozoneIndicator": true,
-    "annualIndicator": false,
-    "allowanceIndicator": false,
-    "retiredIndicator": true,
-    "tradingEndDate": "2009-03-25"
-  },
-  {
-    "programCode": "NHNOX",
-    "programDescription": "NH NOx Program",
-    "compParameterCode": null,
-    "programGroupCode": null,
-    "programGroupDescription": null,
-    "ozoneIndicator": true,
-    "annualIndicator": false,
-    "allowanceIndicator": false,
-    "retiredIndicator": false,
-    "tradingEndDate": null
-  },
-  {
-    "programCode": "NSPS4T",
-    "programDescription": "New Source Performance Standards subpart TTTT",
-    "compParameterCode": null,
-    "programGroupCode": null,
-    "programGroupDescription": null,
-    "ozoneIndicator": false,
-    "annualIndicator": true,
-    "allowanceIndicator": false,
-    "retiredIndicator": false,
-    "tradingEndDate": null
-  },
-  {
-    "programCode": "OTC",
-    "programDescription": "OTC NOx Budget Program",
-    "compParameterCode": "NOX",
-    "programGroupCode": null,
-    "programGroupDescription": null,
-    "ozoneIndicator": true,
-    "annualIndicator": false,
-    "allowanceIndicator": false,
-    "retiredIndicator": true,
-    "tradingEndDate": "2003-05-06"
-  },
-  {
-    "programCode": "RGGI",
-    "programDescription": "Regional Greenhouse Gas Initiative",
-    "compParameterCode": null,
-    "programGroupCode": null,
-    "programGroupDescription": null,
-    "ozoneIndicator": false,
-    "annualIndicator": true,
-    "allowanceIndicator": false,
-    "retiredIndicator": false,
-    "tradingEndDate": null
-  },
-  {
-    "programCode": "SIPNOX",
-    "programDescription": "SIP NOx Program",
-    "compParameterCode": null,
-    "programGroupCode": null,
-    "programGroupDescription": null,
-    "ozoneIndicator": false,
-    "annualIndicator": true,
-    "allowanceIndicator": false,
-    "retiredIndicator": false,
-    "tradingEndDate": null
-  },
-  {
-    "programCode": "TXSO2",
-    "programDescription": "Texas SO2 Trading Program",
-    "compParameterCode": "SO2",
-    "programGroupCode": "TXSO2",
-    "programGroupDescription": "Texas SO2 Trading Program",
-    "ozoneIndicator": false,
-    "annualIndicator": true,
-    "allowanceIndicator": true,
-    "retiredIndicator": false,
-    "tradingEndDate": null
-  }
-];
-const storeProgam = restructurePrograms(program);
-let flyoutClosed = false;
+const program = [...mockProgram];
+jest.mock("../../../utils/selectors/filterLogic", () => ({
+  engageFilterLogic: jest.fn(),
+}));
+
+const initStateCopy = cloneDeep(initialState)
+initStateCopy.filterCriteria.program = restructurePrograms(program);
+initStateCopy.customDataDownload.dataType="EMISSIONS";
+initStateCopy.customDataDownload.dataSubType="Hourly Emissions";
+const store = configureStore(initStateCopy);
+const storeProgam = initStateCopy.filterCriteria.program;
+let flyOutClosed = false;
 let applyFilterLoading = false;
 
-describe("Hourly Emissions Program", () => {
-  let queries;
+describe("- Program Filter Criteria Component -", () => {
   beforeEach(() => {
     // setup a DOM element as a render target
-    queries = render(
+    render(
         <Program
-          storeProgram= {storeProgam}
-          appliedFilters={[]}
-          closeFlyOutHandler={() => flyoutClosed = true}
-          updateFilterCriteriaDispatcher={jest.fn()}
-          updateProgramSelectionDispatcher={jest.fn()}
-          addAppliedFilterDispatcher={jest.fn()}
-          removeAppliedFilterDispatcher={jest.fn()}
+          closeFlyOutHandler={() => flyOutClosed = true}
           renderedHandler ={jest.fn()}
-          dataType="EMISSIONS"
-          dataSubType="Facility/Unit Attributes"
-          filterCriteria={initialState.filterCriteria}
-          setApplyFilterLoading={() => applyFilterLoading = true}
-          />
+          setApplyFilterLoading={(bool) => applyFilterLoading = bool}
+          />, store
       );
   });
 
   afterEach(cleanup);
 
-  it("Check that the  component properly renders", () => {
-    const { getByText, getAllByTestId, getAllByRole } = queries;
-    expect(getByText('Active Programs')).toBeInTheDocument()
-    expect(getByText('Retired Programs')).toBeInTheDocument()
-    expect(getAllByTestId('program-group-name')).toHaveLength(4)
-    expect(getByText('Apply Filter').closest('button')).toBeInTheDocument()
-    const checkbox = getAllByRole('checkbox')
-    expect(checkbox).toHaveLength(storeProgam[0].items.length + storeProgam[1].items.length)
-
+  it("Check the component properly renders", () => {
+    expect(screen.getByTestId("filter-criteria-title").innerHTML).toBe("Program");
+    expect(screen.getByTestId('checkbox-group-active-header').innerHTML).toBe("Active Programs");
+    expect(screen.getByTestId('checkbox-group-retired-header').innerHTML).toBe("Retired Programs");
+    expect(screen.getAllByTestId('program-group-name')).toHaveLength(3);
+    const checkbox = screen.getAllByRole('checkbox')
+    expect(checkbox).toHaveLength(storeProgam[0].items.length + storeProgam[1].items.length);
+    expect(screen.getByRole("button", {name: "Cancel"})).toBeDefined();
+    expect(screen.getByRole("button", {name: "Apply Filter"})).toBeDefined();
   });
 
   it("handles checkbox selection appropriately", async () => {
-    const { getByRole, getByText } = queries;
-    const arpCheckbox = getByRole('checkbox', {name:"Acid Rain Program (ARP)"});
+    const arpCheckbox = screen.getByRole('checkbox', {name:"Acid Rain Program (ARP)"});
     fireEvent.click(arpCheckbox);
     expect(arpCheckbox.checked).toEqual(true);
-    const applyFilterButton = getByText('Apply Filter').closest('button');
+    const applyFilterButton = screen.getByRole("button", {name: "Apply Filter"});
     fireEvent.click(applyFilterButton);
-    jest.runAllTimers();
     expect(applyFilterLoading).toBe(true);
+    await waitFor(() => expect(applyFilterLoading).toBe(false));
+    expect(flyOutClosed).toBe(true);
   });
 
 });

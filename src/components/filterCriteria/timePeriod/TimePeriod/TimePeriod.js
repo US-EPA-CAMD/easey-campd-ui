@@ -112,7 +112,7 @@ export const TimePeriod = ({
       }
       closeFlyOutHandler();
     }// eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filterCriteria]);
+  }, [filterCriteria.filterMapping]);
 
   useEffect(() => {
     renderedHandler();
