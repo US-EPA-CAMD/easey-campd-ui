@@ -10,6 +10,7 @@ import config from "../../config";
 
 import "./Layout.scss";
 import ApiErrorAlert from "../ApiErrorAlert/ApiErrorAlert";
+import AlertBanner from "../AlertBanner/AlertBanner";
 
 const Layout = ({children, hideNav}) => {
   const childrenWithProps = React.Children.map(children, (child) =>
@@ -27,6 +28,7 @@ const Layout = ({children, hideNav}) => {
         <div className="epa-header">
           <Header environment={config.app.env} />
         </div>
+        <AlertBanner />
         <SubHeader />
         <ApiErrorAlert />
       </div>
