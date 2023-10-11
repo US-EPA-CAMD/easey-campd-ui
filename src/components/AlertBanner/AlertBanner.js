@@ -12,7 +12,7 @@ const AlertBanner = ({ setApiErrorDispatcher }) => {
   const [alertBanner, setAlertBanner] = useState(null);
 
   useEffect(() => {
-    getContent('/campd/data/alert-banner/index.json', setApiErrorDispatcher).then(
+    getContent('/campd/alert-banner.json', setApiErrorDispatcher).then(
       (resp) => resp && setAlertBanner(resp.data)
     );//eslint-disable-next-line
   }, []);
