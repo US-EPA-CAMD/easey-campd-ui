@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
 import { Link, Tag } from '@trussworks/react-uswds';
 import getContent from '../../utils/api/getContent';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import setApiError from '../../store/actions/setApiErrorAction';
 
 import { metaAdder } from '../../utils/document/metaAdder';
 
-const RelatedResources = () => {
+const RelatedResources = ({ setApiErrorDispatcher }) => {
 
   const [contentIntro, setContentIntro] = useState(null);
   const [additionalDataTools, setAdditionalDataTools] = useState([]);
@@ -15,8 +17,9 @@ const RelatedResources = () => {
 
   useEffect(() => {
     document.title = 'Related Resources | CAMPD | US EPA';
-    getContent(`${relatedResourcesPath}/additional-data-tools.json`).then((resp) => setAdditionalDataTools(resp.data));
+    getContent(`${relatedResourcesPath}/additional-data-tools.json`, setApiErrorDispatcher).then((resp) => setAdditionalDataTools(resp.data));
     getContent(`${relatedResourcesPath}/index.md`).then((resp) => setContentIntro(resp.data));
+    //eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   metaAdder(
@@ -30,11 +33,11 @@ const RelatedResources = () => {
 
   return (
     <div className="padding-y-2 mobile-lg:padding-x-2 tablet:padding-x-4 widescreen:padding-x-10 font-sans-sm text-base-darkest text-ls-1 line-height-sans-5">
-      <ReactMarkdown 
+      <ReactMarkdown
         remarkPlugins={[remarkGfm]}
         children={contentIntro}
         components={{
-          h1: ({node, ...props}) => <h1 className="font-sans-2xl text-bold">{props.children}</h1>
+          h1: ({ node, ...props }) => <h1 className="font-sans-2xl text-bold">{props.children}</h1>
         }}
       />
       <div className="grid-row">
@@ -72,4 +75,5 @@ const RelatedResources = () => {
   );
 };
 
-export default RelatedResources;
+const mapDispatchToProps = (dispatch) => ({ setApiErrorDispatcher: (api, state, errorMessage) => dispatch(setApiError(api, state, errorMessage)) });
+export default connect(null, mapDispatchToProps)(RelatedResources);
