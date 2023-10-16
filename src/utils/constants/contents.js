@@ -91,11 +91,11 @@ export const contentValidation = {
         image: yup.string().required(),
         title: yup.string().required(),
         callout: yup.string().nullable(),
-        text: yup.string().required(),
+        text: yup.string().nullable(),
         link: yup.object().shape({
-            url: yup.string().required(),
-            text: yup.string().required(),
-        }).required(),
+            url: yup.string(),
+            text: yup.string(),
+        }).nullable(),
     },
     "/campd/visualization-gallery/tools.json": {
         name: yup.string().required(),
