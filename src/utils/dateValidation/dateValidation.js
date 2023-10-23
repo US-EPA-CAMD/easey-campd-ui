@@ -63,7 +63,7 @@ export const isYearFormat = (yearString) => {
   return valid;
 };
 
-export const isInYearRange = (yearArray, minYear, isAnnual = false, isAllowance = false) => {
+export const isInYearRange = (yearArray, minYear, isAnnual = false, isAllowance = false, isOzone = false) => {
   const curDate = new Date();
   const curYear = new Date().getFullYear();
   let result = false;
@@ -80,7 +80,16 @@ export const isInYearRange = (yearArray, minYear, isAnnual = false, isAllowance 
      );
    } else if (isAllowance) {
      result = yearArray.every((year) => year >= 1995);
-   } else {
+   } else if (isOzone) {
+    result = yearArray.every(
+      (year) =>
+        (year >= minYear &&
+          year <= curYear &&
+          curDate >= new Date(`October 01, ${curYear}`)) ||
+        (year >= minYear && year <= curYear - 1)
+    );
+   }
+   else {
      result = yearArray.every(
        (year) =>
          (year >= minYear &&
