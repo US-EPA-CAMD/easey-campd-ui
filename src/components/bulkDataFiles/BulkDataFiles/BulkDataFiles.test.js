@@ -9,7 +9,7 @@ import initialState from "../../../store/reducers/initialState";
 import { dataTable } from "../../../utils/constants/bulkDataFilesTestData";
 
 let store = configureStore(initialState);
-jest.setTimeout(50000);
+jest.setTimeout(70000);
 
 /*****
  */

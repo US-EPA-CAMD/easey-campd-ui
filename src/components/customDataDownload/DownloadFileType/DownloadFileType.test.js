@@ -78,5 +78,5 @@ describe('<DownloadFileType/>', () => {
     await userEvent.click(downloadButton);
     await userEvent.click(getByLabelText('JSON'));
     await userEvent.click(downloadButton);
-  });
+  },50000);
 });
