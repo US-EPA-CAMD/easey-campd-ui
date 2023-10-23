@@ -103,7 +103,7 @@ const FilterCriteriaPanel = ({
 
   const ozoneEmissions = {
     ...emissions,
-    timePeriod: <TimePeriod closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} applyFilterLoading={applyFilterLoading} setApplyFilterLoading={setApplyFilterLoading} showYear={true} filterToApply={'Time Period'}/>,
+    timePeriod: <TimePeriod closeFlyOutHandler={closeFlyOutHandler} renderedHandler={renderedHandler} applyFilterLoading={applyFilterLoading} setApplyFilterLoading={setApplyFilterLoading} showYear={true} isOzone ={true} filterToApply={'Time Period'}/>,
   }
 
   //isAnnual is specified for year validation
