@@ -21,11 +21,9 @@ const getContent = async (path, setApiError) => {
             return handleResponse(res)
           } else {
             setApiError('contentManager', true)
-            throw new Error(path + " Vaildation failed");
           }
         } else {
           setApiError('contentManager', true)
-          throw new Error("Vaildation failed");
         }
       }
       return handleResponse(res)
