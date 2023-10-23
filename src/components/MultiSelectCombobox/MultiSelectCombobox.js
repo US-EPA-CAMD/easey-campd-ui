@@ -175,13 +175,14 @@ const MultiSelectCombobox = ({
       invalidEntries = [];
     itemsCopy.forEach((item) => {
       let { label, id } = item;
+      const _id = id.toLowerCase();
       label = label.toString();
       const name = label.split("(")[0].slice(0, -1).toLowerCase();
-      if (searchValueObj[id] || searchValueObj[name]) {
+      if (searchValueObj[_id] || searchValueObj[name]) {
         item.selected = true;
         filteredItems.push(item);
-        if (searchValueObj[id]) {
-          searchValueObj[id] = "valid";
+        if (searchValueObj[_id]) {
+          searchValueObj[_id] = "valid";
         }
         if (searchValueObj[label.toLowerCase()]) {
           searchValueObj[label.toLowerCase()] = "valid";

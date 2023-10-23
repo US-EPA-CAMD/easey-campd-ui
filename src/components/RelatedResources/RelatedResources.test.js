@@ -3,13 +3,20 @@ import RelatedResources from "./RelatedResources";
 import {
   screen,
 } from '@testing-library/react';
+import { Provider } from 'react-redux';
 import render from "../../mocks/render";
 import { additionalDataTools } from "../../mocks/testData";
+import configureStore from '../../store/configureStore.dev';
+import initialState from '../../store/reducers/initialState';
+
+let store = configureStore(initialState);
 
 describe("- Related Resources Component -", () => {
-  beforeEach(()=>{
+  beforeEach(() => {
     render(
-      <RelatedResources />
+      <Provider store={store}>
+        <RelatedResources setApiErrorDispatcher={jest.fn()} />
+      </Provider>
     );
   });
   it("should render content introduction without error", async () => {
