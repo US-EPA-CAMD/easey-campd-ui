@@ -39,6 +39,7 @@ export const TimePeriod = ({
   showQuarter = false,
   isAnnual = false,
   isAllowance = false,
+  isOzone = false,
   minYear = 1995,
   renderedHandler,
   loadFilterMappingDispatcher,
@@ -167,6 +168,7 @@ export const TimePeriod = ({
           minYear,
           isAnnual,
           isAllowance,
+          isOzone,
         );
       }
     } else {
@@ -406,6 +408,7 @@ export const TimePeriod = ({
       showQuarter={showQuarter}
       isAnnual={isAnnual}
       isAllowance={isAllowance}
+      isOzone={isOzone}
       minYear={minYear}
       dataType={dataType}
       dataSubType={dataSubType}

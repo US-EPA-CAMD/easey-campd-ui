@@ -31,6 +31,7 @@ const TimePeriodRender = ({
   showQuarter,
   isAnnual,
   isAllowance,
+  isOzone,
   minYear,
   dataType,
   dataSubType
@@ -94,6 +95,7 @@ const TimePeriodRender = ({
           isFormValid={isFormValid}
           isAnnual={isAnnual}
           isAllowance={isAllowance}
+          isOzone={isOzone}
           minYear={minYear}
         />
       ) : (

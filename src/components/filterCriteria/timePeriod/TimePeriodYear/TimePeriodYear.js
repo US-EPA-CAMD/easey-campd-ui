@@ -22,6 +22,7 @@ const TimePeriodYear = ({
   validations,
   isFormValid,
   isAnnual,
+  isOzone,
   isAllowance,
   minYear,
 }) => {
@@ -35,6 +36,8 @@ const TimePeriodYear = ({
       `Enter year(s) 1980, 1985, 1990, or a year between 1995 and the quarter ending on ${reportingQuarter()}`;
   } else if (isAllowance) {
     rangeMessage = 'Enter year(s) greater than or equal to 1995';
+  } else if(isOzone){
+    rangeMessage = `Enter year(s) between ${minYear} and the quarter ending on 09/30/${new Date().getFullYear()}`;
   } else {
     rangeMessage = `Enter year(s) between ${minYear} and and the quarter ending on ${reportingQuarter()}`;
   }
