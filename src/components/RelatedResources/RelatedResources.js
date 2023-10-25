@@ -17,7 +17,7 @@ const RelatedResources = ({ setApiErrorDispatcher }) => {
 
   useEffect(() => {
     document.title = 'Related Resources | CAMPD | US EPA';
-    getContent(`${relatedResourcesPath}/additional-data-tools.json`, setApiErrorDispatcher).then((resp) => setAdditionalDataTools(resp.data));
+    getContent(`${relatedResourcesPath}/additional-data-tools.json`, setApiErrorDispatcher).then((resp) => resp && setAdditionalDataTools(resp.data));
     getContent(`${relatedResourcesPath}/index.md`).then((resp) => setContentIntro(resp.data));
     //eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
