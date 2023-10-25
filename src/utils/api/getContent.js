@@ -18,12 +18,13 @@ const getContent = async (path, setApiError) => {
           ) : yup.object().shape(contentValidation[path]);
           const isValid = await schema.isValid(res.data);
           if (isValid) {
-            return handleResponse(res)
+            return handleResponse(res);
           } else {
-            setApiError('contentManager', true)
+            setApiError('contentManager', true);
+            throw new Error(path + " Vaildation failed");
           }
         } else {
-          setApiError('contentManager', true)
+          setApiError('contentManager', true);
         }
       }
       return handleResponse(res)
