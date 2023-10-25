@@ -177,7 +177,6 @@ describe('ManageDataPreview', () => {
       // console.log(tableTitle);
       // debug()
       // const table2 = queryByLabelText('data-table-title')
-      // console.log(table2);
     })
   })
 });
