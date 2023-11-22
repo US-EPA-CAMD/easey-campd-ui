@@ -1,0 +1,4 @@
+instances: 2
+environment: beta
+host: campd-beta.app.cloud.gov
+apiHost: api.epa.gov/easey/beta
