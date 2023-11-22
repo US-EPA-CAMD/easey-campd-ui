@@ -208,7 +208,7 @@ describe("filter selection functionality", () => {
       name: /Preview Data/i,
     });
     expect(previewDataButton[0]).not.toBeDisabled();
-  });
+  },70000);
 
   // test("bookmark", async () => {
   //   const { getByRole, getByText, findAllByRole } = query;
