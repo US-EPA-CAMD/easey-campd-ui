@@ -175,7 +175,7 @@ const MultiSelectCombobox = ({
       invalidEntries = [];
     itemsCopy.forEach((item) => {
       let { label, id } = item;
-      const _id = id.toLowerCase();
+      const _id = id && typeof (id) !== 'number' ? id.toLowerCase() : id;
       label = label.toString();
       const name = label.split("(")[0].slice(0, -1).toLowerCase();
       if (searchValueObj[_id] || searchValueObj[name]) {
