@@ -1,16 +1,27 @@
 import { Button } from '@trussworks/react-uswds';
 import React from 'react';
 import config from '../../../config';
-import { downloadFile } from './downloadFile';
+import { downloadFile, downloadFileByLocationReplace } from './downloadFile';
+import { detectBrowser } from '../../../utils/detectBrowser/detectBrowser';
 
 
 const BulkDataFilesDownload = ({ selectedFiles, fileSize, limitReached }) => {
-  const onDownloadHandler = () => {
-    selectedFiles.selectedRows.forEach((file) => {
-      const { s3Path } = file;
-      const url = `${config.services.bulkFiles.uri}/${s3Path}`;
-      downloadFile(url);
-    });
+  const sleep = (ms)=> new Promise((res)=>setTimeout(res,ms));
+
+  const onDownloadHandler = async() => {
+    const browser = detectBrowser();
+    for( let i = 0; i < selectedFiles.selectedRows?.length; i++) {
+       const { s3Path } = selectedFiles.selectedRows[i];
+       const url = `${config.services.bulkFiles.uri}/${s3Path}`;
+       if (browser === 'Safari'|| browser === 'Firefox') {
+        downloadFileByLocationReplace(url);
+       } else {
+        downloadFile(url)
+       }
+
+       await sleep(browser === 'Safari'|| browser === 'Firefox'? 500 : 0);
+    }
+
   };
 
   return (
