@@ -70,7 +70,7 @@ const BulkDataFilesFilters = ({
   const changeFromAppliedFilters = isMobileOrTablet && dataType !== appliedFilterSelection.dataType;
   useEffect(() => {
     if(filtersContent === null){
-      getContent('/campd/data/bulk-data-files/filters-content.json', setApiErrorDispatcher).then(resp => setFiltersContent(resp?.data));
+      getContent('/campd/data/bulk-data-files/filters-content.json', setApiErrorDispatcher).then(resp => resp && setFiltersContent(resp?.data));
     }
     if(dataTableRecords && initialTableRecords === null){
       setInitialTableRecords(JSON.parse(JSON.stringify(data)));
