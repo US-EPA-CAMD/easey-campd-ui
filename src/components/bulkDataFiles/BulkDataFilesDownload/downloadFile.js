@@ -6,3 +6,7 @@ export const downloadFile = (url) => {
     iframe.contentDocument.forms[0].submit();
     setTimeout(() => iframe.remove(), 2000);
   };
+
+  export const downloadFileByLocationReplace = (url) => {
+    window.location.replace(url,'_blank');
+  };
