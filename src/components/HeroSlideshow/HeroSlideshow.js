@@ -43,8 +43,9 @@ const HeroSlideshow = ({ slides }) => {
             <Button
               style={{ backgroundColor: isSelected ? "#1a4480" : "#71767a" }}
               onClick={handler}
+              aria-label={`Carousel ${idx + 1}`}
             >
-              Carousel {idx + 1}
+              {idx + 1}
             </Button>
           )}
         >
