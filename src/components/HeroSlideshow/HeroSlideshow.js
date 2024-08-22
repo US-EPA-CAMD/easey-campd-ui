@@ -38,12 +38,13 @@ const HeroSlideshow = ({ slides }) => {
           showArrows={false}
           showThumbs={false}
           infiniteLoop={false}
+          showStatus={false}
           renderIndicator={(handler, isSelected, idx) => (
             <Button
               style={{ backgroundColor: isSelected ? "#1a4480" : "#71767a" }}
               onClick={handler}
             >
-              {idx + 1}
+              Carousel {idx + 1}
             </Button>
           )}
         >
