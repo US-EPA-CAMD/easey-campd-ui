@@ -171,7 +171,7 @@ const TableMenu = ({
     setUnsort(false);
     setSortAsc(true);
     updateFilterCriteriaDispatcher({ sortArrowUp: topic.value });
-    updateAriaSort(e, "ascending");
+    updateAriaSort(e, "descending");
     handleClose();
   };
   const handleSortAscKeyDown = (e) => handleKeyDown(e, handleSortAsc, "Enter");
@@ -190,7 +190,7 @@ const TableMenu = ({
     setUnsort(false);
     setSortAsc(false);
     setSortDesc(true);
-    updateAriaSort(e, "descending");
+    updateAriaSort(e, "ascending");
     handleClose();
   };
   const handleSortDescKeyDown = (e) =>

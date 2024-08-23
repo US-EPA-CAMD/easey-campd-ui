@@ -148,9 +148,9 @@ export const setAriaSort = (event) => {
           }
         }else{
           if(currentColumn.ariaSort === "ascending"){
-            currentColumn.ariaSort = "descending"
+            currentColumn.ariaSort = "ascending"
           } else{
-            currentColumn.ariaSort = "ascending";
+            currentColumn.ariaSort = "descending";
           }
         }
       }else{
