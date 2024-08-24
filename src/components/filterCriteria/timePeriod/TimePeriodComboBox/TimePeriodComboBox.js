@@ -104,7 +104,7 @@ const TimePeriodComboBox = ({
             <MultiSelectCombobox
               items={JSON.parse(JSON.stringify(timePeriod.comboBoxYear))}
               label={`Select or Search ${filterToApply}s`}
-              entity={`${filterToApply.toLowerCase()}s`}
+              entity={`${filterToApply.toLowerCase().replace(/\s+/g, '-')}s`}
               onChangeUpdate={onChangeUpdate}
               searchBy="beginsWith"
             />
