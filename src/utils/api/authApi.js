@@ -18,3 +18,17 @@ export const refreshClientToken = async () => {
     handleError(err);
   }
 };
+
+export const authApiStatus = async () => {
+  const url = `${config.services.auth.uri}/authentication/login-state`;
+
+  try {
+    return await axios.get(
+      url,
+      { headers: { "x-api-key": config.app.apiKey } }
+    );
+  } catch (err) {
+    handleError(err);
+  }
+};
+

@@ -23,6 +23,10 @@ import { getTimePeriodYears } from '../../../utils/selectors/filterCriteria';
 import useCheckWidth from '../../../utils/hooks/useCheckWidth'
 import { metaAdder } from '../../../utils/document/metaAdder';
 import { getBookmarkData } from '../../../utils/api/camdApi';
+import { authApiStatus } from "../../../store/actions/authApiStatusAction";
+import getContent from "../../../utils/api/getContent";
+import setApiError from '../../../store/actions/setApiErrorAction';
+import Markdown from '../../Markdown/Markdown';
 // *** STYLES (individual component)
 import './CustomDataDownload.scss';
 
@@ -43,6 +47,9 @@ const CustomDataDownload = ({
   hideNavDispatcher,
   filterCriteria,
   loading,
+  authApiStatusDispatcher,
+  authApiStatus,
+  setApiErrorDispatcher,
 }) => {
 
   metaAdder(
@@ -87,36 +94,47 @@ const CustomDataDownload = ({
     dataSubType: '',
   });
   const [removedAppliedFilter, setRemovedAppliedFilter] = useState(null);
-  const [ bookmarkData, setBookmarkData ] = useState(null);
-  const [ bookmarkInit, setBookmarkInit ] = useState(false);
+  const [bookmarkData, setBookmarkData] = useState(null);
+  const [bookmarkInit, setBookmarkInit] = useState(false);
   const [applyFilterLoading, setApplyFilterLoading] = useState(false);
   const [handleApplyLoading, setHandleApplyLoading] = useState(false);
   const [localLoading, setLocalLoading] = useState(false);
+  const [maintenanceText, setMaintenanceText] = useState(null);
 
   useEffect(() => {
     document.title = 'Custom Data Download | CAMPD | US EPA';
     const params = new Proxy(new URLSearchParams(window.location.search), {
       get: (searchParams, prop) => searchParams.get(prop),
     });
-    if(params.bookmarkId){
+    if (params.bookmarkId) {
       getBookmarkData(Number(params.bookmarkId)).then(res => setBookmarkData(res.data?.bookmarkData));
       setBookmarkInit(true);
     }
   }, []);
 
-  useEffect(()=>{
-    if(bookmarkInit && bookmarkData){
-      if(selectedDataType === '' && selectedDataSubtype === ''){
+  useEffect(() => {
+    if (!authApiStatus) {
+      authApiStatusDispatcher()
+    }
+    if (authApiStatus === 'DOWN') {
+      getContent('/campd/data/home/maintenance.md', setApiErrorDispatcher).then(resp => setMaintenanceText(resp?.data));
+    }
+    //eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [authApiStatus]);
+
+  useEffect(() => {
+    if (bookmarkInit && bookmarkData) {
+      if (selectedDataType === '' && selectedDataSubtype === '') {
         updateSelectedDataTypeDispatcher(bookmarkData?.dataType);
-        const selectedDataSubtypeObj = constants.DATA_SUBTYPES_MAP[bookmarkData?.dataType].find(e=>e.label === bookmarkData?.dataSubType)
+        const selectedDataSubtypeObj = constants.DATA_SUBTYPES_MAP[bookmarkData?.dataType].find(e => e.label === bookmarkData?.dataSubType)
         setSelectedDataSubtype(selectedDataSubtypeObj.value);
-        bookmarkData.hasOwnProperty('aggregation') ? setSelectedAggregation(bookmarkData.aggregation) : setSelectedAggregation(''); 
-      }else {
+        bookmarkData.hasOwnProperty('aggregation') ? setSelectedAggregation(bookmarkData.aggregation) : setSelectedAggregation('');
+      } else {
         handleApplyButtonClick();
         window.history.pushState({}, document.title, window.location.href.split('?')[0])
       }
     }// eslint-disable-next-line
-  },[bookmarkData, selectedDataType, selectedDataSubtype]);
+  }, [bookmarkData, selectedDataType, selectedDataSubtype]);
 
   useEffect(() => {
     const resetFilters = () => {
@@ -129,7 +147,7 @@ const CustomDataDownload = ({
   }, []);
 
   useEffect(() => {
-    if (isMobileOrTablet) { 
+    if (isMobileOrTablet) {
       setDisplayCancelMobile(true);
     } else {
       setDisplayCancelMobile(false);
@@ -140,52 +158,54 @@ const CustomDataDownload = ({
 
   const fcRef = useRef(filterCriteria);
   fcRef.current = filterCriteria;
-  useEffect(()=>{//console.log(filterCriteria.timePeriod.comboBoxYear); console.log("called");
+  useEffect(() => {//console.log(filterCriteria.timePeriod.comboBoxYear); console.log("called");
     const dataSubType = getSelectedDataSubType(constants.DATA_SUBTYPES_MAP[selectedDataType]);
-    if(applyClicked && loading ===0 && !handleApplyLoading){
-      if (bookmarkInit && bookmarkData?.dataPreview?.excludedColumns.length){
-        updateFilterCriteriaDispatcher({excludeParams: bookmarkData?.dataPreview?.excludedColumns})
+    if (applyClicked && loading === 0 && !handleApplyLoading) {
+      if (bookmarkInit && bookmarkData?.dataPreview?.excludedColumns.length) {
+        updateFilterCriteriaDispatcher({ excludeParams: bookmarkData?.dataPreview?.excludedColumns })
       }
-      if(selectedDataType !== "EMISSIONS" && selectedDataType !== "MERCURY AND AIR TOXICS EMISSIONS" && 
-        selectedDataType !== "FACILITY" && dataSubType !== "Transactions"){
-        if((selectedDataType === "COMPLIANCE" || dataSubType === "Holdings") && comboBoxYearUpdated === false){//console.log("updatetime");
-          const distinctYears = [...new Set(filterCriteria.filterMapping.map(e=>selectedDataType === "COMPLIANCE" ? e.year : e.vintageYear))];
+      if (selectedDataType !== "EMISSIONS" && selectedDataType !== "MERCURY AND AIR TOXICS EMISSIONS" &&
+        selectedDataType !== "FACILITY" && dataSubType !== "Transactions") {
+        if ((selectedDataType === "COMPLIANCE" || dataSubType === "Holdings") && comboBoxYearUpdated === false) {//console.log("updatetime");
+          const distinctYears = [...new Set(filterCriteria.filterMapping.map(e => selectedDataType === "COMPLIANCE" ? e.year : e.vintageYear))];
           updateTimePeriodDispatcher({
             ...filterCriteria.timePeriod,
             comboBoxYear: distinctYears.map(year => {
               return {
-                id:year, 
-                label:year, 
-                selected: bookmarkData? bookmarkData.filters?.comboBoxYear.selected.includes(year) : false, 
-                enabled: bookmarkData? bookmarkData.filters?.comboBoxYear.enabled.includes(year) 
+                id: year,
+                label: year,
+                selected: bookmarkData ? bookmarkData.filters?.comboBoxYear.selected.includes(year) : false,
+                enabled: bookmarkData ? bookmarkData.filters?.comboBoxYear.enabled.includes(year)
                   || bookmarkData.filters?.comboBoxYear.selected.includes(year) : true
-              }})
+              }
+            })
           });
           setComboBoxYearUpdated(true);
         }
-        if(dataSubType === "Account Information"){
+        if (dataSubType === "Account Information") {
           setComboBoxYearUpdated(true);
         }
-        if(comboBoxYearUpdated && !bookmarkInit){
-          const executeFilterLogic = async() => {
+        if (comboBoxYearUpdated && !bookmarkInit) {
+          const executeFilterLogic = async () => {
             await setLocalLoading(true)
             engageFilterLogic(selectedDataType, dataSubType, null, JSON.parse(JSON.stringify(fcRef.current)), updateFilterCriteriaDispatcher, setLocalLoading, true);
-          setApplyClicked(false);
-          setComboBoxYearUpdated(false);}
+            setApplyClicked(false);
+            setComboBoxYearUpdated(false);
+          }
           executeFilterLogic()
-          setTimeout(()=>changeDataTypeButton && changeDataTypeButton.focus())
+          setTimeout(() => changeDataTypeButton && changeDataTypeButton.focus())
         }
-        if(comboBoxYearUpdated && bookmarkInit){
+        if (comboBoxYearUpdated && bookmarkInit) {
           applyBookmarkFilterTags(bookmarkData, filterCriteria, addAppliedFilterDispatcher);
           setBookmarkInit(false);
           handlePreviewDataButtonClick();
           setBookmarkData(null);
         }
-      }else if(bookmarkInit && bookmarkData && filterCriteria.filterMapping.length>0){
-        let distinctYears =[];
+      } else if (bookmarkInit && bookmarkData && filterCriteria.filterMapping.length > 0) {
+        let distinctYears = [];
         const bookmarkTimePeriod = bookmarkData.filters.timePeriod;
-        if(bookmarkData.dataSubType === "Transactions"){
-          distinctYears = [...new Set(filterCriteria.filterMapping.map(e=>e.vintageYear))];
+        if (bookmarkData.dataSubType === "Transactions") {
+          distinctYears = [...new Set(filterCriteria.filterMapping.map(e => e.vintageYear))];
         }
         updateTimePeriodDispatcher({
           ...filterCriteria.timePeriod,
@@ -193,78 +213,82 @@ const CustomDataDownload = ({
           endDate: bookmarkTimePeriod.endDate,
           opHrsOnly: bookmarkTimePeriod.opHrsOnly,
           year: bookmarkTimePeriod.year,
-          comboBoxYear: distinctYears?  distinctYears.map(year => {return {
-            id:year, 
-            label:year, 
-            selected: bookmarkData.filters.comboBoxYear.selected.includes(year), 
-            enabled: bookmarkData.filters.comboBoxYear.enabled.includes(year) || bookmarkData.filters.comboBoxYear.selected.includes(year)
-          }}) : [],
+          comboBoxYear: distinctYears ? distinctYears.map(year => {
+            return {
+              id: year,
+              label: year,
+              selected: bookmarkData.filters.comboBoxYear.selected.includes(year),
+              enabled: bookmarkData.filters.comboBoxYear.enabled.includes(year) || bookmarkData.filters.comboBoxYear.selected.includes(year)
+            }
+          }) : [],
           month: bookmarkTimePeriod.month,
-          quarter: bookmarkTimePeriod.quarter, 
+          quarter: bookmarkTimePeriod.quarter,
         });
         applyBookmarkFilterTags(bookmarkData, filterCriteria, addAppliedFilterDispatcher);
         setBookmarkInit(false);
         handlePreviewDataButtonClick();
         setBookmarkData(null);
       }
-    }else if (applyClicked){
+    } else if (applyClicked) {
       setHandleApplyLoading(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[applyClicked, loading, comboBoxYearUpdated, bookmarkData])
+  }, [applyClicked, loading, comboBoxYearUpdated, bookmarkData])
   const changeDataTypeButton = document.querySelector('#change-data-type-button');
   useEffect(() => {
-    setTimeout(() =>{if (handleApplyLoading) {
-      setHideFilterMenu(true);
-      setApplyClicked(true);
-      const dataSubType = getSelectedDataSubType(constants.DATA_SUBTYPES_MAP[selectedDataType]);
-      if (selectedDataType !== '' && selectedDataSubtype !== '') {
-        if(selectedDataType !== "EMISSIONS" && selectedDataType !== "FACILITY" && selectedDataType !== "MERCURY AND AIR TOXICS EMISSIONS" && dataSubType !== "Transactions"){
-          loadFilterMappingDispatcher(selectedDataType, dataSubType);
-        }else if(bookmarkInit && bookmarkData){
-          const { startDate, endDate, year } = bookmarkData.filters.timePeriod;
-          if(bookmarkData.filters.timePeriod.year.yearArray.length > 0){
-            loadFilterMappingDispatcher(bookmarkData.dataType, bookmarkData.dataSubType, getTimePeriodYears(null, null, year.yearString));
-          }else{
-            if(bookmarkData.dataSubType === "Transactions"){
-              loadFilterMappingDispatcher(bookmarkData.dataType, bookmarkData.dataSubType, [startDate, endDate])
-            }else if(bookmarkData.dataType === "MERCURY AND AIR TOXICS EMISSIONS" ){
-              loadFilterMappingDispatcher(bookmarkData.dataType, bookmarkData.dataSubType, getTimePeriodYears(startDate, endDate, null));
-            }else{
-              loadFilterMappingDispatcher(bookmarkData.dataType, bookmarkData.dataSubType, getTimePeriodYears(startDate, endDate));
+    setTimeout(() => {
+      if (handleApplyLoading) {
+        setHideFilterMenu(true);
+        setApplyClicked(true);
+        const dataSubType = getSelectedDataSubType(constants.DATA_SUBTYPES_MAP[selectedDataType]);
+        if (selectedDataType !== '' && selectedDataSubtype !== '') {
+          if (selectedDataType !== "EMISSIONS" && selectedDataType !== "FACILITY" && selectedDataType !== "MERCURY AND AIR TOXICS EMISSIONS" && dataSubType !== "Transactions") {
+            loadFilterMappingDispatcher(selectedDataType, dataSubType);
+          } else if (bookmarkInit && bookmarkData) {
+            const { startDate, endDate, year } = bookmarkData.filters.timePeriod;
+            if (bookmarkData.filters.timePeriod.year.yearArray.length > 0) {
+              loadFilterMappingDispatcher(bookmarkData.dataType, bookmarkData.dataSubType, getTimePeriodYears(null, null, year.yearString));
+            } else {
+              if (bookmarkData.dataSubType === "Transactions") {
+                loadFilterMappingDispatcher(bookmarkData.dataType, bookmarkData.dataSubType, [startDate, endDate])
+              } else if (bookmarkData.dataType === "MERCURY AND AIR TOXICS EMISSIONS") {
+                loadFilterMappingDispatcher(bookmarkData.dataType, bookmarkData.dataSubType, getTimePeriodYears(startDate, endDate, null));
+              } else {
+                loadFilterMappingDispatcher(bookmarkData.dataType, bookmarkData.dataSubType, getTimePeriodYears(startDate, endDate));
+              }
             }
           }
-        }
-        loadAllFiltersDispatcher(selectedDataType, dataSubType, filterCriteria, bookmarkData?.filters);
-        setDataTypeApplied(true);
-        setDataSubtypeApplied(true);
-        setAppliedDataType({
-          dataType: selectedDataType,
-          dataSubType: selectedDataSubtype,
-          aggregation: selectedAggregation,
-        });
-        updateSelectedAggregationDispatcher(selectedAggregation);
-        if (selectionChange) {
-          if(!onlyAggregationChanged){
-            removeAppliedFiltersDispatcher(null, true);
-            resetFilterDispatcher(null, true);
+          loadAllFiltersDispatcher(selectedDataType, dataSubType, filterCriteria, bookmarkData?.filters);
+          setDataTypeApplied(true);
+          setDataSubtypeApplied(true);
+          setAppliedDataType({
+            dataType: selectedDataType,
+            dataSubType: selectedDataSubtype,
+            aggregation: selectedAggregation,
+          });
+          updateSelectedAggregationDispatcher(selectedAggregation);
+          if (selectionChange) {
+            if (!onlyAggregationChanged) {
+              removeAppliedFiltersDispatcher(null, true);
+              resetFilterDispatcher(null, true);
+            }
+            if (selectedDataType !== "EMISSIONS") {
+              setSelectedAggregation('');
+              updateSelectedAggregationDispatcher("");
+            }
           }
-          if (selectedDataType !== "EMISSIONS"){
-            setSelectedAggregation('');
-            updateSelectedAggregationDispatcher("");
-          }
+          setSelectionChange(false);
+          setDisplayCancel(true);
+          updateSelectedDataSubTypeDispatcher(
+            getSelectedDataSubType(constants.DATA_SUBTYPES_MAP[selectedDataType])
+          );
         }
-        setSelectionChange(false);
-        setDisplayCancel(true);
-        updateSelectedDataSubTypeDispatcher(
-          getSelectedDataSubType(constants.DATA_SUBTYPES_MAP[selectedDataType])
-        );
+        setHandleApplyLoading(false);
+        setTimeout(() => {
+          changeDataTypeButton && changeDataTypeButton.focus()
+        })
       }
-      setHandleApplyLoading(false);
-      setTimeout(() => {
-        changeDataTypeButton && changeDataTypeButton.focus()
-      })
-    }})//eslint-disable-next-line react-hooks/exhaustive-deps
+    })//eslint-disable-next-line react-hooks/exhaustive-deps
   }, [handleApplyLoading])
   useEffect(() => {
     const noAggregationChange = appliedDataType.aggregation === selectedAggregation || !selectedAggregation;
@@ -280,7 +304,7 @@ const CustomDataDownload = ({
       appliedDataType.dataSubType === selectedDataSubtype && aggregationChange) {
       setOnlyAggregationChanged(true);
       setSelectionChange(true);
-      }else{
+    } else {
       setSelectionChange(true);
       setOnlyAggregationChanged(false);
     }
@@ -288,12 +312,12 @@ const CustomDataDownload = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedDataType, selectedDataSubtype, appliedDataType, selectedAggregation]);
 
-  useEffect(()=>{
-    if(!activeFilter && filterClickRef!==null){
+  useEffect(() => {
+    if (!activeFilter && filterClickRef !== null) {
       filterClickRef.focus();
       setFilterClickRef(null);
     }// eslint-disable-next-line react-hooks/exhaustive-deps
-  },[activeFilter]);
+  }, [activeFilter]);
 
   // *** EVENT HANDLERS
   const changeDataSubtype = (event) => {
@@ -315,7 +339,7 @@ const CustomDataDownload = ({
       setSelectedDataSubtype('');
       updateSelectedDataTypeDispatcher(value);
     }
-    if (constants.DATA_SUBTYPES_MAP[value].length === 1){
+    if (constants.DATA_SUBTYPES_MAP[value].length === 1) {
       setSelectedDataSubtype(1);
     }
   };
@@ -405,10 +429,17 @@ const CustomDataDownload = ({
     return entry ? entry.label : '';
   };
 
-  const mobileDataTypeDisplay = displayMobileDataType? 'width-full tablet:width-mobile-lg minh-viewport'
-  : 'display-none desktop:display-block';
-  const applyClickedLoading = selectedDataType === "COMPLIANCE" || getSelectedDataSubType(constants.DATA_SUBTYPES_MAP[selectedDataType]) === "Holdings"? applyClicked : false;
+  const mobileDataTypeDisplay = displayMobileDataType ? 'width-full tablet:width-mobile-lg minh-viewport'
+    : 'display-none desktop:display-block';
+  const applyClickedLoading = selectedDataType === "COMPLIANCE" || getSelectedDataSubType(constants.DATA_SUBTYPES_MAP[selectedDataType]) === "Holdings" ? applyClicked : false;
   const position = isMobileOrTablet ? 'position-absolute pin-y' : 'position-static';
+
+  if (authApiStatus === 'DOWN' && maintenanceText) {
+    return <div className='flex-justify-center d-flex padding-y-4 text-center'>
+      <Markdown className="maintenance-text">{maintenanceText}</Markdown>
+    </div>
+  }
+
   return (
     <div className="position-relative">
       <div
@@ -416,11 +447,10 @@ const CustomDataDownload = ({
         data-testid="manage-data-download-wrapper"
       >
         <div
-          className={`${
-            displayFilters
-              ? 'desktop:display-none desktop-lg:display-block'
-              : ''
-          } side-nav side-nav-height bg-base-lighter margin-0 ${mobileDataTypeDisplay +  ' ' + position}`}
+          className={`${displayFilters
+            ? 'desktop:display-none desktop-lg:display-block'
+            : ''
+            } side-nav side-nav-height bg-base-lighter margin-0 ${mobileDataTypeDisplay + ' ' + position}`}
         >
           <DataTypeSelectorView
             selectedDataType={selectedDataType}
@@ -455,15 +485,15 @@ const CustomDataDownload = ({
             isMobileOrTablet={isMobileOrTablet}
             setRemovedAppliedFilter={setRemovedAppliedFilter}
             renderPreviewData={renderPreviewData}
-          selectionChange={selectionChange}
+            selectionChange={selectionChange}
           />
-          <MobileMenu 
-          handleBackButtonClick={handleBackButtonClick}
-          appliedFilters={appliedFilters}
-          dataSubtypeApplied={dataSubtypeApplied}
-          handlePreviewDataButtonClick={handlePreviewDataButtonClick}
-          hideFilterMenu={hideFilterMenu}
-          resetFiltersDispatcher={resetFilterDispatcher}
+          <MobileMenu
+            handleBackButtonClick={handleBackButtonClick}
+            appliedFilters={appliedFilters}
+            dataSubtypeApplied={dataSubtypeApplied}
+            handlePreviewDataButtonClick={handlePreviewDataButtonClick}
+            hideFilterMenu={hideFilterMenu}
+            resetFiltersDispatcher={resetFilterDispatcher}
           />
         </div>
         <FilterCriteriaPanel
@@ -494,7 +524,7 @@ const CustomDataDownload = ({
           setRemovedAppliedFilter={setRemovedAppliedFilter}
           setApplyFilterLoading={setApplyFilterLoading}
         />
-        <RenderSpinner showSpinner={loading || filterCriteria.filterLogicEngaged || bookmarkInit || handleApplyLoading || applyFilterLoading || localLoading || comboBoxYearUpdated|| applyClickedLoading } />
+        <RenderSpinner showSpinner={loading || filterCriteria.filterLogicEngaged || bookmarkInit || handleApplyLoading || applyFilterLoading || localLoading || comboBoxYearUpdated || applyClickedLoading} />
       </div>
     </div>
   );
@@ -507,6 +537,7 @@ const mapStateToProps = (state) => {
     dataSubType: state.customDataDownload.dataSubType,
     filterCriteria: state.filterCriteria,
     loading: state.apiCallsInProgress,
+    authApiStatus: state.authApiStatus,
   };
 };
 
@@ -520,7 +551,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(updateSelectedDataSubType(dataSubType)),
     updateSelectedAggregationDispatcher: (aggregation) =>
       dispatch(updateSelectedAggregation(aggregation)),
-    updateFilterCriteriaDispatcher: (filterCriteria) => 
+    updateFilterCriteriaDispatcher: (filterCriteria) =>
       dispatch(updateFilterCriteria(filterCriteria)),
     removeAppliedFiltersDispatcher: (removedFilter, removeAll) =>
       dispatch(removeAppliedFilter(removedFilter, removeAll)),
@@ -532,7 +563,9 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(loadFilterMapping(dataType, dataSubType, years)),
     updateTimePeriodDispatcher: (timePeriod) =>
       dispatch(updateTimePeriod(timePeriod)),
-      hideNavDispatcher: (boolean) => dispatch(hideNav(boolean)),
+    hideNavDispatcher: (boolean) => dispatch(hideNav(boolean)),
+    authApiStatusDispatcher: (status) => dispatch(authApiStatus(status)),
+    setApiErrorDispatcher: (api, state, errorMessage) => dispatch(setApiError(api, state, errorMessage)),
   };
 };
 

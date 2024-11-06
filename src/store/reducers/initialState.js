@@ -1,4 +1,4 @@
-const initialState =  {
+const initialState = {
   customDataDownload: {
     dataType: '',
     dataSubType: '',
@@ -40,7 +40,7 @@ const initialState =  {
     sortArrowUp: null,
     filterLogicEngaged: false
   },
-  bulkDataFiles:{
+  bulkDataFiles: {
     dataTable: null
   },
   apiErrors: {
@@ -54,7 +54,8 @@ const initialState =  {
     errorMessages: null,
   },
   apiCallsInProgress: 0,
-  hideNav: false
+  hideNav: false,
+  authApiStatus: null
 };
 
 export default initialState;
