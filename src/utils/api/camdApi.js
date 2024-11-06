@@ -11,7 +11,9 @@ export const getBulkDataFilesList = async () => {
   const url = `${config.services.camd.uri}/bulk-files`;
 
   try {
-    return await axios.get(url, {
+    return clientTokenAxios({
+      method:"GET",
+      url,
       transformRequest: (data, headers) => {
         headers.common = {
           "cache-control": "Public",
@@ -45,7 +47,7 @@ export const getBookmarkData = async (id) => {
   const url = `${config.services.camd.uri}/bookmarks/${id}`;
 
   try {
-    return await axios({
+    return await clientTokenAxios({
       method: "GET",
       url: url,
     });

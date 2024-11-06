@@ -1,5 +1,6 @@
 import axios from "axios";
 import config from "../../config";
+import { clientTokenAxios } from "./clientTokenAxios";
 
 axios.defaults.headers.common = {
   "x-api-key": config.app.apiKey,
@@ -8,7 +9,10 @@ axios.defaults.headers.common = {
 const getSubmissionProgress = async (submissionPeriod) => {
   const url = `${config.services.emissions.uri}/emissions/submission-progress?submissionPeriod=${submissionPeriod}`;
 
-  return axios.get(url);
+  return clientTokenAxios({
+    method: "GET",
+    url: url,
+  });
 };
 
 export default getSubmissionProgress;
