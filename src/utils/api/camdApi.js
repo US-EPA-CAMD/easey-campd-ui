@@ -11,7 +11,7 @@ export const getBulkDataFilesList = async () => {
   const url = `${config.services.camd.uri}/bulk-files`;
 
   try {
-    return clientTokenAxios({
+    return await clientTokenAxios({
       method:"GET",
       url,
       transformRequest: (data, headers) => {
