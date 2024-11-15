@@ -9,8 +9,7 @@ export function authApiStatus() {
     return (dispatch) => {
         dispatch(beginApiCall());
         return authApi
-            .authApiStatus(() => dispatch(setApiError('authApiStatus', true)))
-            .then((res) => {
+            .authApiStatus().then((res) => {
                 if (res) { dispatch(authApiStatusSuccess(res.data)) };
             })
             .catch((err) => {

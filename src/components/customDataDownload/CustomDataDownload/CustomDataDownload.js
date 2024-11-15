@@ -564,7 +564,7 @@ const mapDispatchToProps = (dispatch) => {
     updateTimePeriodDispatcher: (timePeriod) =>
       dispatch(updateTimePeriod(timePeriod)),
     hideNavDispatcher: (boolean) => dispatch(hideNav(boolean)),
-    authApiStatusDispatcher: (status) => dispatch(authApiStatus(status)),
+    authApiStatusDispatcher: () => dispatch(authApiStatus()),
     setApiErrorDispatcher: (api, state, errorMessage) => dispatch(setApiError(api, state, errorMessage)),
   };
 };

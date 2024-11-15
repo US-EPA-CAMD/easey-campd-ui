@@ -142,7 +142,7 @@ const mapDispatchToProps = (dispatch) => {
     loadBulkDataFilesDispatcher: () => dispatch(loadBulkDataFiles()),
     setApiErrorDispatcher: (api, state, errorMessage) => dispatch(setApiError(api, state, errorMessage)),
     updateBulkDataFilesDispatcher: (bulkDataFiles) => dispatch(updateBulkDataFiles(bulkDataFiles)),
-    authApiStatusDispatcher: (status) => dispatch(authApiStatus(status)),
+    authApiStatusDispatcher: () => dispatch(authApiStatus()),
   };
 };
 
