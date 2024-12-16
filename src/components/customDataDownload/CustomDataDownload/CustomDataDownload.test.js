@@ -21,7 +21,7 @@ initStateCopy.customDataDownload.dataType = "COMPLIANCE";
 initStateCopy.filterCriteria.stateTerritory = [
   { id: "AK", label: "Alaska", selected: false, enabled: true },
 ];
-const store = configureStore(initStateCopy);
+let store = configureStore(initStateCopy);
 
 const matsDataType = "MERCURY AND AIR TOXICS EMISSIONS";
 const complianceDataType = "COMPLIANCE";
@@ -103,6 +103,10 @@ describe("datatype and subtype selection", () => {
 });
 
 describe("filters", () => {
+  beforeEach(() => {
+    initialState.authApiStatus = "ONLINE";
+    store = configureStore(initialState);
+  });
   test("Filters button is enabled after dataType and dataSubtype are applied", async () => {
     const { getAllByTestId, getByRole, findByRole } = render(
       <CustomDataDownload />,
@@ -163,6 +167,7 @@ describe("filters", () => {
 describe("filter selection functionality", () => {
   let query;
   beforeEach(async () => {
+    initialState.authApiStatus = "ONLINE";
     query = render(<CustomDataDownload />, store);
 
     const { getByRole } = query;

@@ -5,13 +5,15 @@ import bulkDataFiles from "./bulkDataFilesReducer";
 import apiCallsInProgress from "./apiStatusReducer";
 import apiErrors from "./apiErrorsReducer";
 import hideNav from "./hideNavReducer";
+import authApiStatus from './authApiStatusReducer';
 const rootReducer = combineReducers({
   filterCriteria,
   customDataDownload,
   apiCallsInProgress,
   apiErrors,
   bulkDataFiles,
-  hideNav
+  hideNav,
+  authApiStatus
 });
 
 export default rootReducer;

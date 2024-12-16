@@ -10,6 +10,7 @@ import { Button } from '@trussworks/react-uswds';
 import "./BulkDataFiles.scss";
 import RenderSpinner from '../../RenderSpinner/RenderSpinner';
 import setApiError from '../../../store/actions/setApiErrorAction';
+import { authApiStatus } from "../../../store/actions/authApiStatusAction";
 
 const BulkDataFiles = ({
   dataTable,
@@ -17,6 +18,8 @@ const BulkDataFiles = ({
   loadBulkDataFilesDispatcher,
   setApiErrorDispatcher,
   updateBulkDataFilesDispatcher,
+  authApiStatusDispatcher,
+  authApiStatus,
 }) => {
   const [helperText, setHelperText] = useState(null);
   const [showMobileFilters, setShowMobileFilters] = useState(false);
@@ -24,10 +27,22 @@ const BulkDataFiles = ({
   const [backButtonClicked, setBackButtonClicked] = useState(false);
   const [searchedItems, setSearchedItems] = useState([]);
   const [clearAllFiles, setClearAllFiles] = useState(false);
+  const [maintenanceText, setMaintenanceText] = useState(null);
+
+  useEffect(() => {
+    if (!authApiStatus) {
+      authApiStatusDispatcher()
+    }
+    if (authApiStatus === 'DOWN') {
+      getContent('/campd/data/home/maintenance.md', setApiErrorDispatcher).then(resp => setMaintenanceText(resp?.data));
+    }
+    //eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [authApiStatus]);
+
   useEffect(() => {
     document.title = 'Bulk Data Files | CAMPD | US EPA';
     getContent('/campd/data/bulk-data-files/helper-text.md', setApiErrorDispatcher).then(resp => setHelperText(resp?.data));
-    if(dataTable === null){
+    if(dataTable === null && authApiStatus !== 'DOWN'){
       loadBulkDataFilesDispatcher();
     }
     return () => updateBulkDataFilesDispatcher(null);// eslint-disable-next-line
@@ -66,6 +81,12 @@ const BulkDataFiles = ({
     'keywords',
     'EPA CAMD, FTP, prepackaged data download, static datasets, AMPD, emissions data, allowance, compliance, Clean air markets program data, emissions, analysis,  facility information, CAMPD, AMPD, CAMD'
   );
+
+  if (authApiStatus === 'DOWN' && maintenanceText) {
+    return <div className='flex-justify-center d-flex padding-y-4 text-center'>
+      <Markdown className="maintenance-text">{maintenanceText}</Markdown>
+    </div>
+  }
 
   return (
     <div className='container grid-row flex-wrap' id='bulk-data-files'>
@@ -111,7 +132,8 @@ const BulkDataFiles = ({
 const mapStateToProps = (state) => {
   return {
     dataTable: state.bulkDataFiles.dataTable,
-    loading: state.apiCallsInProgress
+    loading: state.apiCallsInProgress,
+    authApiStatus: state.authApiStatus,
   };
 };
 
@@ -120,6 +142,7 @@ const mapDispatchToProps = (dispatch) => {
     loadBulkDataFilesDispatcher: () => dispatch(loadBulkDataFiles()),
     setApiErrorDispatcher: (api, state, errorMessage) => dispatch(setApiError(api, state, errorMessage)),
     updateBulkDataFilesDispatcher: (bulkDataFiles) => dispatch(updateBulkDataFiles(bulkDataFiles)),
+    authApiStatusDispatcher: () => dispatch(authApiStatus()),
   };
 };
 
