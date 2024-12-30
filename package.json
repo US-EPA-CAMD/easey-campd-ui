@@ -9,7 +9,7 @@
     "url": "git+https://github.com/US-EPA-CAMD/easey-campd-ui.git"
   },
   "engines": {
-    "node": ">=16.20.0",
+    "node": "20.x",
     "yarn": ">=1.22.19"
   },
   "scripts": {
