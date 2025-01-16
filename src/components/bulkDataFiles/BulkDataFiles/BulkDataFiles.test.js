@@ -37,7 +37,7 @@ describe("Manage Bulk Data Files component: ", () => {
       store
     );
     const checkbox = await findAllByRole("checkbox");
-    await userEvent.click(checkbox[1]);
+    await userEvent.click(checkbox[2]);
     const downloadButton = getByRole("button", {
       name: /download/i,
     });
