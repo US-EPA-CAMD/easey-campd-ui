@@ -2,7 +2,7 @@ import React from "react";
 import { Provider } from "react-redux";
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from "react-router-dom";
-import TagManager from "react-gtm-module";
+import TagManager from "@sooro-io/react-gtm-module";
 
 import config from "./config";
 import App from "./components/App/App";
@@ -17,7 +17,12 @@ const container = document.getElementById('root');
 const root = createRoot(container);
 
 if (config.app.googleAnalyticsEnabled) {
-  let tagManagerArgs = { gtmId: config.app.googleAnalyticsContainerId };
+  // @ts-ignore
+  const nonce = window.__CSP_NONCE__;
+  const tagManagerArgs = {
+    gtmId: config.app.googleAnalyticsContainerId,
+    ...(nonce ? { nonce } : {}),
+  };
   TagManager.initialize(tagManagerArgs);
 }
 
