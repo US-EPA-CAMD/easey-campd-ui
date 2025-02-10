@@ -67,7 +67,7 @@ export function loadDataPreview(dataType, dataSubType, filterCriteria, aggregati
     .then((res) => {
       const excludableColumns = res.headers?.['x-excludable-columns']?  JSON.parse(res.headers['x-excludable-columns']) : [];
       dispatch(
-        loadDataPreviewSuccess(res.data, res.headers['x-total-count'], JSON.parse(res.headers['x-field-mappings']), excludableColumns)
+        loadDataPreviewSuccess((res.data?.items ?? res.data), res.headers['x-total-count'], JSON.parse(res.headers['x-field-mappings']), excludableColumns)
       );
     })
     .catch((err) => {
