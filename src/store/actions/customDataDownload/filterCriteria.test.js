@@ -28,11 +28,11 @@ describe("- Filter Criteria Async Actions -", () => {
   });
 
   it('should dispach appropriate actions for loadAllFilters action dispacher', () => {
-    const mockGetDataFromMDM= jest.fn().mockResolvedValue({data: []});
+    const mockGetDataFromMDM= jest.fn().mockResolvedValue({ data: { items: []} });
     jest.spyOn(filterCriteriaApi, "getPrograms").mockImplementation(mockGetDataFromMDM); 
     jest.spyOn(filterCriteriaApi, "getAllFacilities").mockImplementation(mockGetDataFromMDM); 
     jest.spyOn(filterCriteriaApi, "getStates").mockImplementation(mockGetDataFromMDM); 
-    const mockGetControlTechnologies = jest.fn().mockResolvedValue({data: [...data.mockControlTechnologies]});
+    const mockGetControlTechnologies = jest.fn().mockResolvedValue({data: { items: [...data.mockControlTechnologies]} });
     jest.spyOn(filterCriteriaApi, "getControlTechnologies").mockImplementation(mockGetControlTechnologies); 
     jest.spyOn(filterCriteriaApi, "getUnitTypes").mockImplementation(mockGetDataFromMDM); 
     jest.spyOn(filterCriteriaApi, "getFuelTypes").mockImplementation(mockGetDataFromMDM); 
