@@ -356,7 +356,7 @@ export const loadAllFilters = (dataType, dataSubType, filterCriteria, bookmarkFi
       .then((values) => {
         values.forEach((value, index) =>{
          if(value){
-          dispatchAction(value?.data?.items, apiCallOrder[index], dispatch, bookmarkFilters)
+          dispatchAction(value?.data?.items ?? value?.data, apiCallOrder[index], dispatch, bookmarkFilters)
          }
         });
       })

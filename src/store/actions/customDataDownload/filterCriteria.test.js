@@ -6,7 +6,6 @@ import {restructurePrograms, restructureControlTechnologies, restructureFuelType
 import { cleanup } from '@testing-library/react';
 import createMockStore from "redux-mock-store";
 import * as data from "../../../components/filterCriteria/mocks/mocks";
-import { mockFacilities } from "../../mocks/mocks";
 import * as filterCriteriaApi from '../../../utils/api/filterCriteriaApi';
 
 // Test an async action
