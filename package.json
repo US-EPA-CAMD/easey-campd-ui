@@ -14,6 +14,7 @@
   },
   "type": "module",
   "scripts": {
+    "prepare": "gulp init",
     "start": "vite",
     "build": "vite build",
     "test": "jest --coverage --testResultsProcessor=jest-sonar-reporter",
