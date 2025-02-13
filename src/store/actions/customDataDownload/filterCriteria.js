@@ -223,7 +223,7 @@ export function loadFilterMapping(dataType, dataSubType, yearsArray=[]) {
     return filterCriteriaApi
       .getFilterMapping(dataType, dataSubType, yearsArray)
       .then((res) => {
-        dispatch(loadFilterMappingSuccess(res.data));
+        dispatch(loadFilterMappingSuccess(res.data?.items));
       })
       .catch((err) => {
         dispatch(setApiError('filterLogic', true));
