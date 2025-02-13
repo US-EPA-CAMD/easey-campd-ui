@@ -76,7 +76,7 @@ const store = configureStore(initStateCopy);
 const columns = () =>
     fieldMappings.map(el => ({
       name: el.label,
-      selector: el.value,
+      selector: row => row[el.value],
       sortable: true
     }));
 

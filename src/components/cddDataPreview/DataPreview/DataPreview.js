@@ -91,7 +91,7 @@ export const DataPreview = ({
           setFocusAfterApply={setFocusAfterApply}
         />
       ),
-      selector: el.value,
+      selector: row => row[el.value],
       width: dataPreviewColumns[dataSubType][el.label] || '90 px',
       wrap: true,
     }));
