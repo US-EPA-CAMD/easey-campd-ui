@@ -6,20 +6,20 @@ applications:
     buildpacks:
       - nginx_buildpack
     env:
-      REACT_APP_EASEY_CAMPD_UI_ENV: ((environment))
-      REACT_APP_EASEY_CAMPD_UI_HOST: ((host))
-      REACT_APP_EASEY_MDM_API: https://((apiHost))/master-data-mgmt
-      REACT_APP_EASEY_FACILITIES_API: https://((apiHost))/facilities-mgmt
-      REACT_APP_EASEY_AUTH_API: https://((apiHost))/auth-mgmt
-      REACT_APP_EASEY_EMISSIONS_API: https://((apiHost))/emissions-mgmt
-      REACT_APP_EASEY_ACCOUNT_API: https://((apiHost))/account-mgmt
-      REACT_APP_EASEY_CONTENT_API: https://((apiHost))/content-mgmt
-      REACT_APP_EASEY_CAMD_API: https://((apiHost))/camd-services
-      REACT_APP_EASEY_STREAMING_API: https://((apiHost))/streaming-services
-      REACT_APP_EASEY_BULK_FILES_API: https://((apiHost))/bulk-files
-      REACT_APP_GOOGLE_ANALYTICS_CONTAINER_ID: ((googleAnalyticsContainerId))
-      REACT_APP_GOOGLE_ANALYTICS_ENABLED: ((googleAnalyticsEnabled))
-      REACT_APP_EASEY_CAMPD_UI_STREAMING_LIMIT: ((streamingLimit))
-      REACT_APP_EASEY_CAMPD_UI_EMAIL: ((supportEmail))
+      VITE_EASEY_CAMPD_UI_ENV: ((environment))
+      VITE_EASEY_CAMPD_UI_HOST: ((host))
+      VITE_EASEY_MDM_API: https://((apiHost))/master-data-mgmt
+      VITE_EASEY_FACILITIES_API: https://((apiHost))/facilities-mgmt
+      VITE_EASEY_AUTH_API: https://((apiHost))/auth-mgmt
+      VITE_EASEY_EMISSIONS_API: https://((apiHost))/emissions-mgmt
+      VITE_EASEY_ACCOUNT_API: https://((apiHost))/account-mgmt
+      VITE_EASEY_CONTENT_API: https://((apiHost))/content-mgmt
+      VITE_EASEY_CAMD_API: https://((apiHost))/camd-services
+      VITE_EASEY_STREAMING_API: https://((apiHost))/streaming-services
+      VITE_EASEY_BULK_FILES_API: https://((apiHost))/bulk-files
+      VITE_GOOGLE_ANALYTICS_CONTAINER_ID: ((googleAnalyticsContainerId))
+      VITE_GOOGLE_ANALYTICS_ENABLED: ((googleAnalyticsEnabled))
+      VITE_EASEY_CAMPD_UI_STREAMING_LIMIT: ((streamingLimit))
+      VITE_EASEY_CAMPD_UI_EMAIL: ((supportEmail))
     routes:
       - route: ((host))

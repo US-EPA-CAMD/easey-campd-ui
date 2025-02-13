@@ -34,6 +34,10 @@ Follow these [instructions](https://github.com/US-EPA-CAMD/devops/blob/master/GE
     ```
     $ yarn install --ignore-engines
     ```
+5. Initialize project to copy all the necessary Sass, image, font, and Javascript assets from the USWDS source code.
+    ```
+    $ npx gulp init
+    ```
 
 ## Building, Testing, & Running the application
 From within the projects root directory run the following commands using the yarn command line interface
@@ -64,7 +68,7 @@ $ yarn start
 ```
 
 ## Environment Variables
-Environment variables need to be prefixed by REACT_APP in order for the variables to be accessible on the window._env_ object in JavaScript.
+Environment variables need to be prefixed by VITE in order for the variables to be accessible on the window._env_ object in JavaScript.
 Environment Variable instructions found [here](https://github.com/US-EPA-CAMD/devops/blob/master/ENV_INSTRUCTIONS.md).
 
 ## License & Contributing

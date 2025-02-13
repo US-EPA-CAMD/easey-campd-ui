@@ -13,14 +13,52 @@
   .usa-sidenav__item {
     border-top: 1px solid rgba(158, 157, 157, 0.4);
   }
+  .usa-sidenav__item:hover {
+    cursor: pointer;
+  }
+  .usa-sidenav__item[aria-expanded="true"] {
+    background-color: #162E51;
+  }
   .usa-sidenav {
     border-bottom: 1px solid rgba(158, 157, 157, 0.4);
     background-color: transparent;
+    p {
+      margin: 0;
+      padding: 5px 40px 10px 40px;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin: 0;
+      padding: 5px 0 0 40px;
+    }
+    .coming-soon {
+      border-top: 1px solid #FFFFFF1F;
+    }
   }
   .usa-sidenav a {
     padding-right: 0px;
   }
   .usa-sidenav a:not(.usa-button):not(.usa-current):hover {
     color: white;
+    background-color: #1A4480;
   }
+  .usa-sidenav .usa-current,
+.usa-sidenav a:not(.usa-button):not(.usa-current) {
+    color: white;
+}
+
+.usa-sidenav a:not(.usa-button):hover{
+    background-color: #1A4480;
+}
+
+.usa-sidenav .usa-sidenav__item[aria-expanded="true"] a:not(.usa-button):hover{
+    background-color: #162E51;
+}
+
+.usa-sidenav__sublist .usa-sidenav__item .usa-current {
+    color: #97D4EA;
+}
+
+.usa-sidenav .usa-current::after {
+    background-color: #00BDE3;
+}
 }

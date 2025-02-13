@@ -10,7 +10,6 @@ import * as serviceWorker from "./serviceWorker";
 import configureStore from "./store/configureStore.dev";
 
 import '@trussworks/react-uswds/lib/index.css';
-import './styles/index.scss';
 
 const store = configureStore();
 const container = document.getElementById('root');

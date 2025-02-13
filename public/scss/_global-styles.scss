@@ -1,0 +1,98 @@
+@use "variables" as *;
+
+// body {
+//   font-family: $epa-generic-font-family !important;
+// }
+
+.panel-header > h2,
+.panel-header > h3 {
+  text-align: left;
+  font-size: 30px;
+  font-weight: bold;
+  letter-spacing: 0px;
+  color: #212121;
+  opacity: 1;
+  display: inline;
+}
+
+.whatIsNewBox {
+  .title {
+    background-color: $epa-green;
+  }
+  .box {
+    border-color: $epa-green;
+    border-bottom-width: thick;
+  }
+}
+
+.easey-progress-bar {
+  flex: 100%;
+  display: flex;
+  flex-wrap: wrap-reverse;
+
+  .wrapper {
+    position: relative;
+    height: 50px;
+    background-color: white;
+    border-radius: 3px;
+    outline: 3px solid #005ea2;
+  }
+
+  .progressFill {
+    height: 100%;
+    background-color: #005ea2;
+  }
+
+  .progressText {
+    position: absolute;
+    top: 15px;
+    font-weight: bold;
+    font-family: 'Quicksand', sans-serif;
+    left: 20px;
+    font-size: 1.5rem;
+    color: white;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: black;
+  }
+
+  .title {
+    padding-left: 15px;
+    padding-top: 10px;
+  }
+
+  .mainTitleText {
+    font-size: 1rem;
+  }
+
+  .subTitleText {
+    font-size: 0.8rem;
+  }
+
+  @media only screen and (min-width: 300px) and (max-width: 640px) {
+    .wrapper {
+      flex: 100%;
+    }
+
+    .title {
+      flex: 100%;
+    }
+
+    .mainTitleText {
+      text-align: right;
+    }
+
+    .subTitleText {
+      text-align: right;
+    }
+  }
+
+  @media only screen and (min-width: 641px) {
+    .wrapper {
+      flex: 50%;
+    }
+
+    .title {
+      flex: 50%;
+    }
+  }
+}
