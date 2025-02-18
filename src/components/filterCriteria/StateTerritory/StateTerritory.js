@@ -38,7 +38,7 @@ const StateTerritory = ({
     setApplyFilterLoading(true);
     setTimeout(async()=>{
       await updateFilters();
-      if(fcRef.current.filterMapping.length>0){
+      if(fcRef.current.filterMapping?.length>0){
       engageFilterLogic(dataType, dataSubType, filterToApply, JSON.parse(JSON.stringify(fcRef.current)), updateFilterCriteriaDispatcher, setApplyFilterLoading);
     } else {
       setApplyFilterLoading(false)
