@@ -89,7 +89,7 @@ const getAttributes = rest.get(attributes.url, (req, res, ctx) => {
   return res(ctx.json(attributes.data));
 });
 const getFacilities = rest.get(facilities.url, (req, res, ctx) => {
-  return res(ctx.json(facilities.data));
+  return res(ctx.json(facilities.data.items));
 });
 const getOwnerOperators = rest.get(ownerOperators.url, (req, res, ctx) => {
   return res(ctx.json(ownerOperators.data));

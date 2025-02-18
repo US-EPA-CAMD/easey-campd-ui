@@ -904,7 +904,7 @@ export const programCodes = {
 };
 export const facilities = {
   url: `${config.services.facilities.uri}/facilities`,
-  data: [
+  data:{items: [
     {
       facilityRecordId: 1,
       facilityId: 3,
@@ -931,7 +931,7 @@ export const facilities = {
         { rel: "contacts", href: "/api/facility-mgmt/facilities/2/contacts" },
       ],
     },
-  ],
+  ]}
 };
 
 export const ownerOperators = {
