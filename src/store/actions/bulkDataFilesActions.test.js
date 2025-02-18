@@ -16,7 +16,7 @@ describe("bulk data files Async Actions", () => {
   });
   it("should create BEGIN_API_CALL and LOAD_BULK_DATA_FILES_SUCCESS when loading list of bulk data files", () => {
     
-    const mockGetBulkDataFilesList = jest.fn().mockResolvedValue({data: [...mockBulkDataFilesRecords]});
+    const mockGetBulkDataFilesList = jest.fn().mockResolvedValue({ data: { items: [...mockBulkDataFilesRecords]} });
     jest.spyOn(camdApi, "getBulkDataFilesList").mockImplementation(mockGetBulkDataFilesList); 
 
     const expectedActions = [
