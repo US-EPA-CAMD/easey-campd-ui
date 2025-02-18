@@ -107,7 +107,7 @@ const CustomDataDownload = ({
       get: (searchParams, prop) => searchParams.get(prop),
     });
     if (params.bookmarkId) {
-      getBookmarkData(Number(params.bookmarkId)).then(res => setBookmarkData(res.data?.items?.bookmarkData));
+      getBookmarkData(Number(params.bookmarkId)).then(res => setBookmarkData(res.data?.bookmarkData));
       setBookmarkInit(true);
     }
   }, []);
