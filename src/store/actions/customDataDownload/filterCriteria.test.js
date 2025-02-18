@@ -88,7 +88,7 @@ describe("- Filter Criteria Async Actions -", () => {
   });
 
   it("should dispatch appropriate actions for loadFilterMapping", () => {
-    const mockGetFilterMapping = jest.fn().mockResolvedValue({data: [...data.mockFilterMapping]});
+    const mockGetFilterMapping = jest.fn().mockResolvedValue({ data: { items: [...data.mockFilterMapping]} });
     jest.spyOn(filterCriteriaApi, "getFilterMapping").mockImplementation(mockGetFilterMapping); 
     const expectedActions = [
       { type: 'BEGIN_API_CALL' },

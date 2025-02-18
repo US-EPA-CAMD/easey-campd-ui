@@ -107,7 +107,7 @@ const CustomDataDownload = ({
       get: (searchParams, prop) => searchParams.get(prop),
     });
     if (params.bookmarkId) {
-      getBookmarkData(Number(params.bookmarkId)).then(res => setBookmarkData(res.data?.bookmarkData));
+      getBookmarkData(Number(params.bookmarkId)).then(res => setBookmarkData(res.data?.items?.bookmarkData));
       setBookmarkInit(true);
     }
   }, []);
@@ -167,7 +167,7 @@ const CustomDataDownload = ({
       if (selectedDataType !== "EMISSIONS" && selectedDataType !== "MERCURY AND AIR TOXICS EMISSIONS" &&
         selectedDataType !== "FACILITY" && dataSubType !== "Transactions") {
         if ((selectedDataType === "COMPLIANCE" || dataSubType === "Holdings") && comboBoxYearUpdated === false) {//console.log("updatetime");
-          const distinctYears = [...new Set(filterCriteria.filterMapping.map(e => selectedDataType === "COMPLIANCE" ? e.year : e.vintageYear))];
+          const distinctYears = [...new Set(filterCriteria.filterMapping?.map(e => selectedDataType === "COMPLIANCE" ? e.year : e.vintageYear))];
           updateTimePeriodDispatcher({
             ...filterCriteria.timePeriod,
             comboBoxYear: distinctYears.map(year => {
