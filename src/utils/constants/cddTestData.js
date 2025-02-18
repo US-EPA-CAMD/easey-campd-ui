@@ -956,12 +956,12 @@ export const ownerOperators = {
 
 export const hourlyEmissions = {
   url: `${config.services.emissions.uri}/emissions/apportioned/hourly`,
-  data: [],
+  data:{ items:[]},
 };
 
 export const hourlyEmissionsStreaming = {
   url: `${config.services.streaming.uri}/emissions/apportioned/hourly`,
-  data: [],
+  data: { items:[]},
 };
 export const dataPreview = {
   data: [
