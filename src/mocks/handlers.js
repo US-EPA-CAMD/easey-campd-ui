@@ -96,9 +96,9 @@ const getOwnerOperators = rest.get(ownerOperators.url, (req, res, ctx) => {
 });
 
 const getEmissions = rest.get(hourlyEmissions.url, (req, res, ctx) => {
-  const mockedData = hourlyEmissions.data;
+  const mockedData = hourlyEmissions.data.items;
   const mockedHeaders = {
-    "x-total-count": hourlyEmissions.data.length,
+    "x-total-count": hourlyEmissions.data.items.length,
     "x-field-mappings": JSON.stringify([]),
     "x-excludable-columns": JSON.stringify([]),
   };
@@ -108,9 +108,9 @@ const getEmissions = rest.get(hourlyEmissions.url, (req, res, ctx) => {
 const getStreamingEmissions = rest.get(
   hourlyEmissionsStreaming.url,
   (req, res, ctx) => {
-    const mockedData = hourlyEmissions.data;
+    const mockedData = hourlyEmissions.data.items;
     const mockedHeaders = {
-      "x-total-count": hourlyEmissions.data.length,
+      "x-total-count": hourlyEmissions.data.items.length,
       "x-field-mappings": JSON.stringify([]),
       "x-excludable-columns": JSON.stringify([]),
     };
