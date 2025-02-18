@@ -16,7 +16,7 @@ export function loadBulkDataFiles() {
     return camdApi
       .getBulkDataFilesList(()=>dispatch(setApiError('bulkDataFiles', true)))
       .then((res) => {
-        if(res){dispatch(loadBulkDataFilesSuccess(res.data))};
+        if(res){dispatch(loadBulkDataFilesSuccess(res.data.items ?? res.data))}
       })
       .catch((err) => {
         dispatch(setApiError('bulkDataFiles', true))
