@@ -69,7 +69,7 @@ export const filterProgram = (filterCriteria) =>{
 
 export const filterStateTerritory = (filterCriteria) =>{
   const filteredSet = [...new Set(
-    filterCriteria.filterMapping.filter(x => {
+    filterCriteria.filterMapping?.filter(x => {
       return (selection.years.length === 0 || selection.years.includes(x?.year | x?.date?.substring(0,4))) &&
       (selection.programs.length === 0 || selection.programs.includes(x.programCode)) &&
       (selection.fuelTypes.length === 0 || selection.fuelTypes.includes(x.fuelTypeCode)) &&
@@ -99,7 +99,7 @@ export const filterStateTerritory = (filterCriteria) =>{
 
 export const filterFacility = (filterCriteria) =>{
   const filteredSet = [...new Set(
-    filterCriteria.filterMapping.filter(x => {
+    filterCriteria.filterMapping?.filter(x => {
       return (selection.years.length === 0 || selection.years.includes(x?.year | x?.date?.substring(0,4))) &&
       (selection.states.length === 0 || selection.states.includes(x?.stateCode)
       || selection.states.includes(x?.buyState) || selection.states.includes(x?.sellState)) &&
@@ -243,7 +243,7 @@ export const filterAccountType = (filterCriteria) =>{
 
 export const filterOwnerOperator = (filterCriteria) =>{
   const filteredSet = [...new Set(
-    filterCriteria.filterMapping.filter(x => {
+    filterCriteria.filterMapping?.filter(x => {
       return (selection.programs.length === 0 || (selection.programs.includes(x.programCode) && x.ownerOperator !== null)) &&
       (selection.acctNumbers.length === 0 || selection.acctNumbers.includes(x?.accountNumber)
       || selection.acctNumbers.includes(x?.buyAccountNumber) || selection.acctNumbers.includes(x?.sellAccountNumber)) &&
@@ -263,7 +263,7 @@ export const filterOwnerOperator = (filterCriteria) =>{
 
 export const filterComboBoxYear = (filterCriteria) =>{
   const filteredSet = [...new Set(
-    filterCriteria.filterMapping.filter(x => {
+    filterCriteria.filterMapping?.filter(x => {
       return (selection.programs.length === 0 || selection.programs.includes(x.programCode)) &&
       (selection.acctNumbers.length === 0 || selection.acctNumbers.includes(x?.accountNumber)
       || selection.acctNumbers.includes(x?.buyAccountNumber) || selection.acctNumbers.includes(x?.sellAccountNumber)) &&

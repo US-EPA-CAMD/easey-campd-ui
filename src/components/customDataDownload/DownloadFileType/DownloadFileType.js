@@ -46,7 +46,7 @@ const DownloadFileType = ({ aggregation, dataType, dataSubType, filterCriteria, 
           //const url = window.webkitURL.createObjectURL([response.data], { type: fileType });
 
           const url = window.URL.createObjectURL(
-            new Blob([response.data], { type: fileType })
+            new Blob([(response.data?.items ?? response.data)], { type: fileType })
           );
 
           const link = document.createElement("a");

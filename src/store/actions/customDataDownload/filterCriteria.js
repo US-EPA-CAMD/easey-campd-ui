@@ -223,7 +223,7 @@ export function loadFilterMapping(dataType, dataSubType, yearsArray=[]) {
     return filterCriteriaApi
       .getFilterMapping(dataType, dataSubType, yearsArray)
       .then((res) => {
-        dispatch(loadFilterMappingSuccess(res.data));
+        dispatch(loadFilterMappingSuccess(res.data?.items ?? res.data));
       })
       .catch((err) => {
         dispatch(setApiError('filterLogic', true));
@@ -356,7 +356,7 @@ export const loadAllFilters = (dataType, dataSubType, filterCriteria, bookmarkFi
       .then((values) => {
         values.forEach((value, index) =>{
          if(value){
-          dispatchAction(value.data, apiCallOrder[index], dispatch, bookmarkFilters)
+          dispatchAction(value.data?.items ?? value.data, apiCallOrder[index], dispatch, bookmarkFilters)
          }
         });
       })
