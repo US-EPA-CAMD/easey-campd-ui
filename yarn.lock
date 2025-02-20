@@ -2135,6 +2135,11 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
+"@sooro-io/react-gtm-module@^3.0.1":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@sooro-io/react-gtm-module/-/react-gtm-module-3.0.1.tgz#0089cc8f0d21dba7c1ecaa553027cd45789d9731"
+  integrity sha512-lksbK1vKvkRsritcKObh9DjqiKpGQB99O4R89vT2KdHWU9SbR9eX/EgjBn7m3VR6GC9wF25/YX/D4lADRfjZcw==
+
 "@surma/rollup-plugin-off-main-thread@^2.2.3":
   version "2.2.3"
   resolved "https://registry.yarnpkg.com/@surma/rollup-plugin-off-main-thread/-/rollup-plugin-off-main-thread-2.2.3.tgz#ee34985952ca21558ab0d952f00298ad2190c053"
@@ -9795,11 +9800,6 @@ react-fast-compare@^3.0.1:
   version "3.2.2"
   resolved "https://registry.yarnpkg.com/react-fast-compare/-/react-fast-compare-3.2.2.tgz#929a97a532304ce9fee4bcae44234f1ce2c21d49"
   integrity sha512-nsO+KSNgo1SbJqJEYRE9ERzo7YtYbou/OqjSQKxV7jcKox7+usiUVZOAC+XnDOABXggQTno0Y1CpVnuWEc1boQ==
-
-react-gtm-module@^2.0.11:
-  version "2.0.11"
-  resolved "https://registry.yarnpkg.com/react-gtm-module/-/react-gtm-module-2.0.11.tgz#14484dac8257acd93614e347c32da9c5ac524206"
-  integrity sha512-8gyj4TTxeP7eEyc2QKawEuQoAZdjKvMY4pgWfycGmqGByhs17fR+zEBs0JUDq4US/l+vbTl+6zvUIx27iDo/Vw==
 
 react-hook-form@^7.43.9:
   version "7.54.2"
