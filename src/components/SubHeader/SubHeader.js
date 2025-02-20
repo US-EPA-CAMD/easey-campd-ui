@@ -67,7 +67,7 @@ const SubHeader = () => {
         style={{
           backgroundImage:
             pathname === "/"
-              ? `url(${process.env.PUBLIC_URL + "/images/header-bg.png"})`
+              ? `url(${"/images/header-bg.png"})`
               : null,
           backgroundSize: "cover",
           backgroundPosition: "center top",
@@ -78,7 +78,7 @@ const SubHeader = () => {
           <Title className="logo-wrapper float-left margin-0 desktop-lg:padding-top-2">
             <span className="display-block display-flex desktop:display-block desktop-lg:display-flex">
               <img
-                src={`${process.env.PUBLIC_URL}/images/campd-mark.svg`}
+                src={`/images/campd-mark.svg`}
                 alt="CAMPD Logo"
               />
               <h1 className="display-inline-block text-white text-heavy font-sans-3xl margin-0">
@@ -113,7 +113,7 @@ const SubHeader = () => {
               }}
             >
               <img
-                src={`${process.env.PUBLIC_URL}/images/icons/mobile-menu-expand.svg`}
+                src={`/images/icons/mobile-menu-expand.svg`}
                 alt="Expandable Menu"
                 className={"position-absolute bottom-1px"}
               />
@@ -134,7 +134,7 @@ const SubHeader = () => {
               }}
             >
               <img
-                src={`${process.env.PUBLIC_URL}/images/icons/mobile-menu-collapse.svg`}
+                src={`/images/icons/mobile-menu-collapse.svg`}
                 alt="Collapsable Menu"
                 className={
                   showMobileMenu

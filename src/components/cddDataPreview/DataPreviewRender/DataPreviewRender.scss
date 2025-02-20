@@ -1,4 +1,4 @@
-@import "../../../styles/variables";
+@use "../../../../public/scss/variables" as *;
 
 @media screen and (min-width: 480px) {
   .data-preview-header {
