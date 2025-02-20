@@ -904,7 +904,7 @@ export const programCodes = {
 };
 export const facilities = {
   url: `${config.services.facilities.uri}/facilities`,
-  data: [
+  data:{items: [
     {
       facilityRecordId: 1,
       facilityId: 3,
@@ -931,7 +931,7 @@ export const facilities = {
         { rel: "contacts", href: "/api/facility-mgmt/facilities/2/contacts" },
       ],
     },
-  ],
+  ]}
 };
 
 export const ownerOperators = {
@@ -956,12 +956,12 @@ export const ownerOperators = {
 
 export const hourlyEmissions = {
   url: `${config.services.emissions.uri}/emissions/apportioned/hourly`,
-  data: [],
+  data:{ items:[]},
 };
 
 export const hourlyEmissionsStreaming = {
   url: `${config.services.streaming.uri}/emissions/apportioned/hourly`,
-  data: [],
+  data: { items:[]},
 };
 export const dataPreview = {
   data: [
