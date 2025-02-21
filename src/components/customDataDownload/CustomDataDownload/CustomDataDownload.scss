@@ -1,4 +1,4 @@
-@import "../../../styles/variables";
+@use "../../../../public/scss/variables" as *;
 
 .data-display-table {
   max-height: 100vh !important; /* Default height for small screens */

@@ -2,11 +2,19 @@
 // allows you to do things like:
 // expect(element).toHaveTextContent(/react/i)
 // learn more: https://github.com/testing-library/jest-dom
-import "@testing-library/jest-dom/extend-expect";
+// import "@testing-library/jest-dom/extend-expect";
+import '@testing-library/jest-dom';
 import { server } from "./mocks/server";
 import React from "react";
 import { cleanup } from "@testing-library/react";
 global.XMLHttpRequest = undefined;
+
+import nodeCrypto from 'crypto';
+window.crypto = {
+  getRandomValues: function (buffer) {
+    return nodeCrypto.randomFillSync(buffer);
+  }
+}
 
 jest.mock("react-markdown", () => ({ children }) => <>{children}</>);
 jest.mock("remark-gfm", () => () => {});

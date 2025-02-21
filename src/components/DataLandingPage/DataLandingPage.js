@@ -55,7 +55,7 @@ const DataLandingPage = ({setApiErrorDispatcher}) => {
               >
                 <div className="display-flex flex-row flex-justify-start margin-bottom-105">
                   <img
-                    src={`${process.env.PUBLIC_URL}${topic.imgPath}`}
+                    src={`${topic.imgPath}`}
                     alt={topic.imgAlt}
                   />
                   <h2 className="text-bold font-sans-xl line-height-sans-3 margin-y-0 padding-left-105">
