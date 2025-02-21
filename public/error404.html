@@ -13,8 +13,12 @@
   <meta name="HandheldFriendly" content="true">
 
   <script src="/env-config.js"></script>
+
+  <script nonce="###NONCE###">
+    window.__CSP_NONCE__ = "###NONCE###";
+  </script>
   
-  <script language="javascript">
+  <script language="javascript" nonce="###NONCE###">
     function toggleGovBanner(obj) {
       var ariaExpanded = obj.getAttribute("aria-expanded");
       obj.setAttribute("aria-expanded", ariaExpanded === "true" ? "false" : "true");
