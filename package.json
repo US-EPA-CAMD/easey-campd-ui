@@ -39,7 +39,7 @@
     "@mui/material": "^5.11.15",
     "@sooro-io/react-gtm-module": "^3.0.1",
     "@trussworks/react-uswds": "^4.1.1",
-    "@us-epa-camd/easey-design-system": "^1.36.1",
+    "@us-epa-camd/easey-design-system": "^1.37.2",
     "@uswds/uswds": "^3.4.1",
     "@welldone-software/why-did-you-render": "^7.0.1",
     "axios": "^1.7.4",
