@@ -11,6 +11,8 @@ import { dataTable } from "../../../utils/constants/bulkDataFilesTestData";
 let store = configureStore(initialState);
 jest.setTimeout(70000);
 
+const authApiStatus="ONLINE"
+
 /*****
  */
 
@@ -25,16 +27,17 @@ describe("Manage Bulk Data Files component: ", () => {
   afterEach(cleanup);
   beforeEach(() => {
     initialState.bulkDataFiles.dataTable = dataTable;
+    initialState.authApiStatus = "ONLINE";
     store = configureStore(initialState);
   });
 
   test("download button is enabled after files are selected", async () => {
     const { getByRole, findAllByRole } = render(
-      <BulkDataFiles dataTable={dataTable} />,
+      <BulkDataFiles dataTable={dataTable} authApiStatus={authApiStatus}/>,
       store
     );
     const checkbox = await findAllByRole("checkbox");
-    await userEvent.click(checkbox[1]);
+    await userEvent.click(checkbox[2]);
     const downloadButton = getByRole("button", {
       name: /download/i,
     });
@@ -76,7 +79,7 @@ describe("Manage Bulk Data Files component: ", () => {
 
   test("file size is updated when files are added or removed", async () => {
     const { findAllByRole, getByText } = render(
-      <BulkDataFiles dataTable={dataTable} />,
+      <BulkDataFiles dataTable={dataTable} authApiStatus={authApiStatus} />,
       store
     );
     const checkbox = await findAllByRole("checkbox");
@@ -88,7 +91,7 @@ describe("Manage Bulk Data Files component: ", () => {
 
   test("file size is reset when filters are cleared", async () => {
     const { findAllByRole, getByText, getAllByText } = render(
-      <BulkDataFiles dataTable={dataTable} />,
+      <BulkDataFiles dataTable={dataTable} authApiStatus={authApiStatus}/>,
       store
     );
     const checkbox = await findAllByRole("checkbox");
@@ -102,7 +105,7 @@ describe("Manage Bulk Data Files component: ", () => {
   test("file size is reset when selected data type is selectOptionsd", async () => {
     window.confirm = jest.fn(() => true);
     const { getByText, findByTestId, findAllByRole } = render(
-      <BulkDataFiles dataTable={dataTable} />,
+      <BulkDataFiles dataTable={dataTable} authApiStatus={authApiStatus} />,
       store
     );
     const dataTypeFilter = await findByTestId("dataType-select");
@@ -117,7 +120,7 @@ describe("Manage Bulk Data Files component: ", () => {
   test("file size is not reset when year filter is selectOptionsd", async () => {
     window.confirm = jest.fn(() => true);
     const { getByText, findByTestId, findByRole, findAllByRole, debug } =
-      render(<BulkDataFiles dataTable={dataTable} />, store);
+      render(<BulkDataFiles dataTable={dataTable} authApiStatus={authApiStatus}/>, store);
     const dataTypeFilter = await findByTestId("dataType-select");
     await userEvent.selectOptions(dataTypeFilter, "Emissions");
     const checkbox = await findAllByRole("checkbox");
@@ -145,7 +148,7 @@ describe("Manage Bulk Data Files component: ", () => {
 
   test("Alert pops up when file size exceeds download limit", async () => {
     const { findByText, findByRole } = render(
-      <BulkDataFiles dataTable={dataTable} />,
+      <BulkDataFiles dataTable={dataTable}  authApiStatus={authApiStatus}/>,
       store
     );
 

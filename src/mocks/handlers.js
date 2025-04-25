@@ -1,4 +1,4 @@
-import { rest } from "msw";
+import { http, HttpResponse } from "msw";
 import config from "../config";
 import { dataTable } from "../utils/constants/bulkDataFilesTestData";
 import {
@@ -24,130 +24,134 @@ import contentApiHandlers from "./api/content";
 
 //cdd calls
 const clientTokenUrl = `${config.services.auth.uri}/tokens/client`;
-const getClientToken = rest.get(clientTokenUrl, (req, res, ctx) => {
-  return res(ctx.json({ token: "123" }));
+const getClientToken = http.get(clientTokenUrl, (req, res, ctx) => {
+  return new Response(JSON.stringify({token: "123"}));
 });
-const refreshClientToken = rest.post(clientTokenUrl, (req, res, ctx) => {
+const refreshClientToken = http.post(clientTokenUrl, (req, res, ctx) => {
   sessionStorage.setItem("client_token", "123");
   sessionStorage.setItem("client_token_expiration", new Date() + 5);
-  return res(ctx.json({ token: "123" }));
+  return new Response(JSON.stringify({token: "123"}));
 });
 const logErrorUrl = `${config.services.camd.uri}/logging/error`;
-const logError = rest.post(logErrorUrl, (req, res, ctx) =>
-  res(ctx.status(200))
+const logError = http.post(logErrorUrl, (req, res, ctx) => {
+    return new HttpResponse(null, {
+      status: 200,
+    })
+  }
 );
 
 const bookmarkUrl = `${config.services.camd.uri}/bookmarks`;
-const createBookmarkUrl = rest.post(bookmarkUrl, (req, res, ctx) => {
-  return res(
-    ctx.json({
-      bookmarkId: 1072,
-      bookmarkAddDate: "2022-05-23T12:56:45.587Z",
-      bookmarkLastAccessedDate: "2022-05-23T16:13:13.011Z",
-      bookmarkHitCount: 2,
-    })
-  );
+const createBookmarkUrl = http.post(bookmarkUrl, (req, res, ctx) => {
+  return new Response(JSON.stringify({
+    bookmarkId: 1072,
+    bookmarkAddDate: "2022-05-23T12:56:45.587Z",
+    bookmarkLastAccessedDate: "2022-05-23T16:13:13.011Z",
+    bookmarkHitCount: 2,
+  }));
 });
 const emissionsApplicableAttributesUrl = `${config.services.emissions.uri}/applicable/*`;
-const getEmissionsApplicableAttributes = rest.get(
+const getEmissionsApplicableAttributes = http.get(
   emissionsApplicableAttributesUrl,
-  (req, res, ctx) => res(ctx.json([]))
+  (req, res, ctx) => new Response(JSON.stringify([]))
 );
 export const bulkDataFileDownloadUrl = `${config.services.bulkFiles.uri}/*`;
-const downloadBulkDataFile = rest.get(
+const downloadBulkDataFile = http.get(
   bulkDataFileDownloadUrl,
   (req, res, ctx) => {
-    return res(ctx.status(200), ctx.json());
+    return new HttpResponse(null, {
+      status: 200,
+    })
   }
 );
 
-const getUnitTypes = rest.get(unitTypes.url, (req, res, ctx) => {
-  return res(ctx.json(unitTypes.data));
+const getUnitTypes = http.get(unitTypes.url, (req, res, ctx) => {
+  return new Response(JSON.stringify(unitTypes.data));
 });
-const getFuelTypes = rest.get(fuelTypes.url, (req, res, ctx) => {
-  return res(ctx.json(fuelTypes.data));
+const getFuelTypes = http.get(fuelTypes.url, (req, res, ctx) => {
+  return new Response(JSON.stringify(fuelTypes.data));
 });
-const getStates = rest.get(states.url, (req, res, ctx) => {
-  return res(ctx.json(states.data));
+const getStates = http.get(states.url, (req, res, ctx) => {
+  return new Response(JSON.stringify(states.data));
 });
-const getControlTechnologies = rest.get(
+const getControlTechnologies = http.get(
   controlTechnologies.url,
   (req, res, ctx) => {
-    return res(ctx.json(controlTechnologies.data));
+    return new Response(JSON.stringify(controlTechnologies.data));
   }
 );
-const getAccountTypes = rest.get(accountTypes.url, (req, res, ctx) => {
-  return res(ctx.json(accountTypes.data));
+const getAccountTypes = http.get(accountTypes.url, (req, res, ctx) => {
+  return new Response(JSON.stringify(accountTypes.data));
 });
-const getTransactionTypes = rest.get(transactionTypes.url, (req, res, ctx) => {
-  return res(ctx.json(transactionTypes.data));
+const getTransactionTypes = http.get(transactionTypes.url, (req, res, ctx) => {
+  return new Response(JSON.stringify(transactionTypes.data));
 });
-const getSourceCategories = rest.get(sourceCategories.url, (req, res, ctx) => {
-  return res(ctx.json(sourceCategories.data));
+const getSourceCategories = http.get(sourceCategories.url, (req, res, ctx) => {
+  return new Response(JSON.stringify(sourceCategories.data));
 });
-const getAttributes = rest.get(attributes.url, (req, res, ctx) => {
-  return res(ctx.json(attributes.data));
+const getAttributes = http.get(attributes.url, (req, res, ctx) => {
+  return new Response(JSON.stringify(attributes.data));
 });
-const getFacilities = rest.get(facilities.url, (req, res, ctx) => {
-  return res(ctx.json(facilities.data));
+const getFacilities = http.get(facilities.url, (req, res, ctx) => {
+  return new Response(JSON.stringify(facilities.data.items));
 });
-const getOwnerOperators = rest.get(ownerOperators.url, (req, res, ctx) => {
-  return res(ctx.json(ownerOperators.data));
+const getOwnerOperators = http.get(ownerOperators.url, (req, res, ctx) => {
+  return new Response(JSON.stringify(ownerOperators.data));
 });
 
-const getEmissions = rest.get(hourlyEmissions.url, (req, res, ctx) => {
-  const mockedData = hourlyEmissions.data;
+const getEmissions = http.get(hourlyEmissions.url, (req, res, ctx) => {
+  const mockedData = hourlyEmissions.data.items;
   const mockedHeaders = {
-    "x-total-count": hourlyEmissions.data.length,
+    "x-total-count": hourlyEmissions.data.items.length,
     "x-field-mappings": JSON.stringify([]),
     "x-excludable-columns": JSON.stringify([]),
   };
-
-  return res(ctx.json(mockedData), ctx.set(mockedHeaders));
+  return new Response(JSON.stringify(mockedData), {
+    headers: mockedHeaders,
+  });
 });
-const getStreamingEmissions = rest.get(
+const getStreamingEmissions = http.get(
   hourlyEmissionsStreaming.url,
   (req, res, ctx) => {
-    const mockedData = hourlyEmissions.data;
+    const mockedData = hourlyEmissions.data.items;
     const mockedHeaders = {
-      "x-total-count": hourlyEmissions.data.length,
+      "x-total-count": hourlyEmissions.data.items.length,
       "x-field-mappings": JSON.stringify([]),
       "x-excludable-columns": JSON.stringify([]),
     };
-
-    return res(ctx.json(mockedData), ctx.set(mockedHeaders));
+    return new Response(JSON.stringify(mockedData), {
+      headers: mockedHeaders,
+    });
   }
 );
-const getAccountAttributes = rest.get(accountAttributes.url, (req, res, ctx) =>
-  res(ctx.json(accountAttributes.data))
+const getAccountAttributes = http.get(accountAttributes.url, (req, res, ctx) =>
+  new Response(JSON.stringify(accountAttributes.data))
 );
-const getAllowanceCompliance = rest.get(
+const getAllowanceCompliance = http.get(
   allowanceCompliance.url,
-  (req, res, ctx) => res(ctx.json(allowanceCompliance.data))
+  (req, res, ctx) =>
+    new Response(JSON.stringify(allowanceCompliance.data))
 );
-const getAllowanceHoldings = rest.get(allowanceHoldings.url, (req, res, ctx) =>
-  res(ctx.json(allowanceHoldings.data))
+const getAllowanceHoldings = http.get(allowanceHoldings.url, (req, res, ctx) =>
+  new Response(JSON.stringify(allowanceHoldings.data))
 );
-const getProgramCodes = rest.get(programCodes.url, (req, res, ctx) =>
-  res(ctx.json(programCodes.data))
+const getProgramCodes = http.get(programCodes.url, (req, res, ctx) =>
+  new Response(JSON.stringify(programCodes.data))
 );
 //bulk data files
 
 const bulkDataFilesUrl = `${config.services.camd.uri}/bulk-files`;
-const getBulkDataFiles = rest.get(bulkDataFilesUrl, (req, res, ctx) => {
-  return res(ctx.json(dataTable));
+const getBulkDataFiles = http.get(bulkDataFilesUrl, (req, res, ctx) => {
+  return new Response(JSON.stringify(dataTable));
 });
 
 const submissionUrl = `${config.services.emissions.uri}/emissions/submission-progress`;
-const getSubmissionProgress = rest.get(submissionUrl, (req, res, ctx) => {
-  return res(
-    ctx.json({ year: 2022, quarterName: "second", percentage: "30%" })
-  );
+const getSubmissionProgress = http.get(submissionUrl, (req, res, ctx) => {
+  return new Response(JSON.stringify({ year: 2022, quarterName: "second", percentage: "30%" }));
 });
 
 const emailUrl = `${config.services.camd.uri}/support/email`;
 
-const getCompAK = rest.get(
+const getCompAK = http.get(
   `${config.services.account.uri}/emissions-compliance`,
   (req, res, ctx) => {
     // const { page, perPage, stateCode } = req.url.searchParams;
@@ -158,13 +162,16 @@ const getCompAK = rest.get(
       "x-field-mappings": JSON.stringify(dataPreview.fieldMappings),
       "x-excludable-columns": JSON.stringify(dataPreview.excludableColumns),
     };
-
-    return res(ctx.json(mockedData), ctx.set(mockedHeaders));
+    return new Response(JSON.stringify(mockedData), {
+      headers: mockedHeaders,
+    });
   }
 );
 
-const notification = rest.post(emailUrl, (req, res, ctx) => {
-  return res(ctx.status(200));
+const notification = http.post(emailUrl, (req, res, ctx) => {
+  return new HttpResponse(null, {
+    status: 200,
+  });
 });
 
 export const handlers = [

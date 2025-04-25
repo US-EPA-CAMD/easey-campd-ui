@@ -1,4 +1,4 @@
-import { rest } from "msw";
+import { http } from "msw";
 import config from "../../config";
 import { filtersContent } from "../../utils/constants/bulkDataFilesTestData";
 import {
@@ -14,16 +14,16 @@ import {
 } from "../testData";
 
 const helperTextUrl = `${config.services.content.uri}/campd/data/custom-data-download/helper-text.md`;
-const getHelperText = rest.get(helperTextUrl, (req, res, ctx) => {
-  return res(ctx.json("this is CDD helper text"));
+const getHelperText = http.get(helperTextUrl, (req, res, ctx) => {
+  return new Response(JSON.stringify("this is CDD helper text"));
 });
 const limitTextUrl = `${config.services.content.uri}/campd/data/custom-data-download/download-limit-alert.md`;
-const getLimitText = rest.get(limitTextUrl, (req, res, ctx) => {
-  return res(ctx.json("this is CDD download limit"));
+const getLimitText = http.get(limitTextUrl, (req, res, ctx) => {
+  return new Response(JSON.stringify("this is CDD download limit"));
 });
 const apiErrorsMessagesUrl = `${config.services.content.uri}/campd/api-error-messages.json`;
-const getApiErrorMessages = rest.get(apiErrorsMessagesUrl, (req, res, ctx) =>
-  ctx.json({
+const getApiErrorMessages = http.get(apiErrorsMessagesUrl, (req, res, ctx) =>{
+  return new Response(JSON.stringify({
     contentManager:
       "All of the content on this page may not be available. If you continue to encounter this issue, contact CAMPD support: campd-support@camdsupport.com",
     filterLogic:
@@ -40,109 +40,110 @@ const getApiErrorMessages = rest.get(apiErrorsMessagesUrl, (req, res, ctx) =>
       "All of the content on this page may not be available. If you continue to encounter this issue, contact CAMPD support: campd-support@camdsupport.com",
     s3Outage:
       "All of the content on this page may not be available. If you continue to encounter this issue, contact CAMPD support: campd-support@camdsupport.com",
-  })
+  }));
+}
 );
 
 const matsCaveatUrl = `${config.services.content.uri}/campd/data/custom-data-download/mats-data-caveat.md`;
-const getMatsCaveat = rest.get(matsCaveatUrl, (req, res, ctx) => {
-  return res(ctx.json("this is mats caveat"));
+const getMatsCaveat = http.get(matsCaveatUrl, (req, res, ctx) => {
+  return new Response(JSON.stringify("this is mats caveat"));
 });
 
 const bulkHelperTextUrl = `${config.services.content.uri}/campd/data/bulk-data-files/helper-text.md`;
 const downloadLimitAlertUrl = `${config.services.content.uri}/campd/data/bulk-data-files/download-limit-alert.md`;
-const getBulkHelperTextUrl = rest.get(bulkHelperTextUrl, (req, res, ctx) => {
-  return res(ctx.json("Bulk Data Files"));
+const getBulkHelperTextUrl = http.get(bulkHelperTextUrl, (req, res, ctx) => {
+  return new Response(JSON.stringify("Bulk Data Files"));
 });
-const getDownloadLimitAlert = rest.get(
+const getDownloadLimitAlert = http.get(
   downloadLimitAlertUrl,
   (req, res, ctx) => {
-    return res(ctx.json("Download Limit Alert"));
+    return new Response(JSON.stringify("Download Limit Alert"));
   }
 );
 
 const filtersUrl = `${config.services.content.uri}/campd/data/bulk-data-files/filters-content.json`;
-const getFilters = rest.get(filtersUrl, (req, res, ctx) => {
-  return res(ctx.json(filtersContent));
+const getFilters = http.get(filtersUrl, (req, res, ctx) => {
+  return new Response(JSON.stringify(filtersContent));
 });
 
 const titleUrlLayout = `${config.services.content.uri}/campd/home/main-title.md`;
 const contentUrlLayout = `${config.services.content.uri}/campd/home/main-content.md`;
-const getTitleLayout = rest.get(titleUrlLayout, (req, res, ctx) => {
-  return res(ctx.json("Title text.."));
+const getTitleLayout = http.get(titleUrlLayout, (req, res, ctx) => {
+  return new Response(JSON.stringify("Title text.."));
 });
-const getContentLayout = rest.get(contentUrlLayout, (req, res, ctx) => {
-  return res(ctx.json("Content text.."));
+const getContentLayout = http.get(contentUrlLayout, (req, res, ctx) => {
+  return new Response(JSON.stringify("Content text.."));
 });
 
-const getTutorialsContent = rest.get(
+const getTutorialsContent = http.get(
   `${config.services.content.uri}/campd/help-support/tutorials/index.md`,
   (req, res, ctx) => {
-    return res(ctx.json("this is campd"));
+    return new Response(JSON.stringify("this is campd"));
   }
 );
 const relaseNotesUrl = `${config.services.content.uri}/campd/help-support/about/release-notes.json`;
-const getReleaseNotes = rest.get(relaseNotesUrl, (req, res, ctx) => {
-  return res(ctx.json(releases));
+const getReleaseNotes = http.get(relaseNotesUrl, () => {
+  return new Response(JSON.stringify(releases));
 });
 const aboutUrl = `${config.services.content.uri}/campd/help-support/about/index.md`;
-const getAboutContent = rest.get(aboutUrl, (req, res, ctx) => {
-  return res(ctx.json("this is campd"));
+const getAboutContent = http.get(aboutUrl, () => {
+  return new Response(JSON.stringify('this is campd'));
 });
 const indexUrl = `${config.services.content.uri}/campd/help-support/contact-us/index.md`;
 const commentTypesUrl = `${config.services.content.uri}/campd/help-support/contact-us/comment-types.json`;
 const statusTextUrl = `${config.services.content.uri}/campd/help-support/contact-us/submit-status-text.json`;
 
-const getIndex = rest.get(indexUrl, (req, res, ctx) => {
-  return res(ctx.json("Title text.."));
+const getIndex = http.get(indexUrl, (req, res, ctx) => {
+  return new Response(JSON.stringify("Title text.."));
 });
-const getCommentTypes = rest.get(commentTypesUrl, (req, res, ctx) => {
-  return res(ctx.json(commentTypes));
+const getCommentTypes = http.get(commentTypesUrl, (req, res, ctx) => {
+  return new Response(JSON.stringify(commentTypes));
 });
-const getStatus = rest.get(statusTextUrl, (req, res, ctx) => {
-  return res(ctx.json(statuses));
+const getStatus = http.get(statusTextUrl, (req, res, ctx) => {
+  return new Response(JSON.stringify(statuses));
 });
 
-const getHomeContent = rest.get(
+const getHomeContent = http.get(
   `${config.services.content.uri}/campd/data/home/index.json`,
   (req, res, ctx) => {
-    return res(ctx.json(homeContent));
+    return new Response(JSON.stringify(homeContent));
   }
 );
-const getHomeHeader = rest.get(
+const getHomeHeader = http.get(
   `${config.services.content.uri}/campd/data/home/header.md`,
   (req, res, ctx) => {
-    return res(ctx.json("Data Access Methods"));
+    return new Response(JSON.stringify("Data Access Methods"));
   }
 );
-const getFaqTitle = rest.get(
+const getFaqTitle = http.get(
   `${config.services.content.uri}/campd/help-support/faqs/index.md`,
   (req, res, ctx) => {
-    return res(ctx.json("Title text.."));
+    return new Response(JSON.stringify("Title text.."));
   }
 );
-const getFaqContent = rest.get(
+const getFaqContent = http.get(
   `${config.services.content.uri}/campd/help-support/faqs/topics.json`,
   (req, res, ctx) => {
-    return res(ctx.json(topics));
+    return new Response(JSON.stringify(topics));
   }
 );
 
-const getGlossaryContent = rest.get(
+const getGlossaryContent = http.get(
   `${config.services.content.uri}/campd/help-support/glossary/index.md`,
   (req, res, ctx) => {
-    return res(ctx.json(glossaryContent));
+    return new Response(JSON.stringify(glossaryContent));
   }
 );
-const getGlossaryPdf = rest.get(
+const getGlossaryPdf = http.get(
   `${config.services.content.uri}/campd/help-support/glossary/CAMPD-Glossary.pdf`,
   (req, res, ctx) => {
-    return res(ctx.json("glossary PDF Content"));
+    return new Response(JSON.stringify("glossary PDF Content"));
   }
 );
-const getGlossaryCsv = rest.get(
+const getGlossaryCsv = http.get(
   `${config.services.content.uri}/campd/help-support/glossary/CAMPD-Glossary.xlsx`,
   (req, res, ctx) => {
-    return res(ctx.json("glossary CSV Content"));
+    return new Response(JSON.stringify("glossary CSV Content"));
   }
 );
 
@@ -154,54 +155,56 @@ const getDataCardUrl = `${config.services.content.uri}/campd/home/data-card.md`;
 
 const getVisualGalleryCardUrl = `${config.services.content.uri}/campd/home/visualization-gallery-card.md`;
 
-const getWhatIsNewContent = rest.get(getWhatIsNewUrl, (req, res, ctx) => {
-  return res(ctx.json("What Is New Box Content"));
+const getWhatIsNewContent = http.get(getWhatIsNewUrl, (req, res, ctx) => {
+  return new Response(JSON.stringify("What Is New Box Content"));
 });
-const getWhatIsNewTitle = rest.get(getWhatIsNewTitleUrl, (req, res, ctx) => {
-  return res(ctx.json("What Is New Box Title"));
+const getWhatIsNewTitle = http.get(getWhatIsNewTitleUrl, (req, res, ctx) => {
+  return new Response(JSON.stringify("What Is New Box Title"));
 });
-const getDataCard = rest.get(getDataCardUrl, (req, res, ctx) => {
-  return res(ctx.json("Data"));
+const getDataCard = http.get(getDataCardUrl, (req, res, ctx) => {
+  return new Response(JSON.stringify("Data"));
 });
-const getVisualGallery = rest.get(getVisualGalleryCardUrl, (req, res, ctx) => {
-  return res(ctx.json("Visualization Gallery"));
+const getVisualGallery = http.get(getVisualGalleryCardUrl, (req, res, ctx) => {
+  return new Response(JSON.stringify("Visualization Gallery"));
 });
 
-const getAdditionalToolsUrl = rest.get(
+const getAdditionalToolsUrl = http.get(
   `${config.services.content.uri}/campd/help-support/related-resources/additional-data-tools.json`,
   (req, res, ctx) => {
-    return res(ctx.json(additionalDataTools));
+    return new Response(JSON.stringify(additionalDataTools));
   }
 );
-const getContentIntro = rest.get(
+const getContentIntro = http.get(
   `${config.services.content.uri}/campd/help-support/related-resources/index.md`,
   (req, res, ctx) => {
-    return res(ctx.json("This is related resources intro.."));
+    return new Response(JSON.stringify("This is related resources intro.."));
   }
 );
 const vizContentUrl = `${config.services.content.uri}/campd/visualization-gallery`;
 
 const vizHandlers = [
-  rest.get(`${vizContentUrl}/intro-text.md`, (req, res, ctx) => {
-    return res(ctx.json("Visualization Gallery is a collection..."));
+  http.get(`${vizContentUrl}/intro-text.md`, (req, res, ctx) => {
+    return new Response(JSON.stringify("Visualization Gallery is a collection..."));
   }),
-  rest.get(`${vizContentUrl}/slides.json`, (req, res, ctx) => {
-    return res(ctx.json(slides));
+  http.get(`${vizContentUrl}/slides.json`, (req, res, ctx) => {
+    return new Response(JSON.stringify(slides));
   }),
-  rest.get(`${vizContentUrl}/slides/:imageOrText`, (req, res, ctx) => {
-    return res(ctx.json(""));
+  http.get(`${vizContentUrl}/slides/:imageOrText`, (req, res, ctx) => {
+    return new Response(JSON.stringify(""));
   }),
-  rest.get(`${vizContentUrl}/tools.json`, (req, res, ctx) => {
-    return res(ctx.json(tools));
+  http.get(`${vizContentUrl}/tools.json`, (req, res, ctx) => {
+    return new Response(JSON.stringify(tools));
   }),
-  rest.get(`${vizContentUrl}/tools/:imageOrDescription`, (req, res, ctx) => {
-    return res(ctx.json(""));
+  http.get(`${vizContentUrl}/tools/:imageOrDescription`, (req, res, ctx) => {
+    return new Response(JSON.stringify(""));
   }),
 ];
 
-const getUnhandledContent = rest.get(
+const getUnhandledContent = http.get(
   `${config.services.content.uri}/*`,
-  (req, res, ctx) => res(ctx.json("got content"))
+  (req, res, ctx) => {
+    return new Response(JSON.stringify("got content"));
+  }
 );
 
 const contentApiHandlers = [
