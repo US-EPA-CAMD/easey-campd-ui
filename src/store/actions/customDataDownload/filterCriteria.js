@@ -292,12 +292,12 @@ const dispatchAction = (result, filter, dispatch, bookmarkFilters) =>{
   }
 };
 
-export const loadAllFilters = (dataType, dataSubType, filterCriteria, bookmarkFilters) =>{
+export const loadAllFilters = (dataType, dataSubType, filterCriteria, enabledLoadProgram, bookmarkFilters) =>{
   const filters = FILTERS_MAP[dataType][dataSubType].map(obj => obj.value);
   const promises=[];
   const apiCallOrder=[];
   return(dispatch) => {
-    if(filterCriteria.program.length === 0 && filters.includes(API_CALLING_FILTERS[0])){
+    if(enabledLoadProgram && filters.includes(API_CALLING_FILTERS[0])){
       dispatch(beginApiCall());
       promises.push(filterCriteriaApi.getPrograms(dataType, dataSubType === "Holdings"? true : false));
       apiCallOrder.push(API_CALLING_FILTERS[0]);
