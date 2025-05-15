@@ -235,6 +235,9 @@ const CustomDataDownload = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [applyClicked, loading, comboBoxYearUpdated, bookmarkData])
   const changeDataTypeButton = document.querySelector('#change-data-type-button');
+  const [lastDataType, setLastDataType] = useState(null);
+  const [lastDataSubType, setLastDataSubType] = useState(null);
+
   useEffect(() => {
     setTimeout(() => {
       if (handleApplyLoading) {
@@ -258,7 +261,12 @@ const CustomDataDownload = ({
               }
             }
           }
-          loadAllFiltersDispatcher(selectedDataType, dataSubType, filterCriteria, bookmarkData?.filters);
+          let enabledLoadProgram = lastDataSubType !== dataSubType || lastDataType !== selectedDataType
+          if (enabledLoadProgram) {
+            setLastDataSubType(dataSubType);
+            setLastDataType(selectedDataType);
+          }
+          loadAllFiltersDispatcher(selectedDataType, dataSubType, filterCriteria, enabledLoadProgram, bookmarkData?.filters);
           setDataTypeApplied(true);
           setDataSubtypeApplied(true);
           setAppliedDataType({
@@ -555,8 +563,8 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(updateFilterCriteria(filterCriteria)),
     removeAppliedFiltersDispatcher: (removedFilter, removeAll) =>
       dispatch(removeAppliedFilter(removedFilter, removeAll)),
-    loadAllFiltersDispatcher: (dataType, dataSubType, filterCriteria, bookmarkFilters) =>
-      dispatch(loadAllFilters(dataType, dataSubType, filterCriteria, bookmarkFilters)),
+    loadAllFiltersDispatcher: (dataType, dataSubType, filterCriteria, enabledLoadProgram, bookmarkFilters) =>
+      dispatch(loadAllFilters(dataType, dataSubType, filterCriteria, enabledLoadProgram, bookmarkFilters)),
     resetFilterDispatcher: (filterToReset, resetAll) =>
       dispatch(resetFilter(filterToReset, resetAll)),
     loadFilterMappingDispatcher: (dataType, dataSubType, years) =>

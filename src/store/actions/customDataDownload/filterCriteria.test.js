@@ -75,7 +75,8 @@ describe("- Filter Criteria Async Actions -", () => {
         actions.loadAllFilters(
           'EMISSIONS',
           'Hourly Emissions',
-          initState.filterCriteria
+          initState.filterCriteria,
+          true
         )
       )
       .then(() => {
