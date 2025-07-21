@@ -65,9 +65,16 @@ export function loadDataPreview(dataType, dataSubType, filterCriteria, aggregati
     dispatch(beginApiCall());
     return mapSelectionToApiCall(dataType, dataSubType, filterCriteria, aggregation, () => dispatch(setApiError('dataPreview', true)))
     .then((res) => {
+      let fieldMappings = JSON.parse(res.headers['x-field-mappings'] || '[]');
+      
+      // Remove the 'Year' column for Hourly Emissions with no aggregation
+      if (dataType === 'EMISSIONS' && dataSubType === 'Hourly Emissions' && aggregation === '') {
+        fieldMappings = fieldMappings.filter(mapping => mapping.value !== 'year');
+      }
+
       const excludableColumns = res.headers?.['x-excludable-columns']?  JSON.parse(res.headers['x-excludable-columns']) : [];
       dispatch(
-        loadDataPreviewSuccess((res.data?.items ?? res.data), res.headers['x-total-count'], JSON.parse(res.headers['x-field-mappings']), excludableColumns)
+        loadDataPreviewSuccess((res.data?.items ?? res.data), res.headers['x-total-count'], fieldMappings, excludableColumns)
       );
     })
     .catch((err) => {
