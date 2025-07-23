@@ -89,7 +89,7 @@
     "@testing-library/user-event": "^14.6.1",
     "@types/react": "^18.0.37",
     "@uswds/compile": "^1.2.1",
-    "@vitejs/plugin-react": "^4.3.4",
+    "@vitejs/plugin-react": "^4.7.0",
     "autoprefixer": "^10.4.14",
     "axios-mock-adapter": "^1.21.4",
     "babel-jest": "^29.7.0",
