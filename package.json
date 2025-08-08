@@ -75,7 +75,7 @@
     "remark-sub-super": "^1.0.20",
     "sass": "^1.89.2",
     "styled-components": "^5.3.9",
-    "yup": "^1.1.1",
+    "yup": "^1.7.0",
     "zustand": "^4.3.8"
   },
   "devDependencies": {
