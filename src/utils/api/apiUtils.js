@@ -1,6 +1,6 @@
 import log from "loglevel";
 import config from "../../config";
-import { clientTokenAxios } from "./clientTokenAxios";
+import { axiosWithHeaders } from "./axiosWithHeaders";
 
 export async function handleResponse(response) {
   if (response.status === 200 || response.status === 201) {
@@ -32,7 +32,7 @@ export async function logServerError(message, metadata = {}) {
   const url = config.services.camd.uri + "/logging/error";
 
   try {
-    await clientTokenAxios({
+    await axiosWithHeaders({
       method: "POST",
       url: url,
       data: {

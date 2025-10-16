@@ -35,8 +35,10 @@ export const config = {
     emissionsSubmissionTestDate: getConfigValue(
       "VITE_EASEY_CAMPD_UI_EMISSIONS_SUBMISSION_TEST_DATE"
     ),
-    clientId: getConfigValue("VITE_EASEY_CAMPD_UI_CLIENT_ID"),
-    clientSecret: getConfigValue("VITE_EASEY_CAMPD_UI_CLIENT_SECRET"),
+    appIdentifier: getConfigValue(
+      "VITE_EASEY_CAMPD_UI_APP_IDENTIFIER",
+      "campd-ui"
+    ),
     enableDebug: getConfigValueBoolean("VITE_EASEY_CAMPD_UI_ENABLE_DEBUG"),
   },
   services: {
