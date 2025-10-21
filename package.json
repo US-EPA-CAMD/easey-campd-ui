@@ -99,7 +99,7 @@
     "jest-fixed-jsdom": "^0.0.9",
     "jest-sonar-reporter": "^2.0.0",
     "react-dev-utils": "^12.0.1",
-    "react-test-renderer": "^18.2.0",
+    "react-test-renderer": "^19.2.0",
     "vite": "^7.1.11"
   },
   "eslintConfig": {
