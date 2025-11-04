@@ -1,7 +1,7 @@
 import axios from "axios";
 import config from "../../config";
 import { handleError } from "./apiUtils";
-import { clientTokenAxios } from "./clientTokenAxios";
+import { axiosWithHeaders } from "./axiosWithHeaders";
 
 axios.defaults.headers.common = {
   "x-api-key": config.app.apiKey,
@@ -11,7 +11,7 @@ export const getBulkDataFilesList = async () => {
   const url = `${config.services.camd.uri}/bulk-files`;
 
   try {
-    return await clientTokenAxios({
+    return await axiosWithHeaders({
       method:"GET",
       url,
       transformRequest: (data, headers) => {
@@ -32,7 +32,7 @@ export const createBookmark = async (content) => {
   const url = `${config.services.camd.uri}/bookmarks`;
 
   try {
-    return await clientTokenAxios({
+    return await axiosWithHeaders({
       method: "POST",
       url: url,
       data: content,
@@ -47,7 +47,7 @@ export const getBookmarkData = async (id) => {
   const url = `${config.services.camd.uri}/bookmarks/${id}`;
 
   try {
-    return await clientTokenAxios({
+    return await axiosWithHeaders({
       method: "GET",
       url: url,
     });
@@ -63,7 +63,7 @@ export const sendSupportEmail = async (payload) => {
   payload["toEmail"] = config.app.email;
 
   try {
-    return await clientTokenAxios({
+    return await axiosWithHeaders({
       method: "POST",
       url: url,
       data: payload,
