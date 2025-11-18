@@ -26,8 +26,8 @@ const ContactUsPage = ({setApiErrorDispatcher}) => {
   useEffect(() => {
     getContent('/campd/help-support/contact-us/index.md', setApiErrorDispatcher).then((resp) =>
     resp && setMainContent(resp.data)
-    );//eslint-disable-next-line
-  }, []);
+    );
+  }, [setApiErrorDispatcher]);
 
   return (
     <div className="contact-us-wrapper padding-y-2 mobile-lg:padding-x-2 tablet:padding-x-4 widescreen:padding-x-10 font-sans-sm text-base-darkest text-ls-1 line-height-sans-5">
