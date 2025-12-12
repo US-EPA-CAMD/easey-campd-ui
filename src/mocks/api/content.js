@@ -3,12 +3,10 @@ import config from "../../config";
 import { filtersContent } from "../../utils/constants/bulkDataFilesTestData";
 import {
   additionalDataTools,
-  commentTypes,
   glossaryContent,
   homeContent,
   releases,
   slides,
-  statuses,
   tools,
   topics,
 } from "../testData";
@@ -90,17 +88,9 @@ const getAboutContent = http.get(aboutUrl, () => {
   return new Response(JSON.stringify('this is campd'));
 });
 const indexUrl = `${config.services.content.uri}/campd/help-support/contact-us/index.md`;
-const commentTypesUrl = `${config.services.content.uri}/campd/help-support/contact-us/comment-types.json`;
-const statusTextUrl = `${config.services.content.uri}/campd/help-support/contact-us/submit-status-text.json`;
 
 const getIndex = http.get(indexUrl, (req, res, ctx) => {
   return new Response(JSON.stringify("Title text.."));
-});
-const getCommentTypes = http.get(commentTypesUrl, (req, res, ctx) => {
-  return new Response(JSON.stringify(commentTypes));
-});
-const getStatus = http.get(statusTextUrl, (req, res, ctx) => {
-  return new Response(JSON.stringify(statuses));
 });
 
 const getHomeContent = http.get(
@@ -220,8 +210,6 @@ const contentApiHandlers = [
   getReleaseNotes,
   getAboutContent,
   getIndex,
-  getCommentTypes,
-  getStatus,
   getHomeContent,
   getHomeHeader,
   getFaqTitle,

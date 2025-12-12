@@ -23,15 +23,6 @@ import {
 import contentApiHandlers from "./api/content";
 
 //cdd calls
-const clientTokenUrl = `${config.services.auth.uri}/tokens/client`;
-const getClientToken = http.get(clientTokenUrl, (req, res, ctx) => {
-  return new Response(JSON.stringify({token: "123"}));
-});
-const refreshClientToken = http.post(clientTokenUrl, (req, res, ctx) => {
-  sessionStorage.setItem("client_token", "123");
-  sessionStorage.setItem("client_token_expiration", new Date() + 5);
-  return new Response(JSON.stringify({token: "123"}));
-});
 const logErrorUrl = `${config.services.camd.uri}/logging/error`;
 const logError = http.post(logErrorUrl, (req, res, ctx) => {
     return new HttpResponse(null, {
@@ -176,8 +167,6 @@ const notification = http.post(emailUrl, (req, res, ctx) => {
 
 export const handlers = [
   getEmissionsApplicableAttributes,
-  getClientToken,
-  refreshClientToken,
   downloadBulkDataFile,
   getUnitTypes,
   getFacilities,

@@ -291,54 +291,6 @@ export const releases = [
   },
 ];
 
-export const commentTypes = [
-  {
-    id: 1,
-    value: `Help using application`,
-  },
-  {
-    id: 2,
-    value: `Report a bug`,
-  },
-  {
-    id: 3,
-    value: `Data question`,
-  },
-  {
-    id: 4,
-    value: `Suggested enhancements`,
-  },
-  {
-    id: 5,
-    value: `Other`,
-  },
-];
-
-export const statuses = [
-  {
-    status: "success",
-    message:
-      "Success! You will be sent a confirmation email within the next 24 hours. If you do not receive a notification, please resubmit your issue, reach out to the Clean Air Markets Division hotline at 202-343-9620, or email [email].",
-    email: "campd-support@camdsupport.com",
-  },
-  {
-    status: "error-incomplete-fields",
-    message:
-      "All fields are required. Please fill in the form completely and try again.",
-  },
-  {
-    status: "error-unsuccessful-submition",
-    message:
-      "An error occurred while submitting your comment. Please resubmit your information; or call the Clean Air Markets Division hotline 202-343-9620; or email [email].",
-    email: "campd-support@camdsupport.com",
-  },
-  {
-    status: "error-invalid-email",
-    message: "Please enter a valid email",
-    email: "campd-support@camdsupport.com",
-  },
-];
-
 export const homeContent = [
   {
     name: "Custom Data Download Tool",

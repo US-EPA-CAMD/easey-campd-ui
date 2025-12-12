@@ -65,15 +65,6 @@ export const contentValidation = {
         bugFixes: yup.array().required(),
         upcomingFeatures: yup.array(),
     },
-    "/campd/help-support/contact-us/comment-types.json": {
-        id: yup.number().required(),
-        value: yup.string().required()
-    },
-    "/campd/help-support/contact-us/submit-status-text.json": {
-        status: yup.string().required(),
-        message: yup.string().required(),
-        email: yup.string().email()
-    },
     "/campd/help-support/faqs/topics.json": {
         name: yup.string().required(),
         items: yup.array().of(yup.object({

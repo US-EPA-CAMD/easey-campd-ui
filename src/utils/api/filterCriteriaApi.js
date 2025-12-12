@@ -2,7 +2,7 @@ import axios from 'axios';
 import { handleResponse, handleError } from './apiUtils';
 import { getPipeDelimitedYears } from "../selectors/filterCriteria";
 import config from '../../config';
-import { clientTokenAxios } from "./clientTokenAxios";
+import { axiosWithHeaders } from "./axiosWithHeaders";
 
 axios.defaults.headers.common = {
   "x-api-key": config.app.apiKey,
@@ -10,7 +10,7 @@ axios.defaults.headers.common = {
 
 export async function getDataFromMDM(endpoint) {
   const url = `${config.services.mdm.uri}/${endpoint}`;
-  return clientTokenAxios({
+  return axiosWithHeaders({
     method: "GET",
     url: url,
   }).then(handleResponse).catch(handleError);
@@ -42,7 +42,7 @@ export const getSourceCategories = () => getDataFromMDM('source-category-codes')
 export async function getAllFacilities() {
   const url = `${config.services.facilities.uri}/facilities`;
   console.log(url);
-  return clientTokenAxios({
+  return axiosWithHeaders({
     method: "GET",
     url: url,
   }).then(handleResponse).catch(handleError);
@@ -51,7 +51,7 @@ export async function getAllFacilities() {
 export async function getDataFromAccounts(endpoint) {
   const url = `${config.services.account.uri}/${endpoint}`;
   console.log(url);
-  return clientTokenAxios({
+  return axiosWithHeaders({
     method: "GET",
     url: url,
   }).then(handleResponse).catch(handleError);
@@ -99,7 +99,7 @@ export async function getFilterMapping(dataType, dataSubType, yearSet = []) {
     }
   }
   console.log(url);
-  return clientTokenAxios({
+  return axiosWithHeaders({
     method: "GET",
     url: url,
   }).then(handleResponse).catch(handleError);
