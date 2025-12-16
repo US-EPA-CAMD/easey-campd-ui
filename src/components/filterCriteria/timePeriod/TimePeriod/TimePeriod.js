@@ -248,7 +248,14 @@ export const TimePeriod = ({
           updateFilterMapping();
         } else {
           result = false;
+          setApplyFilterLoading(false);
+          setApplyFilterClicked(false);
         }
+      } else if (isAddedToFilters(filterToApply, appliedFilters)) {
+        window.alert("You have selected the same time period. Please select a different time period.");
+        setApplyFilterLoading(false);
+        setApplyFilterClicked(false);
+        result = false;
       }
     }
     return result;
