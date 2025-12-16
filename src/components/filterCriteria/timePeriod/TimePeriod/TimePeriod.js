@@ -252,7 +252,7 @@ export const TimePeriod = ({
           setApplyFilterClicked(false);
         }
       } else if (isAddedToFilters(filterToApply, appliedFilters)) {
-        window.alert("You have selected the same time period. Please select a different time period.");
+        globalThis.alert("You have selected the same time period. Please select a different time period.");
         setApplyFilterLoading(false);
         setApplyFilterClicked(false);
         result = false;
