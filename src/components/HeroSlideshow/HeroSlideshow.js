@@ -33,6 +33,7 @@ const HeroSlideshow = ({ slides }) => {
     <div className="hero-slideshow">
       <div>
         <Carousel
+          showStatus={false}
           autoPlay={true}
           swipeable={false}
           showArrows={false}
