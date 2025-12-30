@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { Link as USWDSLink } from "@trussworks/react-uswds";
-import icons from "@uswds/uswds/src/img/sprite.svg";
 
 import { metaAdder } from "../../utils/document/metaAdder";
 import getContent from "../../utils/api/getContent";
@@ -10,6 +9,8 @@ import HeroSlideshow from "../HeroSlideshow/HeroSlideshow";
 import setApiError from "../../store/actions/setApiErrorAction";
 import { connect } from "react-redux";
 import { getCurrentDate } from "../../utils/functions";
+
+const spritePath = "uswds/img/sprite.svg";
 
 const VisualizationGalleryPage = ({ setApiErrorDispatcher }) => {
   useEffect(() => {
@@ -161,7 +162,7 @@ const Tool = ({ data }) => {
                   focusable="false"
                   role="img"
                 >
-                  <use href={`${icons}#mail`}></use>
+                  <use href={`${spritePath}#mail`}></use>
                 </svg>
                 Provide Feedback
               </span>
