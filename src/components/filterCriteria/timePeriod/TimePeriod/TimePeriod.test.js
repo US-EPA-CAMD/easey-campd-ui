@@ -10,6 +10,16 @@ import render from '../../../../mocks/render';
 describe('Emissions TimePeriod Component', () => {
   /* -- TimePeriodFullDates -- */
   const store = configureStore(initialState);
+  
+  // Mock window.alert for all tests
+  beforeEach(() => {
+    jest.spyOn(window, 'alert').mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    window.alert.mockRestore();
+  });
+
   it('renders form elements without errors', () => {
     const initTimePeriod = {
       startDate: null,
@@ -21,7 +31,11 @@ describe('Emissions TimePeriod Component', () => {
         dataType="EMISSIONS"
         timePeriod={initTimePeriod}
         updateTimePeriodDispatcher={jest.fn()}
+        addAppliedFilterDispatcher={jest.fn()}
         removeAppliedFiltersDispatcher={jest.fn()}
+        loadFilterMappingDispatcher={jest.fn()}
+        resetFilterDispatcher={jest.fn()}
+        updateFilterCriteriaDispatcher={jest.fn()}
         closeFlyOutHandler={jest.fn()}
         renderedHandler={jest.fn()}
         setApplyFilterLoading={jest.fn()}
@@ -60,7 +74,10 @@ describe('Emissions TimePeriod Component', () => {
         updateTimePeriodDispatcher={dispatcher}
         addAppliedFilterDispatcher={jest.fn()}
         removeAppliedFiltersDispatcher={jest.fn()}
-        appliedFilters={['timePeriod']}
+        loadFilterMappingDispatcher={jest.fn()}
+        resetFilterDispatcher={jest.fn()}
+        updateFilterCriteriaDispatcher={jest.fn()}
+        appliedFilters={[]}
         closeFlyOutHandler={jest.fn()}
         renderedHandler={jest.fn()}
         setApplyFilterLoading={jest.fn()}
@@ -98,7 +115,10 @@ describe('Emissions TimePeriod Component', () => {
         updateTimePeriodDispatcher={dispatcher}
         addAppliedFilterDispatcher={jest.fn()}
         removeAppliedFiltersDispatcher={jest.fn()}
-        appliedFilters={['timePeriod']}
+        loadFilterMappingDispatcher={jest.fn()}
+        resetFilterDispatcher={jest.fn()}
+        updateFilterCriteriaDispatcher={jest.fn()}
+        appliedFilters={[]}
         closeFlyOutHandler={jest.fn()}
         showYear={true}
         isAnnual={true}
@@ -135,7 +155,10 @@ describe('Emissions TimePeriod Component', () => {
         updateTimePeriodDispatcher={dispatcher}
         addAppliedFilterDispatcher={jest.fn()}
         removeAppliedFiltersDispatcher={jest.fn()}
-        appliedFilters={['timePeriod']}
+        loadFilterMappingDispatcher={jest.fn()}
+        resetFilterDispatcher={jest.fn()}
+        updateFilterCriteriaDispatcher={jest.fn()}
+        appliedFilters={[]}
         closeFlyOutHandler={jest.fn()}
         showYear={true}
         showMonth={true}
@@ -175,7 +198,10 @@ describe('Emissions TimePeriod Component', () => {
         updateTimePeriodDispatcher={dispatcher}
         addAppliedFilterDispatcher={jest.fn()}
         removeAppliedFiltersDispatcher={jest.fn()}
-        appliedFilters={['timePeriod']}
+        loadFilterMappingDispatcher={jest.fn()}
+        resetFilterDispatcher={jest.fn()}
+        updateFilterCriteriaDispatcher={jest.fn()}
+        appliedFilters={[]}
         closeFlyOutHandler={jest.fn()}
         showYear={true}
         showQuarter={true}
@@ -215,7 +241,10 @@ describe('Emissions TimePeriod Component', () => {
         updateTimePeriodDispatcher={dispatcher}
         addAppliedFilterDispatcher={jest.fn()}
         removeAppliedFiltersDispatcher={jest.fn()}
-        appliedFilters={['vintageYear']}
+        loadFilterMappingDispatcher={jest.fn()}
+        resetFilterDispatcher={jest.fn()}
+        updateFilterCriteriaDispatcher={jest.fn()}
+        appliedFilters={[]}
         closeFlyOutHandler={jest.fn()}
         showYear={true}
         isAllowance={true}
@@ -230,6 +259,56 @@ describe('Emissions TimePeriod Component', () => {
     expect(applyFilterButton).not.toBeDisabled();
     fireEvent.click(applyFilterButton);
     expect(updatedTimePeriod.year.yearString).toBe(timePeriod.year.yearString);
+  });
+
+  it('shows alert when same time period is selected again', () => {
+    let updatedTimePeriod;
+    const dispatcher = (formState) => {
+      updatedTimePeriod = formState;
+    };
+    
+    const timePeriod = {
+      startDate: null,
+      endDate: null,
+      opHrsOnly: true,
+      year: { yearString: '2019', yearArray: [2019] },
+      month: [],
+      quarter: [],
+    };
+
+    const { getByText, getByTestId } = render(
+      <TimePeriod
+        dataType="EMISSIONS"
+        timePeriod={timePeriod}
+        updateTimePeriodDispatcher={dispatcher}
+        addAppliedFilterDispatcher={jest.fn()}
+        removeAppliedFiltersDispatcher={jest.fn()}
+        loadFilterMappingDispatcher={jest.fn()}
+        resetFilterDispatcher={jest.fn()}
+        updateFilterCriteriaDispatcher={jest.fn()}
+        appliedFilters={['timePeriod']}
+        closeFlyOutHandler={jest.fn()}
+        showYear={true}
+        isAnnual={true}
+        renderedHandler={jest.fn()}
+        setApplyFilterLoading={jest.fn()}
+        filterCriteria={initialState.filterCriteria}
+      />, store
+    );
+
+    const textBox = getByTestId('textInput');
+    userEvent.type(textBox, '2019');
+    
+    const applyFilterButton = getByText('Apply Filter').closest('button');
+    expect(applyFilterButton).not.toBeDisabled();
+    
+    fireEvent.click(applyFilterButton);
+    
+    expect(window.alert).toHaveBeenCalledWith(
+      "You have selected the same time period. Please select a different time period."
+    );
+    
+    expect(updatedTimePeriod).toBeUndefined();
   });
 
   it('YEAR validations', () => {
@@ -247,6 +326,9 @@ describe('Emissions TimePeriod Component', () => {
         updateTimePeriodDispatcher={jest.fn()}
         addAppliedFilterDispatcher={jest.fn()}
         removeAppliedFiltersDispatcher={jest.fn()}
+        loadFilterMappingDispatcher={jest.fn()}
+        resetFilterDispatcher={jest.fn()}
+        updateFilterCriteriaDispatcher={jest.fn()}
         appliedFilters={['vintageYear']}
         closeFlyOutHandler={jest.fn()}
         showYear={true}

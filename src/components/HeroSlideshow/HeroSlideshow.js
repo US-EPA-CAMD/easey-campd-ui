@@ -33,6 +33,7 @@ const HeroSlideshow = ({ slides }) => {
     <div className="hero-slideshow">
       <div>
         <Carousel
+          showStatus={false}
           autoPlay={true}
           swipeable={false}
           showArrows={false}
@@ -40,6 +41,7 @@ const HeroSlideshow = ({ slides }) => {
           infiniteLoop={false}
           renderIndicator={(handler, isSelected, idx) => (
             <Button
+              aria-label={`Carousel ${idx + 1}`} 
               style={{ backgroundColor: isSelected ? "#1a4480" : "#71767a" }}
               onClick={handler}
             >
