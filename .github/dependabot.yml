@@ -15,6 +15,6 @@ updates:
     open-pull-requests-limit: 50
     ignore:
       - dependency-name: "react"
-        versions: [">=19.0.0, *-rc*"]
+        versions: [">=19.0.0"]
       - dependency-name: "react-dom"
-        versions: [">=19.0.0, *-rc*"]
+        versions: [">=19.0.0"]
