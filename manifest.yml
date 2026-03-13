@@ -23,3 +23,5 @@ applications:
       VITE_EASEY_CAMPD_UI_EMAIL: ((supportEmail))
     routes:
       - route: ((host))
+    services:
+      - log-drain
