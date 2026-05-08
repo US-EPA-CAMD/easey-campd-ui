@@ -95,7 +95,7 @@
     "axios-mock-adapter": "^1.21.4",
     "babel-jest": "^30.4.1",
     "jest": "^30.3.0",
-    "jest-environment-jsdom": "^30.3.0",
+    "jest-environment-jsdom": "^30.4.1",
     "jest-fixed-jsdom": "^0.0.11",
     "jest-sonar-reporter": "^2.0.0",
     "react-dev-utils": "^12.0.1",
