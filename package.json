@@ -75,7 +75,7 @@
     "remark-gfm": "^3.0.1",
     "remark-sub-super": "^1.0.20",
     "sass": "^1.99.0",
-    "styled-components": "^5.3.9",
+    "styled-components": "^6.4.1",
     "yup": "^1.7.1",
     "zustand": "^4.3.8"
   },
