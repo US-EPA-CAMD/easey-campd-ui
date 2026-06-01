@@ -18,5 +18,3 @@ updates:
         versions: [">=19.0.0, 19.0.0-rc.1"]
       - dependency-name: "react-dom"
         versions: [">=19.0.0, 19.0.0-rc.1"]
-      - dependency-name: "vite"
-        versions: [">=8.0.0"]
