@@ -58,7 +58,7 @@
     "react-data-table-component": "^7.7.1",
     "react-data-table-component-extensions": "^1.6.0",
     "react-dom": "^18.2.0",
-    "react-hook-form": "^7.81.0",
+    "react-hook-form": "^7.85.0",
     "react-markdown": "^8.0.7",
     "react-popper": "^2.3.0",
     "react-redux": "^8.0.5",
