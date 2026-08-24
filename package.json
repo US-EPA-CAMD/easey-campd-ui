@@ -41,7 +41,7 @@
     "@sooro-io/react-gtm-module": "^3.0.1",
     "@trussworks/react-uswds": "^4.1.1",
     "@us-epa-camd/easey-design-system": "1.38.7",
-    "@uswds/uswds": "^3.13.0",
+    "@uswds/uswds": "^3.14.0",
     "@welldone-software/why-did-you-render": "^7.0.1",
     "axios": "^1.19.0",
     "axios-retry": "^3.4.0",
@@ -74,7 +74,7 @@
     "rehype-sanitize": "^6.0.0",
     "remark-gfm": "^3.0.1",
     "remark-sub-super": "^1.0.20",
-    "sass": "^1.102.0",
+    "sass": "^1.103.1",
     "styled-components": "^5.3.9",
     "yup": "^1.7.1",
     "zustand": "^4.3.8"
