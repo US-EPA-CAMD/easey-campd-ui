@@ -93,7 +93,7 @@
     "@vitejs/plugin-react": "^6.0.0",
     "autoprefixer": "^10.5.4",
     "axios-mock-adapter": "^1.21.4",
-    "babel-jest": "^30.4.1",
+    "babel-jest": "^30.5.0",
     "jest": "^30.5.0",
     "jest-environment-jsdom": "^30.4.1",
     "jest-fixed-jsdom": "^0.0.11",
