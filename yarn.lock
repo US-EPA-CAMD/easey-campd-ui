@@ -2270,6 +2270,8 @@
   version "4.1.12"
   resolved "https://registry.yarnpkg.com/@types/debug/-/debug-4.1.12.tgz#a155f21690871953410df4b6b6f53187f0500917"
   integrity sha512-vIChWdVG3LG1SMxEvI/AK+FWJthlrqlTu7fbrlywTkkaONwk/UAGaULXRlf8vkzFBLVm0zkMdCquhL5aOjhXPQ==
+  dependencies:
+    "@types/ms" "*"
 
 "@types/expect@^1.20.4":
   version "1.20.4"
@@ -2566,10 +2568,10 @@
   resolved "https://registry.yarnpkg.com/@unrs/resolver-binding-win32-x64-msvc/-/resolver-binding-win32-x64-msvc-1.12.2.tgz#72da0da48d72b1e87831b9c0308931d3f4669027"
   integrity sha512-nAB74NfSNKknqQ1RrYj6uz8FcXEomu/MATJZxh/x+BArzN2U3JbOYC0APYzUIGhVY3m5hRxA8VPNdPBoG8txlA==
 
-"@us-epa-camd/easey-design-system@1.38.7":
-  version "1.38.7"
-  resolved "https://npm.pkg.github.com/download/@US-EPA-CAMD/easey-design-system/1.38.7/3eaf000a35b7de182a92dd6c89c0130627734669#3eaf000a35b7de182a92dd6c89c0130627734669"
-  integrity sha512-yW3i6USZMPlDMoE7kqCnWfPcEOVV9BnTd9M3TIxbJcSZC7JUkaZKIhaPaeBmHIo0+Fvhg7AwayyJ4tcxeSAqlA==
+"@us-epa-camd/easey-design-system@1.38.8":
+  version "1.38.8"
+  resolved "https://npm.pkg.github.com/download/@US-EPA-CAMD/easey-design-system/1.38.8/6c6b26e6fc0d322a55691f687cb79a4221cd55e6#6c6b26e6fc0d322a55691f687cb79a4221cd55e6"
+  integrity sha512-soFurj/sGdYWWw4gJ8FYDduuCr6M8vIhAD2cKBAAl2IX05YssmRo3+HxPvxMhso9Be+bzeuhrW4l+2hChhAIXA==
   dependencies:
     "@ramonak/react-progress-bar" "^5.0.0"
 
@@ -8011,6 +8013,8 @@ tr46@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/tr46/-/tr46-2.1.0.tgz#fa87aa81ca5d5941da8cbf1f9b749dc969a4e240"
   integrity sha512-15Ih7phfcdP5YxqiB+iDtLoaTz4Nd35+IiAv0kQ5FNKHzXgdWqPoTIqEDDJmXceQt4JZk6lVPT8lnDlPpGDppw==
+  dependencies:
+    punycode "^2.1.1"
 
 trim-lines@^3.0.0:
   version "3.0.1"
