@@ -37,4 +37,4 @@ updates:
       - dependency-name: "@reduxjs/toolkit"
         versions: [">=2.0.0"]
       - dependency-name: "vite"
-        versions: [">=8.0.0"]
+        versions: [">=9.0.0"]
