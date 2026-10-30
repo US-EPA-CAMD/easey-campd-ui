@@ -1,6 +1,6 @@
 import React from "react";
 import "./NotFound.scss";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 const NotFound = () => {
   return (
     <div className="containerCenter">

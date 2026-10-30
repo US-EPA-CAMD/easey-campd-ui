@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter } from 'react-router';
 import ApiErrorAlert from './ApiErrorAlert';
 import configureStore from '../../store/configureStore.dev';
 import initialState from '../../store/reducers/initialState';
