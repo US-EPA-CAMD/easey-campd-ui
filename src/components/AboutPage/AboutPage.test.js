@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, fireEvent, screen } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter } from 'react-router';
 import AboutPage from './AboutPage';
 import configureStore from '../../store/configureStore.dev';
 import initialState from '../../store/reducers/initialState';

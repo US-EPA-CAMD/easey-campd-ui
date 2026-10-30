@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation } from "react-router";
 import { Header, Title, Button } from "@trussworks/react-uswds";
 
 import SubHeaderInfo from "../SubHeaderInfo/SubHeaderInfo";

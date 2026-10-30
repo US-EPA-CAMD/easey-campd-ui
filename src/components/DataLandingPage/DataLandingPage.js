@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { Button } from "@trussworks/react-uswds";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { metaAdder } from "../../utils/document/metaAdder";
 import getContent from "../../utils/api/getContent";
 import "./DataLandingPage.scss";

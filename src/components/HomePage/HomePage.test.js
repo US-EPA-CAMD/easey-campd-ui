@@ -1,7 +1,7 @@
 import React from "react";
 import HomePage from "./HomePage";
 import { render } from "@testing-library/react";
-import { MemoryRouter } from "react-router-dom";
+import { MemoryRouter } from "react-router";
 import configureStore from "../../store/configureStore.dev";
 import initialState from "../../store/reducers/initialState";
 import { Provider } from "react-redux";
