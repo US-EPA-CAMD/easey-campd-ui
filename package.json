@@ -28,7 +28,7 @@
     "word-wrap": "^1.2.5",
     "semver": "^7.5.2",
     "form-data": "^4.0.6",
-    "postcss": "^8.5.23"
+	"postcss": "^8.5.23"
   },
   "dependencies": {
     "@emotion/react": "^11.10.6",
@@ -52,7 +52,6 @@
     "msw": "^2.10.4",
     "patch-package": "8.0.1",
     "path-browserify": "^1.0.1",
-    "postcss": "^8.5.23",
     "postinstall-postinstall": "2.1.0",
     "prettier": "^3.9.10",
     "react": "^18.2.0",
@@ -77,7 +76,6 @@
     "remark-gfm": "^3.0.1",
     "remark-sub-super": "^1.0.20",
     "sass": "^1.105.1",
-    "semver": "^7.5.2",
     "styled-components": "^5.3.9",
     "yup": "^1.7.1",
     "zustand": "^4.3.8"
