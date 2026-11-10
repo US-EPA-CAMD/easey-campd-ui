@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router";
 
 import Layout from "../Layout/Layout";
 import CustomDataDownload from "../customDataDownload/CustomDataDownload/CustomDataDownload";

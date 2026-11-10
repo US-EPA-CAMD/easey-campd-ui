@@ -1,6 +1,6 @@
 import React from "react";
-import { render } from "@testing-library/react";
-import { MemoryRouter } from 'react-router-dom';
+import { render, screen } from "@testing-library/react";
+import { MemoryRouter } from 'react-router';
 import { Provider } from "react-redux";
 import App from './App';
 import configureStore from "../../store/configureStore.dev";
@@ -24,5 +24,21 @@ describe("Testing the main routing App component", () => {
     jest.advanceTimersByTime(1000);
 
     expect(main).toBeInTheDocument();
+  });
+
+  test("renders the not found page for an unknown path", () => {
+    render(
+      <Provider store={store}>
+        <MemoryRouter initialEntries={["/missing"]}>
+          <App />
+        </MemoryRouter>
+      </Provider>
+    );
+
+    expect(
+      screen.getByRole("heading", {
+        name: "Sorry, but this web page does not exist.",
+      })
+    ).toBeInTheDocument();
   });
 });
